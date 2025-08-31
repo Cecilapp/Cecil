@@ -1,20 +1,20 @@
 <?php
 
-declare(strict_types=1);
-
-/*
+/**
  * This file is part of Cecil.
  *
- * Copyright (c) Arnaud Ligny <arnaud@ligny.fr>
+ * (c) Arnaud Ligny <arnaud@ligny.fr>
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
 
+declare(strict_types=1);
+
 namespace Cecil\Converter;
 
-use Cecil\Assets\Asset;
-use Cecil\Assets\Image;
+use Cecil\Asset;
+use Cecil\Asset\Image;
 use Cecil\Builder;
 use Cecil\Exception\RuntimeException;
 use Cecil\Url;
@@ -22,6 +22,12 @@ use Cecil\Util;
 use Highlight\Highlighter;
 
 /**
+ * Parsedown class.
+ *
+ * This class extends ParsedownExtra (and ParsedownToc) and provides methods to parse Markdown content
+ * with additional features such as inline insertions, image handling, note blocks,
+ * and code highlighting.
+ *
  * @property array $InlineTypes
  * @property string $inlineMarkerList
  * @property array $specialCharacters
@@ -35,10 +41,16 @@ class Parsedown extends \ParsedownToc
     /** @var \Cecil\Config */
     protected $config;
 
-    /** {@inheritdoc} */
+    /**
+     * Regex for attributes.
+     * @var string
+     */
     protected $regexAttribute = '(?:[#.][-\w:\\\]+[ ]*|[-\w:\\\]+(?:=(?:["\'][^\n]*?["\']|[^\s]+)?)?[ ]*)';
 
-    /** Regex who's looking for images */
+    /**
+     * Regex for image block.
+     * @var string
+     */
     protected $regexImage = "~^!\[.*?\]\(.*?\)~";
 
     /** @var Highlighter */
@@ -111,30 +123,12 @@ class Parsedown extends \ParsedownToc
         }
 
         // External link
-        if (str_starts_with($link['element']['attributes']['href'], 'http') && !str_starts_with($link['element']['attributes']['href'], (string) $this->config->get('baseurl'))) {
-            if ($this->config->get('pages.body.links.external.blank')) {
-                $link['element']['attributes']['target'] = '_blank';
-            }
-            if (!\array_key_exists('rel', $link['element']['attributes'])) {
-                $link['element']['attributes']['rel'] = '';
-            }
-            if ($this->config->get('pages.body.links.external.noopener')) {
-                $link['element']['attributes']['rel'] .= ' noopener';
-            }
-            if ($this->config->get('pages.body.links.external.noreferrer')) {
-                $link['element']['attributes']['rel'] .= ' noreferrer';
-            }
-            if ($this->config->get('pages.body.links.external.nofollow')) {
-                $link['element']['attributes']['rel'] .= ' nofollow';
-            }
-            $link['element']['attributes']['rel'] = trim($link['element']['attributes']['rel']);
-        }
+        $link = $this->handleExternalLink($link);
 
         /*
          * Embed link?
          */
-        $embed = false;
-        $embed = (bool) $this->config->get('pages.body.links.embed.enabled');
+        $embed = $this->config->isEnabled('pages.body.links.embed');
         if (isset($link['element']['attributes']['embed'])) {
             $embed = true;
             if ($link['element']['attributes']['embed'] == 'false') {
@@ -142,29 +136,30 @@ class Parsedown extends \ParsedownToc
             }
             unset($link['element']['attributes']['embed']);
         }
-        // video or audio?
         $extension = pathinfo($link['element']['attributes']['href'], PATHINFO_EXTENSION);
-        if (\in_array($extension, (array) $this->config->get('pages.body.links.embed.video.ext'))) {
+        // video?
+        if (\in_array($extension, $this->config->get('pages.body.links.embed.video') ?? [])) {
             if (!$embed) {
-                $link['element']['attributes']['href'] = (string) new Asset($this->builder, $link['element']['attributes']['href'], ['force_slash' => false]);
+                $link['element']['attributes']['href'] = new Url($this->builder, $link['element']['attributes']['href']);
 
                 return $link;
             }
             $video = $this->createMediaFromLink($link, 'video');
-            if ((bool) $this->config->get('pages.body.images.caption.enabled')) {
+            if ($this->config->isEnabled('pages.body.images.caption')) {
                 return $this->createFigure($video);
             }
 
             return $video;
         }
-        if (\in_array($extension, (array) $this->config->get('pages.body.links.embed.audio.ext'))) {
+        // audio?
+        if (\in_array($extension, $this->config->get('pages.body.links.embed.audio') ?? [])) {
             if (!$embed) {
-                $link['element']['attributes']['href'] = (string) new Asset($this->builder, $link['element']['attributes']['href'], ['force_slash' => false]);
+                $link['element']['attributes']['href'] = new Url($this->builder, $link['element']['attributes']['href']);
 
                 return $link;
             }
             $audio = $this->createMediaFromLink($link, 'audio');
-            if ((bool) $this->config->get('pages.body.images.caption.enabled')) {
+            if ($this->config->isEnabled('pages.body.images.caption')) {
                 return $this->createFigure($audio);
             }
 
@@ -173,9 +168,21 @@ class Parsedown extends \ParsedownToc
         if (!$embed) {
             return $link;
         }
+        // Youtube link?
+        // https://regex101.com/r/gznM1j/1
+        $pattern = '(?:https?:\/\/)?(?:www\.)?youtu(?:\.be\/|be.com\/\S*(?:watch|embed)(?:(?:(?=\/[-a-zA-Z0-9_]{11,}(?!\S))\/)|(?:\S*v=|v\/)))([-a-zA-Z0-9_]{11,})';
+        if (preg_match('/' . $pattern . '/is', (string) $link['element']['attributes']['href'], $matches)) {
+            return $this->createEmbeddedVideoFromLink($link, 'https://www.youtube.com/embed/', $matches[1]);
+        }
+        // Vimeo link?
+        // https://regex101.com/r/wCEFhd/1
+        $pattern = 'https:\/\/vimeo\.com\/([0-9]+)';
+        if (preg_match('/' . $pattern . '/is', (string) $link['element']['attributes']['href'], $matches)) {
+            return $this->createEmbeddedVideoFromLink($link, 'https://player.vimeo.com/video/', $matches[1]);
+        }
         // GitHub Gist link?
-        // https://regex101.com/r/QmCiAL/1
-        $pattern = 'https:\/\/gist\.github.com\/[-a-zA-Z0-9_]+\/[-a-zA-Z0-9_]+';
+        // https://regex101.com/r/KWVMYI/1
+        $pattern = 'https:\/\/gist\.github\.com\/[-a-zA-Z0-9_]+\/[-a-zA-Z0-9_]+';
         if (preg_match('/' . $pattern . '/is', (string) $link['element']['attributes']['href'], $matches)) {
             $gist = [
                 'extent'  => $link['extent'],
@@ -188,54 +195,44 @@ class Parsedown extends \ParsedownToc
                     ],
                 ],
             ];
-            if ((bool) $this->config->get('pages.body.images.caption.enabled')) {
+            if ($this->config->isEnabled('pages.body.images.caption')) {
                 return $this->createFigure($gist);
             }
 
             return $gist;
         }
-        // Youtube link?
-        // https://regex101.com/r/gznM1j/1
-        $pattern = '(?:https?:\/\/)?(?:www\.)?youtu(?:\.be\/|be.com\/\S*(?:watch|embed)(?:(?:(?=\/[-a-zA-Z0-9_]{11,}(?!\S))\/)|(?:\S*v=|v\/)))([-a-zA-Z0-9_]{11,})';
-        if (preg_match('/' . $pattern . '/is', (string) $link['element']['attributes']['href'], $matches)) {
-            $iframe = [
-                'element' => [
-                    'name'       => 'iframe',
-                    'text'       => $link['element']['text'],
-                    'attributes' => [
-                        'width'           => '560',
-                        'height'          => '315',
-                        'title'           => $link['element']['text'],
-                        'src'             => 'https://www.youtube.com/embed/' . $matches[1],
-                        'frameborder'     => '0',
-                        'allow'           => 'accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture',
-                        'allowfullscreen' => '',
-                        'style'           => 'position:absolute; top:0; left:0; width:100%; height:100%; border:0',
-                    ],
-                ],
-            ];
-            $youtube = [
-                'extent'  => $link['extent'],
-                'element' => [
-                    'name'    => 'div',
-                    'handler' => 'elements',
-                    'text'    => [
-                        $iframe['element'],
-                    ],
-                    'attributes' => [
-                        'style' => 'position:relative; padding-bottom:56.25%; height:0; overflow:hidden',
-                        'title' => $link['element']['attributes']['title'],
-                    ],
-                ],
-            ];
-            if ((bool) $this->config->get('pages.body.images.caption.enabled')) {
-                return $this->createFigure($youtube);
-            }
-
-            return $youtube;
-        }
 
         return $link;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    protected function inlineUrl($Excerpt)
+    {
+        $link = parent::inlineUrl($Excerpt); // @phpstan-ignore staticMethod.notFound
+
+        if (!isset($link)) {
+            return;
+        }
+
+        // External link
+        return $this->handleExternalLink($link);
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    protected function inlineUrlTag($Excerpt)
+    {
+        $link = parent::inlineUrlTag($Excerpt); // @phpstan-ignore staticMethod.notFound
+
+        if (!isset($link)) {
+            return;
+        }
+
+        // External link
+        return $this->handleExternalLink($link);
     }
 
     /**
@@ -252,11 +249,11 @@ class Parsedown extends \ParsedownToc
         $InlineImage['element']['attributes']['src'] = $this->normalizePath($InlineImage['element']['attributes']['src']);
 
         // should be lazy loaded?
-        if ((bool) $this->config->get('pages.body.images.lazy.enabled') && !isset($InlineImage['element']['attributes']['loading'])) {
+        if ($this->config->isEnabled('pages.body.images.lazy') && !isset($InlineImage['element']['attributes']['loading'])) {
             $InlineImage['element']['attributes']['loading'] = 'lazy';
         }
         // should be decoding async?
-        if ((bool) $this->config->get('pages.body.images.decoding.enabled') && !isset($InlineImage['element']['attributes']['decoding'])) {
+        if ($this->config->isEnabled('pages.body.images.decoding') && !isset($InlineImage['element']['attributes']['decoding'])) {
             $InlineImage['element']['attributes']['decoding'] = 'async';
         }
         // add default class?
@@ -269,17 +266,18 @@ class Parsedown extends \ParsedownToc
         }
 
         // disable remote image handling?
-        if (Util\Url::isUrl($InlineImage['element']['attributes']['src']) && !(bool) $this->config->get('pages.body.images.remote.enabled')) {
+        if (Util\File::isRemote($InlineImage['element']['attributes']['src']) && !$this->config->isEnabled('pages.body.images.remote')) {
             return $InlineImage;
         }
 
         // create asset
-        $assetOptions = ['force_slash' => false];
-        if ((bool) $this->config->get('pages.body.images.remote.fallback.enabled')) {
-            $assetOptions += ['remote_fallback' => (string) $this->config->get('pages.body.images.remote.fallback.path')];
+        $assetOptions = ['leading_slash' => false];
+        if ($this->config->isEnabled('pages.body.images.remote.fallback')) {
+            $assetOptions = ['leading_slash' => true];
+            $assetOptions += ['fallback' => (string) $this->config->get('pages.body.images.remote.fallback')];
         }
         $asset = new Asset($this->builder, $InlineImage['element']['attributes']['src'], $assetOptions);
-        $InlineImage['element']['attributes']['src'] = $asset;
+        $InlineImage['element']['attributes']['src'] = new Url($this->builder, $asset);
         $width = $asset['width'];
 
         /*
@@ -287,16 +285,26 @@ class Parsedown extends \ParsedownToc
          */
         $shouldResize = false;
         $assetResized = null;
+        // pages.body.images.resize
         if (
-            (bool) $this->config->get('pages.body.images.resize.enabled')
-            && isset($InlineImage['element']['attributes']['width'])
+            \is_int($this->config->get('pages.body.images.resize'))
+            && $this->config->get('pages.body.images.resize') > 0
+            && $width > $this->config->get('pages.body.images.resize')
+        ) {
+            $shouldResize = true;
+            $width = $this->config->get('pages.body.images.resize');
+        }
+        // width attribute
+        if (
+            isset($InlineImage['element']['attributes']['width'])
             && $width > (int) $InlineImage['element']['attributes']['width']
         ) {
             $shouldResize = true;
             $width = (int) $InlineImage['element']['attributes']['width'];
         }
+        // responsive images
         if (
-            (bool) $this->config->get('pages.body.images.responsive.enabled')
+            $this->config->isEnabled('pages.body.images.responsive')
             && !empty($this->config->getAssetsImagesWidths())
             && $width > max($this->config->getAssetsImagesWidths())
         ) {
@@ -306,7 +314,6 @@ class Parsedown extends \ParsedownToc
         if ($shouldResize) {
             try {
                 $assetResized = $asset->resize($width);
-                $InlineImage['element']['attributes']['src'] = $assetResized;
             } catch (\Exception $e) {
                 $this->builder->getLogger()->debug($e->getMessage());
 
@@ -322,7 +329,7 @@ class Parsedown extends \ParsedownToc
         // placeholder
         if (
             (!empty($this->config->get('pages.body.images.placeholder')) || isset($InlineImage['element']['attributes']['placeholder']))
-            && \in_array($InlineImage['element']['attributes']['src']['subtype'], ['image/jpeg', 'image/png', 'image/gif'])
+            && \in_array($assetResized['subtype'] ?? $asset['subtype'], ['image/jpeg', 'image/png', 'image/gif'])
         ) {
             if (!\array_key_exists('placeholder', $InlineImage['element']['attributes'])) {
                 $InlineImage['element']['attributes']['placeholder'] = (string) $this->config->get('pages.body.images.placeholder');
@@ -333,14 +340,14 @@ class Parsedown extends \ParsedownToc
             $InlineImage['element']['attributes']['style'] = trim($InlineImage['element']['attributes']['style'], ';');
             switch ($InlineImage['element']['attributes']['placeholder']) {
                 case 'color':
-                    $InlineImage['element']['attributes']['style'] .= \sprintf(';max-width:100%%;height:auto;background-color:%s;', Image::getDominantColor($InlineImage['element']['attributes']['src']));
+                    $InlineImage['element']['attributes']['style'] .= \sprintf(';max-width:100%%;height:auto;background-color:%s;', Image::getDominantColor($assetResized ?? $asset));
                     break;
                 case 'lqip':
                     // aborts if animated GIF for performance reasons
-                    if (Image::isAnimatedGif($InlineImage['element']['attributes']['src'])) {
+                    if (Image::isAnimatedGif($assetResized ?? $asset)) {
                         break;
                     }
-                    $InlineImage['element']['attributes']['style'] .= \sprintf(';max-width:100%%;height:auto;background-image:url(%s);background-repeat:no-repeat;background-position:center;background-size:cover;', Image::getLqip($InlineImage['element']['attributes']['src']));
+                    $InlineImage['element']['attributes']['style'] .= \sprintf(';max-width:100%%;height:auto;background-image:url(%s);background-repeat:no-repeat;background-position:center;background-size:cover;', Image::getLqip($asset));
                     break;
             }
             unset($InlineImage['element']['attributes']['placeholder']);
@@ -351,16 +358,16 @@ class Parsedown extends \ParsedownToc
          * Should be responsive?
          */
         $sizes = '';
-        if ((bool) $this->config->get('pages.body.images.responsive.enabled')) {
+        if ($this->config->isEnabled('pages.body.images.responsive')) {
             try {
                 if (
-                    $srcset = Image::buildSrcset(
+                    $srcset = Image::buildHtmlSrcset(
                         $assetResized ?? $asset,
                         $this->config->getAssetsImagesWidths()
                     )
                 ) {
                     $InlineImage['element']['attributes']['srcset'] = $srcset;
-                    $sizes = Image::getSizes($InlineImage['element']['attributes']['class'] ?? '', (array) $this->config->getAssetsImagesSizes());
+                    $sizes = Image::getHtmlSizes($InlineImage['element']['attributes']['class'] ?? '', (array) $this->config->getAssetsImagesSizes());
                     $InlineImage['element']['attributes']['sizes'] = $sizes;
                 }
             } catch (\Exception $e) {
@@ -395,26 +402,31 @@ class Parsedown extends \ParsedownToc
         // converts image to formats and put them in picture > source
         if (
             \count($formats = ((array) $this->config->get('pages.body.images.formats'))) > 0
-            && \in_array($InlineImage['element']['attributes']['src']['subtype'], ['image/jpeg', 'image/png', 'image/gif'])
+            && \in_array($assetResized['subtype'] ?? $asset['subtype'], ['image/jpeg', 'image/png', 'image/gif'])
         ) {
             try {
                 // InlineImage src must be an Asset instance
-                if (!$InlineImage['element']['attributes']['src'] instanceof Asset) {
+                if (!($assetResized ?? $asset) instanceof Asset) {
                     throw new RuntimeException(\sprintf('Asset "%s" can\'t be converted.', $InlineImage['element']['attributes']['src']));
                 }
                 // abord if InlineImage is an animated GIF
-                if (Image::isAnimatedGif($InlineImage['element']['attributes']['src'])) {
-                    $filepath = Util::joinFile($this->config->getOutputPath(), $InlineImage['element']['attributes']['src']['path']);
+                if (Image::isAnimatedGif($assetResized ?? $asset)) {
+                    $filepath = Util::joinFile($this->config->getOutputPath(), $assetResized['path'] ?? $asset['path']);
                     throw new RuntimeException(\sprintf('Asset "%s" is not converted (animated GIF).', $filepath));
                 }
                 $sources = [];
                 foreach ($formats as $format) {
-                    $assetConverted = $InlineImage['element']['attributes']['src']->$format();
                     $srcset = '';
+                    try {
+                        $assetConverted = ($assetResized ?? $asset)->convert($format);
+                    } catch (\Exception $e) {
+                        $this->builder->getLogger()->debug($e->getMessage());
+                        continue;
+                    }
                     // build responsive images?
-                    if ((bool) $this->config->get('pages.body.images.responsive.enabled')) {
+                    if ($this->config->isEnabled('pages.body.images.responsive')) {
                         try {
-                            $srcset = Image::buildSrcset($assetConverted, $this->config->getAssetsImagesWidths());
+                            $srcset = Image::buildHtmlSrcset($assetConverted, $this->config->getAssetsImagesWidths());
                         } catch (\Exception $e) {
                             $this->builder->getLogger()->debug($e->getMessage());
                         }
@@ -423,6 +435,7 @@ class Parsedown extends \ParsedownToc
                     if (empty($srcset)) {
                         $srcset = (string) $assetConverted;
                     }
+                    // add format to <sources>
                     $sources[] = [
                         'name'       => 'source',
                         'attributes' => [
@@ -456,7 +469,7 @@ class Parsedown extends \ParsedownToc
         }
 
         // if title: put the <img> (or <picture>) in a <figure> and create a <figcaption>
-        if ((bool) $this->config->get('pages.body.images.caption.enabled')) {
+        if ($this->config->isEnabled('pages.body.images.caption')) {
             return $this->createFigure($image);
         }
 
@@ -538,7 +551,7 @@ class Parsedown extends \ParsedownToc
      */
     protected function blockFencedCodeComplete($block)
     {
-        if (!(bool) $this->config->get('pages.body.highlight.enabled')) {
+        if (!$this->config->isEnabled('pages.body.highlight')) {
             return $block;
         }
         if (!isset($block['element']['text']['attributes'])) {
@@ -661,18 +674,24 @@ class Parsedown extends \ParsedownToc
         ];
         $block['element']['attributes'] = $link['element']['attributes'];
         unset($block['element']['attributes']['href']);
-        $block['element']['attributes']['src'] = (string) new Asset($this->builder, $link['element']['attributes']['href'], ['force_slash' => false]);
+        $block['element']['attributes']['src'] = new Url($this->builder, new Asset($this->builder, $link['element']['attributes']['href']));
         switch ($type) {
             case 'video':
                 $block['element']['name'] = 'video';
+                // no controls = autoplay, loop, muted, playsinline
                 if (!isset($block['element']['attributes']['controls'])) {
                     $block['element']['attributes']['autoplay'] = '';
                     $block['element']['attributes']['loop'] = '';
+                    $block['element']['attributes']['muted'] = '';
+                    $block['element']['attributes']['playsinline'] = '';
                 }
                 if (isset($block['element']['attributes']['poster'])) {
-                    $block['element']['attributes']['poster'] = (string) new Asset($this->builder, $block['element']['attributes']['poster'], ['force_slash' => false]);
+                    $block['element']['attributes']['poster'] = new Url($this->builder, new Asset($this->builder, $block['element']['attributes']['poster']));
                 }
-                $block['element']['attributes']['style'] = 'background-color: #d8d8d8;'; // background color if offline
+                if (!\array_key_exists('style', $block['element']['attributes'])) {
+                    $block['element']['attributes']['style'] = '';
+                }
+                $block['element']['attributes']['style'] .= ';max-width:100%;height:auto;background-color:#d8d8d8;'; // background color if offline
 
                 return $block;
             case 'audio':
@@ -682,6 +701,51 @@ class Parsedown extends \ParsedownToc
         }
 
         throw new \Exception(\sprintf('Can\'t create %s from "%s".', $type, $link['element']['attributes']['href']));
+    }
+
+    /**
+     * Create an embedded video element from a link.
+     *
+     * $baseSrc is the base URL to embed the video
+     * $match is the video ID or the rest of the URL to append to $baseSrc
+     */
+    private function createEmbeddedVideoFromLink(array $link, string $baseSrc, string $match): array
+    {
+        $iframe = [
+            'element' => [
+                'name'       => 'iframe',
+                'text'       => $link['element']['text'],
+                'attributes' => [
+                    'width'           => '640',
+                    'height'          => '360',
+                    'title'           => $link['element']['text'],
+                    'src'             => Util::joinPath($baseSrc, $match),
+                    'frameborder'     => '0',
+                    'allow'           => 'accelerometer;autoplay;encrypted-media;gyroscope;picture-in-picture;',
+                    'allowfullscreen' => '',
+                    'style'           => 'position:absolute;top:0;left:0;width:100%;height:100%;border:0;background-color:#d8d8d8;',
+                ],
+            ],
+        ];
+        $div = [
+            'extent'  => $link['extent'],
+            'element' => [
+                'name'    => 'div',
+                'handler' => 'elements',
+                'text'    => [
+                    $iframe['element'],
+                ],
+                'attributes' => [
+                    'style' => 'position:relative;padding-bottom:56.25%;height:0;overflow:hidden;',
+                    'title' => $link['element']['attributes']['title'],
+                ],
+            ],
+        ];
+        if ($this->config->isEnabled('pages.body.images.caption')) {
+            return $this->createFigure($div);
+        }
+
+        return $div;
     }
 
     /**
@@ -716,5 +780,35 @@ class Parsedown extends \ParsedownToc
         ];
 
         return $figure;
+    }
+
+    /**
+     * Handle an external link.
+     */
+    private function handleExternalLink(array $link): array
+    {
+        if (
+            str_starts_with($link['element']['attributes']['href'], 'http')
+            && (!empty($this->config->get('baseurl')) && !str_starts_with($link['element']['attributes']['href'], (string) $this->config->get('baseurl')))
+        ) {
+            if ($this->config->isEnabled('pages.body.links.external.blank')) {
+                $link['element']['attributes']['target'] = '_blank';
+            }
+            if (!\array_key_exists('rel', $link['element']['attributes'])) {
+                $link['element']['attributes']['rel'] = '';
+            }
+            if ($this->config->isEnabled('pages.body.links.external.noopener')) {
+                $link['element']['attributes']['rel'] .= ' noopener';
+            }
+            if ($this->config->isEnabled('pages.body.links.external.noreferrer')) {
+                $link['element']['attributes']['rel'] .= ' noreferrer';
+            }
+            if ($this->config->isEnabled('pages.body.links.external.nofollow')) {
+                $link['element']['attributes']['rel'] .= ' nofollow';
+            }
+            $link['element']['attributes']['rel'] = trim($link['element']['attributes']['rel']);
+        }
+
+        return $link;
     }
 }

@@ -1,15 +1,15 @@
 <?php
 
-declare(strict_types=1);
-
-/*
+/**
  * This file is part of Cecil.
  *
- * Copyright (c) Arnaud Ligny <arnaud@ligny.fr>
+ * (c) Arnaud Ligny <arnaud@ligny.fr>
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
+
+declare(strict_types=1);
 
 namespace Cecil\Command;
 
@@ -19,7 +19,10 @@ use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 
 /**
- * Updates Cecil to the latest version.
+ * SelfUpdate command.
+ *
+ * This command checks for a newer version of Cecil and, if found, downloads and installs the latest version.
+ * It can also revert to a previous version or force an update to the last stable or unstable version.
  */
 class SelfUpdate extends AbstractCommand
 {
@@ -30,6 +33,7 @@ class SelfUpdate extends AbstractCommand
     {
         $this
             ->setName('self-update')
+            ->setAliases(['selfupdate'])
             ->setDescription('Updates Cecil to the latest version')
             ->setDefinition([
                 new InputOption('rollback', null, InputOption::VALUE_NONE, 'Revert to an older installation'),
@@ -40,19 +44,17 @@ class SelfUpdate extends AbstractCommand
                 <<<'EOF'
 The <info>%command.name%</> command checks for a newer version and, if found, downloads and installs the latest.
 
-To update Cecil, run:
-
   <info>%command.full_name%</>
 
-To rollback to the previous version, run:
+To rollback to the <comment>previous</comment> version, run:
 
   <info>%command.full_name% --rollback</>
 
-  To update Cecil to the last stable version, run:
+To update Cecil to the last <comment>stable</comment> version, run:
 
   <info>%command.full_name% --stable</>
 
-To update Cecil to the last unstable version, run:
+To update Cecil to the last <comment>unstable</comment> version, run:
 
   <info>%command.full_name% --preview</>
 EOF

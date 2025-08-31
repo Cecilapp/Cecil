@@ -1,69 +1,65 @@
 <?php
 
 return [
-    'title'      => 'Cecil test',
+    'title' => 'Cecil test',
+    'baseurl' => 'https://cecil.app/',
     'taxonomies' => [
+        'tags' => 'tag',
+        'categories' => 'category',
         'tests' => 'disabled',
     ],
     'menus' => [
         'main' => [
             [
-                'id'     => 'index',
-                'name'   => 'Homepage',
+                'id' => 'index',
+                'name' => 'Homepage',
                 'weight' => -999,
             ],
             [
-                'id'      => 'about',
+                'id' => 'about',
                 'enabled' => false,
             ],
             [
-                'id'     => 'aligny',
-                'name'   => 'The author',
-                'url'    => 'https://ligny.fr',
+                'id' => 'aligny',
+                'name' => 'The author',
+                'url' => 'https://ligny.fr',
                 'weight' => 777,
             ],
             [
-                'id'     => '404'
+                'id' => '404',
+                'weight' => 999,
             ],
         ],
     ],
-    'pagination' => [
-        'enabled' => true,
-    ],
-    'paths' => [
-        [
-            'section' => 'Blog',
-            'path'    => ':section/:year/:month/:day/:slug',
-        ],
-    ],
-    'language'  => 'en',
+    'language' => 'en',
     'languages' => [
         [
-            'code'   => 'en',
-            'name'   => 'English',
+            'code' => 'en',
+            'name' => 'English',
             'locale' => 'en',
         ],
         [
-            'code'   => 'fr',
-            'name'   => 'Français',
+            'code' => 'fr',
+            'name' => 'Français',
             'locale' => 'fr_FR',
             'config' => [
-                'title'       => 'Cecil FR',
+                'title' => 'Cecil FR',
                 'description' => 'En français !',
-                'menus'       => [
+                'menus' => [
                     'main' => [
                         [
-                            'id'     => 'index',
+                            'id' => 'index',
                             'weight' => -999,
                         ],
                         [
-                            'id'     => 'menu-fr',
-                            'name'   => 'Arnaud (FR)',
-                            'url'    => 'https://arnaudligny.fr',
+                            'id' => 'menu-fr',
+                            'name' => 'Arnaud (FR)',
+                            'url' => 'https://arnaudligny.fr',
                             'weight' => 777,
                         ],
                         [
-                            'id'     => '404 (FR)'
+                            'id' => '404 (FR)',
+                            'weight' => 999,
                         ],
                     ],
                 ],
@@ -79,11 +75,11 @@ return [
     ],
     'podcast' => [
         'author' => 'Cecil',
-        'owner'  => [
-            'name'  => 'Cecil',
+        'owner' => [
+            'name' => 'Cecil',
             'email' => 'contact@cecil.app',
         ],
-        'image'      => '/images/cecil-logo.png',
+        'image' => '/images/cecil-logo.png',
         'categories' => [
             'Society & Culture',
             'History',
@@ -91,80 +87,81 @@ return [
     ],
     'metatags' => [
         'jsonld' => [
-            'enabled'  => true,
+            'enabled' => true,
             'articles' => 'blog',
         ],
     ],
     'pages' => [
+        'pagination' => true,
+        'paths' => [
+            [
+                'section' => 'Blog',
+                'path' => ':section/:year/:month/:day/:slug',
+            ],
+        ],
         'generators' => [
-            99  => 'Cecil\Generator\TestError',
+            99 => 'Cecil\Generator\TestError',
             100 => 'Cecil\Generator\TitleReplace',
         ],
-        'default'    => [
+        'default' => [
             'sitemap' => [
                 'published' => false,
-                'priority'  => 99,
+                'priority' => 99,
             ],
         ],
         'virtual' => [
             [
-                'path'   => '_redirects',
+                'path' => '_redirects',
                 'output' => 'netlify_redirects',
             ],
             [
-                'path'      => 'rss',
+                'path' => 'rss',
                 'published' => false,
             ],
         ],
         'body' => [
             'images' => [
-                'lazy' => [
-                    'enabled' => true,
-                ],
-                'resize' => [
-                    'enabled' => true,
-                ],
-                'responsive' => [
-                    'enabled' => true,
-                ],
                 'formats' => ['avif', 'webp'],
-                'caption' => [
-                    'enabled' => true,
-                ],
+                'resize' => true,
+                'responsive' => true,
+                'lazy' => true,
+                'caption' => true,
                 'remote' => [
-                    'enabled' => true,
-                    'fallback' => [
-                        'enabled' => true,
-                        'path' => 'images/cecil-logo.png',
-                    ],
+                    'fallback' => 'images/640x480.png',
                 ],
-                'class' => 'img',
+                'class' => 'class_img',
+                'placeholder' => 'color',
             ],
-            'notes' => [
-                'enabled' => true,
-            ],
-            'highlight' => [
-                'enabled' => true,
+            'notes' => true,
+            'highlight' => true,
+            'links' => [
+                'embed' => true,
+                'external' => [
+                    'blank' => true,
+                    'nofollow' => true,
+                    'noopener' => true,
+                    'noreferrer' => true,
+                ]
             ],
         ],
     ],
     'output' => [
         'formats' => [
             [
-                'name'      => 'netlify_redirects',
+                'name' => 'netlify_redirects',
                 'mediatype' => 'text/plain',
                 'extension' => '',
             ],
         ],
         'pagetypeformats' => [
-            'page'       => ['html', 'json'],
-            'homepage'   => ['html', 'atom', 'rss', 'json'],
-            'section'    => ['html', 'atom', 'rss', 'json', 'jsonfeed'],
+            'page' => ['html', 'json'],
+            'homepage' => ['html', 'atom', 'rss', 'json'],
+            'section' => ['html', 'atom', 'rss', 'json', 'jsonfeed'],
             'vocabulary' => ['html'],
-            'term'       => ['html', 'atom', 'rss'],
+            'term' => ['html', 'atom', 'rss'],
         ],
         'postprocessors' => [
-            'Test'  => 'Cecil\Renderer\PostProcessor\Test',
+            'Test' => 'Cecil\Renderer\PostProcessor\Test',
             'Error' => 'Cecil\Renderer\PostProcessor\Error',
         ],
     ],
@@ -183,56 +180,41 @@ return [
     ],
     'assets' => [
         'compile' => [
-            'enabled'   => true,
-            'style'     => 'expanded',
+            'style' => 'expanded',
             'variables' => ['test' => '#FFF'],
         ],
-        'minify' => [
-            'enabled' => false,
-        ],
-        'fingerprint' => [
-            'enabled' => false,
-        ],
+        'minify' => false,
+        'fingerprint' => false,
+        'notes' => true,
+        'highlight' => true,
         'images' => [
-            'optimize' => [
-                'enabled' => true,
-            ],
+            'optimize' => true,
             'responsive' => [
-                'enabled' => true,
-                'sizes'   => [
-                    'img' => '100vw',
+                'sizes' => [
+                    'class_img' => '(max-width: 480px) 480px, 100vw',
                 ],
             ],
-            'formats' => ['avif', 'webp'],
-            'caption' => [
-                'enabled' => true,
-            ],
+            'caption' => true,
             'remote' => [
-                'enabled'  => true,
+                'enabled' => true,
                 'fallback' => [
                     'enabled' => true,
-                    'path'    => 'images/cecil-logo.png',
+                    'path' => 'images/cecil-logo.png',
                 ],
             ],
-            'class' => 'img',
-        ],
-        'notes' => [
-            'enabled' => true,
-        ],
-        'highlight' => [
-            'enabled' => true,
+            'class' => 'class_img',
         ],
     ],
     'layouts' => [
+        'images' => [
+            'formats' => ['avif', 'webp'],
+            'responsive' => true,
+        ],
         'extensions' => [
-            'Test'       => 'Cecil\Renderer\Extension\Test',
+            'Test' => 'Cecil\Renderer\Extension\Test',
             'Test error' => 'Cecil\Renderer\Extension\TestError',
         ],
     ],
-    'cache' => [
-        'enabled' => true,
-    ],
-    'optimize' => [
-        'enabled' => true,
-    ],
+    'cache' => true,
+    'optimize' => true,
 ];

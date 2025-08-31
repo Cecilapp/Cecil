@@ -1,15 +1,15 @@
 <?php
 
-declare(strict_types=1);
-
-/*
+/**
  * This file is part of Cecil.
  *
- * Copyright (c) Arnaud Ligny <arnaud@ligny.fr>
+ * (c) Arnaud Ligny <arnaud@ligny.fr>
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
+
+declare(strict_types=1);
 
 namespace Cecil\Command;
 
@@ -31,6 +31,12 @@ use Symfony\Component\Translation\Writer\TranslationWriter;
 use Symfony\Component\Translation\Loader\PoFileLoader;
 use Symfony\Component\Translation\Loader\YamlFileLoader;
 
+/**
+ * UtilTranslationsExtract command.
+ *
+ * This command extracts translation strings from templates and allows saving them into a translation file.
+ * It can also display the extracted messages in the console.
+ */
 class UtilTranslationsExtract extends AbstractCommand
 {
     private TranslationWriter $writer;
@@ -54,33 +60,20 @@ class UtilTranslationsExtract extends AbstractCommand
                 <<<'EOF'
 The <info>%command.name%</> command extracts translation strings from your templates.
 
-To extract translations from a specific directory, run:
+  <info>%command.full_name% --locale=code --show</>
+  <info>%command.full_name% --locale=code --show path/to/the/working/directory</>
 
-  <info>%command.full_name% path/to/directory</>
+To <comment>save</comment> translations into the translation file, run:
 
-To display translations in the console, run:
+  <info>%command.full_name% --locale=code --save</>
 
-  <info>%command.full_name% --show</>
+To save translations into a specific <comment>format</comment>, run:
 
-To save translations into the translation file, run:
+  <info>%command.full_name% --locale=code --save --format=po</>
 
-  <info>%command.full_name% --save</>
+To extract and merge translations from a specific <comment>theme</comment>, run:
 
-To display and save translations, run:
-
-  <info>%command.full_name% --show --save</>
-
-To extract translations for a specific locale, run:
-
-  <info>%command.full_name% --locale=en</>
-
-To save translations into a specific format, run:
-
-  <info>%command.full_name% --format=po</>
-
-To extract and merge translations from a specific theme, run:
-
-  <info>%command.full_name% --theme=theme-name</>
+  <info>%command.full_name% --locale=code --show --theme=theme-name</>
 EOF
             );
     }

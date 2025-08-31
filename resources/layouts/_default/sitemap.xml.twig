@@ -1,17 +1,33 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes" ?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
-  xmlns:xhtml="http://www.w3.org/1999/xhtml">
+  xmlns:xhtml="http://www.w3.org/1999/xhtml"
+  xmlns:video="http://www.google.com/schemas/sitemap-video/1.1">
   {%- for page in site.pages.showable|sort_by_date ~%}
   <url>
     <loc>{{ url(page, {canonical: true}) }}</loc>
     <lastmod>{{ page.date|date('Y-m-d') }}</lastmod>
     <changefreq>{{ page.sitemap.changefreq|default(config.pages.default.sitemap.changefreq) }}</changefreq>
     <priority>{{ page.sitemap.priority|default(config.pages.default.sitemap.priority) }}</priority>
-    {%- if page.translations|default({})|length >= 1 and page.language is defined -%}
+    {#- translations ~#}
+    {%- if page.translations|default({})|length >= 1 and page.language is defined ~%}
     {%- for alternate in page.translations ~%}
-    <xhtml:link rel="alternate" hreflang="{{ alternate.language }}" href="{{ url(alternate, {canonical: true}) }}" />
+    <xhtml:link rel="alternate" hreflang="{{ alternate.language }}" href="{{ url(alternate, {canonical: true}) }}"/>
     {%- endfor ~%}
-    <xhtml:link rel="alternate" hreflang="{{ page.language }}" href="{{ url(page, {canonical: true}) }}" />
+    <xhtml:link rel="alternate" hreflang="{{ page.language }}" href="{{ url(page, {canonical: true}) }}"/>
+    {%- endif ~%}
+    {#- video ~#}
+    {%- if page.videos is defined and page.videos|length > 0 and page.image is defined ~%}
+    <video:video>
+      <video:title><![CDATA[{{ page.title }}]]></video:title>
+      <video:description><![CDATA[{{ page.description }}]]></video:description>
+      <video:thumbnail_loc>{{ url(asset(page.image) , {canonical: true}) }}</video:thumbnail_loc>
+      <video:content_loc>{{ url(asset(page.videos[0]), {canonical: true}) }}</video:content_loc>
+      {%- if 'embed' in page.output ~%}
+      <video:player_loc>{{ url(page, {canonical: true, format: 'embed'}) }}</video:player_loc>
+      {%- endif ~%}
+      <video:duration>{{ asset(page.videos[0]).video.duration|round }}</video:duration>
+      <video:publication_date>{{ page.date|date('c') }}</video:publication_date>
+    </video:video>
     {%- endif ~%}
   </url>
   {%- endfor ~%}

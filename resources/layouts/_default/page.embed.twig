@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="{{ site.language }}">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="googlebot" content="noindex,indexifembedded">
+    <link rel="canonical" href="{{ url(page, {canonical: true, format: 'embed'}) }}">
+    <title>{{ page.title }}</title>
+    <style type="text/css">{% apply minify_css ~%}
+      body {
+        background-color: black;
+        display: block;
+        margin: 0;
+        padding: 0;
+      }
+      img, video {
+        position: absolute;
+        top: 0px;
+        right: 0px;
+        bottom: 0px;
+        left: 0px;
+        max-height: 100%;
+        max-width: 100%;
+        margin: auto;
+        object-fit: contain;
+      }
+      video {
+        aspect-ratio: 16 / 9;
+      }
+    {% endapply ~%}</style>
+  </head>
+  <body>
+    {#- video ~#}
+    {%- if page.videos is defined ~%}
+    {%- block video ~%}
+    <video playsinline controls preload="auto"{% if page.image|default %} poster="{{ url(asset(page.image), {canonical: true}) }}"{% endif %}>
+      {%- for video in page.videos ~%}
+      <source src="{{ url(asset(video), {canonical: true}) }}" type="{{ asset(video).subtype }}">
+      {%- endfor ~%}
+    </video>
+    {%- endblock ~%}
+    {#- audio ~#}
+    {%- elseif page.audios is defined ~%}
+    {%- block audios ~%}
+    <audio controls preload="auto">
+      {%- for audio in page.audios ~%}
+      <source src="{{ url(asset(audio), {canonical: true}) }}" type="{{ asset(audio).subtype }}">
+      {%- endfor ~%}
+    </audio>
+    {%- endblock ~%}
+    {#- photo ~#}
+    {%- elseif page.image is defined and asset(page.image) is image_large ~%}
+    {%- block photo ~%}
+    <img src="{{ url(asset(page.image), {canonical: true}) }}" alt="{{ page.title }}" style="width: 100%; height: auto;">
+    {%- endblock ~%}
+    {#- URL ~#}
+    {%- else ~%}
+    {%- block default ~%}
+    <a href="{{ url(page, {canonical: true}) }}" target="_blank" rel="noopener noreferrer">{{ page.title }}</a>
+    {%- endblock ~%}
+    {%- endif ~%}
+    {#- scripts ~#}
+    <script>{% apply minify_js ~%}
+      // autoplay videos if "autoplay=1" in URL
+      document.addEventListener('DOMContentLoaded', function() {
+        const urlParams = new URLSearchParams(window.location.search);
+        const autoplay = urlParams.get('autoplay');
+        console.log('autoplay:', autoplay);
+        var videos = document.querySelectorAll('video');
+        videos.forEach(function(video) {
+          video.autoplay = autoplay == '1' ? true : false;
+        });
+      });
+    {% endapply ~%}</script>
+  </body>
+</html>

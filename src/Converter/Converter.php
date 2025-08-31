@@ -1,15 +1,15 @@
 <?php
 
-declare(strict_types=1);
-
-/*
+/**
  * This file is part of Cecil.
  *
- * Copyright (c) Arnaud Ligny <arnaud@ligny.fr>
+ * (c) Arnaud Ligny <arnaud@ligny.fr>
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
+
+declare(strict_types=1);
 
 namespace Cecil\Converter;
 
@@ -21,7 +21,11 @@ use Yosymfony\Toml\Exception\ParseException as TomlParseException;
 use Yosymfony\Toml\Toml;
 
 /**
- * Class Converter.
+ * Converter class.
+ *
+ * This class implements the ConverterInterface and provides methods to convert
+ * front matter from various formats (YAML, INI, TOML, JSON) to an associative array,
+ * and to convert the body of content from Markdown to HTML.
  */
 class Converter implements ConverterInterface
 {
@@ -73,7 +77,7 @@ class Converter implements ConverterInterface
 
             return $result;
         } catch (ParseException $e) {
-            throw new RuntimeException($e->getMessage(), null, $e->getParsedLine());
+            throw new RuntimeException($e->getMessage(), line: $e->getParsedLine());
         } catch (\Exception $e) {
             throw new RuntimeException($e->getMessage());
         }
@@ -109,7 +113,7 @@ class Converter implements ConverterInterface
 
             return $result;
         } catch (TomlParseException $e) {
-            throw new RuntimeException($e->getMessage(), $e->getParsedFile(), $e->getParsedLine());
+            throw new RuntimeException($e->getMessage(), file: $e->getParsedFile(), line: $e->getParsedLine());
         } catch (\Exception $e) {
             throw new RuntimeException($e->getMessage());
         }

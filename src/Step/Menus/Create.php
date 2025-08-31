@@ -1,15 +1,15 @@
 <?php
 
-declare(strict_types=1);
-
-/*
+/**
  * This file is part of Cecil.
  *
- * Copyright (c) Arnaud Ligny <arnaud@ligny.fr>
+ * (c) Arnaud Ligny <arnaud@ligny.fr>
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
+
+declare(strict_types=1);
 
 namespace Cecil\Step\Menus;
 
@@ -23,7 +23,14 @@ use Cecil\Renderer\Page as PageRenderer;
 use Cecil\Step\AbstractStep;
 
 /**
- * Creates menus collection.
+ * Create menus step.
+ *
+ * This step is responsible for creating menus based on the configuration
+ * and the pages defined in the site. It initializes a collection of menus
+ * for each language, adds a default "main" menu, and processes the configuration
+ * to add, remove, or replace menu entries. It also creates menus from pages
+ * that have a `menu` variable defined, allowing for dynamic menu generation
+ * based on the content of the site.
  */
 class Create extends AbstractStep
 {
@@ -119,6 +126,10 @@ class Create extends AbstractStep
                                 ->setWeight($properties['weight']);
                             $updated = true;
                         }
+                        // abord if entry is not enabled
+                        if (isset($properties['enabled']) && $properties['enabled'] === false) {
+                            continue;
+                        }
                         // adds/replaces entry
                         $menu->add($item);
 
@@ -173,7 +184,7 @@ class Create extends AbstractStep
                     }
                     $item = (new Entry($page->getIdWithoutLang()))
                         ->setName($page->getVariable('title'))
-                        ->setUrl((new PageRenderer($this->config))->getUrl($page));
+                        ->setUrl((new PageRenderer($this->config))->getPublicFilePath($page));
                     if (isset($properties['weight'])) {
                         $item->setWeight((int) $properties['weight']);
                     }
@@ -198,7 +209,7 @@ class Create extends AbstractStep
              */
             $item = (new Entry($page->getIdWithoutLang()))
                 ->setName($page->getVariable('title'))
-                ->setUrl((new PageRenderer($this->config))->getUrl($page));
+                ->setUrl((new PageRenderer($this->config))->getPublicFilePath($page));
             // add Menu if not exists
             if (!$this->menus[$language]->has($page->getVariable('menu'))) {
                 $this->menus[$language]->add(new Menu($page->getVariable('menu')));

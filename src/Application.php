@@ -1,15 +1,15 @@
 <?php
 
-declare(strict_types=1);
-
-/*
+/**
  * This file is part of Cecil.
  *
- * Copyright (c) Arnaud Ligny <arnaud@ligny.fr>
+ * (c) Arnaud Ligny <arnaud@ligny.fr>
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
+
+declare(strict_types=1);
 
 namespace Cecil;
 
@@ -17,9 +17,15 @@ use Symfony\Component\Console\Application as BaseApplication;
 
 /**
  * The console application that handles the commands.
+ *
+ * This class extends the Symfony Console Application.
  */
 class Application extends BaseApplication
 {
+    /**
+     * Banner of the application.
+     * @var string
+     */
     private static $banner = '  ____          _ _
  / ___|___  ___(_) |
 | |   / _ \/ __| | | A simple and powerful content-driven static site generator.
@@ -46,7 +52,7 @@ class Application extends BaseApplication
             new Command\About(),
             new Command\NewSite(),
             new Command\NewPage(),
-            new Command\OpenWith(),
+            new Command\Edit(),
             new Command\Build(),
             new Command\Serve(),
             new Command\Clear(),

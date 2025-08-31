@@ -1,15 +1,15 @@
 <?php
 
-declare(strict_types=1);
-
-/*
+/**
  * This file is part of Cecil.
  *
- * Copyright (c) Arnaud Ligny <arnaud@ligny.fr>
+ * (c) Arnaud Ligny <arnaud@ligny.fr>
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
+
+declare(strict_types=1);
 
 namespace Cecil\Generator;
 
@@ -19,7 +19,13 @@ use Cecil\Collection\Page\Type;
 use Cecil\Exception\RuntimeException;
 
 /**
- * Class Generator\Section.
+ * Section generator class.
+ *
+ * This class is responsible for generating sections from the pages in the builder.
+ * It identifies sections based on the 'section' variable in each page, and
+ * creates a new page for each section. The generated pages are added to the
+ * collection of generated pages. It also handles sorting of subpages and
+ * adding navigation links (next and previous) to the section pages.
  */
 class Section extends AbstractGenerator implements GeneratorInterface
 {
@@ -36,7 +42,10 @@ class Section extends AbstractGenerator implements GeneratorInterface
             // top level (root) sections
             if ($page->getSection()) {
                 // do not add "not published" and "not excluded" pages to its section
-                if ($page->getVariable('published') !== true || $page->getVariable('exclude')) {
+                if (
+                    $page->getVariable('published') !== true
+                    || ($page->getVariable('excluded') || $page->getVariable('exclude'))
+                ) {
                     continue;
                 }
                 $sections[$page->getSection()][$page->getVariable('language', $this->config->getLanguageDefault())][] = $page;

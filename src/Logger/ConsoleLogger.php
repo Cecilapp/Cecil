@@ -1,15 +1,15 @@
 <?php
 
-declare(strict_types=1);
-
-/*
+/**
  * This file is part of Cecil.
  *
- * Copyright (c) Arnaud Ligny <arnaud@ligny.fr>
+ * (c) Arnaud Ligny <arnaud@ligny.fr>
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
+
+declare(strict_types=1);
 
 namespace Cecil\Logger;
 
@@ -18,6 +18,13 @@ use Psr\Log\LogLevel;
 use Symfony\Component\Console\Formatter\OutputFormatterStyle;
 use Symfony\Component\Console\Output\OutputInterface;
 
+/**
+ * Console logger class.
+ *
+ * This logger prints messages to the console output.
+ * It supports different log levels and can be configured to print messages
+ * up to a certain verbosity level.
+ */
 class ConsoleLogger extends PrintLogger
 {
     public const ERROR = 'error';

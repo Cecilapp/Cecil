@@ -1,15 +1,15 @@
 <?php
 
-declare(strict_types=1);
-
-/*
+/**
  * This file is part of Cecil.
  *
- * Copyright (c) Arnaud Ligny <arnaud@ligny.fr>
+ * (c) Arnaud Ligny <arnaud@ligny.fr>
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
+
+declare(strict_types=1);
 
 namespace Cecil\Renderer;
 
@@ -17,17 +17,30 @@ use Cecil\Builder;
 use Cecil\Collection\Page\Page as CollectionPage;
 
 /**
- * Class Site.
+ * Site renderer class.
+ *
+ * This class implements the \ArrayAccess interface to allow access to site
+ * properties using array syntax. It provides access to various site-related
+ * properties such as pages, menus, taxonomies, and language settings.
+ * It also provides methods to retrieve specific pages and collections of pages
+ * based on the current language or all pages regardless of their translation.
  */
 class Site implements \ArrayAccess
 {
-    /** @var Builder Builder object. */
+    /**
+     * Builder object.
+     * @var Builder
+     */
     protected $builder;
-
-    /** @var \Cecil\Config */
+    /**
+     * Configuration object.
+     * @var \Cecil\Config
+     */
     protected $config;
-
-    /** @var string Current language. */
+    /**
+     * Current language code.
+     * @var string
+     */
     protected $language;
 
     public function __construct(Builder $builder, string $language)
@@ -50,6 +63,7 @@ class Site implements \ArrayAccess
         // special cases
         switch ($offset) {
             case 'menus':
+            case 'taxonomies':
             case 'home':
             case 'debug':
                 return true;
@@ -68,7 +82,7 @@ class Site implements \ArrayAccess
     #[\ReturnTypeWillChange]
     public function offsetGet($offset)
     {
-        // If it's a built-in variable: dot not fetchs data from config raw
+        // If it's a built-in variable: dot not fetch data from config raw
         switch ($offset) {
             case 'pages':
                 return $this->getPages();

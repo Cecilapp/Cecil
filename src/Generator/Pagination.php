@@ -1,15 +1,15 @@
 <?php
 
-declare(strict_types=1);
-
-/*
+/**
  * This file is part of Cecil.
  *
- * Copyright (c) Arnaud Ligny <arnaud@ligny.fr>
+ * (c) Arnaud Ligny <arnaud@ligny.fr>
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
+
+declare(strict_types=1);
 
 namespace Cecil\Generator;
 
@@ -18,7 +18,11 @@ use Cecil\Collection\Page\Page;
 use Cecil\Collection\Page\Type;
 
 /**
- * Class Generator\Pagination.
+ * Pagination generator.
+ *
+ * This generator creates paginated pages for sections, terms, and the homepage.
+ * It filters the pages based on their type, checks for pagination settings,
+ * and generates paginated pages accordingly.
  */
 class Pagination extends AbstractGenerator implements GeneratorInterface
 {
@@ -27,7 +31,7 @@ class Pagination extends AbstractGenerator implements GeneratorInterface
      */
     public function generate(): void
     {
-        if ($this->config->get('pagination.enabled') === false) {
+        if (!$this->config->isEnabled('pages.pagination')) {
             return;
         }
 
@@ -50,8 +54,8 @@ class Pagination extends AbstractGenerator implements GeneratorInterface
             }
             $path = $page->getPath();
             // site pagination configuration
-            $paginationPerPage = \intval($this->config->get('pagination.max'));
-            $paginationPath = (string) $this->config->get('pagination.path');
+            $paginationPerPage = \intval($this->config->get('pages.pagination.max') ?? 5);
+            $paginationPath = $this->config->get('pages.pagination.path') ?? 'page';
             // page pagination configuration
             $pagePagination = $page->getVariable('pagination');
             if ($pagePagination) {
@@ -81,13 +85,14 @@ class Pagination extends AbstractGenerator implements GeneratorInterface
                     iterator_to_array($itPagesInPagination)
                 );
                 $alteredPage = clone $page;
-                if ($i == 0) { // first page (ie: blog/page/1 -> blog)
-                    $pageId = $page->getId();
-                    $alteredPage
-                        ->setVariable('alias', [
-                            \sprintf('%s/%s/%s', $path, $paginationPath, 1),
-                        ]);
-                } else { // others pages (ie: blog/page/X)
+                // first page (ie: blog/page/1 -> blog)
+                $pageId = $page->getId();
+                $alteredPage
+                    ->setVariable('alias', [
+                        \sprintf('%s/%s/%s', $path, $paginationPath, 1),
+                    ]);
+                // others pages (ie: blog/page/X)
+                if ($i > 0) {
                     $pageId = Page::slugify(\sprintf('%s/%s/%s', $page->getId(), $paginationPath, $i + 1));
                     $alteredPage
                         ->setId($pageId)

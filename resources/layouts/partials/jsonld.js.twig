@@ -1,16 +1,18 @@
-{%- if page.metatags.jsonld|default(config.metatags.jsonld|default(false)) ~%}
+{#- Structured data ~#}
     <script type="application/ld+json">{%- apply minify_js ~%}
       [
+{#- WebSite ~#}
         {%- cache 'jsonld_website' ~ '__' ~ cecil.version ~%}
-        {#- WebSite ~#}
         {
           "@context": "https://schema.org",
           "@type": "WebSite",
           "name": "{{ site.title|e }}",
           "description": "{{ site.description|e }}",
-          "url": "{{ url('/', {canonical: true}) }}"
+          "url": "{{ url(site.home, {canonical: true}) }}"
           {%- if site.image is defined ~%},
-          "image": ["{{ url(asset(site.image), {canonical: true}) }}"]
+          "image": [
+            "{{ url(asset(site.image), {canonical: true}) }}"
+          ]
           {%- endif ~%}
           {%- if page.social|default(site.social|default) ~%},
           "sameAs": [
@@ -21,13 +23,13 @@
           {%- endif ~%}
         }
         {%- endcache ~%}
-        {#- SiteNavigationElement ~#}
+{#- SiteNavigationElement ~#}
         {%- if site.menus.main is defined -%}
         {%- cache 'jsonld_navigation_' ~ hash(site.menus.main) ~ '__' ~ cecil.version -%}
         ,{
-          "@context":"http://schema.org",
-          "@type":"ItemList",
-          "itemListElement":[
+          "@context": "http://schema.org",
+          "@type": "ItemList",
+          "itemListElement": [
             {%- for item in site.menus.main|filter(i => i.id != site.home)|sort_by_weight ~%}
             {
               "@type": "SiteNavigationElement",
@@ -41,8 +43,26 @@
         }
         {%- endcache ~%}
         {%- endif -%}
+{#- WebPage ~#}
+        {%- if page.id != '404' -%}
+        ,{
+          "@context": "http://schema.org",
+          "@type": "WebPage",
+          "name": "{{ title|default(page.title)|e }}",
+          "description": "{{ page.description|default(site.description)|e }}",
+          "publisher": {
+            "@type": "Organization",
+            "name": "{{ site.title|e }}",
+            {%- set icon_asset = asset('icon.png', {'ignore_missing': true}) ~%}
+            {%- if not icon_asset.missing ~%}
+            "logo": "{{ url(icon_asset, {canonical: true}) }}",
+            {%- endif ~%}
+            "url": "{{ url(site.home, {canonical: true}) }}"
+          }
+        }
+        {%- endif ~%}
         {%- if page.section -%}
-          {#- BreadcrumbList -#}
+{#- BreadcrumbList -#}
         ,{
           "@context": "https://schema.org",
           "@type": "BreadcrumbList",
@@ -60,7 +80,7 @@
           {%- endif ~%}
           }]
         }
-          {#- NewsArticle ~#}
+{#- NewsArticle ~#}
           {%- if page.section == config.metatags.articles|default('blog') and page.type != 'section' -%}
         ,{
           "@context": "https://schema.org",
@@ -70,54 +90,50 @@
             "@id": "{{ url(page, {canonical: true}) }}"
           },
           "headline": "{{ title|default(page.title)|e }}",
-          {%- if image is defined ~%}
+          {%- if page.image|default is not empty ~%}
           "image": [
-            "{{ url(image, {canonical: true}) }}"
-          ],
-          {%- elseif page.image is defined ~%}
-          "image": [
-            "{{ url(page.image, {canonical: true}) }}"
+            "{{ url(asset(page.image), {canonical: true}) }}"
           ],
           {%- endif ~%}
           "datePublished": "{{ page.date|date('Y-m-dTH:i:sP') }}",
-          "dateModified": "{{ page.date|date('Y-m-dTH:i:sP') }}",
-          {%- if author.name|default('') is not empty ~%}
+          {%- if page.updated is defined ~%}
+          "dateModified": "{{ page.updated|date('Y-m-dTH:i:sP') }}",
+          {%- endif ~%}
+          {%- if author.name|default is not empty ~%}
           "author": {
             "@type": "Person",
             "name": "{{ author.name|e }}"
-            {%- if author.url|default('') is not empty ~%},
+            {%- if author.url|default is not empty ~%},
             "url": "{{ author.url }}"
             {%- endif ~%}
-            {%- if author.image|default('') is not empty ~%},
+            {%- if author.image|default is not empty ~%},
             "image": "{{ author.image }}"
             {%- endif ~%}
-            {%- if author.title|default('') is not empty ~%},
+            {%- if author.title|default is not empty ~%},
             "jobTitle": "{{ author.title }}"
             {%- endif ~%}
-            {%- if author.email|default('') is not empty ~%},
+            {%- if author.email|default is not empty ~%},
             "email": "{{ author.email }}"
             {%- endif ~%}
-            {%- if author.telephone|default('') is not empty ~%},
+            {%- if author.telephone|default is not empty ~%},
             "telephone": "{{ author.telephone }}"
             {%- endif ~%}
           },
           {%- endif ~%}
           "publisher": {
             "@type": "Organization",
-            "name": "{{ site.title|e }}"
-            {%- if favicon_asset and not favicon_asset.missing ~%},
-            "logo": {
-              "@type": "ImageObject",
-              "url": "{{ url(favicon_asset, {canonical: true}) }}"
-            }
+            "name": "{{ site.title|e }}",
+            {%- set icon_asset = asset('icon.png', {'ignore_missing': true}) ~%}
+            {%- if not icon_asset.missing ~%}
+            "logo": "{{ url(icon_asset, {canonical: true}) }}",
             {%- endif ~%}
+            "url": "{{ url(site.home, {canonical: true}) }}"
           }
         }
           {%- endif ~%}
         {%- endif ~%}
-
-        {#- VideoObject ~#}
-        {%- if opengraph.video is defined -%}
+{#- VideoObject ~#}
+        {%- if page.videos[0] is defined -%}
         ,{
           "@context": "https://schema.org",
           "@type": "VideoObject",
@@ -125,17 +141,16 @@
           {%- if page.description is defined ~%}
           "description": "{{ page.description|e }}",
           {%- endif ~%}
+          {%- if page.image|default is not empty ~%}
           "thumbnailUrl": [
-            "{{ url(asset(page.poster), {canonical: true}) }}"
+            "{{ url(asset(page.image)|resize(640), {canonical: true}) }}"
           ],
-          "uploadDate": "{{ page.date|date('Y-m-dTH:i:sP') }}",
-          {%- if page.duration is defined ~%}
-          "duration": "{{ page.duration|duration_to_iso8601 }}",
           {%- endif ~%}
-          "contentUrl": "{{ url(opengraph.video, {canonical: true}) }}",
-          "embedUrl": "{{ url(page, {canonical: true, format: 'iframe'}) }}"
+          "uploadDate": "{{ page.date|date('Y-m-dTH:i:sP') }}",
+          "duration": "{{ asset(page.videos[0]).video.duration|duration_to_iso8601 }}",
+          "contentUrl": "{{ url(asset(page.videos[0]), {canonical: true}) }}",
+          "embedUrl": "{{ url(page, {canonical: true, format: 'embed'}) }}"
         }
         {%- endif ~%}
       ]
     {% endapply %}</script>
-{%- endif ~%}

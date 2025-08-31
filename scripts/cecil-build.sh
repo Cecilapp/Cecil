@@ -8,7 +8,7 @@ export PHP_MIN_VERSION="8.1"
 
 # Specify the PHP version with `PHP_VERSION`
 if [ -z "${PHP_VERSION}" ]; then
-  export PHP_VERSION="8.1"
+  export PHP_VERSION="8.2"
 fi
 # Specify Cecil CLI options with `CECIL_CMD_OPTIONS` (e.g.: `--optimize`)
 if [ -z "${CECIL_CMD_OPTIONS}" ]; then
@@ -44,22 +44,23 @@ case $RUNNING_ON in
     fi
     ;;
   "Vercel")
-    yum install -y amazon-linux-extras
+    dnf clean metadata
     echo "Installing PHP ${PHP_VERSION}..."
-    amazon-linux-extras enable php$PHP_VERSION
-    yum clean metadata
+    dnf install -y php$PHP_VERSION php$PHP_VERSION-{common,mbstring,gd,bcmath,xml,fpm,intl,zip}
     echo "Installing Gettext..."
-    yum install gettext
-    echo "Installing Sodium..."
-    yum install libsodium # required by Box
-    echo "Installing PHP extensions..."
-    yum install php php-{cli,mbstring,dom,xml,intl,gettext,gd,imagick,sodium}
+    dnf install -y gettext
+    echo "Installing AVIF lib..."
+    dnf install -y libavif
     if [ "$VERCEL_INSTALL_OPTIM" = "true" ]; then
       echo "Installing images optimization libraries..."
-      yum install jpegoptim
-      yum install pngquant
-      yum install gifsicle
-      yum install libwebp-tools
+      dnf install -y epel-release
+      dnf install -y jpegoptim
+      dnf install -y optipng
+      dnf install -y pngquant
+      npm install -y -g svgo
+      dnf install -y gifsicle
+      dnf install -y libwebp-tools
+      dnf install -y libavif-tools
     fi
     if [ "$VERCEL_ENV" = "production" ]; then
       CONTEXT="production"

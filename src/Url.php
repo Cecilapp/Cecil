@@ -1,19 +1,19 @@
 <?php
 
-declare(strict_types=1);
-
-/*
+/**
  * This file is part of Cecil.
  *
- * Copyright (c) Arnaud Ligny <arnaud@ligny.fr>
+ * (c) Arnaud Ligny <arnaud@ligny.fr>
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
 
+declare(strict_types=1);
+
 namespace Cecil;
 
-use Cecil\Assets\Asset;
+use Cecil\Asset;
 use Cecil\Builder;
 use Cecil\Collection\Menu\Entry as MenuEntry;
 use Cecil\Collection\Page\Page;
@@ -22,6 +22,11 @@ use Cecil\Renderer\Page as PageRenderer;
 use Cecil\Util;
 use Cocur\Slugify\Slugify;
 
+/**
+ * URL class.
+ *
+ * Builds an URL from a Page, a Menu Entry, an Asset or a string.
+ */
 class Url
 {
     /** @var Builder */
@@ -57,18 +62,26 @@ class Url
         $language = null;  // force language
         extract(\is_array($options) ? $options : [], EXTR_IF_EXISTS);
 
-        // canonical URL?
+        // base URL
         $base = '';
-        if ((bool) $this->config->get('canonicalurl') || $canonical === true) {
+        // enable canonical URL
+        if ($this->config->isEnabled('canonicalurl') || $canonical === true) {
             $base = rtrim((string) $this->config->get('baseurl'), '/');
         }
+        // disable canonical URL by option
         if ($canonical === false) {
             $base = '';
         }
+        // use URL path as base if exists
+        if ($base == '' && '/' != $basepath = parse_url((string) $this->config->get('baseurl'), PHP_URL_PATH)) {
+            if (\is_string($basepath)) {
+                $base = '/' . trim($basepath, '/');
+            }
+        }
 
-        // if value is empty (i.e.: `url()`) returns home URL
+        // if value is empty returns base URL
         if (\is_null($value) || empty($value) || $value == '/') {
-            $this->url = $base . '/';
+            $this->url = $base;
 
             return;
         }
@@ -86,13 +99,17 @@ class Url
                         $format = 'html';
                     }
                 }
-                $this->url = $base . '/' . ltrim((new PageRenderer($this->config))->getUrl($value, $format), '/');
+                $this->url = $base . '/' . ltrim((new PageRenderer($this->config))->getPublicFilePath($value, $format), '/');
                 if ($canonical && $value->hasVariable('canonical') && $value->getVariable('canonical')['url']) { // canonical URL
                     $this->url = $value->getVariable('canonical')['url'];
                 }
                 break;
             case $value instanceof MenuEntry: // $value is a Menu Entry
                 /** @var MenuEntry $value */
+                if (Util\File::isRemote($value['url'])) {
+                    $this->url = $value['url'];
+                    break;
+                }
                 $this->url = $base . '/' . ltrim($value['url'], '/');
                 break;
             case $value instanceof Asset: // $value is an Asset
@@ -113,7 +130,7 @@ class Url
                     $lang = "$language/";
                 }
                 switch (true) {
-                    case Util\Url::isUrl($value): // $value is an external URL
+                    case Util\File::isRemote($value): // $value is an external URL
                         $this->url = $value;
                         break;
                     case $this->builder->getPages()->has($pageId): // $pageId exists in pages collection
@@ -142,6 +159,6 @@ class Url
      */
     public function getUrl(): string
     {
-        return (string) $this->url;
+        return (string) $this->url ?: '/';
     }
 }

@@ -1,8 +1,10 @@
 name: "🐞 Bug report"
 description: "Create a report to help us improve."
-labels: [bug]
+#labels: [bug]
+type: bug
+projects: ["Cecilapp/2"]
 assignees:
-  - Narno
+  - ArnaudLigny
 body:
   - type: markdown
     attributes:
@@ -35,7 +37,7 @@ body:
     attributes:
       label: "Version"
       description: "What version of Cecil are you running?"
-      placeholder: "5.55.0"
+      placeholder: "8.0.0"
     validations:
       required: true
   - type: input

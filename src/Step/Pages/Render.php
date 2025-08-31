@@ -1,21 +1,22 @@
 <?php
 
-declare(strict_types=1);
-
-/*
+/**
  * This file is part of Cecil.
  *
- * Copyright (c) Arnaud Ligny <arnaud@ligny.fr>
+ * (c) Arnaud Ligny <arnaud@ligny.fr>
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
+
+declare(strict_types=1);
 
 namespace Cecil\Step\Pages;
 
 use Cecil\Builder;
 use Cecil\Collection\Page\Collection;
 use Cecil\Collection\Page\Page;
+use Cecil\Exception\ConfigException;
 use Cecil\Exception\RuntimeException;
 use Cecil\Renderer\Config;
 use Cecil\Renderer\Layout;
@@ -25,11 +26,19 @@ use Cecil\Step\AbstractStep;
 use Cecil\Util;
 
 /**
- * Pages rendering.
+ * Render step.
+ *
+ * This step is responsible for rendering pages using Twig templates.
+ * It processes each page, applies the appropriate templates, and generates
+ * the final output formats. It also handles subsets of pages if specified,
+ * and adds global variables to the renderer. The rendered pages are then
+ * stored in the builder's pages collection for further processing or output.
  */
 class Render extends AbstractStep
 {
     public const TMP_DIR = '.cecil';
+
+    protected $subset = [];
 
     /**
      * {@inheritdoc}
@@ -49,6 +58,15 @@ class Render extends AbstractStep
             $this->builder->getLogger()->debug($message);
         }
 
+        // render a subset of pages?
+        if (!empty($options['render-subset'])) {
+            $subset = \sprintf('pages.subsets.%s', (string) $options['render-subset']);
+            if (!$this->config->has($subset)) {
+                throw new ConfigException(\sprintf('Subset "%s" not found.', $subset));
+            }
+            $this->subset = (array) $this->config->get($subset);
+        }
+
         $this->canProcess = true;
     }
 
@@ -65,11 +83,31 @@ class Render extends AbstractStep
         // adds global variables
         $this->addGlobals();
 
+        $subset = $this->subset;
+
         /** @var Collection $pages */
         $pages = $this->builder->getPages()
             // published only
             ->filter(function (Page $page) {
                 return (bool) $page->getVariable('published');
+            })
+            ->filter(function (Page $page) use ($subset) {
+                if (empty($subset)) {
+                    return true;
+                }
+                if (
+                    !empty($subset['path'])
+                    && !((bool) preg_match('/' . (string) $subset['path'] . '/i', $page->getPath()))
+                ) {
+                    return false;
+                }
+                if (!empty($subset['language'])) {
+                    $language = $page->getVariable('language', $this->config->getLanguageDefault());
+                    if ($language !== (string) $subset['language']) {
+                        return false;
+                    }
+                }
+                return true;
             })
             // enrichs some variables
             ->map(function (Page $page) {
@@ -88,7 +126,7 @@ class Render extends AbstractStep
         // renders each page
         $count = 0;
         $postprocessors = [];
-        foreach ($this->config->get('output.postprocessors') ?? [] as $name => $postprocessor) {
+        foreach ((array) $this->config->get('output.postprocessors') as $name => $postprocessor) {
             try {
                 if (!class_exists($postprocessor)) {
                     throw new RuntimeException(\sprintf('Class "%s" not found', $postprocessor));
@@ -99,6 +137,10 @@ class Render extends AbstractStep
                 $this->builder->getLogger()->error(\sprintf('Unable to load output post processor "%s": %s', $name, $e->getMessage()));
             }
         }
+
+        // some caches to avoid multiple calls
+        $cacheLocale = $cacheSite = $cacheConfig = [];
+
         /** @var Page $page */
         foreach ($pages as $page) {
             $count++;
@@ -106,14 +148,22 @@ class Render extends AbstractStep
 
             // l10n
             $language = $page->getVariable('language', $this->config->getLanguageDefault());
-            $locale = $this->config->getLanguageProperty('locale', $language);
-            $this->builder->getRenderer()->setLocale($locale);
+            if (!isset($cacheLocale[$language])) {
+                $cacheLocale[$language] = $this->config->getLanguageProperty('locale', $language);
+            }
+            $this->builder->getRenderer()->setLocale($cacheLocale[$language]);
 
             // global site variables
-            $this->builder->getRenderer()->addGlobal('site', new Site($this->builder, $language));
+            if (!isset($cacheSite[$language])) {
+                $cacheSite[$language] = new Site($this->builder, $language);
+            }
+            $this->builder->getRenderer()->addGlobal('site', $cacheSite[$language]);
 
             // global config raw variables
-            $this->builder->getRenderer()->addGlobal('config', new Config($this->builder, $language));
+            if (!isset($cacheConfig[$language])) {
+                $cacheConfig[$language] = new Config($this->builder, $language);
+            }
+            $this->builder->getRenderer()->addGlobal('config', $cacheConfig[$language]);
 
             // excluded format(s)?
             $formats = (array) $page->getVariable('output');
@@ -132,6 +182,15 @@ class Render extends AbstractStep
                             unset($formats[$key]);
                         }
                     }
+                }
+            }
+
+            // specific output format from subset
+            if (!empty($this->subset['output'])) {
+                $currentFormats = $formats;
+                $formats = [];
+                if (\in_array((string) $this->subset['output'], $currentFormats)) {
+                    $formats = [(string) $this->subset['output']];
                 }
             }
 
@@ -163,16 +222,18 @@ class Render extends AbstractStep
                     ];
                     $page->addRendered($rendered);
                 } catch (\Twig\Error\Error $e) {
-                    $template = !empty($e->getSourceContext()->getPath()) ? $e->getSourceContext()->getPath() : $e->getSourceContext()->getName();
-                    throw new RuntimeException(\sprintf(
-                        'Template "%s%s" (page: %s): %s',
-                        $template,
-                        $e->getTemplateLine() >= 0 ? \sprintf(':%s', $e->getTemplateLine()) : '',
-                        $page->getId(),
-                        $e->getMessage()
-                    ));
+                    throw new RuntimeException(
+                        \sprintf(
+                            'Can\'t render template "%s" for page "%s".',
+                            $e->getSourceContext()->getName(),
+                            $page->getFileName() ?? $page->getId()
+                        ),
+                        previous: $e,
+                        file: $e->getSourceContext()->getPath(),
+                        line: $e->getTemplateLine(),
+                    );
                 } catch (\Exception $e) {
-                    throw new RuntimeException($e->getMessage());
+                    throw new RuntimeException($e->getMessage(), previous: $e);
                 }
             }
             $this->builder->getPages()->replace($page->getId(), $page);
@@ -303,14 +364,15 @@ class Render extends AbstractStep
     /**
      * Returns the collection of translated pages for a given page.
      */
-    protected function getTranslations(Page $refPage): \Cecil\Collection\Page\Collection
+    protected function getTranslations(Page $refPage): Collection
     {
         $pages = $this->builder->getPages()->filter(function (Page $page) use ($refPage) {
-            return $page->getId() !== $refPage->getId()
-                && $page->getVariable('langref') == $refPage->getVariable('langref')
+            return $page->getVariable('langref') == $refPage->getVariable('langref')
                 && $page->getType() == $refPage->getType()
+                && $page->getId() !== $refPage->getId()
                 && !empty($page->getVariable('published'))
-                && !$page->getVariable('paginated');
+                && !$page->getVariable('paginated')
+            ;
         });
 
         return $pages;

@@ -1,25 +1,30 @@
 <?php
 
-declare(strict_types=1);
-
-/*
+/**
  * This file is part of Cecil.
  *
- * Copyright (c) Arnaud Ligny <arnaud@ligny.fr>
+ * (c) Arnaud Ligny <arnaud@ligny.fr>
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
 
+declare(strict_types=1);
+
 namespace Cecil\Step\Assets;
 
-use Cecil\Assets\Cache;
+use Cecil\Cache;
 use Cecil\Exception\RuntimeException;
 use Cecil\Step\AbstractStep;
 use Cecil\Util;
 
 /**
- * Assets saving.
+ * Save assets step.
+ *
+ * This step is responsible for saving assets to the output directory.
+ * It copies files from the cache to the output directory, ensuring that
+ * assets are available for the final build. If the cache is disabled, it
+ * clears the cache directory before processing assets.
  */
 class Save extends AbstractStep
 {
@@ -39,16 +44,16 @@ class Save extends AbstractStep
      */
     public function init(array $options): void
     {
-        // should clear cache?
-        $this->clearCache();
+        // last build step: should clear cache?
+        $this->clearCacheIfDisabled();
 
         if ($options['dry-run']) {
             return;
         }
 
-        $this->cache = new \Cecil\Assets\Cache($this->builder, (string) $this->config->get('cache.assets.dir'));
+        $this->cache = new Cache($this->builder, 'assets');
         $this->cacheKey = \sprintf('_list__%s', $this->builder->getVersion());
-        if (empty($this->assets) && $this->cache->has($this->cacheKey)) {
+        if (empty($this->builder->getAssets()) && $this->cache->has($this->cacheKey)) {
             $this->builder->setAssets($this->cache->get($this->cacheKey));
         }
 
@@ -64,22 +69,29 @@ class Save extends AbstractStep
     public function process(): void
     {
         $total = \count($this->builder->getAssets());
-        $count = 0;
-        foreach ($this->builder->getAssets() as $path) {
-            $count++;
-            Util\File::getFS()->copy($this->cache->getContentFilePathname($path), Util::joinFile($this->config->getOutputPath(), $path), false);
-            $message = \sprintf('Asset "%s" saved', $path);
-            $this->builder->getLogger()->info($message, ['progress' => [$count, $total]]);
+        if ($total > 0) {
+            $count = 0;
+            foreach ($this->builder->getAssets() as $path) {
+                // if file deleted from cache...
+                if (!Util\File::getFS()->exists($this->cache->getContentFilePathname($path))) {
+                    $this->builder->getLogger()->warning(\sprintf('Asset "%s" not found in cache, skipping. You should clear all cache.', $path));
+                    break;
+                }
+                $count++;
+                Util\File::getFS()->copy($this->cache->getContentFilePathname($path), Util::joinFile($this->config->getOutputPath(), $path), false);
+                $message = \sprintf('Asset "%s" saved', $path);
+                $this->builder->getLogger()->info($message, ['progress' => [$count, $total]]);
+            }
+            $this->cache->set($this->cacheKey, $this->builder->getAssets());
         }
-        $this->cache->set($this->cacheKey, $this->builder->getAssets());
     }
 
     /**
-     * Deletes cache directory.
+     * Deletes cache directory, if cache is disabled.
      */
-    private function clearCache(): void
+    private function clearCacheIfDisabled(): void
     {
-        if ($this->config->get('cache.enabled') === false) {
+        if (!$this->config->isEnabled('cache')) {
             try {
                 Util\File::getFS()->remove($this->config->getCachePath());
             } catch (\Exception) {

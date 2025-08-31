@@ -1,21 +1,29 @@
 <?php
 
-declare(strict_types=1);
-
-/*
+/**
  * This file is part of Cecil.
  *
- * Copyright (c) Arnaud Ligny <arnaud@ligny.fr>
+ * (c) Arnaud Ligny <arnaud@ligny.fr>
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
+
+declare(strict_types=1);
 
 namespace Cecil\Step;
 
 use Cecil\Builder;
 use Cecil\Config;
 
+/**
+ * Abstract step class.
+ *
+ * This class provides a base implementation for steps in the build process.
+ * It implements the StepInterface and provides common functionality such as
+ * initialization, checking if the step can be processed, and a constructor
+ * that accepts a Builder instance.
+ */
 abstract class AbstractStep implements StepInterface
 {
     /** @var Builder */
@@ -24,7 +32,10 @@ abstract class AbstractStep implements StepInterface
     /** @var Config */
     protected $config;
 
-    /** @var array Build options. */
+    /**
+     * Configuration options for the step.
+     * @var Builder::OPTIONS
+     */
     protected $options;
 
     /** @var bool */
@@ -50,6 +61,8 @@ abstract class AbstractStep implements StepInterface
 
     /**
      * {@inheritdoc}
+     *
+     * If init() is used, true by default.
      */
     public function canProcess(): bool
     {

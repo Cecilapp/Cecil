@@ -1,32 +1,44 @@
 <?php
 
-declare(strict_types=1);
-
-/*
+/**
  * This file is part of Cecil.
  *
- * Copyright (c) Arnaud Ligny <arnaud@ligny.fr>
+ * (c) Arnaud Ligny <arnaud@ligny.fr>
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
+
+declare(strict_types=1);
 
 namespace Cecil\Renderer;
 
 use Cecil\Builder;
 
 /**
- * Class Config.
+ * Config renderer class.
+ *
+ * This class implements the \ArrayAccess interface to allow access to configuration
+ * values using array syntax. It retrieves configuration values from the Builder's
+ * configuration object, allowing for easy access to configuration settings in a
+ * language-specific context.
  */
 class Config implements \ArrayAccess
 {
-    /** @var Builder Builder object. */
+    /**
+     * Builder object.
+     * @var Builder
+     */
     protected $builder;
-
-    /** @var \Cecil\Config */
+    /**
+     * Configuration object.
+     * @var \Cecil\Config
+     */
     protected $config;
-
-    /** @var string Current language. */
+    /**
+     * Current language code.
+     * @var string
+     */
     protected $language;
 
     public function __construct(Builder $builder, string $language)

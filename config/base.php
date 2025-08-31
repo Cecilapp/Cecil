@@ -1,22 +1,18 @@
 <?php
 
-declare(strict_types=1);
-
-/*
+/**
  * This file is part of Cecil.
  *
- * Copyright (c) Arnaud Ligny <arnaud@ligny.fr>
+ * (c) Arnaud Ligny <arnaud@ligny.fr>
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
 
+declare(strict_types=1);
+
 // Base configuration
 return [
-    'taxonomies'   => [
-        'tags'       => 'tag',
-        'categories' => 'category',
-    ],
     'pages' => [
         'generators' => [
             10 => 'Cecil\Generator\DefaultPages',
@@ -41,7 +37,7 @@ return [
                 'layout'    => '404',
                 'uglyurl'   => true,
                 'published' => true,
-                'exclude'   => true,
+                'excluded'  => true,
             ],
             'robots' => [
                 'path'         => 'robots',
@@ -49,7 +45,7 @@ return [
                 'layout'       => 'robots',
                 'output'       => 'txt',
                 'published'    => true,
-                'exclude'      => true,
+                'excluded'     => true,
                 'multilingual' => false,
             ],
             'sitemap' => [
@@ -60,7 +56,7 @@ return [
                 'changefreq'   => 'monthly',
                 'priority'     => '0.5',
                 'published'    => true,
-                'exclude'      => true,
+                'excluded'     => true,
                 'multilingual' => false,
             ],
             'xsl/atom' => [
@@ -69,7 +65,7 @@ return [
                 'output'    => 'xsl',
                 'uglyurl'   => true,
                 'published' => true,
-                'exclude'   => true,
+                'excluded'  => true,
             ],
             'xsl/rss' => [
                 'path'      => 'xsl/rss',
@@ -77,7 +73,7 @@ return [
                 'output'    => 'xsl',
                 'uglyurl'   => true,
                 'published' => false,
-                'exclude'   => true,
+                'excluded'  => true,
             ],
         ],
     ],
@@ -150,18 +146,18 @@ return [
                 'extension' => 'json',
                 'exclude'   => ['redirect', 'paginated'],
             ],
+            [ // e.g.: video/oembed.json
+                'name'      => 'oembed',
+                'mediatype' => 'application/json+oembed',
+                'filename'  => 'oembed',
+                'extension' => 'json',
+                'exclude'   => ['redirect', 'paginated'],
+            ],
             [ // e.g.: video/embed.html
-                'name'      => 'iframe',
+                'name'      => 'embed',
                 'mediatype' => 'text/html',
                 'filename'  => 'embed',
                 'extension' => 'html',
-                'exclude'   => ['redirect', 'paginated'],
-            ],
-            [ // e.g.: video/embed.json
-                'name'      => 'oembed',
-                'mediatype' => 'application/json+oembed',
-                'filename'  => 'embed',
-                'extension' => 'json',
                 'exclude'   => ['redirect', 'paginated'],
             ],
         ],

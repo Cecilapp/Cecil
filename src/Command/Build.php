@@ -1,15 +1,15 @@
 <?php
 
-declare(strict_types=1);
-
-/*
+/**
  * This file is part of Cecil.
  *
- * Copyright (c) Arnaud Ligny <arnaud@ligny.fr>
+ * (c) Arnaud Ligny <arnaud@ligny.fr>
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
+
+declare(strict_types=1);
 
 namespace Cecil\Command;
 
@@ -21,7 +21,11 @@ use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 
 /**
- * Builds the website.
+ * Build command.
+ *
+ * This command generates the website in the output directory.
+ * It can include drafts, optimize generated files, and perform a dry run.
+ * It also allows building a specific page or a subset of pages, clearing the cache, and showing build metrics.
  */
 class Build extends AbstractCommand
 {
@@ -35,70 +39,44 @@ class Build extends AbstractCommand
             ->setDescription('Builds the website')
             ->setDefinition([
                 new InputArgument('path', InputArgument::OPTIONAL, 'Use the given path as working directory'),
-                new InputOption('config', 'c', InputOption::VALUE_REQUIRED, 'Set the path to extra config files (comma-separated)'),
                 new InputOption('drafts', 'd', InputOption::VALUE_NONE, 'Include drafts'),
-                new InputOption('page', 'p', InputOption::VALUE_REQUIRED, 'Build a specific page'),
+                new InputOption('baseurl', 'u', InputOption::VALUE_REQUIRED, 'Set the base URL'),
+                new InputOption('output', 'o', InputOption::VALUE_REQUIRED, 'Set the output directory'),
+                new InputOption('optimize', null, InputOption::VALUE_NEGATABLE, 'Enable (or disable --no-optimize) optimization of generated files'),
                 new InputOption('dry-run', null, InputOption::VALUE_NONE, 'Build without saving'),
-                new InputOption('baseurl', null, InputOption::VALUE_REQUIRED, 'Set the base URL'),
-                new InputOption('output', null, InputOption::VALUE_REQUIRED, 'Set the output directory'),
-                new InputOption('optimize', null, InputOption::VALUE_OPTIONAL, 'Optimize files (disable with "no")', false),
-                new InputOption('clear-cache', null, InputOption::VALUE_OPTIONAL, 'Clear cache before build (optional cache key regular expression)', false),
-                new InputOption('show-pages', null, InputOption::VALUE_NONE, 'Show built pages as table'),
-                new InputOption('metrics', null, InputOption::VALUE_NONE, 'Show build steps metrics'),
+                new InputOption('config', 'c', InputOption::VALUE_REQUIRED, 'Set the path to extra config files (comma-separated)'),
+                new InputOption('clear-cache', null, InputOption::VALUE_OPTIONAL, 'Clear cache before build (optional cache key as regular expression)', false),
+                new InputOption('page', 'p', InputOption::VALUE_REQUIRED, 'Build a specific page'),
+                new InputOption('render-subset', null, InputOption::VALUE_REQUIRED, 'Render a subset of pages'),
+                new InputOption('show-pages', null, InputOption::VALUE_NONE, 'Show list of built pages in a table'),
+                new InputOption('metrics', 'm', InputOption::VALUE_NONE, 'Show build metrics (duration and memory) of each step'),
             ])
             ->setHelp(
                 <<<'EOF'
 The <info>%command.name%</> command generates the website in the <comment>output</comment> directory.
 
-To build the website, run:
-
   <info>%command.full_name%</>
+  <info>%command.full_name% path/to/the/working/directory</>
+  <info>%command.full_name% --baseurl=https://example.com/</>
+  <info>%command.full_name% --output=_site</>
 
-To build the website from a specific directory, run:
+To build the website with <comment>optimization</comment> of generated files, you can use the <info>--optimize</info> option.
+This is useful to reduce the size of the generated files and <comment>improve performance</comment>:
 
-  <info>%command.full_name% path/to/directory</>
+  <info>%command.full_name% --optimize</>
+  <info>%command.full_name% --no-optimize</>
 
-To build the website with a specific configuration file, run:
-
-  <info>%command.full_name% --config=config.yml</>
-
-To build the website with drafts, run:
-
-  <info>%command.full_name% --drafts</>
-
-To build the website without saving, run:
+To build the website <comment>without overwriting files in the output</comment> directory, you can use the <info>--dry-run</info> option.
+This is useful to check what would be built without actually writing files:
 
   <info>%command.full_name% --dry-run</>
 
-To build the website with a specific page, run:
+To build the website with a specific subset of rendered pages, you can use the <info>--render-subset</info> option.
+This is useful to <comment>build only a part of the website</comment>, for example, only "hot" pages or a specific section:
 
-  <info>%command.full_name% --page=page-id</>
+  <info>%command.full_name% --render-subset=subset</>
 
-To build the website with a specific base URL, run:
-
-  <info>%command.full_name% --baseurl=https://example.com/</>
-
-To build the website with a specific output directory, run:
-
-  <info>%command.full_name% --output=_site</>
-
-To build the website with optimization, run:
-
-  <info>%command.full_name% --optimize</>
-
-To clear the cache before building the website, run:
-
-  <info>%command.full_name% --clear-cache</>
-
-To clear the cache before building the website with a specific cache key regular expression, run:
-
-  <info>%command.full_name% --clear-cache=cache-key</>
-
-To show built pages as table, run:
-
-  <info>%command.full_name% --show-pages</>
-
-To show build steps metrics, run:
+To show build steps <comment>metrics</comment>, run:
 
   <info>%command.full_name% --metrics</>
 EOF
@@ -119,12 +97,14 @@ EOF
         }
         if ($input->getOption('output')) {
             $config['output']['dir'] = $input->getOption('output');
-            Util\File::getFS()->dumpFile(Util::joinFile($this->getPath(), self::TMP_DIR, 'output'), (string) $input->getOption('output'));
+            if ($input->getOption('output') != self::SERVE_OUTPUT) {
+                Util\File::getFS()->dumpFile(Util::joinFile($this->getPath(), self::TMP_DIR, 'output'), (string) $input->getOption('output'));
+            }
         }
-        if ($input->getOption('optimize') === null) {
+        if ($input->getOption('optimize') === true) {
             $config['optimize']['enabled'] = true;
         }
-        if ($input->getOption('optimize') == 'no') {
+        if ($input->getOption('optimize') === false) {
             $config['optimize']['enabled'] = false;
         }
         if ($input->getOption('clear-cache') === null) {
@@ -144,19 +124,23 @@ EOF
         if ($input->getOption('page')) {
             $options['page'] = $input->getOption('page');
         }
+        if ($input->getOption('render-subset')) {
+            $options['render-subset'] = (string) $input->getOption('render-subset');
+        }
         if ($input->getOption('clear-cache')) {
-            if (0 < $removedFiles = (new \Cecil\Assets\Cache($this->getBuilder()))->clearByPattern((string) $input->getOption('clear-cache'))) {
+            if (0 < $removedFiles = (new \Cecil\Cache($this->getBuilder()))->clearByPattern((string) $input->getOption('clear-cache'))) {
                 $output->writeln(\sprintf('<info>%s cache files removed by regular expression "%s"</info>', $removedFiles, $input->getOption('clear-cache')));
             }
         }
 
         $output->writeln(\sprintf('Building website%s...', $messageOpt));
-        $output->writeln(\sprintf('<comment>Path: %s</comment>', $this->getPath()), OutputInterface::VERBOSITY_VERY_VERBOSE);
+        $output->writeln(\sprintf('<comment>Path:   %s</comment>', $this->getPath()), OutputInterface::VERBOSITY_VERY_VERBOSE);
         if (!empty($this->getConfigFiles())) {
             $output->writeln(\sprintf('<comment>Config: %s</comment>', implode(', ', $this->getConfigFiles())), OutputInterface::VERBOSITY_VERY_VERBOSE);
         }
-        if ((bool) $builder->getConfig()->get('cache.enabled')) {
-            $output->writeln(\sprintf('<comment>Cache: %s</comment>', $builder->getConfig()->getCachePath()), OutputInterface::VERBOSITY_VERY_VERBOSE);
+        $output->writeln(\sprintf('<comment>Output: %s</comment>', $this->getBuilder()->getConfig()->getOutputPath()), OutputInterface::VERBOSITY_VERY_VERBOSE);
+        if ($builder->getConfig()->isEnabled('cache') !== false) {
+            $output->writeln(\sprintf('<comment>Cache:  %s</comment>', $builder->getConfig()->getCachePath()), OutputInterface::VERBOSITY_VERY_VERBOSE);
         }
 
         // build
@@ -167,7 +151,7 @@ EOF
         if ($input->getOption('metrics')) {
             $table = new Table($output);
             $table
-                ->setHeaderTitle(\sprintf("Build steps metrics"))
+                ->setHeaderTitle('Build steps metrics')
                 ->setHeaders(['Step', 'Duration', 'Memory'])
                 ->setRows($builder->getMetrics()['steps'])
             ;

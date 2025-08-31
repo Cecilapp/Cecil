@@ -1,15 +1,15 @@
 <?php
 
-declare(strict_types=1);
-
-/*
+/**
  * This file is part of Cecil.
  *
- * Copyright (c) Arnaud Ligny <arnaud@ligny.fr>
+ * (c) Arnaud Ligny <arnaud@ligny.fr>
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
+
+declare(strict_types=1);
 
 namespace Cecil\Command;
 
@@ -20,7 +20,10 @@ use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 
 /**
- * Removes templates cache files.
+ * CacheClearTemplates command.
+ *
+ * This command removes cached templates files from the templates cache directory.
+ * It can clear the entire templates cache or just the fragments cache, depending on the options provided.
  */
 class CacheClearTemplates extends AbstractCommand
 {
@@ -40,11 +43,9 @@ class CacheClearTemplates extends AbstractCommand
                 <<<'EOF'
 The <info>%command.name%</> command removes cached templates files.
 
-To remove all templates cache, run:
-
   <info>%command.full_name%</>
 
-To remove templates fragments cache only, run:
+To remove templates <comment>fragments</comment> cache only, run:
 
   <info>%command.full_name% --fragments</>
 EOF

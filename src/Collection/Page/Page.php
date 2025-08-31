@@ -1,15 +1,15 @@
 <?php
 
-declare(strict_types=1);
-
-/*
+/**
  * This file is part of Cecil.
  *
- * Copyright (c) Arnaud Ligny <arnaud@ligny.fr>
+ * (c) Arnaud Ligny <arnaud@ligny.fr>
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
+
+declare(strict_types=1);
 
 namespace Cecil\Collection\Page;
 
@@ -20,7 +20,10 @@ use Cocur\Slugify\Slugify;
 use Symfony\Component\Finder\SplFileInfo;
 
 /**
- * Class Page.
+ * Page class.
+ *
+ * Represents a page in the collection, which can be created from a file or be virtual.
+ * Provides methods to manage page properties, variables, and rendering.
  */
 class Page extends Item
 {
@@ -121,7 +124,7 @@ class Page extends Item
         $relativePath = self::slugify(str_replace(DIRECTORY_SEPARATOR, '/', $file->getRelativePath()));
         $basename = self::slugify(PrefixSuffix::subPrefix($file->getBasename('.' . $file->getExtension())));
         // if file is "README.md", ID is "index"
-        $basename = (string) str_ireplace('readme', 'index', $basename);
+        $basename = strtolower($basename) == 'readme' ? 'index' : $basename;
         // if file is section's index: "section/index.md", ID is "section"
         if (!empty($relativePath) && PrefixSuffix::sub($basename) == 'index') {
             // case of a localized section's index: "section/index.fr.md", ID is "fr/section"
@@ -167,7 +170,7 @@ class Page extends Item
         $fileExtension = $this->file->getExtension();
         $fileName = $this->file->getBasename('.' . $fileExtension);
         // renames "README" to "index"
-        $fileName = (string) str_ireplace('readme', 'index', $fileName);
+        $fileName = strtolower($fileName) == 'readme' ? 'index' : $fileName;
         // case of "index" = home page
         if (empty($this->file->getRelativePath()) && PrefixSuffix::sub($fileName) == 'index') {
             $this->setType(Type::HOMEPAGE->value);
@@ -191,12 +194,13 @@ class Page extends Item
         if (PrefixSuffix::hasPrefix($fileName)) {
             $prefix = PrefixSuffix::getPrefix($fileName);
             if ($prefix !== null) {
+                // prefix is an integer: used for sorting
+                if (is_numeric($prefix)) {
+                    $this->setVariable('weight', (int) $prefix);
+                }
                 // prefix is a valid date?
                 if (Util\Date::isValid($prefix)) {
                     $this->setVariable('date', (string) $prefix);
-                } else {
-                    // prefix is an integer: used for sorting
-                    $this->setVariable('weight', (int) $prefix);
                 }
             }
         }
@@ -208,6 +212,18 @@ class Page extends Item
         $this->setVariable('langref', $this->getPath());
 
         return $this;
+    }
+
+    /**
+     * Returns file name, with extension.
+     */
+    public function getFileName(): ?string
+    {
+        if ($this->file === null) {
+            return null;
+        }
+
+        return $this->file->getBasename();
     }
 
     /**

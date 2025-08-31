@@ -1,15 +1,15 @@
 <?php
 
-declare(strict_types=1);
-
-/*
+/**
  * This file is part of Cecil.
  *
- * Copyright (c) Arnaud Ligny <arnaud@ligny.fr>
+ * (c) Arnaud Ligny <arnaud@ligny.fr>
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
+
+declare(strict_types=1);
 
 namespace Cecil\Step\Pages;
 
@@ -18,7 +18,14 @@ use Cecil\Collection\Page\Page;
 use Cecil\Step\AbstractStep;
 
 /**
- * Creates Pages collection from content iterator.
+ * Create pages step.
+ *
+ * This step is responsible for creating pages from Markdown files
+ * located in the configured pages directory. It initializes a collection
+ * of pages, processes each Markdown file to create a `Page` object,
+ * and applies any custom path configurations defined in the site configuration.
+ * The created pages are then added to the pages collection, which can be
+ * used later in the build process.
  */
 class Create extends AbstractStep
 {
@@ -63,23 +70,19 @@ class Create extends AbstractStep
             $page->parse();
 
             /*
-             * Apply an - optional - custom path to pages of a section.
+             * Apply a custom path to pages of a section.
              *
              * ```yaml
              * paths:
              *   - section: Blog
-             *     language: fr # optional
              *     path: :section/:year/:month/:day/:slug
              * ```
              */
-            if (\is_array($this->config->get('paths'))) {
-                foreach ($this->config->get('paths') as $entry) {
+            if (\is_array($this->config->get('pages.paths', $page->getVariable('language')))) {
+                foreach ($this->config->get('pages.paths', $page->getVariable('language')) as $entry) {
                     if (isset($entry['section'])) {
                         /** @var Page $page */
                         if ($page->getSection() == Page::slugify($entry['section'])) {
-                            if (isset($entry['language']) && $entry['language'] != $page->getVariable('language')) {
-                                break;
-                            }
                             if (isset($entry['path'])) {
                                 $path = str_replace(
                                     [

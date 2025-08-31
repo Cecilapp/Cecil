@@ -1,7 +1,7 @@
 name: Release
 
 env:
-  PHP_VERSION: '8.1'
+  PHP_VERSION: '8.2'
   GPG_SIGNATURE: 'false'
   GPG_EMAIL: 'arnaud@ligny.fr'
 
@@ -24,7 +24,7 @@ jobs:
 
     steps:
       - name: Checkout source code
-        uses: actions/checkout@v4
+        uses: actions/checkout@v5
         with:
           fetch-depth: 0
 
@@ -70,6 +70,7 @@ jobs:
         run: |
           echo "version=${GITHUB_REF#refs/tags/}" >> $GITHUB_OUTPUT
           echo "${GITHUB_REF#refs/tags/}" > VERSION
+          export COMPOSER_ROOT_VERSION=${GITHUB_REF#refs/tags/}
           echo "VERSION: ${GITHUB_REF#refs/tags/}"
 
       - name: Build `cecil.phar` binary
@@ -119,7 +120,7 @@ jobs:
 
       - name: Generate build provenance attestation
         id: attestation
-        uses: actions/attest-build-provenance@v2
+        uses: actions/attest-build-provenance@v3
         with:
           subject-path: dist/cecil.phar
           show-summary: false
@@ -149,7 +150,7 @@ jobs:
 
     steps:
       - name: Download files
-        uses: actions/download-artifact@v4
+        uses: actions/download-artifact@v5
         with:
           name: cecil-${{ github.sha }}.phar
           path: .
@@ -183,7 +184,7 @@ jobs:
 
       - name: Generate changelog
         id: changelog
-        uses: jaywcjlove/changelog-generator@v2.2.2
+        uses: jaywcjlove/changelog-generator@main
         with:
           base-ref: ${{ needs.build.outputs.previous_release }}
           token: ${{ secrets.GITHUB_TOKEN }}
@@ -211,12 +212,12 @@ jobs:
 
     steps:
       - name: Checkout source code
-        uses: actions/checkout@v4
+        uses: actions/checkout@v5
         with:
           fetch-depth: 1
 
       - name: Download files
-        uses: actions/download-artifact@v4
+        uses: actions/download-artifact@v5
         with:
           name: cecil-${{ github.sha }}.phar
           path: dist

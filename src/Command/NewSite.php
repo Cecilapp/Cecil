@@ -1,15 +1,15 @@
 <?php
 
-declare(strict_types=1);
-
-/*
+/**
  * This file is part of Cecil.
  *
- * Copyright (c) Arnaud Ligny <arnaud@ligny.fr>
+ * (c) Arnaud Ligny <arnaud@ligny.fr>
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
+
+declare(strict_types=1);
 
 namespace Cecil\Command;
 
@@ -22,7 +22,12 @@ use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Yaml\Yaml;
 
 /**
- * Creates a new website.
+ * NewSite command.
+ *
+ * This command creates a new website in the specified directory or the current directory if no path is provided.
+ * It prompts the user for various details about the website, such as title, baseline, base URL, description, and author information.
+ * It can also add demo content if the `--demo` option is provided.
+ * If the `--force` option is used, it will override an existing website in the specified directory.
  */
 class NewSite extends AbstractCommand
 {
@@ -42,20 +47,16 @@ class NewSite extends AbstractCommand
             ->setHelp(
                 <<<'EOF'
 The <info>%command.name%</> command creates a new website in the current directory, or in <comment><path></> if provided.
-
-To create a new website, run:
+If you run this command without any options, it will ask you for the website title, baseline, base URL, description, etc.
 
   <info>%command.full_name%</>
+  <info>%command.full_name% path/to/the/working/directory</>
 
-To create a new website in a specific directory, run:
-
-  <info>%command.full_name% path/to/directory</>
-
-To create a new website with demo content, run:
+To create a new website with <comment>demo content</comment>, run:
 
   <info>%command.full_name% --demo</>
 
-To override an existing website, run:
+To <comment>override</comment> an existing website, run:
 
   <info>%command.full_name% --force</>
 EOF
@@ -74,7 +75,7 @@ EOF
 
         try {
             // ask to override existing site?
-            if (Util\File::getFS()->exists(Util::joinFile($this->getPath(false), $this->findConfigFile('name') ?: self::CONFIG_FILE[0])) && !$force) {
+            if (Util\File::getFS()->exists(Util::joinFile($this->getPath(false), $this->locateConfigFile($this->getPath())['name'] ?: self::CONFIG_FILE[0])) && !$force) {
                 $output->writeln('<comment>Website already exists.</comment>');
                 if (!$this->io->confirm('Do you want to override it?', false)) {
                     return 0;
@@ -84,11 +85,9 @@ EOF
             $root = Util\Platform::isPhar() ? Util\Platform::getPharPath() . '/' : realpath(Util::joinFile(__DIR__, '/../../'));
             // setup questions
             $title = $this->io->ask('Give a title to your website', 'New website');
-            $baseline = $this->io->ask('Describe your website in few words', '');
-            $baseurl = $this->io->ask('Base URL?', 'https://domain.tld/', [$this, 'validateUrl']);
+            $baseline = $this->io->ask('Give a baseline to your website', '');
+            $baseurl = $this->io->ask('Base URL?', '/', [$this, 'validateUrl']);
             $description = $this->io->ask('Write a full description of your site', 'Website created with Cecil.');
-            $authorName = $this->io->ask('What is the author name?', 'Cecil');
-            $authorUrl = $this->io->ask('What is the author URL?', 'https://cecil.app', [$this, 'validateUrl']);
             $demo = ($demo !== false) ?: $this->io->confirm('Add demo content?', false);
             // override skeleton default config
             $config = Yaml::parseFile(Util::joinPath($root, 'resources/skeleton', self::CONFIG_FILE[0]), Yaml::PARSE_DATETIME);
@@ -96,14 +95,10 @@ EOF
                 'title'       => $title,
                 'baseline'    => $baseline,
                 'baseurl'     => $baseurl,
-                'description' => $description,
-                'author'      => [
-                    'name' => $authorName,
-                    'url'  => $authorUrl,
-                ],
+                'description' => $description
             ]);
             $configYaml = Yaml::dump($config, 2, 2);
-            Util\File::getFS()->dumpFile(Util::joinPath($this->getPath(), $this->findConfigFile('name') ?: self::CONFIG_FILE[0]), $configYaml);
+            Util\File::getFS()->dumpFile(Util::joinPath($this->getPath(), $this->locateConfigFile($this->getPath())['name'] ?: self::CONFIG_FILE[0]), $configYaml);
             // create path dir
             Util\File::getFS()->mkdir($this->getPath(false));
             // creates sub dir
@@ -121,8 +116,8 @@ EOF
             foreach (
                 [
                     'assets/favicon.png',
+                    'assets/icon.png',
                     'pages/index.md',
-                    'static/cecil-card.png',
                 ] as $value
             ) {
                 Util\File::getFS()->copy(

@@ -1,27 +1,34 @@
 <?php
 
-declare(strict_types=1);
-
-/*
+/**
  * This file is part of Cecil.
  *
- * Copyright (c) Arnaud Ligny <arnaud@ligny.fr>
+ * (c) Arnaud Ligny <arnaud@ligny.fr>
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
 
+declare(strict_types=1);
+
 namespace Cecil\Collection;
 
 /**
  * Class Collection.
+ *
+ * Represents a collection of items, providing methods to manage them.
  */
 class Collection implements CollectionInterface
 {
-    /** @var string Collection's identifier. */
+    /**
+     * Collection's identifier.
+     * @var string
+     */
     protected $id;
-
-    /** @var array Collection's items. */
+    /**
+     * Collection's items.
+     * @var array
+     */
     protected $items = [];
 
     public function __construct(string $id, array $items = [])

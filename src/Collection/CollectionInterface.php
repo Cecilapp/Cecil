@@ -1,20 +1,20 @@
 <?php
 
-declare(strict_types=1);
-
-/*
+/**
  * This file is part of Cecil.
  *
- * Copyright (c) Arnaud Ligny <arnaud@ligny.fr>
+ * (c) Arnaud Ligny <arnaud@ligny.fr>
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
 
+declare(strict_types=1);
+
 namespace Cecil\Collection;
 
 /**
- * Interface CollectionInterface.
+ * Collection interface.
  */
 interface CollectionInterface extends BaseInterface, \Countable, \IteratorAggregate, \ArrayAccess
 {
@@ -29,7 +29,7 @@ interface CollectionInterface extends BaseInterface, \Countable, \IteratorAggreg
     public function getId(): string;
 
     /**
-     * Does the item exists?
+     * Does the item $id exists?
      */
     public function has(string $id): bool;
 
@@ -96,7 +96,7 @@ interface CollectionInterface extends BaseInterface, \Countable, \IteratorAggreg
     public function usort(?\Closure $callback = null): self;
 
     /**
-     * Reverse items.
+     * Reverse items order.
      */
     public function reverse(): self;
 

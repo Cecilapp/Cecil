@@ -1,18 +1,24 @@
 <?php
 
-declare(strict_types=1);
-
-/*
+/**
  * This file is part of Cecil.
  *
- * Copyright (c) Arnaud Ligny <arnaud@ligny.fr>
+ * (c) Arnaud Ligny <arnaud@ligny.fr>
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
 
+declare(strict_types=1);
+
 namespace Cecil\Util;
 
+/**
+ * Date utility class.
+ *
+ * This class provides utility methods for handling dates,
+ * including validation, conversion to DateTime, and formatting durations.
+ */
 class Date
 {
     /**
@@ -53,15 +59,12 @@ class Date
 
     /**
      * Duration in seconds to ISO 8601.
-     * e.g.: '00:00:46.70' -> 'T0M46S'
      */
-    public static function durationToIso8601(string $duration): string
+    public static function durationToIso8601(float $duration): string
     {
-        $time = new \DateTime($duration);
-        $midnight = new \DateTime();
-        $midnight->setTime(0, 0);
-        $period = $midnight->diff($time);
+        $duration = (int) round($duration);
+        $dateInterval = \DateInterval::createFromDateString("$duration seconds");
 
-        return $period->format('T%iM%SS');
+        return $dateInterval->format('PT%HH%IM%SS');
     }
 }

@@ -1,0 +1,3630 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+            <title>Cecil</title>
+    
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <base href="../">
+    <link rel="icon" href="images/favicon.ico"/>
+    <link rel="stylesheet" href="css/normalize.css">
+    <link rel="stylesheet" href="css/base.css">
+            <link rel="preconnect" href="https://fonts.gstatic.com">
+        <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@100;200;300;400;600;700&display=swap" rel="stylesheet">
+        <link href="https://fonts.googleapis.com/css2?family=Source+Code+Pro:wght@400;600;700&display=swap" rel="stylesheet">
+        <link rel="stylesheet" href="css/template.css">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.0/css/all.min.css" integrity="sha256-ybRkN9dBjhcS2qrW1z+hfCxq+1aBdwyQM5wlQoQVt/0=" crossorigin="anonymous" />
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/prismjs@1.23.0/themes/prism-okaidia.css">
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/prismjs@1.23.0/plugins/line-numbers/prism-line-numbers.css">
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/prismjs@1.23.0/plugins/line-highlight/prism-line-highlight.css">
+                <script src="https://cdn.jsdelivr.net/npm/fuse.js@3.4.6"></script>
+        <script src="https://cdn.jsdelivr.net/npm/css-vars-ponyfill@2"></script>
+        <script src="js/template.js"></script>
+        <script src="js/search.js"></script>
+        <script defer src="js/searchIndex.js"></script>
+    </head>
+<body id="top">
+    <header class="phpdocumentor-header phpdocumentor-section">
+    <h1 class="phpdocumentor-title"><a href="" class="phpdocumentor-title__link">Cecil</a></h1>
+    <input class="phpdocumentor-header__menu-button" type="checkbox" id="menu-button" name="menu-button" />
+    <label class="phpdocumentor-header__menu-icon" for="menu-button">
+        <i class="fas fa-bars"></i>
+    </label>
+    <section data-search-form class="phpdocumentor-search">
+    <label>
+        <span class="visually-hidden">Search for</span>
+        <svg class="phpdocumentor-search__icon" width="21" height="20" viewBox="0 0 21 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <circle cx="7.5" cy="7.5" r="6.5" stroke="currentColor" stroke-width="2"/>
+            <line x1="12.4892" y1="12.2727" x2="19.1559" y2="18.9393" stroke="currentColor" stroke-width="3"/>
+        </svg>
+        <input type="search" class="phpdocumentor-field phpdocumentor-search__field" placeholder="Loading .." disabled />
+    </label>
+</section>
+
+    <nav class="phpdocumentor-topnav">
+    <ul class="phpdocumentor-topnav__menu">
+                        <li class="phpdocumentor-topnav__menu-item -menu">
+                <a href="https://cecil.app">
+                    <span>
+                                                                        Website
+                    </span>
+                </a>
+            </li>
+                    <li class="phpdocumentor-topnav__menu-item -menu">
+                <a href="https://cecil.app/documentation">
+                    <span>
+                                                                        Documentation
+                    </span>
+                </a>
+            </li>
+                    <li class="phpdocumentor-topnav__menu-item -menu">
+                <a href="https://github.com/Cecilapp/Cecil/">
+                    <span>
+                                                                        GitHub
+                    </span>
+                </a>
+            </li>
+                </ul>
+</nav>
+</header>
+
+    <main class="phpdocumentor">
+        <div class="phpdocumentor-section">
+            <input class="phpdocumentor-sidebar__menu-button" type="checkbox" id="sidebar-button" name="sidebar-button" />
+<label class="phpdocumentor-sidebar__menu-icon" for="sidebar-button">
+    Menu
+</label>
+<aside class="phpdocumentor-column -three phpdocumentor-sidebar">
+                    <section class="phpdocumentor-sidebar__category -namespaces">
+            <h2 class="phpdocumentor-sidebar__category-header">Namespaces</h2>
+                                    <h4 class="phpdocumentor-sidebar__root-namespace">
+    <a href="namespaces/cecil.html" class="">Cecil</a>
+</h4>
+    <ul class="phpdocumentor-list">
+                    <li>
+                <a href="namespaces/cecil-assets.html" class="">Assets</a>
+                
+            </li>
+                    <li>
+                <a href="namespaces/cecil-collection.html" class="">Collection</a>
+                
+            </li>
+                    <li>
+                <a href="namespaces/cecil-command.html" class="">Command</a>
+                
+            </li>
+                    <li>
+                <a href="namespaces/cecil-converter.html" class="">Converter</a>
+                
+            </li>
+                    <li>
+                <a href="namespaces/cecil-exception.html" class="">Exception</a>
+                
+            </li>
+                    <li>
+                <a href="namespaces/cecil-generator.html" class="">Generator</a>
+                
+            </li>
+                    <li>
+                <a href="namespaces/cecil-logger.html" class="">Logger</a>
+                
+            </li>
+                    <li>
+                <a href="namespaces/cecil-renderer.html" class="">Renderer</a>
+                
+            </li>
+                    <li>
+                <a href="namespaces/cecil-step.html" class="">Step</a>
+                
+            </li>
+                    <li>
+                <a href="namespaces/cecil-util.html" class="">Util</a>
+                
+            </li>
+            </ul>
+
+                        </section>
+            
+    <section class="phpdocumentor-sidebar__category -reports">
+        <h2 class="phpdocumentor-sidebar__category-header">Reports</h2>
+                <h3 class="phpdocumentor-sidebar__root-package"><a href="reports/deprecated.html">Deprecated</a></h3>
+        <h3 class="phpdocumentor-sidebar__root-package"><a href="reports/errors.html">Errors</a></h3>
+        <h3 class="phpdocumentor-sidebar__root-package"><a href="reports/markers.html">Markers</a></h3>
+    </section>
+
+    <section class="phpdocumentor-sidebar__category -indices">
+        <h2 class="phpdocumentor-sidebar__category-header">Indices</h2>
+        <h3 class="phpdocumentor-sidebar__root-package"><a href="indices/files.html">Files</a></h3>
+    </section>
+</aside>
+
+            <div class="phpdocumentor-column -nine phpdocumentor-content">
+                                <section>
+                                        <ul class="phpdocumentor-breadcrumbs">
+            <li class="phpdocumentor-breadcrumb"><a href="namespaces/cecil.html">Cecil</a></li>
+            <li class="phpdocumentor-breadcrumb"><a href="namespaces/cecil-renderer.html">Renderer</a></li>
+            <li class="phpdocumentor-breadcrumb"><a href="namespaces/cecil-renderer-extension.html">Extension</a></li>
+    </ul>
+
+    <article class="phpdocumentor-element -class">
+        <h2 class="phpdocumentor-content__title">
+    Core
+
+        <span class="phpdocumentor-element__extends">
+        extends <abbr title="\Cocur\Slugify\Bridge\Twig\SlugifyExtension">SlugifyExtension</abbr>
+    </span>
+    
+    
+    
+    </h2>
+
+<div class="phpdocumentor-label-line">
+
+
+</div>
+
+        <aside class="phpdocumentor-element-found-in">
+    <abbr class="phpdocumentor-element-found-in__file" title="src/Renderer/Extension/Core.php"><a href="files/src-renderer-extension-core.html"><abbr title="src/Renderer/Extension/Core.php">Core.php</abbr></a></abbr>
+    :
+    <span class="phpdocumentor-element-found-in__line">46</span>
+
+    </aside>
+
+            <p class="phpdocumentor-summary">Core Twig extension.</p>
+
+
+    <section class="phpdocumentor-description"><p>This extension provides various utility functions and filters for use in Twig templates,
+including URL generation, asset management, content processing, and more.</p>
+</section>
+
+
+
+
+
+
+
+<h3 id="toc">
+    Table of Contents
+    <a href="classes/Cecil-Renderer-Extension-Core.html#toc" class="headerlink"><i class="fas fa-link"></i></a>
+
+</h3>
+
+
+
+
+
+
+
+
+
+<h4 id="toc-properties">
+    Properties
+    <a href="classes/Cecil-Renderer-Extension-Core.html#toc-properties" class="headerlink"><i class="fas fa-link"></i></a>
+
+</h4>
+<dl class="phpdocumentor-table-of-contents">
+            <dt class="phpdocumentor-table-of-contents__entry -property -protected">
+    <a class="" href="classes/Cecil-Renderer-Extension-Core.html#property_builder">$builder</a>
+    <span>
+                        &nbsp;: <a href="classes/Cecil-Builder.html"><abbr title="\Cecil\Builder">Builder</abbr></a>            </span>
+</dt>
+
+            <dt class="phpdocumentor-table-of-contents__entry -property -protected">
+    <a class="" href="classes/Cecil-Renderer-Extension-Core.html#property_config">$config</a>
+    <span>
+                        &nbsp;: <a href="classes/Cecil-Config.html"><abbr title="\Cecil\Config">Config</abbr></a>            </span>
+</dt>
+
+            <dt class="phpdocumentor-table-of-contents__entry -property -private">
+    <a class="" href="classes/Cecil-Renderer-Extension-Core.html#property_slugifier">$slugifier</a>
+    <span>
+                        &nbsp;: <abbr title="\Cocur\Slugify\Slugify">Slugify</abbr>            </span>
+</dt>
+
+    </dl>
+
+<h4 id="toc-methods">
+    Methods
+    <a href="classes/Cecil-Renderer-Extension-Core.html#toc-methods" class="headerlink"><i class="fas fa-link"></i></a>
+
+</h4>
+<dl class="phpdocumentor-table-of-contents">
+            <dt class="phpdocumentor-table-of-contents__entry -method -public">
+    <a class="" href="classes/Cecil-Renderer-Extension-Core.html#method___construct">__construct()</a>
+    <span>
+                                &nbsp;: mixed    </span>
+</dt>
+
+            <dt class="phpdocumentor-table-of-contents__entry -method -public">
+    <a class="" href="classes/Cecil-Renderer-Extension-Core.html#method_asset">asset()</a>
+    <span>
+                                &nbsp;: <a href="classes/Cecil-Assets-Asset.html"><abbr title="\Cecil\Assets\Asset">Asset</abbr></a>    </span>
+</dt>
+<dd>Creates an Asset (CSS, JS, images, etc.) from a path or an array of paths.</dd>
+
+            <dt class="phpdocumentor-table-of-contents__entry -method -public">
+    <a class="" href="classes/Cecil-Renderer-Extension-Core.html#method_avif">avif()</a>
+    <span>
+                                &nbsp;: <a href="classes/Cecil-Assets-Asset.html"><abbr title="\Cecil\Assets\Asset">Asset</abbr></a>    </span>
+</dt>
+<dd>Converts an image Asset to AVIF format.</dd>
+
+            <dt class="phpdocumentor-table-of-contents__entry -method -public">
+    <a class="" href="classes/Cecil-Renderer-Extension-Core.html#method_cover">cover()</a>
+    <span>
+                                &nbsp;: <a href="classes/Cecil-Assets-Asset.html"><abbr title="\Cecil\Assets\Asset">Asset</abbr></a>    </span>
+</dt>
+<dd>Crops an image Asset to the given width and height, keeping the aspect ratio.</dd>
+
+            <dt class="phpdocumentor-table-of-contents__entry -method -public">
+    <a class="" href="classes/Cecil-Renderer-Extension-Core.html#method_dataurl">dataurl()</a>
+    <span>
+                                &nbsp;: string    </span>
+</dt>
+<dd>Returns the data URL of an image.</dd>
+
+            <dt class="phpdocumentor-table-of-contents__entry -method -public">
+    <a class="" href="classes/Cecil-Renderer-Extension-Core.html#method_dominantColor">dominantColor()</a>
+    <span>
+                                &nbsp;: string    </span>
+</dt>
+<dd>Returns the dominant hex color of an image asset.</dd>
+
+            <dt class="phpdocumentor-table-of-contents__entry -method -public">
+    <a class="" href="classes/Cecil-Renderer-Extension-Core.html#method_excerpt">excerpt()</a>
+    <span>
+                                &nbsp;: string    </span>
+</dt>
+<dd>Reads $length first characters of a string and adds a suffix.</dd>
+
+            <dt class="phpdocumentor-table-of-contents__entry -method -public">
+    <a class="" href="classes/Cecil-Renderer-Extension-Core.html#method_excerptHtml">excerptHtml()</a>
+    <span>
+                                &nbsp;: string    </span>
+</dt>
+<dd>Reads characters before or after &#039;&lt;!-- separator --&gt;&#039;.</dd>
+
+            <dt class="phpdocumentor-table-of-contents__entry -method -public">
+    <a class="" href="classes/Cecil-Renderer-Extension-Core.html#method_filterBy">filterBy()</a>
+    <span>
+                                &nbsp;: <a href="classes/Cecil-Collection-CollectionInterface.html"><abbr title="\Cecil\Collection\CollectionInterface">CollectionInterface</abbr></a>    </span>
+</dt>
+<dd>Filters a pages collection by variable&#039;s name/value.</dd>
+
+            <dt class="phpdocumentor-table-of-contents__entry -method -public">
+    <a class="" href="classes/Cecil-Renderer-Extension-Core.html#method_filterBySection">filterBySection()</a>
+    <span>
+                                &nbsp;: <a href="classes/Cecil-Collection-CollectionInterface.html"><abbr title="\Cecil\Collection\CollectionInterface">CollectionInterface</abbr></a>    </span>
+</dt>
+<dd>Filters by Section.</dd>
+
+            <dt class="phpdocumentor-table-of-contents__entry -method -public">
+    <a class="" href="classes/Cecil-Renderer-Extension-Core.html#method_fingerprint">fingerprint()</a>
+    <span>
+                                &nbsp;: <a href="classes/Cecil-Assets-Asset.html"><abbr title="\Cecil\Assets\Asset">Asset</abbr></a>    </span>
+</dt>
+<dd>Fingerprinting an asset.</dd>
+
+            <dt class="phpdocumentor-table-of-contents__entry -method -public">
+    <a class="" href="classes/Cecil-Renderer-Extension-Core.html#method_getEnv">getEnv()</a>
+    <span>
+                                &nbsp;: string|null    </span>
+</dt>
+<dd>Gets the value of an environment variable.</dd>
+
+            <dt class="phpdocumentor-table-of-contents__entry -method -public">
+    <a class="" href="classes/Cecil-Renderer-Extension-Core.html#method_getFilters">getFilters()</a>
+    <span>
+                                &nbsp;: array&lt;string|int, mixed&gt;    </span>
+</dt>
+<dd>{@inheritdoc}</dd>
+
+            <dt class="phpdocumentor-table-of-contents__entry -method -public">
+    <a class="" href="classes/Cecil-Renderer-Extension-Core.html#method_getFunctions">getFunctions()</a>
+    <span>
+                                &nbsp;: mixed    </span>
+</dt>
+<dd>{@inheritdoc}</dd>
+
+            <dt class="phpdocumentor-table-of-contents__entry -method -public">
+    <a class="" href="classes/Cecil-Renderer-Extension-Core.html#method_getName">getName()</a>
+    <span>
+                                &nbsp;: string    </span>
+</dt>
+<dd>{@inheritdoc}</dd>
+
+            <dt class="phpdocumentor-table-of-contents__entry -method -public">
+    <a class="" href="classes/Cecil-Renderer-Extension-Core.html#method_getTests">getTests()</a>
+    <span>
+                                &nbsp;: mixed    </span>
+</dt>
+<dd>{@inheritdoc}</dd>
+
+            <dt class="phpdocumentor-table-of-contents__entry -method -public">
+    <a class="" href="classes/Cecil-Renderer-Extension-Core.html#method_hash">hash()</a>
+    <span>
+                                &nbsp;: string    </span>
+</dt>
+<dd>Hashing an object, an array or a string (with algo, md5 by default).</dd>
+
+            <dt class="phpdocumentor-table-of-contents__entry -method -public">
+    <a class="" href="classes/Cecil-Renderer-Extension-Core.html#method_hexToRgb">hexToRgb()</a>
+    <span>
+                                &nbsp;: array&lt;string|int, mixed&gt;    </span>
+</dt>
+<dd>Converts an hexadecimal color to RGB.</dd>
+
+            <dt class="phpdocumentor-table-of-contents__entry -method -public">
+    <a class="" href="classes/Cecil-Renderer-Extension-Core.html#method_html">html()</a>
+    <span>
+                                &nbsp;: string    </span>
+</dt>
+<dd>Creates the HTML element of an asset.</dd>
+
+            <dt class="phpdocumentor-table-of-contents__entry -method -public">
+    <a class="" href="classes/Cecil-Renderer-Extension-Core.html#method_imageSizes">imageSizes()</a>
+    <span>
+                                &nbsp;: string    </span>
+</dt>
+<dd>Returns the HTML img `sizes` attribute based on a CSS class name.</dd>
+
+            <dt class="phpdocumentor-table-of-contents__entry -method -public">
+    <a class="" href="classes/Cecil-Renderer-Extension-Core.html#method_imageSrcset">imageSrcset()</a>
+    <span>
+                                &nbsp;: string    </span>
+</dt>
+<dd>Builds the HTML img `srcset` (responsive) attribute of an image Asset.</dd>
+
+            <dt class="phpdocumentor-table-of-contents__entry -method -public">
+    <a class="" href="classes/Cecil-Renderer-Extension-Core.html#method_inline">inline()</a>
+    <span>
+                                &nbsp;: string    </span>
+</dt>
+<dd>Returns the content of an asset.</dd>
+
+            <dt class="phpdocumentor-table-of-contents__entry -method -public">
+    <a class="" href="classes/Cecil-Renderer-Extension-Core.html#method_integrity">integrity()</a>
+    <span>
+                                &nbsp;: string    </span>
+</dt>
+<dd>Hashing an asset with algo (sha384 by default).</dd>
+
+            <dt class="phpdocumentor-table-of-contents__entry -method -public">
+    <a class="" href="classes/Cecil-Renderer-Extension-Core.html#method_isAsset">isAsset()</a>
+    <span>
+                                &nbsp;: bool    </span>
+</dt>
+<dd>Tests if a variable is an Asset.</dd>
+
+            <dt class="phpdocumentor-table-of-contents__entry -method -public">
+    <a class="" href="classes/Cecil-Renderer-Extension-Core.html#method_iterable">iterable()</a>
+    <span>
+                                &nbsp;: array&lt;string|int, mixed&gt;    </span>
+</dt>
+<dd>Converts a variable to an iterable (array).</dd>
+
+            <dt class="phpdocumentor-table-of-contents__entry -method -public">
+    <a class="" href="classes/Cecil-Renderer-Extension-Core.html#method_jsonDecode">jsonDecode()</a>
+    <span>
+                                &nbsp;: array&lt;string|int, mixed&gt;|null    </span>
+</dt>
+<dd>Converts a JSON string to an array.</dd>
+
+            <dt class="phpdocumentor-table-of-contents__entry -method -public">
+    <a class="" href="classes/Cecil-Renderer-Extension-Core.html#method_lqip">lqip()</a>
+    <span>
+                                &nbsp;: string    </span>
+</dt>
+<dd>Returns a Low Quality Image Placeholder (LQIP) as data URL.</dd>
+
+            <dt class="phpdocumentor-table-of-contents__entry -method -public">
+    <a class="" href="classes/Cecil-Renderer-Extension-Core.html#method_markdownToHtml">markdownToHtml()</a>
+    <span>
+                                &nbsp;: string|null    </span>
+</dt>
+<dd>Converts a Markdown string to HTML.</dd>
+
+            <dt class="phpdocumentor-table-of-contents__entry -method -public">
+    <a class="" href="classes/Cecil-Renderer-Extension-Core.html#method_markdownToToc">markdownToToc()</a>
+    <span>
+                                &nbsp;: string|null    </span>
+</dt>
+<dd>Extract table of content of a Markdown string,
+in the given format (&quot;html&quot; or &quot;json&quot;, &quot;html&quot; by default).</dd>
+
+            <dt class="phpdocumentor-table-of-contents__entry -method -public">
+    <a class="" href="classes/Cecil-Renderer-Extension-Core.html#method_minify">minify()</a>
+    <span>
+                                &nbsp;: <a href="classes/Cecil-Assets-Asset.html"><abbr title="\Cecil\Assets\Asset">Asset</abbr></a>    </span>
+</dt>
+<dd>Minifying an asset (CSS or JS).</dd>
+
+            <dt class="phpdocumentor-table-of-contents__entry -method -public">
+    <a class="" href="classes/Cecil-Renderer-Extension-Core.html#method_minifyCss">minifyCss()</a>
+    <span>
+                                &nbsp;: string    </span>
+</dt>
+<dd>Minifying a CSS string.</dd>
+
+            <dt class="phpdocumentor-table-of-contents__entry -method -public">
+    <a class="" href="classes/Cecil-Renderer-Extension-Core.html#method_minifyJs">minifyJs()</a>
+    <span>
+                                &nbsp;: string    </span>
+</dt>
+<dd>Minifying a JavaScript string.</dd>
+
+            <dt class="phpdocumentor-table-of-contents__entry -method -public">
+    <a class="" href="classes/Cecil-Renderer-Extension-Core.html#method_pregMatchAll">pregMatchAll()</a>
+    <span>
+                                &nbsp;: array&lt;string|int, mixed&gt;|null    </span>
+</dt>
+<dd>Perform a regular expression match and return the group for all matches.</dd>
+
+            <dt class="phpdocumentor-table-of-contents__entry -method -public">
+    <a class="" href="classes/Cecil-Renderer-Extension-Core.html#method_pregSplit">pregSplit()</a>
+    <span>
+                                &nbsp;: array&lt;string|int, mixed&gt;|null    </span>
+</dt>
+<dd>Split a string into an array using a regular expression.</dd>
+
+            <dt class="phpdocumentor-table-of-contents__entry -method -public">
+    <a class="" href="classes/Cecil-Renderer-Extension-Core.html#method_readtime">readtime()</a>
+    <span>
+                                &nbsp;: string    </span>
+</dt>
+<dd>Calculates estimated time to read a text.</dd>
+
+            <dt class="phpdocumentor-table-of-contents__entry -method -public">
+    <a class="" href="classes/Cecil-Renderer-Extension-Core.html#method_resize">resize()</a>
+    <span>
+                                &nbsp;: <a href="classes/Cecil-Assets-Asset.html"><abbr title="\Cecil\Assets\Asset">Asset</abbr></a>    </span>
+</dt>
+<dd>Resizes an image.</dd>
+
+            <dt class="phpdocumentor-table-of-contents__entry -method -public">
+    <a class="" href="classes/Cecil-Renderer-Extension-Core.html#method_scssToCss">scssToCss()</a>
+    <span>
+                                &nbsp;: string    </span>
+</dt>
+<dd>Compiles a SCSS string.</dd>
+
+            <dt class="phpdocumentor-table-of-contents__entry -method -public">
+    <a class="" href="classes/Cecil-Renderer-Extension-Core.html#method_sortByDate">sortByDate()</a>
+    <span>
+                                &nbsp;: array&lt;string|int, mixed&gt;    </span>
+</dt>
+<dd>Sorts by creation date (or &#039;updated&#039; date): the most recent first.</dd>
+
+            <dt class="phpdocumentor-table-of-contents__entry -method -public">
+    <a class="" href="classes/Cecil-Renderer-Extension-Core.html#method_sortByTitle">sortByTitle()</a>
+    <span>
+                                &nbsp;: array&lt;string|int, mixed&gt;    </span>
+</dt>
+<dd>Sorts a collection by title.</dd>
+
+            <dt class="phpdocumentor-table-of-contents__entry -method -public">
+    <a class="" href="classes/Cecil-Renderer-Extension-Core.html#method_sortByWeight">sortByWeight()</a>
+    <span>
+                                &nbsp;: array&lt;string|int, mixed&gt;    </span>
+</dt>
+<dd>Sorts a collection by weight.</dd>
+
+            <dt class="phpdocumentor-table-of-contents__entry -method -public">
+    <a class="" href="classes/Cecil-Renderer-Extension-Core.html#method_splitLine">splitLine()</a>
+    <span>
+                                &nbsp;: array&lt;string|int, mixed&gt;    </span>
+</dt>
+<dd>Split a string in multiple lines.</dd>
+
+            <dt class="phpdocumentor-table-of-contents__entry -method -public">
+    <a class="" href="classes/Cecil-Renderer-Extension-Core.html#method_toCss">toCss()</a>
+    <span>
+                                &nbsp;: <a href="classes/Cecil-Assets-Asset.html"><abbr title="\Cecil\Assets\Asset">Asset</abbr></a>    </span>
+</dt>
+<dd>Compiles a SCSS asset.</dd>
+
+            <dt class="phpdocumentor-table-of-contents__entry -method -public">
+    <a class="" href="classes/Cecil-Renderer-Extension-Core.html#method_url">url()</a>
+    <span>
+                                &nbsp;: string    </span>
+</dt>
+<dd>Creates an URL.</dd>
+
+            <dt class="phpdocumentor-table-of-contents__entry -method -public">
+    <a class="" href="classes/Cecil-Renderer-Extension-Core.html#method_varDump">varDump()</a>
+    <span>
+                                &nbsp;: void    </span>
+</dt>
+<dd>Dump variable (or Twig context).</dd>
+
+            <dt class="phpdocumentor-table-of-contents__entry -method -public">
+    <a class="" href="classes/Cecil-Renderer-Extension-Core.html#method_webp">webp()</a>
+    <span>
+                                &nbsp;: <a href="classes/Cecil-Assets-Asset.html"><abbr title="\Cecil\Assets\Asset">Asset</abbr></a>    </span>
+</dt>
+<dd>Converts an image Asset to WebP format.</dd>
+
+            <dt class="phpdocumentor-table-of-contents__entry -method -public">
+    <a class="" href="classes/Cecil-Renderer-Extension-Core.html#method_yamlParse">yamlParse()</a>
+    <span>
+                                &nbsp;: array&lt;string|int, mixed&gt;|null    </span>
+</dt>
+<dd>Converts a YAML string to an array.</dd>
+
+            <dt class="phpdocumentor-table-of-contents__entry -method -private">
+    <a class="" href="classes/Cecil-Renderer-Extension-Core.html#method_convert">convert()</a>
+    <span>
+                                &nbsp;: <a href="classes/Cecil-Assets-Asset.html"><abbr title="\Cecil\Assets\Asset">Asset</abbr></a>    </span>
+</dt>
+<dd>Converts an image Asset to the given format.</dd>
+
+            <dt class="phpdocumentor-table-of-contents__entry -method -private">
+    <a class="" href="classes/Cecil-Renderer-Extension-Core.html#method_isHex">isHex()</a>
+    <span>
+                                &nbsp;: bool    </span>
+</dt>
+<dd>Is a hexadecimal color is valid?</dd>
+
+    </dl>
+
+
+
+        
+
+        
+    <section class="phpdocumentor-properties">
+        <h3 class="phpdocumentor-elements__header" id="properties">
+            Properties
+            <a href="classes/Cecil-Renderer-Extension-Core.html#properties" class="headerlink"><i class="fas fa-link"></i></a>
+
+        </h3>
+                    <article
+        class="
+            phpdocumentor-element
+            -property
+            -protected
+                                                                    "
+>
+    <h4 class="phpdocumentor-element__name" id="property_builder">
+        $builder
+        <a href="classes/Cecil-Renderer-Extension-Core.html#property_builder" class="headerlink"><i class="fas fa-link"></i></a>
+
+        <span class="phpdocumentor-element__modifiers">
+                                            </span>
+    </h4>
+    <aside class="phpdocumentor-element-found-in">
+    <abbr class="phpdocumentor-element-found-in__file" title="src/Renderer/Extension/Core.php"><a href="files/src-renderer-extension-core.html"><abbr title="src/Renderer/Extension/Core.php">Core.php</abbr></a></abbr>
+    :
+    <span class="phpdocumentor-element-found-in__line">49</span>
+
+    </aside>
+
+    
+    
+    <code class="phpdocumentor-code phpdocumentor-signature ">
+        <span class="phpdocumentor-signature__visibility">protected</span>
+            <span class="phpdocumentor-signature__type"><a href="classes/Cecil-Builder.html"><abbr title="\Cecil\Builder">Builder</abbr></a></span>
+    <span class="phpdocumentor-signature__name">$builder</span>
+    </code>
+
+    
+    
+    
+
+    
+
+    
+
+</article>
+                    <article
+        class="
+            phpdocumentor-element
+            -property
+            -protected
+                                                                    "
+>
+    <h4 class="phpdocumentor-element__name" id="property_config">
+        $config
+        <a href="classes/Cecil-Renderer-Extension-Core.html#property_config" class="headerlink"><i class="fas fa-link"></i></a>
+
+        <span class="phpdocumentor-element__modifiers">
+                                            </span>
+    </h4>
+    <aside class="phpdocumentor-element-found-in">
+    <abbr class="phpdocumentor-element-found-in__file" title="src/Renderer/Extension/Core.php"><a href="files/src-renderer-extension-core.html"><abbr title="src/Renderer/Extension/Core.php">Core.php</abbr></a></abbr>
+    :
+    <span class="phpdocumentor-element-found-in__line">52</span>
+
+    </aside>
+
+    
+    
+    <code class="phpdocumentor-code phpdocumentor-signature ">
+        <span class="phpdocumentor-signature__visibility">protected</span>
+            <span class="phpdocumentor-signature__type"><a href="classes/Cecil-Config.html"><abbr title="\Cecil\Config">Config</abbr></a></span>
+    <span class="phpdocumentor-signature__name">$config</span>
+    </code>
+
+    
+    
+    
+
+    
+
+    
+
+</article>
+                    <article
+        class="
+            phpdocumentor-element
+            -property
+            -private
+            -static                                                        "
+>
+    <h4 class="phpdocumentor-element__name" id="property_slugifier">
+        $slugifier
+        <a href="classes/Cecil-Renderer-Extension-Core.html#property_slugifier" class="headerlink"><i class="fas fa-link"></i></a>
+
+        <span class="phpdocumentor-element__modifiers">
+                                            </span>
+    </h4>
+    <aside class="phpdocumentor-element-found-in">
+    <abbr class="phpdocumentor-element-found-in__file" title="src/Renderer/Extension/Core.php"><a href="files/src-renderer-extension-core.html"><abbr title="src/Renderer/Extension/Core.php">Core.php</abbr></a></abbr>
+    :
+    <span class="phpdocumentor-element-found-in__line">55</span>
+
+    </aside>
+
+    
+    
+    <code class="phpdocumentor-code phpdocumentor-signature ">
+        <span class="phpdocumentor-signature__visibility">private</span>
+        <span class="phpdocumentor-signature__static">static</span>    <span class="phpdocumentor-signature__type"><abbr title="\Cocur\Slugify\Slugify">Slugify</abbr></span>
+    <span class="phpdocumentor-signature__name">$slugifier</span>
+    </code>
+
+    
+    
+    
+
+    
+
+    
+
+</article>
+            </section>
+
+            <section class="phpdocumentor-methods">
+        <h3 class="phpdocumentor-elements__header" id="methods">
+            Methods
+            <a href="classes/Cecil-Renderer-Extension-Core.html#methods" class="headerlink"><i class="fas fa-link"></i></a>
+
+        </h3>
+                    <article
+        class="phpdocumentor-element
+            -method
+            -public
+                                                        "
+>
+    <h4 class="phpdocumentor-element__name" id="method___construct">
+        __construct()
+        <a href="classes/Cecil-Renderer-Extension-Core.html#method___construct" class="headerlink"><i class="fas fa-link"></i></a>
+
+    </h4>
+    <aside class="phpdocumentor-element-found-in">
+    <abbr class="phpdocumentor-element-found-in__file" title="src/Renderer/Extension/Core.php"><a href="files/src-renderer-extension-core.html"><abbr title="src/Renderer/Extension/Core.php">Core.php</abbr></a></abbr>
+    :
+    <span class="phpdocumentor-element-found-in__line">57</span>
+
+    </aside>
+
+    
+    <code class="phpdocumentor-code phpdocumentor-signature ">
+    <span class="phpdocumentor-signature__visibility">public</span>
+                    <span class="phpdocumentor-signature__name">__construct</span><span>(</span><span class="phpdocumentor-signature__argument"><span class="phpdocumentor-signature__argument__return-type"><a href="classes/Cecil-Builder.html"><abbr title="\Cecil\Builder">Builder</abbr></a>&nbsp;</span><span class="phpdocumentor-signature__argument__name">$builder</span></span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">mixed</span></code>
+
+    <div class="phpdocumentor-label-line">
+        </div>
+    
+    
+        <h5 class="phpdocumentor-argument-list__heading">Parameters</h5>
+    <dl class="phpdocumentor-argument-list">
+                    <dt class="phpdocumentor-argument-list__entry">
+                <span class="phpdocumentor-signature__argument__name">$builder</span>
+                : <span class="phpdocumentor-signature__argument__return-type"><a href="classes/Cecil-Builder.html"><abbr title="\Cecil\Builder">Builder</abbr></a></span>
+                            </dt>
+            <dd class="phpdocumentor-argument-list__definition">
+                
+            </dd>
+            </dl>
+
+    
+
+    
+
+    
+</article>
+                    <article
+        class="phpdocumentor-element
+            -method
+            -public
+                                                        "
+>
+    <h4 class="phpdocumentor-element__name" id="method_asset">
+        asset()
+        <a href="classes/Cecil-Renderer-Extension-Core.html#method_asset" class="headerlink"><i class="fas fa-link"></i></a>
+
+    </h4>
+    <aside class="phpdocumentor-element-found-in">
+    <abbr class="phpdocumentor-element-found-in__file" title="src/Renderer/Extension/Core.php"><a href="files/src-renderer-extension-core.html"><abbr title="src/Renderer/Extension/Core.php">Core.php</abbr></a></abbr>
+    :
+    <span class="phpdocumentor-element-found-in__line">299</span>
+
+    </aside>
+
+        <p class="phpdocumentor-summary">Creates an Asset (CSS, JS, images, etc.) from a path or an array of paths.</p>
+
+    <code class="phpdocumentor-code phpdocumentor-signature ">
+    <span class="phpdocumentor-signature__visibility">public</span>
+                    <span class="phpdocumentor-signature__name">asset</span><span>(</span><span class="phpdocumentor-signature__argument"><span class="phpdocumentor-signature__argument__return-type">string|array&lt;string|int, mixed&gt;&nbsp;</span><span class="phpdocumentor-signature__argument__name">$path</span></span><span class="phpdocumentor-signature__argument"><span>[</span><span>, </span><span class="phpdocumentor-signature__argument__return-type">array&lt;string|int, mixed&gt;|null&nbsp;</span><span class="phpdocumentor-signature__argument__name">$options</span><span> = </span><span class="phpdocumentor-signature__argument__default-value">null</span><span> ]</span></span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type"><a href="classes/Cecil-Assets-Asset.html"><abbr title="\Cecil\Assets\Asset">Asset</abbr></a></span></code>
+
+    <div class="phpdocumentor-label-line">
+        </div>
+    
+    
+        <h5 class="phpdocumentor-argument-list__heading">Parameters</h5>
+    <dl class="phpdocumentor-argument-list">
+                    <dt class="phpdocumentor-argument-list__entry">
+                <span class="phpdocumentor-signature__argument__name">$path</span>
+                : <span class="phpdocumentor-signature__argument__return-type">string|array&lt;string|int, mixed&gt;</span>
+                            </dt>
+            <dd class="phpdocumentor-argument-list__definition">
+                    <section class="phpdocumentor-description"><p>File path or array of files path (relative from <code class="prettyprint">assets/</code> or <code class="prettyprint">static/</code> dir).</p>
+</section>
+
+            </dd>
+                    <dt class="phpdocumentor-argument-list__entry">
+                <span class="phpdocumentor-signature__argument__name">$options</span>
+                : <span class="phpdocumentor-signature__argument__return-type">array&lt;string|int, mixed&gt;|null</span>
+                 = <span class="phpdocumentor-signature__argument__default-value">null</span>            </dt>
+            <dd class="phpdocumentor-argument-list__definition">
+                
+            </dd>
+            </dl>
+
+    
+
+    
+
+            <section>
+        <h5 class="phpdocumentor-return-value__heading">Return values</h5>
+        <span class="phpdocumentor-signature__response_type"><a href="classes/Cecil-Assets-Asset.html"><abbr title="\Cecil\Assets\Asset">Asset</abbr></a></span>
+            </section>
+
+</article>
+                    <article
+        class="phpdocumentor-element
+            -method
+            -public
+                                                        "
+>
+    <h4 class="phpdocumentor-element__name" id="method_avif">
+        avif()
+        <a href="classes/Cecil-Renderer-Extension-Core.html#method_avif" class="headerlink"><i class="fas fa-link"></i></a>
+
+    </h4>
+    <aside class="phpdocumentor-element-found-in">
+    <abbr class="phpdocumentor-element-found-in__file" title="src/Renderer/Extension/Core.php"><a href="files/src-renderer-extension-core.html"><abbr title="src/Renderer/Extension/Core.php">Core.php</abbr></a></abbr>
+    :
+    <span class="phpdocumentor-element-found-in__line">635</span>
+
+    </aside>
+
+        <p class="phpdocumentor-summary">Converts an image Asset to AVIF format.</p>
+
+    <code class="phpdocumentor-code phpdocumentor-signature ">
+    <span class="phpdocumentor-signature__visibility">public</span>
+                    <span class="phpdocumentor-signature__name">avif</span><span>(</span><span class="phpdocumentor-signature__argument"><span class="phpdocumentor-signature__argument__return-type"><a href="classes/Cecil-Assets-Asset.html"><abbr title="\Cecil\Assets\Asset">Asset</abbr></a>&nbsp;</span><span class="phpdocumentor-signature__argument__name">$asset</span></span><span class="phpdocumentor-signature__argument"><span>[</span><span>, </span><span class="phpdocumentor-signature__argument__return-type">int|null&nbsp;</span><span class="phpdocumentor-signature__argument__name">$quality</span><span> = </span><span class="phpdocumentor-signature__argument__default-value">null</span><span> ]</span></span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type"><a href="classes/Cecil-Assets-Asset.html"><abbr title="\Cecil\Assets\Asset">Asset</abbr></a></span></code>
+
+    <div class="phpdocumentor-label-line">
+        </div>
+    
+    
+        <h5 class="phpdocumentor-argument-list__heading">Parameters</h5>
+    <dl class="phpdocumentor-argument-list">
+                    <dt class="phpdocumentor-argument-list__entry">
+                <span class="phpdocumentor-signature__argument__name">$asset</span>
+                : <span class="phpdocumentor-signature__argument__return-type"><a href="classes/Cecil-Assets-Asset.html"><abbr title="\Cecil\Assets\Asset">Asset</abbr></a></span>
+                            </dt>
+            <dd class="phpdocumentor-argument-list__definition">
+                
+            </dd>
+                    <dt class="phpdocumentor-argument-list__entry">
+                <span class="phpdocumentor-signature__argument__name">$quality</span>
+                : <span class="phpdocumentor-signature__argument__return-type">int|null</span>
+                 = <span class="phpdocumentor-signature__argument__default-value">null</span>            </dt>
+            <dd class="phpdocumentor-argument-list__definition">
+                
+            </dd>
+            </dl>
+
+    
+
+    
+
+            <section>
+        <h5 class="phpdocumentor-return-value__heading">Return values</h5>
+        <span class="phpdocumentor-signature__response_type"><a href="classes/Cecil-Assets-Asset.html"><abbr title="\Cecil\Assets\Asset">Asset</abbr></a></span>
+            </section>
+
+</article>
+                    <article
+        class="phpdocumentor-element
+            -method
+            -public
+                                                        "
+>
+    <h4 class="phpdocumentor-element__name" id="method_cover">
+        cover()
+        <a href="classes/Cecil-Renderer-Extension-Core.html#method_cover" class="headerlink"><i class="fas fa-link"></i></a>
+
+    </h4>
+    <aside class="phpdocumentor-element-found-in">
+    <abbr class="phpdocumentor-element-found-in__file" title="src/Renderer/Extension/Core.php"><a href="files/src-renderer-extension-core.html"><abbr title="src/Renderer/Extension/Core.php">Core.php</abbr></a></abbr>
+    :
+    <span class="phpdocumentor-element-found-in__line">382</span>
+
+    </aside>
+
+        <p class="phpdocumentor-summary">Crops an image Asset to the given width and height, keeping the aspect ratio.</p>
+
+    <code class="phpdocumentor-code phpdocumentor-signature ">
+    <span class="phpdocumentor-signature__visibility">public</span>
+                    <span class="phpdocumentor-signature__name">cover</span><span>(</span><span class="phpdocumentor-signature__argument"><span class="phpdocumentor-signature__argument__return-type">string|<a href="classes/Cecil-Assets-Asset.html"><abbr title="\Cecil\Assets\Asset">Asset</abbr></a>&nbsp;</span><span class="phpdocumentor-signature__argument__name">$asset</span></span><span class="phpdocumentor-signature__argument"><span>, </span><span class="phpdocumentor-signature__argument__return-type">int&nbsp;</span><span class="phpdocumentor-signature__argument__name">$width</span></span><span class="phpdocumentor-signature__argument"><span>, </span><span class="phpdocumentor-signature__argument__return-type">int&nbsp;</span><span class="phpdocumentor-signature__argument__name">$height</span></span><span class="phpdocumentor-signature__argument"><span>[</span><span>, </span><span class="phpdocumentor-signature__argument__return-type">string&nbsp;</span><span class="phpdocumentor-signature__argument__name">$position</span><span> = </span><span class="phpdocumentor-signature__argument__default-value">&#039;center&#039;</span><span> ]</span></span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type"><a href="classes/Cecil-Assets-Asset.html"><abbr title="\Cecil\Assets\Asset">Asset</abbr></a></span></code>
+
+    <div class="phpdocumentor-label-line">
+        </div>
+    
+    
+        <h5 class="phpdocumentor-argument-list__heading">Parameters</h5>
+    <dl class="phpdocumentor-argument-list">
+                    <dt class="phpdocumentor-argument-list__entry">
+                <span class="phpdocumentor-signature__argument__name">$asset</span>
+                : <span class="phpdocumentor-signature__argument__return-type">string|<a href="classes/Cecil-Assets-Asset.html"><abbr title="\Cecil\Assets\Asset">Asset</abbr></a></span>
+                            </dt>
+            <dd class="phpdocumentor-argument-list__definition">
+                
+            </dd>
+                    <dt class="phpdocumentor-argument-list__entry">
+                <span class="phpdocumentor-signature__argument__name">$width</span>
+                : <span class="phpdocumentor-signature__argument__return-type">int</span>
+                            </dt>
+            <dd class="phpdocumentor-argument-list__definition">
+                
+            </dd>
+                    <dt class="phpdocumentor-argument-list__entry">
+                <span class="phpdocumentor-signature__argument__name">$height</span>
+                : <span class="phpdocumentor-signature__argument__return-type">int</span>
+                            </dt>
+            <dd class="phpdocumentor-argument-list__definition">
+                
+            </dd>
+                    <dt class="phpdocumentor-argument-list__entry">
+                <span class="phpdocumentor-signature__argument__name">$position</span>
+                : <span class="phpdocumentor-signature__argument__return-type">string</span>
+                 = <span class="phpdocumentor-signature__argument__default-value">&#039;center&#039;</span>            </dt>
+            <dd class="phpdocumentor-argument-list__definition">
+                
+            </dd>
+            </dl>
+
+    
+
+    
+
+            <section>
+        <h5 class="phpdocumentor-return-value__heading">Return values</h5>
+        <span class="phpdocumentor-signature__response_type"><a href="classes/Cecil-Assets-Asset.html"><abbr title="\Cecil\Assets\Asset">Asset</abbr></a></span>
+            </section>
+
+</article>
+                    <article
+        class="phpdocumentor-element
+            -method
+            -public
+                                                        "
+>
+    <h4 class="phpdocumentor-element__name" id="method_dataurl">
+        dataurl()
+        <a href="classes/Cecil-Renderer-Extension-Core.html#method_dataurl" class="headerlink"><i class="fas fa-link"></i></a>
+
+    </h4>
+    <aside class="phpdocumentor-element-found-in">
+    <abbr class="phpdocumentor-element-found-in__file" title="src/Renderer/Extension/Core.php"><a href="files/src-renderer-extension-core.html"><abbr title="src/Renderer/Extension/Core.php">Core.php</abbr></a></abbr>
+    :
+    <span class="phpdocumentor-element-found-in__line">398</span>
+
+    </aside>
+
+        <p class="phpdocumentor-summary">Returns the data URL of an image.</p>
+
+    <code class="phpdocumentor-code phpdocumentor-signature ">
+    <span class="phpdocumentor-signature__visibility">public</span>
+                    <span class="phpdocumentor-signature__name">dataurl</span><span>(</span><span class="phpdocumentor-signature__argument"><span class="phpdocumentor-signature__argument__return-type">string|<a href="classes/Cecil-Assets-Asset.html"><abbr title="\Cecil\Assets\Asset">Asset</abbr></a>&nbsp;</span><span class="phpdocumentor-signature__argument__name">$asset</span></span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">string</span></code>
+
+    <div class="phpdocumentor-label-line">
+        </div>
+    
+    
+        <h5 class="phpdocumentor-argument-list__heading">Parameters</h5>
+    <dl class="phpdocumentor-argument-list">
+                    <dt class="phpdocumentor-argument-list__entry">
+                <span class="phpdocumentor-signature__argument__name">$asset</span>
+                : <span class="phpdocumentor-signature__argument__return-type">string|<a href="classes/Cecil-Assets-Asset.html"><abbr title="\Cecil\Assets\Asset">Asset</abbr></a></span>
+                            </dt>
+            <dd class="phpdocumentor-argument-list__definition">
+                
+            </dd>
+            </dl>
+
+    
+
+    
+
+            <section>
+        <h5 class="phpdocumentor-return-value__heading">Return values</h5>
+        <span class="phpdocumentor-signature__response_type">string</span>
+            </section>
+
+</article>
+                    <article
+        class="phpdocumentor-element
+            -method
+            -public
+                                                        "
+>
+    <h4 class="phpdocumentor-element__name" id="method_dominantColor">
+        dominantColor()
+        <a href="classes/Cecil-Renderer-Extension-Core.html#method_dominantColor" class="headerlink"><i class="fas fa-link"></i></a>
+
+    </h4>
+    <aside class="phpdocumentor-element-found-in">
+    <abbr class="phpdocumentor-element-found-in__file" title="src/Renderer/Extension/Core.php"><a href="files/src-renderer-extension-core.html"><abbr title="src/Renderer/Extension/Core.php">Core.php</abbr></a></abbr>
+    :
+    <span class="phpdocumentor-element-found-in__line">911</span>
+
+    </aside>
+
+        <p class="phpdocumentor-summary">Returns the dominant hex color of an image asset.</p>
+
+    <code class="phpdocumentor-code phpdocumentor-signature ">
+    <span class="phpdocumentor-signature__visibility">public</span>
+                    <span class="phpdocumentor-signature__name">dominantColor</span><span>(</span><span class="phpdocumentor-signature__argument"><span class="phpdocumentor-signature__argument__return-type">string|<a href="classes/Cecil-Assets-Asset.html"><abbr title="\Cecil\Assets\Asset">Asset</abbr></a>&nbsp;</span><span class="phpdocumentor-signature__argument__name">$asset</span></span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">string</span></code>
+
+    <div class="phpdocumentor-label-line">
+        </div>
+    
+    
+        <h5 class="phpdocumentor-argument-list__heading">Parameters</h5>
+    <dl class="phpdocumentor-argument-list">
+                    <dt class="phpdocumentor-argument-list__entry">
+                <span class="phpdocumentor-signature__argument__name">$asset</span>
+                : <span class="phpdocumentor-signature__argument__return-type">string|<a href="classes/Cecil-Assets-Asset.html"><abbr title="\Cecil\Assets\Asset">Asset</abbr></a></span>
+                            </dt>
+            <dd class="phpdocumentor-argument-list__definition">
+                
+            </dd>
+            </dl>
+
+    
+
+    
+
+            <section>
+        <h5 class="phpdocumentor-return-value__heading">Return values</h5>
+        <span class="phpdocumentor-signature__response_type">string</span>
+            </section>
+
+</article>
+                    <article
+        class="phpdocumentor-element
+            -method
+            -public
+                                                        "
+>
+    <h4 class="phpdocumentor-element__name" id="method_excerpt">
+        excerpt()
+        <a href="classes/Cecil-Renderer-Extension-Core.html#method_excerpt" class="headerlink"><i class="fas fa-link"></i></a>
+
+    </h4>
+    <aside class="phpdocumentor-element-found-in">
+    <abbr class="phpdocumentor-element-found-in__file" title="src/Renderer/Extension/Core.php"><a href="files/src-renderer-extension-core.html"><abbr title="src/Renderer/Extension/Core.php">Core.php</abbr></a></abbr>
+    :
+    <span class="phpdocumentor-element-found-in__line">672</span>
+
+    </aside>
+
+        <p class="phpdocumentor-summary">Reads $length first characters of a string and adds a suffix.</p>
+
+    <code class="phpdocumentor-code phpdocumentor-signature ">
+    <span class="phpdocumentor-signature__visibility">public</span>
+                    <span class="phpdocumentor-signature__name">excerpt</span><span>(</span><span class="phpdocumentor-signature__argument"><span class="phpdocumentor-signature__argument__return-type">string|null&nbsp;</span><span class="phpdocumentor-signature__argument__name">$string</span></span><span class="phpdocumentor-signature__argument"><span>[</span><span>, </span><span class="phpdocumentor-signature__argument__return-type">int&nbsp;</span><span class="phpdocumentor-signature__argument__name">$length</span><span> = </span><span class="phpdocumentor-signature__argument__default-value">450</span><span> ]</span></span><span class="phpdocumentor-signature__argument"><span>[</span><span>, </span><span class="phpdocumentor-signature__argument__return-type">string&nbsp;</span><span class="phpdocumentor-signature__argument__name">$suffix</span><span> = </span><span class="phpdocumentor-signature__argument__default-value">&#039; …&#039;</span><span> ]</span></span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">string</span></code>
+
+    <div class="phpdocumentor-label-line">
+        </div>
+    
+    
+        <h5 class="phpdocumentor-argument-list__heading">Parameters</h5>
+    <dl class="phpdocumentor-argument-list">
+                    <dt class="phpdocumentor-argument-list__entry">
+                <span class="phpdocumentor-signature__argument__name">$string</span>
+                : <span class="phpdocumentor-signature__argument__return-type">string|null</span>
+                            </dt>
+            <dd class="phpdocumentor-argument-list__definition">
+                
+            </dd>
+                    <dt class="phpdocumentor-argument-list__entry">
+                <span class="phpdocumentor-signature__argument__name">$length</span>
+                : <span class="phpdocumentor-signature__argument__return-type">int</span>
+                 = <span class="phpdocumentor-signature__argument__default-value">450</span>            </dt>
+            <dd class="phpdocumentor-argument-list__definition">
+                
+            </dd>
+                    <dt class="phpdocumentor-argument-list__entry">
+                <span class="phpdocumentor-signature__argument__name">$suffix</span>
+                : <span class="phpdocumentor-signature__argument__return-type">string</span>
+                 = <span class="phpdocumentor-signature__argument__default-value">&#039; …&#039;</span>            </dt>
+            <dd class="phpdocumentor-argument-list__definition">
+                
+            </dd>
+            </dl>
+
+    
+
+    
+
+            <section>
+        <h5 class="phpdocumentor-return-value__heading">Return values</h5>
+        <span class="phpdocumentor-signature__response_type">string</span>
+            </section>
+
+</article>
+                    <article
+        class="phpdocumentor-element
+            -method
+            -public
+                                                        "
+>
+    <h4 class="phpdocumentor-element__name" id="method_excerptHtml">
+        excerptHtml()
+        <a href="classes/Cecil-Renderer-Extension-Core.html#method_excerptHtml" class="headerlink"><i class="fas fa-link"></i></a>
+
+    </h4>
+    <aside class="phpdocumentor-element-found-in">
+    <abbr class="phpdocumentor-element-found-in__file" title="src/Renderer/Extension/Core.php"><a href="files/src-renderer-extension-core.html"><abbr title="src/Renderer/Extension/Core.php">Core.php</abbr></a></abbr>
+    :
+    <span class="phpdocumentor-element-found-in__line">692</span>
+
+    </aside>
+
+        <p class="phpdocumentor-summary">Reads characters before or after &#039;&lt;!-- separator --&gt;&#039;.</p>
+
+    <code class="phpdocumentor-code phpdocumentor-signature ">
+    <span class="phpdocumentor-signature__visibility">public</span>
+                    <span class="phpdocumentor-signature__name">excerptHtml</span><span>(</span><span class="phpdocumentor-signature__argument"><span class="phpdocumentor-signature__argument__return-type">string|null&nbsp;</span><span class="phpdocumentor-signature__argument__name">$string</span></span><span class="phpdocumentor-signature__argument"><span>[</span><span>, </span><span class="phpdocumentor-signature__argument__return-type">array&lt;string|int, mixed&gt;&nbsp;</span><span class="phpdocumentor-signature__argument__name">$options</span><span> = </span><span class="phpdocumentor-signature__argument__default-value">[]</span><span> ]</span></span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">string</span></code>
+
+    <div class="phpdocumentor-label-line">
+        </div>
+    
+        <section class="phpdocumentor-description"><p>Options:</p>
+<ul>
+<li>separator: string to use as separator (<code class="prettyprint">excerpt|break</code> by default)</li>
+<li>capture: part to capture, <code class="prettyprint">before</code> or <code class="prettyprint">after</code> the separator (<code class="prettyprint">before</code> by default).</li>
+</ul>
+</section>
+
+        <h5 class="phpdocumentor-argument-list__heading">Parameters</h5>
+    <dl class="phpdocumentor-argument-list">
+                    <dt class="phpdocumentor-argument-list__entry">
+                <span class="phpdocumentor-signature__argument__name">$string</span>
+                : <span class="phpdocumentor-signature__argument__return-type">string|null</span>
+                            </dt>
+            <dd class="phpdocumentor-argument-list__definition">
+                
+            </dd>
+                    <dt class="phpdocumentor-argument-list__entry">
+                <span class="phpdocumentor-signature__argument__name">$options</span>
+                : <span class="phpdocumentor-signature__argument__return-type">array&lt;string|int, mixed&gt;</span>
+                 = <span class="phpdocumentor-signature__argument__default-value">[]</span>            </dt>
+            <dd class="phpdocumentor-argument-list__definition">
+                
+            </dd>
+            </dl>
+
+    
+
+    
+
+            <section>
+        <h5 class="phpdocumentor-return-value__heading">Return values</h5>
+        <span class="phpdocumentor-signature__response_type">string</span>
+            </section>
+
+</article>
+                    <article
+        class="phpdocumentor-element
+            -method
+            -public
+                                                        "
+>
+    <h4 class="phpdocumentor-element__name" id="method_filterBy">
+        filterBy()
+        <a href="classes/Cecil-Renderer-Extension-Core.html#method_filterBy" class="headerlink"><i class="fas fa-link"></i></a>
+
+    </h4>
+    <aside class="phpdocumentor-element-found-in">
+    <abbr class="phpdocumentor-element-found-in__file" title="src/Renderer/Extension/Core.php"><a href="files/src-renderer-extension-core.html"><abbr title="src/Renderer/Extension/Core.php">Core.php</abbr></a></abbr>
+    :
+    <span class="phpdocumentor-element-found-in__line">186</span>
+
+    </aside>
+
+        <p class="phpdocumentor-summary">Filters a pages collection by variable&#039;s name/value.</p>
+
+    <code class="phpdocumentor-code phpdocumentor-signature ">
+    <span class="phpdocumentor-signature__visibility">public</span>
+                    <span class="phpdocumentor-signature__name">filterBy</span><span>(</span><span class="phpdocumentor-signature__argument"><span class="phpdocumentor-signature__argument__return-type"><a href="classes/Cecil-Collection-Page-Collection.html"><abbr title="\Cecil\Collection\Page\Collection">Collection</abbr></a>&nbsp;</span><span class="phpdocumentor-signature__argument__name">$pages</span></span><span class="phpdocumentor-signature__argument"><span>, </span><span class="phpdocumentor-signature__argument__return-type">string&nbsp;</span><span class="phpdocumentor-signature__argument__name">$variable</span></span><span class="phpdocumentor-signature__argument"><span>, </span><span class="phpdocumentor-signature__argument__return-type">string&nbsp;</span><span class="phpdocumentor-signature__argument__name">$value</span></span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type"><a href="classes/Cecil-Collection-CollectionInterface.html"><abbr title="\Cecil\Collection\CollectionInterface">CollectionInterface</abbr></a></span></code>
+
+    <div class="phpdocumentor-label-line">
+        </div>
+    
+    
+        <h5 class="phpdocumentor-argument-list__heading">Parameters</h5>
+    <dl class="phpdocumentor-argument-list">
+                    <dt class="phpdocumentor-argument-list__entry">
+                <span class="phpdocumentor-signature__argument__name">$pages</span>
+                : <span class="phpdocumentor-signature__argument__return-type"><a href="classes/Cecil-Collection-Page-Collection.html"><abbr title="\Cecil\Collection\Page\Collection">Collection</abbr></a></span>
+                            </dt>
+            <dd class="phpdocumentor-argument-list__definition">
+                
+            </dd>
+                    <dt class="phpdocumentor-argument-list__entry">
+                <span class="phpdocumentor-signature__argument__name">$variable</span>
+                : <span class="phpdocumentor-signature__argument__return-type">string</span>
+                            </dt>
+            <dd class="phpdocumentor-argument-list__definition">
+                
+            </dd>
+                    <dt class="phpdocumentor-argument-list__entry">
+                <span class="phpdocumentor-signature__argument__name">$value</span>
+                : <span class="phpdocumentor-signature__argument__return-type">string</span>
+                            </dt>
+            <dd class="phpdocumentor-argument-list__definition">
+                
+            </dd>
+            </dl>
+
+    
+
+    
+
+            <section>
+        <h5 class="phpdocumentor-return-value__heading">Return values</h5>
+        <span class="phpdocumentor-signature__response_type"><a href="classes/Cecil-Collection-CollectionInterface.html"><abbr title="\Cecil\Collection\CollectionInterface">CollectionInterface</abbr></a></span>
+            </section>
+
+</article>
+                    <article
+        class="phpdocumentor-element
+            -method
+            -public
+                                                        "
+>
+    <h4 class="phpdocumentor-element__name" id="method_filterBySection">
+        filterBySection()
+        <a href="classes/Cecil-Renderer-Extension-Core.html#method_filterBySection" class="headerlink"><i class="fas fa-link"></i></a>
+
+    </h4>
+    <aside class="phpdocumentor-element-found-in">
+    <abbr class="phpdocumentor-element-found-in__file" title="src/Renderer/Extension/Core.php"><a href="files/src-renderer-extension-core.html"><abbr title="src/Renderer/Extension/Core.php">Core.php</abbr></a></abbr>
+    :
+    <span class="phpdocumentor-element-found-in__line">178</span>
+
+    </aside>
+
+        <p class="phpdocumentor-summary">Filters by Section.</p>
+
+    <code class="phpdocumentor-code phpdocumentor-signature ">
+    <span class="phpdocumentor-signature__visibility">public</span>
+                    <span class="phpdocumentor-signature__name">filterBySection</span><span>(</span><span class="phpdocumentor-signature__argument"><span class="phpdocumentor-signature__argument__return-type"><a href="classes/Cecil-Collection-Page-Collection.html"><abbr title="\Cecil\Collection\Page\Collection">Collection</abbr></a>&nbsp;</span><span class="phpdocumentor-signature__argument__name">$pages</span></span><span class="phpdocumentor-signature__argument"><span>, </span><span class="phpdocumentor-signature__argument__return-type">string&nbsp;</span><span class="phpdocumentor-signature__argument__name">$section</span></span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type"><a href="classes/Cecil-Collection-CollectionInterface.html"><abbr title="\Cecil\Collection\CollectionInterface">CollectionInterface</abbr></a></span></code>
+
+    <div class="phpdocumentor-label-line">
+        </div>
+    
+    
+        <h5 class="phpdocumentor-argument-list__heading">Parameters</h5>
+    <dl class="phpdocumentor-argument-list">
+                    <dt class="phpdocumentor-argument-list__entry">
+                <span class="phpdocumentor-signature__argument__name">$pages</span>
+                : <span class="phpdocumentor-signature__argument__return-type"><a href="classes/Cecil-Collection-Page-Collection.html"><abbr title="\Cecil\Collection\Page\Collection">Collection</abbr></a></span>
+                            </dt>
+            <dd class="phpdocumentor-argument-list__definition">
+                
+            </dd>
+                    <dt class="phpdocumentor-argument-list__entry">
+                <span class="phpdocumentor-signature__argument__name">$section</span>
+                : <span class="phpdocumentor-signature__argument__return-type">string</span>
+                            </dt>
+            <dd class="phpdocumentor-argument-list__definition">
+                
+            </dd>
+            </dl>
+
+    
+
+    
+
+            <section>
+        <h5 class="phpdocumentor-return-value__heading">Return values</h5>
+        <span class="phpdocumentor-signature__response_type"><a href="classes/Cecil-Collection-CollectionInterface.html"><abbr title="\Cecil\Collection\CollectionInterface">CollectionInterface</abbr></a></span>
+            </section>
+
+</article>
+                    <article
+        class="phpdocumentor-element
+            -method
+            -public
+                                                        "
+>
+    <h4 class="phpdocumentor-element__name" id="method_fingerprint">
+        fingerprint()
+        <a href="classes/Cecil-Renderer-Extension-Core.html#method_fingerprint" class="headerlink"><i class="fas fa-link"></i></a>
+
+    </h4>
+    <aside class="phpdocumentor-element-found-in">
+    <abbr class="phpdocumentor-element-found-in__file" title="src/Renderer/Extension/Core.php"><a href="files/src-renderer-extension-core.html"><abbr title="src/Renderer/Extension/Core.php">Core.php</abbr></a></abbr>
+    :
+    <span class="phpdocumentor-element-found-in__line">347</span>
+
+    </aside>
+
+        <p class="phpdocumentor-summary">Fingerprinting an asset.</p>
+
+    <code class="phpdocumentor-code phpdocumentor-signature ">
+    <span class="phpdocumentor-signature__visibility">public</span>
+                    <span class="phpdocumentor-signature__name">fingerprint</span><span>(</span><span class="phpdocumentor-signature__argument"><span class="phpdocumentor-signature__argument__return-type">string|<a href="classes/Cecil-Assets-Asset.html"><abbr title="\Cecil\Assets\Asset">Asset</abbr></a>&nbsp;</span><span class="phpdocumentor-signature__argument__name">$asset</span></span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type"><a href="classes/Cecil-Assets-Asset.html"><abbr title="\Cecil\Assets\Asset">Asset</abbr></a></span></code>
+
+    <div class="phpdocumentor-label-line">
+        </div>
+    
+    
+        <h5 class="phpdocumentor-argument-list__heading">Parameters</h5>
+    <dl class="phpdocumentor-argument-list">
+                    <dt class="phpdocumentor-argument-list__entry">
+                <span class="phpdocumentor-signature__argument__name">$asset</span>
+                : <span class="phpdocumentor-signature__argument__return-type">string|<a href="classes/Cecil-Assets-Asset.html"><abbr title="\Cecil\Assets\Asset">Asset</abbr></a></span>
+                            </dt>
+            <dd class="phpdocumentor-argument-list__definition">
+                
+            </dd>
+            </dl>
+
+    
+
+    
+
+            <section>
+        <h5 class="phpdocumentor-return-value__heading">Return values</h5>
+        <span class="phpdocumentor-signature__response_type"><a href="classes/Cecil-Assets-Asset.html"><abbr title="\Cecil\Assets\Asset">Asset</abbr></a></span>
+            </section>
+
+</article>
+                    <article
+        class="phpdocumentor-element
+            -method
+            -public
+                                                        "
+>
+    <h4 class="phpdocumentor-element__name" id="method_getEnv">
+        getEnv()
+        <a href="classes/Cecil-Renderer-Extension-Core.html#method_getEnv" class="headerlink"><i class="fas fa-link"></i></a>
+
+    </h4>
+    <aside class="phpdocumentor-element-found-in">
+    <abbr class="phpdocumentor-element-found-in__file" title="src/Renderer/Extension/Core.php"><a href="files/src-renderer-extension-core.html"><abbr title="src/Renderer/Extension/Core.php">Core.php</abbr></a></abbr>
+    :
+    <span class="phpdocumentor-element-found-in__line">862</span>
+
+    </aside>
+
+        <p class="phpdocumentor-summary">Gets the value of an environment variable.</p>
+
+    <code class="phpdocumentor-code phpdocumentor-signature ">
+    <span class="phpdocumentor-signature__visibility">public</span>
+                    <span class="phpdocumentor-signature__name">getEnv</span><span>(</span><span class="phpdocumentor-signature__argument"><span class="phpdocumentor-signature__argument__return-type">string|null&nbsp;</span><span class="phpdocumentor-signature__argument__name">$var</span></span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">string|null</span></code>
+
+    <div class="phpdocumentor-label-line">
+        </div>
+    
+    
+        <h5 class="phpdocumentor-argument-list__heading">Parameters</h5>
+    <dl class="phpdocumentor-argument-list">
+                    <dt class="phpdocumentor-argument-list__entry">
+                <span class="phpdocumentor-signature__argument__name">$var</span>
+                : <span class="phpdocumentor-signature__argument__return-type">string|null</span>
+                            </dt>
+            <dd class="phpdocumentor-argument-list__definition">
+                
+            </dd>
+            </dl>
+
+    
+
+    
+
+            <section>
+        <h5 class="phpdocumentor-return-value__heading">Return values</h5>
+        <span class="phpdocumentor-signature__response_type">string|null</span>
+            </section>
+
+</article>
+                    <article
+        class="phpdocumentor-element
+            -method
+            -public
+                                                        "
+>
+    <h4 class="phpdocumentor-element__name" id="method_getFilters">
+        getFilters()
+        <a href="classes/Cecil-Renderer-Extension-Core.html#method_getFilters" class="headerlink"><i class="fas fa-link"></i></a>
+
+    </h4>
+    <aside class="phpdocumentor-element-found-in">
+    <abbr class="phpdocumentor-element-found-in__file" title="src/Renderer/Extension/Core.php"><a href="files/src-renderer-extension-core.html"><abbr title="src/Renderer/Extension/Core.php">Core.php</abbr></a></abbr>
+    :
+    <span class="phpdocumentor-element-found-in__line">113</span>
+
+    </aside>
+
+        <p class="phpdocumentor-summary">{@inheritdoc}</p>
+
+    <code class="phpdocumentor-code phpdocumentor-signature ">
+    <span class="phpdocumentor-signature__visibility">public</span>
+                    <span class="phpdocumentor-signature__name">getFilters</span><span>(</span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">array&lt;string|int, mixed&gt;</span></code>
+
+    <div class="phpdocumentor-label-line">
+        </div>
+    
+    
+    
+    
+
+    
+
+            <section>
+        <h5 class="phpdocumentor-return-value__heading">Return values</h5>
+        <span class="phpdocumentor-signature__response_type">array&lt;string|int, mixed&gt;</span>
+            </section>
+
+</article>
+                    <article
+        class="phpdocumentor-element
+            -method
+            -public
+                                                        "
+>
+    <h4 class="phpdocumentor-element__name" id="method_getFunctions">
+        getFunctions()
+        <a href="classes/Cecil-Renderer-Extension-Core.html#method_getFunctions" class="headerlink"><i class="fas fa-link"></i></a>
+
+    </h4>
+    <aside class="phpdocumentor-element-found-in">
+    <abbr class="phpdocumentor-element-found-in__file" title="src/Renderer/Extension/Core.php"><a href="files/src-renderer-extension-core.html"><abbr title="src/Renderer/Extension/Core.php">Core.php</abbr></a></abbr>
+    :
+    <span class="phpdocumentor-element-found-in__line">80</span>
+
+    </aside>
+
+        <p class="phpdocumentor-summary">{@inheritdoc}</p>
+
+    <code class="phpdocumentor-code phpdocumentor-signature ">
+    <span class="phpdocumentor-signature__visibility">public</span>
+                    <span class="phpdocumentor-signature__name">getFunctions</span><span>(</span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">mixed</span></code>
+
+    <div class="phpdocumentor-label-line">
+        </div>
+    
+    
+    
+    
+
+    
+
+    
+</article>
+                    <article
+        class="phpdocumentor-element
+            -method
+            -public
+                                                        "
+>
+    <h4 class="phpdocumentor-element__name" id="method_getName">
+        getName()
+        <a href="classes/Cecil-Renderer-Extension-Core.html#method_getName" class="headerlink"><i class="fas fa-link"></i></a>
+
+    </h4>
+    <aside class="phpdocumentor-element-found-in">
+    <abbr class="phpdocumentor-element-found-in__file" title="src/Renderer/Extension/Core.php"><a href="files/src-renderer-extension-core.html"><abbr title="src/Renderer/Extension/Core.php">Core.php</abbr></a></abbr>
+    :
+    <span class="phpdocumentor-element-found-in__line">72</span>
+
+    </aside>
+
+        <p class="phpdocumentor-summary">{@inheritdoc}</p>
+
+    <code class="phpdocumentor-code phpdocumentor-signature ">
+    <span class="phpdocumentor-signature__visibility">public</span>
+                    <span class="phpdocumentor-signature__name">getName</span><span>(</span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">string</span></code>
+
+    <div class="phpdocumentor-label-line">
+        </div>
+    
+    
+    
+    
+
+    
+
+            <section>
+        <h5 class="phpdocumentor-return-value__heading">Return values</h5>
+        <span class="phpdocumentor-signature__response_type">string</span>
+            </section>
+
+</article>
+                    <article
+        class="phpdocumentor-element
+            -method
+            -public
+                                                        "
+>
+    <h4 class="phpdocumentor-element__name" id="method_getTests">
+        getTests()
+        <a href="classes/Cecil-Renderer-Extension-Core.html#method_getTests" class="headerlink"><i class="fas fa-link"></i></a>
+
+    </h4>
+    <aside class="phpdocumentor-element-found-in">
+    <abbr class="phpdocumentor-element-found-in__file" title="src/Renderer/Extension/Core.php"><a href="files/src-renderer-extension-core.html"><abbr title="src/Renderer/Extension/Core.php">Core.php</abbr></a></abbr>
+    :
+    <span class="phpdocumentor-element-found-in__line">168</span>
+
+    </aside>
+
+        <p class="phpdocumentor-summary">{@inheritdoc}</p>
+
+    <code class="phpdocumentor-code phpdocumentor-signature ">
+    <span class="phpdocumentor-signature__visibility">public</span>
+                    <span class="phpdocumentor-signature__name">getTests</span><span>(</span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">mixed</span></code>
+
+    <div class="phpdocumentor-label-line">
+        </div>
+    
+    
+    
+    
+
+    
+
+    
+</article>
+                    <article
+        class="phpdocumentor-element
+            -method
+            -public
+                                                        "
+>
+    <h4 class="phpdocumentor-element__name" id="method_hash">
+        hash()
+        <a href="classes/Cecil-Renderer-Extension-Core.html#method_hash" class="headerlink"><i class="fas fa-link"></i></a>
+
+    </h4>
+    <aside class="phpdocumentor-element-found-in">
+    <abbr class="phpdocumentor-element-found-in__file" title="src/Renderer/Extension/Core.php"><a href="files/src-renderer-extension-core.html"><abbr title="src/Renderer/Extension/Core.php">Core.php</abbr></a></abbr>
+    :
+    <span class="phpdocumentor-element-found-in__line">974</span>
+
+    </aside>
+
+        <p class="phpdocumentor-summary">Hashing an object, an array or a string (with algo, md5 by default).</p>
+
+    <code class="phpdocumentor-code phpdocumentor-signature ">
+    <span class="phpdocumentor-signature__visibility">public</span>
+                    <span class="phpdocumentor-signature__name">hash</span><span>(</span><span class="phpdocumentor-signature__argument"><span class="phpdocumentor-signature__argument__return-type">object|array&lt;string|int, mixed&gt;|string&nbsp;</span><span class="phpdocumentor-signature__argument__name">$data</span></span><span class="phpdocumentor-signature__argument"><span>[</span><span>, </span><span class="phpdocumentor-signature__argument__return-type">mixed&nbsp;</span><span class="phpdocumentor-signature__argument__name">$algo</span><span> = </span><span class="phpdocumentor-signature__argument__default-value">&#039;md5&#039;</span><span> ]</span></span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">string</span></code>
+
+    <div class="phpdocumentor-label-line">
+        </div>
+    
+    
+        <h5 class="phpdocumentor-argument-list__heading">Parameters</h5>
+    <dl class="phpdocumentor-argument-list">
+                    <dt class="phpdocumentor-argument-list__entry">
+                <span class="phpdocumentor-signature__argument__name">$data</span>
+                : <span class="phpdocumentor-signature__argument__return-type">object|array&lt;string|int, mixed&gt;|string</span>
+                            </dt>
+            <dd class="phpdocumentor-argument-list__definition">
+                
+            </dd>
+                    <dt class="phpdocumentor-argument-list__entry">
+                <span class="phpdocumentor-signature__argument__name">$algo</span>
+                : <span class="phpdocumentor-signature__argument__return-type">mixed</span>
+                 = <span class="phpdocumentor-signature__argument__default-value">&#039;md5&#039;</span>            </dt>
+            <dd class="phpdocumentor-argument-list__definition">
+                
+            </dd>
+            </dl>
+
+    
+
+    
+
+            <section>
+        <h5 class="phpdocumentor-return-value__heading">Return values</h5>
+        <span class="phpdocumentor-signature__response_type">string</span>
+            </section>
+
+</article>
+                    <article
+        class="phpdocumentor-element
+            -method
+            -public
+                                                        "
+>
+    <h4 class="phpdocumentor-element__name" id="method_hexToRgb">
+        hexToRgb()
+        <a href="classes/Cecil-Renderer-Extension-Core.html#method_hexToRgb" class="headerlink"><i class="fas fa-link"></i></a>
+
+    </h4>
+    <aside class="phpdocumentor-element-found-in">
+    <abbr class="phpdocumentor-element-found-in__file" title="src/Renderer/Extension/Core.php"><a href="files/src-renderer-extension-core.html"><abbr title="src/Renderer/Extension/Core.php">Core.php</abbr></a></abbr>
+    :
+    <span class="phpdocumentor-element-found-in__line">941</span>
+
+    </aside>
+
+        <p class="phpdocumentor-summary">Converts an hexadecimal color to RGB.</p>
+
+    <code class="phpdocumentor-code phpdocumentor-signature ">
+    <span class="phpdocumentor-signature__visibility">public</span>
+                    <span class="phpdocumentor-signature__name">hexToRgb</span><span>(</span><span class="phpdocumentor-signature__argument"><span class="phpdocumentor-signature__argument__return-type">string|null&nbsp;</span><span class="phpdocumentor-signature__argument__name">$variable</span></span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">array&lt;string|int, mixed&gt;</span></code>
+
+    <div class="phpdocumentor-label-line">
+        </div>
+    
+    
+        <h5 class="phpdocumentor-argument-list__heading">Parameters</h5>
+    <dl class="phpdocumentor-argument-list">
+                    <dt class="phpdocumentor-argument-list__entry">
+                <span class="phpdocumentor-signature__argument__name">$variable</span>
+                : <span class="phpdocumentor-signature__argument__return-type">string|null</span>
+                            </dt>
+            <dd class="phpdocumentor-argument-list__definition">
+                
+            </dd>
+            </dl>
+
+    
+    <h5 class="phpdocumentor-tag-list__heading" id="tags">
+        Tags
+        <a href="classes/Cecil-Renderer-Extension-Core.html#method_hexToRgb#tags" class="headerlink"><i class="fas fa-link"></i></a>
+
+    </h5>
+    <dl class="phpdocumentor-tag-list">
+                                    <dt class="phpdocumentor-tag-list__entry">
+                    <span class="phpdocumentor-tag__name">throws</span>
+                </dt>
+                <dd class="phpdocumentor-tag-list__definition">
+                                                                <span class="phpdocumentor-tag-link"><a href="classes/Cecil-Exception-RuntimeException.html"><abbr title="\Cecil\Exception\RuntimeException">RuntimeException</abbr></a></span>
+                                                            
+                                             
+                                    </dd>
+                                            </dl>
+
+    
+
+            <section>
+        <h5 class="phpdocumentor-return-value__heading">Return values</h5>
+        <span class="phpdocumentor-signature__response_type">array&lt;string|int, mixed&gt;</span>
+            </section>
+
+</article>
+                    <article
+        class="phpdocumentor-element
+            -method
+            -public
+                                                        "
+>
+    <h4 class="phpdocumentor-element__name" id="method_html">
+        html()
+        <a href="classes/Cecil-Renderer-Extension-Core.html#method_html" class="headerlink"><i class="fas fa-link"></i></a>
+
+    </h4>
+    <aside class="phpdocumentor-element-found-in">
+    <abbr class="phpdocumentor-element-found-in__file" title="src/Renderer/Extension/Core.php"><a href="files/src-renderer-extension-core.html"><abbr title="src/Renderer/Extension/Core.php">Core.php</abbr></a></abbr>
+    :
+    <span class="phpdocumentor-element-found-in__line">510</span>
+
+    </aside>
+
+        <p class="phpdocumentor-summary">Creates the HTML element of an asset.</p>
+
+    <code class="phpdocumentor-code phpdocumentor-signature ">
+    <span class="phpdocumentor-signature__visibility">public</span>
+                    <span class="phpdocumentor-signature__name">html</span><span>(</span><span class="phpdocumentor-signature__argument"><span class="phpdocumentor-signature__argument__return-type">array&lt;string|int, mixed&gt;&nbsp;</span><span class="phpdocumentor-signature__argument__name">$context</span></span><span class="phpdocumentor-signature__argument"><span>, </span><span class="phpdocumentor-signature__argument__return-type"><a href="classes/Cecil-Assets-Asset.html"><abbr title="\Cecil\Assets\Asset">Asset</abbr></a>&nbsp;</span><span class="phpdocumentor-signature__argument__name">$asset</span></span><span class="phpdocumentor-signature__argument"><span>[</span><span>, </span><span class="phpdocumentor-signature__argument__return-type">array&lt;string|int, mixed&gt;&nbsp;</span><span class="phpdocumentor-signature__argument__name">$attributes</span><span> = </span><span class="phpdocumentor-signature__argument__default-value">[]</span><span> ]</span></span><span class="phpdocumentor-signature__argument"><span>[</span><span>, </span><span class="phpdocumentor-signature__argument__return-type">array&lt;string|int, mixed&gt;&nbsp;</span><span class="phpdocumentor-signature__argument__name">$options</span><span> = </span><span class="phpdocumentor-signature__argument__default-value">[]</span><span> ]</span></span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">string</span></code>
+
+    <div class="phpdocumentor-label-line">
+        </div>
+    
+        <section class="phpdocumentor-description"><p>$options[
+'preload'    =&gt; false,
+'responsive' =&gt; false,
+'formats'    =&gt; [],
+];</p>
+</section>
+
+        <h5 class="phpdocumentor-argument-list__heading">Parameters</h5>
+    <dl class="phpdocumentor-argument-list">
+                    <dt class="phpdocumentor-argument-list__entry">
+                <span class="phpdocumentor-signature__argument__name">$context</span>
+                : <span class="phpdocumentor-signature__argument__return-type">array&lt;string|int, mixed&gt;</span>
+                            </dt>
+            <dd class="phpdocumentor-argument-list__definition">
+                
+            </dd>
+                    <dt class="phpdocumentor-argument-list__entry">
+                <span class="phpdocumentor-signature__argument__name">$asset</span>
+                : <span class="phpdocumentor-signature__argument__return-type"><a href="classes/Cecil-Assets-Asset.html"><abbr title="\Cecil\Assets\Asset">Asset</abbr></a></span>
+                            </dt>
+            <dd class="phpdocumentor-argument-list__definition">
+                
+            </dd>
+                    <dt class="phpdocumentor-argument-list__entry">
+                <span class="phpdocumentor-signature__argument__name">$attributes</span>
+                : <span class="phpdocumentor-signature__argument__return-type">array&lt;string|int, mixed&gt;</span>
+                 = <span class="phpdocumentor-signature__argument__default-value">[]</span>            </dt>
+            <dd class="phpdocumentor-argument-list__definition">
+                
+            </dd>
+                    <dt class="phpdocumentor-argument-list__entry">
+                <span class="phpdocumentor-signature__argument__name">$options</span>
+                : <span class="phpdocumentor-signature__argument__return-type">array&lt;string|int, mixed&gt;</span>
+                 = <span class="phpdocumentor-signature__argument__default-value">[]</span>            </dt>
+            <dd class="phpdocumentor-argument-list__definition">
+                
+            </dd>
+            </dl>
+
+    
+    <h5 class="phpdocumentor-tag-list__heading" id="tags">
+        Tags
+        <a href="classes/Cecil-Renderer-Extension-Core.html#method_html#tags" class="headerlink"><i class="fas fa-link"></i></a>
+
+    </h5>
+    <dl class="phpdocumentor-tag-list">
+                                    <dt class="phpdocumentor-tag-list__entry">
+                    <span class="phpdocumentor-tag__name">throws</span>
+                </dt>
+                <dd class="phpdocumentor-tag-list__definition">
+                                                                <span class="phpdocumentor-tag-link"><a href="classes/Cecil-Exception-RuntimeException.html"><abbr title="\Cecil\Exception\RuntimeException">RuntimeException</abbr></a></span>
+                                                            
+                                             
+                                    </dd>
+                                            </dl>
+
+    
+
+            <section>
+        <h5 class="phpdocumentor-return-value__heading">Return values</h5>
+        <span class="phpdocumentor-signature__response_type">string</span>
+            </section>
+
+</article>
+                    <article
+        class="phpdocumentor-element
+            -method
+            -public
+                                                        "
+>
+    <h4 class="phpdocumentor-element__name" id="method_imageSizes">
+        imageSizes()
+        <a href="classes/Cecil-Renderer-Extension-Core.html#method_imageSizes" class="headerlink"><i class="fas fa-link"></i></a>
+
+    </h4>
+    <aside class="phpdocumentor-element-found-in">
+    <abbr class="phpdocumentor-element-found-in__file" title="src/Renderer/Extension/Core.php"><a href="files/src-renderer-extension-core.html"><abbr title="src/Renderer/Extension/Core.php">Core.php</abbr></a></abbr>
+    :
+    <span class="phpdocumentor-element-found-in__line">619</span>
+
+    </aside>
+
+        <p class="phpdocumentor-summary">Returns the HTML img `sizes` attribute based on a CSS class name.</p>
+
+    <code class="phpdocumentor-code phpdocumentor-signature ">
+    <span class="phpdocumentor-signature__visibility">public</span>
+                    <span class="phpdocumentor-signature__name">imageSizes</span><span>(</span><span class="phpdocumentor-signature__argument"><span class="phpdocumentor-signature__argument__return-type">string&nbsp;</span><span class="phpdocumentor-signature__argument__name">$class</span></span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">string</span></code>
+
+    <div class="phpdocumentor-label-line">
+        </div>
+    
+    
+        <h5 class="phpdocumentor-argument-list__heading">Parameters</h5>
+    <dl class="phpdocumentor-argument-list">
+                    <dt class="phpdocumentor-argument-list__entry">
+                <span class="phpdocumentor-signature__argument__name">$class</span>
+                : <span class="phpdocumentor-signature__argument__return-type">string</span>
+                            </dt>
+            <dd class="phpdocumentor-argument-list__definition">
+                
+            </dd>
+            </dl>
+
+    
+
+    
+
+            <section>
+        <h5 class="phpdocumentor-return-value__heading">Return values</h5>
+        <span class="phpdocumentor-signature__response_type">string</span>
+            </section>
+
+</article>
+                    <article
+        class="phpdocumentor-element
+            -method
+            -public
+                                                        "
+>
+    <h4 class="phpdocumentor-element__name" id="method_imageSrcset">
+        imageSrcset()
+        <a href="classes/Cecil-Renderer-Extension-Core.html#method_imageSrcset" class="headerlink"><i class="fas fa-link"></i></a>
+
+    </h4>
+    <aside class="phpdocumentor-element-found-in">
+    <abbr class="phpdocumentor-element-found-in__file" title="src/Renderer/Extension/Core.php"><a href="files/src-renderer-extension-core.html"><abbr title="src/Renderer/Extension/Core.php">Core.php</abbr></a></abbr>
+    :
+    <span class="phpdocumentor-element-found-in__line">611</span>
+
+    </aside>
+
+        <p class="phpdocumentor-summary">Builds the HTML img `srcset` (responsive) attribute of an image Asset.</p>
+
+    <code class="phpdocumentor-code phpdocumentor-signature ">
+    <span class="phpdocumentor-signature__visibility">public</span>
+                    <span class="phpdocumentor-signature__name">imageSrcset</span><span>(</span><span class="phpdocumentor-signature__argument"><span class="phpdocumentor-signature__argument__return-type"><a href="classes/Cecil-Assets-Asset.html"><abbr title="\Cecil\Assets\Asset">Asset</abbr></a>&nbsp;</span><span class="phpdocumentor-signature__argument__name">$asset</span></span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">string</span></code>
+
+    <div class="phpdocumentor-label-line">
+        </div>
+    
+    
+        <h5 class="phpdocumentor-argument-list__heading">Parameters</h5>
+    <dl class="phpdocumentor-argument-list">
+                    <dt class="phpdocumentor-argument-list__entry">
+                <span class="phpdocumentor-signature__argument__name">$asset</span>
+                : <span class="phpdocumentor-signature__argument__return-type"><a href="classes/Cecil-Assets-Asset.html"><abbr title="\Cecil\Assets\Asset">Asset</abbr></a></span>
+                            </dt>
+            <dd class="phpdocumentor-argument-list__definition">
+                
+            </dd>
+            </dl>
+
+    
+    <h5 class="phpdocumentor-tag-list__heading" id="tags">
+        Tags
+        <a href="classes/Cecil-Renderer-Extension-Core.html#method_imageSrcset#tags" class="headerlink"><i class="fas fa-link"></i></a>
+
+    </h5>
+    <dl class="phpdocumentor-tag-list">
+                                    <dt class="phpdocumentor-tag-list__entry">
+                    <span class="phpdocumentor-tag__name">throws</span>
+                </dt>
+                <dd class="phpdocumentor-tag-list__definition">
+                                                                <span class="phpdocumentor-tag-link"><a href="classes/Cecil-Exception-RuntimeException.html"><abbr title="\Cecil\Exception\RuntimeException">RuntimeException</abbr></a></span>
+                                                            
+                                             
+                                    </dd>
+                                            </dl>
+
+    
+
+            <section>
+        <h5 class="phpdocumentor-return-value__heading">Return values</h5>
+        <span class="phpdocumentor-signature__response_type">string</span>
+            </section>
+
+</article>
+                    <article
+        class="phpdocumentor-element
+            -method
+            -public
+                                                        "
+>
+    <h4 class="phpdocumentor-element__name" id="method_inline">
+        inline()
+        <a href="classes/Cecil-Renderer-Extension-Core.html#method_inline" class="headerlink"><i class="fas fa-link"></i></a>
+
+    </h4>
+    <aside class="phpdocumentor-element-found-in">
+    <abbr class="phpdocumentor-element-found-in__file" title="src/Renderer/Extension/Core.php"><a href="files/src-renderer-extension-core.html"><abbr title="src/Renderer/Extension/Core.php">Core.php</abbr></a></abbr>
+    :
+    <span class="phpdocumentor-element-found-in__line">664</span>
+
+    </aside>
+
+        <p class="phpdocumentor-summary">Returns the content of an asset.</p>
+
+    <code class="phpdocumentor-code phpdocumentor-signature ">
+    <span class="phpdocumentor-signature__visibility">public</span>
+                    <span class="phpdocumentor-signature__name">inline</span><span>(</span><span class="phpdocumentor-signature__argument"><span class="phpdocumentor-signature__argument__return-type"><a href="classes/Cecil-Assets-Asset.html"><abbr title="\Cecil\Assets\Asset">Asset</abbr></a>&nbsp;</span><span class="phpdocumentor-signature__argument__name">$asset</span></span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">string</span></code>
+
+    <div class="phpdocumentor-label-line">
+        </div>
+    
+    
+        <h5 class="phpdocumentor-argument-list__heading">Parameters</h5>
+    <dl class="phpdocumentor-argument-list">
+                    <dt class="phpdocumentor-argument-list__entry">
+                <span class="phpdocumentor-signature__argument__name">$asset</span>
+                : <span class="phpdocumentor-signature__argument__return-type"><a href="classes/Cecil-Assets-Asset.html"><abbr title="\Cecil\Assets\Asset">Asset</abbr></a></span>
+                            </dt>
+            <dd class="phpdocumentor-argument-list__definition">
+                
+            </dd>
+            </dl>
+
+    
+
+    
+
+            <section>
+        <h5 class="phpdocumentor-return-value__heading">Return values</h5>
+        <span class="phpdocumentor-signature__response_type">string</span>
+            </section>
+
+</article>
+                    <article
+        class="phpdocumentor-element
+            -method
+            -public
+                                                        "
+>
+    <h4 class="phpdocumentor-element__name" id="method_integrity">
+        integrity()
+        <a href="classes/Cecil-Renderer-Extension-Core.html#method_integrity" class="headerlink"><i class="fas fa-link"></i></a>
+
+    </h4>
+    <aside class="phpdocumentor-element-found-in">
+    <abbr class="phpdocumentor-element-found-in__file" title="src/Renderer/Extension/Core.php"><a href="files/src-renderer-extension-core.html"><abbr title="src/Renderer/Extension/Core.php">Core.php</abbr></a></abbr>
+    :
+    <span class="phpdocumentor-element-found-in__line">415</span>
+
+    </aside>
+
+        <p class="phpdocumentor-summary">Hashing an asset with algo (sha384 by default).</p>
+
+    <code class="phpdocumentor-code phpdocumentor-signature ">
+    <span class="phpdocumentor-signature__visibility">public</span>
+                    <span class="phpdocumentor-signature__name">integrity</span><span>(</span><span class="phpdocumentor-signature__argument"><span class="phpdocumentor-signature__argument__return-type">string|<a href="classes/Cecil-Assets-Asset.html"><abbr title="\Cecil\Assets\Asset">Asset</abbr></a>&nbsp;</span><span class="phpdocumentor-signature__argument__name">$asset</span></span><span class="phpdocumentor-signature__argument"><span>[</span><span>, </span><span class="phpdocumentor-signature__argument__return-type">string&nbsp;</span><span class="phpdocumentor-signature__argument__name">$algo</span><span> = </span><span class="phpdocumentor-signature__argument__default-value">&#039;sha384&#039;</span><span> ]</span></span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">string</span></code>
+
+    <div class="phpdocumentor-label-line">
+        </div>
+    
+    
+        <h5 class="phpdocumentor-argument-list__heading">Parameters</h5>
+    <dl class="phpdocumentor-argument-list">
+                    <dt class="phpdocumentor-argument-list__entry">
+                <span class="phpdocumentor-signature__argument__name">$asset</span>
+                : <span class="phpdocumentor-signature__argument__return-type">string|<a href="classes/Cecil-Assets-Asset.html"><abbr title="\Cecil\Assets\Asset">Asset</abbr></a></span>
+                            </dt>
+            <dd class="phpdocumentor-argument-list__definition">
+                
+            </dd>
+                    <dt class="phpdocumentor-argument-list__entry">
+                <span class="phpdocumentor-signature__argument__name">$algo</span>
+                : <span class="phpdocumentor-signature__argument__return-type">string</span>
+                 = <span class="phpdocumentor-signature__argument__default-value">&#039;sha384&#039;</span>            </dt>
+            <dd class="phpdocumentor-argument-list__definition">
+                
+            </dd>
+            </dl>
+
+    
+
+    
+
+            <section>
+        <h5 class="phpdocumentor-return-value__heading">Return values</h5>
+        <span class="phpdocumentor-signature__response_type">string</span>
+            </section>
+
+</article>
+                    <article
+        class="phpdocumentor-element
+            -method
+            -public
+                                                        "
+>
+    <h4 class="phpdocumentor-element__name" id="method_isAsset">
+        isAsset()
+        <a href="classes/Cecil-Renderer-Extension-Core.html#method_isAsset" class="headerlink"><i class="fas fa-link"></i></a>
+
+    </h4>
+    <aside class="phpdocumentor-element-found-in">
+    <abbr class="phpdocumentor-element-found-in__file" title="src/Renderer/Extension/Core.php"><a href="files/src-renderer-extension-core.html"><abbr title="src/Renderer/Extension/Core.php">Core.php</abbr></a></abbr>
+    :
+    <span class="phpdocumentor-element-found-in__line">899</span>
+
+    </aside>
+
+        <p class="phpdocumentor-summary">Tests if a variable is an Asset.</p>
+
+    <code class="phpdocumentor-code phpdocumentor-signature ">
+    <span class="phpdocumentor-signature__visibility">public</span>
+                    <span class="phpdocumentor-signature__name">isAsset</span><span>(</span><span class="phpdocumentor-signature__argument"><span class="phpdocumentor-signature__argument__return-type">mixed&nbsp;</span><span class="phpdocumentor-signature__argument__name">$variable</span></span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">bool</span></code>
+
+    <div class="phpdocumentor-label-line">
+        </div>
+    
+    
+        <h5 class="phpdocumentor-argument-list__heading">Parameters</h5>
+    <dl class="phpdocumentor-argument-list">
+                    <dt class="phpdocumentor-argument-list__entry">
+                <span class="phpdocumentor-signature__argument__name">$variable</span>
+                : <span class="phpdocumentor-signature__argument__return-type">mixed</span>
+                            </dt>
+            <dd class="phpdocumentor-argument-list__definition">
+                
+            </dd>
+            </dl>
+
+    
+
+    
+
+            <section>
+        <h5 class="phpdocumentor-return-value__heading">Return values</h5>
+        <span class="phpdocumentor-signature__response_type">bool</span>
+            </section>
+
+</article>
+                    <article
+        class="phpdocumentor-element
+            -method
+            -public
+                                                        "
+>
+    <h4 class="phpdocumentor-element__name" id="method_iterable">
+        iterable()
+        <a href="classes/Cecil-Renderer-Extension-Core.html#method_iterable" class="headerlink"><i class="fas fa-link"></i></a>
+
+    </h4>
+    <aside class="phpdocumentor-element-found-in">
+    <abbr class="phpdocumentor-element-found-in__file" title="src/Renderer/Extension/Core.php"><a href="files/src-renderer-extension-core.html"><abbr title="src/Renderer/Extension/Core.php">Core.php</abbr></a></abbr>
+    :
+    <span class="phpdocumentor-element-found-in__line">989</span>
+
+    </aside>
+
+        <p class="phpdocumentor-summary">Converts a variable to an iterable (array).</p>
+
+    <code class="phpdocumentor-code phpdocumentor-signature ">
+    <span class="phpdocumentor-signature__visibility">public</span>
+                    <span class="phpdocumentor-signature__name">iterable</span><span>(</span><span class="phpdocumentor-signature__argument"><span class="phpdocumentor-signature__argument__return-type">mixed&nbsp;</span><span class="phpdocumentor-signature__argument__name">$value</span></span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">array&lt;string|int, mixed&gt;</span></code>
+
+    <div class="phpdocumentor-label-line">
+        </div>
+    
+    
+        <h5 class="phpdocumentor-argument-list__heading">Parameters</h5>
+    <dl class="phpdocumentor-argument-list">
+                    <dt class="phpdocumentor-argument-list__entry">
+                <span class="phpdocumentor-signature__argument__name">$value</span>
+                : <span class="phpdocumentor-signature__argument__return-type">mixed</span>
+                            </dt>
+            <dd class="phpdocumentor-argument-list__definition">
+                
+            </dd>
+            </dl>
+
+    
+
+    
+
+            <section>
+        <h5 class="phpdocumentor-return-value__heading">Return values</h5>
+        <span class="phpdocumentor-signature__response_type">array&lt;string|int, mixed&gt;</span>
+            </section>
+
+</article>
+                    <article
+        class="phpdocumentor-element
+            -method
+            -public
+                                                        "
+>
+    <h4 class="phpdocumentor-element__name" id="method_jsonDecode">
+        jsonDecode()
+        <a href="classes/Cecil-Renderer-Extension-Core.html#method_jsonDecode" class="headerlink"><i class="fas fa-link"></i></a>
+
+    </h4>
+    <aside class="phpdocumentor-element-found-in">
+    <abbr class="phpdocumentor-element-found-in__file" title="src/Renderer/Extension/Core.php"><a href="files/src-renderer-extension-core.html"><abbr title="src/Renderer/Extension/Core.php">Core.php</abbr></a></abbr>
+    :
+    <span class="phpdocumentor-element-found-in__line">764</span>
+
+    </aside>
+
+        <p class="phpdocumentor-summary">Converts a JSON string to an array.</p>
+
+    <code class="phpdocumentor-code phpdocumentor-signature ">
+    <span class="phpdocumentor-signature__visibility">public</span>
+                    <span class="phpdocumentor-signature__name">jsonDecode</span><span>(</span><span class="phpdocumentor-signature__argument"><span class="phpdocumentor-signature__argument__return-type">string|null&nbsp;</span><span class="phpdocumentor-signature__argument__name">$json</span></span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">array&lt;string|int, mixed&gt;|null</span></code>
+
+    <div class="phpdocumentor-label-line">
+        </div>
+    
+    
+        <h5 class="phpdocumentor-argument-list__heading">Parameters</h5>
+    <dl class="phpdocumentor-argument-list">
+                    <dt class="phpdocumentor-argument-list__entry">
+                <span class="phpdocumentor-signature__argument__name">$json</span>
+                : <span class="phpdocumentor-signature__argument__return-type">string|null</span>
+                            </dt>
+            <dd class="phpdocumentor-argument-list__definition">
+                
+            </dd>
+            </dl>
+
+    
+    <h5 class="phpdocumentor-tag-list__heading" id="tags">
+        Tags
+        <a href="classes/Cecil-Renderer-Extension-Core.html#method_jsonDecode#tags" class="headerlink"><i class="fas fa-link"></i></a>
+
+    </h5>
+    <dl class="phpdocumentor-tag-list">
+                                    <dt class="phpdocumentor-tag-list__entry">
+                    <span class="phpdocumentor-tag__name">throws</span>
+                </dt>
+                <dd class="phpdocumentor-tag-list__definition">
+                                                                <span class="phpdocumentor-tag-link"><a href="classes/Cecil-Exception-RuntimeException.html"><abbr title="\Cecil\Exception\RuntimeException">RuntimeException</abbr></a></span>
+                                                            
+                                             
+                                    </dd>
+                                            </dl>
+
+    
+
+            <section>
+        <h5 class="phpdocumentor-return-value__heading">Return values</h5>
+        <span class="phpdocumentor-signature__response_type">array&lt;string|int, mixed&gt;|null</span>
+            </section>
+
+</article>
+                    <article
+        class="phpdocumentor-element
+            -method
+            -public
+                                                        "
+>
+    <h4 class="phpdocumentor-element__name" id="method_lqip">
+        lqip()
+        <a href="classes/Cecil-Renderer-Extension-Core.html#method_lqip" class="headerlink"><i class="fas fa-link"></i></a>
+
+    </h4>
+    <aside class="phpdocumentor-element-found-in">
+    <abbr class="phpdocumentor-element-found-in__file" title="src/Renderer/Extension/Core.php"><a href="files/src-renderer-extension-core.html"><abbr title="src/Renderer/Extension/Core.php">Core.php</abbr></a></abbr>
+    :
+    <span class="phpdocumentor-element-found-in__line">927</span>
+
+    </aside>
+
+        <p class="phpdocumentor-summary">Returns a Low Quality Image Placeholder (LQIP) as data URL.</p>
+
+    <code class="phpdocumentor-code phpdocumentor-signature ">
+    <span class="phpdocumentor-signature__visibility">public</span>
+                    <span class="phpdocumentor-signature__name">lqip</span><span>(</span><span class="phpdocumentor-signature__argument"><span class="phpdocumentor-signature__argument__return-type">string|<a href="classes/Cecil-Assets-Asset.html"><abbr title="\Cecil\Assets\Asset">Asset</abbr></a>&nbsp;</span><span class="phpdocumentor-signature__argument__name">$asset</span></span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">string</span></code>
+
+    <div class="phpdocumentor-label-line">
+        </div>
+    
+    
+        <h5 class="phpdocumentor-argument-list__heading">Parameters</h5>
+    <dl class="phpdocumentor-argument-list">
+                    <dt class="phpdocumentor-argument-list__entry">
+                <span class="phpdocumentor-signature__argument__name">$asset</span>
+                : <span class="phpdocumentor-signature__argument__return-type">string|<a href="classes/Cecil-Assets-Asset.html"><abbr title="\Cecil\Assets\Asset">Asset</abbr></a></span>
+                            </dt>
+            <dd class="phpdocumentor-argument-list__definition">
+                
+            </dd>
+            </dl>
+
+    
+
+    
+
+            <section>
+        <h5 class="phpdocumentor-return-value__heading">Return values</h5>
+        <span class="phpdocumentor-signature__response_type">string</span>
+            </section>
+
+</article>
+                    <article
+        class="phpdocumentor-element
+            -method
+            -public
+                                                        "
+>
+    <h4 class="phpdocumentor-element__name" id="method_markdownToHtml">
+        markdownToHtml()
+        <a href="classes/Cecil-Renderer-Extension-Core.html#method_markdownToHtml" class="headerlink"><i class="fas fa-link"></i></a>
+
+    </h4>
+    <aside class="phpdocumentor-element-found-in">
+    <abbr class="phpdocumentor-element-found-in__file" title="src/Renderer/Extension/Core.php"><a href="files/src-renderer-extension-core.html"><abbr title="src/Renderer/Extension/Core.php">Core.php</abbr></a></abbr>
+    :
+    <span class="phpdocumentor-element-found-in__line">720</span>
+
+    </aside>
+
+        <p class="phpdocumentor-summary">Converts a Markdown string to HTML.</p>
+
+    <code class="phpdocumentor-code phpdocumentor-signature ">
+    <span class="phpdocumentor-signature__visibility">public</span>
+                    <span class="phpdocumentor-signature__name">markdownToHtml</span><span>(</span><span class="phpdocumentor-signature__argument"><span class="phpdocumentor-signature__argument__return-type">string|null&nbsp;</span><span class="phpdocumentor-signature__argument__name">$markdown</span></span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">string|null</span></code>
+
+    <div class="phpdocumentor-label-line">
+        </div>
+    
+    
+        <h5 class="phpdocumentor-argument-list__heading">Parameters</h5>
+    <dl class="phpdocumentor-argument-list">
+                    <dt class="phpdocumentor-argument-list__entry">
+                <span class="phpdocumentor-signature__argument__name">$markdown</span>
+                : <span class="phpdocumentor-signature__argument__return-type">string|null</span>
+                            </dt>
+            <dd class="phpdocumentor-argument-list__definition">
+                
+            </dd>
+            </dl>
+
+    
+    <h5 class="phpdocumentor-tag-list__heading" id="tags">
+        Tags
+        <a href="classes/Cecil-Renderer-Extension-Core.html#method_markdownToHtml#tags" class="headerlink"><i class="fas fa-link"></i></a>
+
+    </h5>
+    <dl class="phpdocumentor-tag-list">
+                                    <dt class="phpdocumentor-tag-list__entry">
+                    <span class="phpdocumentor-tag__name">throws</span>
+                </dt>
+                <dd class="phpdocumentor-tag-list__definition">
+                                                                <span class="phpdocumentor-tag-link"><a href="classes/Cecil-Exception-RuntimeException.html"><abbr title="\Cecil\Exception\RuntimeException">RuntimeException</abbr></a></span>
+                                                            
+                                             
+                                    </dd>
+                                            </dl>
+
+    
+
+            <section>
+        <h5 class="phpdocumentor-return-value__heading">Return values</h5>
+        <span class="phpdocumentor-signature__response_type">string|null</span>
+            </section>
+
+</article>
+                    <article
+        class="phpdocumentor-element
+            -method
+            -public
+                                                        "
+>
+    <h4 class="phpdocumentor-element__name" id="method_markdownToToc">
+        markdownToToc()
+        <a href="classes/Cecil-Renderer-Extension-Core.html#method_markdownToToc" class="headerlink"><i class="fas fa-link"></i></a>
+
+    </h4>
+    <aside class="phpdocumentor-element-found-in">
+    <abbr class="phpdocumentor-element-found-in__file" title="src/Renderer/Extension/Core.php"><a href="files/src-renderer-extension-core.html"><abbr title="src/Renderer/Extension/Core.php">Core.php</abbr></a></abbr>
+    :
+    <span class="phpdocumentor-element-found-in__line">743</span>
+
+    </aside>
+
+        <p class="phpdocumentor-summary">Extract table of content of a Markdown string,
+in the given format (&quot;html&quot; or &quot;json&quot;, &quot;html&quot; by default).</p>
+
+    <code class="phpdocumentor-code phpdocumentor-signature ">
+    <span class="phpdocumentor-signature__visibility">public</span>
+                    <span class="phpdocumentor-signature__name">markdownToToc</span><span>(</span><span class="phpdocumentor-signature__argument"><span class="phpdocumentor-signature__argument__return-type">string|null&nbsp;</span><span class="phpdocumentor-signature__argument__name">$markdown</span></span><span class="phpdocumentor-signature__argument"><span>[</span><span>, </span><span class="phpdocumentor-signature__argument__return-type">mixed&nbsp;</span><span class="phpdocumentor-signature__argument__name">$format</span><span> = </span><span class="phpdocumentor-signature__argument__default-value">&#039;html&#039;</span><span> ]</span></span><span class="phpdocumentor-signature__argument"><span>[</span><span>, </span><span class="phpdocumentor-signature__argument__return-type">array&lt;string|int, mixed&gt;|null&nbsp;</span><span class="phpdocumentor-signature__argument__name">$selectors</span><span> = </span><span class="phpdocumentor-signature__argument__default-value">null</span><span> ]</span></span><span class="phpdocumentor-signature__argument"><span>[</span><span>, </span><span class="phpdocumentor-signature__argument__return-type">string&nbsp;</span><span class="phpdocumentor-signature__argument__name">$url</span><span> = </span><span class="phpdocumentor-signature__argument__default-value">&#039;&#039;</span><span> ]</span></span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">string|null</span></code>
+
+    <div class="phpdocumentor-label-line">
+        </div>
+    
+    
+        <h5 class="phpdocumentor-argument-list__heading">Parameters</h5>
+    <dl class="phpdocumentor-argument-list">
+                    <dt class="phpdocumentor-argument-list__entry">
+                <span class="phpdocumentor-signature__argument__name">$markdown</span>
+                : <span class="phpdocumentor-signature__argument__return-type">string|null</span>
+                            </dt>
+            <dd class="phpdocumentor-argument-list__definition">
+                
+            </dd>
+                    <dt class="phpdocumentor-argument-list__entry">
+                <span class="phpdocumentor-signature__argument__name">$format</span>
+                : <span class="phpdocumentor-signature__argument__return-type">mixed</span>
+                 = <span class="phpdocumentor-signature__argument__default-value">&#039;html&#039;</span>            </dt>
+            <dd class="phpdocumentor-argument-list__definition">
+                
+            </dd>
+                    <dt class="phpdocumentor-argument-list__entry">
+                <span class="phpdocumentor-signature__argument__name">$selectors</span>
+                : <span class="phpdocumentor-signature__argument__return-type">array&lt;string|int, mixed&gt;|null</span>
+                 = <span class="phpdocumentor-signature__argument__default-value">null</span>            </dt>
+            <dd class="phpdocumentor-argument-list__definition">
+                
+            </dd>
+                    <dt class="phpdocumentor-argument-list__entry">
+                <span class="phpdocumentor-signature__argument__name">$url</span>
+                : <span class="phpdocumentor-signature__argument__return-type">string</span>
+                 = <span class="phpdocumentor-signature__argument__default-value">&#039;&#039;</span>            </dt>
+            <dd class="phpdocumentor-argument-list__definition">
+                
+            </dd>
+            </dl>
+
+    
+    <h5 class="phpdocumentor-tag-list__heading" id="tags">
+        Tags
+        <a href="classes/Cecil-Renderer-Extension-Core.html#method_markdownToToc#tags" class="headerlink"><i class="fas fa-link"></i></a>
+
+    </h5>
+    <dl class="phpdocumentor-tag-list">
+                                    <dt class="phpdocumentor-tag-list__entry">
+                    <span class="phpdocumentor-tag__name">throws</span>
+                </dt>
+                <dd class="phpdocumentor-tag-list__definition">
+                                                                <span class="phpdocumentor-tag-link"><a href="classes/Cecil-Exception-RuntimeException.html"><abbr title="\Cecil\Exception\RuntimeException">RuntimeException</abbr></a></span>
+                                                            
+                                             
+                                    </dd>
+                                            </dl>
+
+    
+
+            <section>
+        <h5 class="phpdocumentor-return-value__heading">Return values</h5>
+        <span class="phpdocumentor-signature__response_type">string|null</span>
+            </section>
+
+</article>
+                    <article
+        class="phpdocumentor-element
+            -method
+            -public
+                                                        "
+>
+    <h4 class="phpdocumentor-element__name" id="method_minify">
+        minify()
+        <a href="classes/Cecil-Renderer-Extension-Core.html#method_minify" class="headerlink"><i class="fas fa-link"></i></a>
+
+    </h4>
+    <aside class="phpdocumentor-element-found-in">
+    <abbr class="phpdocumentor-element-found-in__file" title="src/Renderer/Extension/Core.php"><a href="files/src-renderer-extension-core.html"><abbr title="src/Renderer/Extension/Core.php">Core.php</abbr></a></abbr>
+    :
+    <span class="phpdocumentor-element-found-in__line">331</span>
+
+    </aside>
+
+        <p class="phpdocumentor-summary">Minifying an asset (CSS or JS).</p>
+
+    <code class="phpdocumentor-code phpdocumentor-signature ">
+    <span class="phpdocumentor-signature__visibility">public</span>
+                    <span class="phpdocumentor-signature__name">minify</span><span>(</span><span class="phpdocumentor-signature__argument"><span class="phpdocumentor-signature__argument__return-type">string|<a href="classes/Cecil-Assets-Asset.html"><abbr title="\Cecil\Assets\Asset">Asset</abbr></a>&nbsp;</span><span class="phpdocumentor-signature__argument__name">$asset</span></span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type"><a href="classes/Cecil-Assets-Asset.html"><abbr title="\Cecil\Assets\Asset">Asset</abbr></a></span></code>
+
+    <div class="phpdocumentor-label-line">
+        </div>
+    
+    
+        <h5 class="phpdocumentor-argument-list__heading">Parameters</h5>
+    <dl class="phpdocumentor-argument-list">
+                    <dt class="phpdocumentor-argument-list__entry">
+                <span class="phpdocumentor-signature__argument__name">$asset</span>
+                : <span class="phpdocumentor-signature__argument__return-type">string|<a href="classes/Cecil-Assets-Asset.html"><abbr title="\Cecil\Assets\Asset">Asset</abbr></a></span>
+                            </dt>
+            <dd class="phpdocumentor-argument-list__definition">
+                
+            </dd>
+            </dl>
+
+    
+
+    
+
+            <section>
+        <h5 class="phpdocumentor-return-value__heading">Return values</h5>
+        <span class="phpdocumentor-signature__response_type"><a href="classes/Cecil-Assets-Asset.html"><abbr title="\Cecil\Assets\Asset">Asset</abbr></a></span>
+            </section>
+
+</article>
+                    <article
+        class="phpdocumentor-element
+            -method
+            -public
+                                                        "
+>
+    <h4 class="phpdocumentor-element__name" id="method_minifyCss">
+        minifyCss()
+        <a href="classes/Cecil-Renderer-Extension-Core.html#method_minifyCss" class="headerlink"><i class="fas fa-link"></i></a>
+
+    </h4>
+    <aside class="phpdocumentor-element-found-in">
+    <abbr class="phpdocumentor-element-found-in__file" title="src/Renderer/Extension/Core.php"><a href="files/src-renderer-extension-core.html"><abbr title="src/Renderer/Extension/Core.php">Core.php</abbr></a></abbr>
+    :
+    <span class="phpdocumentor-element-found-in__line">427</span>
+
+    </aside>
+
+        <p class="phpdocumentor-summary">Minifying a CSS string.</p>
+
+    <code class="phpdocumentor-code phpdocumentor-signature ">
+    <span class="phpdocumentor-signature__visibility">public</span>
+                    <span class="phpdocumentor-signature__name">minifyCss</span><span>(</span><span class="phpdocumentor-signature__argument"><span class="phpdocumentor-signature__argument__return-type">string|null&nbsp;</span><span class="phpdocumentor-signature__argument__name">$value</span></span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">string</span></code>
+
+    <div class="phpdocumentor-label-line">
+        </div>
+    
+    
+        <h5 class="phpdocumentor-argument-list__heading">Parameters</h5>
+    <dl class="phpdocumentor-argument-list">
+                    <dt class="phpdocumentor-argument-list__entry">
+                <span class="phpdocumentor-signature__argument__name">$value</span>
+                : <span class="phpdocumentor-signature__argument__return-type">string|null</span>
+                            </dt>
+            <dd class="phpdocumentor-argument-list__definition">
+                
+            </dd>
+            </dl>
+
+    
+
+    
+
+            <section>
+        <h5 class="phpdocumentor-return-value__heading">Return values</h5>
+        <span class="phpdocumentor-signature__response_type">string</span>
+            </section>
+
+</article>
+                    <article
+        class="phpdocumentor-element
+            -method
+            -public
+                                                        "
+>
+    <h4 class="phpdocumentor-element__name" id="method_minifyJs">
+        minifyJs()
+        <a href="classes/Cecil-Renderer-Extension-Core.html#method_minifyJs" class="headerlink"><i class="fas fa-link"></i></a>
+
+    </h4>
+    <aside class="phpdocumentor-element-found-in">
+    <abbr class="phpdocumentor-element-found-in__file" title="src/Renderer/Extension/Core.php"><a href="files/src-renderer-extension-core.html"><abbr title="src/Renderer/Extension/Core.php">Core.php</abbr></a></abbr>
+    :
+    <span class="phpdocumentor-element-found-in__line">449</span>
+
+    </aside>
+
+        <p class="phpdocumentor-summary">Minifying a JavaScript string.</p>
+
+    <code class="phpdocumentor-code phpdocumentor-signature ">
+    <span class="phpdocumentor-signature__visibility">public</span>
+                    <span class="phpdocumentor-signature__name">minifyJs</span><span>(</span><span class="phpdocumentor-signature__argument"><span class="phpdocumentor-signature__argument__return-type">string|null&nbsp;</span><span class="phpdocumentor-signature__argument__name">$value</span></span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">string</span></code>
+
+    <div class="phpdocumentor-label-line">
+        </div>
+    
+    
+        <h5 class="phpdocumentor-argument-list__heading">Parameters</h5>
+    <dl class="phpdocumentor-argument-list">
+                    <dt class="phpdocumentor-argument-list__entry">
+                <span class="phpdocumentor-signature__argument__name">$value</span>
+                : <span class="phpdocumentor-signature__argument__return-type">string|null</span>
+                            </dt>
+            <dd class="phpdocumentor-argument-list__definition">
+                
+            </dd>
+            </dl>
+
+    
+
+    
+
+            <section>
+        <h5 class="phpdocumentor-return-value__heading">Return values</h5>
+        <span class="phpdocumentor-signature__response_type">string</span>
+            </section>
+
+</article>
+                    <article
+        class="phpdocumentor-element
+            -method
+            -public
+                                                        "
+>
+    <h4 class="phpdocumentor-element__name" id="method_pregMatchAll">
+        pregMatchAll()
+        <a href="classes/Cecil-Renderer-Extension-Core.html#method_pregMatchAll" class="headerlink"><i class="fas fa-link"></i></a>
+
+    </h4>
+    <aside class="phpdocumentor-element-found-in">
+    <abbr class="phpdocumentor-element-found-in__file" title="src/Renderer/Extension/Core.php"><a href="files/src-renderer-extension-core.html"><abbr title="src/Renderer/Extension/Core.php">Core.php</abbr></a></abbr>
+    :
+    <span class="phpdocumentor-element-found-in__line">827</span>
+
+    </aside>
+
+        <p class="phpdocumentor-summary">Perform a regular expression match and return the group for all matches.</p>
+
+    <code class="phpdocumentor-code phpdocumentor-signature ">
+    <span class="phpdocumentor-signature__visibility">public</span>
+                    <span class="phpdocumentor-signature__name">pregMatchAll</span><span>(</span><span class="phpdocumentor-signature__argument"><span class="phpdocumentor-signature__argument__return-type">string|null&nbsp;</span><span class="phpdocumentor-signature__argument__name">$value</span></span><span class="phpdocumentor-signature__argument"><span>, </span><span class="phpdocumentor-signature__argument__return-type">string&nbsp;</span><span class="phpdocumentor-signature__argument__name">$pattern</span></span><span class="phpdocumentor-signature__argument"><span>[</span><span>, </span><span class="phpdocumentor-signature__argument__return-type">int&nbsp;</span><span class="phpdocumentor-signature__argument__name">$group</span><span> = </span><span class="phpdocumentor-signature__argument__default-value">0</span><span> ]</span></span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">array&lt;string|int, mixed&gt;|null</span></code>
+
+    <div class="phpdocumentor-label-line">
+        </div>
+    
+    
+        <h5 class="phpdocumentor-argument-list__heading">Parameters</h5>
+    <dl class="phpdocumentor-argument-list">
+                    <dt class="phpdocumentor-argument-list__entry">
+                <span class="phpdocumentor-signature__argument__name">$value</span>
+                : <span class="phpdocumentor-signature__argument__return-type">string|null</span>
+                            </dt>
+            <dd class="phpdocumentor-argument-list__definition">
+                
+            </dd>
+                    <dt class="phpdocumentor-argument-list__entry">
+                <span class="phpdocumentor-signature__argument__name">$pattern</span>
+                : <span class="phpdocumentor-signature__argument__return-type">string</span>
+                            </dt>
+            <dd class="phpdocumentor-argument-list__definition">
+                
+            </dd>
+                    <dt class="phpdocumentor-argument-list__entry">
+                <span class="phpdocumentor-signature__argument__name">$group</span>
+                : <span class="phpdocumentor-signature__argument__return-type">int</span>
+                 = <span class="phpdocumentor-signature__argument__default-value">0</span>            </dt>
+            <dd class="phpdocumentor-argument-list__definition">
+                
+            </dd>
+            </dl>
+
+    
+    <h5 class="phpdocumentor-tag-list__heading" id="tags">
+        Tags
+        <a href="classes/Cecil-Renderer-Extension-Core.html#method_pregMatchAll#tags" class="headerlink"><i class="fas fa-link"></i></a>
+
+    </h5>
+    <dl class="phpdocumentor-tag-list">
+                                    <dt class="phpdocumentor-tag-list__entry">
+                    <span class="phpdocumentor-tag__name">throws</span>
+                </dt>
+                <dd class="phpdocumentor-tag-list__definition">
+                                                                <span class="phpdocumentor-tag-link"><a href="classes/Cecil-Exception-RuntimeException.html"><abbr title="\Cecil\Exception\RuntimeException">RuntimeException</abbr></a></span>
+                                                            
+                                             
+                                    </dd>
+                                            </dl>
+
+    
+
+            <section>
+        <h5 class="phpdocumentor-return-value__heading">Return values</h5>
+        <span class="phpdocumentor-signature__response_type">array&lt;string|int, mixed&gt;|null</span>
+            </section>
+
+</article>
+                    <article
+        class="phpdocumentor-element
+            -method
+            -public
+                                                        "
+>
+    <h4 class="phpdocumentor-element__name" id="method_pregSplit">
+        pregSplit()
+        <a href="classes/Cecil-Renderer-Extension-Core.html#method_pregSplit" class="headerlink"><i class="fas fa-link"></i></a>
+
+    </h4>
+    <aside class="phpdocumentor-element-found-in">
+    <abbr class="phpdocumentor-element-found-in__file" title="src/Renderer/Extension/Core.php"><a href="files/src-renderer-extension-core.html"><abbr title="src/Renderer/Extension/Core.php">Core.php</abbr></a></abbr>
+    :
+    <span class="phpdocumentor-element-found-in__line">806</span>
+
+    </aside>
+
+        <p class="phpdocumentor-summary">Split a string into an array using a regular expression.</p>
+
+    <code class="phpdocumentor-code phpdocumentor-signature ">
+    <span class="phpdocumentor-signature__visibility">public</span>
+                    <span class="phpdocumentor-signature__name">pregSplit</span><span>(</span><span class="phpdocumentor-signature__argument"><span class="phpdocumentor-signature__argument__return-type">string|null&nbsp;</span><span class="phpdocumentor-signature__argument__name">$value</span></span><span class="phpdocumentor-signature__argument"><span>, </span><span class="phpdocumentor-signature__argument__return-type">string&nbsp;</span><span class="phpdocumentor-signature__argument__name">$pattern</span></span><span class="phpdocumentor-signature__argument"><span>[</span><span>, </span><span class="phpdocumentor-signature__argument__return-type">int&nbsp;</span><span class="phpdocumentor-signature__argument__name">$limit</span><span> = </span><span class="phpdocumentor-signature__argument__default-value">0</span><span> ]</span></span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">array&lt;string|int, mixed&gt;|null</span></code>
+
+    <div class="phpdocumentor-label-line">
+        </div>
+    
+    
+        <h5 class="phpdocumentor-argument-list__heading">Parameters</h5>
+    <dl class="phpdocumentor-argument-list">
+                    <dt class="phpdocumentor-argument-list__entry">
+                <span class="phpdocumentor-signature__argument__name">$value</span>
+                : <span class="phpdocumentor-signature__argument__return-type">string|null</span>
+                            </dt>
+            <dd class="phpdocumentor-argument-list__definition">
+                
+            </dd>
+                    <dt class="phpdocumentor-argument-list__entry">
+                <span class="phpdocumentor-signature__argument__name">$pattern</span>
+                : <span class="phpdocumentor-signature__argument__return-type">string</span>
+                            </dt>
+            <dd class="phpdocumentor-argument-list__definition">
+                
+            </dd>
+                    <dt class="phpdocumentor-argument-list__entry">
+                <span class="phpdocumentor-signature__argument__name">$limit</span>
+                : <span class="phpdocumentor-signature__argument__return-type">int</span>
+                 = <span class="phpdocumentor-signature__argument__default-value">0</span>            </dt>
+            <dd class="phpdocumentor-argument-list__definition">
+                
+            </dd>
+            </dl>
+
+    
+    <h5 class="phpdocumentor-tag-list__heading" id="tags">
+        Tags
+        <a href="classes/Cecil-Renderer-Extension-Core.html#method_pregSplit#tags" class="headerlink"><i class="fas fa-link"></i></a>
+
+    </h5>
+    <dl class="phpdocumentor-tag-list">
+                                    <dt class="phpdocumentor-tag-list__entry">
+                    <span class="phpdocumentor-tag__name">throws</span>
+                </dt>
+                <dd class="phpdocumentor-tag-list__definition">
+                                                                <span class="phpdocumentor-tag-link"><a href="classes/Cecil-Exception-RuntimeException.html"><abbr title="\Cecil\Exception\RuntimeException">RuntimeException</abbr></a></span>
+                                                            
+                                             
+                                    </dd>
+                                            </dl>
+
+    
+
+            <section>
+        <h5 class="phpdocumentor-return-value__heading">Return values</h5>
+        <span class="phpdocumentor-signature__response_type">array&lt;string|int, mixed&gt;|null</span>
+            </section>
+
+</article>
+                    <article
+        class="phpdocumentor-element
+            -method
+            -public
+                                                        "
+>
+    <h4 class="phpdocumentor-element__name" id="method_readtime">
+        readtime()
+        <a href="classes/Cecil-Renderer-Extension-Core.html#method_readtime" class="headerlink"><i class="fas fa-link"></i></a>
+
+    </h4>
+    <aside class="phpdocumentor-element-found-in">
+    <abbr class="phpdocumentor-element-found-in__file" title="src/Renderer/Extension/Core.php"><a href="files/src-renderer-extension-core.html"><abbr title="src/Renderer/Extension/Core.php">Core.php</abbr></a></abbr>
+    :
+    <span class="phpdocumentor-element-found-in__line">846</span>
+
+    </aside>
+
+        <p class="phpdocumentor-summary">Calculates estimated time to read a text.</p>
+
+    <code class="phpdocumentor-code phpdocumentor-signature ">
+    <span class="phpdocumentor-signature__visibility">public</span>
+                    <span class="phpdocumentor-signature__name">readtime</span><span>(</span><span class="phpdocumentor-signature__argument"><span class="phpdocumentor-signature__argument__return-type">string|null&nbsp;</span><span class="phpdocumentor-signature__argument__name">$text</span></span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">string</span></code>
+
+    <div class="phpdocumentor-label-line">
+        </div>
+    
+    
+        <h5 class="phpdocumentor-argument-list__heading">Parameters</h5>
+    <dl class="phpdocumentor-argument-list">
+                    <dt class="phpdocumentor-argument-list__entry">
+                <span class="phpdocumentor-signature__argument__name">$text</span>
+                : <span class="phpdocumentor-signature__argument__return-type">string|null</span>
+                            </dt>
+            <dd class="phpdocumentor-argument-list__definition">
+                
+            </dd>
+            </dl>
+
+    
+
+    
+
+            <section>
+        <h5 class="phpdocumentor-return-value__heading">Return values</h5>
+        <span class="phpdocumentor-signature__response_type">string</span>
+            </section>
+
+</article>
+                    <article
+        class="phpdocumentor-element
+            -method
+            -public
+                                                        "
+>
+    <h4 class="phpdocumentor-element__name" id="method_resize">
+        resize()
+        <a href="classes/Cecil-Renderer-Extension-Core.html#method_resize" class="headerlink"><i class="fas fa-link"></i></a>
+
+    </h4>
+    <aside class="phpdocumentor-element-found-in">
+    <abbr class="phpdocumentor-element-found-in__file" title="src/Renderer/Extension/Core.php"><a href="files/src-renderer-extension-core.html"><abbr title="src/Renderer/Extension/Core.php">Core.php</abbr></a></abbr>
+    :
+    <span class="phpdocumentor-element-found-in__line">363</span>
+
+    </aside>
+
+        <p class="phpdocumentor-summary">Resizes an image.</p>
+
+    <code class="phpdocumentor-code phpdocumentor-signature ">
+    <span class="phpdocumentor-signature__visibility">public</span>
+                    <span class="phpdocumentor-signature__name">resize</span><span>(</span><span class="phpdocumentor-signature__argument"><span class="phpdocumentor-signature__argument__return-type">string|<a href="classes/Cecil-Assets-Asset.html"><abbr title="\Cecil\Assets\Asset">Asset</abbr></a>&nbsp;</span><span class="phpdocumentor-signature__argument__name">$asset</span></span><span class="phpdocumentor-signature__argument"><span>, </span><span class="phpdocumentor-signature__argument__return-type">int&nbsp;</span><span class="phpdocumentor-signature__argument__name">$size</span></span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type"><a href="classes/Cecil-Assets-Asset.html"><abbr title="\Cecil\Assets\Asset">Asset</abbr></a></span></code>
+
+    <div class="phpdocumentor-label-line">
+        </div>
+    
+    
+        <h5 class="phpdocumentor-argument-list__heading">Parameters</h5>
+    <dl class="phpdocumentor-argument-list">
+                    <dt class="phpdocumentor-argument-list__entry">
+                <span class="phpdocumentor-signature__argument__name">$asset</span>
+                : <span class="phpdocumentor-signature__argument__return-type">string|<a href="classes/Cecil-Assets-Asset.html"><abbr title="\Cecil\Assets\Asset">Asset</abbr></a></span>
+                            </dt>
+            <dd class="phpdocumentor-argument-list__definition">
+                
+            </dd>
+                    <dt class="phpdocumentor-argument-list__entry">
+                <span class="phpdocumentor-signature__argument__name">$size</span>
+                : <span class="phpdocumentor-signature__argument__return-type">int</span>
+                            </dt>
+            <dd class="phpdocumentor-argument-list__definition">
+                
+            </dd>
+            </dl>
+
+    
+
+    
+
+            <section>
+        <h5 class="phpdocumentor-return-value__heading">Return values</h5>
+        <span class="phpdocumentor-signature__response_type"><a href="classes/Cecil-Assets-Asset.html"><abbr title="\Cecil\Assets\Asset">Asset</abbr></a></span>
+            </section>
+
+</article>
+                    <article
+        class="phpdocumentor-element
+            -method
+            -public
+                                                        "
+>
+    <h4 class="phpdocumentor-element__name" id="method_scssToCss">
+        scssToCss()
+        <a href="classes/Cecil-Renderer-Extension-Core.html#method_scssToCss" class="headerlink"><i class="fas fa-link"></i></a>
+
+    </h4>
+    <aside class="phpdocumentor-element-found-in">
+    <abbr class="phpdocumentor-element-found-in__file" title="src/Renderer/Extension/Core.php"><a href="files/src-renderer-extension-core.html"><abbr title="src/Renderer/Extension/Core.php">Core.php</abbr></a></abbr>
+    :
+    <span class="phpdocumentor-element-found-in__line">473</span>
+
+    </aside>
+
+        <p class="phpdocumentor-summary">Compiles a SCSS string.</p>
+
+    <code class="phpdocumentor-code phpdocumentor-signature ">
+    <span class="phpdocumentor-signature__visibility">public</span>
+                    <span class="phpdocumentor-signature__name">scssToCss</span><span>(</span><span class="phpdocumentor-signature__argument"><span class="phpdocumentor-signature__argument__return-type">string|null&nbsp;</span><span class="phpdocumentor-signature__argument__name">$value</span></span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">string</span></code>
+
+    <div class="phpdocumentor-label-line">
+        </div>
+    
+    
+        <h5 class="phpdocumentor-argument-list__heading">Parameters</h5>
+    <dl class="phpdocumentor-argument-list">
+                    <dt class="phpdocumentor-argument-list__entry">
+                <span class="phpdocumentor-signature__argument__name">$value</span>
+                : <span class="phpdocumentor-signature__argument__return-type">string|null</span>
+                            </dt>
+            <dd class="phpdocumentor-argument-list__definition">
+                
+            </dd>
+            </dl>
+
+    
+    <h5 class="phpdocumentor-tag-list__heading" id="tags">
+        Tags
+        <a href="classes/Cecil-Renderer-Extension-Core.html#method_scssToCss#tags" class="headerlink"><i class="fas fa-link"></i></a>
+
+    </h5>
+    <dl class="phpdocumentor-tag-list">
+                                    <dt class="phpdocumentor-tag-list__entry">
+                    <span class="phpdocumentor-tag__name">throws</span>
+                </dt>
+                <dd class="phpdocumentor-tag-list__definition">
+                                                                <span class="phpdocumentor-tag-link"><a href="classes/Cecil-Exception-RuntimeException.html"><abbr title="\Cecil\Exception\RuntimeException">RuntimeException</abbr></a></span>
+                                                            
+                                             
+                                    </dd>
+                                            </dl>
+
+    
+
+            <section>
+        <h5 class="phpdocumentor-return-value__heading">Return values</h5>
+        <span class="phpdocumentor-signature__response_type">string</span>
+            </section>
+
+</article>
+                    <article
+        class="phpdocumentor-element
+            -method
+            -public
+                                                        "
+>
+    <h4 class="phpdocumentor-element__name" id="method_sortByDate">
+        sortByDate()
+        <a href="classes/Cecil-Renderer-Extension-Core.html#method_sortByDate" class="headerlink"><i class="fas fa-link"></i></a>
+
+    </h4>
+    <aside class="phpdocumentor-element-found-in">
+    <abbr class="phpdocumentor-element-found-in__file" title="src/Renderer/Extension/Core.php"><a href="files/src-renderer-extension-core.html"><abbr title="src/Renderer/Extension/Core.php">Core.php</abbr></a></abbr>
+    :
+    <span class="phpdocumentor-element-found-in__line">248</span>
+
+    </aside>
+
+        <p class="phpdocumentor-summary">Sorts by creation date (or &#039;updated&#039; date): the most recent first.</p>
+
+    <code class="phpdocumentor-code phpdocumentor-signature ">
+    <span class="phpdocumentor-signature__visibility">public</span>
+                    <span class="phpdocumentor-signature__name">sortByDate</span><span>(</span><span class="phpdocumentor-signature__argument"><span class="phpdocumentor-signature__argument__return-type"><abbr title="\Traversable">Traversable</abbr>&nbsp;</span><span class="phpdocumentor-signature__argument__name">$collection</span></span><span class="phpdocumentor-signature__argument"><span>[</span><span>, </span><span class="phpdocumentor-signature__argument__return-type">string&nbsp;</span><span class="phpdocumentor-signature__argument__name">$variable</span><span> = </span><span class="phpdocumentor-signature__argument__default-value">&#039;date&#039;</span><span> ]</span></span><span class="phpdocumentor-signature__argument"><span>[</span><span>, </span><span class="phpdocumentor-signature__argument__return-type">bool&nbsp;</span><span class="phpdocumentor-signature__argument__name">$descTitle</span><span> = </span><span class="phpdocumentor-signature__argument__default-value">false</span><span> ]</span></span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">array&lt;string|int, mixed&gt;</span></code>
+
+    <div class="phpdocumentor-label-line">
+        </div>
+    
+    
+        <h5 class="phpdocumentor-argument-list__heading">Parameters</h5>
+    <dl class="phpdocumentor-argument-list">
+                    <dt class="phpdocumentor-argument-list__entry">
+                <span class="phpdocumentor-signature__argument__name">$collection</span>
+                : <span class="phpdocumentor-signature__argument__return-type"><abbr title="\Traversable">Traversable</abbr></span>
+                            </dt>
+            <dd class="phpdocumentor-argument-list__definition">
+                
+            </dd>
+                    <dt class="phpdocumentor-argument-list__entry">
+                <span class="phpdocumentor-signature__argument__name">$variable</span>
+                : <span class="phpdocumentor-signature__argument__return-type">string</span>
+                 = <span class="phpdocumentor-signature__argument__default-value">&#039;date&#039;</span>            </dt>
+            <dd class="phpdocumentor-argument-list__definition">
+                
+            </dd>
+                    <dt class="phpdocumentor-argument-list__entry">
+                <span class="phpdocumentor-signature__argument__name">$descTitle</span>
+                : <span class="phpdocumentor-signature__argument__return-type">bool</span>
+                 = <span class="phpdocumentor-signature__argument__default-value">false</span>            </dt>
+            <dd class="phpdocumentor-argument-list__definition">
+                
+            </dd>
+            </dl>
+
+    
+
+    
+
+            <section>
+        <h5 class="phpdocumentor-return-value__heading">Return values</h5>
+        <span class="phpdocumentor-signature__response_type">array&lt;string|int, mixed&gt;</span>
+            </section>
+
+</article>
+                    <article
+        class="phpdocumentor-element
+            -method
+            -public
+                                                        "
+>
+    <h4 class="phpdocumentor-element__name" id="method_sortByTitle">
+        sortByTitle()
+        <a href="classes/Cecil-Renderer-Extension-Core.html#method_sortByTitle" class="headerlink"><i class="fas fa-link"></i></a>
+
+    </h4>
+    <aside class="phpdocumentor-element-found-in">
+    <abbr class="phpdocumentor-element-found-in__file" title="src/Renderer/Extension/Core.php"><a href="files/src-renderer-extension-core.html"><abbr title="src/Renderer/Extension/Core.php">Core.php</abbr></a></abbr>
+    :
+    <span class="phpdocumentor-element-found-in__line">206</span>
+
+    </aside>
+
+        <p class="phpdocumentor-summary">Sorts a collection by title.</p>
+
+    <code class="phpdocumentor-code phpdocumentor-signature ">
+    <span class="phpdocumentor-signature__visibility">public</span>
+                    <span class="phpdocumentor-signature__name">sortByTitle</span><span>(</span><span class="phpdocumentor-signature__argument"><span class="phpdocumentor-signature__argument__return-type"><abbr title="\Traversable">Traversable</abbr>&nbsp;</span><span class="phpdocumentor-signature__argument__name">$collection</span></span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">array&lt;string|int, mixed&gt;</span></code>
+
+    <div class="phpdocumentor-label-line">
+        </div>
+    
+    
+        <h5 class="phpdocumentor-argument-list__heading">Parameters</h5>
+    <dl class="phpdocumentor-argument-list">
+                    <dt class="phpdocumentor-argument-list__entry">
+                <span class="phpdocumentor-signature__argument__name">$collection</span>
+                : <span class="phpdocumentor-signature__argument__return-type"><abbr title="\Traversable">Traversable</abbr></span>
+                            </dt>
+            <dd class="phpdocumentor-argument-list__definition">
+                
+            </dd>
+            </dl>
+
+    
+
+    
+
+            <section>
+        <h5 class="phpdocumentor-return-value__heading">Return values</h5>
+        <span class="phpdocumentor-signature__response_type">array&lt;string|int, mixed&gt;</span>
+            </section>
+
+</article>
+                    <article
+        class="phpdocumentor-element
+            -method
+            -public
+                                                        "
+>
+    <h4 class="phpdocumentor-element__name" id="method_sortByWeight">
+        sortByWeight()
+        <a href="classes/Cecil-Renderer-Extension-Core.html#method_sortByWeight" class="headerlink"><i class="fas fa-link"></i></a>
+
+    </h4>
+    <aside class="phpdocumentor-element-found-in">
+    <abbr class="phpdocumentor-element-found-in__file" title="src/Renderer/Extension/Core.php"><a href="files/src-renderer-extension-core.html"><abbr title="src/Renderer/Extension/Core.php">Core.php</abbr></a></abbr>
+    :
+    <span class="phpdocumentor-element-found-in__line">221</span>
+
+    </aside>
+
+        <p class="phpdocumentor-summary">Sorts a collection by weight.</p>
+
+    <code class="phpdocumentor-code phpdocumentor-signature ">
+    <span class="phpdocumentor-signature__visibility">public</span>
+                    <span class="phpdocumentor-signature__name">sortByWeight</span><span>(</span><span class="phpdocumentor-signature__argument"><span class="phpdocumentor-signature__argument__return-type"><abbr title="\Traversable">Traversable</abbr>|array&lt;string|int, mixed&gt;&nbsp;</span><span class="phpdocumentor-signature__argument__name">$collection</span></span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">array&lt;string|int, mixed&gt;</span></code>
+
+    <div class="phpdocumentor-label-line">
+        </div>
+    
+    
+        <h5 class="phpdocumentor-argument-list__heading">Parameters</h5>
+    <dl class="phpdocumentor-argument-list">
+                    <dt class="phpdocumentor-argument-list__entry">
+                <span class="phpdocumentor-signature__argument__name">$collection</span>
+                : <span class="phpdocumentor-signature__argument__return-type"><abbr title="\Traversable">Traversable</abbr>|array&lt;string|int, mixed&gt;</span>
+                            </dt>
+            <dd class="phpdocumentor-argument-list__definition">
+                
+            </dd>
+            </dl>
+
+    
+
+    
+
+            <section>
+        <h5 class="phpdocumentor-return-value__heading">Return values</h5>
+        <span class="phpdocumentor-signature__response_type">array&lt;string|int, mixed&gt;</span>
+            </section>
+
+</article>
+                    <article
+        class="phpdocumentor-element
+            -method
+            -public
+                                                        "
+>
+    <h4 class="phpdocumentor-element__name" id="method_splitLine">
+        splitLine()
+        <a href="classes/Cecil-Renderer-Extension-Core.html#method_splitLine" class="headerlink"><i class="fas fa-link"></i></a>
+
+    </h4>
+    <aside class="phpdocumentor-element-found-in">
+    <abbr class="phpdocumentor-element-found-in__file" title="src/Renderer/Extension/Core.php"><a href="files/src-renderer-extension-core.html"><abbr title="src/Renderer/Extension/Core.php">Core.php</abbr></a></abbr>
+    :
+    <span class="phpdocumentor-element-found-in__line">964</span>
+
+    </aside>
+
+        <p class="phpdocumentor-summary">Split a string in multiple lines.</p>
+
+    <code class="phpdocumentor-code phpdocumentor-signature ">
+    <span class="phpdocumentor-signature__visibility">public</span>
+                    <span class="phpdocumentor-signature__name">splitLine</span><span>(</span><span class="phpdocumentor-signature__argument"><span class="phpdocumentor-signature__argument__return-type">string|null&nbsp;</span><span class="phpdocumentor-signature__argument__name">$variable</span></span><span class="phpdocumentor-signature__argument"><span>[</span><span>, </span><span class="phpdocumentor-signature__argument__return-type">int&nbsp;</span><span class="phpdocumentor-signature__argument__name">$max</span><span> = </span><span class="phpdocumentor-signature__argument__default-value">18</span><span> ]</span></span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">array&lt;string|int, mixed&gt;</span></code>
+
+    <div class="phpdocumentor-label-line">
+        </div>
+    
+    
+        <h5 class="phpdocumentor-argument-list__heading">Parameters</h5>
+    <dl class="phpdocumentor-argument-list">
+                    <dt class="phpdocumentor-argument-list__entry">
+                <span class="phpdocumentor-signature__argument__name">$variable</span>
+                : <span class="phpdocumentor-signature__argument__return-type">string|null</span>
+                            </dt>
+            <dd class="phpdocumentor-argument-list__definition">
+                
+            </dd>
+                    <dt class="phpdocumentor-argument-list__entry">
+                <span class="phpdocumentor-signature__argument__name">$max</span>
+                : <span class="phpdocumentor-signature__argument__return-type">int</span>
+                 = <span class="phpdocumentor-signature__argument__default-value">18</span>            </dt>
+            <dd class="phpdocumentor-argument-list__definition">
+                
+            </dd>
+            </dl>
+
+    
+
+    
+
+            <section>
+        <h5 class="phpdocumentor-return-value__heading">Return values</h5>
+        <span class="phpdocumentor-signature__response_type">array&lt;string|int, mixed&gt;</span>
+            </section>
+
+</article>
+                    <article
+        class="phpdocumentor-element
+            -method
+            -public
+                                                        "
+>
+    <h4 class="phpdocumentor-element__name" id="method_toCss">
+        toCss()
+        <a href="classes/Cecil-Renderer-Extension-Core.html#method_toCss" class="headerlink"><i class="fas fa-link"></i></a>
+
+    </h4>
+    <aside class="phpdocumentor-element-found-in">
+    <abbr class="phpdocumentor-element-found-in__file" title="src/Renderer/Extension/Core.php"><a href="files/src-renderer-extension-core.html"><abbr title="src/Renderer/Extension/Core.php">Core.php</abbr></a></abbr>
+    :
+    <span class="phpdocumentor-element-found-in__line">315</span>
+
+    </aside>
+
+        <p class="phpdocumentor-summary">Compiles a SCSS asset.</p>
+
+    <code class="phpdocumentor-code phpdocumentor-signature ">
+    <span class="phpdocumentor-signature__visibility">public</span>
+                    <span class="phpdocumentor-signature__name">toCss</span><span>(</span><span class="phpdocumentor-signature__argument"><span class="phpdocumentor-signature__argument__return-type">string|<a href="classes/Cecil-Assets-Asset.html"><abbr title="\Cecil\Assets\Asset">Asset</abbr></a>&nbsp;</span><span class="phpdocumentor-signature__argument__name">$asset</span></span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type"><a href="classes/Cecil-Assets-Asset.html"><abbr title="\Cecil\Assets\Asset">Asset</abbr></a></span></code>
+
+    <div class="phpdocumentor-label-line">
+        </div>
+    
+    
+        <h5 class="phpdocumentor-argument-list__heading">Parameters</h5>
+    <dl class="phpdocumentor-argument-list">
+                    <dt class="phpdocumentor-argument-list__entry">
+                <span class="phpdocumentor-signature__argument__name">$asset</span>
+                : <span class="phpdocumentor-signature__argument__return-type">string|<a href="classes/Cecil-Assets-Asset.html"><abbr title="\Cecil\Assets\Asset">Asset</abbr></a></span>
+                            </dt>
+            <dd class="phpdocumentor-argument-list__definition">
+                
+            </dd>
+            </dl>
+
+    
+
+    
+
+            <section>
+        <h5 class="phpdocumentor-return-value__heading">Return values</h5>
+        <span class="phpdocumentor-signature__response_type"><a href="classes/Cecil-Assets-Asset.html"><abbr title="\Cecil\Assets\Asset">Asset</abbr></a></span>
+            </section>
+
+</article>
+                    <article
+        class="phpdocumentor-element
+            -method
+            -public
+                                                        "
+>
+    <h4 class="phpdocumentor-element__name" id="method_url">
+        url()
+        <a href="classes/Cecil-Renderer-Extension-Core.html#method_url" class="headerlink"><i class="fas fa-link"></i></a>
+
+    </h4>
+    <aside class="phpdocumentor-element-found-in">
+    <abbr class="phpdocumentor-element-found-in__file" title="src/Renderer/Extension/Core.php"><a href="files/src-renderer-extension-core.html"><abbr title="src/Renderer/Extension/Core.php">Core.php</abbr></a></abbr>
+    :
+    <span class="phpdocumentor-element-found-in__line">282</span>
+
+    </aside>
+
+        <p class="phpdocumentor-summary">Creates an URL.</p>
+
+    <code class="phpdocumentor-code phpdocumentor-signature ">
+    <span class="phpdocumentor-signature__visibility">public</span>
+                    <span class="phpdocumentor-signature__name">url</span><span>(</span><span class="phpdocumentor-signature__argument"><span class="phpdocumentor-signature__argument__return-type">array&lt;string|int, mixed&gt;&nbsp;</span><span class="phpdocumentor-signature__argument__name">$context</span></span><span class="phpdocumentor-signature__argument"><span>[</span><span>, </span><span class="phpdocumentor-signature__argument__return-type"><a href="classes/Cecil-Collection-Page-Page.html"><abbr title="\Cecil\Collection\Page\Page">Page</abbr></a>|<a href="classes/Cecil-Assets-Asset.html"><abbr title="\Cecil\Assets\Asset">Asset</abbr></a>|string|null&nbsp;</span><span class="phpdocumentor-signature__argument__name">$value</span><span> = </span><span class="phpdocumentor-signature__argument__default-value">null</span><span> ]</span></span><span class="phpdocumentor-signature__argument"><span>[</span><span>, </span><span class="phpdocumentor-signature__argument__return-type">array&lt;string|int, mixed&gt;|null&nbsp;</span><span class="phpdocumentor-signature__argument__name">$options</span><span> = </span><span class="phpdocumentor-signature__argument__default-value">null</span><span> ]</span></span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">string</span></code>
+
+    <div class="phpdocumentor-label-line">
+        </div>
+    
+        <section class="phpdocumentor-description"><p>$options[
+'canonical' =&gt; false,
+'format'    =&gt; 'html',
+'language'  =&gt; null,
+];</p>
+</section>
+
+        <h5 class="phpdocumentor-argument-list__heading">Parameters</h5>
+    <dl class="phpdocumentor-argument-list">
+                    <dt class="phpdocumentor-argument-list__entry">
+                <span class="phpdocumentor-signature__argument__name">$context</span>
+                : <span class="phpdocumentor-signature__argument__return-type">array&lt;string|int, mixed&gt;</span>
+                            </dt>
+            <dd class="phpdocumentor-argument-list__definition">
+                
+            </dd>
+                    <dt class="phpdocumentor-argument-list__entry">
+                <span class="phpdocumentor-signature__argument__name">$value</span>
+                : <span class="phpdocumentor-signature__argument__return-type"><a href="classes/Cecil-Collection-Page-Page.html"><abbr title="\Cecil\Collection\Page\Page">Page</abbr></a>|<a href="classes/Cecil-Assets-Asset.html"><abbr title="\Cecil\Assets\Asset">Asset</abbr></a>|string|null</span>
+                 = <span class="phpdocumentor-signature__argument__default-value">null</span>            </dt>
+            <dd class="phpdocumentor-argument-list__definition">
+                
+            </dd>
+                    <dt class="phpdocumentor-argument-list__entry">
+                <span class="phpdocumentor-signature__argument__name">$options</span>
+                : <span class="phpdocumentor-signature__argument__return-type">array&lt;string|int, mixed&gt;|null</span>
+                 = <span class="phpdocumentor-signature__argument__default-value">null</span>            </dt>
+            <dd class="phpdocumentor-argument-list__definition">
+                
+            </dd>
+            </dl>
+
+    
+
+    
+
+            <section>
+        <h5 class="phpdocumentor-return-value__heading">Return values</h5>
+        <span class="phpdocumentor-signature__response_type">string</span>
+            </section>
+
+</article>
+                    <article
+        class="phpdocumentor-element
+            -method
+            -public
+                                                        "
+>
+    <h4 class="phpdocumentor-element__name" id="method_varDump">
+        varDump()
+        <a href="classes/Cecil-Renderer-Extension-Core.html#method_varDump" class="headerlink"><i class="fas fa-link"></i></a>
+
+    </h4>
+    <aside class="phpdocumentor-element-found-in">
+    <abbr class="phpdocumentor-element-found-in__file" title="src/Renderer/Extension/Core.php"><a href="files/src-renderer-extension-core.html"><abbr title="src/Renderer/Extension/Core.php">Core.php</abbr></a></abbr>
+    :
+    <span class="phpdocumentor-element-found-in__line">872</span>
+
+    </aside>
+
+        <p class="phpdocumentor-summary">Dump variable (or Twig context).</p>
+
+    <code class="phpdocumentor-code phpdocumentor-signature ">
+    <span class="phpdocumentor-signature__visibility">public</span>
+                    <span class="phpdocumentor-signature__name">varDump</span><span>(</span><span class="phpdocumentor-signature__argument"><span class="phpdocumentor-signature__argument__return-type"><abbr title="\Twig\Environment">Environment</abbr>&nbsp;</span><span class="phpdocumentor-signature__argument__name">$env</span></span><span class="phpdocumentor-signature__argument"><span>, </span><span class="phpdocumentor-signature__argument__return-type">array&lt;string|int, mixed&gt;&nbsp;</span><span class="phpdocumentor-signature__argument__name">$context</span></span><span class="phpdocumentor-signature__argument"><span>[</span><span>, </span><span class="phpdocumentor-signature__argument__return-type">mixed&nbsp;</span><span class="phpdocumentor-signature__argument__name">$var</span><span> = </span><span class="phpdocumentor-signature__argument__default-value">null</span><span> ]</span></span><span class="phpdocumentor-signature__argument"><span>[</span><span>, </span><span class="phpdocumentor-signature__argument__return-type">array&lt;string|int, mixed&gt;|null&nbsp;</span><span class="phpdocumentor-signature__argument__name">$options</span><span> = </span><span class="phpdocumentor-signature__argument__default-value">null</span><span> ]</span></span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">void</span></code>
+
+    <div class="phpdocumentor-label-line">
+        </div>
+    
+    
+        <h5 class="phpdocumentor-argument-list__heading">Parameters</h5>
+    <dl class="phpdocumentor-argument-list">
+                    <dt class="phpdocumentor-argument-list__entry">
+                <span class="phpdocumentor-signature__argument__name">$env</span>
+                : <span class="phpdocumentor-signature__argument__return-type"><abbr title="\Twig\Environment">Environment</abbr></span>
+                            </dt>
+            <dd class="phpdocumentor-argument-list__definition">
+                
+            </dd>
+                    <dt class="phpdocumentor-argument-list__entry">
+                <span class="phpdocumentor-signature__argument__name">$context</span>
+                : <span class="phpdocumentor-signature__argument__return-type">array&lt;string|int, mixed&gt;</span>
+                            </dt>
+            <dd class="phpdocumentor-argument-list__definition">
+                
+            </dd>
+                    <dt class="phpdocumentor-argument-list__entry">
+                <span class="phpdocumentor-signature__argument__name">$var</span>
+                : <span class="phpdocumentor-signature__argument__return-type">mixed</span>
+                 = <span class="phpdocumentor-signature__argument__default-value">null</span>            </dt>
+            <dd class="phpdocumentor-argument-list__definition">
+                
+            </dd>
+                    <dt class="phpdocumentor-argument-list__entry">
+                <span class="phpdocumentor-signature__argument__name">$options</span>
+                : <span class="phpdocumentor-signature__argument__return-type">array&lt;string|int, mixed&gt;|null</span>
+                 = <span class="phpdocumentor-signature__argument__default-value">null</span>            </dt>
+            <dd class="phpdocumentor-argument-list__definition">
+                
+            </dd>
+            </dl>
+
+    
+
+    
+
+    
+</article>
+                    <article
+        class="phpdocumentor-element
+            -method
+            -public
+                                                        "
+>
+    <h4 class="phpdocumentor-element__name" id="method_webp">
+        webp()
+        <a href="classes/Cecil-Renderer-Extension-Core.html#method_webp" class="headerlink"><i class="fas fa-link"></i></a>
+
+    </h4>
+    <aside class="phpdocumentor-element-found-in">
+    <abbr class="phpdocumentor-element-found-in__file" title="src/Renderer/Extension/Core.php"><a href="files/src-renderer-extension-core.html"><abbr title="src/Renderer/Extension/Core.php">Core.php</abbr></a></abbr>
+    :
+    <span class="phpdocumentor-element-found-in__line">627</span>
+
+    </aside>
+
+        <p class="phpdocumentor-summary">Converts an image Asset to WebP format.</p>
+
+    <code class="phpdocumentor-code phpdocumentor-signature ">
+    <span class="phpdocumentor-signature__visibility">public</span>
+                    <span class="phpdocumentor-signature__name">webp</span><span>(</span><span class="phpdocumentor-signature__argument"><span class="phpdocumentor-signature__argument__return-type"><a href="classes/Cecil-Assets-Asset.html"><abbr title="\Cecil\Assets\Asset">Asset</abbr></a>&nbsp;</span><span class="phpdocumentor-signature__argument__name">$asset</span></span><span class="phpdocumentor-signature__argument"><span>[</span><span>, </span><span class="phpdocumentor-signature__argument__return-type">int|null&nbsp;</span><span class="phpdocumentor-signature__argument__name">$quality</span><span> = </span><span class="phpdocumentor-signature__argument__default-value">null</span><span> ]</span></span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type"><a href="classes/Cecil-Assets-Asset.html"><abbr title="\Cecil\Assets\Asset">Asset</abbr></a></span></code>
+
+    <div class="phpdocumentor-label-line">
+        </div>
+    
+    
+        <h5 class="phpdocumentor-argument-list__heading">Parameters</h5>
+    <dl class="phpdocumentor-argument-list">
+                    <dt class="phpdocumentor-argument-list__entry">
+                <span class="phpdocumentor-signature__argument__name">$asset</span>
+                : <span class="phpdocumentor-signature__argument__return-type"><a href="classes/Cecil-Assets-Asset.html"><abbr title="\Cecil\Assets\Asset">Asset</abbr></a></span>
+                            </dt>
+            <dd class="phpdocumentor-argument-list__definition">
+                
+            </dd>
+                    <dt class="phpdocumentor-argument-list__entry">
+                <span class="phpdocumentor-signature__argument__name">$quality</span>
+                : <span class="phpdocumentor-signature__argument__return-type">int|null</span>
+                 = <span class="phpdocumentor-signature__argument__default-value">null</span>            </dt>
+            <dd class="phpdocumentor-argument-list__definition">
+                
+            </dd>
+            </dl>
+
+    
+
+    
+
+            <section>
+        <h5 class="phpdocumentor-return-value__heading">Return values</h5>
+        <span class="phpdocumentor-signature__response_type"><a href="classes/Cecil-Assets-Asset.html"><abbr title="\Cecil\Assets\Asset">Asset</abbr></a></span>
+            </section>
+
+</article>
+                    <article
+        class="phpdocumentor-element
+            -method
+            -public
+                                                        "
+>
+    <h4 class="phpdocumentor-element__name" id="method_yamlParse">
+        yamlParse()
+        <a href="classes/Cecil-Renderer-Extension-Core.html#method_yamlParse" class="headerlink"><i class="fas fa-link"></i></a>
+
+    </h4>
+    <aside class="phpdocumentor-element-found-in">
+    <abbr class="phpdocumentor-element-found-in__file" title="src/Renderer/Extension/Core.php"><a href="files/src-renderer-extension-core.html"><abbr title="src/Renderer/Extension/Core.php">Core.php</abbr></a></abbr>
+    :
+    <span class="phpdocumentor-element-found-in__line">785</span>
+
+    </aside>
+
+        <p class="phpdocumentor-summary">Converts a YAML string to an array.</p>
+
+    <code class="phpdocumentor-code phpdocumentor-signature ">
+    <span class="phpdocumentor-signature__visibility">public</span>
+                    <span class="phpdocumentor-signature__name">yamlParse</span><span>(</span><span class="phpdocumentor-signature__argument"><span class="phpdocumentor-signature__argument__return-type">string|null&nbsp;</span><span class="phpdocumentor-signature__argument__name">$yaml</span></span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">array&lt;string|int, mixed&gt;|null</span></code>
+
+    <div class="phpdocumentor-label-line">
+        </div>
+    
+    
+        <h5 class="phpdocumentor-argument-list__heading">Parameters</h5>
+    <dl class="phpdocumentor-argument-list">
+                    <dt class="phpdocumentor-argument-list__entry">
+                <span class="phpdocumentor-signature__argument__name">$yaml</span>
+                : <span class="phpdocumentor-signature__argument__return-type">string|null</span>
+                            </dt>
+            <dd class="phpdocumentor-argument-list__definition">
+                
+            </dd>
+            </dl>
+
+    
+    <h5 class="phpdocumentor-tag-list__heading" id="tags">
+        Tags
+        <a href="classes/Cecil-Renderer-Extension-Core.html#method_yamlParse#tags" class="headerlink"><i class="fas fa-link"></i></a>
+
+    </h5>
+    <dl class="phpdocumentor-tag-list">
+                                    <dt class="phpdocumentor-tag-list__entry">
+                    <span class="phpdocumentor-tag__name">throws</span>
+                </dt>
+                <dd class="phpdocumentor-tag-list__definition">
+                                                                <span class="phpdocumentor-tag-link"><a href="classes/Cecil-Exception-RuntimeException.html"><abbr title="\Cecil\Exception\RuntimeException">RuntimeException</abbr></a></span>
+                                                            
+                                             
+                                    </dd>
+                                            </dl>
+
+    
+
+            <section>
+        <h5 class="phpdocumentor-return-value__heading">Return values</h5>
+        <span class="phpdocumentor-signature__response_type">array&lt;string|int, mixed&gt;|null</span>
+            </section>
+
+</article>
+                    <article
+        class="phpdocumentor-element
+            -method
+            -private
+                                                        "
+>
+    <h4 class="phpdocumentor-element__name" id="method_convert">
+        convert()
+        <a href="classes/Cecil-Renderer-Extension-Core.html#method_convert" class="headerlink"><i class="fas fa-link"></i></a>
+
+    </h4>
+    <aside class="phpdocumentor-element-found-in">
+    <abbr class="phpdocumentor-element-found-in__file" title="src/Renderer/Extension/Core.php"><a href="files/src-renderer-extension-core.html"><abbr title="src/Renderer/Extension/Core.php">Core.php</abbr></a></abbr>
+    :
+    <span class="phpdocumentor-element-found-in__line">645</span>
+
+    </aside>
+
+        <p class="phpdocumentor-summary">Converts an image Asset to the given format.</p>
+
+    <code class="phpdocumentor-code phpdocumentor-signature ">
+    <span class="phpdocumentor-signature__visibility">private</span>
+                    <span class="phpdocumentor-signature__name">convert</span><span>(</span><span class="phpdocumentor-signature__argument"><span class="phpdocumentor-signature__argument__return-type"><a href="classes/Cecil-Assets-Asset.html"><abbr title="\Cecil\Assets\Asset">Asset</abbr></a>&nbsp;</span><span class="phpdocumentor-signature__argument__name">$asset</span></span><span class="phpdocumentor-signature__argument"><span>, </span><span class="phpdocumentor-signature__argument__return-type">string&nbsp;</span><span class="phpdocumentor-signature__argument__name">$format</span></span><span class="phpdocumentor-signature__argument"><span>[</span><span>, </span><span class="phpdocumentor-signature__argument__return-type">int|null&nbsp;</span><span class="phpdocumentor-signature__argument__name">$quality</span><span> = </span><span class="phpdocumentor-signature__argument__default-value">null</span><span> ]</span></span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type"><a href="classes/Cecil-Assets-Asset.html"><abbr title="\Cecil\Assets\Asset">Asset</abbr></a></span></code>
+
+    <div class="phpdocumentor-label-line">
+        </div>
+    
+    
+        <h5 class="phpdocumentor-argument-list__heading">Parameters</h5>
+    <dl class="phpdocumentor-argument-list">
+                    <dt class="phpdocumentor-argument-list__entry">
+                <span class="phpdocumentor-signature__argument__name">$asset</span>
+                : <span class="phpdocumentor-signature__argument__return-type"><a href="classes/Cecil-Assets-Asset.html"><abbr title="\Cecil\Assets\Asset">Asset</abbr></a></span>
+                            </dt>
+            <dd class="phpdocumentor-argument-list__definition">
+                
+            </dd>
+                    <dt class="phpdocumentor-argument-list__entry">
+                <span class="phpdocumentor-signature__argument__name">$format</span>
+                : <span class="phpdocumentor-signature__argument__return-type">string</span>
+                            </dt>
+            <dd class="phpdocumentor-argument-list__definition">
+                
+            </dd>
+                    <dt class="phpdocumentor-argument-list__entry">
+                <span class="phpdocumentor-signature__argument__name">$quality</span>
+                : <span class="phpdocumentor-signature__argument__return-type">int|null</span>
+                 = <span class="phpdocumentor-signature__argument__default-value">null</span>            </dt>
+            <dd class="phpdocumentor-argument-list__definition">
+                
+            </dd>
+            </dl>
+
+    
+    <h5 class="phpdocumentor-tag-list__heading" id="tags">
+        Tags
+        <a href="classes/Cecil-Renderer-Extension-Core.html#method_convert#tags" class="headerlink"><i class="fas fa-link"></i></a>
+
+    </h5>
+    <dl class="phpdocumentor-tag-list">
+                                    <dt class="phpdocumentor-tag-list__entry">
+                    <span class="phpdocumentor-tag__name">throws</span>
+                </dt>
+                <dd class="phpdocumentor-tag-list__definition">
+                                                                <span class="phpdocumentor-tag-link"><a href="classes/Cecil-Exception-RuntimeException.html"><abbr title="\Cecil\Exception\RuntimeException">RuntimeException</abbr></a></span>
+                                                            
+                                             
+                                    </dd>
+                                            </dl>
+
+    
+
+            <section>
+        <h5 class="phpdocumentor-return-value__heading">Return values</h5>
+        <span class="phpdocumentor-signature__response_type"><a href="classes/Cecil-Assets-Asset.html"><abbr title="\Cecil\Assets\Asset">Asset</abbr></a></span>
+            </section>
+
+</article>
+                    <article
+        class="phpdocumentor-element
+            -method
+            -private
+                                    -static                    "
+>
+    <h4 class="phpdocumentor-element__name" id="method_isHex">
+        isHex()
+        <a href="classes/Cecil-Renderer-Extension-Core.html#method_isHex" class="headerlink"><i class="fas fa-link"></i></a>
+
+    </h4>
+    <aside class="phpdocumentor-element-found-in">
+    <abbr class="phpdocumentor-element-found-in__file" title="src/Renderer/Extension/Core.php"><a href="files/src-renderer-extension-core.html"><abbr title="src/Renderer/Extension/Core.php">Core.php</abbr></a></abbr>
+    :
+    <span class="phpdocumentor-element-found-in__line">1015</span>
+
+    </aside>
+
+        <p class="phpdocumentor-summary">Is a hexadecimal color is valid?</p>
+
+    <code class="phpdocumentor-code phpdocumentor-signature ">
+    <span class="phpdocumentor-signature__visibility">private</span>
+            <span class="phpdocumentor-signature__static">static</span>        <span class="phpdocumentor-signature__name">isHex</span><span>(</span><span class="phpdocumentor-signature__argument"><span class="phpdocumentor-signature__argument__return-type">string&nbsp;</span><span class="phpdocumentor-signature__argument__name">$hex</span></span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">bool</span></code>
+
+    <div class="phpdocumentor-label-line">
+        </div>
+    
+    
+        <h5 class="phpdocumentor-argument-list__heading">Parameters</h5>
+    <dl class="phpdocumentor-argument-list">
+                    <dt class="phpdocumentor-argument-list__entry">
+                <span class="phpdocumentor-signature__argument__name">$hex</span>
+                : <span class="phpdocumentor-signature__argument__return-type">string</span>
+                            </dt>
+            <dd class="phpdocumentor-argument-list__definition">
+                
+            </dd>
+            </dl>
+
+    
+
+    
+
+            <section>
+        <h5 class="phpdocumentor-return-value__heading">Return values</h5>
+        <span class="phpdocumentor-signature__response_type">bool</span>
+            </section>
+
+</article>
+            </section>
+
+        <div class="phpdocumentor-modal" id="source-view">
+    <div class="phpdocumentor-modal-bg" data-exit-button></div>
+    <div class="phpdocumentor-modal-container">
+        <div class="phpdocumentor-modal-content">
+            <pre style="max-height: 500px; overflow-y: scroll" data-src="files/src/Renderer/Extension/Core.php.txt" class="language-php line-numbers linkable-line-numbers"></pre>
+        </div>
+        <button data-exit-button class="phpdocumentor-modal__close">&times;</button>
+    </div>
+</div>
+
+    <script type="text/javascript">
+        (function () {
+            function loadExternalCodeSnippet(el, url, line) {
+                Array.prototype.slice.call(el.querySelectorAll('pre[data-src]')).forEach((pre) => {
+                    const src = url || pre.getAttribute('data-src').replace(/\\/g, '/');
+                    const language = 'php';
+
+                    const code = document.createElement('code');
+                    code.className = 'language-' + language;
+                    pre.textContent = '';
+                    pre.setAttribute('data-line', line)
+                    code.textContent = 'Loading…';
+                    pre.appendChild(code);
+
+                    var xhr = new XMLHttpRequest();
+
+                    xhr.open('GET', src, true);
+
+                    xhr.onreadystatechange = function () {
+                        if (xhr.readyState !== 4) {
+                            return;
+                        }
+
+                        if (xhr.status < 400 && xhr.responseText) {
+                            code.textContent = xhr.responseText;
+                            Prism.highlightElement(code);
+                            return;
+                        }
+
+                        if (xhr.status === 404) {
+                            code.textContent = '✖ Error: File could not be found';
+                            return;
+                        }
+
+                        if (xhr.status >= 400) {
+                            code.textContent = '✖ Error ' + xhr.status + ' while fetching file: ' + xhr.statusText;
+                            return;
+                        }
+
+                        code.textContent = '✖ Error: An unknown error occurred';
+                    };
+
+                    xhr.send(null);
+                });
+            }
+
+            const modalButtons = document.querySelectorAll("[data-modal]");
+            const openedAsLocalFile = window.location.protocol === 'file:';
+            if (modalButtons.length > 0 && openedAsLocalFile) {
+                console.warn(
+                    'Viewing the source code is unavailable because you are opening this page from the file:// scheme; ' +
+                    'browsers block XHR requests when a page is opened this way'
+                );
+            }
+
+            modalButtons.forEach(function (trigger) {
+                if (openedAsLocalFile) {
+                    trigger.setAttribute("hidden", "hidden");
+                }
+
+                trigger.addEventListener("click", function (event) {
+                    event.preventDefault();
+                    const modal = document.getElementById(trigger.dataset.modal);
+                    if (!modal) {
+                        console.error(`Modal with id "${trigger.dataset.modal}" could not be found`);
+                        return;
+                    }
+                    modal.classList.add("phpdocumentor-modal__open");
+
+                    loadExternalCodeSnippet(modal, trigger.dataset.src || null, trigger.dataset.line)
+                    const exits = modal.querySelectorAll("[data-exit-button]");
+                    exits.forEach(function (exit) {
+                        exit.addEventListener("click", function (event) {
+                            event.preventDefault();
+                            modal.classList.remove("phpdocumentor-modal__open");
+                        });
+                    });
+                });
+            });
+        })();
+    </script>
+
+    </article>
+                                </section>
+                <section class="phpdocumentor-on-this-page__sidebar">
+                                
+    <section class="phpdocumentor-on-this-page__content">
+        <strong class="phpdocumentor-on-this-page__title">On this page</strong>
+
+        <ul class="phpdocumentor-list -clean">
+            <li class="phpdocumentor-on-this-page-section__title">Table Of Contents</li>
+            <li>
+                <ul class="phpdocumentor-list -clean">
+                                                            <li><a href="classes/Cecil-Renderer-Extension-Core.html#toc-properties">Properties</a></li>
+                                                            <li><a href="classes/Cecil-Renderer-Extension-Core.html#toc-methods">Methods</a></li>
+                                    </ul>
+            </li>
+            
+                            <li class="phpdocumentor-on-this-page-section__title">Properties</li>
+                <li>
+                    <ul class="phpdocumentor-list -clean">
+                                                    <li class=""><a href="classes/Cecil-Renderer-Extension-Core.html#property_builder">$builder</a></li>
+                                                    <li class=""><a href="classes/Cecil-Renderer-Extension-Core.html#property_config">$config</a></li>
+                                                    <li class=""><a href="classes/Cecil-Renderer-Extension-Core.html#property_slugifier">$slugifier</a></li>
+                                            </ul>
+                </li>
+            
+                        <li class="phpdocumentor-on-this-page-section__title">Methods</li>
+            <li>
+                <ul class="phpdocumentor-list -clean">
+                                            <li class=""><a href="classes/Cecil-Renderer-Extension-Core.html#method___construct">__construct()</a></li>
+                                            <li class=""><a href="classes/Cecil-Renderer-Extension-Core.html#method_asset">asset()</a></li>
+                                            <li class=""><a href="classes/Cecil-Renderer-Extension-Core.html#method_avif">avif()</a></li>
+                                            <li class=""><a href="classes/Cecil-Renderer-Extension-Core.html#method_cover">cover()</a></li>
+                                            <li class=""><a href="classes/Cecil-Renderer-Extension-Core.html#method_dataurl">dataurl()</a></li>
+                                            <li class=""><a href="classes/Cecil-Renderer-Extension-Core.html#method_dominantColor">dominantColor()</a></li>
+                                            <li class=""><a href="classes/Cecil-Renderer-Extension-Core.html#method_excerpt">excerpt()</a></li>
+                                            <li class=""><a href="classes/Cecil-Renderer-Extension-Core.html#method_excerptHtml">excerptHtml()</a></li>
+                                            <li class=""><a href="classes/Cecil-Renderer-Extension-Core.html#method_filterBy">filterBy()</a></li>
+                                            <li class=""><a href="classes/Cecil-Renderer-Extension-Core.html#method_filterBySection">filterBySection()</a></li>
+                                            <li class=""><a href="classes/Cecil-Renderer-Extension-Core.html#method_fingerprint">fingerprint()</a></li>
+                                            <li class=""><a href="classes/Cecil-Renderer-Extension-Core.html#method_getEnv">getEnv()</a></li>
+                                            <li class=""><a href="classes/Cecil-Renderer-Extension-Core.html#method_getFilters">getFilters()</a></li>
+                                            <li class=""><a href="classes/Cecil-Renderer-Extension-Core.html#method_getFunctions">getFunctions()</a></li>
+                                            <li class=""><a href="classes/Cecil-Renderer-Extension-Core.html#method_getName">getName()</a></li>
+                                            <li class=""><a href="classes/Cecil-Renderer-Extension-Core.html#method_getTests">getTests()</a></li>
+                                            <li class=""><a href="classes/Cecil-Renderer-Extension-Core.html#method_hash">hash()</a></li>
+                                            <li class=""><a href="classes/Cecil-Renderer-Extension-Core.html#method_hexToRgb">hexToRgb()</a></li>
+                                            <li class=""><a href="classes/Cecil-Renderer-Extension-Core.html#method_html">html()</a></li>
+                                            <li class=""><a href="classes/Cecil-Renderer-Extension-Core.html#method_imageSizes">imageSizes()</a></li>
+                                            <li class=""><a href="classes/Cecil-Renderer-Extension-Core.html#method_imageSrcset">imageSrcset()</a></li>
+                                            <li class=""><a href="classes/Cecil-Renderer-Extension-Core.html#method_inline">inline()</a></li>
+                                            <li class=""><a href="classes/Cecil-Renderer-Extension-Core.html#method_integrity">integrity()</a></li>
+                                            <li class=""><a href="classes/Cecil-Renderer-Extension-Core.html#method_isAsset">isAsset()</a></li>
+                                            <li class=""><a href="classes/Cecil-Renderer-Extension-Core.html#method_iterable">iterable()</a></li>
+                                            <li class=""><a href="classes/Cecil-Renderer-Extension-Core.html#method_jsonDecode">jsonDecode()</a></li>
+                                            <li class=""><a href="classes/Cecil-Renderer-Extension-Core.html#method_lqip">lqip()</a></li>
+                                            <li class=""><a href="classes/Cecil-Renderer-Extension-Core.html#method_markdownToHtml">markdownToHtml()</a></li>
+                                            <li class=""><a href="classes/Cecil-Renderer-Extension-Core.html#method_markdownToToc">markdownToToc()</a></li>
+                                            <li class=""><a href="classes/Cecil-Renderer-Extension-Core.html#method_minify">minify()</a></li>
+                                            <li class=""><a href="classes/Cecil-Renderer-Extension-Core.html#method_minifyCss">minifyCss()</a></li>
+                                            <li class=""><a href="classes/Cecil-Renderer-Extension-Core.html#method_minifyJs">minifyJs()</a></li>
+                                            <li class=""><a href="classes/Cecil-Renderer-Extension-Core.html#method_pregMatchAll">pregMatchAll()</a></li>
+                                            <li class=""><a href="classes/Cecil-Renderer-Extension-Core.html#method_pregSplit">pregSplit()</a></li>
+                                            <li class=""><a href="classes/Cecil-Renderer-Extension-Core.html#method_readtime">readtime()</a></li>
+                                            <li class=""><a href="classes/Cecil-Renderer-Extension-Core.html#method_resize">resize()</a></li>
+                                            <li class=""><a href="classes/Cecil-Renderer-Extension-Core.html#method_scssToCss">scssToCss()</a></li>
+                                            <li class=""><a href="classes/Cecil-Renderer-Extension-Core.html#method_sortByDate">sortByDate()</a></li>
+                                            <li class=""><a href="classes/Cecil-Renderer-Extension-Core.html#method_sortByTitle">sortByTitle()</a></li>
+                                            <li class=""><a href="classes/Cecil-Renderer-Extension-Core.html#method_sortByWeight">sortByWeight()</a></li>
+                                            <li class=""><a href="classes/Cecil-Renderer-Extension-Core.html#method_splitLine">splitLine()</a></li>
+                                            <li class=""><a href="classes/Cecil-Renderer-Extension-Core.html#method_toCss">toCss()</a></li>
+                                            <li class=""><a href="classes/Cecil-Renderer-Extension-Core.html#method_url">url()</a></li>
+                                            <li class=""><a href="classes/Cecil-Renderer-Extension-Core.html#method_varDump">varDump()</a></li>
+                                            <li class=""><a href="classes/Cecil-Renderer-Extension-Core.html#method_webp">webp()</a></li>
+                                            <li class=""><a href="classes/Cecil-Renderer-Extension-Core.html#method_yamlParse">yamlParse()</a></li>
+                                            <li class=""><a href="classes/Cecil-Renderer-Extension-Core.html#method_convert">convert()</a></li>
+                                            <li class=""><a href="classes/Cecil-Renderer-Extension-Core.html#method_isHex">isHex()</a></li>
+                                    </ul>
+            </li>
+                    </ul>
+    </section>
+
+                </section>
+                            </div>
+            <section data-search-results class="phpdocumentor-search-results phpdocumentor-search-results--hidden">
+    <section class="phpdocumentor-search-results__dialog">
+        <header class="phpdocumentor-search-results__header">
+            <h2 class="phpdocumentor-search-results__title">Search results</h2>
+            <button class="phpdocumentor-search-results__close"><i class="fas fa-times"></i></button>
+        </header>
+        <section class="phpdocumentor-search-results__body">
+            <ul class="phpdocumentor-search-results__entries"></ul>
+        </section>
+    </section>
+</section>
+        </div>
+        <a href="classes/Cecil-Renderer-Extension-Core.html#top" class="phpdocumentor-back-to-top"><i class="fas fa-chevron-circle-up"></i></a>
+
+    </main>
+
+    <script>
+        cssVars({});
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/prismjs@1.23.0/prism.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/prismjs@1.23.0/plugins/autoloader/prism-autoloader.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/prismjs@1.23.0/plugins/line-numbers/prism-line-numbers.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/prismjs@1.23.0/plugins/line-highlight/prism-line-highlight.min.js"></script>
+</body>
+</html>

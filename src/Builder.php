@@ -1,15 +1,15 @@
 <?php
 
-declare(strict_types=1);
-
-/*
+/**
  * This file is part of Cecil.
  *
- * Copyright (c) Arnaud Ligny <arnaud@ligny.fr>
+ * (c) Arnaud Ligny <arnaud@ligny.fr>
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
+
+declare(strict_types=1);
 
 namespace Cecil;
 
@@ -17,13 +17,25 @@ use Cecil\Collection\Page\Collection as PagesCollection;
 use Cecil\Exception\RuntimeException;
 use Cecil\Generator\GeneratorManager;
 use Cecil\Logger\PrintLogger;
-use Cecil\Util\Platform;
 use Psr\Log\LoggerAwareInterface;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\Finder\Finder;
 
 /**
- * Class Builder.
+ * The main Cecil builder class.
+ *
+ * This class is responsible for building the website by processing various steps,
+ * managing configuration, and handling content, data, static files, pages, assets,
+ * menus, taxonomies, and rendering.
+ * It also provides methods for logging, debugging, and managing build metrics.
+ *
+ * ```php
+ * $config = [
+ *   'title'   => "My website",
+ *   'baseurl' => 'https://domain.tld/',
+ * ];
+ * Builder::create($config)->build();
+ * ```
  */
 class Builder implements LoggerAwareInterface
 {
@@ -32,11 +44,30 @@ class Builder implements LoggerAwareInterface
     public const VERBOSITY_NORMAL = 0;
     public const VERBOSITY_VERBOSE = 1;
     public const VERBOSITY_DEBUG = 2;
-
     /**
-     * @var array Steps processed by build().
+     * Default options for the build process.
+     * These options can be overridden when calling the build() method.
+     * - 'drafts': if true, builds drafts too (default: false)
+     * - 'dry-run': if true, generated files are not saved (default: false)
+     * - 'page': if specified, only this page is processed (default: '')
+     * - 'render-subset': limits the render step to a specific subset (default: '')
+     * @var array<string, bool|string>
+     * @see \Cecil\Builder::build()
      */
-    protected $steps = [
+    public const OPTIONS = [
+        'drafts'  => false,
+        'dry-run' => false,
+        'page'    => '',
+        'render-subset' => '',
+    ];
+    /**
+     * Steps processed by build(), in order.
+     * These steps are executed sequentially to build the website.
+     * Each step is a class that implements the StepInterface.
+     * @var array<string>
+     * @see \Cecil\Step\StepInterface
+     */
+    public const STEPS = [
         'Cecil\Step\Pages\Load',
         'Cecil\Step\Data\Load',
         'Cecil\Step\StaticFiles\Load',
@@ -55,50 +86,125 @@ class Builder implements LoggerAwareInterface
         'Cecil\Step\Optimize\Images',
     ];
 
-    /** @var Config Configuration. */
+    /**
+     * Configuration object.
+     * This object holds all the configuration settings for the build process.
+     * It can be set to an array or a Config instance.
+     * @var Config|array|null
+     * @see \Cecil\Config
+     */
     protected $config;
-
-    /** @var LoggerInterface Logger. */
+    /**
+     * Logger instance.
+     * This logger is used to log messages during the build process.
+     * It can be set to any PSR-3 compliant logger.
+     * @var LoggerInterface
+     * @see \Psr\Log\LoggerInterface
+     * */
     protected $logger;
-
-    /** @var bool Debug mode. */
+    /**
+     * Debug mode state.
+     * If true, debug messages are logged.
+     * @var bool
+     */
     protected $debug = false;
-
-    /** @var array Build options. */
-    protected $options;
-
-    /** @var Finder Content iterator. */
+    /**
+     * Build options.
+     * These options can be passed to the build() method to customize the build process.
+     * @var array
+     * @see \Cecil\Builder::OPTIONS
+     * @see \Cecil\Builder::build()
+     */
+    protected $options = [];
+    /**
+     * Content files collection.
+     * This is a Finder instance that collects all the content files (pages, posts, etc.) from the source directory.
+     * @var Finder
+     */
     protected $content;
-
-    /** @var array Data collection. */
+    /**
+     * Data collection.
+     * This is an associative array that holds data loaded from YAML files in the data directory.
+     * @var array
+     */
     protected $data = [];
-
-    /** @var array Static files collection. */
+    /**
+     * Static files collection.
+     * This is an associative array that holds static files (like images, CSS, JS) that are copied to the destination directory.
+     * @var array
+     */
     protected $static = [];
-
-    /** @var PagesCollection Pages collection. */
+    /**
+     * Pages collection.
+     * This is a collection of pages that have been processed and are ready for rendering.
+     * It is an instance of PagesCollection, which is a custom collection class for managing pages.
+     * @var PagesCollection
+     */
     protected $pages;
-
-    /** @var array Assets path collection */
+    /**
+     * Assets path collection.
+     * This is an array that holds paths to assets (like CSS, JS, images) that are used in the build process.
+     * It is used to keep track of assets that need to be processed or copied.
+     * It can be set to an array of paths or updated with new asset paths.
+     * @var array
+     */
     protected $assets = [];
-
-    /** @var array Menus collection. */
+    /**
+     * Menus collection.
+     * This is an associative array that holds menus for different languages.
+     * Each key is a language code, and the value is a Collection\Menu\Collection instance
+     * that contains the menu items for that language.
+     * It is used to manage navigation menus across different languages in the website.
+     * @var array
+     * @see \Cecil\Collection\Menu\Collection
+     */
     protected $menus;
-
-    /** @var array Taxonomies collection. */
+    /**
+     * Taxonomies collection.
+     * This is an associative array that holds taxonomies for different languages.
+     * Each key is a language code, and the value is a Collection\Taxonomy\Collection instance
+     * that contains the taxonomy terms for that language.
+     * It is used to manage taxonomies (like categories, tags) across different languages in the website.
+     * @var array
+     * @see \Cecil\Collection\Taxonomy\Collection
+     */
     protected $taxonomies;
-
-    /** @var Renderer\RendererInterface Renderer. */
+    /**
+     * Renderer.
+     * This is an instance of Renderer\RendererInterface that is responsible for rendering pages.
+     * It handles the rendering of templates and the application of data to those templates.
+     * @var Renderer\RendererInterface
+     */
     protected $renderer;
-
-    /** @var GeneratorManager Generators manager. */
+    /**
+     * Generators manager.
+     * This is an instance of GeneratorManager that manages all the generators used in the build process.
+     * Generators are used to create dynamic content or perform specific tasks during the build.
+     * It allows for the registration and execution of various generators that can extend the functionality of the build process.
+     * @var GeneratorManager
+     */
     protected $generatorManager;
-
-    /** @var string Application version. */
+    /**
+     * Application version.
+     * @var string
+     */
     protected static $version;
-
-    /** @var array Build metrics. */
+    /**
+     * Build metrics.
+     * This array holds metrics about the build process, such as duration and memory usage for each step.
+     * It is used to track the performance of the build and can be useful for debugging and optimization.
+     * @var array
+     */
     protected $metrics = [];
+    /**
+     * Current build ID.
+     * This is a unique identifier for the current build process.
+     * It is generated based on the current date and time when the build starts.
+     * It can be used to track builds, especially in environments where multiple builds may occur.
+     * @var string
+     * @see \Cecil\Builder::build()
+     */
+    protected $buildId;
 
     /**
      * @param Config|array|null    $config
@@ -106,19 +212,20 @@ class Builder implements LoggerAwareInterface
      */
     public function __construct($config = null, ?LoggerInterface $logger = null)
     {
+        // init and set config
+        $this->config = new Config();
+        if ($config !== null) {
+            $this->setConfig($config);
+        }
+        // debug mode?
+        if (getenv('CECIL_DEBUG') == 'true' || $this->getConfig()->isEnabled('debug')) {
+            $this->debug = true;
+        }
         // set logger
         if ($logger === null) {
             $logger = new PrintLogger(self::VERBOSITY_VERBOSE);
         }
         $this->setLogger($logger);
-        // set config
-        $this->setConfig($config)->setSourceDir(null)->setDestinationDir(null);
-        // debug mode?
-        if (getenv('CECIL_DEBUG') == 'true' || (bool) $this->getConfig()->get('debug')) {
-            $this->debug = true;
-        }
-        // autoloads local extensions
-        Util::autoload($this, 'extensions');
     }
 
     /**
@@ -133,6 +240,11 @@ class Builder implements LoggerAwareInterface
 
     /**
      * Builds a new website.
+     * This method processes the build steps in order, collects content, data, static files,
+     * generates pages, renders them, and saves the output to the destination directory.
+     * It also collects metrics about the build process, such as duration and memory usage.
+     * @param array<self::OPTIONS> $options
+     * @see \Cecil\Builder::OPTIONS
      */
     public function build(array $options): self
     {
@@ -140,20 +252,19 @@ class Builder implements LoggerAwareInterface
         $startTime = microtime(true);
         $startMemory = memory_get_usage();
 
-        // log configuration errors
-        $this->logConfigError();
+        // checks soft errors
+        $this->checkErrors();
 
-        // prepare options
-        $this->options = array_merge([
-            'drafts'  => false, // build drafts or not
-            'dry-run' => false, // if dry-run is true, generated files are not saved
-            'page'    => '',    // specific page to build
-        ], $options);
+        // merge options with defaults
+        $this->options = array_merge(self::OPTIONS, $options);
+
+        // set build ID
+        $this->buildId = date('YmdHis');
 
         // process each step
         $steps = [];
         // init...
-        foreach ($this->steps as $step) {
+        foreach (self::STEPS as $step) {
             /** @var Step\StepInterface $stepObject */
             $stepObject = new $step($this);
             $stepObject->init($this->options);
@@ -161,7 +272,7 @@ class Builder implements LoggerAwareInterface
                 $steps[] = $stepObject;
             }
         }
-        // ...and process!
+        // ...and process
         $stepNumber = 0;
         $stepsTotal = \count($steps);
         foreach ($steps as $step) {
@@ -191,18 +302,29 @@ class Builder implements LoggerAwareInterface
     }
 
     /**
-     * Set configuration.
-     *
-     * @param Config|array|null $config
+     * Returns current build ID.
      */
-    public function setConfig($config): self
+    public function getBuildId(): string
     {
-        if (!$config instanceof Config) {
+        return $this->buildId;
+    }
+
+    /**
+     * Set configuration.
+     */
+    public function setConfig(array|Config $config): self
+    {
+        if (\is_array($config)) {
             $config = new Config($config);
         }
         if ($this->config !== $config) {
             $this->config = $config;
         }
+
+        // import themes configuration
+        $this->importThemesConfig();
+        // autoloads local extensions
+        Util::autoload($this, 'extensions');
 
         return $this;
     }
@@ -212,15 +334,21 @@ class Builder implements LoggerAwareInterface
      */
     public function getConfig(): Config
     {
+        if ($this->config === null) {
+            $this->config = new Config();
+        }
+
         return $this->config;
     }
 
     /**
      * Config::setSourceDir() alias.
      */
-    public function setSourceDir(?string $sourceDir = null): self
+    public function setSourceDir(string $sourceDir): self
     {
-        $this->config->setSourceDir($sourceDir);
+        $this->getConfig()->setSourceDir($sourceDir);
+        // import themes configuration
+        $this->importThemesConfig();
 
         return $this;
     }
@@ -228,11 +356,24 @@ class Builder implements LoggerAwareInterface
     /**
      * Config::setDestinationDir() alias.
      */
-    public function setDestinationDir(?string $destinationDir = null): self
+    public function setDestinationDir(string $destinationDir): self
     {
-        $this->config->setDestinationDir($destinationDir);
+        $this->getConfig()->setDestinationDir($destinationDir);
 
         return $this;
+    }
+
+    /**
+     * Import themes configuration.
+     */
+    public function importThemesConfig(): void
+    {
+        foreach ((array) $this->getConfig()->get('theme') as $theme) {
+            $this->getConfig()->import(
+                Config::loadFile(Util::joinFile($this->getConfig()->getThemesPath(), $theme, 'config.yml'), true),
+                Config::IMPORT_PRESERVE
+            );
+        }
     }
 
     /**
@@ -294,12 +435,12 @@ class Builder implements LoggerAwareInterface
     /**
      * Returns data collection.
      */
-    public function getData(?string $language = null): ?array
+    public function getData(?string $language = null): array
     {
         if ($language) {
             if (empty($this->data[$language])) {
                 // fallback to default language
-                return $this->data[$this->config->getLanguageDefault()];
+                return $this->data[$this->getConfig()->getLanguageDefault()];
             }
 
             return $this->data[$language];
@@ -341,7 +482,7 @@ class Builder implements LoggerAwareInterface
     }
 
     /**
-     * Set assets path collection.
+     * Set assets path list.
      */
     public function setAssets(array $assets): void
     {
@@ -349,7 +490,7 @@ class Builder implements LoggerAwareInterface
     }
 
     /**
-     * Add an asset path to assets collection.
+     * Add an asset path to assets list.
      */
     public function addAsset(string $path): void
     {
@@ -361,7 +502,7 @@ class Builder implements LoggerAwareInterface
     /**
      * Returns list of assets path.
      */
-    public function getAssets(): ?array
+    public function getAssets(): array
     {
         return $this->assets;
     }
@@ -430,18 +571,11 @@ class Builder implements LoggerAwareInterface
     public static function getVersion(): string
     {
         if (!isset(self::$version)) {
-            $filePath = __DIR__ . '/../VERSION';
-            if (Platform::isPhar()) {
-                $filePath = Platform::getPharPath() . '/VERSION';
-            }
-
             try {
-                if (!file_exists($filePath)) {
-                    throw new RuntimeException(\sprintf('File "%s" doesn\'t exist.', $filePath));
-                }
+                $filePath = Util\File::getRealPath('VERSION');
                 $version = Util\File::fileGetContents($filePath);
                 if ($version === false) {
-                    throw new RuntimeException(\sprintf('Can\'t get file "%s".', $filePath));
+                    throw new RuntimeException(\sprintf('Can\'t read content of "%s".', $filePath));
                 }
                 self::$version = trim($version);
             } catch (\Exception) {
@@ -453,13 +587,13 @@ class Builder implements LoggerAwareInterface
     }
 
     /**
-     * Log configuration errors.
+     * Log soft errors.
      */
-    protected function logConfigError(): void
+    protected function checkErrors(): void
     {
-        // warning about baseurl
-        if (empty(trim((string) $this->config->get('baseurl'), '/'))) {
-            $this->getLogger()->warning('`baseurl` configuration key is required in production.');
+        // baseurl is required in production
+        if (empty(trim((string) $this->getConfig()->get('baseurl'), '/'))) {
+            $this->getLogger()->error('`baseurl` configuration key is required in production.');
         }
     }
 }

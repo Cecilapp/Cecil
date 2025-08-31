@@ -1,26 +1,30 @@
 <?php
 
-declare(strict_types=1);
-
-/*
+/**
  * This file is part of Cecil.
  *
- * Copyright (c) Arnaud Ligny <arnaud@ligny.fr>
+ * (c) Arnaud Ligny <arnaud@ligny.fr>
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
 
+declare(strict_types=1);
+
 namespace Cecil\Step\Optimize;
 
-use Cecil\Assets\Cache;
+use Cecil\Cache;
 use Cecil\Exception\RuntimeException;
 use Cecil\Step\AbstractStep;
 use Cecil\Util;
 use Symfony\Component\Finder\Finder;
 
 /**
- * Post Processing.
+ * Abstract class for optimization steps.
+ *
+ * This class provides a base implementation for steps that optimize files
+ * of a specific type (e.g., CSS, JS). It handles the initialization of the
+ * optimization process, file processing, and caching of optimized files.
  */
 abstract class AbstractOptimize extends AbstractStep
 {
@@ -38,10 +42,10 @@ abstract class AbstractOptimize extends AbstractStep
         if ($options['dry-run']) {
             return;
         }
-        if (false === $this->config->get(\sprintf('optimize.%s.enabled', $this->type))) {
+        if (!$this->config->isEnabled(\sprintf('optimize.%s', $this->type))) {
             return;
         }
-        if (true === $this->config->get('optimize.enabled')) {
+        if ($this->config->isEnabled('optimize')) {
             $this->canProcess = true;
         }
     }
@@ -84,7 +88,7 @@ abstract class AbstractOptimize extends AbstractStep
             $sizeBefore = $file->getSize();
             $message = \sprintf('File "%s" processed', $this->builder->isDebug() ? $file->getPathname() : $file->getRelativePathname());
 
-            $cacheKey = $cache->createKeyFromPath($file->getPathname(), $file->getRelativePathname());
+            $cacheKey = $cache->createKeyFromFile($file);
             if (!$cache->has($cacheKey)) {
                 $processed = $this->processFile($file);
                 $sizeAfter = \strlen($processed);

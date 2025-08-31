@@ -1,22 +1,22 @@
 <?php
 
-declare(strict_types=1);
-
-/*
+/**
  * This file is part of Cecil.
  *
- * Copyright (c) Arnaud Ligny <arnaud@ligny.fr>
+ * (c) Arnaud Ligny <arnaud@ligny.fr>
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
 
+declare(strict_types=1);
+
 namespace Cecil\Renderer\Extension;
 
-use Cecil\Assets\Asset;
-use Cecil\Assets\Cache;
-use Cecil\Assets\Image;
+use Cecil\Asset;
+use Cecil\Asset\Image;
 use Cecil\Builder;
+use Cecil\Cache;
 use Cecil\Collection\CollectionInterface;
 use Cecil\Collection\Page\Collection as PagesCollection;
 use Cecil\Collection\Page\Page;
@@ -28,6 +28,7 @@ use Cecil\Exception\RuntimeException;
 use Cecil\Url;
 use Cocur\Slugify\Bridge\Twig\SlugifyExtension;
 use Cocur\Slugify\Slugify;
+use Highlight\Highlighter;
 use MatthiasMullie\Minify;
 use ScssPhp\ScssPhp\Compiler;
 use ScssPhp\ScssPhp\OutputStyle;
@@ -38,7 +39,10 @@ use Symfony\Component\Yaml\Yaml;
 use Twig\DeprecatedCallableInfo;
 
 /**
- * Class Renderer\Extension\Core.
+ * Core Twig extension.
+ *
+ * This extension provides various utility functions and filters for use in Twig templates,
+ * including URL generation, asset management, content processing, and more.
  */
 class Core extends SlugifyExtension
 {
@@ -80,6 +84,7 @@ class Core extends SlugifyExtension
             new \Twig\TwigFunction('url', [$this, 'url'], ['needs_context' => true]),
             // assets
             new \Twig\TwigFunction('asset', [$this, 'asset']),
+            new \Twig\TwigFunction('html', [$this, 'html'], ['needs_context' => true]),
             new \Twig\TwigFunction('integrity', [$this, 'integrity']),
             new \Twig\TwigFunction('image_srcset', [$this, 'imageSrcset']),
             new \Twig\TwigFunction('image_sizes', [$this, 'imageSizes']),
@@ -116,7 +121,6 @@ class Core extends SlugifyExtension
             new \Twig\TwigFilter('sort_by_date', [$this, 'sortByDate']),
             new \Twig\TwigFilter('filter_by', [$this, 'filterBy']),
             // assets
-            new \Twig\TwigFilter('html', [$this, 'html'], ['needs_context' => true]),
             new \Twig\TwigFilter('inline', [$this, 'inline']),
             new \Twig\TwigFilter('fingerprint', [$this, 'fingerprint']),
             new \Twig\TwigFilter('to_css', [$this, 'toCss']),
@@ -126,6 +130,8 @@ class Core extends SlugifyExtension
             new \Twig\TwigFilter('scss_to_css', [$this, 'scssToCss']),
             new \Twig\TwigFilter('sass_to_css', [$this, 'scssToCss']),
             new \Twig\TwigFilter('resize', [$this, 'resize']),
+            new \Twig\TwigFilter('cover', [$this, 'cover']),
+            new \Twig\TwigFilter('maskable', [$this, 'maskable']),
             new \Twig\TwigFilter('dataurl', [$this, 'dataurl']),
             new \Twig\TwigFilter('dominant_color', [$this, 'dominantColor']),
             new \Twig\TwigFilter('lqip', [$this, 'lqip']),
@@ -143,8 +149,20 @@ class Core extends SlugifyExtension
             new \Twig\TwigFilter('preg_match_all', [$this, 'pregMatchAll']),
             new \Twig\TwigFilter('hex_to_rgb', [$this, 'hexToRgb']),
             new \Twig\TwigFilter('splitline', [$this, 'splitLine']),
+            new \Twig\TwigFilter('iterable', [$this, 'iterable']),
+            new \Twig\TwigFilter('highlight', [$this, 'highlight']),
+            new \Twig\TwigFilter('unique', [$this, 'unique']),
             // date
             new \Twig\TwigFilter('duration_to_iso8601', ['\Cecil\Util\Date', 'durationToIso8601']),
+            // deprecated
+            new \Twig\TwigFilter(
+                'html',
+                [$this, 'html'],
+                [
+                    'needs_context' => true,
+                    'deprecation_info' => new DeprecatedCallableInfo('', '', 'html function')
+                ]
+            ),
         ];
     }
 
@@ -155,6 +173,8 @@ class Core extends SlugifyExtension
     {
         return [
             new \Twig\TwigTest('asset', [$this, 'isAsset']),
+            new \Twig\TwigTest('image_large', [$this, 'isImageLarge']),
+            new \Twig\TwigTest('image_square', [$this, 'isImageSquare']),
         ];
     }
 
@@ -356,6 +376,39 @@ class Core extends SlugifyExtension
     }
 
     /**
+     * Crops an image Asset to the given width and height, keeping the aspect ratio.
+     *
+     * @param string|Asset $asset
+     *
+     * @return Asset
+     */
+    public function cover($asset, int $width, int $height): Asset
+    {
+        if (!$asset instanceof Asset) {
+            $asset = new Asset($this->builder, $asset);
+        }
+
+        return $asset->cover($width, $height);
+    }
+
+    /**
+     * Creates a maskable icon from an image asset.
+     * The maskable icon is used for Progressive Web Apps (PWAs).
+     *
+     * @param string|Asset $asset
+     *
+     * @return Asset
+     */
+    public function maskable($asset, ?int $padding = null): Asset
+    {
+        if (!$asset instanceof Asset) {
+            $asset = new Asset($this->builder, $asset);
+        }
+
+        return $asset->maskable($padding);
+    }
+
+    /**
      * Returns the data URL of an image.
      *
      * @param string|Asset $asset
@@ -400,11 +453,11 @@ class Core extends SlugifyExtension
         }
 
         $cache = new Cache($this->builder, 'assets');
-        $cacheKey = $cache->createKeyFromString($value, 'css');
+        $cacheKey = $cache->createKeyFromValue(null, $value);
         if (!$cache->has($cacheKey)) {
             $minifier = new Minify\CSS($value);
             $value = $minifier->minify();
-            $cache->set($cacheKey, $value);
+            $cache->set($cacheKey, $value, $this->config->get('cache.assets.ttl'));
         }
 
         return $cache->get($cacheKey, $value);
@@ -422,11 +475,11 @@ class Core extends SlugifyExtension
         }
 
         $cache = new Cache($this->builder, 'assets');
-        $cacheKey = $cache->createKeyFromString($value, 'js');
+        $cacheKey = $cache->createKeyFromValue(null, $value);
         if (!$cache->has($cacheKey)) {
             $minifier = new Minify\JS($value);
             $value = $minifier->minify();
-            $cache->set($cacheKey, $value);
+            $cache->set($cacheKey, $value, $this->config->get('cache.assets.ttl'));
         }
 
         return $cache->get($cacheKey, $value);
@@ -442,7 +495,7 @@ class Core extends SlugifyExtension
         $value = $value ?? '';
 
         $cache = new Cache($this->builder, 'assets');
-        $cacheKey = $cache->createKeyFromString($value, 'css');
+        $cacheKey = $cache->createKeyFromValue(null, $value);
         if (!$cache->has($cacheKey)) {
             $scssPhp = new Compiler();
             $outputStyles = ['expanded', 'compressed'];
@@ -457,7 +510,7 @@ class Core extends SlugifyExtension
                 $scssPhp->replaceVariables($variables);
             }
             $value = $scssPhp->compileString($value)->getCss();
-            $cache->set($cacheKey, $value);
+            $cache->set($cacheKey, $value, $this->config->get('cache.assets.ttl'));
         }
 
         return $cache->get($cacheKey, $value);
@@ -478,8 +531,8 @@ class Core extends SlugifyExtension
     {
         $htmlAttributes = '';
         $preload = false;
-        $responsive = (bool) $this->config->get('assets.images.responsive.enabled');
-        $formats = (array) $this->config->get('assets.images.formats');
+        $responsive = $this->config->isEnabled('layouts.images.responsive');
+        $formats = (array) $this->config->get('layouts.images.formats');
         extract($options, EXTR_IF_EXISTS);
 
         // builds HTML attributes
@@ -514,13 +567,13 @@ class Core extends SlugifyExtension
             // responsive
             $sizes = '';
             if (
-                $responsive && $srcset = Image::buildSrcset(
+                $responsive && $srcset = Image::buildHtmlSrcset(
                     $asset,
                     $this->config->getAssetsImagesWidths()
                 )
             ) {
                 $htmlAttributes .= \sprintf(' srcset="%s"', $srcset);
-                $sizes = Image::getSizes($attributes['class'] ?? '', $this->config->getAssetsImagesSizes());
+                $sizes = Image::getHtmlSizes($attributes['class'] ?? '', $this->config->getAssetsImagesSizes());
                 $htmlAttributes .= \sprintf(' sizes="%s"', $sizes);
                 if ($asset['width'] > max($this->config->getAssetsImagesWidths())) {
                     $asset = $asset->resize(max($this->config->getAssetsImagesWidths()));
@@ -542,7 +595,7 @@ class Core extends SlugifyExtension
                         try {
                             $assetConverted = $asset->convert($format);
                             // responsive?
-                            if ($responsive && $srcset = Image::buildSrcset($assetConverted, $this->config->getAssetsImagesWidths())) {
+                            if ($responsive && $srcset = Image::buildHtmlSrcset($assetConverted, $this->config->getAssetsImagesWidths())) {
                                 // <source> element
                                 $source .= \sprintf(
                                     "\n  <source type=\"image/$format\" srcset=\"%s\" sizes=\"%s\">",
@@ -555,11 +608,13 @@ class Core extends SlugifyExtension
                             $source .= \sprintf("\n  <source type=\"image/$format\" srcset=\"%s\">", $assetConverted);
                         } catch (\Exception $e) {
                             $this->builder->getLogger()->error($e->getMessage());
+                            continue;
                         }
                     }
                 }
-
-                return \sprintf("<picture>%s\n  %s\n</picture>", $source, $img);
+                if (!empty($source)) {
+                    return \sprintf("<picture>%s\n  %s\n</picture>", $source, $img);
+                }
             }
 
             return $img;
@@ -575,7 +630,7 @@ class Core extends SlugifyExtension
      */
     public function imageSrcset(Asset $asset): string
     {
-        return Image::buildSrcset($asset, $this->config->getAssetsImagesWidths());
+        return Image::buildHtmlSrcset($asset, $this->config->getAssetsImagesWidths());
     }
 
     /**
@@ -583,7 +638,7 @@ class Core extends SlugifyExtension
      */
     public function imageSizes(string $class): string
     {
-        return Image::getSizes($class, $this->config->getAssetsImagesSizes());
+        return Image::getHtmlSizes($class, $this->config->getAssetsImagesSizes());
     }
 
     /**
@@ -689,8 +744,11 @@ class Core extends SlugifyExtension
         try {
             $parsedown = new Parsedown($this->builder);
             $html = $parsedown->text($markdown);
-        } catch (\Exception) {
-            throw new RuntimeException('"markdown_to_html" filter can not convert supplied Markdown.');
+        } catch (\Exception $e) {
+            throw new RuntimeException(
+                '"markdown_to_html" filter can not convert supplied Markdown.',
+                previous: $e
+            );
         }
 
         return $html;
@@ -864,6 +922,24 @@ class Core extends SlugifyExtension
     }
 
     /**
+     * Tests if an image Asset is large enough to be used as a cover image.
+     * A large image is defined as having a width >= 600px and height >= 315px.
+     */
+    public function isImageLarge(Asset $asset): bool
+    {
+        return $asset['type'] == 'image' && $asset['width'] > $asset['height'] && $asset['width'] >= 600 && $asset['height'] >= 315;
+    }
+
+    /**
+     * Tests if an image Asset is square.
+     * A square image is defined as having the same width and height.
+     */
+    public function isImageSquare(Asset $asset): bool
+    {
+        return $asset['type'] == 'image' && $asset['width'] == $asset['height'];
+    }
+
+    /**
      * Returns the dominant hex color of an image asset.
      *
      * @param string|Asset $asset
@@ -943,6 +1019,48 @@ class Core extends SlugifyExtension
         }
 
         return hash($algo, $data);
+    }
+
+    /**
+     * Converts a variable to an iterable (array).
+     */
+    public function iterable($value): array
+    {
+        if (\is_array($value)) {
+            return $value;
+        }
+        if (\is_string($value)) {
+            return [$value];
+        }
+        if ($value instanceof \Traversable) {
+            return iterator_to_array($value);
+        }
+        if ($value instanceof \stdClass) {
+            return (array) $value;
+        }
+        if (\is_object($value)) {
+            return [$value];
+        }
+        if (\is_int($value) || \is_float($value)) {
+            return [$value];
+        }
+        return [$value];
+    }
+
+    /**
+     * Highlights a code snippet.
+     */
+    public function highlight(string $code, string $language): string
+    {
+        return (new Highlighter())->highlight($language, $code)->value;
+    }
+
+    /**
+     * Returns an array with unique values.
+     */
+    public function unique(array $array): array
+    {
+        return array_intersect_key($array, array_unique(array_map('strtolower', $array), SORT_STRING));
     }
 
     /**

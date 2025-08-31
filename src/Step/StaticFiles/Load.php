@@ -1,15 +1,15 @@
 <?php
 
-declare(strict_types=1);
-
-/*
+/**
  * This file is part of Cecil.
  *
- * Copyright (c) Arnaud Ligny <arnaud@ligny.fr>
+ * (c) Arnaud Ligny <arnaud@ligny.fr>
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
+
+declare(strict_types=1);
 
 namespace Cecil\Step\StaticFiles;
 
@@ -19,7 +19,13 @@ use Symfony\Component\Finder\Finder;
 use wapmorgan\Mp3Info\Mp3Info;
 
 /**
- * Loads static files.
+ * Load static files step.
+ *
+ * This step is responsible for loading static files from the configured static path.
+ * It scans the directory for files, excluding any specified in the configuration.
+ * The loaded files are processed to extract metadata such as file type, subtype,
+ * modification date, and EXIF data for images. The processed files are then stored
+ * in the builder's static collection for further use in the build process.
  */
 class Load extends AbstractStep
 {
@@ -36,7 +42,7 @@ class Load extends AbstractStep
      */
     public function init(array $options): void
     {
-        if (is_dir($this->config->getStaticPath()) && (bool) $this->config->get('static.load')) {
+        if (is_dir($this->config->getStaticPath()) && $this->config->isEnabled('static.load')) {
             $this->canProcess = true;
         }
     }

@@ -4,11 +4,14 @@
     {%- block head ~%}
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    {%- block head_metatags ~%}
+    {{- include('partials/metatags.html.twig', {page, site}, with_context = false) ~}}
+    {%- endblock head_metatags ~%}
     <meta name="theme-color" media="(prefers-color-scheme: light)" content="white">
     <meta name="theme-color" media="(prefers-color-scheme: dark)" content="black">
-    {{- include('partials/metatags.html.twig', {page, site}, with_context = false) ~}}
+    {%- block head_css ~%}
     <style>{% apply minify_css %}
-      {{- include('partials/new.css.twig') ~}}
+      {{- include('partials/new.css.twig') }}
       /* new.css enhancements */
       :root body > header {
         --nc-lk-1: #006be9;
@@ -87,6 +90,15 @@
         padding-top: 1rem;
         margin-top: 2rem;
       }
+      pre {
+        padding: 0;
+      }
+      pre code.hljs {
+        margin: 0 !important;
+        padding: 0 !important;
+        line-height: 1.25;
+        background-color: transparent;
+      }
       /* Cecil features */
       .page-nav {
         display: flex;
@@ -141,6 +153,7 @@
         border-left-width: 4px;
       }
     {% endapply %}</style>
+    {%- endblock head_css ~%}
     {%- endblock head ~%}
   </head>
   <body>

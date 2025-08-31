@@ -1,15 +1,15 @@
 <?php
 
-declare(strict_types=1);
-
-/*
+/**
  * This file is part of Cecil.
  *
- * Copyright (c) Arnaud Ligny <arnaud@ligny.fr>
+ * (c) Arnaud Ligny <arnaud@ligny.fr>
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
+
+declare(strict_types=1);
 
 namespace Cecil\Step\StaticFiles;
 
@@ -19,7 +19,14 @@ use Cecil\Util;
 use Symfony\Component\Finder\Finder;
 
 /**
- * Copying static files to site root.
+ * Copy static files step.
+ *
+ * This step is responsible for copying static files from the source directories
+ * (like `static/` and `assets/`) to the output directory. It handles both files
+ * and directories, allowing for exclusions based on the configuration. It also
+ * supports copying files from theme-specific directories if themes are configured.
+ * The step can be run in a dry-run mode where no actual file operations are performed,
+ * but the intended actions are still logged.
  */
 class Copy extends AbstractStep
 {
@@ -42,9 +49,11 @@ class Copy extends AbstractStep
             return;
         }
 
-        // reset output directory
-        Util\File::getFS()->remove($this->config->getOutputPath());
-        Util\File::getFS()->mkdir($this->config->getOutputPath());
+        // reset output directory only if it's not partial rendering
+        if (empty($options['render-subset'])) {
+            Util\File::getFS()->remove($this->config->getOutputPath());
+            Util\File::getFS()->mkdir($this->config->getOutputPath());
+        }
 
         $this->canProcess = true;
     }
@@ -54,11 +63,11 @@ class Copy extends AbstractStep
      */
     public function process(): void
     {
-        $target = $this->config->get('static.target');
-        $exclude = $this->config->get('static.exclude');
+        $target = (string) $this->config->get('static.target');
+        $exclude = (array) $this->config->get('static.exclude');
 
         // copying assets in debug mode (for source maps)
-        if ($this->builder->isDebug() && (bool) $this->config->get('assets.compile.sourcemap')) {
+        if ($this->builder->isDebug() && $this->config->isEnabled('assets.compile.sourcemap')) {
             // copying content of '<theme>/assets/' dir if exists
             if ($this->config->hasTheme()) {
                 $themes = array_reverse($this->config->getTheme());
@@ -85,7 +94,7 @@ class Copy extends AbstractStep
 
         // copying mounts
         if ($this->config->get('static.mounts')) {
-            foreach ($this->config->get('static.mounts') ?? [] as $source => $destination) {
+            foreach ((array) $this->config->get('static.mounts') as $source => $destination) {
                 $this->copy(Util::joinFile($this->config->getStaticPath(), (string) $source), (string) $destination);
             }
         }

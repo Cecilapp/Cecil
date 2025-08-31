@@ -1,6 +1,7 @@
 <!--
 description: "Use Cecil as a PHP library."
 date: 2023-12-13
+updated: 2025-06-20
 -->
 # Library
 
@@ -12,48 +13,45 @@ You can use the Cecil as a [PHP](https://www.php.net) library.
 composer require cecil/cecil
 ```
 
+## API
+
+Cecil provides a simple PHP API to build your website.
+
+You can read the [API documentation](https://cecil.app/documentation/library/api/namespaces/cecil.html) for more details.
+
 ## Usage
 
 ### Build
 
-Build with the default configuration.
+Build a new website with a custom configuration:
 
 ```php
 use Cecil\Builder;
 
-Builder::create()->build();
-```
-
-Build with custom configuration:
-
-```php
+// Create a configuration array
 $config = [
     'title'   => "My website",
-    'baseurl' => 'http://localhost:8000/',
+    'baseurl' => 'https://domain.tld/',
 ];
 
+// Build with the custom configuration
 Builder::create($config)->build();
 ```
 
-> The main parameter of the `create` method should be an array or a [`Cecil\Config`](https://github.com/Cecilapp/Cecil/blob/master/src/Config.php) instance.
-
 :::info
-Full code of _Builder_ available on [GitHub](https://github.com/Cecilapp/Cecil/blob/master/src/Builder.php).
+The main parameter of the `create` method should be a PHP `array` or a [`Cecil\Config`](https://github.com/Cecilapp/Cecil/blob/master/src/Config.php) instance.
 :::
 
 ### Example
 
 ```php
-<?php
-
-date_default_timezone_set('Europe/Paris');
 require_once 'vendor/autoload.php';
 
 use Cecil\Builder;
 
-// Run the builder
+// Build with the website with the `config.php` configuration file
 Cecil::create(require('config.php'))->build();
 
-// Run a local server
+// Preview locally
 exec('php -S localhost:8000 -t _site');
 ```

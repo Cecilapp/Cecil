@@ -1,24 +1,30 @@
 <?php
 
-declare(strict_types=1);
-
-/*
+/**
  * This file is part of Cecil.
  *
- * Copyright (c) Arnaud Ligny <arnaud@ligny.fr>
+ * (c) Arnaud Ligny <arnaud@ligny.fr>
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
 
+declare(strict_types=1);
+
 namespace Cecil\Generator;
 
 use Cecil\Collection\Page\Page;
 use Cecil\Collection\Page\Type;
-use Cecil\Exception\RuntimeException;
 
 /**
- * Class Generator\Homepage.
+ * Homepage generator class.
+ *
+ * This class generates the homepage for each language defined in the configuration.
+ * It creates a new index page for each language, collects all pages of that language,
+ * sorts them, and sets the necessary variables for the homepage.
+ * It also handles the case where the homepage already exists by cloning it.
+ * Additionally, it sets the default "main" menu and adds an alias redirection
+ * from the root directory if the language prefix is enabled for the default language.
  */
 class Homepage extends AbstractGenerator implements GeneratorInterface
 {
@@ -45,8 +51,11 @@ class Homepage extends AbstractGenerator implements GeneratorInterface
             $subPages = $this->builder->getPages()->filter(function (Page $page) use ($language) {
                 return $page->getType() == Type::PAGE->value
                     && $page->getVariable('published') === true
+                    && (
+                        $page->getVariable('excluded') !== true
+                        && $page->getVariable('exclude') !== true
+                    )
                     && $page->isVirtual() === false
-                    && $page->getVariable('exclude') !== true
                     && $page->getVariable('language') == $language;
             });
             // collects pages of a section
@@ -67,7 +76,7 @@ class Homepage extends AbstractGenerator implements GeneratorInterface
                 $page->setVariable('menu', ['main' => ['weight' => 0]]);
             }
             // add an alias redirection from the root directory if language path prefix is enabled for the default language
-            if ($language == $this->config->getLanguageDefault() && (bool) $this->config->get('language.prefix') === true) {
+            if ($language == $this->config->getLanguageDefault() && $this->config->isEnabled('language.prefix')) {
                 $page->setVariable('alias', '../');
             }
             $this->generatedPages->add($page);

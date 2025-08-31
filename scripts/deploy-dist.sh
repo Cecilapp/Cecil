@@ -12,7 +12,7 @@ TARGET_DIST_DIR="static"
 DIST_FILE="cecil.phar"
 DIST_FILE_SHA1="cecil.phar.sha1"
 SCOOP_CMD="cecil"
-SCOOP_FILE_JSON="cecil.json"
+SCOOP_FILE_JSON="scoop/cecil.json"
 TARGET_PAGES_DIR="pages"
 USER_NAME=$GITHUB_ACTOR
 USER_EMAIL="${GITHUB_ACTOR}@cecil.app"
@@ -47,13 +47,16 @@ echo $VERSION > VERSION
 
 # create Scoop manifest
 rm -f $SCOOP_FILE_JSON
-cat <<EOT >> $SCOOP_FILE_JSON
+cat <<EOT > $SCOOP_FILE_JSON
 {
   "description": "A simple and powerful content-driven static site generator.",
   "homepage": "https://cecil.app",
   "license": "MIT",
   "bin": "$DIST_FILE",
-  "notes": "'cecil self-update' is aliased to 'scoop update cecil'",
+  "notes": [
+    "Run 'cecil' to get started",
+    "Run 'scoop update cecil' instead of 'cecil self-update' to update"
+  ],
   "suggest": {
     "PHP": ["php"]
   },
@@ -69,13 +72,7 @@ cat <<EOT >> $SCOOP_FILE_JSON
     "hash": {
       "url": "\$url.sha1"
     }
-  },
-  "pre_install": [
-    "@(",
-    "  'if (\$args.length -eq 1 -and \$args -eq \"self-update\") { & scoop update $SCOOP_CMD }'",
-    "  'else { & php (Join-Path \$PSScriptRoot \"$DIST_FILE\") @args }'",
-    ")"
-  ]
+  }
 }
 EOT
 

@@ -1,15 +1,15 @@
 <?php
 
-declare(strict_types=1);
-
-/*
+/**
  * This file is part of Cecil.
  *
- * Copyright (c) Arnaud Ligny <arnaud@ligny.fr>
+ * (c) Arnaud Ligny <arnaud@ligny.fr>
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
+
+declare(strict_types=1);
 
 namespace Cecil\Collection\Page;
 
@@ -17,7 +17,9 @@ use Cecil\Collection\Collection as CecilCollection;
 use Cecil\Exception\RuntimeException;
 
 /**
- * Class Collection.
+ * Pages collection class.
+ *
+ * Represents a collection of pages, providing methods to filter and sort them.
  */
 class Collection extends CecilCollection
 {
@@ -28,10 +30,13 @@ class Collection extends CecilCollection
     {
         return $this->filter(function (Page $page) {
             if (
-                $page->getVariable('published') === true   // is published
-                && $page->isVirtual() === false            // is created from a file
-                && $page->getVariable('redirect') === null // is not a redirection
-                && $page->getVariable('exclude') !== true  // is not excluded from lists
+                $page->getVariable('published') === true      // page is published
+                && (
+                    $page->getVariable('excluded') !== true   // page is listed
+                    && $page->getVariable('exclude') !== true // backward compatibility
+                )
+                && $page->isVirtual() === false               // page is created from a file
+                && $page->getVariable('redirect') === null    // page is not a redirection
             ) {
                 return true;
             }
@@ -49,13 +54,16 @@ class Collection extends CecilCollection
     /**
      * Sorts pages by.
      *
-     * $options: date|updated|title|weight
      * $options:
-     *   variable: date|updated|title|weight
-     *   desc_title: false|true
-     *   reverse: false|true
+     * [date|updated|title|weight]
+     * or
+     * [
+     *   variable   => date|updated|title|weight
+     *   desc_title => false|true
+     *   reverse    => false|true
+     * ]
      */
-    public function sortBy(array|string|null $options): self
+    public function sortBy(string|array|null $options): self
     {
         $sortBy = \is_string($options) ? $options : $options['variable'] ?? 'date';
         $sortMethod = \sprintf('sortBy%s', ucfirst(str_replace('updated', 'date', $sortBy)));
@@ -69,7 +77,7 @@ class Collection extends CecilCollection
     /**
      * Sorts pages by date (or 'updated'): the most recent first.
      */
-    public function sortByDate(array|string|null $options = null): self
+    public function sortByDate(string|array|null $options = null): self
     {
         $opt = [];
         // backward compatibility (i.e. $options = 'updated')
@@ -103,7 +111,7 @@ class Collection extends CecilCollection
     /**
      * Sorts pages by title (natural sort).
      */
-    public function sortByTitle(array|string|null $options = null): self
+    public function sortByTitle(string|array|null $options = null): self
     {
         $opt = [];
         // options
@@ -117,7 +125,7 @@ class Collection extends CecilCollection
     /**
      * Sorts by weight (the heaviest first).
      */
-    public function sortByWeight(array|string|null $options = null): self
+    public function sortByWeight(string|array|null $options = null): self
     {
         $opt = [];
         // options

@@ -1,15 +1,15 @@
 <?php
 
-declare(strict_types=1);
-
-/*
+/**
  * This file is part of Cecil.
  *
- * Copyright (c) Arnaud Ligny <arnaud@ligny.fr>
+ * (c) Arnaud Ligny <arnaud@ligny.fr>
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
+
+declare(strict_types=1);
 
 namespace Cecil\Generator;
 
@@ -18,7 +18,7 @@ use Cecil\Collection\Page\Collection as PagesCollection;
 use Cecil\Util;
 
 /**
- * Abstract class AbstractGenerator.
+ * Generator abstract class.
  */
 abstract class AbstractGenerator implements GeneratorInterface
 {

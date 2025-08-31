@@ -1,15 +1,15 @@
 <?php
 
-declare(strict_types=1);
-
-/*
+/**
  * This file is part of Cecil.
  *
- * Copyright (c) Arnaud Ligny <arnaud@ligny.fr>
+ * (c) Arnaud Ligny <arnaud@ligny.fr>
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
+
+declare(strict_types=1);
 
 namespace Cecil\Step\Data;
 
@@ -25,7 +25,13 @@ use Symfony\Component\Serializer\Normalizer\ObjectNormalizer;
 use Symfony\Component\Serializer\Serializer;
 
 /**
- * Loads data files.
+ * Load step class.
+ *
+ * This class is responsible for loading data files from a specified directory,
+ * decoding their contents based on the file extension, and merging the data
+ * into the builder's data collection. It supports various file formats such as
+ * YAML, JSON, CSV, and XML. The loaded data is organized into a nested array
+ * structure based on the file paths and language suffixes.
  */
 class Load extends AbstractStep
 {
@@ -42,7 +48,7 @@ class Load extends AbstractStep
      */
     public function init(array $options): void
     {
-        if (is_dir($this->config->getDataPath()) && (bool) $this->config->get('data.load')) {
+        if (is_dir($this->config->getDataPath()) && $this->config->isEnabled('data.load')) {
             $this->canProcess = true;
         }
     }

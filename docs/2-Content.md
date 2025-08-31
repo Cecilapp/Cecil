@@ -1,7 +1,7 @@
 <!--
 description: "Create content and organize it."
 date: 2021-05-07
-updated: 2025-02-26
+updated: 2025-08-29
 -->
 # Content
 
@@ -190,58 +190,48 @@ _Example:_
 
 #### External
 
-By default external links have the following value for `rel` attribute: "noopener noreferrer nofollow".
+By default external links have the following value for `rel` attribute: `noopener noreferrer`.
 
 _Example:_
 
 ```html
-<a href="<url>" rel="noopener noreferrer nofollow">Link to another website</a>
+<a href="<url>" rel="noopener noreferrer">Link to another website</a>
 ```
 
-You can change this behavior with [`pages.body.links.external` options](4-Configuration.md#body).
+You can change this behavior with [`pages.body.links.external` options](4-Configuration.md#pages-body-links).
 
 #### Embedded links
 
 You can let Cecil tries to turns a link into an embedded content by using the `{embed}` attribute or by setting the global configuration option `pages.body.links.embed.enabled` to `true`.
 
-_Example:_
-
-```markdown
-[An example YouTube video](https://www.youtube.com/watch?v=Dj-rKHmLp5w){embed}
-```
-
 :::important
-Only **YouTube** and **GitHub Gits** links are supported for the moment.
+Only **YouTube**, **Vimeo** and **GitHub Gits** links are supported.
 :::
 
-Cecil can also create a video or audio HTML elements, through the file extension.
+_Example:_
 
-##### Video
+```markdown
+[CECIL : LE générateur de SITES STATIQUES en PHP](https://www.youtube.com/watch?v=ur8koU0iYvc){embed}
+```
+
+[CECIL : LE générateur de SITES STATIQUES en PHP](https://www.youtube.com/watch?v=ur8koU0iYvc){embed}
+
+##### Local video/audio files
+
+Cecil can also create a video and audio HTML elements, through the file extension.
 
 _Example:_
 
 ```markdown
-[The video](/video/test.mp4){embed controls poster=/images/video-test.png style="width:100%;"}
+[Video file](video.mp4){embed controls poster=/images/video-test.png}
+[Audio file](song.mp3){embed controls}
 ```
 
 Is converted to:
 
 ```html
-<video src="/video/test.mp4" controls poster="/images/video-test.png" style="width:100%;"></video>
-```
-
-##### Audio
-
-_Example:_
-
-```markdown
-[The audio file](/audio/test.mp3){embed controls}
-```
-
-Is converted to:
-
-```html
-<audio src="/video/test.mp3" controls></audio>
+<video src="/video.mp4" controls poster="/images/video-test.png" style="max-width:100%;height:auto;"></video>
+<audio src="/song.mp3" controls></audio>
 ```
 
 ### Images
@@ -274,7 +264,7 @@ Is converted to:
 ```
 
 :::info
-You can disable this behavior with the attribute `{loading=eager}` or with the [`lazy` option](4-Configuration.md#body).
+You can disable this behavior with the attribute `{loading=eager}` or with the [`lazy` option](4-Configuration.md#pages-body-images).
 :::
 
 #### Decoding
@@ -294,12 +284,12 @@ Is converted to:
 ```
 
 :::info
-You can disable this behavior with the attribute `{decoding=auto}` or with the [`decoding` option](4-Configuration.md#body).
+You can disable this behavior with the attribute `{decoding=auto}` or with the [`decoding` option](4-Configuration.md#pages-body-images).
 :::
 
 #### Resize
 
-Each image in the _body_ can be resized automatically by setting a smaller width than the original one, with the extra attribute `{width=X}` (the [`resize` option](4-Configuration.md#body) must be enabled).
+Each image in the _body_ can be resized automatically by setting a smaller width than the original one, with the extra attribute `{width=X}`.
 
 _Example:_
 
@@ -310,11 +300,11 @@ _Example:_
 Is converted to:
 
 ```html
-<img src="/assets/thumbnails/800/image.jpg" width="800" height="600">
+<img src="/thumbnails/800/image.jpg" width="800" height="600">
 ```
 
 :::info
-Ratio is preserved (`height` attribute is calculated automatically), the original file is not altered and the resized version is stored in `/assets/thumbnails/<width>/`.
+Ratio is preserved (`height` attribute is calculated automatically), the original file is not altered and the resized version is stored in `/thumbnails/<width>/`.
 :::
 
 :::important
@@ -323,7 +313,7 @@ This feature requires [GD extension](https://www.php.net/manual/book.image.php) 
 
 #### Formats
 
-If the [`formats` option](4-Configuration.md#body) is defined, alternatives images are created and added.
+If the [`formats` option](4-Configuration.md#pages-body-images) is defined, alternatives images are created and added.
 
 _Example:_
 
@@ -347,7 +337,7 @@ Please note that **not all image formats** are always included in the PHP image 
 
 #### Responsive
 
-If the [`responsive` option](4-Configuration.md#body) is enabled, then all images in the _body_ will be automatically "responsived".
+If the [`responsive` option](4-Configuration.md#pages-body-images) is enabled, then all images in the _body_ will be automatically "responsived".
 
 _Example:_
 
@@ -355,13 +345,13 @@ _Example:_
 ![](/image.jpg){width=800}
 ```
 
-If `resize` and `responsive` options are enabled, then this Markdown line will be converted to:
+If `responsive` option is enabled, then this Markdown line will be converted to:
 
 ```html
-<img src="/assets/thumbnails/800/image.jpg" width="800" height="600"
-  srcset="/assets/thumbnails/320/image.jpg 320w,
-          /assets/thumbnails/640/image.jpg 640w,
-          /assets/thumbnails/800/image.jpg 800w"
+<img src="/thumbnails/800/image.jpg" width="800" height="600"
+  srcset="/thumbnails/320/image.jpg 320w,
+          /thumbnails/640/image.jpg 640w,
+          /thumbnails/800/image.jpg 800w"
   sizes="100vw"
 >
 ```
@@ -393,11 +383,11 @@ You can combine `formats` and `responsive` options.
 
 #### CSS class
 
-You can set a default value to the `class` attribute of each image with the [`class` option](4-Configuration.md#body).
+You can set a default value to the `class` attribute of each image with the [`class` option](4-Configuration.md#pages-body-images).
 
 #### Caption
 
-The optional title can be used to create a caption (`figcaption`) automatically by enabling the [`caption` option](4-Configuration.md#body).
+The optional title can be used to create a caption (`figcaption`) automatically by enabling the [`caption` option](4-Configuration.md#pages-body-images).
 
 _Example:_
 
@@ -435,7 +425,7 @@ _Examples:_
 ```
 
 :::tips
-You can set a value to the `placeholder` attribute for each image with the [`placeholder` option](4-Configuration.md#body).
+You can set a value to the `placeholder` attribute for each image with the [`placeholder` option](4-Configuration.md#pages-body-images).
 :::
 
 :::warning
@@ -451,7 +441,7 @@ You can add a table of contents with the following Markdown syntax:
 ```
 
 :::info
-By default the ToC extract H2 et H3 headers. You can change this behavior with [body options](4-Configuration.md#body).
+By default the ToC extract H2 et H3 headers. You can change this behavior with [body options](4-Configuration.md#pages-body).
 :::
 
 ### Excerpt
@@ -522,7 +512,7 @@ caution
 
 ### Syntax highlight
 
-Enables code block syntax highlighter by setting the [pages.body.highlight.enabled](4-Configuration.md#body) option to `true`.
+Enables code block syntax highlighter by setting the [pages.body.highlight.enabled](4-Configuration.md#pages-body-highlight) option to `true`.
 
 _Example:_
 
@@ -662,7 +652,7 @@ redirect: "https://arnaudligny.fr"
 ```
 
 :::info
-Redirect works with the [`redirect.html.twig`](https://github.com/Cecilapp/Cecil/blob/master/resources/layouts/redirect.html.twig) template.
+Redirect works with the [`redirect.html.twig`](https://github.com/Cecilapp/Cecil/blob/master/resources/layouts/_default/redirect.html.twig) template.
 :::
 
 ### alias
@@ -683,7 +673,12 @@ In the previous example `contact/` redirects to `about/`.
 
 ### output
 
-Defines the output (rendered) format(s). See [`formats` configuration](4-Configuration.md#formats) for more details.
+Defines the output format of the page.
+
+Available formats are: `html`, `atom`, `rss`, `json`, `xml`, etc.  
+You can define one or more formats in an array.
+
+I’s not required to define an output format, but if you do, it must be one of the available formats defined in the [_Configuration_](4-Configuration.md#output-formats).
 
 _Example:_
 
@@ -772,7 +767,7 @@ sortby:
 
 #### pagination
 
-Global [pagination configuration](4-Configuration.md#pagination) can be overridden in each _Section_.
+Global [pagination configuration](4-Configuration.md#pages-pagination) can be overridden in each _Section_.
 
 _Example:_
 
@@ -829,20 +824,24 @@ pagesfrom: blog
 ---
 ```
 
-### exclude
+### excluded
 
-Set `exclude` to `true` to hide a page from list pages (i.e.: _Home page_, _Section_, _Sitemap_, etc.).
+Set `excluded` to `true` to hide a page from list pages (i.e.: _Home page_, _Section_, _Sitemap_, etc.).
 
 _Example:_
 
 ```yaml
 ---
-exclude: true
+excluded: true
 ---
 ```
 
 :::info
-`exclude` is different from [`published`](#predefined): an excluded page is published but hidden from list pages.
+`excluded` is different from [`published`](#predefined-variables): an excluded page is published but hidden from list pages.
+:::
+
+:::warning
+Since version 8.49.0, the previous `exclude` variable have been changed to `excluded`.
 :::
 
 ## Multilingual

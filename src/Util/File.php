@@ -1,21 +1,29 @@
 <?php
 
-declare(strict_types=1);
-
-/*
+/**
  * This file is part of Cecil.
  *
- * Copyright (c) Arnaud Ligny <arnaud@ligny.fr>
+ * (c) Arnaud Ligny <arnaud@ligny.fr>
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
 
+declare(strict_types=1);
+
 namespace Cecil\Util;
 
 use Cecil\Exception\RuntimeException;
 use Symfony\Component\Filesystem\Filesystem;
+use Symfony\Component\Mime\MimeTypes;
 
+/**
+ * File utility class.
+ *
+ * This class provides various utility methods for file handling,
+ * including reading file contents, getting media types and extensions,
+ * reading EXIF data, and checking if files are remote.
+ */
 class File
 {
     /** @var Filesystem */
@@ -38,7 +46,7 @@ class File
      *
      * @return string|false
      */
-    public static function fileGetContents(string $filename, bool $userAgent = false)
+    public static function fileGetContents(string $filename, ?string $userAgent = null)
     {
         if (empty($filename)) {
             return false;
@@ -51,19 +59,17 @@ class File
         );
 
         try {
-            if ($userAgent) {
-                $options = [
-                    'http' => [
-                        'method'          => 'GET',
-                        'header'          => 'User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/51.0.2704.47 Safari/537.36',
-                        'follow_location' => true,
-                    ],
-                ];
-
-                return file_get_contents($filename, false, stream_context_create($options));
+            $options = [
+                'http' => [
+                    'method'          => 'GET',
+                    'follow_location' => true,
+                ],
+            ];
+            if (!empty($userAgent)) {
+                $options['http']['header'] = "User-Agent: $userAgent";
             }
 
-            return file_get_contents($filename);
+            return file_get_contents($filename, false, stream_context_create($options));
         } catch (\ErrorException) {
             return false;
         } finally {
@@ -72,21 +78,53 @@ class File
     }
 
     /**
-     * Returns the content type and subtype of a file.
+     * Returns the media type and subtype of a file.
      *
      * ie: ['text', 'text/plain']
      */
     public static function getMediaType(string $filename): array
     {
-        if (false === $subtype = mime_content_type($filename)) {
-            throw new RuntimeException(\sprintf('Can\'t get content type of "%s".', $filename));
-        }
-        $type = explode('/', $subtype)[0];
+        try {
+            if (false !== $subtype = mime_content_type($filename)) {
+                return [explode('/', $subtype)[0], $subtype];
+            }
+            $mimeTypes = new MimeTypes();
+            $subtype = $mimeTypes->guessMimeType($filename);
+            if ($subtype === null) {
+                throw new RuntimeException('Can\'t guess the media type.');
+            }
 
-        return [
-            $type,
-            $subtype,
-        ];
+            return [explode('/', $subtype)[0], $subtype];
+        } catch (\Exception $e) {
+            throw new RuntimeException(\sprintf('Can\'t get media type of "%s" (%s).', $filename, $e->getMessage()));
+        }
+    }
+
+    /**
+     * Returns the extension of a file.
+     */
+    public static function getExtension(string $filename): string
+    {
+        try {
+            $ext = pathinfo($filename, PATHINFO_EXTENSION);
+            if (!empty($ext)) {
+                return $ext;
+            }
+            // guess the extension
+            $mimeTypes = new MimeTypes();
+            $mimeType = $mimeTypes->guessMimeType($filename);
+            if ($mimeType === null) {
+                throw new RuntimeException('Can\'t guess the media type.');
+            }
+            $exts = $mimeTypes->getExtensions($mimeType);
+
+            return $exts[0];
+        } catch (\Exception $e) {
+            throw new RuntimeException(
+                \sprintf('Can\'t get extension of "%s".', $filename),
+                previous: $e,
+            );
+        }
     }
 
     /**
@@ -119,5 +157,51 @@ class File
         } finally {
             restore_error_handler();
         }
+    }
+
+    /**
+     * Returns the real path of a relative file path.
+     */
+    public static function getRealPath(string $path): string
+    {
+        // if file exists
+        $filePath = realpath(\Cecil\Util::joinFile(__DIR__, '/../', $path));
+        if ($filePath !== false) {
+            return $filePath;
+        }
+        // if Phar
+        if (Platform::isPhar()) {
+            return \Cecil\Util::joinPath(Platform::getPharPath(), str_replace('../', '/', $path));
+        }
+
+        throw new RuntimeException(\sprintf('Can\'t get the real path of file "%s".', $path));
+    }
+
+    /**
+     * Tests if a file path is remote.
+     */
+    public static function isRemote(string $path): bool
+    {
+        return (bool) preg_match('~^(?:f|ht)tps?://~i', $path);
+    }
+
+    /**
+     * Tests if a remote file exists.
+     */
+    public static function isRemoteExists(string $path): bool
+    {
+        if (self::isRemote($path)) {
+            $handle = @fopen($path, 'r');
+            if (!empty($http_response_header)) {
+                if (400 < (int) explode(' ', $http_response_header[0])[1]) {
+                    return false;
+                }
+            }
+            if (\is_resource($handle)) {
+                return true;
+            }
+        }
+
+        return false;
     }
 }

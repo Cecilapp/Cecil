@@ -1,15 +1,15 @@
 <?php
 
-declare(strict_types=1);
-
-/*
+/**
  * This file is part of Cecil.
  *
- * Copyright (c) Arnaud Ligny <arnaud@ligny.fr>
+ * (c) Arnaud Ligny <arnaud@ligny.fr>
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
+
+declare(strict_types=1);
 
 namespace Cecil\Step\Pages;
 
@@ -22,7 +22,12 @@ use Cecil\Step\AbstractStep;
 use Cecil\Util;
 
 /**
- * Converts content of all pages.
+ * Convert step.
+ *
+ * This step is responsible for converting pages from their source format
+ * (i.e. Markdown) to HTML, applying front matter processing,
+ * and ensuring that the pages are ready for rendering. It handles both
+ * published and draft pages, depending on the build options.
  */
 class Convert extends AbstractStep
 {
@@ -73,7 +78,7 @@ class Convert extends AbstractStep
                         $convertedPage->setVariable('language', $this->config->getLanguageDefault());
                     }
                 } catch (RuntimeException $e) {
-                    $this->builder->getLogger()->error(\sprintf('Unable to convert "%s:%s": %s', $e->getPageFile(), $e->getPageLine(), $e->getMessage()));
+                    $this->builder->getLogger()->error(\sprintf('Unable to convert "%s:%s": %s', $e->getFile(), $e->getLine(), $e->getMessage()));
                     $this->builder->getPages()->remove($page->getId());
                     continue;
                 } catch (\Exception $e) {
@@ -82,16 +87,17 @@ class Convert extends AbstractStep
                     continue;
                 }
                 $message = \sprintf('Page "%s" converted', $page->getId());
+                $statusMessage = ' (not published)';
                 // forces drafts convert?
                 if ($this->builder->getBuildOptions()['drafts']) {
                     $page->setVariable('published', true);
                 }
+                // replaces page in collection
                 if ($page->getVariable('published')) {
                     $this->builder->getPages()->replace($page->getId(), $convertedPage);
-                } else {
-                    $message .= ' (not published)';
+                    $statusMessage = '';
                 }
-                $this->builder->getLogger()->info($message, ['progress' => [$count, $total]]);
+                $this->builder->getLogger()->info($message . $statusMessage, ['progress' => [$count, $total]]);
             }
         }
     }
@@ -105,7 +111,7 @@ class Convert extends AbstractStep
      */
     public function convertPage(Builder $builder, Page $page, ?string $format = null, ?ConverterInterface $converter = null): Page
     {
-        $format = $format ?? (string) $builder->getConfig()->get('pages.frontmatter.format');
+        $format = $format ?? (string) $builder->getConfig()->get('pages.frontmatter');
         $converter = $converter ?? new Converter($builder);
 
         // converts front matter
@@ -113,7 +119,7 @@ class Convert extends AbstractStep
             try {
                 $variables = $converter->convertFrontmatter($page->getFrontmatter(), $format);
             } catch (RuntimeException $e) {
-                throw new RuntimeException($e->getMessage(), $page->getFilePath(), $e->getPageLine());
+                throw new RuntimeException($e->getMessage(), file: $page->getFilePath(), line: $e->getLine());
             }
             $page->setFmVariables($variables);
             $page->setVariables($variables);

@@ -1,26 +1,33 @@
 <?php
 
-declare(strict_types=1);
-
-/*
+/**
  * This file is part of Cecil.
  *
- * Copyright (c) Arnaud Ligny <arnaud@ligny.fr>
+ * (c) Arnaud Ligny <arnaud@ligny.fr>
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
+
+declare(strict_types=1);
 
 namespace Cecil\Renderer;
 
 use Cecil\Collection\Page\Page as PageItem;
 
 /**
- * Class Renderer\Page.
+ * Page renderer class.
+ *
+ * This class is responsible for generating the output file path and URL for a page
+ * based on the output format properties defined in the configuration.
+ * It handles various scenarios such as ugly URLs, multilingual support, and subpaths.
  */
 class Page
 {
-    /** @var \Cecil\Config */
+    /**
+     * Configuration object.
+     * @var \Cecil\Config
+     */
     protected $config;
 
     public function __construct(\Cecil\Config $config)
@@ -30,7 +37,6 @@ class Page
 
     /**
      * Returns the path of the rendered file, based on the output format properties.
-     *
      * Use cases:
      *   - default: path + filename + extension (e.g.: 'blog/post-1/index.html')
      *   - with subpath: path + subpath + filename + extension (e.g.: 'blog/post-1/amp/index.html')
@@ -62,7 +68,7 @@ class Page
             $path = 'index';
         }
         // do not prefix path with language code for the default language
-        if ($language === null || ($language == $this->config->getLanguageDefault() && (bool) $this->config->get('language.prefix') !== true)) {
+        if ($language === null || ($language == $this->config->getLanguageDefault() && !$this->config->isEnabled('language.prefix'))) {
             $language = '';
         }
         // do not prefix "not multilingual" virtual pages
@@ -74,20 +80,20 @@ class Page
     }
 
     /**
-     * Returns the public URL.
+     * Returns the public file path.
      *
      * @param PageItem $page
      * @param string   $format Output format (ie: 'html', 'amp', 'json', etc.), 'html' by default
      */
-    public function getUrl(PageItem $page, string $format = 'html'): string
+    public function getPublicFilePath(PageItem $page, string $format = 'html'): string
     {
         $output = $this->getOutputFilePath($page, $format);
 
-        // remove "index.html" if not uglyurl
-        if (!($page->getVariable('uglyurl') ?? false)) {
-            $output = str_replace('index.html', '', $output);
+        // if `uglyurl` is true do not remove "index.html" from the output path
+        if ($page->getVariable('uglyurl')) {
+            return $output;
         }
 
-        return $output;
+        return str_replace('index.html', '', $output);
     }
 }

@@ -1,15 +1,15 @@
 <?php
 
-declare(strict_types=1);
-
-/*
+/**
  * This file is part of Cecil.
  *
- * Copyright (c) Arnaud Ligny <arnaud@ligny.fr>
+ * (c) Arnaud Ligny <arnaud@ligny.fr>
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
+
+declare(strict_types=1);
 
 namespace Cecil\Command;
 
@@ -29,10 +29,17 @@ use Yosymfony\ResourceWatcher\ResourceCacheMemory;
 use Yosymfony\ResourceWatcher\ResourceWatcher;
 
 /**
- * Starts the built-in server.
+ * Serve command.
+ *
+ * This command starts the built-in web server with live reloading capabilities.
+ * It allows users to serve their website locally and automatically rebuild it when changes are detected.
+ * It also supports opening the web browser automatically and includes options for drafts, optimization, and more.
  */
 class Serve extends AbstractCommand
 {
+    /** @var boolean */
+    protected $watcherEnabled;
+
     /**
      * {@inheritdoc}
      */
@@ -43,47 +50,45 @@ class Serve extends AbstractCommand
             ->setDescription('Starts the built-in server')
             ->setDefinition([
                 new InputArgument('path', InputArgument::OPTIONAL, 'Use the given path as working directory'),
-                new InputOption('config', 'c', InputOption::VALUE_REQUIRED, 'Set the path to extra config files (comma-separated)'),
-                new InputOption('drafts', 'd', InputOption::VALUE_NONE, 'Include drafts'),
-                new InputOption('page', 'p', InputOption::VALUE_REQUIRED, 'Build a specific page'),
                 new InputOption('open', 'o', InputOption::VALUE_NONE, 'Open web browser automatically'),
-                new InputOption('host', null, InputOption::VALUE_REQUIRED, 'Server host'),
-                new InputOption('port', null, InputOption::VALUE_REQUIRED, 'Server port'),
-                new InputOption('optimize', null, InputOption::VALUE_OPTIONAL, 'Optimize files (disable with "no")', false),
-                new InputOption('clear-cache', null, InputOption::VALUE_OPTIONAL, 'Clear cache before build (optional cache key regular expression)', false),
+                new InputOption('host', null, InputOption::VALUE_REQUIRED, 'Server host', 'localhost'),
+                new InputOption('port', null, InputOption::VALUE_REQUIRED, 'Server port', '8000'),
+                new InputOption('watch', 'w', InputOption::VALUE_NEGATABLE, 'Enable (or disable --no-watch) changes watcher (enabled by default)', true),
+                new InputOption('drafts', 'd', InputOption::VALUE_NONE, 'Include drafts'),
+                new InputOption('optimize', null, InputOption::VALUE_NEGATABLE, 'Enable (or disable --no-optimize) optimization of generated files'),
+                new InputOption('config', 'c', InputOption::VALUE_REQUIRED, 'Set the path to extra config files (comma-separated)'),
+                new InputOption('clear-cache', null, InputOption::VALUE_OPTIONAL, 'Clear cache before build (optional cache key as regular expression)', false),
+                new InputOption('page', 'p', InputOption::VALUE_REQUIRED, 'Build a specific page'),
                 new InputOption('no-ignore-vcs', null, InputOption::VALUE_NONE, 'Changes watcher must not ignore VCS directories'),
+                new InputOption('metrics', 'm', InputOption::VALUE_NONE, 'Show build metrics (duration and memory) of each step'),
+                new InputOption('timeout', null, InputOption::VALUE_REQUIRED, 'Sets the process timeout (max. runtime) in seconds', 7200), // default is 2 hours
             ])
             ->setHelp(
                 <<<'EOF'
 The <info>%command.name%</> command starts the live-reloading-built-in web server.
 
-To start the server, run:
-
   <info>%command.full_name%</>
-
-To start the server from a specific directory, run:
-
-  <info>%command.full_name% path/to/directory</>
-
-To start the server with a specific configuration file, run:
-
-  <info>%command.full_name% --config=config.yml</>
-
-To start the server and open web browser automatically, run:
-
+  <info>%command.full_name% path/to/the/working/directory</>
   <info>%command.full_name% --open</>
+  <info>%command.full_name% --drafts</>
+  <info>%command.full_name% --no-watch</>
 
-To start the server with a specific host, run:
+You can use a custom host and port by using the <info>--host</info> and <info>--port</info> options:
 
-  <info>%command.full_name% --host=127.0.0.1
+  <info>%command.full_name% --host=127.0.0.1 --port=8080</>
 
-To start the server with a specific port, run:
+To build the website with an extra configuration file, you can use the <info>--config</info> option.
+This is useful during local development to <comment>override some settings</comment> without modifying the main configuration:
 
-  <info>%command.full_name% --port=8080
+  <info>%command.full_name% --config=config/dev.yml</>
 
-To start the server with changes watcher not ignoring VCS directories, run:
+To start the server with changes watcher <comment>not ignoring VCS</comment> directories, run:
 
   <info>%command.full_name% --no-ignore-vcs</>
+
+To define the process <comment>timeout</comment> (in seconds), run:
+
+  <info>%command.full_name% --timeout=7200</>
 EOF
             );
     }
@@ -95,34 +100,41 @@ EOF
      */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        $drafts = $input->getOption('drafts');
         $open = $input->getOption('open');
-        $host = $input->getOption('host') ?? 'localhost';
-        $port = $input->getOption('port') ?? '8000';
+        $host = $input->getOption('host');
+        $port = $input->getOption('port');
+        $drafts = $input->getOption('drafts');
         $optimize = $input->getOption('optimize');
         $clearcache = $input->getOption('clear-cache');
-        $verbose = $input->getOption('verbose');
         $page = $input->getOption('page');
         $noignorevcs = $input->getOption('no-ignore-vcs');
+        $metrics = $input->getOption('metrics');
+        $timeout = $input->getOption('timeout');
+        $verbose = $input->getOption('verbose');
 
-        $this->setUpServer($host, $port);
+        $resourceWatcher = null;
+        $this->watcherEnabled = $input->getOption('watch');
 
+        // checks if PHP executable is available
         $phpFinder = new PhpExecutableFinder();
         $php = $phpFinder->find();
         if ($php === false) {
             throw new RuntimeException('Can\'t find a local PHP executable.');
         }
 
+        // setup server
+        $this->setUpServer();
         $command = \sprintf(
             '"%s" -S %s:%d -t "%s" "%s"',
             $php,
             $host,
             $port,
-            Util::joinFile($this->getPath(), (string) $this->getBuilder()->getConfig()->get('output.dir')),
+            Util::joinFile($this->getPath(), self::SERVE_OUTPUT),
             Util::joinFile($this->getPath(), self::TMP_DIR, 'router.php')
         );
         $process = Process::fromShellCommandline($command);
 
+        // setup build process
         $buildProcessArguments = [
             $php,
             $_SERVER['argv'][0],
@@ -136,12 +148,11 @@ EOF
         if ($drafts) {
             $buildProcessArguments[] = '--drafts';
         }
-        if ($optimize === null) {
+        if ($optimize === true) {
             $buildProcessArguments[] = '--optimize';
         }
-        if (!empty($optimize)) {
-            $buildProcessArguments[] = '--optimize';
-            $buildProcessArguments[] = $optimize;
+        if ($optimize === false) {
+            $buildProcessArguments[] = '--no-optimize';
         }
         if ($clearcache === null) {
             $buildProcessArguments[] = '--clear-cache';
@@ -157,46 +168,46 @@ EOF
             $buildProcessArguments[] = '--page';
             $buildProcessArguments[] = $page;
         }
-
+        if (!empty($metrics)) {
+            $buildProcessArguments[] = '--metrics';
+        }
+        $buildProcessArguments[] = '--baseurl';
+        $buildProcessArguments[] = "http://$host:$port/";
+        $buildProcessArguments[] = '--output';
+        $buildProcessArguments[] = self::SERVE_OUTPUT;
         $buildProcess = new Process(
             $buildProcessArguments,
             null,
             ['BOX_REQUIREMENT_CHECKER' => '0'] // prevents double check (build then serve)
         );
-
         $buildProcess->setTty(Process::isTtySupported());
         $buildProcess->setPty(Process::isPtySupported());
-        $buildProcess->setTimeout(3600 * 2); // timeout = 2 minutes
-
+        $buildProcess->setTimeout((float) $timeout);
         $processOutputCallback = function ($type, $buffer) use ($output) {
             $output->write($buffer, false, OutputInterface::OUTPUT_RAW);
         };
 
-        // (re)builds before serve
+        // builds before serve
         $output->writeln(\sprintf('<comment>Build process: %s</comment>', implode(' ', $buildProcessArguments)), OutputInterface::VERBOSITY_DEBUG);
         $buildProcess->run($processOutputCallback);
         if ($buildProcess->isSuccessful()) {
-            $this->buildSuccess($output);
+            $this->buildSuccessActions($output);
         }
         if ($buildProcess->getExitCode() !== 0) {
+            $this->tearDownServer();
+
             return 1;
         }
 
-        // handles process
+        // handles serve process
         if (!$process->isStarted()) {
-            // set resource watcher
-            $finder = new Finder();
-            $finder->files()
-                ->in($this->getPath())
-                ->exclude((string) $this->getBuilder()->getConfig()->get('output.dir'));
-            if (file_exists(Util::joinFile($this->getPath(), '.gitignore')) && $noignorevcs === false) {
-                $finder->ignoreVCSIgnored(true);
+            $messageSuffix = '';
+            // setup resource watcher
+            if ($this->watcherEnabled) {
+                $resourceWatcher = $this->setupWatcher($noignorevcs);
+                $resourceWatcher->initialize();
+                $messageSuffix = ' with changes watcher';
             }
-            $hashContent = new Crc32ContentHash();
-            $resourceCache = new ResourceCacheMemory();
-            $resourceWatcher = new ResourceWatcher($resourceCache, $finder, $hashContent);
-            $resourceWatcher->initialize();
-
             // starts server
             try {
                 if (\function_exists('\pcntl_signal')) {
@@ -205,7 +216,7 @@ EOF
                     pcntl_signal(SIGTERM, [$this, 'tearDownServer']);
                 }
                 $output->writeln(\sprintf('<comment>Server process: %s</comment>', $command), OutputInterface::VERBOSITY_DEBUG);
-                $output->writeln(\sprintf('Starting server (<href=http://%s:%d>http://%s:%d</>)...', $host, $port, $host, $port));
+                $output->writeln(\sprintf('Starting server (<href=http://%s:%d>http://%s:%d</>)%s...', $host, $port, $host, $port, $messageSuffix));
                 $process->start(function ($type, $buffer) {
                     if ($type === Process::ERR) {
                         error_log($buffer, 3, Util::joinFile($this->getPath(), self::TMP_DIR, 'errors.log'));
@@ -222,36 +233,37 @@ EOF
 
                         return 1;
                     }
-                    $watcher = $resourceWatcher->findChanges();
-                    if ($watcher->hasChanges()) {
-                        // prints deleted/new/updated files in debug mode
-                        $output->writeln('<comment>Changes detected.</comment>');
-                        if (\count($watcher->getDeletedFiles()) > 0) {
-                            $output->writeln('<comment>Deleted files:</comment>', OutputInterface::VERBOSITY_DEBUG);
-                            foreach ($watcher->getDeletedFiles() as $file) {
-                                $output->writeln("<comment>- $file</comment>", OutputInterface::VERBOSITY_DEBUG);
+                    if ($this->watcherEnabled && $resourceWatcher instanceof ResourceWatcher) {
+                        $watcher = $resourceWatcher->findChanges();
+                        if ($watcher->hasChanges()) {
+                            $output->writeln('<comment>Changes detected.</comment>');
+                            // prints deleted/new/updated files in debug mode
+                            if (\count($watcher->getDeletedFiles()) > 0) {
+                                $output->writeln('<comment>Deleted files:</comment>', OutputInterface::VERBOSITY_DEBUG);
+                                foreach ($watcher->getDeletedFiles() as $file) {
+                                    $output->writeln("<comment>- $file</comment>", OutputInterface::VERBOSITY_DEBUG);
+                                }
                             }
-                        }
-                        if (\count($watcher->getNewFiles()) > 0) {
-                            $output->writeln('<comment>New files:</comment>', OutputInterface::VERBOSITY_DEBUG);
-                            foreach ($watcher->getNewFiles() as $file) {
-                                $output->writeln("<comment>- $file</comment>", OutputInterface::VERBOSITY_DEBUG);
+                            if (\count($watcher->getNewFiles()) > 0) {
+                                $output->writeln('<comment>New files:</comment>', OutputInterface::VERBOSITY_DEBUG);
+                                foreach ($watcher->getNewFiles() as $file) {
+                                    $output->writeln("<comment>- $file</comment>", OutputInterface::VERBOSITY_DEBUG);
+                                }
                             }
-                        }
-                        if (\count($watcher->getUpdatedFiles()) > 0) {
-                            $output->writeln('<comment>Updated files:</comment>', OutputInterface::VERBOSITY_DEBUG);
-                            foreach ($watcher->getUpdatedFiles() as $file) {
-                                $output->writeln("<comment>- $file</comment>", OutputInterface::VERBOSITY_DEBUG);
+                            if (\count($watcher->getUpdatedFiles()) > 0) {
+                                $output->writeln('<comment>Updated files:</comment>', OutputInterface::VERBOSITY_DEBUG);
+                                foreach ($watcher->getUpdatedFiles() as $file) {
+                                    $output->writeln("<comment>- $file</comment>", OutputInterface::VERBOSITY_DEBUG);
+                                }
                             }
+                            $output->writeln('');
+                            // re-builds
+                            $buildProcess->run($processOutputCallback);
+                            if ($buildProcess->isSuccessful()) {
+                                $this->buildSuccessActions($output);
+                            }
+                            $output->writeln('<info>Server is runnning...</info>');
                         }
-                        $output->writeln('');
-                        // re-builds
-                        $buildProcess->run($processOutputCallback);
-                        if ($buildProcess->isSuccessful()) {
-                            $this->buildSuccess($output);
-                        }
-
-                        $output->writeln('<info>Server is runnning...</info>');
                     }
                 }
                 if ($process->getExitCode() > 0) {
@@ -268,14 +280,16 @@ EOF
     }
 
     /**
-     * Build success.
+     * Build success actions.
      */
-    private function buildSuccess(OutputInterface $output): void
+    private function buildSuccessActions(OutputInterface $output): void
     {
         // writes `changes.flag` file
-        Util\File::getFS()->dumpFile(Util::joinFile($this->getPath(), self::TMP_DIR, 'changes.flag'), time());
+        if ($this->watcherEnabled) {
+            Util\File::getFS()->dumpFile(Util::joinFile($this->getPath(), self::TMP_DIR, 'changes.flag'), time());
+        }
         // writes `headers.ini` file
-        $headers = $this->getBuilder()->getConfig()->get('headers');
+        $headers = $this->getBuilder()->getConfig()->get('server.headers');
         if (is_iterable($headers)) {
             $output->writeln('Writing headers file...');
             Util\File::getFS()->remove(Util::joinFile($this->getPath(), self::TMP_DIR, 'headers.ini'));
@@ -289,38 +303,48 @@ EOF
     }
 
     /**
+     * Sets up the watcher.
+     */
+    private function setupWatcher(bool $noignorevcs = false): ResourceWatcher
+    {
+        $finder = new Finder();
+        $finder->files()
+            ->in($this->getPath())
+            ->exclude((string) $this->getBuilder()->getConfig()->get('output.dir'));
+        if (file_exists(Util::joinFile($this->getPath(), '.gitignore')) && $noignorevcs === false) {
+            $finder->ignoreVCSIgnored(true);
+        }
+        return new ResourceWatcher(new ResourceCacheMemory(), $finder, new Crc32ContentHash());
+    }
+
+    /**
      * Prepares server's files.
      *
      * @throws RuntimeException
      */
-    private function setUpServer(string $host, string $port): void
+    private function setUpServer(): void
     {
         try {
-            $root = Util::joinFile(__DIR__, '../../');
-            if (Util\Platform::isPhar()) {
-                $root = Util\Platform::getPharPath() . '/';
-            }
+            // define root path
+            $root = Util\Platform::isPhar() ? Util\Platform::getPharPath() . '/' : realpath(Util::joinFile(__DIR__, '/../../'));
             // copying router
             Util\File::getFS()->copy(
                 $root . '/resources/server/router.php',
                 Util::joinFile($this->getPath(), self::TMP_DIR, 'router.php'),
                 true
             );
-            // copying livereload JS
-            Util\File::getFS()->copy(
-                $root . '/resources/server/livereload.js',
-                Util::joinFile($this->getPath(), self::TMP_DIR, 'livereload.js'),
-                true
-            );
-            // copying baseurl text file
-            Util\File::getFS()->dumpFile(
-                Util::joinFile($this->getPath(), self::TMP_DIR, 'baseurl'),
-                \sprintf(
-                    '%s;%s',
-                    (string) $this->getBuilder()->getConfig()->get('baseurl'),
-                    \sprintf('http://%s:%s/', $host, $port)
-                )
-            );
+            // copying livereload JS for watcher
+            $livereloadJs = Util::joinFile($this->getPath(), self::TMP_DIR, 'livereload.js');
+            if (is_file($livereloadJs)) {
+                Util\File::getFS()->remove($livereloadJs);
+            }
+            if ($this->watcherEnabled) {
+                Util\File::getFS()->copy(
+                    $root . '/resources/server/livereload.js',
+                    $livereloadJs,
+                    true
+                );
+            }
         } catch (IOExceptionInterface $e) {
             throw new RuntimeException(\sprintf('An error occurred while copying server\'s files to "%s".', $e->getPath()));
         }

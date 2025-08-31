@@ -1,15 +1,15 @@
 <?php
 
-declare(strict_types=1);
-
-/*
+/**
  * This file is part of Cecil.
  *
- * Copyright (c) Arnaud Ligny <arnaud@ligny.fr>
+ * (c) Arnaud Ligny <arnaud@ligny.fr>
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
+
+declare(strict_types=1);
 
 namespace Cecil\Command;
 
@@ -19,7 +19,10 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
 /**
- * Removes cache files.
+ * CacheClear command.
+ *
+ * This command removes all cached files from the cache directory.
+ * It can be used to clear the cache before a new build or to free up space.
  */
 class CacheClear extends AbstractCommand
 {
@@ -30,7 +33,7 @@ class CacheClear extends AbstractCommand
     {
         $this
             ->setName('cache:clear')
-            ->setDescription('Removes all caches')
+            ->setDescription('Removes all cache files')
             ->setDefinition([
                 new InputArgument('path', InputArgument::OPTIONAL, 'Use the given path as working directory'),
             ])
