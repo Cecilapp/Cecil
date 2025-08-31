@@ -17,6 +17,7 @@ use Cecil\Asset;
 use Cecil\Exception\RuntimeException;
 use Intervention\Image\Drivers\Gd\Driver as GdDriver;
 use Intervention\Image\Drivers\Imagick\Driver as ImagickDriver;
+use Intervention\Image\Drivers\Vips\Driver as VipsDriver;
 use Intervention\Image\Encoders\AutoEncoder;
 use Intervention\Image\ImageManager;
 
@@ -27,24 +28,34 @@ use Intervention\Image\ImageManager;
  * and generating data URLs.
  *
  * This class uses the Intervention Image library to handle image processing.
- * It supports both GD and Imagick drivers, depending on the available PHP extensions.
+ * It supports GD, Imagick and Vips drivers, depending on the available PHP extensions.
  */
 class Image
 {
     /**
-     * Create new manager instance with available driver.
+     * Create new manager instance with available driver, faster first.
      */
     private static function manager(): ImageManager
     {
         $driver = null;
 
-        // ImageMagick is available? (for a future quality option)
-        if (\extension_loaded('imagick') && class_exists('Imagick')) {
-            $driver = ImagickDriver::class;
+        // use Imagick for better quality
+        /*if (\extension_loaded('imagick') && class_exists('Imagick')) {
+            $driver = new ImagickDriver();
+        }*/
+        // libvips is the fastest driver (if FFI is available)
+        if (\extension_loaded('ffi')) {
+            ini_set('ffi.enable', 'true');
+            $driver = new VipsDriver();
+            try {
+                $driver->checkHealth();
+            } catch (\Intervention\Image\Exceptions\DriverException) {
+                $driver = null;
+            }
         }
-        // Use GD, because it's the faster driver
-        if (\extension_loaded('gd') && \function_exists('gd_info')) {
-            $driver = GdDriver::class;
+        // GD by default
+        if ($driver === null && \extension_loaded('gd') && \function_exists('gd_info')) {
+            $driver = new GdDriver();
         }
 
         if ($driver) {
@@ -59,7 +70,7 @@ class Image
             );
         }
 
-        throw new RuntimeException('PHP GD (or Imagick) extension is required.');
+        throw new RuntimeException('PHP GD extension is required.');
     }
 
     /**
@@ -213,8 +224,15 @@ class Image
             $image = self::manager()->read(self::resize($asset, 100, 50));
 
             return $image->reduceColors(1)->pickColor(0, 0)->toString();
-        } catch (\Exception $e) {
-            throw new RuntimeException(\sprintf('Can\'t get dominant color of "%s": %s', $asset['path'], $e->getMessage()));
+        } catch (\Exception) {
+            // fallback to GD driver
+            try {
+                $image = ImageManager::withDriver(GdDriver::class)->read(self::resize($asset, 100, 50));
+
+                return $image->reduceColors(1)->pickColor(0, 0)->toString();
+            } catch (\Exception $e) {
+                throw new RuntimeException(\sprintf('Can\'t get dominant color of "%s": %s', $asset['path'], $e->getMessage()));
+            }
         }
     }
 
