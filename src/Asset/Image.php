@@ -15,9 +15,9 @@ namespace Cecil\Asset;
 
 use Cecil\Asset;
 use Cecil\Exception\RuntimeException;
-use Intervention\Image\Drivers\Vips\Driver as VipsDriver;
 use Intervention\Image\Drivers\Gd\Driver as GdDriver;
 use Intervention\Image\Drivers\Imagick\Driver as ImagickDriver;
+use Intervention\Image\Drivers\Vips\Driver as VipsDriver;
 use Intervention\Image\Encoders\AutoEncoder;
 use Intervention\Image\ImageManager;
 
@@ -28,7 +28,7 @@ use Intervention\Image\ImageManager;
  * and generating data URLs.
  *
  * This class uses the Intervention Image library to handle image processing.
- * It supports both GD and Imagick drivers, depending on the available PHP extensions.
+ * It supports GD, Imagick and Vips drivers, depending on the available PHP extensions.
  */
 class Image
 {
@@ -37,17 +37,18 @@ class Image
      */
     private static function manager(): ImageManager
     {
-        try {
-            // Vips is the fastest driver
-            return ImageManager::withDriver(VipsDriver::class);
-        } catch (\Exception) {
-            // fallback to GD or Imagick
-            if (\extension_loaded('gd') && \function_exists('gd_info')) {
-                return ImageManager::withDriver(GdDriver::class);
-            }
-            if (\extension_loaded('imagick') && class_exists('Imagick')) {
-                return ImageManager::withDriver(ImagickDriver::class);
-            }
+        $driver = null;
+
+        if (\extension_loaded('imagick') && class_exists('Imagick')) {
+            $driver = ImagickDriver::class;
+        }
+        // GD is faster than Imagick
+        if (\extension_loaded('gd') && \function_exists('gd_info')) {
+            $driver = GdDriver::class;
+        }
+        // libvips is the fastest driver (if FFI is available)
+        if (\extension_loaded('ffi')) {
+            $driver = VipsDriver::class;
         }
 
         if ($driver) {
@@ -62,7 +63,7 @@ class Image
             );
         }
 
-        throw new RuntimeException('PHP GD (or Imagick) extension is required.');
+        throw new RuntimeException('PHP GD extension is required.');
     }
 
     /**
