@@ -13,10 +13,10 @@ declare(strict_types=1);
 
 namespace Cecil\Renderer\Extension;
 
-use Cecil\Assets\Asset;
-use Cecil\Assets\Cache;
-use Cecil\Assets\Image;
+use Cecil\Asset;
+use Cecil\Asset\Image;
 use Cecil\Builder;
+use Cecil\Cache;
 use Cecil\Collection\CollectionInterface;
 use Cecil\Collection\Page\Collection as PagesCollection;
 use Cecil\Collection\Page\Page;
@@ -567,13 +567,13 @@ class Core extends SlugifyExtension
             // responsive
             $sizes = '';
             if (
-                $responsive && $srcset = Image::buildSrcset(
+                $responsive && $srcset = Image::buildHtmlSrcset(
                     $asset,
                     $this->config->getAssetsImagesWidths()
                 )
             ) {
                 $htmlAttributes .= \sprintf(' srcset="%s"', $srcset);
-                $sizes = Image::getSizes($attributes['class'] ?? '', $this->config->getAssetsImagesSizes());
+                $sizes = Image::getHtmlSizes($attributes['class'] ?? '', $this->config->getAssetsImagesSizes());
                 $htmlAttributes .= \sprintf(' sizes="%s"', $sizes);
                 if ($asset['width'] > max($this->config->getAssetsImagesWidths())) {
                     $asset = $asset->resize(max($this->config->getAssetsImagesWidths()));
@@ -595,7 +595,7 @@ class Core extends SlugifyExtension
                         try {
                             $assetConverted = $asset->convert($format);
                             // responsive?
-                            if ($responsive && $srcset = Image::buildSrcset($assetConverted, $this->config->getAssetsImagesWidths())) {
+                            if ($responsive && $srcset = Image::buildHtmlSrcset($assetConverted, $this->config->getAssetsImagesWidths())) {
                                 // <source> element
                                 $source .= \sprintf(
                                     "\n  <source type=\"image/$format\" srcset=\"%s\" sizes=\"%s\">",
@@ -630,7 +630,7 @@ class Core extends SlugifyExtension
      */
     public function imageSrcset(Asset $asset): string
     {
-        return Image::buildSrcset($asset, $this->config->getAssetsImagesWidths());
+        return Image::buildHtmlSrcset($asset, $this->config->getAssetsImagesWidths());
     }
 
     /**
@@ -638,7 +638,7 @@ class Core extends SlugifyExtension
      */
     public function imageSizes(string $class): string
     {
-        return Image::getSizes($class, $this->config->getAssetsImagesSizes());
+        return Image::getHtmlSizes($class, $this->config->getAssetsImagesSizes());
     }
 
     /**

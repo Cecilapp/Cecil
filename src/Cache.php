@@ -11,7 +11,7 @@
 
 declare(strict_types=1);
 
-namespace Cecil\Assets;
+namespace Cecil;
 
 use Cecil\Builder;
 use Cecil\Collection\Page\Page;

@@ -13,7 +13,7 @@ declare(strict_types=1);
 
 namespace Cecil\Step\Optimize;
 
-use Cecil\Assets\Cache;
+use Cecil\Cache;
 use Cecil\Exception\RuntimeException;
 use Cecil\Step\AbstractStep;
 use Cecil\Util;

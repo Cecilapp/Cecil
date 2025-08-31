@@ -128,7 +128,7 @@ EOF
             $options['render-subset'] = (string) $input->getOption('render-subset');
         }
         if ($input->getOption('clear-cache')) {
-            if (0 < $removedFiles = (new \Cecil\Assets\Cache($this->getBuilder()))->clearByPattern((string) $input->getOption('clear-cache'))) {
+            if (0 < $removedFiles = (new \Cecil\Cache($this->getBuilder()))->clearByPattern((string) $input->getOption('clear-cache'))) {
                 $output->writeln(\sprintf('<info>%s cache files removed by regular expression "%s"</info>', $removedFiles, $input->getOption('clear-cache')));
             }
         }
