@@ -40,15 +40,15 @@ class Image
         $driver = null;
 
         // use Imagick for better quality
-        //if (\extension_loaded('imagick') && class_exists('Imagick')) {
-        //    $driver = new ImagickDriver();
-        //}
+        /*if (\extension_loaded('imagick') && class_exists('Imagick')) {
+            $driver = new ImagickDriver();
+        }*/
         // libvips is the fastest driver (if FFI is available)
         if (\extension_loaded('ffi')) {
             $driver = new VipsDriver();
             try {
                 $driver->checkHealth();
-            } catch (\Exception) {
+            } catch (\Intervention\Image\Exceptions\DriverException) {
                 $driver = null;
             }
         }
