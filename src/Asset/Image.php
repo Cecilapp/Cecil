@@ -39,7 +39,7 @@ class Image
     {
         $driver = null;
 
-        // use Imagick for better quality over GD
+        // use Imagick for better quality
         //if (\extension_loaded('imagick') && class_exists('Imagick')) {
         //    $driver = new ImagickDriver();
         //}
