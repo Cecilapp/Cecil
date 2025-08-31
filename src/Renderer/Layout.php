@@ -134,6 +134,7 @@ class Layout
             case PageType::VOCABULARY->value:
                 $layouts = [
                     // "taxonomy/$plural.$format.$ext", // e.g.: taxonomy/tags.html.twig
+                    "vocabulary.$format.$ext",          // e.g.: vocabulary.html.twig
                     "_default/vocabulary.$format.$ext", // e.g.: _default/vocabulary.html.twig
                 ];
                 if ($page->hasVariable('plural')) {
@@ -144,6 +145,7 @@ class Layout
                 $layouts = [
                     // "taxonomy/$term.$format.$ext",     // e.g.: taxonomy/velo.html.twig
                     // "taxonomy/$singular.$format.$ext", // e.g.: taxonomy/tag.html.twig
+                    "term.$format.$ext",                  // e.g.: term.html.twig
                     "_default/term.$format.$ext",         // e.g.: _default/term.html.twig
                     "_default/list.$format.$ext",         // e.g.: _default/list.html.twig
                 ];

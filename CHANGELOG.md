@@ -2,6 +2,338 @@
 
 All notable changes to this project will be documented in this file. Dates are displayed in UTC.
 
+#### [8.63.2](https://github.com/Cecilapp/Cecil/compare/8.63.1...8.63.2)
+
+> 29 August 2025
+
+- chore: update deps [`7919d5c`](https://github.com/Cecilapp/Cecil/commit/7919d5cba305adf3489af4344c9997127dbfc6c3)
+- refactor: better code for embedded media [`d210a85`](https://github.com/Cecilapp/Cecil/commit/d210a8573729f9a374718b249c79eeebc5fa7fb1)
+
+#### [8.63.1](https://github.com/Cecilapp/Cecil/compare/8.63.0...8.63.1)
+
+> 29 August 2025
+
+- refactor: better code [`a893617`](https://github.com/Cecilapp/Cecil/commit/a8936172e383bff0a40183874af2e92f58e21d6a)
+
+#### [8.63.0](https://github.com/Cecilapp/Cecil/compare/8.62.1...8.63.0)
+
+> 29 August 2025
+
+- feat: add Vimeo embed support to Parsedown [`5de407b`](https://github.com/Cecilapp/Cecil/commit/5de407bfcc4210e7d0437e1540ce76010d984c4e)
+
+#### [8.62.1](https://github.com/Cecilapp/Cecil/compare/8.62.0...8.62.1)
+
+> 27 August 2025
+
+- refactor: minify inline CSS and JS in embed tpl [`2c25f83`](https://github.com/Cecilapp/Cecil/commit/2c25f83ede36a8876e5fc437bdc0aae83e639df6)
+- fix: refine README to index renaming logic [`52d28af`](https://github.com/Cecilapp/Cecil/commit/52d28afee7d26c314a319f8aa8b94abc6b858cbc)
+
+#### [8.62.0](https://github.com/Cecilapp/Cecil/compare/8.61.5...8.62.0)
+
+> 25 August 2025
+
+- feat: better video asset management [`4d0cadf`](https://github.com/Cecilapp/Cecil/commit/4d0cadf0c8f7a36ed864d46a81508d8e3bc16409)
+- feat: add video support to sitemap [`b9ddb6e`](https://github.com/Cecilapp/Cecil/commit/b9ddb6e40c2081fa4386c7a648b3fb6bf74a8822)
+
+#### [8.61.5](https://github.com/Cecilapp/Cecil/compare/8.61.4...8.61.5)
+
+> 24 August 2025
+
+- refactor: cleaning metatags [`325903f`](https://github.com/Cecilapp/Cecil/commit/325903fd0735eb1f2034b5a33eae67d11d7011f1)
+
+#### [8.61.4](https://github.com/Cecilapp/Cecil/compare/8.61.3...8.61.4)
+
+> 22 August 2025
+
+- fix: reintroduce jslon-ld publisher logo and url [`09be718`](https://github.com/Cecilapp/Cecil/commit/09be71813c2d218cf8ff63e0385d2aea57039ead)
+
+#### [8.61.3](https://github.com/Cecilapp/Cecil/compare/8.61.2...8.61.3)
+
+> 22 August 2025
+
+- fix embed (again) [`9fea7fb`](https://github.com/Cecilapp/Cecil/commit/9fea7fbcf52887fa3c3f4c64c98631f93482e3b9)
+
+#### [8.61.2](https://github.com/Cecilapp/Cecil/compare/8.61.1...8.61.2)
+
+> 22 August 2025
+
+- fix oembed template [`b273794`](https://github.com/Cecilapp/Cecil/commit/b273794f81e0ad36ac302905b142b8053c293e00)
+- fix embed template [`ea432b3`](https://github.com/Cecilapp/Cecil/commit/ea432b34737f55894d38f79c227a5ccb8e82f831)
+
+#### [8.61.1](https://github.com/Cecilapp/Cecil/compare/8.61.0...8.61.1)
+
+> 21 August 2025
+
+- refactor: simplify `embed` template [`0110c05`](https://github.com/Cecilapp/Cecil/commit/0110c053a3ecb8f4a71c352c6c91e8fab15a9f38)
+- fix: remove "embed_url" from `oembed` template [`f663026`](https://github.com/Cecilapp/Cecil/commit/f663026fef100d6c85bc4bd32bb15ebb1b226fa0)
+
+#### [8.61.0](https://github.com/Cecilapp/Cecil/compare/8.60.2...8.61.0)
+
+> 21 August 2025
+
+- refactor: Improve image handling in metatags [`8fafaa4`](https://github.com/Cecilapp/Cecil/commit/8fafaa494d5b21e1af70377f855b1b29434d5a56)
+- chore: update deps [`1bc6204`](https://github.com/Cecilapp/Cecil/commit/1bc62046fb9eed2a83be2e31c50b982bc79a6a3f)
+
+#### [8.60.2](https://github.com/Cecilapp/Cecil/compare/8.60.1...8.60.2)
+
+> 21 August 2025
+
+- fix and clean structured data template [`de0a3ff`](https://github.com/Cecilapp/Cecil/commit/de0a3ffc176655f8aa3ea0011debc7ee0ca253f4)
+
+#### [8.60.1](https://github.com/Cecilapp/Cecil/compare/8.60.0...8.60.1)
+
+> 20 August 2025
+
+- chore(deps): bump symfony/polyfill-intl-icu from 1.32.0 to 1.33.0 [`#2211`](https://github.com/Cecilapp/Cecil/pull/2211)
+- fix oembed template [`bbee82b`](https://github.com/Cecilapp/Cecil/commit/bbee82bea269e63b402b37dcd8cedf0848d50e3d)
+
+#### [8.60.0](https://github.com/Cecilapp/Cecil/compare/8.59.0...8.60.0)
+
+> 20 August 2025
+
+- chore: cleaning fixtures [`5225291`](https://github.com/Cecilapp/Cecil/commit/52252917552da205080979185b6ba3508297d4d9)
+- feat: add unique Twig filter and update keywords metatag [`9a9615e`](https://github.com/Cecilapp/Cecil/commit/9a9615e22841ac37c14e80f6ffd7a37d994d41f6)
+- chore: cleaning code [`3e5678e`](https://github.com/Cecilapp/Cecil/commit/3e5678e4f78d35a0ae8b14f081a30539802043b0)
+
+#### [8.59.0](https://github.com/Cecilapp/Cecil/compare/8.58.2...8.59.0)
+
+> 20 August 2025
+
+- refactor: trying to fix asset URL in Markdown [`f3ab05e`](https://github.com/Cecilapp/Cecil/commit/f3ab05ec8bf0cf6660dd0e06844aa25236ddf4b2)
+- fix fixtures [`b29327b`](https://github.com/Cecilapp/Cecil/commit/b29327b389f46595fb9a325827f6ca1671348750)
+
+#### [8.58.2](https://github.com/Cecilapp/Cecil/compare/8.58.1...8.58.2)
+
+> 19 August 2025
+
+- refactor: improve Twitter card meta tag logic [`a34ee7a`](https://github.com/Cecilapp/Cecil/commit/a34ee7a616f3ab18c56bc2aa384ad45217c65803)
+- docs: add `highlight` filter to documentation [`1daf30a`](https://github.com/Cecilapp/Cecil/commit/1daf30a15b781e460fc69abc7d6ef2c8fb67f085)
+
+#### [8.58.1](https://github.com/Cecilapp/Cecil/compare/8.58.0...8.58.1)
+
+> 19 August 2025
+
+- fix default page CSS [`7bdd88f`](https://github.com/Cecilapp/Cecil/commit/7bdd88f52f742826be6c9504a33f527a649449a3)
+
+#### [8.58.0](https://github.com/Cecilapp/Cecil/compare/8.57.2...8.58.0)
+
+> 19 August 2025
+
+- feat: more granular metatags configuration [`4a58b03`](https://github.com/Cecilapp/Cecil/commit/4a58b03fdae5c5308b368e943fd6fdc5068a116b)
+- chore: update deps [`0944eb7`](https://github.com/Cecilapp/Cecil/commit/0944eb78b326fd742b9af82270f11cb26840d41e)
+- refactor: cleaning some code [`37afe4c`](https://github.com/Cecilapp/Cecil/commit/37afe4ca8051f512a288682f2a29799857a68f53)
+- feat: new Twig filter `highlight` [`03fad7a`](https://github.com/Cecilapp/Cecil/commit/03fad7a4457b1039d25faca94e47b44fd01e5912)
+
+#### [8.57.2](https://github.com/Cecilapp/Cecil/compare/8.57.1...8.57.2)
+
+> 19 August 2025
+
+- feat: add video autoplay to embed [`1756be2`](https://github.com/Cecilapp/Cecil/commit/1756be28a6e4719f9f2a505d391128a5825bcbe3)
+
+#### [8.57.1](https://github.com/Cecilapp/Cecil/compare/8.57.0...8.57.1)
+
+> 19 August 2025
+
+- fix local config [`954ab3d`](https://github.com/Cecilapp/Cecil/commit/954ab3d58855c9ca84dee5acd37c890bba0fb029)
+- fix: tear down server on build error [`54d2848`](https://github.com/Cecilapp/Cecil/commit/54d284831509999e1452388a6ab5ed27b63415db)
+
+#### [8.57.0](https://github.com/Cecilapp/Cecil/compare/8.56.0...8.57.0)
+
+> 19 August 2025
+
+- refactor: rename "iframe" format to "embed" [`8254b9a`](https://github.com/Cecilapp/Cecil/commit/8254b9afcded0233fc0ea10dd99eb1d98bf4a382)
+- feat: add 'photo' field in metatags image [`aa515a0`](https://github.com/Cecilapp/Cecil/commit/aa515a047bc0e6513a6f84d354dc907baf75cb29)
+- fix test fixtures [`c2cff71`](https://github.com/Cecilapp/Cecil/commit/c2cff71743a22fafd79ab8ffcecd6fa3d9b9b4d9)
+
+#### [8.56.0](https://github.com/Cecilapp/Cecil/compare/8.55.22...8.56.0)
+
+> 19 August 2025
+
+- feat: add audio support and improve oEmbed thumbnails [`44eeb0e`](https://github.com/Cecilapp/Cecil/commit/44eeb0e95a7ad9d00c5957f08fc37adaf101b78a)
+- Fix Open Graph audio/image meta tag logic [`bce5915`](https://github.com/Cecilapp/Cecil/commit/bce591564d1352ce6d06778cc566efe23ef01ac7)
+
+#### [8.55.22](https://github.com/Cecilapp/Cecil/compare/8.55.21...8.55.22)
+
+> 18 August 2025
+
+- refactor: add favicon to skeleton [`337a2fb`](https://github.com/Cecilapp/Cecil/commit/337a2fbfe6508a8325e055f1981756aadab57b87)
+
+#### [8.55.21](https://github.com/Cecilapp/Cecil/compare/8.55.20...8.55.21)
+
+> 18 August 2025
+
+- fix: new site command [`3764080`](https://github.com/Cecilapp/Cecil/commit/3764080492caf290a4ba1930aa1793474f5e7770)
+
+#### [8.55.20](https://github.com/Cecilapp/Cecil/compare/8.55.19...8.55.20)
+
+> 18 August 2025
+
+- refactor: update default image of skeleton [`e53872d`](https://github.com/Cecilapp/Cecil/commit/e53872da3479a7baf751a817d5bcb38442573d45)
+
+#### [8.55.19](https://github.com/Cecilapp/Cecil/compare/8.55.18...8.55.19)
+
+> 18 August 2025
+
+- refactor: add Twig blocks for metatags and CSS [`39e1b26`](https://github.com/Cecilapp/Cecil/commit/39e1b2648bb6faabbe634384c617a0789a04f1c9)
+
+#### [8.55.18](https://github.com/Cecilapp/Cecil/compare/8.55.17...8.55.18)
+
+> 18 August 2025
+
+- fix: regex pattern for page front matter parsing [`aae1e6a`](https://github.com/Cecilapp/Cecil/commit/aae1e6acec23e5ae1b3bee570fbf77c6e3a2e644)
+
+#### [8.55.17](https://github.com/Cecilapp/Cecil/compare/8.55.16...8.55.17)
+
+> 18 August 2025
+
+- refactor: remove `author` from new:site [`46dd8e9`](https://github.com/Cecilapp/Cecil/commit/46dd8e92e3d77956853da02b1797c335ca41ddf1)
+
+#### [8.55.16](https://github.com/Cecilapp/Cecil/compare/8.55.15...8.55.16)
+
+> 18 August 2025
+
+- refactor: conditional rendering for author meta [`9df28a5`](https://github.com/Cecilapp/Cecil/commit/9df28a54dcde3ae535102547a22cedd8a431c188)
+
+#### [8.55.15](https://github.com/Cecilapp/Cecil/compare/8.55.14...8.55.15)
+
+> 18 August 2025
+
+- fix: getOutputPath instead of getDestinationDir [`a6c8956`](https://github.com/Cecilapp/Cecil/commit/a6c89566db2b27ab66925f89aa1223fcbd2a3332)
+
+#### [8.55.14](https://github.com/Cecilapp/Cecil/compare/8.55.13...8.55.14)
+
+> 17 August 2025
+
+- refactor: Improve media display in iframe layout [`afaf7f5`](https://github.com/Cecilapp/Cecil/commit/afaf7f520f0dfd05f7b7543d64132c0819052ce4)
+
+#### [8.55.13](https://github.com/Cecilapp/Cecil/compare/8.55.12...8.55.13)
+
+> 17 August 2025
+
+- fix metatags title for homepage [`0d271b8`](https://github.com/Cecilapp/Cecil/commit/0d271b8f45c6f2344203ca70864102e925be79af)
+- Fix metatags template [`d727fd8`](https://github.com/Cecilapp/Cecil/commit/d727fd897bef2dbb03e3789f2f117ad1b4dffad0)
+
+#### [8.55.12](https://github.com/Cecilapp/Cecil/compare/8.55.11...8.55.12)
+
+> 16 August 2025
+
+- Fix Open Graph image validation logic [`a9ea62f`](https://github.com/Cecilapp/Cecil/commit/a9ea62f5afecd208d9a978b593f14c385e7cb1b3)
+
+#### [8.55.11](https://github.com/Cecilapp/Cecil/compare/8.55.10...8.55.11)
+
+> 16 August 2025
+
+- Fix author metatag rendering logic [`c572c88`](https://github.com/Cecilapp/Cecil/commit/c572c886ecb133f16b212dd30c9c813456db5233)
+
+#### [8.55.10](https://github.com/Cecilapp/Cecil/compare/8.55.9...8.55.10)
+
+> 16 August 2025
+
+- Fix social meta tag fallbacks in metatags partial [`fd3d39b`](https://github.com/Cecilapp/Cecil/commit/fd3d39b9757b885d31f936b1cab6dcce593c5495)
+
+#### [8.55.9](https://github.com/Cecilapp/Cecil/compare/8.55.8...8.55.9)
+
+> 16 August 2025
+
+- refactor: Open Graph meta tag rendering logic [`f2289c6`](https://github.com/Cecilapp/Cecil/commit/f2289c6df3fe0e4f9c920a4502bfd2d603031f2d)
+
+#### [8.55.8](https://github.com/Cecilapp/Cecil/compare/8.55.7...8.55.8)
+
+> 16 August 2025
+
+- refactor: metatags audio and refactor logic [`650f30c`](https://github.com/Cecilapp/Cecil/commit/650f30c19ce1fd81560ae127dd39531bcb63eb7d)
+- fix: add aspect-ratio to video in iframe layout [`9d55c12`](https://github.com/Cecilapp/Cecil/commit/9d55c12fd22eb62dff3d571abc214bd9fbe2666b)
+
+#### [8.55.7](https://github.com/Cecilapp/Cecil/compare/8.55.6...8.55.7)
+
+> 16 August 2025
+
+- fix: thumbnail path deduplication regex [`0c50730`](https://github.com/Cecilapp/Cecil/commit/0c50730910e0c669ec8ae474ec3db10072e7d42f)
+
+#### [8.55.6](https://github.com/Cecilapp/Cecil/compare/8.55.5...8.55.6)
+
+> 15 August 2025
+
+- refactor: improve OG and Twitter image handling [`b82d07b`](https://github.com/Cecilapp/Cecil/commit/b82d07b100edb78506417e2a40e85d23409cd44b)
+
+#### [8.55.5](https://github.com/Cecilapp/Cecil/compare/8.55.4...8.55.5)
+
+> 15 August 2025
+
+- fix: add 'langref' variable to taxonomy pages [`3bb0aae`](https://github.com/Cecilapp/Cecil/commit/3bb0aaee1a5f130390b7760e88ccce45210eb438)
+
+#### [8.55.4](https://github.com/Cecilapp/Cecil/compare/8.55.3...8.55.4)
+
+> 15 August 2025
+
+- refactor: add blocks to iframe template [`70919d4`](https://github.com/Cecilapp/Cecil/commit/70919d43de2f39fe10cbfdfd062d1018f5b50618)
+
+#### [8.55.3](https://github.com/Cecilapp/Cecil/compare/8.55.2...8.55.3)
+
+> 15 August 2025
+
+- feat: better oembed [`526e03d`](https://github.com/Cecilapp/Cecil/commit/526e03d83721ef432b5e4668b9d4419542cdfeb0)
+- doc: better `output` documentation [`162cfb6`](https://github.com/Cecilapp/Cecil/commit/162cfb6de8230a29718aec6a8b19ed75665cfab9)
+
+#### [8.55.2](https://github.com/Cecilapp/Cecil/compare/8.55.1...8.55.2)
+
+> 14 August 2025
+
+- Apply fixes from StyleCI [`#2209`](https://github.com/Cecilapp/Cecil/pull/2209)
+- fix: router response for video file (too big) [`21f9934`](https://github.com/Cecilapp/Cecil/commit/21f99343758692dd3969def2adbe31f98e9e254e)
+- feat: add "twitter:player:stream" in metatags [`ec67056`](https://github.com/Cecilapp/Cecil/commit/ec67056876a9ba18fb96d28406584442543b125c)
+- fix: remove preload video in metatags [`1a8ac18`](https://github.com/Cecilapp/Cecil/commit/1a8ac18df2a12ac04be890548515b4eaa4d2a1c2)
+- fix: re-add "og:author" in metatags [`e2e06af`](https://github.com/Cecilapp/Cecil/commit/e2e06afb44348899c8960724a0505ac3093bf181)
+
+#### [8.55.1](https://github.com/Cecilapp/Cecil/compare/8.55.0...8.55.1)
+
+> 14 August 2025
+
+- fix: exclude virtual pages from filtered results [`0dc0059`](https://github.com/Cecilapp/Cecil/commit/0dc00599abad2d4760a9e511146fb3e1337461c8)
+
+#### [8.55.0](https://github.com/Cecilapp/Cecil/compare/8.54.2...8.55.0)
+
+> 14 August 2025
+
+- chore: update deps [`d90d00c`](https://github.com/Cecilapp/Cecil/commit/d90d00cd6a3707ebc8c0a405d2f880f311b011d8)
+- feat: add vocabulary and term template fallbacks [`85d2f99`](https://github.com/Cecilapp/Cecil/commit/85d2f9996bcaa1010f4db83513980a864d801458)
+
+#### [8.54.2](https://github.com/Cecilapp/Cecil/compare/8.54.1...8.54.2)
+
+> 14 August 2025
+
+- fix: Fix social meta tag variable structure [`096aa99`](https://github.com/Cecilapp/Cecil/commit/096aa99600c263b91f53bd5ef67c6c1ce15f1b85)
+
+#### [8.54.1](https://github.com/Cecilapp/Cecil/compare/8.54.0...8.54.1)
+
+> 14 August 2025
+
+- chore: update deps [`5aab184`](https://github.com/Cecilapp/Cecil/commit/5aab184de87e6d3985fc5e97ab3cc5bff6e85dbe)
+- fix: Trim leading @ from social meta tags [`c87747a`](https://github.com/Cecilapp/Cecil/commit/c87747a3f6439caec33db4827c9e41065b44842f)
+- docs: update Configuration [`2a31592`](https://github.com/Cecilapp/Cecil/commit/2a31592b5b8c1cf3c209d0f4bd34bbe516da776e)
+
+#### [8.54.0](https://github.com/Cecilapp/Cecil/compare/8.53.6...8.54.0)
+
+> 14 August 2025
+
+- refactor: simplify social meta tag configuration and docs [`9b1dfb8`](https://github.com/Cecilapp/Cecil/commit/9b1dfb8b59d445e904388a36bc0016f54a1520cb)
+- refactor: use getRealPath for layouts internal path [`8d75b6b`](https://github.com/Cecilapp/Cecil/commit/8d75b6b94865c3e0054fd80b0f034bd6df235aba)
+
+#### [8.53.6](https://github.com/Cecilapp/Cecil/compare/8.53.5...8.53.6)
+
+> 13 August 2025
+
+- chore: update deps [`58ac0ff`](https://github.com/Cecilapp/Cecil/commit/58ac0ffb3c4d5a1345f9cff8c2731537a8fec864)
+- refactor: change preview directory [`73633b6`](https://github.com/Cecilapp/Cecil/commit/73633b6a20e75e941a55eebb1d4be2c945f3d067)
+
+#### [8.53.5](https://github.com/Cecilapp/Cecil/compare/8.53.4...8.53.5)
+
+> 6 August 2025
+
+- refactor: minor code changes [`7822e3b`](https://github.com/Cecilapp/Cecil/commit/7822e3b5f3537466f5b2c8ffefdfb3e2599776d8)
+- fix: detect cache problem and log warning [`051cfc2`](https://github.com/Cecilapp/Cecil/commit/051cfc225952c76fd61d1dfb5fa58838a1dce440)
+- fix: empty url() must contains base [`f23f6dc`](https://github.com/Cecilapp/Cecil/commit/f23f6dc0af434f28eac99864e4262e29cb183e65)
+
 #### [8.53.4](https://github.com/Cecilapp/Cecil/compare/8.53.3...8.53.4)
 
 > 3 August 2025

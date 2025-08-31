@@ -564,9 +564,10 @@ class Asset implements \ArrayAccess
     }
 
     /**
-     * Returns MP4 file infos.
-     *
-     * @see https://github.com/clwu88/php-read-mp4info
+     * Returns MP4 file infos:
+     * - duration (in seconds)
+     * - width (in pixels)
+     * - height (in pixels)
      */
     public function getVideo(): array
     {
@@ -574,7 +575,14 @@ class Asset implements \ArrayAccess
             throw new RuntimeException(\sprintf('Not able to get video infos of "%s".', $this->data['path']));
         }
 
-        return (array) \Clwu\Mp4::getInfo($this->data['file']);
+        $getID3 = new \getID3();
+        $videoInfos = $getID3->analyze($this->data['file']);
+
+        return [
+            'duration' => $videoInfos['playtime_seconds'] ?? 0,
+            'width'    => $videoInfos['video']['resolution_x'] ?? 0,
+            'height'   => $videoInfos['video']['resolution_y'] ?? 0,
+        ];
     }
 
     /**
@@ -1025,13 +1033,17 @@ class Asset implements \ArrayAccess
     }
 
     /**
-     * Remove redondant '/thumbnails/<width>/' in the path.
+     * Remove redondant '/thumbnails/<width(xheight)>/' in the path.
      */
     private function deduplicateThumbPath(string $path): string
     {
-        // https://regex101.com/r/rDRWnL/1
-        $pattern = '/(' . self::IMAGE_THUMB . '\/\d+(x\d+){0,1})\/' . self::IMAGE_THUMB . '\/\d+\/(.*)/i';
+        // https://regex101.com/r/1HXJmw/1
+        $pattern = '/(' . self::IMAGE_THUMB . '\/\d+(x\d+){0,1}\/)(' . self::IMAGE_THUMB . '\/\d+(x\d+){0,1}\/)(.*)/i';
 
-        return preg_replace($pattern, '$1/$3', $path);
+        if (null === $result = preg_replace($pattern, '$1$5', $path)) {
+            return $path;
+        }
+
+        return $result;
     }
 }

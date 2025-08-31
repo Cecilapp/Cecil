@@ -58,7 +58,8 @@ class Taxonomy extends AbstractGenerator implements GeneratorInterface
                                 ->setPath($path)
                                 ->setVariable('title', $term->getName())
                                 ->setVariable('date', $date)
-                                ->setVariable('language', $language);
+                                ->setVariable('language', $language)
+                                ->setVariable('langref', $path);
                             if ($this->builder->getPages()->has($pageId)) {
                                 $page = clone $this->builder->getPages()->get($pageId);
                             }

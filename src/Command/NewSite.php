@@ -88,8 +88,6 @@ EOF
             $baseline = $this->io->ask('Give a baseline to your website', '');
             $baseurl = $this->io->ask('Base URL?', '/', [$this, 'validateUrl']);
             $description = $this->io->ask('Write a full description of your site', 'Website created with Cecil.');
-            $authorName = $this->io->ask('What is the author name?', 'Cecil');
-            $authorUrl = $this->io->ask('What is the author URL?', 'https://cecil.app', [$this, 'validateUrl']);
             $demo = ($demo !== false) ?: $this->io->confirm('Add demo content?', false);
             // override skeleton default config
             $config = Yaml::parseFile(Util::joinPath($root, 'resources/skeleton', self::CONFIG_FILE[0]), Yaml::PARSE_DATETIME);
@@ -97,11 +95,7 @@ EOF
                 'title'       => $title,
                 'baseline'    => $baseline,
                 'baseurl'     => $baseurl,
-                'description' => $description,
-                'author'      => [
-                    'name' => $authorName,
-                    'url'  => $authorUrl,
-                ],
+                'description' => $description
             ]);
             $configYaml = Yaml::dump($config, 2, 2);
             Util\File::getFS()->dumpFile(Util::joinPath($this->getPath(), $this->locateConfigFile($this->getPath())['name'] ?: self::CONFIG_FILE[0]), $configYaml);
@@ -122,8 +116,8 @@ EOF
             foreach (
                 [
                     'assets/favicon.png',
+                    'assets/icon.png',
                     'pages/index.md',
-                    'static/cecil-card.png',
                 ] as $value
             ) {
                 Util\File::getFS()->copy(

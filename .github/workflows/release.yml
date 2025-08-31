@@ -24,7 +24,7 @@ jobs:
 
     steps:
       - name: Checkout source code
-        uses: actions/checkout@v4
+        uses: actions/checkout@v5
         with:
           fetch-depth: 0
 
@@ -120,7 +120,7 @@ jobs:
 
       - name: Generate build provenance attestation
         id: attestation
-        uses: actions/attest-build-provenance@v2
+        uses: actions/attest-build-provenance@v3
         with:
           subject-path: dist/cecil.phar
           show-summary: false
@@ -150,7 +150,7 @@ jobs:
 
     steps:
       - name: Download files
-        uses: actions/download-artifact@v4
+        uses: actions/download-artifact@v5
         with:
           name: cecil-${{ github.sha }}.phar
           path: .
@@ -212,12 +212,12 @@ jobs:
 
     steps:
       - name: Checkout source code
-        uses: actions/checkout@v4
+        uses: actions/checkout@v5
         with:
           fetch-depth: 1
 
       - name: Download files
-        uses: actions/download-artifact@v4
+        uses: actions/download-artifact@v5
         with:
           name: cecil-${{ github.sha }}.phar
           path: dist

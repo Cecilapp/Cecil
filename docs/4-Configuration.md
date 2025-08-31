@@ -1,7 +1,7 @@
 <!--
 description: "Configure your website."
 date: 2021-05-07
-updated: 2025-06-10
+updated: 2025-08-19
 -->
 # Configuration
 
@@ -328,42 +328,40 @@ This template adds the following meta tags:
 - Links to alternate versions (i.e.: RSS feed, others languages)
 - `rel=me` links
 - Open Graph
-- Facebook meta
+- Facebook profile ID
 - Twitter/X Card
 - Mastodon meta
 - Structured data (JSON-LD)
 
-#### metatags options and front matter
+#### metatags options
 
 Cecil uses page’s front matter to feed meta tags, and fallbacks to site options if needed.
 
 ```yaml
-title: "Page/Site title"
-description: "Page/Site description"
-tags: [tag1, tag2]                   # feeds keywords meta
-keywords: [keyword1, keyword2]       # obsolete
-author:
-  name: <name>
-  url: <url>
-  email: <email>
-image: image.jpg                     # for OpenGraph and social networks cards
-canonical:                           # to override the generated canonical URL
-  url: <URL>
-  title: "<URL title>"               # optional
-social:
-  twitter:
-    url: <URL>                       # used for `rel=me` link
-    site: username                   # main account
-    creator: username                # content author account
-  mastodon:
-    url: <URL>
-    creator: handle
-  facebook:
-    url: <URL>
-    id: 123456789
-    firstname: Firstname
-    lastname: Lastname
-    username: username
+title: "Page/Site title"              # used by title meta
+description: "Page/Site description"  # used by description meta
+tags: [tag1, tag2]                    # used by keywords meta
+keywords: [keyword1, keyword2]        # obsolete
+author:                               # used by author meta
+  name: <name>                          # author name
+  url: <url>                            # author URL
+  email: <email>                        # author email
+image: image.jpg                      # used by Open Graph and social networks cards
+canonical:                            # used to override the generated canonical URL
+  url: <URL>                            # absolute URL
+  title: "<URL title>"                  # optional canonical title
+social:                               # used by social networks meta
+  twitter:                              # used by Twitter/X Card
+    url: <URL>                            # used for `rel=me` link
+    site: username                        # site username
+    creator: username                     # page author username
+  mastodon:                             # used by Mastodon meta
+    url: <URL>                            # used for `rel=me` link
+    creator: handle                       # page author account
+  facebook:                             # used by Facebook meta
+    url: <URL>                            # used for `rel=me` link
+    id: 123456789                         # Facebook profile ID
+    username: username                    # page author username
 ```
 
 :::tip
@@ -375,7 +373,7 @@ If needed, `title` and `image` can be overridden:
 
 :::
 
-#### metatags options
+#### metatags configuration
 
 ```yaml
 metatags:
@@ -385,19 +383,21 @@ metatags:
     pagination:
       shownumber: true     # displays page number in title (`true` by default)
       label: "Page %s"     # how to display page number (`Page %s` by default)
-  image:
-    enabled: true        # injects image (`true` by default)
   robots: "index,follow" # web crawlers directives (`index,follow` by default)
-  articles: "blog"       # articles' section (`blog` by default)
-  jsonld:
-    enabled: false       # injects JSON-LD structured data (`false` by default)
   favicon:
-    enabled: true        # injects favicon (`true` by default)
+    enabled: true        # includes favicon (`true` by default)
     image: favicon.png     # path to favicon image
     sizes:
       - "icon": [32, 57, 76, 96, 128, 192, 228] # web browsers
       - "shortcut icon": [196]                  # Android
       - "apple-touch-icon": [120, 152, 180]     # iOS
+  navigation: true       # includes previous and next links (`true` by default)
+  image: true            # includes image (`true` by default)
+  og: true               # includes Open Graph meta tags (`true` by default)
+  articles: "blog"       # articles' section (`blog` by default)
+  twitter: true          # includes Twitter/X Card meta tags (`true` by default)
+  mastodon: true         # includes Mastodon meta tags (`true` by default)
+  data: false            # includes JSON-LD structured data (`false` by default)
 ```
 
 ### debug
@@ -1020,7 +1020,7 @@ layouts:
 
 ## Output
 
-Defines where and in what format(s) content is rendered.
+Defines where and in what format pages are rendered.
 
 ### output.dir
 
@@ -1033,7 +1033,7 @@ output:
 
 ### output.formats
 
-List of output formats, in which of them pages’ content is rendered (e.g. HTML, JSON, XML, RSS, Atom, etc.).
+List of output formats definition, which are used to render pages (e.g. HTML, Atom, RSS, JSON, XML, etc.).
 
 ```yaml
 output:
@@ -1046,15 +1046,15 @@ output:
       exclude: [<variable>]   # don’t apply this format to pages identified by listed variables, e.g.: `[redirect, paginated]` (optional)
 ```
 
-Those formats are used by [`pagetypeformats`](#output-pagetypeformats) and by the [`output` page’s variable](2-Content.md#output).
+Those formats are used in the [`output.pagetypeformats`](#output-pagetypeformats) configuration and in the [`output` page’s variable](2-Content.md#output).
 
-:::info
-To render a page, [Cecil lookup for a template](3-Templates.md#lookup-rules) named `<layout>.<format>.twig` (e.g. `page.html.twig`)
-:::
+#### Default formats
+
+Cecil provides some [default formats](https://github.com/Cecilapp/Cecil/blob/master/config/base.php#L81-L162), which can be overridden in the configuration file: `html` (default), `atom`, `rss`, `json`, `xml`, `txt`, `amp`, `js`, `webmanifest`, `xsl`, `jsonfeed`, `iframe`, `oembed`.
 
 ### output.pagetypeformats
 
-Array of output formats by each page type (`homepage`, `page`, `section`, `vocabulary` and `term`).
+It’s not required to set `output` variable for each page, as Cecil automatically applies the formats defined for each page type (`homepage`, `page`, `section`, `vocabulary` and `term`).
 
 ```yaml
 output:
@@ -1066,7 +1066,17 @@ output:
     term: [<format>]
 ```
 
-Several formats can be defined for the same type of page. For example the `section` page type can be automatically rendered in HTML and Atom.
+Several formats can be defined for the one type of page. For example the `section` page type can be automatically rendered in HTML and Atom:
+
+```yaml
+output:
+  pagetypeformats:
+    section: [html, atom]
+```
+
+:::info
+To render a page, [Cecil lookup for a template](3-Templates.md#lookup-rules) named `<layout>.<format>.twig` (e.g. `page.html.twig`)
+:::
 
 ### output example
 
@@ -1091,9 +1101,9 @@ output:
     term: [html, atom]
 ```
 
-:::tip
-You can extend Cecil with [Output post processor](7-Extend.md#output-post-processor).
-:::
+### Post process
+
+You can extend Cecil capabilities with an [Output post processor](7-Extend.md#output-post-processor) to modify the output files after they have been generated.
 
 ---
 

@@ -194,6 +194,8 @@ EOF
             $this->buildSuccessActions($output);
         }
         if ($buildProcess->getExitCode() !== 0) {
+            $this->tearDownServer();
+
             return 1;
         }
 

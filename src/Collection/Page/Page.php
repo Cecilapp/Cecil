@@ -124,7 +124,7 @@ class Page extends Item
         $relativePath = self::slugify(str_replace(DIRECTORY_SEPARATOR, '/', $file->getRelativePath()));
         $basename = self::slugify(PrefixSuffix::subPrefix($file->getBasename('.' . $file->getExtension())));
         // if file is "README.md", ID is "index"
-        $basename = (string) str_ireplace('readme', 'index', $basename);
+        $basename = strtolower($basename) == 'readme' ? 'index' : $basename;
         // if file is section's index: "section/index.md", ID is "section"
         if (!empty($relativePath) && PrefixSuffix::sub($basename) == 'index') {
             // case of a localized section's index: "section/index.fr.md", ID is "fr/section"
@@ -170,7 +170,7 @@ class Page extends Item
         $fileExtension = $this->file->getExtension();
         $fileName = $this->file->getBasename('.' . $fileExtension);
         // renames "README" to "index"
-        $fileName = (string) str_ireplace('readme', 'index', $fileName);
+        $fileName = strtolower($fileName) == 'readme' ? 'index' : $fileName;
         // case of "index" = home page
         if (empty($this->file->getRelativePath()) && PrefixSuffix::sub($fileName) == 'index') {
             $this->setType(Type::HOMEPAGE->value);

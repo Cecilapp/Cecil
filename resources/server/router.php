@@ -134,6 +134,10 @@ header('X-Powered-By: Cecil,PHP/' . phpversion());
 foreach ($pathInfo['headers'] as $header) {
     header($header);
 }
+// if the media type is video (potential too big file), we return early
+if ($pathInfo['media_maintype'] == 'video') {
+    return logger(false);
+}
 // custom headers based on path
 $headersFile = __DIR__ . '/headers.ini';
 if (file_exists($headersFile)) {
@@ -233,6 +237,12 @@ function getPathInfo(string $path): array
         case 'yaml':
             $info['headers'] = [
                 'Content-Type: application/yaml',
+            ];
+            break;
+        case 'mp4':
+            $info['headers'] = [
+                'Content-Type: video/mp4',
+                'Accept-Ranges: bytes'
             ];
             break;
     }

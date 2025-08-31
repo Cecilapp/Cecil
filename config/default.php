@@ -18,14 +18,14 @@ return [
     'baseurl' => '', // e.g.: https://cecil.app/
     'canonicalurl' => false, // if true then `url()` function prepends URL with `baseurl`
     'description' => 'Site description.',
-    'author' => [
-        'name' => 'Cecil',
-        'url' => 'https://cecil.app',
-        //'email' => '',
-    ],
+    //'author' => [
+    //    'name' => 'Cecil',
+    //    'url' => 'https://cecil.app',
+    //    'email' => 'contact@cecil.app',
+    //],
     //'image' => '', // `og:image`
     //'social' => [
-    //    'social_network' => [
+    //    'network' => [
     //        'username' => '',
     //        'url' => '',
     //    ]

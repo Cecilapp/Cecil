@@ -1,7 +1,7 @@
 <!--
 description: "Working with layouts, templates and components."
 date: 2021-05-07
-updated: 2025-07-22
+updated: 2025-08-19
 alias: documentation/layouts
 -->
 # Templates
@@ -98,7 +98,7 @@ layouts/blog/list.rss.twig   # `section` is "blog" and `format` is "rss"
 Cecil comes with a set of [built-in templates](https://github.com/Cecilapp/Cecil/tree/master/resources/layouts).
 
 :::tips
-If you need to modify built-in templates, you can easily extract them via the following command: they will be copied in the "layouts" directory of your site.
+If you need to modify built-in templates, you can easily extract them via the following command: they will be copied in the `layouts` directory of your site.
 
 ```bash
 php cecil.phar util:templates:extract
@@ -123,14 +123,14 @@ php cecil.phar util:templates:extract
 [`_default/vocabulary.html.twig`](https://github.com/Cecilapp/Cecil/blob/master/resources/layouts/_default/vocabulary.html.twig)
 :   A simple list of all terms of a vocabulary.
 
-[`_default/sitemap.xml.twig`](https://github.com/Cecilapp/Cecil/blob/master/resources/layouts/_default/sitemap.xml.twig)
-:   The `sitemap.xml` template: list all pages sorted by date.
-
-[`_default/robots.txt.twig`](https://github.com/Cecilapp/Cecil/blob/master/resources/layouts/_default/robots.txt.twig)
-:   The `robots.txt` template: allow all pages except 404, with a reference to the XML sitemap.
-
 [`_default/404.html.twig`](https://github.com/Cecilapp/Cecil/blob/master/resources/layouts/_default/404.html.twig)
 :   A basic error 404 ("Page not found") template.
+
+[`_default/sitemap.xml.twig`](https://github.com/Cecilapp/Cecil/blob/master/resources/layouts/_default/sitemap.xml.twig)
+:   The [`sitemap.xml`](https://www.sitemaps.org) template: list of all pages sorted by date.
+
+[`_default/robots.txt.twig`](https://github.com/Cecilapp/Cecil/blob/master/resources/layouts/_default/robots.txt.twig)
+:   The [`robots.txt`](https://en.wikipedia.org/wiki/Robots.txt) template: allow all pages except 404, and add a reference to the sitemap.
 
 [`_default/redirect.html.twig`](https://github.com/Cecilapp/Cecil/blob/master/resources/layouts/_default/redirect.html.twig)
 :   The redirect template.
@@ -144,10 +144,10 @@ php cecil.phar util:templates:extract
 :   A simple paginated navigation for list templates with "Previous" and "Next" links.
 
 [`partials/metatags.html.twig`](https://github.com/Cecilapp/Cecil/blob/master/resources/layouts/partials/metatags.html.twig)
-:   All metatags in one template: title, description, canonical, open-graph, twitter card, etc. See [configuration](4-Configuration.md#metatags).
+:   All metatags in one template: title, description, canonical, open-graph, twitter card, etc. See [_metatags_ configuration](4-Configuration.md#metatags).
 
 [`partials/languages.html.twig`](https://github.com/Cecilapp/Cecil/blob/master/resources/layouts/partials/languages.html.twig)
-:   A basic switcher between [languages](4-Configuration.md#languages).
+:   A basic [languages](4-Configuration.md#languages) switcher.
 
 ## Lookup rules
 
@@ -198,14 +198,16 @@ All rules are detailed below, for each page type, in the priority order.
 ### Type _vocabulary_
 
 1. `taxonomy/<plural>.<format>.twig`
-2. `_default/vocabulary.<format>.twig`
+2. `vocabulary.<format>.twig`
+3. `_default/vocabulary.<format>.twig`
 
 ### Type _term_
 
 1. `taxonomy/<term>.<format>.twig`
 2. `taxonomy/<singular>.<format>.twig`
-3. `_default/term.<format>.twig`
-4. `_default/list.<format>.twig`
+3. `term.<format>.twig`
+4. `_default/term.<format>.twig`
+5. `_default/list.<format>.twig`
 
 :::info
 Most of those layouts are available by default, see [built-in templates](#built-in-templates).
@@ -458,7 +460,7 @@ Creates a valid URL for a page, a menu entry, an asset, a page ID or a path.
 
 | Option    | Description                                                                | Type    | Default |
 | --------- | -------------------------------------------------------------------------- | ------- | ------- |
-| canonical | Prefixes URL with [`baseurl`](4-Configuration.md#baseurl) or use [`canonical.url`](4-Configuration.md#metatags-options-and-front-matter). | boolean | `false` |
+| canonical | Prefixes URL with [`baseurl`](4-Configuration.md#baseurl) or use [`canonical.url`](4-Configuration.md#metatags-options). | boolean | `false` |
 | format    | Defines page [output format](4-Configuration.md#output-formats) (e.g.: `json`).   | string  | `html`  |
 | language  | Trying to force page [language](4-Configuration.md#language) (e.g.: `fr`). | string  | null    |
 
@@ -566,24 +568,30 @@ Bundle:
 
 Image:
 
-- `width`: image width
-- `height`: image height
+- `width`: image width in pixels
+- `height`: image height in pixels
 - `exif`: image EXIF data as array
 
 Media:
 
 - `audio`: [Mp3Info](https://github.com/wapmorgan/Mp3Info#audio-information) object
-- `video`: array of video dimensions (width and height)
+- `video`: array of basic video information (duration in seconds, width and height)
 
 _Examples:_
 
 ```twig
 # image width in pixels
 {{ asset('image.png').width }}px
+
 # photo's date in seconds
 {{ asset('photo.jpeg').exif.EXIF.DateTimeOriginal|date('U') }}
+
 # MP3 song duration in minutes
-{{ asset('title.mp3').audio.duration|round }} min
+{{ asset('song.mp3').audio.duration|round }} min
+
+# Video duration in seconds
+{{ asset('movie.mp4').video.duration|round }} s
+
 # file integrity hash
 {% set integrity = asset('styles.scss').integrity %}
 ```
@@ -971,6 +979,20 @@ _Examples:_
 {{ variable|excerpt_html }}
 {{ variable|excerpt_html({separator: 'excerpt|break', capture: 'before'}) }}
 {{ variable|excerpt_html({capture: 'after'}) }}
+```
+
+### highlight
+
+Highlights a code string with [highlight.php](https://github.com/scrivo/highlight.php).
+
+```twig
+{{ code|highlight(language) }}
+```
+
+_Examples:_
+
+```twig
+{{ '<?php echo $highlighted->value; ?>'|highlight('php') }}
 ```
 
 ### to_css

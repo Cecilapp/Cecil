@@ -1,7 +1,7 @@
 <!--
 description: "Create content and organize it."
 date: 2021-05-07
-updated: 2025-06-10
+updated: 2025-08-29
 -->
 # Content
 
@@ -204,44 +204,34 @@ You can change this behavior with [`pages.body.links.external` options](4-Config
 
 You can let Cecil tries to turns a link into an embedded content by using the `{embed}` attribute or by setting the global configuration option `pages.body.links.embed.enabled` to `true`.
 
-_Example:_
-
-```markdown
-[An example YouTube video](https://www.youtube.com/watch?v=Dj-rKHmLp5w){embed}
-```
-
 :::important
-Only **YouTube** and **GitHub Gits** links are supported for the moment.
+Only **YouTube**, **Vimeo** and **GitHub Gits** links are supported.
 :::
 
-Cecil can also create a video or audio HTML elements, through the file extension.
+_Example:_
 
-##### Video
+```markdown
+[CECIL : LE générateur de SITES STATIQUES en PHP](https://www.youtube.com/watch?v=ur8koU0iYvc){embed}
+```
+
+[CECIL : LE générateur de SITES STATIQUES en PHP](https://www.youtube.com/watch?v=ur8koU0iYvc){embed}
+
+##### Local video/audio files
+
+Cecil can also create a video and audio HTML elements, through the file extension.
 
 _Example:_
 
 ```markdown
-[The video](/video/test.mp4){embed controls poster=/images/video-test.png style="width:100%;"}
+[Video file](video.mp4){embed controls poster=/images/video-test.png}
+[Audio file](song.mp3){embed controls}
 ```
 
 Is converted to:
 
 ```html
-<video src="/video/test.mp4" controls poster="/images/video-test.png" style="width:100%;"></video>
-```
-
-##### Audio
-
-_Example:_
-
-```markdown
-[The audio file](/audio/test.mp3){embed controls}
-```
-
-Is converted to:
-
-```html
-<audio src="/video/test.mp3" controls></audio>
+<video src="/video.mp4" controls poster="/images/video-test.png" style="max-width:100%;height:auto;"></video>
+<audio src="/song.mp3" controls></audio>
 ```
 
 ### Images
@@ -683,7 +673,12 @@ In the previous example `contact/` redirects to `about/`.
 
 ### output
 
-Defines the output (rendered) format(s). See [`formats` configuration](4-Configuration.md#output-formats) for more details.
+Defines the output format of the page.
+
+Available formats are: `html`, `atom`, `rss`, `json`, `xml`, etc.  
+You can define one or more formats in an array.
+
+I’s not required to define an output format, but if you do, it must be one of the available formats defined in the [_Configuration_](4-Configuration.md#output-formats).
 
 _Example:_
 

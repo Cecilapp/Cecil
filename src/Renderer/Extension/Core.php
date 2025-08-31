@@ -28,6 +28,7 @@ use Cecil\Exception\RuntimeException;
 use Cecil\Url;
 use Cocur\Slugify\Bridge\Twig\SlugifyExtension;
 use Cocur\Slugify\Slugify;
+use Highlight\Highlighter;
 use MatthiasMullie\Minify;
 use ScssPhp\ScssPhp\Compiler;
 use ScssPhp\ScssPhp\OutputStyle;
@@ -149,6 +150,8 @@ class Core extends SlugifyExtension
             new \Twig\TwigFilter('hex_to_rgb', [$this, 'hexToRgb']),
             new \Twig\TwigFilter('splitline', [$this, 'splitLine']),
             new \Twig\TwigFilter('iterable', [$this, 'iterable']),
+            new \Twig\TwigFilter('highlight', [$this, 'highlight']),
+            new \Twig\TwigFilter('unique', [$this, 'unique']),
             // date
             new \Twig\TwigFilter('duration_to_iso8601', ['\Cecil\Util\Date', 'durationToIso8601']),
             // deprecated
@@ -170,6 +173,8 @@ class Core extends SlugifyExtension
     {
         return [
             new \Twig\TwigTest('asset', [$this, 'isAsset']),
+            new \Twig\TwigTest('image_large', [$this, 'isImageLarge']),
+            new \Twig\TwigTest('image_square', [$this, 'isImageSquare']),
         ];
     }
 
@@ -917,6 +922,24 @@ class Core extends SlugifyExtension
     }
 
     /**
+     * Tests if an image Asset is large enough to be used as a cover image.
+     * A large image is defined as having a width >= 600px and height >= 315px.
+     */
+    public function isImageLarge(Asset $asset): bool
+    {
+        return $asset['type'] == 'image' && $asset['width'] > $asset['height'] && $asset['width'] >= 600 && $asset['height'] >= 315;
+    }
+
+    /**
+     * Tests if an image Asset is square.
+     * A square image is defined as having the same width and height.
+     */
+    public function isImageSquare(Asset $asset): bool
+    {
+        return $asset['type'] == 'image' && $asset['width'] == $asset['height'];
+    }
+
+    /**
      * Returns the dominant hex color of an image asset.
      *
      * @param string|Asset $asset
@@ -1022,6 +1045,22 @@ class Core extends SlugifyExtension
             return [$value];
         }
         return [$value];
+    }
+
+    /**
+     * Highlights a code snippet.
+     */
+    public function highlight(string $code, string $language): string
+    {
+        return (new Highlighter())->highlight($language, $code)->value;
+    }
+
+    /**
+     * Returns an array with unique values.
+     */
+    public function unique(array $array): array
+    {
+        return array_intersect_key($array, array_unique(array_map('strtolower', $array), SORT_STRING));
     }
 
     /**

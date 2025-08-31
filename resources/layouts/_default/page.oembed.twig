@@ -3,45 +3,46 @@
 {
   "version": "1.0",
   "title": "{{ opengraph.title }}",
-  {#- thumbnail ~#}
-  {%- if opengraph.image is defined ~%}
-  "thumbnail_url": "{{ url(opengraph.image|resize(640), {canonical: true}) }}",
-  "thumbnail_width": {{ opengraph.image|resize(640).width }},
-  "thumbnail_height": {{ opengraph.image|resize(640).height }},
+  {%- if opengraph.description|default is not empty ~%}
+  "description": "{{ opengraph.description }}",
   {%- endif ~%}
-  {#- type: video ~#}
-  {%- if opengraph.video is defined ~%}
-  "type": "video",
-  "html": "<iframe width=\"{{ opengraph.video.video.width }}\" height=\"{{ opengraph.video.video.height }}\" src=\"{{ url(page, {canonical: true, format:'iframe'}) }}\" frameborder=\"0\" allow=\"accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share\" allowfullscreen title=\"{{ opengraph.title }}\"></iframe>",
-  "width": {{ opengraph.video.video.width }},
-  "height": {{ opengraph.video.video.height }},
-  {%- else ~%}
-    {#- type: photo ~#}
-    {%- if page.photo is defined ~%}
-    {% set photo_asset = asset(page.photo) %}
-  "type": "photo",
-  "url": "{{ url(photo_asset, {canonical: true}) }}",
-  "width": {{ photo_asset.width }},
-  "height": {{ photo_asset.height }},
-    {%- else ~%}
-    {#- type: link ~#}
-  "type": "link",
-    {%- endif ~%}
-  {%- endif ~%}
-  "provider_name": "{{ site.title }}",
-  "provider_url": "{{ url('/', {canonical: true}) }}",
+  {#- author ~#}
   {%- if author.name is defined ~%}
   "author_name": "{{ author.name }}",
   {%- endif ~%}
   {%- if author.url is defined ~%}
   "author_url": "{{ author.url }}",
   {%- endif ~%}
-  "cache_age": 3600,
-  {%- if 'iframe' in page.output ~%}
-  "embed_url": "{{ url(page, {canonical: true, format: 'iframe'}) }}",
+  {#- provider ~#}
+  "provider_name": "{{ site.title }}",
+  "provider_url": "{{ url(site.home, {canonical: true}) }}",
+  {#- type: video ~#}
+  {%- if opengraph.video is defined ~%}
+  "type": "video",
+  {%- if 'embed' in page.output ~%}
+  "html": "<iframe width=\"{{ opengraph.video.video.width }}\" height=\"{{ opengraph.video.video.height }}\" src=\"{{ url(page, {canonical: true, format: 'embed'}) }}\" frameborder=\"0\" allow=\"accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share\" allowfullscreen title=\"{{ opengraph.title }}\"></iframe>",
+  {%- else ~%}
+  {%- deprecated 'The "embed" output format is required by "video" type for page "%s"'|format(page.filepath) ~%}
   {%- endif ~%}
-  {%- if opengraph.description is defined ~%}
-  "description": "{{ opengraph.description }}"
+  "width": {{ opengraph.video.video.width }},
+  "height": {{ opengraph.video.video.height }},
+  {#- type: photo ~#}
+  {%- elseif page.image is defined and asset(page.image) is image_large ~%}
+  "type": "photo",
+  "url": "{{ url(asset(page.image), {canonical: true}) }}",
+  "width": {{ asset(page.image).width }},
+  "height": {{ asset(page.image).height }},
+  {%- else ~%}
+  {#- type: link ~#}
+  "type": "link",
   {%- endif ~%}
+  {#- image thumbnail (640px) ~#}
+  {%- if page.image is defined ~%}
+  "thumbnail_url": "{{ url(asset(page.image)|resize(640), {canonical: true}) }}",
+  "thumbnail_width": {{ asset(page.image)|resize(640).width }},
+  "thumbnail_height": {{ asset(page.image)|resize(640).height }},
+  {%- endif ~%}
+  {#- cache age ~#}
+  "cache_age": 3600
 }
 {% endblock %}
