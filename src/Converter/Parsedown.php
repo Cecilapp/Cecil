@@ -571,7 +571,7 @@ class Parsedown extends \ParsedownToc
             $block['element']['text']['allowRawHtmlInSafeMode'] = true;
             unset($block['element']['text']['text']);
         } catch (\Exception $e) {
-            $this->builder->getLogger()->debug($e->getMessage());
+            $this->builder->getLogger()->debug("Highlighter: " . $e->getMessage());
         } finally {
             return $block;
         }
