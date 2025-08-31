@@ -22,6 +22,7 @@
     "ext-fileinfo": "*",
     "ext-gd": "*",
     "ext-mbstring": "*",
+    "ext-ffi": "*",
     "benjaminhoegh/parsedown-toc": "^1.5",
     "cecil/resource-watcher": "^4.0",
     "cocur/slugify": "^4.6",
@@ -80,7 +81,8 @@
       "ergebnis/composer-normalize": true
     },
     "platform": {
-      "php": "8.1.32"
+      "php": "8.1.32",
+      "ext-ffi": "3.4.5"
     },
     "sort-packages": true
   },
