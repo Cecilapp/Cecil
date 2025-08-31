@@ -82,7 +82,7 @@
 </h4>
     <ul class="phpdocumentor-list">
                     <li>
-                <a href="namespaces/cecil-assets.html" class="">Assets</a>
+                <a href="namespaces/cecil-asset.html" class="">Asset</a>
                 
             </li>
                     <li>
@@ -160,7 +160,7 @@
 
 </h4>
 <dl class="phpdocumentor-table-of-contents">
-            <dt class="phpdocumentor-table-of-contents__entry -namespace"><a href="namespaces/cecil-assets.html"><abbr title="\Cecil\Assets">Assets</abbr></a></dt>
+            <dt class="phpdocumentor-table-of-contents__entry -namespace"><a href="namespaces/cecil-asset.html"><abbr title="\Cecil\Asset">Asset</abbr></a></dt>
             <dt class="phpdocumentor-table-of-contents__entry -namespace"><a href="namespaces/cecil-collection.html"><abbr title="\Cecil\Collection">Collection</abbr></a></dt>
             <dt class="phpdocumentor-table-of-contents__entry -namespace"><a href="namespaces/cecil-command.html"><abbr title="\Cecil\Command">Command</abbr></a></dt>
             <dt class="phpdocumentor-table-of-contents__entry -namespace"><a href="namespaces/cecil-converter.html"><abbr title="\Cecil\Converter">Converter</abbr></a></dt>
@@ -179,7 +179,7 @@
 
     </h4>
     <dl class="phpdocumentor-table-of-contents">
-                    <dt class="phpdocumentor-table-of-contents__entry -class"><a href="classes/Cecil-Application.html"><abbr title="\Cecil\Application">Application</abbr></a></dt><dd>The console application that handles the commands.</dd>            <dt class="phpdocumentor-table-of-contents__entry -class"><a href="classes/Cecil-Builder.html"><abbr title="\Cecil\Builder">Builder</abbr></a></dt><dd>The main Cecil builder class.</dd>            <dt class="phpdocumentor-table-of-contents__entry -class"><a href="classes/Cecil-Config.html"><abbr title="\Cecil\Config">Config</abbr></a></dt><dd>Configuration class.</dd>            <dt class="phpdocumentor-table-of-contents__entry -class"><a href="classes/Cecil-Url.html"><abbr title="\Cecil\Url">Url</abbr></a></dt><dd>URL class.</dd>            <dt class="phpdocumentor-table-of-contents__entry -class"><a href="classes/Cecil-Util.html"><abbr title="\Cecil\Util">Util</abbr></a></dt><dd>Utility class.</dd>    </dl>
+                    <dt class="phpdocumentor-table-of-contents__entry -class"><a href="classes/Cecil-Application.html"><abbr title="\Cecil\Application">Application</abbr></a></dt><dd>The console application that handles the commands.</dd>            <dt class="phpdocumentor-table-of-contents__entry -class"><a href="classes/Cecil-Asset.html"><abbr title="\Cecil\Asset">Asset</abbr></a></dt><dd>Asset class.</dd>            <dt class="phpdocumentor-table-of-contents__entry -class"><a href="classes/Cecil-Builder.html"><abbr title="\Cecil\Builder">Builder</abbr></a></dt><dd>The main Cecil builder class.</dd>            <dt class="phpdocumentor-table-of-contents__entry -class"><a href="classes/Cecil-Cache.html"><abbr title="\Cecil\Cache">Cache</abbr></a></dt><dd>Cache class.</dd>            <dt class="phpdocumentor-table-of-contents__entry -class"><a href="classes/Cecil-Config.html"><abbr title="\Cecil\Config">Config</abbr></a></dt><dd>Configuration class.</dd>            <dt class="phpdocumentor-table-of-contents__entry -class"><a href="classes/Cecil-Url.html"><abbr title="\Cecil\Url">Url</abbr></a></dt><dd>URL class.</dd>            <dt class="phpdocumentor-table-of-contents__entry -class"><a href="classes/Cecil-Util.html"><abbr title="\Cecil\Util">Util</abbr></a></dt><dd>Utility class.</dd>    </dl>
 
 
 
@@ -227,6 +227,8 @@
                         if (xhr.status < 400 && xhr.responseText) {
                             code.textContent = xhr.responseText;
                             Prism.highlightElement(code);
+                            d=document.getElementsByClassName("line-numbers");
+                            d[0].scrollTop = d[0].children[1].offsetTop;
                             return;
                         }
 

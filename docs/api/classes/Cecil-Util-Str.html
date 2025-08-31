@@ -82,7 +82,7 @@
 </h4>
     <ul class="phpdocumentor-list">
                     <li>
-                <a href="namespaces/cecil-assets.html" class="">Assets</a>
+                <a href="namespaces/cecil-asset.html" class="">Asset</a>
                 
             </li>
                     <li>
@@ -574,6 +574,8 @@
                         if (xhr.status < 400 && xhr.responseText) {
                             code.textContent = xhr.responseText;
                             Prism.highlightElement(code);
+                            d=document.getElementsByClassName("line-numbers");
+                            d[0].scrollTop = d[0].children[1].offsetTop;
                             return;
                         }
 

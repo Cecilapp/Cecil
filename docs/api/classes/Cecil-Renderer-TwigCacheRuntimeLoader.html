@@ -82,7 +82,7 @@
 </h4>
     <ul class="phpdocumentor-list">
                     <li>
-                <a href="namespaces/cecil-assets.html" class="">Assets</a>
+                <a href="namespaces/cecil-asset.html" class="">Asset</a>
                 
             </li>
                     <li>
@@ -214,6 +214,7 @@ for Twig, using a FilesystemAdapter for caching.</p>
     <span>
                         &nbsp;: string            </span>
 </dt>
+<dd>Directory where cache files are stored.</dd>
 
     </dl>
 
@@ -265,11 +266,12 @@ for Twig, using a FilesystemAdapter for caching.</p>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Renderer/TwigCacheRuntimeLoader.php"><a href="files/src-renderer-twigcacheruntimeloader.html"><abbr title="src/Renderer/TwigCacheRuntimeLoader.php">TwigCacheRuntimeLoader.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">29</span>
+    <span class="phpdocumentor-element-found-in__line">33</span>
 
     </aside>
 
-    
+        <p class="phpdocumentor-summary">Directory where cache files are stored.</p>
+
     
     <code class="phpdocumentor-code phpdocumentor-signature ">
         <span class="phpdocumentor-signature__visibility">protected</span>
@@ -308,7 +310,7 @@ for Twig, using a FilesystemAdapter for caching.</p>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Renderer/TwigCacheRuntimeLoader.php"><a href="files/src-renderer-twigcacheruntimeloader.html"><abbr title="src/Renderer/TwigCacheRuntimeLoader.php">TwigCacheRuntimeLoader.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">31</span>
+    <span class="phpdocumentor-element-found-in__line">35</span>
 
     </aside>
 
@@ -352,7 +354,7 @@ for Twig, using a FilesystemAdapter for caching.</p>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Renderer/TwigCacheRuntimeLoader.php"><a href="files/src-renderer-twigcacheruntimeloader.html"><abbr title="src/Renderer/TwigCacheRuntimeLoader.php">TwigCacheRuntimeLoader.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">36</span>
+    <span class="phpdocumentor-element-found-in__line">40</span>
 
     </aside>
 
@@ -420,6 +422,8 @@ for Twig, using a FilesystemAdapter for caching.</p>
                         if (xhr.status < 400 && xhr.responseText) {
                             code.textContent = xhr.responseText;
                             Prism.highlightElement(code);
+                            d=document.getElementsByClassName("line-numbers");
+                            d[0].scrollTop = d[0].children[1].offsetTop;
                             return;
                         }
 

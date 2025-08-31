@@ -82,7 +82,7 @@
 </h4>
     <ul class="phpdocumentor-list">
                     <li>
-                <a href="namespaces/cecil-assets.html" class="">Assets</a>
+                <a href="namespaces/cecil-asset.html" class="">Asset</a>
                 
             </li>
                     <li>
@@ -163,7 +163,7 @@
 
     </h4>
     <dl class="phpdocumentor-table-of-contents">
-                    <dt class="phpdocumentor-table-of-contents__entry -class"><a href="classes/Cecil-Util-Date.html"><abbr title="\Cecil\Util\Date">Date</abbr></a></dt><dd>Date utility class.</dd>            <dt class="phpdocumentor-table-of-contents__entry -class"><a href="classes/Cecil-Util-File.html"><abbr title="\Cecil\Util\File">File</abbr></a></dt><dd>File utility class.</dd>            <dt class="phpdocumentor-table-of-contents__entry -class"><a href="classes/Cecil-Util-Platform.html"><abbr title="\Cecil\Util\Platform">Platform</abbr></a></dt><dd>Platform utility class.</dd>            <dt class="phpdocumentor-table-of-contents__entry -class"><a href="classes/Cecil-Util-Str.html"><abbr title="\Cecil\Util\Str">Str</abbr></a></dt><dd>String utility class.</dd>    </dl>
+                    <dt class="phpdocumentor-table-of-contents__entry -class"><a href="classes/Cecil-Util-Date.html"><abbr title="\Cecil\Util\Date">Date</abbr></a></dt><dd>Date utility class.</dd>            <dt class="phpdocumentor-table-of-contents__entry -class"><a href="classes/Cecil-Util-File.html"><abbr title="\Cecil\Util\File">File</abbr></a></dt><dd>File utility class.</dd>            <dt class="phpdocumentor-table-of-contents__entry -class"><a href="classes/Cecil-Util-ImageOptimizer.html"><abbr title="\Cecil\Util\ImageOptimizer">ImageOptimizer</abbr></a></dt><dd>Image Optimizer class.</dd>            <dt class="phpdocumentor-table-of-contents__entry -class"><a href="classes/Cecil-Util-Platform.html"><abbr title="\Cecil\Util\Platform">Platform</abbr></a></dt><dd>Platform utility class.</dd>            <dt class="phpdocumentor-table-of-contents__entry -class"><a href="classes/Cecil-Util-Str.html"><abbr title="\Cecil\Util\Str">Str</abbr></a></dt><dd>String utility class.</dd>    </dl>
 
 
 
@@ -211,6 +211,8 @@
                         if (xhr.status < 400 && xhr.responseText) {
                             code.textContent = xhr.responseText;
                             Prism.highlightElement(code);
+                            d=document.getElementsByClassName("line-numbers");
+                            d[0].scrollTop = d[0].children[1].offsetTop;
                             return;
                         }
 

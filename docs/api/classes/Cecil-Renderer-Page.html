@@ -82,7 +82,7 @@
 </h4>
     <ul class="phpdocumentor-list">
                     <li>
-                <a href="namespaces/cecil-assets.html" class="">Assets</a>
+                <a href="namespaces/cecil-asset.html" class="">Asset</a>
                 
             </li>
                     <li>
@@ -229,11 +229,11 @@ It handles various scenarios such as ugly URLs, multilingual support, and subpat
 <dd>Returns the path of the rendered file, based on the output format properties.</dd>
 
             <dt class="phpdocumentor-table-of-contents__entry -method -public">
-    <a class="" href="classes/Cecil-Renderer-Page.html#method_getUrl">getUrl()</a>
+    <a class="" href="classes/Cecil-Renderer-Page.html#method_getPublicFilePath">getPublicFilePath()</a>
     <span>
                                 &nbsp;: string    </span>
 </dt>
-<dd>Returns the public URL.</dd>
+<dd>Returns the public file path.</dd>
 
     </dl>
 
@@ -353,7 +353,7 @@ It handles various scenarios such as ugly URLs, multilingual support, and subpat
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Renderer/Page.php"><a href="files/src-renderer-page.html"><abbr title="src/Renderer/Page.php">Page.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">49</span>
+    <span class="phpdocumentor-element-found-in__line">50</span>
 
     </aside>
 
@@ -412,23 +412,23 @@ It handles various scenarios such as ugly URLs, multilingual support, and subpat
             -public
                                                         "
 >
-    <h4 class="phpdocumentor-element__name" id="method_getUrl">
-        getUrl()
-        <a href="classes/Cecil-Renderer-Page.html#method_getUrl" class="headerlink"><i class="fas fa-link"></i></a>
+    <h4 class="phpdocumentor-element__name" id="method_getPublicFilePath">
+        getPublicFilePath()
+        <a href="classes/Cecil-Renderer-Page.html#method_getPublicFilePath" class="headerlink"><i class="fas fa-link"></i></a>
 
     </h4>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Renderer/Page.php"><a href="files/src-renderer-page.html"><abbr title="src/Renderer/Page.php">Page.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">87</span>
+    <span class="phpdocumentor-element-found-in__line">88</span>
 
     </aside>
 
-        <p class="phpdocumentor-summary">Returns the public URL.</p>
+        <p class="phpdocumentor-summary">Returns the public file path.</p>
 
     <code class="phpdocumentor-code phpdocumentor-signature ">
     <span class="phpdocumentor-signature__visibility">public</span>
-                    <span class="phpdocumentor-signature__name">getUrl</span><span>(</span><span class="phpdocumentor-signature__argument"><span class="phpdocumentor-signature__argument__return-type"><a href="classes/Cecil-Collection-Page-Page.html"><abbr title="\Cecil\Collection\Page\Page">Page</abbr></a>&nbsp;</span><span class="phpdocumentor-signature__argument__name">$page</span></span><span class="phpdocumentor-signature__argument"><span>[</span><span>, </span><span class="phpdocumentor-signature__argument__return-type">string&nbsp;</span><span class="phpdocumentor-signature__argument__name">$format</span><span> = </span><span class="phpdocumentor-signature__argument__default-value">&#039;html&#039;</span><span> ]</span></span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">string</span></code>
+                    <span class="phpdocumentor-signature__name">getPublicFilePath</span><span>(</span><span class="phpdocumentor-signature__argument"><span class="phpdocumentor-signature__argument__return-type"><a href="classes/Cecil-Collection-Page-Page.html"><abbr title="\Cecil\Collection\Page\Page">Page</abbr></a>&nbsp;</span><span class="phpdocumentor-signature__argument__name">$page</span></span><span class="phpdocumentor-signature__argument"><span>[</span><span>, </span><span class="phpdocumentor-signature__argument__return-type">string&nbsp;</span><span class="phpdocumentor-signature__argument__name">$format</span><span> = </span><span class="phpdocumentor-signature__argument__default-value">&#039;html&#039;</span><span> ]</span></span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">string</span></code>
 
     <div class="phpdocumentor-label-line">
         </div>
@@ -502,6 +502,8 @@ It handles various scenarios such as ugly URLs, multilingual support, and subpat
                         if (xhr.status < 400 && xhr.responseText) {
                             code.textContent = xhr.responseText;
                             Prism.highlightElement(code);
+                            d=document.getElementsByClassName("line-numbers");
+                            d[0].scrollTop = d[0].children[1].offsetTop;
                             return;
                         }
 
@@ -586,7 +588,7 @@ It handles various scenarios such as ugly URLs, multilingual support, and subpat
                 <ul class="phpdocumentor-list -clean">
                                             <li class=""><a href="classes/Cecil-Renderer-Page.html#method___construct">__construct()</a></li>
                                             <li class=""><a href="classes/Cecil-Renderer-Page.html#method_getOutputFilePath">getOutputFilePath()</a></li>
-                                            <li class=""><a href="classes/Cecil-Renderer-Page.html#method_getUrl">getUrl()</a></li>
+                                            <li class=""><a href="classes/Cecil-Renderer-Page.html#method_getPublicFilePath">getPublicFilePath()</a></li>
                                     </ul>
             </li>
                     </ul>
