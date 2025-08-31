@@ -39,16 +39,22 @@ class Image
     {
         $driver = null;
 
-        if (\extension_loaded('imagick') && class_exists('Imagick')) {
-            $driver = ImagickDriver::class;
-        }
-        // GD is faster than Imagick
-        if (\extension_loaded('gd') && \function_exists('gd_info')) {
-            $driver = GdDriver::class;
-        }
+        // use Imagick for better quality over GD
+        //if (\extension_loaded('imagick') && class_exists('Imagick')) {
+        //    $driver = new ImagickDriver();
+        //}
         // libvips is the fastest driver (if FFI is available)
         if (\extension_loaded('ffi')) {
-            $driver = VipsDriver::class;
+            $driver = new VipsDriver();
+            try {
+                $driver->checkHealth();
+            } catch (\Exception) {
+                $driver = null;
+            }
+        }
+        // GD by default
+        if ($driver === null && \extension_loaded('gd') && \function_exists('gd_info')) {
+            $driver = new GdDriver();
         }
 
         if ($driver) {
