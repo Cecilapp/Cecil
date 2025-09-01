@@ -2,6 +2,14 @@
 
 All notable changes to this project will be documented in this file. Dates are displayed in UTC.
 
+#### [8.64.1](https://github.com/Cecilapp/Cecil/compare/8.64.0...8.64.1)
+
+> 1 September 2025
+
+- docs: update API [`86cc325`](https://github.com/Cecilapp/Cecil/commit/86cc3259072bf0c5f66e3899ffb4bb60c53856f5)
+- fix: exclude external canonical URL from sitemap [`228e4e3`](https://github.com/Cecilapp/Cecil/commit/228e4e3416500cd55935e38963d245270944720b)
+- refactor: add context to highlighter debug log [`5da42e5`](https://github.com/Cecilapp/Cecil/commit/5da42e525b38939231afd9dc0071618cd61a4cf4)
+
 #### [8.64.0](https://github.com/Cecilapp/Cecil/compare/8.63.2...8.64.0)
 
 > 1 September 2025
