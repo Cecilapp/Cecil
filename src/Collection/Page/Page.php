@@ -97,8 +97,9 @@ class Page extends Item
         ]);
 
         if ($id instanceof SplFileInfo) {
-            $this->setFile($id);
-            $id = self::createIdFromFile($id);
+            $file = $id;
+            $this->setFile($file);
+            $id = self::createIdFromFile($file);
         }
 
         parent::__construct($id);
