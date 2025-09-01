@@ -98,7 +98,7 @@ class Page extends Item
 
         if ($id instanceof SplFileInfo) {
             $this->setFile($id);
-            $id = Page::createIdFromFile($id);
+            $id = self::createIdFromFile($id);
         }
 
         parent::__construct($id);
