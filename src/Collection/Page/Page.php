@@ -77,12 +77,15 @@ class Page extends Item
     /** @var Slugify */
     private static $slugifier;
 
-    public function __construct(string $id)
+    public function __construct(mixed $id)
     {
-        parent::__construct($id);
+        if (!\is_string($id) && !$id instanceof SplFileInfo) {
+            throw new RuntimeException('Create a page with a string ID or a SplFileInfo.');
+        }
+
+        // default properties
         $this->setVirtual(true);
         $this->setType(Type::PAGE->value);
-        // default variables
         $this->setVariables([
             'title'            => 'Page Title',
             'date'             => new \DateTime(),
@@ -92,6 +95,21 @@ class Page extends Item
             'published'        => true,
             'content_template' => 'page.content.twig',
         ]);
+
+        if ($id instanceof SplFileInfo) {
+            $this->setFile($id);
+            $id = Page::createIdFromFile($id);
+        }
+
+        parent::__construct($id);
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function setId(string $id): self
+    {
+        return parent::setId($id);
     }
 
     /**
@@ -114,32 +132,6 @@ class Page extends Item
         }
 
         return self::$slugifier->slugify($path);
-    }
-
-    /**
-     * Creates the ID from the file (path).
-     */
-    public static function createIdFromFile(SplFileInfo $file): string
-    {
-        $relativePath = self::slugify(str_replace(DIRECTORY_SEPARATOR, '/', $file->getRelativePath()));
-        $basename = self::slugify(PrefixSuffix::subPrefix($file->getBasename('.' . $file->getExtension())));
-        // if file is "README.md", ID is "index"
-        $basename = strtolower($basename) == 'readme' ? 'index' : $basename;
-        // if file is section's index: "section/index.md", ID is "section"
-        if (!empty($relativePath) && PrefixSuffix::sub($basename) == 'index') {
-            // case of a localized section's index: "section/index.fr.md", ID is "fr/section"
-            if (PrefixSuffix::hasSuffix($basename)) {
-                return PrefixSuffix::getSuffix($basename) . '/' . $relativePath;
-            }
-
-            return $relativePath;
-        }
-        // localized page
-        if (PrefixSuffix::hasSuffix($basename)) {
-            return trim(Util::joinPath(PrefixSuffix::getSuffix($basename), $relativePath, PrefixSuffix::sub($basename)), '/');
-        }
-
-        return trim(Util::joinPath($relativePath, $basename), '/');
     }
 
     /**
@@ -682,6 +674,32 @@ class Page extends Item
     }
 
     /**
+     * Creates a page ID from a file (based on path).
+     */
+    private static function createIdFromFile(SplFileInfo $file): string
+    {
+        $relativePath = self::slugify(str_replace(DIRECTORY_SEPARATOR, '/', $file->getRelativePath()));
+        $basename = self::slugify(PrefixSuffix::subPrefix($file->getBasename('.' . $file->getExtension())));
+        // if file is "README.md", ID is "index"
+        $basename = strtolower($basename) == 'readme' ? 'index' : $basename;
+        // if file is section's index: "section/index.md", ID is "section"
+        if (!empty($relativePath) && PrefixSuffix::sub($basename) == 'index') {
+            // case of a localized section's index: "section/index.fr.md", ID is "fr/section"
+            if (PrefixSuffix::hasSuffix($basename)) {
+                return PrefixSuffix::getSuffix($basename) . '/' . $relativePath;
+            }
+
+            return $relativePath;
+        }
+        // localized page
+        if (PrefixSuffix::hasSuffix($basename)) {
+            return trim(Util::joinPath(PrefixSuffix::getSuffix($basename), $relativePath, PrefixSuffix::sub($basename)), '/');
+        }
+
+        return trim(Util::joinPath($relativePath, $basename), '/');
+    }
+
+    /**
      * Cast "boolean" string (or array of strings) to boolean.
      *
      * @param mixed $value Value to filter
@@ -696,13 +714,5 @@ class Page extends Item
         if (\is_array($value)) {
             array_walk_recursive($value, '\Cecil\Util\Str::strToBool');
         }
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function setId(string $id): self
-    {
-        return parent::setId($id);
     }
 }

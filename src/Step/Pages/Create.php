@@ -63,9 +63,8 @@ class Create extends AbstractStep
 
         foreach ($this->builder->getPagesFiles() as $file) {
             $count++;
-            // create a page from its (Markdown) file
-            $page = new Page(Page::createIdFromFile($file));
-            $page->setFile($file);
+            // create page from the file
+            $page = new Page($file);
             // parse frontmatter and body
             $page->parse();
 
