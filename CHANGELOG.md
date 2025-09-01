@@ -2,6 +2,16 @@
 
 All notable changes to this project will be documented in this file. Dates are displayed in UTC.
 
+#### [8.64.0](https://github.com/Cecilapp/Cecil/compare/8.63.2...8.64.0)
+
+> 1 September 2025
+
+- refactor: Refactor asset and image classes, update namespaces [`#2207`](https://github.com/Cecilapp/Cecil/pull/2207)
+- chore(deps): bump DavidAnson/markdownlint-cli2-action from 19 to 20 [`#2173`](https://github.com/Cecilapp/Cecil/pull/2173)
+- chore(deps): bump actions/download-artifact from 4 to 5 [`#2206`](https://github.com/Cecilapp/Cecil/pull/2206)
+- chore(deps): bump actions/attest-build-provenance from 2 to 3 [`#2212`](https://github.com/Cecilapp/Cecil/pull/2212)
+- chore(deps): bump actions/checkout from 4 to 5 [`#2208`](https://github.com/Cecilapp/Cecil/pull/2208)
+
 #### [8.63.2](https://github.com/Cecilapp/Cecil/compare/8.63.1...8.63.2)
 
 > 29 August 2025
