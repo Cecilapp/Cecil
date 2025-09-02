@@ -322,7 +322,7 @@ class Page extends Item
         if (!$this->slug) {
             $slug = self::slugify(PrefixSuffix::sub($slug));
         }
-        // force slug and update path
+        // update path
         if ($this->slug && $this->slug != $slug) {
             $this->setPath($this->getFolder() . '/' . $slug);
         }
@@ -346,14 +346,14 @@ class Page extends Item
     {
         $path = trim($path, '/');
 
-        // case of homepage
+        // homepage = empty path
         if ($path == 'index') {
             $this->path = '';
 
             return $this;
         }
 
-        // case of custom sections' index (ie: section/index.md -> section)
+        // section with "index.md" (ie: "section-a/index" : path = "section-a")
         if (substr($path, -6) == '/index') {
             $path = substr($path, 0, \strlen($path) - 6);
         }
@@ -361,20 +361,21 @@ class Page extends Item
 
         $lastslash = strrpos($this->path, '/');
 
-        // case of root/top-level pages
+        // top-level pages (without slash, eg: "about") : slug = path
         if ($lastslash === false) {
             $this->slug = $this->path;
 
             return $this;
         }
 
-        // case of sections' pages: set section
+        // set "section" (= first level of path)
         if (!$this->virtual && $this->getSection() === null) {
             $this->section = explode('/', $this->path)[0];
         }
+
         // set/update folder and slug
-        $this->folder = substr($this->path, 0, $lastslash);
-        $this->slug = substr($this->path, -(\strlen($this->path) - $lastslash - 1));
+        $this->folder = substr($this->path, 0, $lastslash);                          // eg: "blog/post", folder = "blog"
+        $this->slug = substr($this->path, -(\strlen($this->path) - $lastslash - 1)); // eg: "blog/post", slug = "post"
 
         return $this;
     }
