@@ -83,7 +83,7 @@ class Page extends Item
             throw new RuntimeException('Create a page with a string ID or a SplFileInfo.');
         }
 
-        // default properties
+        // set default properties and variables
         $this->setVirtual(true);
         $this->setType(Type::PAGE->value);
         $this->setVariables([
@@ -96,6 +96,7 @@ class Page extends Item
             'content_template' => 'page.content.twig',
         ]);
 
+        // if file, create ID from its pathname
         if ($id instanceof SplFileInfo) {
             $file = $id;
             $this->setFile($file);
@@ -160,14 +161,19 @@ class Page extends Item
         // renames "README" to "index"
         $filename = strtolower($filename) == 'readme' ? 'index' : $filename;
 
-        // page properties
+        // set properties
         $this->setVirtual(false);
         $this->setFolder($relativePath);
         $this->setSlug($filename);
         $this->setPath($this->getFolder() . '/' . $this->getSlug());
-        // if "index", type = "homepage"
-        if (empty($this->file->getRelativePath()) && PrefixSuffix::sub($filename) == 'index') {
-            $this->setType(Type::HOMEPAGE->value);
+        // if "index" : type = section or homepage
+        if (PrefixSuffix::sub($filename) == 'index') {
+            // section by default
+            $this->setType(Type::SECTION->value);
+            // homepage
+            if (empty($this->file->getRelativePath())) {
+                $this->setType(Type::HOMEPAGE->value);
+            }
         }
         // set variables
         $this->setVariables([
@@ -176,11 +182,11 @@ class Page extends Item
             'updated'  => (new \DateTime())->setTimestamp($this->file->getMTime()),
             'filepath' => $this->file->getRelativePathname(),
         ]);
-        // prefix : set weight or date
+        // if prefix : set weight or date
         if (PrefixSuffix::hasPrefix($filename)) {
             $prefix = PrefixSuffix::getPrefix($filename);
             if ($prefix !== null) {
-                // prefix is an integer: used for sorting
+                // prefix is an integer: weight (used for sorting)
                 if (is_numeric($prefix)) {
                     $this->setVariable('weight', (int) $prefix);
                 }
@@ -190,11 +196,11 @@ class Page extends Item
                 }
             }
         }
-        // suffix : set language
+        // if suffix : set language
         if (PrefixSuffix::hasSuffix($filename)) {
             $this->setVariable('language', PrefixSuffix::getSuffix($filename));
         }
-        // set reference between page's translations, even if it exist in only one language
+        // set reference between page's translations (even if it exist in only one language)
         $this->setVariable('langref', $this->getPath());
 
         return $this;
