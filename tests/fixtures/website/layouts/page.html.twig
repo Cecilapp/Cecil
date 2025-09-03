@@ -1,1 +1,24 @@
 {% extends '_default/page.html.twig' %}
+
+{% block content %}
+
+{{ parent() }}
+
+{#- prev/next page ~#}
+{%- if page.prev is defined or page.next is defined ~%}
+<p>Navigation between pages of a section:
+  {%- if page.prev is defined ~%}
+  <a href="{{ url(page.prev.path) }}" title="Previous">
+    ← {{ page.prev.title }}
+  </a>
+  {%- endif -%}
+  &nbsp;|&nbsp;
+  {%- if page.next is defined ~%}
+  <a href="{{ url(page.next.path) }}" title="Next">
+    {{ page.next.title }} →
+  </a>
+  {%- endif ~%}
+</p>
+{%- endif ~%}
+
+{% endblock %}
