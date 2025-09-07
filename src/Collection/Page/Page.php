@@ -159,7 +159,7 @@ class Page extends Item
         $relativePath = str_replace(DIRECTORY_SEPARATOR, '/', $this->file->getRelativePath());
         $filename = $this->file->getFilenameWithoutExtension();
         // renames "README" to "index"
-        $filename = strtolower($filename) == 'readme' ? 'index' : $filename;
+        $filename = strtolower(PrefixSuffix::sub($filename)) == 'readme' ? 'index' : $filename;
 
         // set properties
         $this->setVirtual(false);
