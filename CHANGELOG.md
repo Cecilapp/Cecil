@@ -2,6 +2,18 @@
 
 All notable changes to this project will be documented in this file. Dates are displayed in UTC.
 
+#### [8.65.0](https://github.com/Cecilapp/Cecil/compare/8.64.1...8.65.0)
+
+> 8 September 2025
+
+- chore(deps-dev): bump ergebnis/composer-normalize from 2.48.1 to 2.48.2 [`#2220`](https://github.com/Cecilapp/Cecil/pull/2220)
+- chore(deps-dev): bump squizlabs/php_codesniffer from 3.13.2 to 3.13.4 [`#2219`](https://github.com/Cecilapp/Cecil/pull/2219)
+- chore(deps-dev): bump friendsofphp/php-cs-fixer from 3.87.0 to 3.87.1 [`#2217`](https://github.com/Cecilapp/Cecil/pull/2217)
+- chore(deps-dev): bump friendsofphp/php-cs-fixer from 3.86.0 to 3.87.0 [`#2216`](https://github.com/Cecilapp/Cecil/pull/2216)
+- refactor: simplify page creation [`#2214`](https://github.com/Cecilapp/Cecil/pull/2214)
+- chore(deps-dev): bump ergebnis/composer-normalize from 2.48.0 to 2.48.1 [`#2213`](https://github.com/Cecilapp/Cecil/pull/2213)
+- feat: load data of themes [`16ed58a`](https://github.com/Cecilapp/Cecil/commit/16ed58adb975e2e2bae12de7da7020374b4c1f41)
+
 #### [8.64.1](https://github.com/Cecilapp/Cecil/compare/8.64.0...8.64.1)
 
 > 1 September 2025
