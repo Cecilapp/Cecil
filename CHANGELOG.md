@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. Dates are displayed in UTC.
 
+#### [8.65.1](https://github.com/Cecilapp/Cecil/compare/8.65.0...8.65.1)
+
+> 8 September 2025
+
+- chore: update deps [`c306463`](https://github.com/Cecilapp/Cecil/commit/c30646377e3ef797619a3103585bfcfc047b43c6)
+- fix metatags square image max size [`59266b7`](https://github.com/Cecilapp/Cecil/commit/59266b7407474b4cd3956909fa654955ee808e42)
+
 #### [8.65.0](https://github.com/Cecilapp/Cecil/compare/8.64.1...8.65.0)
 
 > 8 September 2025
