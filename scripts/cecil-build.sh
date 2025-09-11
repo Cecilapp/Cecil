@@ -22,6 +22,9 @@ fi
 # Running on?
 RUNNING_ON="unknown"
 URL=""
+if [ "$CI" = "true" ]; then
+  RUNNING_ON="statichost.eu"
+fi
 if [ "$NETLIFY" = "true" ]; then
   RUNNING_ON="Netlify"
 fi
