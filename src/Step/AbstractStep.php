@@ -23,6 +23,8 @@ use Cecil\Config;
  * It implements the StepInterface and provides common functionality such as
  * initialization, checking if the step can be processed, and a constructor
  * that accepts a Builder instance.
+ *
+ * @phpstan-import-type BuildOptions from Builder
  */
 abstract class AbstractStep implements StepInterface
 {
@@ -34,7 +36,8 @@ abstract class AbstractStep implements StepInterface
 
     /**
      * Configuration options for the step.
-     * @var Builder::OPTIONS
+     * @see Builder::OPTIONS
+     * @var BuildOptions
      */
     protected $options;
 
