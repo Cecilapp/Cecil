@@ -2,6 +2,7 @@ name: Release
 
 env:
   PHP_VERSION: '8.2'
+  PRE_RELEASE: 'false'
   FORMULA_NAME: 'cecil'
   GPG_SIGNATURE: 'false'
   GPG_EMAIL: 'arnaud@ligny.fr'
@@ -19,11 +20,18 @@ jobs:
       previous_release: ${{ steps.previous_release.outputs.tag }}
       version: ${{ steps.version.outputs.version }}
       shasum: ${{ steps.sha256.outputs.shasum }}
+      preview: ${{ steps.preview.outputs.state }}
     permissions:
       id-token: write # required for build provenance attestation
       attestations: write # required for build provenance attestation
 
     steps:
+      - name: Is it a preview release?
+        id: preview
+        run: |
+          if [ "${{ github.event.release.prerelease }}" == "true" ]; then
+            echo "PRE_RELEASE='true'" >> $GITHUB_ENV
+          fi
       - name: Checkout source code
         uses: actions/checkout@v5
         with:
@@ -142,7 +150,9 @@ jobs:
       - name: Summary
         run: |
           echo "- Built with PHP ${{ env.PHP_VERSION }}" >> $GITHUB_STEP_SUMMARY
-          echo "- Provenance attestation: ${{ steps.attestation.outputs.attestation-url }}" >> $GITHUB_STEP_SUMMARY
+          echo "- Version: ${{ steps.version.outputs.version }}" >> $GITHUB_STEP_SUMMARY
+          echo "- Pre-release: ${{ env.PRE_RELEASE }}" >> $GITHUB_STEP_SUMMARY
+          echo "- Attestation: ${{ steps.attestation.outputs.attestation-url }}" >> $GITHUB_STEP_SUMMARY
 
   deploy_to_github: # GitHub release
     name: Deploy to GitHub
