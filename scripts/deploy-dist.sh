@@ -13,13 +13,14 @@ DIST_FILE="cecil.phar"
 DIST_FILE_SHA1="cecil.phar.sha1"
 SCOOP_CMD="cecil"
 SCOOP_FILE_JSON="scoop/cecil.json"
+SCOOP_FILE_JSON_PREVIEW="scoop/cecil-preview.json"
 TARGET_PAGES_DIR="pages"
 USER_NAME=$GITHUB_ACTOR
 USER_EMAIL="${GITHUB_ACTOR}@cecil.app"
 HOME="${GITHUB_WORKSPACE}/HOME"
 BUILD_NUMBER=$GITHUB_RUN_NUMBER
 
-echo "Starting deploy of distribution file..."
+echo "Starting deploy release files..."
 mkdir $HOME
 cp dist/$DIST_FILE $HOME/$DIST_FILE
 
@@ -41,9 +42,40 @@ sha1hash=$(sha1sum $DIST_FILE)
 sha1hash=${sha1hash%% *}
 cd ../..
 
-# create VERSION file
-[ -e VERSION ] && rm -- VERSION
-echo $VERSION > VERSION
+# if not pre-release, create VERSION file and redirections
+if [ "${PRE_RELEASE}" != 'true' ]; then
+  # create VERSION file
+  [ -e VERSION ] && rm -- VERSION
+  echo $VERSION > VERSION
+
+  # create website redirections files
+  now=$(date +"%Y-%m-%d")
+  cd ../$TARGET_PAGES_DIR
+  rm -f $DIST_FILE.md
+  cat <<EOT >> $DIST_FILE.md
+---
+redirect: $TARGET_RELEASE_DIR/$DIST_FILE
+slug: cecil
+output: phar
+date: $now
+---
+EOT
+  rm -f $DIST_FILE_SHA1.md
+  cat <<EOT >> $DIST_FILE_SHA1.md
+---
+redirect: $TARGET_RELEASE_DIR/$DIST_FILE_SHA1
+slug: cecil
+output: sha1
+date: $now
+---
+EOT
+  cd ..
+fi
+
+# pre-release / preview
+if [ "${PRE_RELEASE}" != 'true' ]; then
+  $SCOOP_FILE_JSON=$SCOOP_FILE_JSON_PREVIEW
+fi
 
 # create Scoop manifest
 rm -f $SCOOP_FILE_JSON
@@ -75,29 +107,6 @@ cat <<EOT > $SCOOP_FILE_JSON
   }
 }
 EOT
-
-# create website redirections files
-now=$(date +"%Y-%m-%d")
-cd ../$TARGET_PAGES_DIR
-rm -f $DIST_FILE.md
-cat <<EOT >> $DIST_FILE.md
----
-redirect: $TARGET_RELEASE_DIR/$DIST_FILE
-slug: cecil
-output: phar
-date: $now
----
-EOT
-rm -f $DIST_FILE_SHA1.md
-cat <<EOT >> $DIST_FILE_SHA1.md
----
-redirect: $TARGET_RELEASE_DIR/$DIST_FILE_SHA1
-slug: cecil
-output: sha1
-date: $now
----
-EOT
-cd ..
 
 # commit and push
 git add -Af .
