@@ -1,7 +1,7 @@
 #!/bin/bash
 set -e
 
-# Deploy releases files to website
+# Deploy release files to website
 
 # params
 VERSION=$(echo $GITHUB_REF | cut -d'/' -f 3)
@@ -29,12 +29,12 @@ git config --global user.name "${USER_NAME}"
 git config --global user.email "${USER_EMAIL}"
 git clone --quiet --branch=$TARGET_BRANCH https://${GITHUB_TOKEN}@github.com/${TARGET_REPO}.git ${TARGET_REPO} > /dev/null
 
-# copy/create releases files
+# copy (or create if necessary) release files
 cd $TARGET_REPO/$TARGET_DIST_DIR
 mkdir -p $TARGET_RELEASE_DIR
-# .phar
+# `.phar` file
 cp $HOME/$DIST_FILE $TARGET_RELEASE_DIR/$DIST_FILE
-# .sha1
+# `.sha1` file
 cd $TARGET_RELEASE_DIR
 sha1sum $DIST_FILE > $DIST_FILE_SHA1
 sha1hash=$(sha1sum $DIST_FILE)
@@ -99,10 +99,9 @@ date: $now
 EOT
 cd ..
 
-# commit
+# commit and push
 git add -Af .
-git commit -m "Build $BUILD_NUMBER: deploy ${DIST_FILE} and create redirections"
-# push
+git commit -m "Build $BUILD_NUMBER: deploy release ${VERSION}"
 git push -fq origin $TARGET_BRANCH > /dev/null
 
 exit 0
