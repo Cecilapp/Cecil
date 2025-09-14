@@ -16,7 +16,7 @@ jobs:
     runs-on: ubuntu-latest
     outputs:
       previous_release: ${{ steps.previous_release.outputs.tag }}
-      version: ${{ steps.get_version.outputs.version }}
+      version: ${{ steps.version.outputs.version }}
       shasum: ${{ steps.sha256.outputs.shasum }}
     permissions:
       id-token: write # required for build provenance attestation
@@ -65,13 +65,13 @@ jobs:
         run: |
           echo "tag=$(git describe --abbrev=0 --tags `git rev-list --tags --skip=1 --max-count=1`)" >> $GITHUB_OUTPUT
 
-      - name: Set current version # variable and create `VERSION` file
-        id: get_version
+      - name: Current version
+        id: version
         run: |
+          echo "Version: ${GITHUB_REF#refs/tags/}"
           echo "version=${GITHUB_REF#refs/tags/}" >> $GITHUB_OUTPUT
           echo "${GITHUB_REF#refs/tags/}" > VERSION
           export COMPOSER_ROOT_VERSION=${GITHUB_REF#refs/tags/}
-          echo "VERSION: ${GITHUB_REF#refs/tags/}"
 
       - name: Build `cecil.phar` binary
         run: composer run-script build
