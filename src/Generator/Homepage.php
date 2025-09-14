@@ -48,24 +48,22 @@ class Homepage extends AbstractGenerator implements GeneratorInterface
             /** @var \Cecil\Collection\Page\Page $page */
             $page->setType(Type::HOMEPAGE->value);
             // collects all pages
-            $subPages = $this->builder->getPages()->filter(function (Page $page) use ($language) {
+            $pages = $this->builder->getPages()->filter(function (Page $page) use ($language) {
                 return $page->getType() == Type::PAGE->value
                     && $page->getVariable('published') === true
-                    && (
-                        $page->getVariable('excluded') !== true
-                        && $page->getVariable('exclude') !== true
-                    )
+                    && ($page->getVariable('excluded') !== true && $page->getVariable('exclude') !== true)
                     && $page->isVirtual() === false
                     && $page->getVariable('language') == $language;
             });
-            // collects pages of a section
-            /** @var \Cecil\Collection\Page\Collection $subPages */
+            // or collects pages from a specified section
+            /** @var \Cecil\Collection\Page\Collection $pages */
             if ($page->hasVariable('pagesfrom') && $this->builder->getPages()->has((string) $page->getVariable('pagesfrom'))) {
-                $subPages = $this->builder->getPages()->get((string) $page->getVariable('pagesfrom'))->getPages();
+                $pages = $this->builder->getPages()->get((string) $page->getVariable('pagesfrom'))->getPages();
             }
-            if ($subPages instanceof \Cecil\Collection\Page\Collection) {
+            if ($pages instanceof \Cecil\Collection\Page\Collection) {
                 // sorts pages
-                $pages = Section::sortSubPages($this->config, $page, $subPages);
+                $sortBy = $page->getVariable('sortby') ?? $this->config->get('pages.sortby');
+                $pages = $pages->sortBy($sortBy);
                 $page->setPages($pages);
                 if ($pages->first()) {
                     $page->setVariable('date', $pages->first()->getVariable('date'));

@@ -184,7 +184,7 @@ class Create extends AbstractStep
                     }
                     $item = (new Entry($page->getIdWithoutLang()))
                         ->setName($page->getVariable('title'))
-                        ->setUrl((new PageRenderer($this->config))->getPublicFilePath($page));
+                        ->setUrl((new PageRenderer($this->builder, $page))->getPath());
                     if (isset($properties['weight'])) {
                         $item->setWeight((int) $properties['weight']);
                     }
@@ -209,7 +209,7 @@ class Create extends AbstractStep
              */
             $item = (new Entry($page->getIdWithoutLang()))
                 ->setName($page->getVariable('title'))
-                ->setUrl((new PageRenderer($this->config))->getPublicFilePath($page));
+                ->setUrl((new PageRenderer($this->builder, $page))->getPath());
             // add Menu if not exists
             if (!$this->menus[$language]->has($page->getVariable('menu'))) {
                 $this->menus[$language]->add(new Menu($page->getVariable('menu')));

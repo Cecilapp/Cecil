@@ -20,6 +20,7 @@ use Cecil\Exception\ConfigException;
 use Cecil\Exception\RuntimeException;
 use Cecil\Renderer\Config;
 use Cecil\Renderer\Layout;
+use Cecil\Renderer\Page as PageRenderer;
 use Cecil\Renderer\Site;
 use Cecil\Renderer\Twig;
 use Cecil\Step\AbstractStep;
@@ -138,8 +139,8 @@ class Render extends AbstractStep
             }
         }
 
-        // some caches to avoid multiple calls
-        $cacheLocale = $cacheSite = $cacheConfig = [];
+        // some cache to avoid multiple calls
+        $cache = [];
 
         /** @var Page $page */
         foreach ($pages as $page) {
@@ -148,22 +149,22 @@ class Render extends AbstractStep
 
             // l10n
             $language = $page->getVariable('language', $this->config->getLanguageDefault());
-            if (!isset($cacheLocale[$language])) {
-                $cacheLocale[$language] = $this->config->getLanguageProperty('locale', $language);
+            if (!isset($cache['locale'][$language])) {
+                $cache['locale'][$language] = $this->config->getLanguageProperty('locale', $language);
             }
-            $this->builder->getRenderer()->setLocale($cacheLocale[$language]);
+            $this->builder->getRenderer()->setLocale($cache['locale'][$language]);
 
             // global site variables
-            if (!isset($cacheSite[$language])) {
-                $cacheSite[$language] = new Site($this->builder, $language);
+            if (!isset($cache['site'][$language])) {
+                $cache['site'][$language] = new Site($this->builder, $language);
             }
-            $this->builder->getRenderer()->addGlobal('site', $cacheSite[$language]);
+            $this->builder->getRenderer()->addGlobal('site', $cache['site'][$language]);
 
             // global config raw variables
-            if (!isset($cacheConfig[$language])) {
-                $cacheConfig[$language] = new Config($this->builder, $language);
+            if (!isset($cache['config'][$language])) {
+                $cache['config'][$language] = new Config($this->builder, $language);
             }
-            $this->builder->getRenderer()->addGlobal('config', $cacheConfig[$language]);
+            $this->builder->getRenderer()->addGlobal('config', $cache['config'][$language]);
 
             // excluded format(s)?
             $formats = (array) $page->getVariable('output');

@@ -45,9 +45,4 @@ interface RendererInterface
      * Adds a translation file.
      */
     public function addTransResource(string $translationsDir, string $locale): void;
-
-    /**
-     * Returns debug profile.
-     */
-    public function getDebugProfile(): ?\Twig\Profiler\Profile;
 }

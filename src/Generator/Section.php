@@ -67,12 +67,12 @@ class Section extends AbstractGenerator implements GeneratorInterface
                     if ($this->builder->getPages()->has($pageId)) {
                         $page = clone $this->builder->getPages()->get($pageId);
                     }
-                    $subPages = new PagesCollection("section-$pageId", $pagesAsArray);
+                    $pages = new PagesCollection("section-$pageId", $pagesAsArray);
                     // cascade variables
                     if ($page->hasVariable('cascade')) {
                         $cascade = $page->getVariable('cascade');
                         if (\is_array($cascade)) {
-                            $subPages->map(function (Page $page) use ($cascade) {
+                            $pages->map(function (Page $page) use ($cascade) {
                                 foreach ($cascade as $key => $value) {
                                     if (!$page->hasVariable($key)) {
                                         $page->setVariable($key, $value);
@@ -82,7 +82,8 @@ class Section extends AbstractGenerator implements GeneratorInterface
                         }
                     }
                     // sorts pages
-                    $pages = Section::sortSubPages($this->config, $page, $subPages);
+                    $sortBy = $page->getVariable('sortby') ?? $this->config->get('pages.sortby');
+                    $pages = $pages->sortBy($sortBy);
                     // adds navigation links (excludes taxonomy pages)
                     $sortBy = $page->getVariable('sortby')['variable'] ?? $page->getVariable('sortby') ?? $this->config->get('pages.sortby')['variable'] ?? $this->config->get('pages.sortby') ?? 'date';
                     if (!\in_array($page->getId(), array_keys((array) $this->config->get('taxonomies')))) {
@@ -116,24 +117,7 @@ class Section extends AbstractGenerator implements GeneratorInterface
     }
 
     /**
-     * Sorts subpages.
-     */
-    public static function sortSubPages(\Cecil\Config $config, Page $page, PagesCollection $subPages): PagesCollection
-    {
-        $subPages = $subPages->sortBy($config->get('pages.sortby'));
-        if ($page->hasVariable('sortby')) {
-            try {
-                $subPages = $subPages->sortBy($page->getVariable('sortby'));
-            } catch (RuntimeException $e) {
-                throw new RuntimeException(\sprintf('In page "%s", %s', $page->getId(), $e->getMessage()));
-            }
-        }
-
-        return $subPages;
-    }
-
-    /**
-     * Adds navigation (next and prev) to section subpages.
+     * Adds navigation (next and prev) to each pages of a section.
      */
     protected function addNavigationLinks(PagesCollection $pages, string|null $sortBy = null, bool $circular = false): void
     {

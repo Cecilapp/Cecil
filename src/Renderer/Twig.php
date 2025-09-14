@@ -217,18 +217,18 @@ class Twig implements RendererInterface
     }
 
     /**
-     * {@inheritdoc}
-     */
-    public function getDebugProfile(): ?\Twig\Profiler\Profile
-    {
-        return $this->profile;
-    }
-
-    /**
      * Returns the Twig instance.
      */
     public function getTwig(): \Twig\Environment
     {
         return $this->twig;
+    }
+
+    /**
+     * Returns debug profile.
+     */
+    public function getDebugProfile(): ?\Twig\Profiler\Profile
+    {
+        return $this->profile;
     }
 }
