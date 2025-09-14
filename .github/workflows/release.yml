@@ -2,6 +2,7 @@ name: Release
 
 env:
   PHP_VERSION: '8.2'
+  FORMULA_NAME: 'cecil'
   GPG_SIGNATURE: 'false'
   GPG_EMAIL: 'arnaud@ligny.fr'
 
@@ -227,35 +228,23 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.REPOS_TOKEN }}
 
-  update_homebrew_formula:
-    name: Update Homebrew Formulae
+  bump_homebrew_formula:
+    name: Bump Homebrew Formulae
     runs-on: macos-latest
     needs: [build, deploy_to_github]
     env:
       COMMITTER_TOKEN: ${{ secrets.REPOS_TOKEN }}
 
     steps:
+      - name: Change Formula name if preview
+        if: "github.event.release.prerelease"
+        run: echo "FORMULA_NAME=cecil@preview" >> $GITHUB_ENV
       - name: Bump Formula
         if: "!github.event.release.prerelease"
         uses: mislav/bump-homebrew-formula-action@v3
         with:
-          formula-name: cecil
-          formula-path: Formula/cecil.rb
-          homebrew-tap: Cecilapp/homebrew-tap
-          base-branch: main
-          tag-name: ${{ needs.build.outputs.version }}
-          download-url: https://github.com/Cecilapp/Cecil/releases/download/${{ needs.build.outputs.version }}/cecil.phar
-          download-sha256: ${{ needs.build.outputs.shasum }}
-          commit-message: |
-            {{formulaName}} {{version}}
-
-            Created by https://github.com/mislav/bump-homebrew-formula-action
-      - name: Bump Beta Formula
-        if: "github.event.release.prerelease"
-        uses: mislav/bump-homebrew-formula-action@v3
-        with:
-          formula-name: cecil@beta
-          formula-path: Formula/cecil@beta.rb
+          formula-name: ${{ env.FORMULA_NAME }}
+          formula-path: Formula/${{ env.FORMULA_NAME }}.rb
           homebrew-tap: Cecilapp/homebrew-tap
           base-branch: main
           tag-name: ${{ needs.build.outputs.version }}
