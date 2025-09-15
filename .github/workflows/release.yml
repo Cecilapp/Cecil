@@ -156,7 +156,7 @@ jobs:
       - name: Summary (pre-release)
         run: |
           if [ "${{ github.event.release.prerelease }}" == "true" ]; then
-            echo "> This is a pre-release" >> $GITHUB_STEP_SUMMARY
+            echo "> _This is a pre-release_" >> $GITHUB_STEP_SUMMARY
           fi
 
   deploy_to_github: # GitHub release
@@ -222,7 +222,7 @@ jobs:
 
       - name: Summary
         run: |
-          echo "[GitHub release ${{ steps.release.outputs.tag_name }}](${{ steps.release.outputs.html_url }}) updated" >> $GITHUB_STEP_SUMMARY
+          echo "📦 [GitHub release ${{ steps.release.outputs.tag_name }}](${{ steps.release.outputs.html_url }}) updated" >> $GITHUB_STEP_SUMMARY
 
   deploy_to_website: # https://cecil.app
     name: Deploy to website
@@ -248,7 +248,7 @@ jobs:
 
       - name: Summary
         run: |
-          echo "Deployed to [website](https://cecil.app)" >> $GITHUB_STEP_SUMMARY
+          echo "🌐 Deployed to [website](https://cecil.app)" >> $GITHUB_STEP_SUMMARY
 
   bump_homebrew_formula:
     name: Bump Homebrew Formulae
