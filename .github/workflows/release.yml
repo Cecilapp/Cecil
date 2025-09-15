@@ -156,7 +156,7 @@ jobs:
       - name: Summary (pre-release)
         run: |
           if [ "${{ github.event.release.prerelease }}" == "true" ]; then
-            echo "- This is a pre-release" >> $GITHUB_STEP_SUMMARY
+            echo "> This is a pre-release" >> $GITHUB_STEP_SUMMARY
           fi
 
   deploy_to_github: # GitHub release
