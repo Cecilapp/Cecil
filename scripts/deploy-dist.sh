@@ -19,6 +19,9 @@ USER_NAME=$GITHUB_ACTOR
 USER_EMAIL="${GITHUB_ACTOR}@cecil.app"
 HOME="${GITHUB_WORKSPACE}/HOME"
 BUILD_NUMBER=$GITHUB_RUN_NUMBER
+if [ -z "${PRE_RELEASE}" ]; then
+  export PRE_RELEASE="false"
+fi
 
 echo "Starting deploy release files..."
 mkdir $HOME
