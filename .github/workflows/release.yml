@@ -157,8 +157,8 @@ jobs:
             echo "> _This is a pre-release_" >> $GITHUB_STEP_SUMMARY
           fi
 
-  deploy_to_github: # GitHub release
-    name: Deploy to GitHub
+  update_github_release:
+    name: Update GitHub release
     runs-on: ubuntu-latest
     needs: build
 
@@ -220,7 +220,7 @@ jobs:
 
       - name: Summary
         run: |
-          echo "📦 [GitHub release ${{ steps.release.outputs.tag_name }}](${{ steps.release.outputs.html_url }}) updated" >> $GITHUB_STEP_SUMMARY
+          echo "📦 GitHub [release ${{ steps.release.outputs.tag_name }}](${{ steps.release.outputs.html_url }}) updated" >> $GITHUB_STEP_SUMMARY
 
   deploy_to_website: # https://cecil.app
     name: Deploy to website
@@ -253,7 +253,7 @@ jobs:
   bump_homebrew_formula:
     name: Bump Homebrew Formulae
     runs-on: macos-latest
-    needs: [build, deploy_to_github]
+    needs: [build, update_github_release]
     env:
       COMMITTER_TOKEN: ${{ secrets.REPOS_TOKEN }}
 
