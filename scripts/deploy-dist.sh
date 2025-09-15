@@ -74,7 +74,7 @@ fi
 
 # pre-release / preview
 if [ "${PRE_RELEASE}" != 'true' ]; then
-  $SCOOP_FILE_JSON=$SCOOP_FILE_JSON_PREVIEW
+  SCOOP_FILE_JSON="$SCOOP_FILE_JSON_PREVIEW"
 fi
 
 # create Scoop manifest
