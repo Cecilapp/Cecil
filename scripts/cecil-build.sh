@@ -37,9 +37,9 @@ fi
 if [ "$RENDER" = "true" ]; then
   RUNNING_ON="Render"
 fi
-echo "------------------------"
-echo "Running on ${RUNNING_ON}"
-echo "------------------------"
+echo "------------------------------------"
+echo "Running Cecil build on ${RUNNING_ON}"
+echo "------------------------------------"
 case $RUNNING_ON in
   "Netlify")
     if [ "$CONTEXT" = "production" ]; then
