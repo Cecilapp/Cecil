@@ -23,7 +23,7 @@ fi
 RUNNING_ON="unknown"
 URL=""
 if [ "$CI" = "true" ]; then
-  RUNNING_ON="statichost"
+  RUNNING_ON="statichost?"
 fi
 if [ "$NETLIFY" = "true" ]; then
   RUNNING_ON="Netlify"
@@ -37,7 +37,9 @@ fi
 if [ "$RENDER" = "true" ]; then
   RUNNING_ON="Render"
 fi
+echo "------------------------"
 echo "Running on ${RUNNING_ON}"
+echo "------------------------"
 case $RUNNING_ON in
   "Netlify")
     if [ "$CONTEXT" = "production" ]; then
@@ -48,30 +50,31 @@ case $RUNNING_ON in
     fi
     ;;
   "Vercel")
+    if [ "$VERCEL_ENV" = "production" ]; then
+      export CECIL_ENV="production"
+      URL="https://$VERCEL_PROJECT_PRODUCTION_URL" # see https://vercel.com/docs/environment-variables/system-environment-variables
+    else
+      URL="https://$VERCEL_URL"
+    fi
+    # Install PHP and libs
     dnf clean metadata
     echo "Installing PHP ${PHP_VERSION}..."
     dnf install -y php$PHP_VERSION php$PHP_VERSION-{common,mbstring,gd,bcmath,xml,fpm,intl,zip}
     echo "Installing Gettext..."
     dnf install -y gettext
-    echo "Installing images lib..."
+    echo "Installing lib..."
     dnf install -y libwebp-devel
     dnf install -y libavif-devel
     if [ "$VERCEL_INSTALL_OPTIM" = "true" ]; then
-      echo "Installing images optimization libraries..."
+      echo "Installing optimization libraries..."
       dnf install -y epel-release
       dnf install -y jpegoptim
       dnf install -y optipng
       dnf install -y pngquant
-      npm install -y -g svgo
+      npm install -g svgo
       dnf install -y gifsicle
       dnf install -y libwebp-tools
       dnf install -y libavif-tools
-    fi
-    if [ "$VERCEL_ENV" = "production" ]; then
-      export CECIL_ENV="production"
-      URL="https://$VERCEL_PROJECT_PRODUCTION_URL" # see https://vercel.com/docs/environment-variables/system-environment-variables#VERCEL_PROJECT_PRODUCTION_URL
-    else
-      URL="https://$VERCEL_URL" # see https://vercel.com/docs/environment-variables/system-environment-variables#VERCEL_URL
     fi
     ;;
   "CFPages")
