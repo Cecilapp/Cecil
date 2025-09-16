@@ -2,6 +2,33 @@
 
 All notable changes to this project will be documented in this file. Dates are displayed in UTC.
 
+#### [8.66.0-beta.2](https://github.com/Cecilapp/Cecil/compare/8.66.0-beta.1...8.66.0-beta.2)
+
+> 15 September 2025
+
+#### [8.66.0-beta.1](https://github.com/Cecilapp/Cecil/compare/8.65.2...8.66.0-beta.1)
+
+> 15 September 2025
+
+- ci: add prerelease deploy support [`70bac15`](https://github.com/Cecilapp/Cecil/commit/70bac1534cea4e8cdf99fc52923551325a73f805)
+- ci: update Bew formula bumper [`2a393be`](https://github.com/Cecilapp/Cecil/commit/2a393be3bb50306650b372cfdf460147cdba7507)
+- fix CI [`9f9a24c`](https://github.com/Cecilapp/Cecil/commit/9f9a24ca0c1d379d395ee9e43aaccb61aa75fd2c)
+- ci: add prerelease support [`3fce828`](https://github.com/Cecilapp/Cecil/commit/3fce828810a5358ca7d4b0196b37096c93f01007)
+- chore: update dev deps [`3d70119`](https://github.com/Cecilapp/Cecil/commit/3d701197142cf5455a002b11d6dff829e107ad3a)
+- ci: minor change about version [`da6f728`](https://github.com/Cecilapp/Cecil/commit/da6f728e62cd7c95633a3bc0c3863b34456e1d0f)
+- fix CI [`08b59f6`](https://github.com/Cecilapp/Cecil/commit/08b59f6d54dc81aa6a84215ac841050baa34ff17)
+- fix deploy site [`099402c`](https://github.com/Cecilapp/Cecil/commit/099402c447c7d4597193fe92bd502fe0417934fd)
+- fix deploy Scoop file [`7130bba`](https://github.com/Cecilapp/Cecil/commit/7130bba0e0c959be450ee5e62044837a30f1286a)
+
+#### [8.65.2](https://github.com/Cecilapp/Cecil/compare/8.65.1...8.65.2)
+
+> 15 September 2025
+
+- chore(deps-dev): bump friendsofphp/php-cs-fixer from 3.87.1 to 3.87.2 [`#2221`](https://github.com/Cecilapp/Cecil/pull/2221)
+- refactor: better and clean code [`f689ab3`](https://github.com/Cecilapp/Cecil/commit/f689ab38a7910750cb72b3a467d28aea9d51ca83)
+- chore: update deps [`7e1d501`](https://github.com/Cecilapp/Cecil/commit/7e1d501cf1889afc68c26b8b27ddabdddcb29ced)
+- chore: update deps [`791b9aa`](https://github.com/Cecilapp/Cecil/commit/791b9aa6b52c98a69b715fa581d659041956b31a)
+
 #### [8.65.1](https://github.com/Cecilapp/Cecil/compare/8.65.0...8.65.1)
 
 > 8 September 2025
