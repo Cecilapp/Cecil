@@ -23,7 +23,7 @@ fi
 RUNNING_ON="unknown"
 URL=""
 if [ "$CI" = "true" ]; then
-  RUNNING_ON="statichost.eu"
+  RUNNING_ON="statichost"
 fi
 if [ "$NETLIFY" = "true" ]; then
   RUNNING_ON="Netlify"
@@ -41,6 +41,7 @@ echo "Running on ${RUNNING_ON}"
 case $RUNNING_ON in
   "Netlify")
     if [ "$CONTEXT" = "production" ]; then
+      export CECIL_ENV="production"
       URL=$URL
     else
       URL=$DEPLOY_PRIME_URL
@@ -67,24 +68,24 @@ case $RUNNING_ON in
       dnf install -y libavif-tools
     fi
     if [ "$VERCEL_ENV" = "production" ]; then
-      CONTEXT="production"
+      export CECIL_ENV="production"
+      URL="https://$VERCEL_PROJECT_PRODUCTION_URL" # see https://vercel.com/docs/environment-variables/system-environment-variables#VERCEL_PROJECT_PRODUCTION_URL
     else
-      URL="https://$VERCEL_URL" # see https://vercel.com/docs/concepts/projects/environment-variables#system-environment-variables
+      URL="https://$VERCEL_URL" # see https://vercel.com/docs/environment-variables/system-environment-variables#VERCEL_URL
     fi
     ;;
   "CFPages")
     if [ "$CF_PAGES_BRANCH" = "master" ] || [ "$CF_PAGES_BRANCH" = "main" ]; then
-      CONTEXT="production"
-    else
-      URL=$CF_PAGES_URL
+      export CECIL_ENV="production"
     fi
+    URL=$CF_PAGES_URL
     ;;
   "Render")
-    CONTEXT="production"
-    URL=$RENDER_EXTERNAL_URL
+    export CECIL_ENV="production"
     if [ "$IS_PULL_REQUEST" = "true" ]; then
-      CONTEXT="preview"
+      export CECIL_ENV="preview"
     fi
+    URL=$RENDER_EXTERNAL_URL
     ;;
 esac
 
@@ -149,8 +150,7 @@ fi
 if [ ! -z "${URL}" ]; then
   CECIL_CMD_OPTIONS="--baseurl=${URL} ${CECIL_CMD_OPTIONS}"
 fi
-if [ "$CONTEXT" = "production" ]; then
-  export CECIL_ENV="production"
+if [ "$CECIL_ENV" = "production" ]; then
   CECIL_CMD_OPTIONS="-v ${CECIL_CMD_OPTIONS}"
 else
   CECIL_CMD_OPTIONS="-vv ${CECIL_CMD_OPTIONS}"
