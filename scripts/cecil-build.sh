@@ -148,7 +148,7 @@ if [ -f "./composer.json" ]; then
   echo "Installing themes..."
   $COMPOSER_CMD install --prefer-dist --no-dev --no-progress --no-interaction --quiet
   if [ $? -eq 0 ]; then
-      echo "Installation done."
+      echo "OK"
   fi
 fi
 
