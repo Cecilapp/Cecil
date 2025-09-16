@@ -62,19 +62,19 @@ case $RUNNING_ON in
     dnf install -y php$PHP_VERSION php$PHP_VERSION-{common,mbstring,gd,bcmath,xml,fpm,intl,zip}
     echo "Installing Gettext..."
     dnf install -y gettext
-    echo "Installing lib..."
+    echo "Installing libs..."
     dnf install -y libwebp-devel
-    dnf install -y libavif-devel
+    #dnf install -y libavif-devel
     if [ "$VERCEL_INSTALL_OPTIM" = "true" ]; then
-      echo "Installing optimization libraries..."
-      dnf install -y epel-release
-      dnf install -y jpegoptim
-      dnf install -y optipng
+      echo "Installing optimization libs..."
+      #dnf install -y epel-release
+      #dnf install -y jpegoptim
+      #dnf install -y optipng
       dnf install -y pngquant
       npm install -g svgo
-      dnf install -y gifsicle
+      #dnf install -y gifsicle
       dnf install -y libwebp-tools
-      dnf install -y libavif-tools
+      #dnf install -y libavif-tools
     fi
     ;;
   "CFPages")
