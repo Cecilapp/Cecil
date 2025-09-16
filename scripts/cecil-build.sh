@@ -61,9 +61,8 @@ case $RUNNING_ON in
     dnf clean metadata
     echo "Installing PHP ${PHP_VERSION}..."
     dnf install -y php$PHP_VERSION php$PHP_VERSION-{common,mbstring,gd,bcmath,xml,fpm,intl,zip}
-    echo "Installing Gettext..."
-    dnf install -y gettext
     echo "Installing libs..."
+    dnf install -y gettext
     dnf install -y libwebp-devel
     #dnf install -y libavif-devel
     if [ "$VERCEL_INSTALL_OPTIM" = "true" ]; then
