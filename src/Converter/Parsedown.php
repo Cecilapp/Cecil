@@ -420,7 +420,7 @@ class Parsedown extends \ParsedownToc
                     try {
                         $assetConverted = ($assetResized ?? $asset)->convert($format);
                     } catch (\Exception $e) {
-                        $this->builder->getLogger()->debug($e->getMessage());
+                        $this->builder->getLogger()->error($e->getMessage());
                         continue;
                     }
                     // build responsive images?
