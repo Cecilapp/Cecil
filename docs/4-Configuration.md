@@ -1,7 +1,7 @@
 <!--
 description: "Configure your website."
 date: 2021-05-07
-updated: 2025-08-19
+updated: 2025-09-18
 -->
 # Configuration
 
@@ -1141,7 +1141,7 @@ The cache directory is relative to the site directory, but you can use an absolu
 
 Assets cache options.
 
-### cache.assets.ttl
+#### cache.assets.ttl
 
 Time to live of assets cache in seconds (`null` by default = no expiration).
 
@@ -1151,7 +1151,7 @@ cache:
     ttl: ~
 ```
 
-### cache.assets.remote.ttl
+#### cache.assets.remote.ttl
 
 Time to live of remote assets cache in seconds (7 days by default).
 
