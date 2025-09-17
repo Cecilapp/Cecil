@@ -22,8 +22,9 @@ use Symfony\Bridge\Twig\Extension\TranslationExtension;
 use Symfony\Component\Translation\Formatter\MessageFormatter;
 use Symfony\Component\Translation\IdentityTranslator;
 use Symfony\Component\Translation\Translator;
-use Twig\Extra\Intl\IntlExtension;
 use Twig\Extra\Cache\CacheExtension;
+use Twig\Extra\Intl\IntlExtension;
+use Twig\Extra\String\StringExtension;
 
 /**
  * Twig renderer.
@@ -93,6 +94,8 @@ class Twig implements RendererInterface
         $this->twig->addExtension(new CoreExtension($this->builder));
         // required by `template_from_string()`
         $this->twig->addExtension(new \Twig\Extension\StringLoaderExtension());
+        // the `u` filter (https://github.com/twigphp/string-extra)
+        $this->twig->addExtension(new StringExtension());
         // l10n
         $this->translator = new Translator(
             $this->builder->getConfig()->getLanguageProperty('locale'),
