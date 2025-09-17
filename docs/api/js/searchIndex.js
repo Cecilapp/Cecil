@@ -1166,6 +1166,11 @@ Search.appendIndex(
             "summary": "",
             "url": "classes/Cecil-Collection-Page-Page.html#method___construct"
         },                {
+            "fqsen": "\\Cecil\\Collection\\Page\\Page\u003A\u003AsetId\u0028\u0029",
+            "name": "setId",
+            "summary": "Set\u0020the\u0020item\u0027s\u0020identifier.",
+            "url": "classes/Cecil-Collection-Page-Page.html#method_setId"
+        },                {
             "fqsen": "\\Cecil\\Collection\\Page\\Page\u003A\u003A__toString\u0028\u0029",
             "name": "__toString",
             "summary": "toString\u0020magic\u0020method\u0020to\u0020prevent\u0020Twig\u0020get_attribute\u0020fatal\u0020error.",
@@ -1175,11 +1180,6 @@ Search.appendIndex(
             "name": "slugify",
             "summary": "Turns\u0020a\u0020path\u0020\u0028string\u0029\u0020into\u0020a\u0020slug\u0020\u0028URI\u0029.",
             "url": "classes/Cecil-Collection-Page-Page.html#method_slugify"
-        },                {
-            "fqsen": "\\Cecil\\Collection\\Page\\Page\u003A\u003AcreateIdFromFile\u0028\u0029",
-            "name": "createIdFromFile",
-            "summary": "Creates\u0020the\u0020ID\u0020from\u0020the\u0020file\u0020\u0028path\u0029.",
-            "url": "classes/Cecil-Collection-Page-Page.html#method_createIdFromFile"
         },                {
             "fqsen": "\\Cecil\\Collection\\Page\\Page\u003A\u003AgetIdWithoutLang\u0028\u0029",
             "name": "getIdWithoutLang",
@@ -1313,12 +1313,12 @@ Search.appendIndex(
         },                {
             "fqsen": "\\Cecil\\Collection\\Page\\Page\u003A\u003AsetPages\u0028\u0029",
             "name": "setPages",
-            "summary": "Set\u0020Subpages.",
+            "summary": "Set\u0020pages\u0020list.",
             "url": "classes/Cecil-Collection-Page-Page.html#method_setPages"
         },                {
             "fqsen": "\\Cecil\\Collection\\Page\\Page\u003A\u003AgetPages\u0028\u0029",
             "name": "getPages",
-            "summary": "Get\u0020Subpages.",
+            "summary": "Get\u0020pages\u0020list.",
             "url": "classes/Cecil-Collection-Page-Page.html#method_getPages"
         },                {
             "fqsen": "\\Cecil\\Collection\\Page\\Page\u003A\u003AsetPaginator\u0028\u0029",
@@ -1386,15 +1386,15 @@ Search.appendIndex(
             "summary": "Get\u0020front\u0020matter\u0020variables.",
             "url": "classes/Cecil-Collection-Page-Page.html#method_getFmVariables"
         },                {
+            "fqsen": "\\Cecil\\Collection\\Page\\Page\u003A\u003AcreateIdFromFile\u0028\u0029",
+            "name": "createIdFromFile",
+            "summary": "Creates\u0020a\u0020page\u0020ID\u0020from\u0020a\u0020file\u0020\u0028based\u0020on\u0020path\u0029.",
+            "url": "classes/Cecil-Collection-Page-Page.html#method_createIdFromFile"
+        },                {
             "fqsen": "\\Cecil\\Collection\\Page\\Page\u003A\u003AfilterBool\u0028\u0029",
             "name": "filterBool",
             "summary": "Cast\u0020\u0022boolean\u0022\u0020string\u0020\u0028or\u0020array\u0020of\u0020strings\u0029\u0020to\u0020boolean.",
             "url": "classes/Cecil-Collection-Page-Page.html#method_filterBool"
-        },                {
-            "fqsen": "\\Cecil\\Collection\\Page\\Page\u003A\u003AsetId\u0028\u0029",
-            "name": "setId",
-            "summary": "Set\u0020the\u0020item\u0027s\u0020identifier.",
-            "url": "classes/Cecil-Collection-Page-Page.html#method_setId"
         },                {
             "fqsen": "\\Cecil\\Collection\\Page\\Page\u003A\u003ASLUGIFY_PATTERN",
             "name": "SLUGIFY_PATTERN",
@@ -1461,10 +1461,10 @@ Search.appendIndex(
             "summary": "",
             "url": "classes/Cecil-Collection-Page-Page.html#property_rendered"
         },                {
-            "fqsen": "\\Cecil\\Collection\\Page\\Page\u003A\u003A\u0024subPages",
-            "name": "subPages",
+            "fqsen": "\\Cecil\\Collection\\Page\\Page\u003A\u003A\u0024pages",
+            "name": "pages",
             "summary": "",
-            "url": "classes/Cecil-Collection-Page-Page.html#property_subPages"
+            "url": "classes/Cecil-Collection-Page-Page.html#property_pages"
         },                {
             "fqsen": "\\Cecil\\Collection\\Page\\Page\u003A\u003A\u0024paginator",
             "name": "paginator",
@@ -2791,14 +2791,9 @@ Search.appendIndex(
             "summary": "Creates\u0020pages\u0020and\u0020adds\u0020it\u0020to\u0020collection.",
             "url": "classes/Cecil-Generator-Section.html#method_generate"
         },                {
-            "fqsen": "\\Cecil\\Generator\\Section\u003A\u003AsortSubPages\u0028\u0029",
-            "name": "sortSubPages",
-            "summary": "Sorts\u0020subpages.",
-            "url": "classes/Cecil-Generator-Section.html#method_sortSubPages"
-        },                {
             "fqsen": "\\Cecil\\Generator\\Section\u003A\u003AaddNavigationLinks\u0028\u0029",
             "name": "addNavigationLinks",
-            "summary": "Adds\u0020navigation\u0020\u0028next\u0020and\u0020prev\u0029\u0020to\u0020section\u0020subpages.",
+            "summary": "Adds\u0020navigation\u0020\u0028next\u0020and\u0020prev\u0029\u0020to\u0020each\u0020pages\u0020of\u0020a\u0020section.",
             "url": "classes/Cecil-Generator-Section.html#method_addNavigationLinks"
         },                {
             "fqsen": "\\Cecil\\Generator\\Taxonomy",
@@ -3333,18 +3328,28 @@ Search.appendIndex(
         },                {
             "fqsen": "\\Cecil\\Renderer\\Page\u003A\u003AgetOutputFilePath\u0028\u0029",
             "name": "getOutputFilePath",
-            "summary": "Returns\u0020the\u0020path\u0020of\u0020the\u0020rendered\u0020file,\u0020based\u0020on\u0020the\u0020output\u0020format\u0020properties.",
+            "summary": "Returns\u0020the\u0020path\u0020of\u0020the\u0020rendered\u0020page,\u0020based\u0020on\u0020the\u0020output\u0020format\u0020properties.",
             "url": "classes/Cecil-Renderer-Page.html#method_getOutputFilePath"
         },                {
-            "fqsen": "\\Cecil\\Renderer\\Page\u003A\u003AgetPublicFilePath\u0028\u0029",
-            "name": "getPublicFilePath",
-            "summary": "Returns\u0020the\u0020public\u0020file\u0020path.",
-            "url": "classes/Cecil-Renderer-Page.html#method_getPublicFilePath"
+            "fqsen": "\\Cecil\\Renderer\\Page\u003A\u003AgetPath\u0028\u0029",
+            "name": "getPath",
+            "summary": "Returns\u0020the\u0020public\u0020path\u0020of\u0020the\u0020page.",
+            "url": "classes/Cecil-Renderer-Page.html#method_getPath"
+        },                {
+            "fqsen": "\\Cecil\\Renderer\\Page\u003A\u003A\u0024builder",
+            "name": "builder",
+            "summary": "Builder\u0020object.",
+            "url": "classes/Cecil-Renderer-Page.html#property_builder"
         },                {
             "fqsen": "\\Cecil\\Renderer\\Page\u003A\u003A\u0024config",
             "name": "config",
             "summary": "Configuration\u0020object.",
             "url": "classes/Cecil-Renderer-Page.html#property_config"
+        },                {
+            "fqsen": "\\Cecil\\Renderer\\Page\u003A\u003A\u0024page",
+            "name": "page",
+            "summary": "Page\u0020item.",
+            "url": "classes/Cecil-Renderer-Page.html#property_page"
         },                {
             "fqsen": "\\Cecil\\Renderer\\PostProcessor\\AbstractPostProcessor",
             "name": "AbstractPostProcessor",
@@ -3440,11 +3445,6 @@ Search.appendIndex(
             "name": "addTransResource",
             "summary": "Adds\u0020a\u0020translation\u0020file.",
             "url": "classes/Cecil-Renderer-RendererInterface.html#method_addTransResource"
-        },                {
-            "fqsen": "\\Cecil\\Renderer\\RendererInterface\u003A\u003AgetDebugProfile\u0028\u0029",
-            "name": "getDebugProfile",
-            "summary": "Returns\u0020debug\u0020profile.",
-            "url": "classes/Cecil-Renderer-RendererInterface.html#method_getDebugProfile"
         },                {
             "fqsen": "\\Cecil\\Renderer\\Site",
             "name": "Site",
@@ -3551,15 +3551,15 @@ Search.appendIndex(
             "summary": "Adds\u0020a\u0020translation\u0020file.",
             "url": "classes/Cecil-Renderer-Twig.html#method_addTransResource"
         },                {
-            "fqsen": "\\Cecil\\Renderer\\Twig\u003A\u003AgetDebugProfile\u0028\u0029",
-            "name": "getDebugProfile",
-            "summary": "Returns\u0020debug\u0020profile.",
-            "url": "classes/Cecil-Renderer-Twig.html#method_getDebugProfile"
-        },                {
             "fqsen": "\\Cecil\\Renderer\\Twig\u003A\u003AgetTwig\u0028\u0029",
             "name": "getTwig",
             "summary": "Returns\u0020the\u0020Twig\u0020instance.",
             "url": "classes/Cecil-Renderer-Twig.html#method_getTwig"
+        },                {
+            "fqsen": "\\Cecil\\Renderer\\Twig\u003A\u003AgetDebugProfile\u0028\u0029",
+            "name": "getDebugProfile",
+            "summary": "Returns\u0020debug\u0020profile.",
+            "url": "classes/Cecil-Renderer-Twig.html#method_getDebugProfile"
         },                {
             "fqsen": "\\Cecil\\Renderer\\Twig\u003A\u003A\u0024builder",
             "name": "builder",

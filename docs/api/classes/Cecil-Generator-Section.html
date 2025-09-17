@@ -262,19 +262,12 @@ adding navigation links (next and previous) to the section pages.</p>
 </dt>
 <dd>Run the `generate` method of the generator and returns pages.</dd>
 
-            <dt class="phpdocumentor-table-of-contents__entry -method -public">
-    <a class="" href="classes/Cecil-Generator-Section.html#method_sortSubPages">sortSubPages()</a>
-    <span>
-                                &nbsp;: <a href="classes/Cecil-Collection-Page-Collection.html"><abbr title="\Cecil\Collection\Page\Collection">Collection</abbr></a>    </span>
-</dt>
-<dd>Sorts subpages.</dd>
-
             <dt class="phpdocumentor-table-of-contents__entry -method -protected">
     <a class="" href="classes/Cecil-Generator-Section.html#method_addNavigationLinks">addNavigationLinks()</a>
     <span>
                                 &nbsp;: void    </span>
 </dt>
-<dd>Adds navigation (next and prev) to section subpages.</dd>
+<dd>Adds navigation (next and prev) to each pages of a section.</dd>
 
     </dl>
 
@@ -533,69 +526,6 @@ adding navigation links (next and previous) to the section pages.</p>
                     <article
         class="phpdocumentor-element
             -method
-            -public
-                                    -static                    "
->
-    <h4 class="phpdocumentor-element__name" id="method_sortSubPages">
-        sortSubPages()
-        <a href="classes/Cecil-Generator-Section.html#method_sortSubPages" class="headerlink"><i class="fas fa-link"></i></a>
-
-    </h4>
-    <aside class="phpdocumentor-element-found-in">
-    <abbr class="phpdocumentor-element-found-in__file" title="src/Generator/Section.php"><a href="files/src-generator-section.html"><abbr title="src/Generator/Section.php">Section.php</abbr></a></abbr>
-    :
-    <span class="phpdocumentor-element-found-in__line">121</span>
-
-    </aside>
-
-        <p class="phpdocumentor-summary">Sorts subpages.</p>
-
-    <code class="phpdocumentor-code phpdocumentor-signature ">
-    <span class="phpdocumentor-signature__visibility">public</span>
-            <span class="phpdocumentor-signature__static">static</span>        <span class="phpdocumentor-signature__name">sortSubPages</span><span>(</span><span class="phpdocumentor-signature__argument"><span class="phpdocumentor-signature__argument__return-type"><a href="classes/Cecil-Config.html"><abbr title="\Cecil\Config">Config</abbr></a>&nbsp;</span><span class="phpdocumentor-signature__argument__name">$config</span></span><span class="phpdocumentor-signature__argument"><span>, </span><span class="phpdocumentor-signature__argument__return-type"><a href="classes/Cecil-Collection-Page-Page.html"><abbr title="\Cecil\Collection\Page\Page">Page</abbr></a>&nbsp;</span><span class="phpdocumentor-signature__argument__name">$page</span></span><span class="phpdocumentor-signature__argument"><span>, </span><span class="phpdocumentor-signature__argument__return-type"><a href="classes/Cecil-Collection-Page-Collection.html"><abbr title="\Cecil\Collection\Page\Collection">Collection</abbr></a>&nbsp;</span><span class="phpdocumentor-signature__argument__name">$subPages</span></span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type"><a href="classes/Cecil-Collection-Page-Collection.html"><abbr title="\Cecil\Collection\Page\Collection">Collection</abbr></a></span></code>
-
-    <div class="phpdocumentor-label-line">
-        </div>
-    
-    
-        <h5 class="phpdocumentor-argument-list__heading">Parameters</h5>
-    <dl class="phpdocumentor-argument-list">
-                    <dt class="phpdocumentor-argument-list__entry">
-                <span class="phpdocumentor-signature__argument__name">$config</span>
-                : <span class="phpdocumentor-signature__argument__return-type"><a href="classes/Cecil-Config.html"><abbr title="\Cecil\Config">Config</abbr></a></span>
-                            </dt>
-            <dd class="phpdocumentor-argument-list__definition">
-                
-            </dd>
-                    <dt class="phpdocumentor-argument-list__entry">
-                <span class="phpdocumentor-signature__argument__name">$page</span>
-                : <span class="phpdocumentor-signature__argument__return-type"><a href="classes/Cecil-Collection-Page-Page.html"><abbr title="\Cecil\Collection\Page\Page">Page</abbr></a></span>
-                            </dt>
-            <dd class="phpdocumentor-argument-list__definition">
-                
-            </dd>
-                    <dt class="phpdocumentor-argument-list__entry">
-                <span class="phpdocumentor-signature__argument__name">$subPages</span>
-                : <span class="phpdocumentor-signature__argument__return-type"><a href="classes/Cecil-Collection-Page-Collection.html"><abbr title="\Cecil\Collection\Page\Collection">Collection</abbr></a></span>
-                            </dt>
-            <dd class="phpdocumentor-argument-list__definition">
-                
-            </dd>
-            </dl>
-
-    
-
-    
-
-            <section>
-        <h5 class="phpdocumentor-return-value__heading">Return values</h5>
-        <span class="phpdocumentor-signature__response_type"><a href="classes/Cecil-Collection-Page-Collection.html"><abbr title="\Cecil\Collection\Page\Collection">Collection</abbr></a></span>
-            </section>
-
-</article>
-                    <article
-        class="phpdocumentor-element
-            -method
             -protected
                                                         "
 >
@@ -607,11 +537,11 @@ adding navigation links (next and previous) to the section pages.</p>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Generator/Section.php"><a href="files/src-generator-section.html"><abbr title="src/Generator/Section.php">Section.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">138</span>
+    <span class="phpdocumentor-element-found-in__line">122</span>
 
     </aside>
 
-        <p class="phpdocumentor-summary">Adds navigation (next and prev) to section subpages.</p>
+        <p class="phpdocumentor-summary">Adds navigation (next and prev) to each pages of a section.</p>
 
     <code class="phpdocumentor-code phpdocumentor-signature ">
     <span class="phpdocumentor-signature__visibility">protected</span>
@@ -779,7 +709,6 @@ adding navigation links (next and previous) to the section pages.</p>
                                             <li class=""><a href="classes/Cecil-Generator-AbstractGenerator.html#method___construct">__construct()</a></li>
                                             <li class=""><a href="classes/Cecil-Generator-Section.html#method_generate">generate()</a></li>
                                             <li class=""><a href="classes/Cecil-Generator-AbstractGenerator.html#method_runGenerate">runGenerate()</a></li>
-                                            <li class=""><a href="classes/Cecil-Generator-Section.html#method_sortSubPages">sortSubPages()</a></li>
                                             <li class=""><a href="classes/Cecil-Generator-Section.html#method_addNavigationLinks">addNavigationLinks()</a></li>
                                     </ul>
             </li>
