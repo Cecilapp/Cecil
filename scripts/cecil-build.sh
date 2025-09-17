@@ -11,13 +11,13 @@ export PHP_MIN_VERSION="8.1"
 if [ -z "${PHP_VERSION}" ]; then
   export PHP_VERSION="8.2"
 fi
+# Specify build context with `CECIL_ENV`
+if [ -z "${CECIL_ENV}" ]; then
+  export CECIL_ENV="preview"
+fi
 # Specify Cecil CLI options with `CECIL_CMD_OPTIONS` (e.g.: `--optimize`)
 if [ -z "${CECIL_CMD_OPTIONS}" ]; then
   export CECIL_CMD_OPTIONS=""
-fi
-# Enable installation of images optimization libraries on Vercel
-if [ -z "${VERCEL_INSTALL_OPTIM}" ]; then
-  export VERCEL_INSTALL_OPTIM="false"
 fi
 
 # Running on?
@@ -63,19 +63,10 @@ case $RUNNING_ON in
     dnf install -y php$PHP_VERSION php$PHP_VERSION-{common,mbstring,gd,bcmath,xml,fpm,intl,zip}
     echo "Installing libs..."
     dnf install -y gettext
+    dnf install -y pngquant
     dnf install -y libwebp-devel
-    #dnf install -y libavif-devel
-    if [ "$VERCEL_INSTALL_OPTIM" = "true" ]; then
-      echo "Installing optimization libs..."
-      #dnf install -y epel-release
-      #dnf install -y jpegoptim
-      #dnf install -y optipng
-      dnf install -y pngquant
-      npm install -g svgo
-      #dnf install -y gifsicle
-      dnf install -y libwebp-tools
-      #dnf install -y libavif-tools
-    fi
+    dnf install -y libwebp-tools
+    npm install -g svgo
     ;;
   "CFPages")
     if [ "$CF_PAGES_BRANCH" = "master" ] || [ "$CF_PAGES_BRANCH" = "main" ]; then
