@@ -6,15 +6,21 @@ All notable changes to this project will be documented in this file. Dates are d
 
 > 15 September 2025
 
-#### [8.66.0-beta.1](https://github.com/Cecilapp/Cecil/compare/8.65.2...8.66.0-beta.1)
+#### [8.66.0-beta.1](https://github.com/Cecilapp/Cecil/compare/8.65.3...8.66.0-beta.1)
 
 > 15 September 2025
 
+#### [8.65.3](https://github.com/Cecilapp/Cecil/compare/8.65.2...8.65.3)
+
+> 16 September 2025
+
 - ci: add prerelease deploy support [`70bac15`](https://github.com/Cecilapp/Cecil/commit/70bac1534cea4e8cdf99fc52923551325a73f805)
+- refactor: better handle of image convertion [`6e0f4d2`](https://github.com/Cecilapp/Cecil/commit/6e0f4d23912dc0d1bc29cb4727563161eff98472)
 - ci: update Bew formula bumper [`2a393be`](https://github.com/Cecilapp/Cecil/commit/2a393be3bb50306650b372cfdf460147cdba7507)
 - fix CI [`9f9a24c`](https://github.com/Cecilapp/Cecil/commit/9f9a24ca0c1d379d395ee9e43aaccb61aa75fd2c)
 - ci: add prerelease support [`3fce828`](https://github.com/Cecilapp/Cecil/commit/3fce828810a5358ca7d4b0196b37096c93f01007)
 - chore: update dev deps [`3d70119`](https://github.com/Cecilapp/Cecil/commit/3d701197142cf5455a002b11d6dff829e107ad3a)
+- chore: update deps [`e873bbc`](https://github.com/Cecilapp/Cecil/commit/e873bbc5e28629d07c01f3fbc9b4793835ba790b)
 - ci: minor change about version [`da6f728`](https://github.com/Cecilapp/Cecil/commit/da6f728e62cd7c95633a3bc0c3863b34456e1d0f)
 - fix CI [`08b59f6`](https://github.com/Cecilapp/Cecil/commit/08b59f6d54dc81aa6a84215ac841050baa34ff17)
 - fix deploy site [`099402c`](https://github.com/Cecilapp/Cecil/commit/099402c447c7d4597193fe92bd502fe0417934fd)
