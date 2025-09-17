@@ -242,7 +242,7 @@ jobs:
           path: dist
 
       - name: Prepare and deploy files
-        run: bash ./scripts/deploy-dist.sh
+        run: bash ./scripts/deploy-release.sh
         env:
           GITHUB_TOKEN: ${{ secrets.REPOS_TOKEN }}
 
