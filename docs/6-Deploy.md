@@ -1,7 +1,7 @@
 <!--
 description: "Deploy (publish) your website."
 date: 2020-12-19
-updated: 2025-08-03
+updated: 2025-09-17
 alias: documentation/publish
 -->
 # Deploy
@@ -65,7 +65,7 @@ _vercel.json_:
 _statichost.yml_:
 
 ```yml
-image: wordpress:php8.4
+image: wordpress:cli-php8.4
 command: curl -sSOL https://cecil.app/build.sh && bash ./build.sh
 public: _site
 ```
@@ -146,7 +146,7 @@ jobs:
       - name: Setup PHP
         uses: shivammathur/setup-php@v2
         with:
-          php-version: '8.1'
+          php-version: '8.4'
           extensions: mbstring, fileinfo, gd, imagick, intl, gettext
       - name: Restore Cecil cache
         uses: actions/cache/restore@v4
@@ -191,7 +191,7 @@ jobs:
 _.gitlab-ci.yml_:
 
 ```yml
-image: phpdocker/phpdocker:8.1
+image: wordpress:cli-php8.4
 
 before_script:
   - |
