@@ -729,9 +729,9 @@ cecil build --render-subset=<name>
 pages:
   subsets:
     <name>:
-      path: <path> # glob or string path (e.g.: `blog/*`, `blog`, etc.)
-      language: <language> # language code (e.g.: `en`, `fr`, etc.)
-      output: <output> # output format (e.g.: `html`, `atom`, etc.)
+      path: <path> # glob or string path (e.g.: `blog/*`, `blog`)
+      language: <language> # language code (e.g.: `en`, `fr`)
+      output: <output> # output format (e.g.: `html`, `atom`)
 ```
 
 _Example:_
@@ -739,11 +739,11 @@ _Example:_
 ```yaml
 pages:
   subsets:
-    blog:
+    blog_en:
       path: blog
       language: en
       output: html
-    index:
+    search_index:
       path: '*'
       output: json
 ```
