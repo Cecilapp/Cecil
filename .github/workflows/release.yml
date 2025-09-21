@@ -1,11 +1,10 @@
 name: Release
 
 env:
-  PHP_VERSION: '8.2'
-  PRE_RELEASE: 'false'
-  FORMULA_NAME: 'cecil'
-  GPG_SIGNATURE: 'false'
-  GPG_EMAIL: 'arnaud@ligny.fr'
+  PHP_VERSION: 8.2
+  FORMULA_NAME: cecil
+  GPG_SIGNATURE: true
+  GPG_EMAIL: arnaud@ligny.fr
 
 on:
   release:
