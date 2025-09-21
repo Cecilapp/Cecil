@@ -269,4 +269,4 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.REPOS_TOKEN }}
       - name: Summary
         run: |
-          echo "🍨 Bumped cecil to $VERSION" >> $GITHUB_STEP_SUMMARY
+          echo "🍨 Bumped cecil to ${{ needs.build.outputs.version }}" >> $GITHUB_STEP_SUMMARY
