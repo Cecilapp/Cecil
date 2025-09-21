@@ -17,11 +17,6 @@ TARGET_PAGES_DIR="pages"
 PHAR_FILE="cecil.phar"
 PHAR_FILE_SHA1="cecil.phar.sha1"
 
-# Scoop
-SCOOP_CMD="cecil"
-SCOOP_FILE_JSON="scoop/cecil.json"
-SCOOP_FILE_JSON_PREVIEW="scoop/cecil-preview.json"
-
 # GitHub
 USER_NAME=$GITHUB_ACTOR
 USER_EMAIL="${GITHUB_ACTOR}@cecil.app"
@@ -34,6 +29,8 @@ fi
 
 echo "Starting deploy release files..."
 mkdir $HOME
+
+# copy dist file
 cp dist/$PHAR_FILE $HOME/$PHAR_FILE
 
 # clone target repo
@@ -85,44 +82,6 @@ date: $now
 EOT
   cd ..
 fi
-
-# Scoop manifest
-if [ "${PRE_RELEASE}" == 'true' ]; then
-  SCOOP_FILE_JSON="$SCOOP_FILE_JSON_PREVIEW"
-fi
-# remove and recreate manifest in static
-cd $TARGET_STATIC_DIR
-rm -f $SCOOP_FILE_JSON
-mkdir -p $(dirname "$SCOOP_FILE_JSON") && touch $SCOOP_FILE_JSON
-cat <<EOT > $SCOOP_FILE_JSON
-{
-  "description": "A simple and powerful content-driven static site generator.",
-  "homepage": "https://cecil.app",
-  "license": "MIT",
-  "bin": "$PHAR_FILE",
-  "notes": [
-    "Run 'cecil' to get started",
-    "Run 'scoop update cecil' instead of 'cecil self-update' to update"
-  ],
-  "suggest": {
-    "PHP": ["php"]
-  },
-  "url": "https://cecil.app/download/$VERSION/cecil.phar",
-  "version": "$VERSION",
-  "hash": "sha1:$sha1hash",
-  "checkver": {
-    "url": "https://cecil.app/VERSION",
-    "regex": "([\\\d.]+)"
-  },
-  "autoupdate": {
-    "url": "https://cecil.app/download/\$version/cecil.phar",
-    "hash": {
-      "url": "\$url.sha1"
-    }
-  }
-}
-EOT
-cd ..
 
 # commit and push
 if [[ -n $(git status -s) ]]; then

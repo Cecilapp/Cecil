@@ -246,3 +246,27 @@ jobs:
             {{formulaName}} {{version}}
 
             Created by https://github.com/mislav/bump-homebrew-formula-action
+
+  bump_scoop_file:
+    name: Bump Scoop file
+    runs-on: ubuntu-latest
+    needs: [build, deploy_to_website]
+    env:
+      PRE_RELEASE: ${{ github.event.release.prerelease }}
+    steps:
+      - name: Checkout source code
+        uses: actions/checkout@v5
+        with:
+          fetch-depth: 1
+      - name: Download files
+        uses: actions/download-artifact@v5
+        with:
+          name: cecil-${{ github.sha }}.phar
+          path: dist
+      - name: Bump Scoop file
+        run: bash ./scripts/bump-scoop.sh
+        env:
+          GITHUB_TOKEN: ${{ secrets.REPOS_TOKEN }}
+      - name: Summary
+        run: |
+          echo "🍨 Bumped cecil to $VERSION" >> $GITHUB_STEP_SUMMARY
