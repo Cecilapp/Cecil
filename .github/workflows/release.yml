@@ -24,9 +24,6 @@ jobs:
       id-token: write     # required for build provenance attestation
       attestations: write # required for build provenance attestation
     steps:
-      - name: Is it a preview release?
-        if: github.event.release.prerelease == 'true'
-        run: echo "PRE_RELEASE='true'" >> $GITHUB_ENV
       - name: Checkout source code
         uses: actions/checkout@v5
         with:
@@ -129,7 +126,7 @@ jobs:
           echo "- Built with PHP ${{ env.PHP_VERSION }}" >> $GITHUB_STEP_SUMMARY
           echo "- [Provenance attestation](${{ steps.attestation.outputs.attestation-url }})" >> $GITHUB_STEP_SUMMARY
       - name: Summary (pre-release)
-        if: github.event.release.prerelease == 'true'
+        if: "github.event.release.prerelease"
         run: echo "> _This is a pre-release_" >> $GITHUB_STEP_SUMMARY
 
   deploy_to_website: # https://cecil.app/download/
@@ -220,7 +217,7 @@ jobs:
       COMMITTER_TOKEN: ${{ secrets.REPOS_TOKEN }}
     steps:
       - name: Change Formula name if preview
-        if: github.event.release.prerelease == 'true'
+        if: "github.event.release.prerelease"
         run: echo "FORMULA_NAME=cecil@preview" >> $GITHUB_ENV
       - name: Bump Formula
         uses: mislav/bump-homebrew-formula-action@v3
