@@ -79,7 +79,7 @@ cd ..
 # commit and push
 if [[ -n $(git status -s) ]]; then
   git add -Af .
-  git commit -m "Build $GITHUB_RUN_NUMBER: deploy release ${VERSION}"
+  git commit -m "Build $GITHUB_RUN_NUMBER: bump Scoop with version ${VERSION}"
   git push -fq origin $TARGET_BRANCH > /dev/null
 else
   echo "Nothing to update"
