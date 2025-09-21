@@ -223,8 +223,7 @@ jobs:
   bump_homebrew_formula:
     name: Bump Homebrew Formulae
     runs-on: macos-latest
-    #needs: [build, update_github_release]
-    needs: [build, deploy_to_website]
+    needs: [build, deploy_to_website, update_github_release]
     env:
       COMMITTER_TOKEN: ${{ secrets.REPOS_TOKEN }}
     steps:
@@ -237,8 +236,8 @@ jobs:
           formula-name: ${{ env.FORMULA_NAME }}
           formula-path: Formula/${{ env.FORMULA_NAME }}.rb
           tag-name: ${{ needs.build.outputs.version }}
-          #download-url: https://github.com/Cecilapp/Cecil/releases/download/${{ needs.build.outputs.version }}/cecil.phar
-          download-url: https://cecil.app/download/${{ needs.build.outputs.version }}/cecil.phar
+          #download-url: https://cecil.app/download/${{ needs.build.outputs.version }}/cecil.phar
+          download-url: https://github.com/Cecilapp/Cecil/releases/download/${{ needs.build.outputs.version }}/cecil.phar
           download-sha256: ${{ needs.build.outputs.shasum }}
           homebrew-tap: Cecilapp/homebrew-tap
           base-branch: main
