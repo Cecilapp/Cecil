@@ -25,10 +25,8 @@ jobs:
       attestations: write # required for build provenance attestation
     steps:
       - name: Is it a preview release?
-        run: |
-          if [ "${{ github.event.release.prerelease }}" == "true" ]; then
-            echo "PRE_RELEASE='true'" >> $GITHUB_ENV
-          fi
+        if: github.event.release.prerelease == 'true'
+        run: echo "PRE_RELEASE='true'" >> $GITHUB_ENV
       - name: Checkout source code
         uses: actions/checkout@v5
         with:
@@ -62,8 +60,7 @@ jobs:
         run: composer run-script test
       - name: Get previous release # required by changelog generation
         id: previous_release
-        run: |
-          echo "tag=$(git describe --abbrev=0 --tags `git rev-list --tags --skip=1 --max-count=1`)" >> $GITHUB_OUTPUT
+        run: echo "tag=$(git describe --abbrev=0 --tags `git rev-list --tags --skip=1 --max-count=1`)" >> $GITHUB_OUTPUT
       - name: Current version
         id: version
         run: |
@@ -92,8 +89,7 @@ jobs:
           php cecil.phar show:content skeleton
       - name: Calculate SHA256 checksum # for Brew formula
         id: sha256
-        run: |
-          echo "shasum=$(shasum -a 256 ./dist/cecil.phar | awk '{printf $1}')" >> $GITHUB_OUTPUT
+        run: echo "shasum=$(shasum -a 256 ./dist/cecil.phar | awk '{printf $1}')" >> $GITHUB_OUTPUT
       - name: Import GPG key # to sign `cecil.phar`
         if: env.GPG_SIGNATURE == 'true' && github.event_name != 'pull_request'
         uses: crazy-max/ghaction-import-gpg@v6
@@ -133,10 +129,8 @@ jobs:
           echo "- Built with PHP ${{ env.PHP_VERSION }}" >> $GITHUB_STEP_SUMMARY
           echo "- [Provenance attestation](${{ steps.attestation.outputs.attestation-url }})" >> $GITHUB_STEP_SUMMARY
       - name: Summary (pre-release)
-        run: |
-          if [ "${{ github.event.release.prerelease }}" == "true" ]; then
-            echo "> _This is a pre-release_" >> $GITHUB_STEP_SUMMARY
-          fi
+        if: github.event.release.prerelease == 'true'
+        run: echo "> _This is a pre-release_" >> $GITHUB_STEP_SUMMARY
 
   deploy_to_website: # https://cecil.app/download/
     name: Deploy to website
@@ -159,8 +153,7 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.REPOS_TOKEN }}
       - name: Summary
-        run: |
-          echo "🌐 Deployed to [website](https://cecil.app)" >> $GITHUB_STEP_SUMMARY
+        run: echo "🌐 Deployed to [website](https://cecil.app)" >> $GITHUB_STEP_SUMMARY
 
   update_github_release:
     name: Update GitHub release
@@ -217,8 +210,7 @@ jobs:
             - Download: <https://cecil.app/download/>
             - Self Update: `php cecil.phar self-update`
       - name: Summary
-        run: |
-          echo "📦 GitHub [release ${{ steps.release.outputs.tag_name }}](${{ steps.release.outputs.html_url }}) updated" >> $GITHUB_STEP_SUMMARY
+        run: echo "📦 GitHub [release ${{ steps.release.outputs.tag_name }}](${{ steps.release.outputs.html_url }}) updated" >> $GITHUB_STEP_SUMMARY
 
   bump_homebrew_formula:
     name: Bump Homebrew Formulae
@@ -228,7 +220,7 @@ jobs:
       COMMITTER_TOKEN: ${{ secrets.REPOS_TOKEN }}
     steps:
       - name: Change Formula name if preview
-        if: "github.event.release.prerelease"
+        if: github.event.release.prerelease == 'true'
         run: echo "FORMULA_NAME=cecil@preview" >> $GITHUB_ENV
       - name: Bump Formula
         uses: mislav/bump-homebrew-formula-action@v3
@@ -236,7 +228,6 @@ jobs:
           formula-name: ${{ env.FORMULA_NAME }}
           formula-path: Formula/${{ env.FORMULA_NAME }}.rb
           tag-name: ${{ needs.build.outputs.version }}
-          #download-url: https://cecil.app/download/${{ needs.build.outputs.version }}/cecil.phar
           download-url: https://github.com/Cecilapp/Cecil/releases/download/${{ needs.build.outputs.version }}/cecil.phar
           download-sha256: ${{ needs.build.outputs.shasum }}
           homebrew-tap: Cecilapp/homebrew-tap
@@ -267,5 +258,4 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.REPOS_TOKEN }}
       - name: Summary
-        run: |
-          echo "🍨 Bumped Scoop file to version ${{ needs.build.outputs.version }}" >> $GITHUB_STEP_SUMMARY
+        run: echo "🍨 Bumped Scoop file to version ${{ needs.build.outputs.version }}" >> $GITHUB_STEP_SUMMARY
