@@ -2,28 +2,18 @@
 
 All notable changes to this project will be documented in this file. Dates are displayed in UTC.
 
-#### [8.66.0](https://github.com/Cecilapp/Cecil/compare/8.66.0-beta.2...8.66.0)
+#### [8.66.0](https://github.com/Cecilapp/Cecil/compare/8.65.3...8.66.0)
 
 > 18 September 2025
 
 - doc: update API [`21ec53f`](https://github.com/Cecilapp/Cecil/commit/21ec53f4ef1d2d94cf9a4aed948cb2af7422ef7a)
 - feat: add Twig string filters [`c6c94d7`](https://github.com/Cecilapp/Cecil/commit/c6c94d7ee9764478928f8444c27569863d4fd902)
 - Delete .travis.yml.disabled [`5109290`](https://github.com/Cecilapp/Cecil/commit/510929095fd000329dea1d0232b41c8cdb2ac166)
-- refactor: better handle of image convertion [`6e0f4d2`](https://github.com/Cecilapp/Cecil/commit/6e0f4d23912dc0d1bc29cb4727563161eff98472)
 - ci: remove Vercel libs [`a689391`](https://github.com/Cecilapp/Cecil/commit/a689391c063d62bdbbafaf0d865eac4592076909)
 - Delete .github/tap-release.yaml [`2df0c2f`](https://github.com/Cecilapp/Cecil/commit/2df0c2ff67bca31068aad37771b784e7011bd878)
-- chore: update deps [`e873bbc`](https://github.com/Cecilapp/Cecil/commit/e873bbc5e28629d07c01f3fbc9b4793835ba790b)
 - doc: update deploy [`b47e0b8`](https://github.com/Cecilapp/Cecil/commit/b47e0b8af025615db622b9e3e49688d7e36f3a51)
 - doc: minor fix [`2225f1f`](https://github.com/Cecilapp/Cecil/commit/2225f1fa409fc540b3e98de456758d341c334fd0)
 - chore: rename script files [`92cb101`](https://github.com/Cecilapp/Cecil/commit/92cb101929900184f3773169ac5978ee6b32d5a3)
-
-#### [8.66.0-beta.2](https://github.com/Cecilapp/Cecil/compare/8.66.0-beta.1...8.66.0-beta.2)
-
-> 15 September 2025
-
-#### [8.66.0-beta.1](https://github.com/Cecilapp/Cecil/compare/8.65.3...8.66.0-beta.1)
-
-> 15 September 2025
 
 #### [8.65.3](https://github.com/Cecilapp/Cecil/compare/8.65.2...8.65.3)
 
