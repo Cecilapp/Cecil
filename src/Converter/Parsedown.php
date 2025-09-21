@@ -136,7 +136,7 @@ class Parsedown extends \ParsedownToc
             }
             unset($link['element']['attributes']['embed']);
         }
-        $extension = pathinfo($link['element']['attributes']['href'], PATHINFO_EXTENSION);
+        $extension = pathinfo($link['element']['attributes']['href'], \PATHINFO_EXTENSION);
         // video?
         if (\in_array($extension, $this->config->get('pages.body.links.embed.video') ?? [])) {
             if (!$embed) {

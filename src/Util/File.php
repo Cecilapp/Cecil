@@ -106,7 +106,7 @@ class File
     public static function getExtension(string $filename): string
     {
         try {
-            $ext = pathinfo($filename, PATHINFO_EXTENSION);
+            $ext = pathinfo($filename, \PATHINFO_EXTENSION);
             if (!empty($ext)) {
                 return $ext;
             }
