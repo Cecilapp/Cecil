@@ -122,7 +122,7 @@ class Load extends AbstractStep
                 $lang = PrefixSuffix::getSuffix($file->getFilenameWithoutExtension());
             }
             $array = [];
-            $path = Util::joinFile(pathinfo($file->getRelativePathname(), \PATHINFO_DIRNAME), pathinfo($file->getRelativePathname(), \PATHINFO_FILENAME));
+            $path = Util::joinFile((string) pathinfo($file->getRelativePathname(), \PATHINFO_DIRNAME), (string) pathinfo($file->getRelativePathname(), \PATHINFO_FILENAME));
             $path = trim($path, './');
             $localizedPath = Util::joinFile((string) $lang, PrefixSuffix::sub($path));
             $this->pathToArray($array, $localizedPath, $dataAsArray);

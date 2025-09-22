@@ -405,10 +405,6 @@ class Parsedown extends \ParsedownToc
             && \in_array($assetResized['subtype'] ?? $asset['subtype'], ['image/jpeg', 'image/png', 'image/gif'])
         ) {
             try {
-                // InlineImage src must be an Asset instance
-                if (!($assetResized ?? $asset) instanceof Asset) {
-                    throw new RuntimeException(\sprintf('Asset "%s" can\'t be converted.', $InlineImage['element']['attributes']['src']));
-                }
                 // abord if InlineImage is an animated GIF
                 if (Image::isAnimatedGif($assetResized ?? $asset)) {
                     $filepath = Util::joinFile($this->config->getOutputPath(), $assetResized['path'] ?? $asset['path']);
