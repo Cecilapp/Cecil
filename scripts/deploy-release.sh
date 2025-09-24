@@ -49,14 +49,12 @@ mkdir -p $TARGET_RELEASE_DIR
 cp $HOME/$PHAR_FILE $TARGET_RELEASE_DIR/$PHAR_FILE
 # create `.sha1` file
 cd $TARGET_RELEASE_DIR
-sha1sum $PHAR_FILE > $PHAR_FILE_SHA1
-sha1hash=$(sha1sum $PHAR_FILE)
-sha1hash=${sha1hash%% *}
+$SHA1 > $PHAR_FILE_SHA1
 cd ../../..
 
 # create VERSION file and redirections (if not pre-release)
 if [ "${PRERELEASE}" != 'true' ]; then
-  # VERSION file in static
+  # VERSION file in static/
   cd $TARGET_STATIC_DIR
   [ -e VERSION ] && rm -- VERSION
   echo $VERSION > VERSION
