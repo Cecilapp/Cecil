@@ -32,7 +32,7 @@ git config --global user.name "${USER_NAME}"
 git config --global user.email "${USER_EMAIL}"
 if [ -z "$(git ls-remote --heads https://${GITHUB_ACTOR}:${GITHUB_TOKEN}@github.com/${TARGET_REPO}.git ${TARGET_BRANCH})" ]; then
   echo "Create branch '${TARGET_BRANCH}'"
-  git clone --quiet https://${GITHUB_ACTOR}:${GITHUB_TOKEN}@github.com/${TARGET_REPO}.git $TARGET_BRANCH > /dev/null
+  git clone --depth=1 --quiet https://${GITHUB_ACTOR}:${GITHUB_TOKEN}@github.com/${TARGET_REPO}.git $TARGET_BRANCH > /dev/null
   cd $TARGET_BRANCH
   git checkout --orphan $TARGET_BRANCH
   echo "Deploy from https://github.com/$GITHUB_REPOSITORY/." > README.md
@@ -42,7 +42,7 @@ if [ -z "$(git ls-remote --heads https://${GITHUB_ACTOR}:${GITHUB_TOKEN}@github.
   cd ..
 else
   echo "Clone branch '${TARGET_BRANCH}'"
-  git clone --quiet --branch=$TARGET_BRANCH https://${GITHUB_ACTOR}:${GITHUB_TOKEN}@github.com/${TARGET_REPO}.git $TARGET_BRANCH > /dev/null
+  git clone --depth=1 --quiet --branch=$TARGET_BRANCH https://${GITHUB_ACTOR}:${GITHUB_TOKEN}@github.com/${TARGET_REPO}.git $TARGET_BRANCH > /dev/null
 fi
 
 # copy files to cloned repo

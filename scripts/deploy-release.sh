@@ -39,7 +39,7 @@ cp dist/$PHAR_FILE $HOME/$PHAR_FILE
 cd $HOME
 git config --global user.name "${USER_NAME}"
 git config --global user.email "${USER_EMAIL}"
-git clone --quiet --branch=$TARGET_BRANCH https://${GITHUB_TOKEN}@github.com/${TARGET_REPO}.git ${TARGET_REPO} > /dev/null
+git clone --depth=1 --quiet --branch=$TARGET_BRANCH https://${GITHUB_TOKEN}@github.com/${TARGET_REPO}.git ${TARGET_REPO} > /dev/null
 cd $TARGET_REPO
 
 # copy/create release files in static/
