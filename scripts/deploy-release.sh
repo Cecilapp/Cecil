@@ -4,7 +4,14 @@ set -e
 # Deploy release files to website
 
 # version
-VERSION=$(echo $GITHUB_REF | cut -d'/' -f 3)
+if [ -z "${VERSION}" ]; then
+  export VERSION=$(echo $GITHUB_REF | cut -d'/' -f 3)
+fi
+
+# pre-release
+if [ -z "${PRERELEASE}" ]; then
+  export PRERELEASE="false"
+fi
 
 # target
 TARGET_REPO="Cecilapp/website"
@@ -15,17 +22,12 @@ TARGET_PAGES_DIR="pages"
 
 # Phar
 PHAR_FILE="cecil.phar"
-PHAR_FILE_SHA1="cecil.phar.sha1"
+PHAR_FILE_SHA1="${PHAR_FILE}.sha1"
 
 # GitHub
 USER_NAME=$GITHUB_ACTOR
 USER_EMAIL="${GITHUB_ACTOR}@cecil.app"
 HOME="${GITHUB_WORKSPACE}/HOME"
-
-# pre-release
-if [ -z "${PRE_RELEASE}" ]; then
-  export PRE_RELEASE="false"
-fi
 
 echo "Starting deploy release files..."
 mkdir $HOME
@@ -53,7 +55,7 @@ sha1hash=${sha1hash%% *}
 cd ../../..
 
 # create VERSION file and redirections (if not pre-release)
-if [ "${PRE_RELEASE}" != 'true' ]; then
+if [ "${PRERELEASE}" != 'true' ]; then
   # VERSION file in static
   cd $TARGET_STATIC_DIR
   [ -e VERSION ] && rm -- VERSION

@@ -4,15 +4,19 @@ set -e
 # Bump Scoop file
 
 # version
-VERSION=$(echo $GITHUB_REF | cut -d'/' -f 3)
+if [ -z "${VERSION}" ]; then
+  export VERSION=$(echo $GITHUB_REF | cut -d'/' -f 3)
+fi
+
+# pre-release
+if [ -z "${PRERELEASE}" ]; then
+  export PRERELEASE="false"
+fi
 
 # target
 TARGET_REPO="Cecilapp/website"
 TARGET_BRANCH="master"
 TARGET_STATIC_DIR="static"
-
-# Phar
-PHAR_FILE="cecil.phar"
 
 # Scoop
 SCOOP_FILE_JSON="scoop/cecil.json"
@@ -22,11 +26,6 @@ SCOOP_FILE_JSON_PREVIEW="scoop/cecil-preview.json"
 USER_NAME=$GITHUB_ACTOR
 USER_EMAIL="${GITHUB_ACTOR}@cecil.app"
 HOME="${GITHUB_WORKSPACE}/HOME"
-
-# pre-release
-if [ -z "${PRE_RELEASE}" ]; then
-  export PRE_RELEASE="false"
-fi
 
 echo "Starting deploy Scoop file..."
 mkdir $HOME
@@ -39,7 +38,7 @@ git clone --quiet --branch=$TARGET_BRANCH https://${GITHUB_TOKEN}@github.com/${T
 cd $TARGET_REPO
 
 # Scoop manifest
-if [ "${PRE_RELEASE}" == 'true' ]; then
+if [ "${PRERELEASE}" == 'true' ]; then
   SCOOP_FILE_JSON="$SCOOP_FILE_JSON_PREVIEW"
 fi
 # remove and recreate manifest in static
@@ -51,7 +50,7 @@ cat <<EOT > $SCOOP_FILE_JSON
   "description": "A simple and powerful content-driven static site generator.",
   "homepage": "https://cecil.app",
   "license": "MIT",
-  "bin": "$PHAR_FILE",
+  "bin": "cecil.phar",
   "notes": [
     "Run 'cecil' to get started",
     "Run 'scoop update cecil' instead of 'cecil self-update' to update"
@@ -61,7 +60,7 @@ cat <<EOT > $SCOOP_FILE_JSON
   },
   "url": "https://cecil.app/download/$VERSION/cecil.phar",
   "version": "$VERSION",
-  "hash": "sha1:$sha1hash",
+  "hash": "sha1:$SHA1",
   "checkver": {
     "url": "https://cecil.app/VERSION",
     "regex": "([\\\d.]+)"
