@@ -2,6 +2,53 @@
 
 All notable changes to this project will be documented in this file. Dates are displayed in UTC.
 
+#### [8.67.0-beta.4](https://github.com/Cecilapp/Cecil/compare/8.67.0-beta.3...8.67.0-beta.4)
+
+> 25 September 2025
+
+- ci: quicker clone? [`3ea2464`](https://github.com/Cecilapp/Cecil/commit/3ea24640df2988f94b5d69cf62bdfab91a0c932a)
+
+#### [8.67.0-beta.3](https://github.com/Cecilapp/Cecil/compare/8.67.0-beta.2...8.67.0-beta.3)
+
+> 25 September 2025
+
+#### [8.67.0-beta.2](https://github.com/Cecilapp/Cecil/compare/8.67.0-beta.1...8.67.0-beta.2)
+
+> 24 September 2025
+
+- ci: update release actions [`1f1b860`](https://github.com/Cecilapp/Cecil/commit/1f1b8601d84f58186e5ec4ef1734b03122aae681)
+
+#### [8.67.0-beta.1](https://github.com/Cecilapp/Cecil/compare/8.66.2...8.67.0-beta.1)
+
+> 24 September 2025
+
+#### [8.66.2](https://github.com/Cecilapp/Cecil/compare/8.66.1...8.66.2)
+
+> 24 September 2025
+
+- ci: fix release workflow [`378403d`](https://github.com/Cecilapp/Cecil/commit/378403d181bee6d9c16b01fab7d0af2cbb9643aa)
+
+#### [8.66.1](https://github.com/Cecilapp/Cecil/compare/8.66.0...8.66.1)
+
+> 22 September 2025
+
+- ci: move Scoop release [`87c7927`](https://github.com/Cecilapp/Cecil/commit/87c7927fd5a9b3eb7f033454ef85252ee7afaf3c)
+- ci: refactor release workflow [`11b747a`](https://github.com/Cecilapp/Cecil/commit/11b747a5d609e75769b225d02fcdc2fafff592ee)
+- ci: fix deploy script [`deb90dd`](https://github.com/Cecilapp/Cecil/commit/deb90ddeab78a8e33f7bbaf85c1d962ab378dc5b)
+- ci: cleaning release workflow [`69cbdb8`](https://github.com/Cecilapp/Cecil/commit/69cbdb86fbff072d8dfb101b8c67d3080da65aa7)
+- test: more fixtures [`4910484`](https://github.com/Cecilapp/Cecil/commit/4910484d8e58360c7920fae985688df19aa6b939)
+- chore: update deps [`7011b99`](https://github.com/Cecilapp/Cecil/commit/7011b995ab30cc07e159df842b5cbc6d678ce703)
+- refactor: better code [`56555a4`](https://github.com/Cecilapp/Cecil/commit/56555a4fd8967bb0a638b649a9ce897087c71836)
+- doc: minor changes [`9d81c6e`](https://github.com/Cecilapp/Cecil/commit/9d81c6eca44beecc4971655f37500cbc5a61bdd2)
+- ci: reset default var [`56ae526`](https://github.com/Cecilapp/Cecil/commit/56ae52669263b8379f5097f39b4103566a0da8a2)
+- refactor: better code [`0ba0dc3`](https://github.com/Cecilapp/Cecil/commit/0ba0dc3a8269cab1fdd2e394fcfe26857840311d)
+- ci: release workflow [`92ca024`](https://github.com/Cecilapp/Cecil/commit/92ca024fad149437814ae3966441d4963ef4ac93)
+- ci: fix release [`0bbb593`](https://github.com/Cecilapp/Cecil/commit/0bbb5933f54c806739cc05ea2b719efc652cba39)
+- fix Scoop workflow [`680d987`](https://github.com/Cecilapp/Cecil/commit/680d98733d26b0b2c3c8e5f1845a5095a0544b9b)
+- ci: rollback [`0353f35`](https://github.com/Cecilapp/Cecil/commit/0353f358005e0001c609ef77d65131186721e09a)
+- ci: test bis [`0d3ee8f`](https://github.com/Cecilapp/Cecil/commit/0d3ee8f3daa6001b9fffdcaea09e2228ab53c831)
+- ci: GPG_SIGNATURE [`8815d1a`](https://github.com/Cecilapp/Cecil/commit/8815d1ab50851c621ca49ae7a0c74cfb49098763)
+
 #### [8.66.0](https://github.com/Cecilapp/Cecil/compare/8.65.3...8.66.0)
 
 > 18 September 2025
