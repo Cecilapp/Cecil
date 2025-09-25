@@ -57,6 +57,17 @@ jobs:
       # run tests
       - name: Run tests
         run: composer run-script test
+      # version
+      - name: Previous release # required for changelog generation
+        id: previous_release
+        run: echo "tag=$(git describe --abbrev=0 --tags `git rev-list --tags --skip=1 --max-count=1`)" >> $GITHUB_OUTPUT
+      - name: Current version
+        id: version
+        run: |
+          echo "Version: ${GITHUB_REF#refs/tags/}"
+          echo "version=${GITHUB_REF#refs/tags/}" >> $GITHUB_OUTPUT
+          echo "${GITHUB_REF#refs/tags/}" > VERSION
+          export COMPOSER_ROOT_VERSION=${GITHUB_REF#refs/tags/}
       # run build and test Phar file
       - name: Build `cecil.phar` binary
         run: composer run-script build
@@ -118,17 +129,6 @@ jobs:
           path: |
             dist/cecil.*
           if-no-files-found: error
-      # version
-      - name: Previous release # required for changelog generation
-        id: previous_release
-        run: echo "tag=$(git describe --abbrev=0 --tags `git rev-list --tags --skip=1 --max-count=1`)" >> $GITHUB_OUTPUT
-      - name: Current version
-        id: version
-        run: |
-          echo "Version: ${GITHUB_REF#refs/tags/}"
-          echo "version=${GITHUB_REF#refs/tags/}" >> $GITHUB_OUTPUT
-          echo "${GITHUB_REF#refs/tags/}" > VERSION
-          export COMPOSER_ROOT_VERSION=${GITHUB_REF#refs/tags/}
       # summary
       - name: Summary
         run: |
