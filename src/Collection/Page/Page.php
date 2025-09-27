@@ -83,7 +83,7 @@ class Page extends Item
             throw new RuntimeException('Create a page with a string ID or a SplFileInfo.');
         }
 
-        // default properties
+        // set default properties and variables
         $this->setVirtual(true);
         $this->setType(Type::PAGE->value);
         $this->setVariables([
@@ -96,6 +96,7 @@ class Page extends Item
             'content_template' => 'page.content.twig',
         ]);
 
+        // if file, create ID from its pathname
         if ($id instanceof SplFileInfo) {
             $file = $id;
             $this->setFile($file);
@@ -154,40 +155,38 @@ class Page extends Item
     public function setFile(SplFileInfo $file): self
     {
         $this->file = $file;
-        $this->setVirtual(false);
 
-        /*
-         * File path components
-         */
-        $fileRelativePath = str_replace(DIRECTORY_SEPARATOR, '/', $this->file->getRelativePath());
-        $fileExtension = $this->file->getExtension();
-        $fileName = $this->file->getBasename('.' . $fileExtension);
+        $relativePath = str_replace(DIRECTORY_SEPARATOR, '/', $this->file->getRelativePath());
+        $filename = $this->file->getFilenameWithoutExtension();
         // renames "README" to "index"
-        $fileName = strtolower($fileName) == 'readme' ? 'index' : $fileName;
-        // case of "index" = home page
-        if (empty($this->file->getRelativePath()) && PrefixSuffix::sub($fileName) == 'index') {
-            $this->setType(Type::HOMEPAGE->value);
-        }
-        /*
-         * Set page properties and variables
-         */
-        $this->setFolder($fileRelativePath);
-        $this->setSlug($fileName);
+        $filename = strtolower(PrefixSuffix::sub($filename)) == 'readme' ? 'index' : $filename;
+
+        // set properties
+        $this->setVirtual(false);
+        $this->setFolder($relativePath);
+        $this->setSlug($filename);
         $this->setPath($this->getFolder() . '/' . $this->getSlug());
+        // if "index" : type = section or homepage
+        if (PrefixSuffix::sub($filename) == 'index') {
+            // section by default
+            $this->setType(Type::SECTION->value);
+            // homepage
+            if (empty($this->file->getRelativePath())) {
+                $this->setType(Type::HOMEPAGE->value);
+            }
+        }
+        // set variables
         $this->setVariables([
-            'title'    => PrefixSuffix::sub($fileName),
+            'title'    => PrefixSuffix::sub($filename),
             'date'     => (new \DateTime())->setTimestamp($this->file->getMTime()),
             'updated'  => (new \DateTime())->setTimestamp($this->file->getMTime()),
             'filepath' => $this->file->getRelativePathname(),
         ]);
-        /*
-         * Set specific variables
-         */
-        // is file has a prefix?
-        if (PrefixSuffix::hasPrefix($fileName)) {
-            $prefix = PrefixSuffix::getPrefix($fileName);
+        // if prefix : set weight or date
+        if (PrefixSuffix::hasPrefix($filename)) {
+            $prefix = PrefixSuffix::getPrefix($filename);
             if ($prefix !== null) {
-                // prefix is an integer: used for sorting
+                // prefix is an integer: weight (used for sorting)
                 if (is_numeric($prefix)) {
                     $this->setVariable('weight', (int) $prefix);
                 }
@@ -197,11 +196,11 @@ class Page extends Item
                 }
             }
         }
-        // is file has a language suffix?
-        if (PrefixSuffix::hasSuffix($fileName)) {
-            $this->setVariable('language', PrefixSuffix::getSuffix($fileName));
+        // if suffix : set language
+        if (PrefixSuffix::hasSuffix($filename)) {
+            $this->setVariable('language', PrefixSuffix::getSuffix($filename));
         }
-        // set reference between page's translations, even if it exist in only one language
+        // set reference between page's translations (even if it exist in only one language)
         $this->setVariable('langref', $this->getPath());
 
         return $this;
@@ -346,14 +345,14 @@ class Page extends Item
     {
         $path = trim($path, '/');
 
-        // case of homepage
+        // homepage : path is empty
         if ($path == 'index') {
             $this->path = '';
 
             return $this;
         }
 
-        // case of custom sections' index (ie: section/index.md -> section)
+        // section/index : path = section
         if (substr($path, -6) == '/index') {
             $path = substr($path, 0, \strlen($path) - 6);
         }
@@ -361,14 +360,14 @@ class Page extends Item
 
         $lastslash = strrpos($this->path, '/');
 
-        // case of root/top-level pages
+        // top-level pages : slug = path
         if ($lastslash === false) {
             $this->slug = $this->path;
 
             return $this;
         }
 
-        // case of sections' pages: set section
+        // set section
         if (!$this->virtual && $this->getSection() === null) {
             $this->section = explode('/', $this->path)[0];
         }
@@ -680,24 +679,24 @@ class Page extends Item
     private static function createIdFromFile(SplFileInfo $file): string
     {
         $relativePath = self::slugify(str_replace(DIRECTORY_SEPARATOR, '/', $file->getRelativePath()));
-        $basename = self::slugify(PrefixSuffix::subPrefix($file->getBasename('.' . $file->getExtension())));
+        $filename = self::slugify(PrefixSuffix::subPrefix($file->getFilenameWithoutExtension()));
         // if file is "README.md", ID is "index"
-        $basename = strtolower($basename) == 'readme' ? 'index' : $basename;
-        // if file is section's index: "section/index.md", ID is "section"
-        if (!empty($relativePath) && PrefixSuffix::sub($basename) == 'index') {
-            // case of a localized section's index: "section/index.fr.md", ID is "fr/section"
-            if (PrefixSuffix::hasSuffix($basename)) {
-                return PrefixSuffix::getSuffix($basename) . '/' . $relativePath;
+        $filename = strtolower($filename) == 'readme' ? 'index' : $filename;
+        // if file is section's index (ie: if file is "section/index.md", ID is "section")
+        if (!empty($relativePath) && PrefixSuffix::sub($filename) == 'index') {
+            // localized section (ie: if file is "section/index.fr.md", ID is "fr/section")
+            if (PrefixSuffix::hasSuffix($filename)) {
+                return PrefixSuffix::getSuffix($filename) . '/' . $relativePath;
             }
 
             return $relativePath;
         }
-        // localized page
-        if (PrefixSuffix::hasSuffix($basename)) {
-            return trim(Util::joinPath(PrefixSuffix::getSuffix($basename), $relativePath, PrefixSuffix::sub($basename)), '/');
+        // localized page (ie: if file is "page.fr.md", ID is "fr/page")
+        if (PrefixSuffix::hasSuffix($filename)) {
+            return trim(Util::joinPath(PrefixSuffix::getSuffix($filename), $relativePath, PrefixSuffix::sub($filename)), '/');
         }
 
-        return trim(Util::joinPath($relativePath, $basename), '/');
+        return trim(Util::joinPath($relativePath, $filename), '/');
     }
 
     /**

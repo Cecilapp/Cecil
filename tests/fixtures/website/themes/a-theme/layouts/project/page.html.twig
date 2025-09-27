@@ -1,7 +1,7 @@
-{% extends '_default/page.html.twig' %}
+{% extends ['page.html.twig', '_default/page.html.twig'] %}
 
 {% block content %}
-{{ page.content }}
+{{ parent() }}
 <quote>Page from 'a-theme > layouts > project > page.html.twig'</quote>
 {% if page.categories is defined %}
 <ul>
