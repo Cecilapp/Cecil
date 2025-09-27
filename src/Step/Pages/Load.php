@@ -74,10 +74,10 @@ class Load extends AbstractStep
                     return 1;
                 }
                 // section's index first
-                if ($a->getRelativePath() == $b->getRelativePath() && in_array(strtolower($a->getFilenameWithoutExtension()), ['index', 'readme'])) {
+                if ($a->getRelativePath() == $b->getRelativePath() && \in_array(strtolower($a->getFilenameWithoutExtension()), ['index', 'readme'])) {
                     return -1;
                 }
-                if ($b->getRelativePath() == $a->getRelativePath() && in_array(strtolower($b->getFilenameWithoutExtension()), ['index', 'readme'])) {
+                if ($b->getRelativePath() == $a->getRelativePath() && \in_array(strtolower($b->getFilenameWithoutExtension()), ['index', 'readme'])) {
                     return 1;
                 }
                 // sort by name
