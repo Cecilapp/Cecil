@@ -136,7 +136,7 @@ class Parsedown extends \ParsedownToc
             }
             unset($link['element']['attributes']['embed']);
         }
-        $extension = pathinfo($link['element']['attributes']['href'], PATHINFO_EXTENSION);
+        $extension = pathinfo($link['element']['attributes']['href'], \PATHINFO_EXTENSION);
         // video?
         if (\in_array($extension, $this->config->get('pages.body.links.embed.video') ?? [])) {
             if (!$embed) {
@@ -405,10 +405,6 @@ class Parsedown extends \ParsedownToc
             && \in_array($assetResized['subtype'] ?? $asset['subtype'], ['image/jpeg', 'image/png', 'image/gif'])
         ) {
             try {
-                // InlineImage src must be an Asset instance
-                if (!($assetResized ?? $asset) instanceof Asset) {
-                    throw new RuntimeException(\sprintf('Asset "%s" can\'t be converted.', $InlineImage['element']['attributes']['src']));
-                }
                 // abord if InlineImage is an animated GIF
                 if (Image::isAnimatedGif($assetResized ?? $asset)) {
                     $filepath = Util::joinFile($this->config->getOutputPath(), $assetResized['path'] ?? $asset['path']);
@@ -420,7 +416,7 @@ class Parsedown extends \ParsedownToc
                     try {
                         $assetConverted = ($assetResized ?? $asset)->convert($format);
                     } catch (\Exception $e) {
-                        $this->builder->getLogger()->debug($e->getMessage());
+                        $this->builder->getLogger()->error($e->getMessage());
                         continue;
                     }
                     // build responsive images?

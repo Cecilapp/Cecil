@@ -1,4 +1,5 @@
 #!/bin/bash
+export LC_ALL=$(locale -a|grep -ix 'c.utf-\?8' || echo C)
 
 # This script build a Cecil website (locally, on Netlify / Vercel / Cloudflare Pages / Render).
 # It is intended to be used on CI / CD.
@@ -10,18 +11,21 @@ export PHP_MIN_VERSION="8.1"
 if [ -z "${PHP_VERSION}" ]; then
   export PHP_VERSION="8.2"
 fi
+# Specify build context with `CECIL_ENV`
+if [ -z "${CECIL_ENV}" ]; then
+  export CECIL_ENV="preview"
+fi
 # Specify Cecil CLI options with `CECIL_CMD_OPTIONS` (e.g.: `--optimize`)
 if [ -z "${CECIL_CMD_OPTIONS}" ]; then
   export CECIL_CMD_OPTIONS=""
-fi
-# Enable installation of images optimization libraries on Vercel
-if [ -z "${VERCEL_INSTALL_OPTIM}" ]; then
-  export VERCEL_INSTALL_OPTIM="false"
 fi
 
 # Running on?
 RUNNING_ON="unknown"
 URL=""
+if [ "$CI" = "true" ]; then
+  RUNNING_ON="statichost?"
+fi
 if [ "$NETLIFY" = "true" ]; then
   RUNNING_ON="Netlify"
 fi
@@ -34,53 +38,48 @@ fi
 if [ "$RENDER" = "true" ]; then
   RUNNING_ON="Render"
 fi
-echo "Running on ${RUNNING_ON}"
+echo "------------------------------------"
+echo "Running Cecil build on ${RUNNING_ON}"
+echo "------------------------------------"
 case $RUNNING_ON in
   "Netlify")
     if [ "$CONTEXT" = "production" ]; then
+      export CECIL_ENV="production"
       URL=$URL
     else
       URL=$DEPLOY_PRIME_URL
     fi
     ;;
   "Vercel")
+    if [ "$VERCEL_ENV" = "production" ]; then
+      export CECIL_ENV="production"
+      URL="https://$VERCEL_PROJECT_PRODUCTION_URL" # see https://vercel.com/docs/environment-variables/system-environment-variables
+    else
+      URL="https://$VERCEL_URL"
+    fi
+    # Install PHP and libs
     dnf clean metadata
     echo "Installing PHP ${PHP_VERSION}..."
     dnf install -y php$PHP_VERSION php$PHP_VERSION-{common,mbstring,gd,bcmath,xml,fpm,intl,zip}
-    echo "Installing Gettext..."
+    echo "Installing libs..."
     dnf install -y gettext
-    echo "Installing AVIF lib..."
-    dnf install -y libavif
-    if [ "$VERCEL_INSTALL_OPTIM" = "true" ]; then
-      echo "Installing images optimization libraries..."
-      dnf install -y epel-release
-      dnf install -y jpegoptim
-      dnf install -y optipng
-      dnf install -y pngquant
-      npm install -y -g svgo
-      dnf install -y gifsicle
-      dnf install -y libwebp-tools
-      dnf install -y libavif-tools
-    fi
-    if [ "$VERCEL_ENV" = "production" ]; then
-      CONTEXT="production"
-    else
-      URL="https://$VERCEL_URL" # see https://vercel.com/docs/concepts/projects/environment-variables#system-environment-variables
-    fi
+    dnf install -y pngquant
+    dnf install -y libwebp-devel
+    dnf install -y libwebp-tools
+    npm install -g svgo
     ;;
   "CFPages")
     if [ "$CF_PAGES_BRANCH" = "master" ] || [ "$CF_PAGES_BRANCH" = "main" ]; then
-      CONTEXT="production"
-    else
-      URL=$CF_PAGES_URL
+      export CECIL_ENV="production"
     fi
+    URL=$CF_PAGES_URL
     ;;
   "Render")
-    CONTEXT="production"
-    URL=$RENDER_EXTERNAL_URL
+    export CECIL_ENV="production"
     if [ "$IS_PULL_REQUEST" = "true" ]; then
-      CONTEXT="preview"
+      export CECIL_ENV="preview"
     fi
+    URL=$RENDER_EXTERNAL_URL
     ;;
 esac
 
@@ -139,14 +138,16 @@ if [ -f "./composer.json" ]; then
   fi
   echo "Installing themes..."
   $COMPOSER_CMD install --prefer-dist --no-dev --no-progress --no-interaction --quiet
+  if [ $? -eq 0 ]; then
+      echo "OK"
+  fi
 fi
 
 # Adds CLI options
 if [ ! -z "${URL}" ]; then
   CECIL_CMD_OPTIONS="--baseurl=${URL} ${CECIL_CMD_OPTIONS}"
 fi
-if [ "$CONTEXT" = "production" ]; then
-  export CECIL_ENV="production"
+if [ "$CECIL_ENV" = "production" ]; then
   CECIL_CMD_OPTIONS="-v ${CECIL_CMD_OPTIONS}"
 else
   CECIL_CMD_OPTIONS="-vv ${CECIL_CMD_OPTIONS}"

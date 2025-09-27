@@ -13,6 +13,7 @@ declare(strict_types=1);
 
 namespace Cecil\Renderer;
 
+use Cecil\Builder;
 use Cecil\Collection\Page\Page as PageItem;
 
 /**
@@ -25,18 +26,30 @@ use Cecil\Collection\Page\Page as PageItem;
 class Page
 {
     /**
+     * Builder object.
+     * @var Builder
+     */
+    protected $builder;
+    /**
      * Configuration object.
      * @var \Cecil\Config
      */
     protected $config;
+    /**
+     * Page item.
+     * @var PageItem
+     */
+    protected $page;
 
-    public function __construct(\Cecil\Config $config)
+    public function __construct(Builder $builder, PageItem $page)
     {
-        $this->config = $config;
+        $this->builder = $builder;
+        $this->config = $this->builder->getConfig();
+        $this->page = $page;
     }
 
     /**
-     * Returns the path of the rendered file, based on the output format properties.
+     * Returns the path of the rendered page, based on the output format properties.
      * Use cases:
      *   - default: path + filename + extension (e.g.: 'blog/post-1/index.html')
      *   - with subpath: path + subpath + filename + extension (e.g.: 'blog/post-1/amp/index.html')
@@ -44,17 +57,16 @@ class Page
      *   - path only (e.g.: '_redirects')
      *   - i18n: language code + default (e.g.: 'fr/blog/page/index.html')
      *
-     * @param PageItem $page
-     * @param string   $format Output format (ie: 'html', 'amp', 'json', etc.)
+     * @param string $format Output format (ie: 'html', 'amp', 'json', etc.)
      */
-    public function getOutputFilePath(PageItem $page, string $format): string
+    public function getOutputFilePath(string $format): string
     {
-        $path = $page->getPath();
+        $path = $this->page->getPath();
         $subpath = (string) $this->config->getOutputFormatProperty($format, 'subpath');
         $filename = (string) $this->config->getOutputFormatProperty($format, 'filename');
         $extension = (string) $this->config->getOutputFormatProperty($format, 'extension');
-        $uglyurl = (bool) $page->getVariable('uglyurl');
-        $language = $page->getVariable('language');
+        $uglyurl = (bool) $this->page->getVariable('uglyurl');
+        $language = $this->page->getVariable('language');
         // is ugly URL?
         if ($uglyurl) {
             $filename = '';
@@ -72,7 +84,7 @@ class Page
             $language = '';
         }
         // do not prefix "not multilingual" virtual pages
-        if ($page->getVariable('multilingual') === false) {
+        if ($this->page->getVariable('multilingual') === false) {
             $language = '';
         }
 
@@ -80,17 +92,16 @@ class Page
     }
 
     /**
-     * Returns the public file path.
+     * Returns the public path of the page.
      *
-     * @param PageItem $page
-     * @param string   $format Output format (ie: 'html', 'amp', 'json', etc.), 'html' by default
+     * @param string $format Output format (ie: 'html', 'amp', 'json', etc.), 'html' by default
      */
-    public function getPublicFilePath(PageItem $page, string $format = 'html'): string
+    public function getPath(string $format = 'html'): string
     {
-        $output = $this->getOutputFilePath($page, $format);
+        $output = $this->getOutputFilePath($format);
 
-        // if `uglyurl` is true do not remove "index.html" from the output path
-        if ($page->getVariable('uglyurl')) {
+        // if `uglyurl` is true do not remove "index.html" from the path
+        if ($this->page->getVariable('uglyurl')) {
             return $output;
         }
 

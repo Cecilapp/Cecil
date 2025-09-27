@@ -1,9 +1,10 @@
 name: Release
 
 env:
-  PHP_VERSION: '8.2'
-  GPG_SIGNATURE: 'false'
-  GPG_EMAIL: 'arnaud@ligny.fr'
+  PHP_VERSION: 8.2
+  FORMULA_NAME: cecil
+  GPG_SIGNATURE: false
+  GPG_EMAIL: arnaud@ligny.fr
 
 on:
   release:
@@ -12,22 +13,22 @@ on:
 
 jobs:
   build:
-    name: Build `cecil.phar` binary
+    name: Build Phar file
     runs-on: ubuntu-latest
     outputs:
+      sha1: ${{ steps.sha.outputs.sha1 }}
+      sha256: ${{ steps.sha.outputs.sha256 }}
       previous_release: ${{ steps.previous_release.outputs.tag }}
-      version: ${{ steps.get_version.outputs.version }}
-      shasum: ${{ steps.sha256.outputs.shasum }}
+      version: ${{ steps.version.outputs.version }}
     permissions:
-      id-token: write # required for build provenance attestation
+      id-token: write     # required for build provenance attestation
       attestations: write # required for build provenance attestation
-
     steps:
+      # checkout/php/cache/deps
       - name: Checkout source code
         uses: actions/checkout@v5
         with:
           fetch-depth: 0
-
       - name: Install PHP
         uses: shivammathur/setup-php@v2
         with:
@@ -35,7 +36,6 @@ jobs:
           extensions: :psr, mbstring, intl, gettext, fileinfo, gd
           tools: composer, box
           coverage: none
-
       - name: Restore/Cache Composer packages
         id: composer-cache
         uses: actions/cache@v4
@@ -46,36 +46,31 @@ jobs:
           key: composer-ubuntu-latest-php-${{ env.PHP_VERSION }}-${{ hashFiles('**/composer.lock') }}
           restore-keys: |
             composer-ubuntu-latest-php-${{ env.PHP_VERSION }}-
-
       - name: Validate `composer.json`
         if: steps.composer-cache.outputs.cache-hit != 'true'
         run: composer validate
-
       - name: Install dependencies
         if: steps.composer-cache.outputs.cache-hit != 'true'
         run: |
           composer install --prefer-dist --no-progress
           composer dump-autoload --optimize
-
+      # run tests
       - name: Run tests
         run: composer run-script test
-
-      - name: Get previous release # for changelog generation
+      # version
+      - name: Previous release # required for changelog generation
         id: previous_release
+        run: echo "tag=$(git describe --abbrev=0 --tags `git rev-list --tags --skip=1 --max-count=1`)" >> $GITHUB_OUTPUT
+      - name: Current version
+        id: version
         run: |
-          echo "tag=$(git describe --abbrev=0 --tags `git rev-list --tags --skip=1 --max-count=1`)" >> $GITHUB_OUTPUT
-
-      - name: Set current version # variable and create `VERSION` file
-        id: get_version
-        run: |
+          echo "Version: ${GITHUB_REF#refs/tags/}"
           echo "version=${GITHUB_REF#refs/tags/}" >> $GITHUB_OUTPUT
           echo "${GITHUB_REF#refs/tags/}" > VERSION
           export COMPOSER_ROOT_VERSION=${GITHUB_REF#refs/tags/}
-          echo "VERSION: ${GITHUB_REF#refs/tags/}"
-
+      # run build and test Phar file
       - name: Build `cecil.phar` binary
         run: composer run-script build
-
       - name: Check `cecil.phar`
         run: |
           cd dist
@@ -84,7 +79,6 @@ jobs:
           php cecil.phar build skeleton
           php cecil.phar show:content skeleton
           rm -rf skeleton
-
       - name: Check `cecil.phar` in debug mode
         env:
           CECIL_DEBUG: 'true'
@@ -94,19 +88,19 @@ jobs:
           php cecil.phar new:site skeleton --demo -f -n
           php cecil.phar build skeleton -vvv
           php cecil.phar show:content skeleton
-
-      - name: Calculate SHA256 checksum # for Brew formula
-        id: sha256
+      # SHA/GPG/attestation
+      - name: Calculate SHA checksum
+        id: sha
         run: |
-          echo "shasum=$(shasum -a 256 ./dist/cecil.phar | awk '{printf $1}')" >> $GITHUB_OUTPUT
-
+          sha1=$(sha1sum ./dist/cecil.phar)
+          echo "sha1=${sha1%% *}" >> $GITHUB_OUTPUT
+          echo "sha256=$(shasum -a 256 ./dist/cecil.phar | awk '{printf $1}')" >> $GITHUB_OUTPUT
       - name: Import GPG key # to sign `cecil.phar`
         if: env.GPG_SIGNATURE == 'true' && github.event_name != 'pull_request'
         uses: crazy-max/ghaction-import-gpg@v6
         with:
           gpg_private_key: ${{ secrets.GPG_PRIVATE_KEY }}
           passphrase: ${{ secrets.GPG_PASSPHRASE }}
-
       - name: Sign `cecil.phar` with GPG # for GitHub release verification by PHIVE users
         if: env.GPG_SIGNATURE == 'true'
         run: |
@@ -117,19 +111,17 @@ jobs:
               --detach-sign \
               --output dist/cecil.phar.asc \
               dist/cecil.phar
-
-      - name: Generate build provenance attestation
+      - name: Generate binary provenance attestation
         id: attestation
         uses: actions/attest-build-provenance@v3
         with:
           subject-path: dist/cecil.phar
           show-summary: false
-
-      - name: Verify the `cecil.phar` binary
+      - name: Verify binary attestation
         env:
           GH_TOKEN: ${{ github.token }}
         run: gh attestation verify dist/cecil.phar --repo ${{ github.repository }}
-
+      # upload
       - name: Upload files
         uses: actions/upload-artifact@v4
         with:
@@ -137,32 +129,56 @@ jobs:
           path: |
             dist/cecil.*
           if-no-files-found: error
-
+      # summary
       - name: Summary
         run: |
+          echo "- Version ${{ steps.version.outputs.version }}" >> $GITHUB_STEP_SUMMARY
           echo "- Built with PHP ${{ env.PHP_VERSION }}" >> $GITHUB_STEP_SUMMARY
-          echo "- Provenance attestation: ${{ steps.attestation.outputs.attestation-url }}" >> $GITHUB_STEP_SUMMARY
+          echo "- [Provenance attestation](${{ steps.attestation.outputs.attestation-url }})" >> $GITHUB_STEP_SUMMARY
+      - name: Summary (pre-release)
+        if: "github.event.release.prerelease"
+        run: echo "> _This is a pre-release_" >> $GITHUB_STEP_SUMMARY
 
-  deploy_to_github: # GitHub release
-    name: Deploy to GitHub
+  deploy_to_website: # https://cecil.app/download/
+    name: Deploy to website
     runs-on: ubuntu-latest
     needs: build
+    steps:
+      - name: Checkout source code
+        uses: actions/checkout@v5
+        with:
+          fetch-depth: 1
+      - name: Download files
+        uses: actions/download-artifact@v5
+        with:
+          name: cecil-${{ github.sha }}.phar
+          path: dist
+      - name: Prepare and deploy files
+        run: bash ./scripts/deploy-release.sh
+        env:
+          GITHUB_TOKEN: ${{ secrets.REPOS_TOKEN }}
+          VERSION: ${{ needs.build.outputs.version }}
+          PRERELEASE: ${{ github.event.release.prerelease }}
+      - name: Summary
+        run: echo "🌐 Deployed to [website](https://cecil.app)" >> $GITHUB_STEP_SUMMARY
 
+  update_github_release:
+    name: Update GitHub release
+    runs-on: ubuntu-latest
+    needs: [build, deploy_to_website]
     steps:
       - name: Download files
         uses: actions/download-artifact@v5
         with:
           name: cecil-${{ github.sha }}.phar
           path: .
-
       - name: Get release
         id: release
         uses: bruceadams/get-release@v1.3.2
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-
       - name: Add `cecil.phar` to release
-        uses: actions/upload-release-asset@v1
+        uses: shogo82148/actions-upload-release-asset@v1
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
@@ -170,10 +186,9 @@ jobs:
           asset_path: cecil.phar
           asset_name: cecil.phar
           asset_content_type: application/octet-stream
-
       - name: Add `cecil.phar.asc` to release
         continue-on-error: true
-        uses: actions/upload-release-asset@v1
+        uses: shogo82148/actions-upload-release-asset@v1
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
@@ -181,7 +196,6 @@ jobs:
           asset_path: cecil.phar.asc
           asset_name: cecil.phar.asc
           asset_content_type: application/octet-stream
-
       - name: Generate changelog
         id: changelog
         uses: jaywcjlove/changelog-generator@main
@@ -189,12 +203,11 @@ jobs:
           base-ref: ${{ needs.build.outputs.previous_release }}
           token: ${{ secrets.GITHUB_TOKEN }}
           filter: (^[U|u]pdate|Merge)
-
-      - name: Update release # with changelog
+      - name: Add changelog
         id: update_release
-        uses: tubone24/update_release@v1.3.1
+        uses: softprops/action-gh-release@v2
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GITHUB_TOKEN: ${{ secrets.REPOS_TOKEN }}
         with:
           body: |
             ${{ steps.changelog.outputs.changelog }}
@@ -203,65 +216,54 @@ jobs:
             - Documentation: <https://cecil.app/documentation/>
             - Download: <https://cecil.app/download/>
             - Self Update: `php cecil.phar self-update`
+      - name: Summary
+        run: echo "📦 GitHub [release ${{ steps.release.outputs.tag_name }}](${{ steps.release.outputs.html_url }}) updated" >> $GITHUB_STEP_SUMMARY
 
-  deploy_to_website: # https://cecil.app
-    name: Deploy to website
+  bump_homebrew_formula:
+    name: Bump Homebrew Formulae
+    runs-on: macos-latest
+    needs: [build, deploy_to_website, update_github_release]
+    steps:
+      - name: Change Formula name if preview
+        if: "github.event.release.prerelease"
+        run: echo "FORMULA_NAME=cecil@preview" >> $GITHUB_ENV
+      - name: Bump Formula
+        uses: mislav/bump-homebrew-formula-action@v3
+        env:
+          COMMITTER_TOKEN: ${{ secrets.REPOS_TOKEN }}
+        with:
+          formula-name: ${{ env.FORMULA_NAME }}
+          formula-path: Formula/${{ env.FORMULA_NAME }}.rb
+          tag-name: ${{ needs.build.outputs.version }}
+          download-url: https://github.com/Cecilapp/Cecil/releases/download/${{ needs.build.outputs.version }}/cecil.phar
+          download-sha256: ${{ needs.build.outputs.sha256 }}
+          homebrew-tap: Cecilapp/homebrew-tap
+          base-branch: main
+          commit-message: |
+            {{formulaName}} {{version}}
+
+            Created by https://github.com/mislav/bump-homebrew-formula-action
+
+  bump_scoop_file:
+    name: Bump Scoop file
     runs-on: ubuntu-latest
-    needs: build
-    if: "!github.event.release.prerelease"
-
+    needs: [build, deploy_to_website]
     steps:
       - name: Checkout source code
         uses: actions/checkout@v5
         with:
           fetch-depth: 1
-
       - name: Download files
         uses: actions/download-artifact@v5
         with:
           name: cecil-${{ github.sha }}.phar
           path: dist
-
-      - name: Prepare and deploy files
-        run: bash ./scripts/deploy-dist.sh
+      - name: Bump Scoop file
+        run: bash ./scripts/bump-scoop.sh
         env:
           GITHUB_TOKEN: ${{ secrets.REPOS_TOKEN }}
-
-  update_homebrew_formula:
-    name: Update Homebrew Formulae
-    runs-on: macos-latest
-    needs: [build, deploy_to_github]
-    env:
-      COMMITTER_TOKEN: ${{ secrets.REPOS_TOKEN }}
-
-    steps:
-      - name: Bump Formula
-        if: "!github.event.release.prerelease"
-        uses: mislav/bump-homebrew-formula-action@v3
-        with:
-          formula-name: cecil
-          formula-path: Formula/cecil.rb
-          homebrew-tap: Cecilapp/homebrew-tap
-          base-branch: main
-          tag-name: ${{ needs.build.outputs.version }}
-          download-url: https://github.com/Cecilapp/Cecil/releases/download/${{ needs.build.outputs.version }}/cecil.phar
-          download-sha256: ${{ needs.build.outputs.shasum }}
-          commit-message: |
-            {{formulaName}} {{version}}
-
-            Created by https://github.com/mislav/bump-homebrew-formula-action
-      - name: Bump Beta Formula
-        if: "github.event.release.prerelease"
-        uses: mislav/bump-homebrew-formula-action@v3
-        with:
-          formula-name: cecil@beta
-          formula-path: Formula/cecil@beta.rb
-          homebrew-tap: Cecilapp/homebrew-tap
-          base-branch: main
-          tag-name: ${{ needs.build.outputs.version }}
-          download-url: https://github.com/Cecilapp/Cecil/releases/download/${{ needs.build.outputs.version }}/cecil.phar
-          download-sha256: ${{ needs.build.outputs.shasum }}
-          commit-message: |
-            {{formulaName}} {{version}}
-
-            Created by https://github.com/mislav/bump-homebrew-formula-action
+          SHA1: ${{ needs.build.outputs.sha1 }}
+          VERSION: ${{ needs.build.outputs.version }}
+          PRERELEASE: ${{ github.event.release.prerelease }}
+      - name: Summary
+        run: echo "🍨 Bumped Scoop file to version ${{ needs.build.outputs.version }}" >> $GITHUB_STEP_SUMMARY

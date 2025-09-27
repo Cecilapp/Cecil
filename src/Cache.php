@@ -230,7 +230,7 @@ class Cache implements CacheInterface
         $name = "{$asset['_path']}_{$asset['ext']}_$tagsInline";
 
         // backward compatibility
-        if (empty($asset['hash'])) {
+        if (empty($asset['hash']) or \is_null($asset['hash'])) {
             throw new RuntimeException(\sprintf('Asset "%s" has no hash. Please clear cache and retry.', $name));
         }
 

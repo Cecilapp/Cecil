@@ -5,8 +5,9 @@ on:
     branches:
       - master
     paths-ignore:
-      - 'docs/**'
       - '.github/**'
+      - 'docs/**'
+      - 'scripts/**'
 
 jobs:
   generate_changelog:

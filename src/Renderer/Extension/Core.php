@@ -564,7 +564,7 @@ class Core extends SlugifyExtension
         }
         // image
         if ($asset['type'] == 'image') {
-            // responsive
+            // if responsive is enabled
             $sizes = '';
             if (
                 $responsive && $srcset = Image::buildHtmlSrcset(
@@ -580,38 +580,37 @@ class Core extends SlugifyExtension
                 }
             }
 
-            // <img> element
+            // `<img>` element
             $img = \sprintf(
                 '<img src="%s" width="' . ($asset['width'] ?: '') . '" height="' . ($asset['height'] ?: '') . '"%s>',
                 $this->url($context, $asset, $options),
                 $htmlAttributes
             );
 
-            // multiple <source>?
+            // multiple formats (`<source>`)?
             if (\count($formats) > 0) {
                 $source = '';
                 foreach ($formats as $format) {
-                    if ($asset['subtype'] != "image/$format" && !Image::isAnimatedGif($asset)) {
-                        try {
-                            $assetConverted = $asset->convert($format);
-                            // responsive?
-                            if ($responsive && $srcset = Image::buildHtmlSrcset($assetConverted, $this->config->getAssetsImagesWidths())) {
-                                // <source> element
-                                $source .= \sprintf(
-                                    "\n  <source type=\"image/$format\" srcset=\"%s\" sizes=\"%s\">",
-                                    $srcset,
-                                    $sizes
-                                );
-                                continue;
-                            }
-                            // <source> element
-                            $source .= \sprintf("\n  <source type=\"image/$format\" srcset=\"%s\">", $assetConverted);
-                        } catch (\Exception $e) {
-                            $this->builder->getLogger()->error($e->getMessage());
+                    try {
+                        $assetConverted = $asset->convert($format);
+                        // if responsive is enabled
+                        if ($responsive && $srcset = Image::buildHtmlSrcset($assetConverted, $this->config->getAssetsImagesWidths())) {
+                            // `<source>` element
+                            $source .= \sprintf(
+                                "\n  <source type=\"image/$format\" srcset=\"%s\" sizes=\"%s\">",
+                                $srcset,
+                                $sizes
+                            );
                             continue;
                         }
+                        // `<source>` element
+                        $source .= \sprintf("\n  <source type=\"image/$format\" srcset=\"%s\">", $assetConverted);
+                    } catch (\Exception $e) {
+                        $this->builder->getLogger()->error($e->getMessage());
+                        continue;
                     }
                 }
+                // put `<source>` in `<picture>`
                 if (!empty($source)) {
                     return \sprintf("<picture>%s\n  %s\n</picture>", $source, $img);
                 }

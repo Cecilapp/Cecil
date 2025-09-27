@@ -62,11 +62,11 @@ class Page extends Item
     /** @var string Body after conversion. */
     protected $html;
 
-    /** @var array Output, by format */
+    /** @var array Output, by format. */
     protected $rendered = [];
 
-    /** @var Collection Subpages of a list page. */
-    protected $subPages;
+    /** @var Collection pages list. */
+    protected $pages;
 
     /** @var array */
     protected $paginator = [];
@@ -467,25 +467,21 @@ class Page extends Item
     }
 
     /**
-     * Set Subpages.
-     *
-     * @todo should be removed
+     * Set pages list.
      */
-    public function setPages(\Cecil\Collection\Page\Collection $subPages): self
+    public function setPages(Collection $pages): self
     {
-        $this->subPages = $subPages;
+        $this->pages = $pages;
 
         return $this;
     }
 
     /**
-     * Get Subpages.
-     *
-     * @todo should returns pages with "parent" contains current section page
+     * Get pages list.
      */
-    public function getPages(): ?\Cecil\Collection\Page\Collection
+    public function getPages(): ?Collection
     {
-        return $this->subPages;
+        return $this->pages;
     }
 
     /**

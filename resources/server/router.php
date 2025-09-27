@@ -40,7 +40,7 @@ if ($path == '/watcher') {
 }
 
 // `path` or `path/` are converted to `path/index.html`
-if ((empty(pathinfo($path, PATHINFO_EXTENSION)) || $path[-1] == '/') && file_exists($_SERVER['DOCUMENT_ROOT'] . rtrim($path, '/') . DIRECTORY_INDEX)) {
+if ((empty(pathinfo($path, \PATHINFO_EXTENSION)) || $path[-1] == '/') && file_exists($_SERVER['DOCUMENT_ROOT'] . rtrim($path, '/') . DIRECTORY_INDEX)) {
     $path = rtrim($path, '/') . DIRECTORY_INDEX;
 }
 
@@ -192,7 +192,7 @@ function getPathInfo(string $path): array
         "Content-Type: {$info['media_maintype']}/{$info['media_subtype']}",
     ];
     // forces info according to the extension
-    switch (pathinfo($path, PATHINFO_EXTENSION)) {
+    switch (pathinfo($path, \PATHINFO_EXTENSION)) {
         case 'htm':
         case 'html':
             $info = [

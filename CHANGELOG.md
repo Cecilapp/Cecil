@@ -2,6 +2,110 @@
 
 All notable changes to this project will be documented in this file. Dates are displayed in UTC.
 
+#### [8.67.0-beta.4](https://github.com/Cecilapp/Cecil/compare/8.67.0-beta.3...8.67.0-beta.4)
+
+> 25 September 2025
+
+- ci: quicker clone? [`3ea2464`](https://github.com/Cecilapp/Cecil/commit/3ea24640df2988f94b5d69cf62bdfab91a0c932a)
+
+#### [8.67.0-beta.3](https://github.com/Cecilapp/Cecil/compare/8.67.0-beta.2...8.67.0-beta.3)
+
+> 25 September 2025
+
+#### [8.67.0-beta.2](https://github.com/Cecilapp/Cecil/compare/8.67.0-beta.1...8.67.0-beta.2)
+
+> 24 September 2025
+
+- ci: update release actions [`1f1b860`](https://github.com/Cecilapp/Cecil/commit/1f1b8601d84f58186e5ec4ef1734b03122aae681)
+
+#### [8.67.0-beta.1](https://github.com/Cecilapp/Cecil/compare/8.66.2...8.67.0-beta.1)
+
+> 24 September 2025
+
+#### [8.66.2](https://github.com/Cecilapp/Cecil/compare/8.66.1...8.66.2)
+
+> 24 September 2025
+
+- ci: fix release workflow [`378403d`](https://github.com/Cecilapp/Cecil/commit/378403d181bee6d9c16b01fab7d0af2cbb9643aa)
+
+#### [8.66.1](https://github.com/Cecilapp/Cecil/compare/8.66.0...8.66.1)
+
+> 22 September 2025
+
+- ci: move Scoop release [`87c7927`](https://github.com/Cecilapp/Cecil/commit/87c7927fd5a9b3eb7f033454ef85252ee7afaf3c)
+- ci: refactor release workflow [`11b747a`](https://github.com/Cecilapp/Cecil/commit/11b747a5d609e75769b225d02fcdc2fafff592ee)
+- ci: fix deploy script [`deb90dd`](https://github.com/Cecilapp/Cecil/commit/deb90ddeab78a8e33f7bbaf85c1d962ab378dc5b)
+- ci: cleaning release workflow [`69cbdb8`](https://github.com/Cecilapp/Cecil/commit/69cbdb86fbff072d8dfb101b8c67d3080da65aa7)
+- test: more fixtures [`4910484`](https://github.com/Cecilapp/Cecil/commit/4910484d8e58360c7920fae985688df19aa6b939)
+- chore: update deps [`7011b99`](https://github.com/Cecilapp/Cecil/commit/7011b995ab30cc07e159df842b5cbc6d678ce703)
+- refactor: better code [`56555a4`](https://github.com/Cecilapp/Cecil/commit/56555a4fd8967bb0a638b649a9ce897087c71836)
+- doc: minor changes [`9d81c6e`](https://github.com/Cecilapp/Cecil/commit/9d81c6eca44beecc4971655f37500cbc5a61bdd2)
+- ci: reset default var [`56ae526`](https://github.com/Cecilapp/Cecil/commit/56ae52669263b8379f5097f39b4103566a0da8a2)
+- refactor: better code [`0ba0dc3`](https://github.com/Cecilapp/Cecil/commit/0ba0dc3a8269cab1fdd2e394fcfe26857840311d)
+- ci: release workflow [`92ca024`](https://github.com/Cecilapp/Cecil/commit/92ca024fad149437814ae3966441d4963ef4ac93)
+- ci: fix release [`0bbb593`](https://github.com/Cecilapp/Cecil/commit/0bbb5933f54c806739cc05ea2b719efc652cba39)
+- fix Scoop workflow [`680d987`](https://github.com/Cecilapp/Cecil/commit/680d98733d26b0b2c3c8e5f1845a5095a0544b9b)
+- ci: rollback [`0353f35`](https://github.com/Cecilapp/Cecil/commit/0353f358005e0001c609ef77d65131186721e09a)
+- ci: test bis [`0d3ee8f`](https://github.com/Cecilapp/Cecil/commit/0d3ee8f3daa6001b9fffdcaea09e2228ab53c831)
+- ci: GPG_SIGNATURE [`8815d1a`](https://github.com/Cecilapp/Cecil/commit/8815d1ab50851c621ca49ae7a0c74cfb49098763)
+
+#### [8.66.0](https://github.com/Cecilapp/Cecil/compare/8.65.3...8.66.0)
+
+> 18 September 2025
+
+- doc: update API [`21ec53f`](https://github.com/Cecilapp/Cecil/commit/21ec53f4ef1d2d94cf9a4aed948cb2af7422ef7a)
+- feat: add Twig string filters [`c6c94d7`](https://github.com/Cecilapp/Cecil/commit/c6c94d7ee9764478928f8444c27569863d4fd902)
+- Delete .travis.yml.disabled [`5109290`](https://github.com/Cecilapp/Cecil/commit/510929095fd000329dea1d0232b41c8cdb2ac166)
+- ci: remove Vercel libs [`a689391`](https://github.com/Cecilapp/Cecil/commit/a689391c063d62bdbbafaf0d865eac4592076909)
+- Delete .github/tap-release.yaml [`2df0c2f`](https://github.com/Cecilapp/Cecil/commit/2df0c2ff67bca31068aad37771b784e7011bd878)
+- doc: update deploy [`b47e0b8`](https://github.com/Cecilapp/Cecil/commit/b47e0b8af025615db622b9e3e49688d7e36f3a51)
+- doc: minor fix [`2225f1f`](https://github.com/Cecilapp/Cecil/commit/2225f1fa409fc540b3e98de456758d341c334fd0)
+- chore: rename script files [`92cb101`](https://github.com/Cecilapp/Cecil/commit/92cb101929900184f3773169ac5978ee6b32d5a3)
+
+#### [8.65.3](https://github.com/Cecilapp/Cecil/compare/8.65.2...8.65.3)
+
+> 16 September 2025
+
+- ci: add prerelease deploy support [`70bac15`](https://github.com/Cecilapp/Cecil/commit/70bac1534cea4e8cdf99fc52923551325a73f805)
+- refactor: better handle of image convertion [`6e0f4d2`](https://github.com/Cecilapp/Cecil/commit/6e0f4d23912dc0d1bc29cb4727563161eff98472)
+- ci: update Bew formula bumper [`2a393be`](https://github.com/Cecilapp/Cecil/commit/2a393be3bb50306650b372cfdf460147cdba7507)
+- fix CI [`9f9a24c`](https://github.com/Cecilapp/Cecil/commit/9f9a24ca0c1d379d395ee9e43aaccb61aa75fd2c)
+- ci: add prerelease support [`3fce828`](https://github.com/Cecilapp/Cecil/commit/3fce828810a5358ca7d4b0196b37096c93f01007)
+- chore: update dev deps [`3d70119`](https://github.com/Cecilapp/Cecil/commit/3d701197142cf5455a002b11d6dff829e107ad3a)
+- chore: update deps [`e873bbc`](https://github.com/Cecilapp/Cecil/commit/e873bbc5e28629d07c01f3fbc9b4793835ba790b)
+- ci: minor change about version [`da6f728`](https://github.com/Cecilapp/Cecil/commit/da6f728e62cd7c95633a3bc0c3863b34456e1d0f)
+- fix CI [`08b59f6`](https://github.com/Cecilapp/Cecil/commit/08b59f6d54dc81aa6a84215ac841050baa34ff17)
+- fix deploy site [`099402c`](https://github.com/Cecilapp/Cecil/commit/099402c447c7d4597193fe92bd502fe0417934fd)
+- fix deploy Scoop file [`7130bba`](https://github.com/Cecilapp/Cecil/commit/7130bba0e0c959be450ee5e62044837a30f1286a)
+
+#### [8.65.2](https://github.com/Cecilapp/Cecil/compare/8.65.1...8.65.2)
+
+> 15 September 2025
+
+- chore(deps-dev): bump friendsofphp/php-cs-fixer from 3.87.1 to 3.87.2 [`#2221`](https://github.com/Cecilapp/Cecil/pull/2221)
+- refactor: better and clean code [`f689ab3`](https://github.com/Cecilapp/Cecil/commit/f689ab38a7910750cb72b3a467d28aea9d51ca83)
+- chore: update deps [`7e1d501`](https://github.com/Cecilapp/Cecil/commit/7e1d501cf1889afc68c26b8b27ddabdddcb29ced)
+- chore: update deps [`791b9aa`](https://github.com/Cecilapp/Cecil/commit/791b9aa6b52c98a69b715fa581d659041956b31a)
+
+#### [8.65.1](https://github.com/Cecilapp/Cecil/compare/8.65.0...8.65.1)
+
+> 8 September 2025
+
+- chore: update deps [`c306463`](https://github.com/Cecilapp/Cecil/commit/c30646377e3ef797619a3103585bfcfc047b43c6)
+- fix metatags square image max size [`59266b7`](https://github.com/Cecilapp/Cecil/commit/59266b7407474b4cd3956909fa654955ee808e42)
+
+#### [8.65.0](https://github.com/Cecilapp/Cecil/compare/8.64.1...8.65.0)
+
+> 8 September 2025
+
+- chore(deps-dev): bump ergebnis/composer-normalize from 2.48.1 to 2.48.2 [`#2220`](https://github.com/Cecilapp/Cecil/pull/2220)
+- chore(deps-dev): bump squizlabs/php_codesniffer from 3.13.2 to 3.13.4 [`#2219`](https://github.com/Cecilapp/Cecil/pull/2219)
+- chore(deps-dev): bump friendsofphp/php-cs-fixer from 3.87.0 to 3.87.1 [`#2217`](https://github.com/Cecilapp/Cecil/pull/2217)
+- chore(deps-dev): bump friendsofphp/php-cs-fixer from 3.86.0 to 3.87.0 [`#2216`](https://github.com/Cecilapp/Cecil/pull/2216)
+- refactor: simplify page creation [`#2214`](https://github.com/Cecilapp/Cecil/pull/2214)
+- chore(deps-dev): bump ergebnis/composer-normalize from 2.48.0 to 2.48.1 [`#2213`](https://github.com/Cecilapp/Cecil/pull/2213)
+- feat: load data of themes [`16ed58a`](https://github.com/Cecilapp/Cecil/commit/16ed58adb975e2e2bae12de7da7020374b4c1f41)
+
 #### [8.64.1](https://github.com/Cecilapp/Cecil/compare/8.64.0...8.64.1)
 
 > 1 September 2025

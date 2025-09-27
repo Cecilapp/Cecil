@@ -19,7 +19,6 @@ TARGET_API_DIR="static/documentation/library/api"
 USER_NAME=$GITHUB_ACTOR
 USER_EMAIL="${GITHUB_ACTOR}@cecil.app"
 HOME="${GITHUB_WORKSPACE}/HOME"
-BUILD_NUMBER=$GITHUB_RUN_NUMBER
 
 # prepare files
 mkdir $HOME
@@ -33,7 +32,7 @@ git config --global user.name "${USER_NAME}"
 git config --global user.email "${USER_EMAIL}"
 if [ -z "$(git ls-remote --heads https://${GITHUB_ACTOR}:${GITHUB_TOKEN}@github.com/${TARGET_REPO}.git ${TARGET_BRANCH})" ]; then
   echo "Create branch '${TARGET_BRANCH}'"
-  git clone --quiet https://${GITHUB_ACTOR}:${GITHUB_TOKEN}@github.com/${TARGET_REPO}.git $TARGET_BRANCH > /dev/null
+  git clone --depth=1 --quiet https://${GITHUB_ACTOR}:${GITHUB_TOKEN}@github.com/${TARGET_REPO}.git $TARGET_BRANCH > /dev/null
   cd $TARGET_BRANCH
   git checkout --orphan $TARGET_BRANCH
   echo "Deploy from https://github.com/$GITHUB_REPOSITORY/." > README.md
@@ -43,7 +42,7 @@ if [ -z "$(git ls-remote --heads https://${GITHUB_ACTOR}:${GITHUB_TOKEN}@github.
   cd ..
 else
   echo "Clone branch '${TARGET_BRANCH}'"
-  git clone --quiet --branch=$TARGET_BRANCH https://${GITHUB_ACTOR}:${GITHUB_TOKEN}@github.com/${TARGET_REPO}.git $TARGET_BRANCH > /dev/null
+  git clone --depth=1 --quiet --branch=$TARGET_BRANCH https://${GITHUB_ACTOR}:${GITHUB_TOKEN}@github.com/${TARGET_REPO}.git $TARGET_BRANCH > /dev/null
 fi
 
 # copy files to cloned repo
@@ -60,7 +59,7 @@ cp -Rf $HOME/$SOURCE_API_DIR/* $TARGET_API_DIR
 # commit and push
 if [[ -n $(git status -s) ]]; then
   git add -Af .
-  git commit -m "Build $BUILD_NUMBER: update ${TARGET_DOCS_DIR} / ${TARGET_API_DIR}"
+  git commit -m "Build $GITHUB_RUN_NUMBER: update documentation"
   git push -fq origin $TARGET_BRANCH > /dev/null
 else
   echo "Nothing to update"

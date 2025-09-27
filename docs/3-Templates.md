@@ -1,7 +1,7 @@
 <!--
 description: "Working with layouts, templates and components."
 date: 2021-05-07
-updated: 2025-08-19
+updated: 2025-09-18
 alias: documentation/layouts
 -->
 # Templates
@@ -938,6 +938,45 @@ Converts a string to a slug.
 ```twig
 {{ string|slugify }}
 ```
+
+### u
+
+Wraps a text in a `UnicodeString` object to give access to [methods of the class](https://symfony.com/doc/current/components/string.html).
+
+_Example:_
+
+```twig
+{{ 'cecil_string with twig'|u.camel.title }}
+```
+
+> CecilStringWithTwig
+
+### singular
+
+The `singular` filter transforms a given noun in its plural form into its singular version:
+
+```twig
+{{ 'partitions'|singular() }}
+```
+
+> partition
+
+### plural
+
+The `plural` filter transforms a given noun in its singular form into its plural version:
+
+```twig
+{{ 'animal'|plural() }}
+```
+
+> animals
+
+```twig
+{# English (en) rules are used by default #}
+{{ 'animal'|plural('fr') }}
+```
+
+> animaux
 
 ### excerpt
 

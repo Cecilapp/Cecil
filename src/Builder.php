@@ -171,9 +171,9 @@ class Builder implements LoggerAwareInterface
     protected $taxonomies;
     /**
      * Renderer.
-     * This is an instance of Renderer\RendererInterface that is responsible for rendering pages.
+     * This is an instance of Renderer\Twig that is responsible for rendering pages.
      * It handles the rendering of templates and the application of data to those templates.
-     * @var Renderer\RendererInterface
+     * @var Renderer\Twig
      */
     protected $renderer;
     /**
@@ -542,7 +542,7 @@ class Builder implements LoggerAwareInterface
     /**
      * Set renderer object.
      */
-    public function setRenderer(Renderer\RendererInterface $renderer): void
+    public function setRenderer(Renderer\Twig $renderer): void
     {
         $this->renderer = $renderer;
     }
@@ -550,7 +550,7 @@ class Builder implements LoggerAwareInterface
     /**
      * Returns Renderer object.
      */
-    public function getRenderer(): Renderer\RendererInterface
+    public function getRenderer(): Renderer\Twig
     {
         return $this->renderer;
     }

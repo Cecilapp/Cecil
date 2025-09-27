@@ -2,18 +2,18 @@
 
 {% block content %}
       <h1 class="page-title">{{ page.title }}</h1>
-{% if page.date is defined %}
-      {# localized date #}
-      <div class="post-date">{% trans %}Publication date:{% endtrans %} {{ page.date|localizeddate('long', 'none') }} (localizeddate)</div>
-      {# formated date #}
-      <div class="post-date">{% trans %}Publication date:{% endtrans %} {{ page.date|format_date('long') }} (format_date)</div>
-      <div class="post-date">{% trans %}Publication date:{% endtrans %} {{ page.date|format_date('long', locale='en') }} (format_date, locale=en)</div>
-{% endif %}
-{% if page.image is defined %}
-      <img src="{{ page.image }}">
-{% endif %}
       {{ page.content }}
+      {%- if page.date is defined ~%}
+      <h2>{% trans %}Date{% endtrans %}</h2>
+      <ul>
+        {# localized date #}
+        <li>localizeddate: {% trans %}Publication date:{% endtrans %} {{ page.date|localizeddate('long', 'none') }}</li>
+        {# formated date #}
+        <li>format_date: {% trans %}Publication date:{% endtrans %} {{ page.date|format_date('long') }}</li>
+        <li>format_date + locale=en: {% trans %}Publication date:{% endtrans %} {{ page.date|format_date('long', locale='en') }}</li>
+      </ul>
       <hr>
+      {%- endif ~%}
       <h2>{% trans %}Translation examples{% endtrans %}</h2>
       <ul>
         <li>{% trans %}Simple text{% endtrans %}</li>
@@ -36,6 +36,12 @@
         </li>
       </ul>
       <hr>
+      <h3>Singular and plural</h3>
+      <ul>
+        <li><pre>'animals'|singular('en')</pre>-> {{ 'animals'|singular('en') }}</li>
+        <li><pre>'animal'|plural('fr')</pre>-> {{ 'animal'|plural('fr') }}</li>
+      </ul>
+      <hr>
       <h2>{% trans %}Page's language{% endtrans %}</h2>
       <p>
         - code: {{ site.language }}<br>
@@ -49,9 +55,9 @@
       <hr>
       <h2>{% trans %}Available translations:{% endtrans %}</h2>
       <p>
-{% for p in site.allpages|filter_by('langref', page.langref) %}
+        {%- for p in site.allpages|filter_by('langref', page.langref) ~%}
         - <a href="{{ url(p) }}">{{ p.title }}</a><br>
-{% endfor %}
+        {%- endfor ~%}
       </p>
       <hr>
       <h2>site.page</h2>

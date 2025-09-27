@@ -36,19 +36,19 @@ class Pagination extends AbstractGenerator implements GeneratorInterface
         }
 
         // filters list pages (home, sections and terms)
-        $filteredPages = $this->builder->getPages()->filter(function (Page $page) {
+        $listPages = $this->builder->getPages()->filter(function (Page $page) {
             return \in_array($page->getType(), [Type::HOMEPAGE->value, Type::SECTION->value, Type::TERM->value]);
         });
         /** @var Page $page */
-        foreach ($filteredPages as $page) {
-            // if no sub-pages: by-pass
+        foreach ($listPages as $page) {
+            // if no pages: continue
             if ($page->getPages() === null) {
                 continue;
             }
             $pages = $page->getPages()->filter(function (Page $page) {
                 return $page->getType() == Type::PAGE->value && $page->getVariable('published');
             });
-            // if no published sub-pages: by-pass
+            // if no published pages: continue
             if ($pages === null) {
                 continue;
             }
@@ -75,7 +75,8 @@ class Pagination extends AbstractGenerator implements GeneratorInterface
                 continue;
             }
             // sorts pages
-            $pages = Section::sortSubPages($this->config, $page, $pages);
+            $sortBy = $page->getVariable('sortby') ?? $this->config->get('pages.sortby');
+            $pages = $pages->sortBy($sortBy);
             // builds paginator
             $paginatorPagesCount = \intval(ceil($pagesTotal / $paginationPerPage));
             for ($i = 0; $i < $paginatorPagesCount; $i++) {

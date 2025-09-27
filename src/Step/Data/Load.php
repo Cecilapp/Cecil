@@ -63,6 +63,16 @@ class Load extends AbstractStep
             ->in($this->config->getDataPath())
             ->name('/\.(' . implode('|', (array) $this->config->get('data.ext')) . ')$/')
             ->sortByName(true);
+
+        if ($this->config->hasTheme()) {
+            $themes = $this->config->getTheme();
+            foreach ($themes ?? [] as $theme) {
+                if (Util\File::getFS()->exists($this->config->getThemeDirPath($theme, 'data'))) {
+                    $files->in($this->config->getThemeDirPath($theme, 'data'));
+                }
+            }
+        }
+
         $total = \count($files);
 
         if ($total < 1) {
@@ -108,17 +118,12 @@ class Load extends AbstractStep
             }
 
             $lang = $this->config->getLanguageDefault();
-            if (PrefixSuffix::hasSuffix($file->getBasename('.' . $file->getExtension()))) {
-                $lang = PrefixSuffix::getSuffix($file->getBasename('.' . $file->getExtension()));
+            if (PrefixSuffix::hasSuffix($file->getFilenameWithoutExtension())) {
+                $lang = PrefixSuffix::getSuffix($file->getFilenameWithoutExtension());
             }
-            $basename = $file->getBasename('.' . $file->getExtension());
-            $subpath = \Cecil\Util\File::getFS()->makePathRelative(
-                $file->getPath(),
-                $this->config->getDataPath()
-            );
-            $subpath = trim($subpath, './');
             $array = [];
-            $path = !empty($subpath) ? Util::joinFile($subpath, $basename) : $basename;
+            $path = Util::joinFile((string) pathinfo($file->getRelativePathname(), \PATHINFO_DIRNAME), (string) pathinfo($file->getRelativePathname(), \PATHINFO_FILENAME));
+            $path = trim($path, './');
             $localizedPath = Util::joinFile((string) $lang, PrefixSuffix::sub($path));
             $this->pathToArray($array, $localizedPath, $dataAsArray);
 
@@ -128,7 +133,7 @@ class Load extends AbstractStep
             );
             $this->builder->setData($dataAsArray);
 
-            $message = \sprintf('File "%s.%s" loaded', Util::joinFile($path), $file->getExtension());
+            $message = \sprintf('File "%s" loaded', $file->getRelativePathname());
             $this->builder->getLogger()->info($message, ['progress' => [$count, $total]]);
         }
     }

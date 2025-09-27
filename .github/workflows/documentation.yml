@@ -30,7 +30,7 @@ jobs:
 
       - name: Push files
         if: env.GITHUB_TOKEN != null
-        run: bash ./scripts/deploy-docs.sh
+        run: bash ./scripts/deploy-documentation.sh
         env:
           TARGET_BRANCH: ${{ github.head_ref || github.ref_name }}
           GITHUB_TOKEN: ${{ secrets.REPOS_TOKEN }}
