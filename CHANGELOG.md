@@ -2,25 +2,19 @@
 
 All notable changes to this project will be documented in this file. Dates are displayed in UTC.
 
-#### [8.67.0-beta.4](https://github.com/Cecilapp/Cecil/compare/8.67.0-beta.3...8.67.0-beta.4)
+#### [8.66.4](https://github.com/Cecilapp/Cecil/compare/8.66.3...8.66.4)
 
 > 25 September 2025
 
+- fix: version before build [`335178a`](https://github.com/Cecilapp/Cecil/commit/335178a98c9e11acc4a30ec9f36c8e234c582143)
+
+#### [8.66.3](https://github.com/Cecilapp/Cecil/compare/8.66.2...8.66.3)
+
+> 25 September 2025
+
+- chore: update deps [`4ccc4ce`](https://github.com/Cecilapp/Cecil/commit/4ccc4ce999de71b45a0de5e5bfe581776e70322e)
 - ci: quicker clone? [`3ea2464`](https://github.com/Cecilapp/Cecil/commit/3ea24640df2988f94b5d69cf62bdfab91a0c932a)
-
-#### [8.67.0-beta.3](https://github.com/Cecilapp/Cecil/compare/8.67.0-beta.2...8.67.0-beta.3)
-
-> 25 September 2025
-
-#### [8.67.0-beta.2](https://github.com/Cecilapp/Cecil/compare/8.67.0-beta.1...8.67.0-beta.2)
-
-> 24 September 2025
-
 - ci: update release actions [`1f1b860`](https://github.com/Cecilapp/Cecil/commit/1f1b8601d84f58186e5ec4ef1734b03122aae681)
-
-#### [8.67.0-beta.1](https://github.com/Cecilapp/Cecil/compare/8.66.2...8.67.0-beta.1)
-
-> 24 September 2025
 
 #### [8.66.2](https://github.com/Cecilapp/Cecil/compare/8.66.1...8.66.2)
 
