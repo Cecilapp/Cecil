@@ -245,6 +245,9 @@ class Parsedown extends \ParsedownToc
             return null;
         }
 
+        // remove link attributes
+        unset($InlineImage['element']['attributes']['target'], $InlineImage['element']['attributes']['rel']);
+
         // normalize path
         $InlineImage['element']['attributes']['src'] = $this->normalizePath($InlineImage['element']['attributes']['src']);
 
@@ -455,7 +458,7 @@ class Parsedown extends \ParsedownToc
                         ],
                     ];
                     $picture['element']['text'] = $sources;
-                    unset($image['element']['attributes']['title']); // @phpstan-ignore unset.offset
+                    unset($image['element']['attributes']['title']); // phpstan-ignore unset.offset
                     $picture['element']['text'][] = $image['element'];
                     $image = $picture;
                 }
