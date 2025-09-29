@@ -284,7 +284,7 @@ class Builder implements LoggerAwareInterface
             $step->process();
             // step duration and memory usage
             $this->metrics['steps'][$stepNumber]['name'] = $step->getName();
-            $this->metrics['steps'][$stepNumber]['duration'] = Util::convertMicrotime((float) $stepStartTime);
+            $this->metrics['steps'][$stepNumber]['duration'] = Util::convertMicrotime(/** @scrutinizer ignore-type */ $stepStartTime);
             $this->metrics['steps'][$stepNumber]['memory']   = Util::convertMemory(memory_get_usage() - $stepStartMemory);
             $this->getLogger()->info(\sprintf(
                 '%s done in %s (%s)',
@@ -294,7 +294,7 @@ class Builder implements LoggerAwareInterface
             ));
         }
         // build duration and memory usage
-        $this->metrics['total']['duration'] = Util::convertMicrotime($startTime);
+        $this->metrics['total']['duration'] = Util::convertMicrotime(/** @scrutinizer ignore-type */ $startTime);
         $this->metrics['total']['memory']   = Util::convertMemory(memory_get_usage() - $startMemory);
         $this->getLogger()->notice(\sprintf('Built in %s (%s)', $this->metrics['total']['duration'], $this->metrics['total']['memory']));
 

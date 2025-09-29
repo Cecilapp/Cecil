@@ -234,7 +234,7 @@ class Cache implements CacheInterface
             throw new RuntimeException(\sprintf('Asset "%s" has no hash. Please clear cache and retry.', $name));
         }
 
-        return $this->createKey($name, $asset['hash']);
+        return $this->createKey($name, /** @scrutinizer ignore-type */ $asset['hash']);
     }
 
     /**

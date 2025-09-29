@@ -117,7 +117,7 @@ class Copy extends AbstractStep
             if (Util\File::getFS()->exists($from)) {
                 // copy a file
                 if (is_file($from)) {
-                    Util\File::getFS()->copy($from, Util::joinFile($this->config->getOutputPath(), $to), true);
+                    Util\File::getFS()->copy($from, Util::joinFile($this->config->getOutputPath(), (string) $to), true);
 
                     return;
                 }

@@ -165,7 +165,7 @@ EOF
                 $this->getBuilder()->getPages()->filter(function (\Cecil\Collection\Page\Page $page) {
                     return $page->getVariable('published');
                 })->usort(function (\Cecil\Collection\Page\Page $pageA, \Cecil\Collection\Page\Page $pageB) {
-                    return strnatcmp($pageA['language'], $pageB['language']);
+                    return strnatcmp((string) $pageA['language'], (string) $pageB['language']);
                 }) as $page
             ) {
                 /** @var \Cecil\Collection\Page\Page $page */

@@ -38,7 +38,7 @@ class Url
     /** @var string */
     protected $url;
 
-    /** @var Page Slugifier */
+    /** @var Slugify Slugifier */
     private static $slugifier;
 
     /**

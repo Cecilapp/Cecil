@@ -410,7 +410,7 @@ class Parsedown extends \ParsedownToc
             try {
                 // abord if InlineImage is an animated GIF
                 if (Image::isAnimatedGif($assetResized ?? $asset)) {
-                    $filepath = Util::joinFile($this->config->getOutputPath(), $assetResized['path'] ?? $asset['path']);
+                    $filepath = Util::joinFile($this->config->getOutputPath(), $assetResized['path'] ?? $asset['path'] ?? '');
                     throw new RuntimeException(\sprintf('Asset "%s" is not converted (animated GIF).', $filepath));
                 }
                 $sources = [];

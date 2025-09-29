@@ -51,7 +51,7 @@ class FileExtensionFilter extends RecursiveFilterIterator
      */
     public function getChildren(): ?RecursiveFilterIterator
     {
-        return new self($this->getInnerIterator()->getChildren(), $this->allowedExt); // @phpstan-ignore-line
+        return new self($this->getInnerIterator()->/** @scrutinizer ignore-call */getChildren(), $this->allowedExt); // @phpstan-ignore-line
     }
 
     /**
