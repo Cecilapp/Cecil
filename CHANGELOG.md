@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. Dates are displayed in UTC.
 
+#### [8.66.5](https://github.com/Cecilapp/Cecil/compare/8.66.4...8.66.5)
+
+> 28 September 2025
+
+- chore: update deps [`420850a`](https://github.com/Cecilapp/Cecil/commit/420850a4eeef93d240988c2a607b31dba1265f26)
+- fix: remove link attributes in image [`e6d546a`](https://github.com/Cecilapp/Cecil/commit/e6d546a0350df299a8e33e363d0443c638baaff1)
+
 #### [8.66.4](https://github.com/Cecilapp/Cecil/compare/8.66.3...8.66.4)
 
 > 25 September 2025
