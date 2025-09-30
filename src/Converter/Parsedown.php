@@ -145,11 +145,8 @@ class Parsedown extends \ParsedownToc
                 return $link;
             }
             $video = $this->createMediaFromLink($link, 'video');
-            if ($this->config->isEnabled('pages.body.images.caption')) {
-                return $this->createFigure($video);
-            }
 
-            return $video;
+            return $this->createFigure($video);
         }
         // audio?
         if (\in_array($extension, $this->config->get('pages.body.links.embed.audio') ?? [])) {
@@ -159,11 +156,8 @@ class Parsedown extends \ParsedownToc
                 return $link;
             }
             $audio = $this->createMediaFromLink($link, 'audio');
-            if ($this->config->isEnabled('pages.body.images.caption')) {
-                return $this->createFigure($audio);
-            }
 
-            return $audio;
+            return $this->createFigure($audio);
         }
         if (!$embed) {
             return $link;
@@ -172,13 +166,13 @@ class Parsedown extends \ParsedownToc
         // https://regex101.com/r/gznM1j/1
         $pattern = '(?:https?:\/\/)?(?:www\.)?youtu(?:\.be\/|be.com\/\S*(?:watch|embed)(?:(?:(?=\/[-a-zA-Z0-9_]{11,}(?!\S))\/)|(?:\S*v=|v\/)))([-a-zA-Z0-9_]{11,})';
         if (preg_match('/' . $pattern . '/is', (string) $link['element']['attributes']['href'], $matches)) {
-            return $this->createEmbeddedVideoFromLink($link, 'https://www.youtube.com/embed/', $matches[1]);
+            return $this->createFigure($this->createEmbeddedVideoFromLink($link, 'https://www.youtube.com/embed/', $matches[1]));
         }
         // Vimeo link?
         // https://regex101.com/r/wCEFhd/1
         $pattern = 'https:\/\/vimeo\.com\/([0-9]+)';
         if (preg_match('/' . $pattern . '/is', (string) $link['element']['attributes']['href'], $matches)) {
-            return $this->createEmbeddedVideoFromLink($link, 'https://player.vimeo.com/video/', $matches[1]);
+            return $this->createFigure($this->createEmbeddedVideoFromLink($link, 'https://player.vimeo.com/video/', $matches[1]));
         }
         // GitHub Gist link?
         // https://regex101.com/r/KWVMYI/1
@@ -195,11 +189,8 @@ class Parsedown extends \ParsedownToc
                     ],
                 ],
             ];
-            if ($this->config->isEnabled('pages.body.images.caption')) {
-                return $this->createFigure($gist);
-            }
 
-            return $gist;
+            return $this->createFigure($gist);
         }
 
         return $link;
@@ -270,7 +261,7 @@ class Parsedown extends \ParsedownToc
 
         // disable remote image handling?
         if (Util\File::isRemote($InlineImage['element']['attributes']['src']) && !$this->config->isEnabled('pages.body.images.remote')) {
-            return $InlineImage;
+            return $this->createFigure($InlineImage);
         }
 
         // create asset
@@ -320,7 +311,7 @@ class Parsedown extends \ParsedownToc
             } catch (\Exception $e) {
                 $this->builder->getLogger()->debug($e->getMessage());
 
-                return $InlineImage;
+                return $this->createFigure($InlineImage);
             }
         }
 
@@ -467,12 +458,7 @@ class Parsedown extends \ParsedownToc
             }
         }
 
-        // if title: put the <img> (or <picture>) in a <figure> and create a <figcaption>
-        if ($this->config->isEnabled('pages.body.images.caption')) {
-            return $this->createFigure($image);
-        }
-
-        return $image;
+        return $this->createFigure($image);
     }
 
     /**
@@ -726,7 +712,8 @@ class Parsedown extends \ParsedownToc
                 ],
             ],
         ];
-        $div = [
+
+        return [
             'extent'  => $link['extent'],
             'element' => [
                 'name'    => 'div',
@@ -740,18 +727,17 @@ class Parsedown extends \ParsedownToc
                 ],
             ],
         ];
-        if ($this->config->isEnabled('pages.body.images.caption')) {
-            return $this->createFigure($div);
-        }
-
-        return $div;
     }
 
     /**
-     * Create a figure / caption element.
+     * Create a figure > figcaption element.
      */
     private function createFigure(array $inline): array
     {
+        if (!$this->config->isEnabled('pages.body.images.caption')) {
+            return $inline;
+        }
+
         if (empty($inline['element']['attributes']['title'])) {
             return $inline;
         }
