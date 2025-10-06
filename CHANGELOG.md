@@ -2,6 +2,14 @@
 
 All notable changes to this project will be documented in this file. Dates are displayed in UTC.
 
+#### [8.66.6](https://github.com/Cecilapp/Cecil/compare/8.66.5...8.66.6)
+
+> 30 September 2025
+
+- fix: create figure &gt; caption [`3e4edd2`](https://github.com/Cecilapp/Cecil/commit/3e4edd26b0d83a02e86204c0a1353c1d598eebe2)
+- chore: update PHP CS fixer [`55b003b`](https://github.com/Cecilapp/Cecil/commit/55b003bed27c4ff094311a3be2ebe3493a498a8f)
+- refactor: cleaning code [`12de701`](https://github.com/Cecilapp/Cecil/commit/12de70197f28ced67d9f8f296c29024658ba37dd)
+
 #### [8.66.5](https://github.com/Cecilapp/Cecil/compare/8.66.4...8.66.5)
 
 > 28 September 2025
