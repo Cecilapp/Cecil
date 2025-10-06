@@ -251,7 +251,6 @@ Can be displayed in a template with:
 | `site.debug`          | Debug mode: `true` or `false`.                         |
 
 :::important
-In some case you can encounter conflicts between configuration and built-in variables (e.g.: `pages.default` configuration), so you can use `config.<variable>` (with `<variable>` is the name/path of the variable) to access directly to the raw configuration).
 
 Example:
 

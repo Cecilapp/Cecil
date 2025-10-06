@@ -575,8 +575,7 @@ class Asset implements \ArrayAccess
             throw new RuntimeException(\sprintf('Not able to get video infos of "%s".', $this->data['path']));
         }
 
-        $getID3 = new \getID3();
-        $videoInfos = $getID3->analyze($this->data['file']);
+        $videoInfos = (new \getID3())->analyze($this->data['file']);
 
         return [
             'duration' => $videoInfos['playtime_seconds'] ?? 0,
