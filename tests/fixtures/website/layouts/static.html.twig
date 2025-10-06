@@ -6,24 +6,29 @@
   <li><a href="#photo-stream">Photo stream</a></li>
 </ul>
 <ul>
-<a name="all-static-files"></a>
+
+<h2><a name="all-static-files">All static file</a></h2>
 {% for file in site.static %}
   <li>
     {{ file.path }}
     <ul>
-      <li>path: {{ file.path }}</li>
-      <li>date: {{ file.date|date }}</li>
-      <li>updated: {{ file.updated|date }}</li>
-      <li>name: {{ file.name }}</li>
-      <li>basename: {{ file.basename }}</li>
-      <li>ext: {{ file.ext }}</li>
+      <li>path: <code>{{ file.path }}</code></li>
+      <li>date: <code>{{ file.date|date }}</code></li>
+      <li>updated: <code> {{ file.updated|date }}</code></li>
+      <li>name: <code>{{ file.name }}</code></li>
+      <li>basename: <code>{{ file.basename }}</code></li>
+      <li>ext: <code>{{ file.ext }}</code></li>
+      <li>type: <code>{{ file.type }}</code></li>
+      <li>subtype: <code>{{ file.subtype }}</code></li>
       <li>exif: <pre>{{ d(file.exif|default({})) }}</pre></li>
       <li>audio: <pre>{{ d(file.audio|default) }}</pre></li>
+      <li>video: <pre>{{ d(file.video|default) }}</pre></li>
     </ul>
   </li>
 {% endfor %}
 </ul>
-<a name="photo-stream"></a>
+
+<h2><a name="photo-stream">Photo stream</a></h2>
 {% for file in site.static|filter(f => f.ext in ['jpg', 'jpeg', 'png', 'gif']) %}
 <figure>
   <img src="{{ url(file.path) }}" alt="{{ file.name }}">

@@ -23,9 +23,12 @@ use wapmorgan\Mp3Info\Mp3Info;
  *
  * This step is responsible for loading static files from the configured static path.
  * It scans the directory for files, excluding any specified in the configuration.
+ *
  * The loaded files are processed to extract metadata such as file type, subtype,
- * modification date, and EXIF data for images. The processed files are then stored
- * in the builder's static collection for further use in the build process.
+ * modification date.
+ * If the file is a JPEG image, it extracts EXIF metadata.
+ * If the file is an audio file, it extracts audio metadata.
+ * If the file is a video file, it extracts duration and resolution.
  */
 class Load extends AbstractStep
 {
@@ -87,10 +90,21 @@ class Load extends AbstractStep
             $staticFiles[$count]['type'] = $type;
             $staticFiles[$count]['subtype'] = $subtype;
             if ($subtype == 'image/jpeg') {
+                // read EXIF data for JPEG images
                 $staticFiles[$count]['exif'] = Util\File::readExif($file->getRealPath());
             }
             if ($type == 'audio') {
+                // read audio metadata
                 $staticFiles[$count]['audio'] = new Mp3Info($file->getRealPath());
+            }
+            if ($type == 'video') {
+                // read video metadata
+                $videoInfos = (new \getID3())->analyze($file->getRealPath());
+                $staticFiles[$count]['video'] = [
+                    'duration' => $videoInfos['playtime_seconds'] ?? 0,
+                    'width'    => $videoInfos['video']['resolution_x'] ?? 0,
+                    'height'   => $videoInfos['video']['resolution_y'] ?? 0,
+                ];
             }
             $count++;
 
