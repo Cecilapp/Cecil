@@ -694,12 +694,9 @@ Each one can be:
 3. excluded from localization: `multilingual: false`
 
 :::tip
-You can override a default page by creating a page with the same `path`.
-
-For example to add rules to the `robots.txt` page:
-
+You can override a default page by creating a page with the same `path`.  
+For example to add rules to the `robots.txt` page:  
 _pages/robots.md_
-
 ```yaml
 ---
 layout: robots
