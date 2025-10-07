@@ -2,6 +2,14 @@
 
 All notable changes to this project will be documented in this file. Dates are displayed in UTC.
 
+#### [8.67.0](https://github.com/Cecilapp/Cecil/compare/8.66.6...8.67.0)
+
+> 7 October 2025
+
+- feat: add support of video to static files load [`bd20b09`](https://github.com/Cecilapp/Cecil/commit/bd20b09a9b6abe31e513ea4b6d04fc2afedcceee)
+- chore: update deps [`a8b7c9d`](https://github.com/Cecilapp/Cecil/commit/a8b7c9de2bbd404d7c47c4f0dd2b43ef74fb5b70)
+- refactor: minor changes [`0d8ca4c`](https://github.com/Cecilapp/Cecil/commit/0d8ca4cb1ae9125651b30b68339856d2916e12a7)
+
 #### [8.66.6](https://github.com/Cecilapp/Cecil/compare/8.66.5...8.66.6)
 
 > 30 September 2025
