@@ -1,7 +1,7 @@
 <!--
 description: "Configure your website."
 date: 2021-05-07
-updated: 2025-09-18
+updated: 2025-10-07
 -->
 # Configuration
 
@@ -692,6 +692,20 @@ Each one can be:
 1. disabled: `published: false`
 2. excluded from list pages: `excluded: true`
 3. excluded from localization: `multilingual: false`
+
+:::tip
+You can override a default page by creating a page with the same `path`.  
+For example to add rules to the `robots.txt` page:  
+_pages/robots.md_
+```yaml
+---
+layout: robots
+output: txt
+---
+User-agent: AI-bot
+Disallow: /
+```
+:::
 
 ### pages.generators
 

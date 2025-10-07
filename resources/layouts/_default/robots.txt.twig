@@ -1,12 +1,13 @@
+# all user agents
 User-agent: *
+# allow all pages
 Allow: /
-{# Disallow #}
-{# redirects #}
+# disallow redirects pages
 {% for redirect in site.allpages|filter(p => p.redirect is defined and p.type == 'page') %}
 Disallow: {{ url(redirect, {canonical: false}) }}
 {% endfor %}
-{# 404 #}
 {% if site.pages.404 is defined %}
+# disallow 404 page
 Disallow: {{ url(site.pages.404, {canonical: false}) }}
   {%- if site.pages.404.translations|default({})|length > 0 ~%}
     {%- for translation in site.pages.404.translations ~%}
@@ -14,7 +15,13 @@ Disallow: {{ url(translation, {canonical: false}) }}
     {%- endfor ~%}
   {%- endif ~%}
 {% endif %}
-{# Sitemap #}
+{% if page.body %}
+
+# custom rules from robots.md page
+{{ page.body|raw }}
+{% endif %}
 {% if site.pages.sitemap is defined %}
+
+# sitemap
 Sitemap: {{ url('sitemap', {canonical: true}) }}
 {%- endif -%}
