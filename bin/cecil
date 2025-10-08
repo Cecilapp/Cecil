@@ -10,7 +10,7 @@
  * file that was distributed with this source code.
  */
 
-if (PHP_SAPI !== 'cli' && PHP_SAPI !== 'phpdbg') {
+if (PHP_SAPI !== 'cli' && PHP_SAPI !== 'phpdbg' && PHP_SAPI !== 'micro') {
     printf('Warning: Cecil should be invoked via the CLI version of PHP, not the %s SAPI.%s', PHP_SAPI, PHP_EOL);
 }
 
