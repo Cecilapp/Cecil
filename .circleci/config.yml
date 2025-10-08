@@ -2,7 +2,7 @@ version: 2
 jobs:
   build:
     docker:
-    - image: circleci/php:8.1-cli
+    - image: circleci/php:8.2-cli
     steps:
     - run:
         name: Switch timezone to Europe/Paris

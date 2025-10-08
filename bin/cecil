@@ -31,7 +31,7 @@ if (getenv('CECIL_DEBUG') == 'true') {
 
 $name                  = 'Cecil';
 $version               = '@git_version@';
-$phpMinimumVersion     = '8.1.0';
+$phpMinimumVersion     = '8.2.0';
 $phpRequiredExtensions = ['fileinfo', 'gd', 'mbstring'];
 
 // checks PHP minimal version

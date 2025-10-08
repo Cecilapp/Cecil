@@ -1,7 +1,7 @@
 <!--
 description: "Create a new website and preview it locally."
 date: 2020-12-19
-updated: 2025-05-11
+updated: 2025-10-08
 menu: home
 -->
 # Quick Start
@@ -38,7 +38,7 @@ Demo of the expected result: <https://cecilapp.github.io/skeleton/>.
 
 ### Prerequisites
 
-- [PHP](https://php.net/manual/en/install.php) 8.1+
+- [PHP](https://php.net/manual/en/install.php) 8.2+
 - Terminal (a basic understanding of [terminal](https://wikipedia.org/wiki/Terminal_emulator))
 - Text editor, like [VS Code](https://code.visualstudio.com) and/or [Typora](https://typora.io)
 
