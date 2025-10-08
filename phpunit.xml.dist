@@ -2,15 +2,9 @@
 <phpunit xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="https://schema.phpunit.de/9.6/phpunit.xsd"
   backupGlobals="false"
   colors="true"
-  convertErrorsToExceptions="true"
-  convertNoticesToExceptions="true"
-  convertWarningsToExceptions="true"
   bootstrap="./vendor/autoload.php"
 >
-  <coverage
-    includeUncoveredFiles="false"
-    processUncoveredFiles="false"
-  >
+  <source>
     <include>
       <directory suffix=".php">./src</directory>
     </include>
@@ -18,7 +12,7 @@
       <directory>./tests</directory>
       <directory>./vendor</directory>
     </exclude>
-  </coverage>
+  </source>
   <php>
     <ini name="error_reporting" value="-1"/>
     <ini name="date.timezone" value="Europe/Paris"/>
