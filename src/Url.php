@@ -120,7 +120,7 @@ class Url
                 }
                 break;
             case \is_string($value): // others cases
-                /** @var string $value */
+                /** @var non-falsy-string $value */
                 // $value is a potential Page ID
                 $pageId = self::$slugifier->slugify($value);
                 // should force language?

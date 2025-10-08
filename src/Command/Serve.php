@@ -98,7 +98,7 @@ EOF
      *
      * @throws RuntimeException
      */
-    protected function execute(InputInterface $input, OutputInterface $output)
+    protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $open = $input->getOption('open');
         $host = $input->getOption('host');

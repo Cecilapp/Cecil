@@ -79,8 +79,6 @@ class Config implements \ArrayAccess
      *
      * @param mixed $offset
      * @param mixed $value
-     *
-     * @SuppressWarnings(PHPMD.UnusedFormalParameter)
      */
     #[\ReturnTypeWillChange]
     public function offsetSet($offset, $value): void
@@ -91,8 +89,6 @@ class Config implements \ArrayAccess
      * Implements \ArrayAccess.
      *
      * @param mixed $offset
-     *
-     * @SuppressWarnings(PHPMD.UnusedFormalParameter)
      */
     #[\ReturnTypeWillChange]
     public function offsetUnset($offset): void

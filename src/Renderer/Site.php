@@ -110,8 +110,6 @@ class Site implements \ArrayAccess
      *
      * @param mixed $offset
      * @param mixed $value
-     *
-     * @SuppressWarnings(PHPMD.UnusedFormalParameter)
      */
     #[\ReturnTypeWillChange]
     public function offsetSet($offset, $value): void
@@ -122,8 +120,6 @@ class Site implements \ArrayAccess
      * Implements \ArrayAccess.
      *
      * @param mixed $offset
-     *
-     * @SuppressWarnings(PHPMD.UnusedFormalParameter)
      */
     #[\ReturnTypeWillChange]
     public function offsetUnset($offset): void

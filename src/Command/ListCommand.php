@@ -25,7 +25,7 @@ class ListCommand extends \Symfony\Component\Console\Command\ListCommand
     /**
      * {@inheritdoc}
      */
-    protected function configure()
+    protected function configure(): void
     {
         parent::configure();
         $this->setHidden(true);

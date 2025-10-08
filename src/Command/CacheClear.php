@@ -47,7 +47,7 @@ EOF
     /**
      * {@inheritdoc}
      */
-    protected function execute(InputInterface $input, OutputInterface $output)
+    protected function execute(InputInterface $input, OutputInterface $output): int
     {
         if (!Util\File::getFS()->exists($this->getBuilder()->getConfig()->getCachePath())) {
             $output->writeln('<info>No cache.</info>');
