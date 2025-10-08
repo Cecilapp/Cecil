@@ -73,25 +73,25 @@
         },
         {
             "name": "cecil/resource-watcher",
-            "version": "4.0.0",
+            "version": "4.1.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/Cecilapp/resource-watcher.git",
-                "reference": "6050bf4cd0bacff3396cdbee595ef3fa6ab063fb"
+                "reference": "bc8e997dcd450e632170db7afb6b8551d697e54b"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/Cecilapp/resource-watcher/zipball/6050bf4cd0bacff3396cdbee595ef3fa6ab063fb",
-                "reference": "6050bf4cd0bacff3396cdbee595ef3fa6ab063fb",
+                "url": "https://api.github.com/repos/Cecilapp/resource-watcher/zipball/bc8e997dcd450e632170db7afb6b8551d697e54b",
+                "reference": "bc8e997dcd450e632170db7afb6b8551d697e54b",
                 "shasum": ""
             },
             "require": {
                 "php": ">=7.1",
-                "symfony/finder": "^2.7|^3.0|^4.0|^5.0|^6.0"
+                "symfony/finder": "^2.7|^3.0|^4.0|^5.0|^6.0|^7.0"
             },
             "require-dev": {
                 "phpunit/phpunit": "^5.7|^8",
-                "symfony/filesystem": "^2.7|^3.0|^4.0|^5.0"
+                "symfony/filesystem": "^2.7|^3.0|^4.0|^5.0|^6.0|^7.0"
             },
             "type": "library",
             "extra": {
@@ -123,7 +123,7 @@
                 "watcher"
             ],
             "support": {
-                "source": "https://github.com/Cecilapp/resource-watcher/tree/4.0.0"
+                "source": "https://github.com/Cecilapp/resource-watcher/tree/4.1.0"
             },
             "funding": [
                 {
@@ -135,7 +135,7 @@
                     "type": "open_collective"
                 }
             ],
-            "time": "2024-01-04T09:44:14+00:00"
+            "time": "2025-10-08T10:46:28+00:00"
         },
         {
             "name": "cocur/slugify",
