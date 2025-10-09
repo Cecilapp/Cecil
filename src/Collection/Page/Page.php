@@ -689,7 +689,7 @@ class Page extends Item
             return $this->unVariable($variable);
         }
 
-        trigger_error('Call to undefined method ' . __CLASS__. '::' . $method . '()', E_USER_ERROR);
+        trigger_error('Call to undefined method ' . __CLASS__ . '::' . $method . '()', E_USER_ERROR);
     }
 
     /**
