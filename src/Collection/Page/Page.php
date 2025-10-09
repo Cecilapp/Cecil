@@ -657,6 +657,65 @@ class Page extends Item
     }
 
     /**
+     * Magic method to handle variables.
+     *
+     * @param string $method    Method name
+     * @param array  $arguments Method arguments
+     *
+     * @return mixed
+     */
+    public function __call($method, $arguments)
+    {
+        if (method_exists($this, $method)) {
+            return $method($arguments);
+        }
+
+        if (str_starts_with($method, 'has') && \count($arguments) == 0) {
+            $variable = strtolower(substr($method, 3));
+            return $this->hasVariable($variable);
+        }
+        if (str_starts_with($method, 'get') && \count($arguments) == 0) {
+            $variable = strtolower(substr($method, 3));
+            if ($this->hasVariable($variable)) {
+                return $this->getVariable($variable);
+            }
+        }
+        if (str_starts_with($method, 'set') && \count($arguments) == 1) {
+            $variable = strtolower(substr($method, 3));
+            return $this->setVariable($variable, $arguments[0]);
+        }
+        if (str_starts_with($method, 'un') && \count($arguments) == 0) {
+            $variable = strtolower(substr($method, 2));
+            return $this->unVariable($variable);
+        }
+
+        trigger_error('Call to undefined method ' . __CLASS__. '::' . $method . '()', E_USER_ERROR);
+    }
+
+    /**
+     * Magic method to handle isset.
+     *
+     * @param string $name Name of the variable
+     *
+     * @return bool
+     */
+    public function __isset($name)
+    {
+        if ($this->hasVariable($name)) {
+            return true;
+        }
+
+        return false;
+    }
+
+    public function __get($name)
+    {
+        throw new RuntimeException(\sprintf('Call to undefined property %s::$%s', __CLASS__, $name));
+
+        $this->getVariable($name);
+    }
+
+    /**
      * Set front matter (only) variables.
      */
     public function setFmVariables(array $variables): self
