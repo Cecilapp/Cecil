@@ -1,0 +1,8 @@
+{
+    "src": "./dist/cecil.phar",
+    "dest": "./dist/build",
+    "ini": "./phpacker.ini",
+    "platform": "all",
+    "php": "8.4",
+    "repository": "phpacker/php-bin"
+}
