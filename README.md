@@ -46,7 +46,7 @@ curl -LO https://github.com/Cecilapp/Cecil/releases/latest/download/cecil.phar
 ```
 
 > [!IMPORTANT]
-> [PHP](https://www.php.net) 8.1+ is required.
+> [PHP](https://www.php.net) 8.2+ is required.
 
 ## Usage
 
