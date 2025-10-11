@@ -4,5 +4,5 @@
     "ini": "./phpacker.ini",
     "platform": "all",
     "php": "8.4",
-    "repository": "phpacker/php-bin"
+    "repository": "Cecilapp/php-bin"
 }
