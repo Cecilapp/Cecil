@@ -55,7 +55,7 @@ EOF
     /**
      * {@inheritdoc}
      */
-    protected function execute(InputInterface $input, OutputInterface $output)
+    protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $cacheTemplatesPath = $this->getBuilder()->getConfig()->getCacheTemplatesPath();
         if (!Util\File::getFS()->exists($cacheTemplatesPath)) {

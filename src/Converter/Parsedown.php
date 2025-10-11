@@ -62,12 +62,12 @@ class Parsedown extends \ParsedownToc
         $this->config = $builder->getConfig();
 
         // "insert" line block: ++text++ -> <ins>text</ins>
-        $this->InlineTypes['+'][] = 'Insert';
-        $this->inlineMarkerList = implode('', array_keys($this->InlineTypes));
-        $this->specialCharacters[] = '+';
+        $this->InlineTypes['+'][] = 'Insert'; // @phpstan-ignore-line
+        $this->inlineMarkerList = implode('', array_keys($this->InlineTypes)); // @phpstan-ignore-line
+        $this->specialCharacters[] = '+'; // @phpstan-ignore-line
 
         // Image block (to avoid paragraph)
-        $this->BlockTypes['!'][] = 'Image';
+        $this->BlockTypes['!'][] = 'Image'; // @phpstan-ignore-line
 
         // "notes" block
         $this->BlockTypes[':'][] = 'Note';

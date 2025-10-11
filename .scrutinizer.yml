@@ -38,7 +38,7 @@ build:
   environment:
     timezone: 'Europe/Paris'
     php:
-      version: 8.1
+      version: 8.2
       #compile_options: '--with-config-file-path=/home/scrutinizer/.phpenv/versions/7.4.27/etc --with-config-file-scan-dir=/home/scrutinizer/.phpenv/versions/7.4.27/etc/conf.d --prefix=/home/scrutinizer/.phpenv/versions/7.4.27 --libexecdir=/home/scrutinizer/.phpenv/versions/7.4.27/libexec --enable-intl --with-openssl --with-gd --enable-gd --with-jpeg-dir=/usr --with-png-dir=/usr --with-freetype-dir=/usr --enable-exif --with-libzip --with-zlib --with-zlib-dir=/usr --enable-xmlreader --with-xsl --enable-pcntl --with-readline --enable-mbstring --with-curl --with-gettext --with-bz2 --enable-bcmath --with-libdir=lib --with-pear=/home/scrutinizer/.phpenv/versions/7.4.27/pear --with-webp-dir=/usr -with-vpx-dir=/usr'
       ini:
         xdebug.mode: coverage

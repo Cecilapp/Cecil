@@ -5,7 +5,7 @@ export LC_ALL=$(locale -a|grep -ix 'c.utf-\?8' || echo C)
 # It is intended to be used on CI / CD.
 
 # Requirements
-export PHP_MIN_VERSION="8.1"
+export PHP_MIN_VERSION="8.2"
 
 # Specify the PHP version with `PHP_VERSION`
 if [ -z "${PHP_VERSION}" ]; then
