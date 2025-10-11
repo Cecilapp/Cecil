@@ -111,7 +111,7 @@
     "build": "box compile",
     "build:phar": "@build",
     "build:package": "phpacker build",
-    "build:package:download": "phpacker download \"phpacker/php-bin\"",
+    "build:package:download": "phpacker download \"Cecilapp/php-bin\"",
     "code": ["@code:analyse", "@code:fix", "@code:style"],
     "code:analyse": ["phpstan analyse ./src/ --memory-limit=1G --level=2 --no-progress --error-format=raw"],
     "code:analyse:gh": ["phpstan analyse ./src/ --memory-limit=1G --level=2 --no-progress --error-format=github"],
