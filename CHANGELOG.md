@@ -2,6 +2,12 @@
 
 All notable changes to this project will be documented in this file. Dates are displayed in UTC.
 
+#### [8.68.0](https://github.com/Cecilapp/Cecil/compare/8.67.0...8.68.0)
+
+> 7 October 2025
+
+- feat: add custom rules to robots.txt [`#2225`](https://github.com/Cecilapp/Cecil/pull/2225)
+
 #### [8.67.0](https://github.com/Cecilapp/Cecil/compare/8.66.6...8.67.0)
 
 > 7 October 2025
