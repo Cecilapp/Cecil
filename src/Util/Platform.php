@@ -50,7 +50,7 @@ class Platform
     {
         if (!isset(self::$pharPath)) {
             if (!self::isPhar()) {
-                throw new \Exception('Can\'t get Phar path.');
+                throw new \Exception('Unable to get Phar path.');
             }
         }
 

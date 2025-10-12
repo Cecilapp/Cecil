@@ -245,7 +245,7 @@ class Cache implements CacheInterface
     public function createKeyFromFile(\Symfony\Component\Finder\SplFileInfo $file): string
     {
         if (false === $content = Util\File::fileGetContents($file->getRealPath())) {
-            throw new RuntimeException(\sprintf('Can\'t create cache key for "%s".', $file));
+            throw new RuntimeException(\sprintf('Unable to create cache key for "%s".', $file));
         }
 
         return $this->createKeyFromValue($file->getRelativePathname(), $content);

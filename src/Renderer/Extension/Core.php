@@ -667,13 +667,13 @@ class Core extends SlugifyExtension
             return $asset;
         }
         if (Image::isAnimatedGif($asset)) {
-            throw new RuntimeException(\sprintf('Can\'t convert the animated GIF "%s" to %s.', $asset['path'], $format));
+            throw new RuntimeException(\sprintf('Unable to convert the animated GIF "%s" to %s.', $asset['path'], $format));
         }
 
         try {
             return $asset->$format($quality);
         } catch (\Exception $e) {
-            throw new RuntimeException(\sprintf('Can\'t convert "%s" to %s (%s).', $asset['path'], $format, $e->getMessage()));
+            throw new RuntimeException(\sprintf('Unable to convert "%s" to %s (%s).', $asset['path'], $format, $e->getMessage()));
         }
     }
 

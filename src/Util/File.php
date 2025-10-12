@@ -91,12 +91,12 @@ class File
             $mimeTypes = new MimeTypes();
             $subtype = $mimeTypes->guessMimeType($filename);
             if ($subtype === null) {
-                throw new RuntimeException('Can\'t guess the media type.');
+                throw new RuntimeException('Unable to guess the media type.');
             }
 
             return [explode('/', $subtype)[0], $subtype];
         } catch (\Exception $e) {
-            throw new RuntimeException(\sprintf('Can\'t get media type of "%s" (%s).', $filename, $e->getMessage()));
+            throw new RuntimeException(\sprintf('Unable to get media type of "%s" (%s).', $filename, $e->getMessage()));
         }
     }
 
@@ -114,14 +114,14 @@ class File
             $mimeTypes = new MimeTypes();
             $mimeType = $mimeTypes->guessMimeType($filename);
             if ($mimeType === null) {
-                throw new RuntimeException('Can\'t guess the media type.');
+                throw new RuntimeException('Unable to guess the media type.');
             }
             $exts = $mimeTypes->getExtensions($mimeType);
 
             return $exts[0];
         } catch (\Exception $e) {
             throw new RuntimeException(
-                \sprintf('Can\'t get extension of "%s".', $filename),
+                \sprintf('Unable to get extension of "%s".', $filename),
                 previous: $e,
             );
         }
@@ -174,7 +174,7 @@ class File
             return \Cecil\Util::joinPath(Platform::getPharPath(), str_replace('../', '/', $path));
         }
 
-        throw new RuntimeException(\sprintf('Can\'t get the real path of file "%s".', $path));
+        throw new RuntimeException(\sprintf('Unable to get the real path of file "%s".', $path));
     }
 
     /**

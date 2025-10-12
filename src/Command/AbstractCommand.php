@@ -147,7 +147,7 @@ class AbstractCommand extends Command
             try {
                 // get working directory by default
                 if (false === $this->path = getcwd()) {
-                    throw new \Exception('Can\'t get current working directory.');
+                    throw new \Exception('Unable to get current working directory.');
                 }
                 // ... or path
                 if ($this->input->getArgument('path') !== null) {
@@ -268,7 +268,7 @@ class AbstractCommand extends Command
         $process = Process::fromShellCommandline($command);
         $process->run();
         if (!$process->isSuccessful()) {
-            throw new RuntimeException(\sprintf('Can\'t use "%s" editor.', $editor));
+            throw new RuntimeException(\sprintf('Unable to use "%s" editor.', $editor));
         }
     }
 

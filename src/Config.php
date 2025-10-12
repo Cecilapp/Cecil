@@ -123,7 +123,7 @@ class Config
             throw new ConfigException(\sprintf('File "%s" does not exist.', $file));
         }
         if (false === $fileContent = Util\File::fileGetContents($file)) {
-            throw new ConfigException(\sprintf('Can\'t read file "%s".', $file));
+            throw new ConfigException(\sprintf('Unable to read file "%s".', $file));
         }
         try {
             return Yaml::parse($fileContent, Yaml::PARSE_DATETIME) ?? [];

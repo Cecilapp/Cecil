@@ -685,7 +685,7 @@ class Parsedown extends \ParsedownToc
                 return $block;
         }
 
-        throw new \Exception(\sprintf('Can\'t create %s from "%s".', $type, $link['element']['attributes']['href']));
+        throw new \Exception(\sprintf('Unable to create %s from "%s".', $type, $link['element']['attributes']['href']));
     }
 
     /**

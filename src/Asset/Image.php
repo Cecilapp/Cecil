@@ -155,7 +155,7 @@ class Image
                 quality: $quality
             );
         } catch (\Exception $e) {
-            throw new RuntimeException(\sprintf('Can\'t make Asset "%s" maskable: %s', $asset['path'], $e->getMessage()));
+            throw new RuntimeException(\sprintf('Unable to make Asset "%s" maskable: %s', $asset['path'], $e->getMessage()));
         }
     }
 
@@ -182,7 +182,7 @@ class Image
                 quality: $quality
             );
         } catch (\Exception $e) {
-            throw new RuntimeException(\sprintf('Not able to convert "%s" to %s: %s', $asset['path'], $format, $e->getMessage()));
+            throw new RuntimeException(\sprintf('Unable to convert "%s" to %s: %s', $asset['path'], $format, $e->getMessage()));
         }
     }
 
@@ -198,7 +198,7 @@ class Image
 
             return (string) $image->encode(new AutoEncoder(quality: $quality))->toDataUri();
         } catch (\Exception $e) {
-            throw new RuntimeException(\sprintf('Can\'t get Data URL of "%s": %s', $asset['path'], $e->getMessage()));
+            throw new RuntimeException(\sprintf('Unable to get Data URL of "%s": %s', $asset['path'], $e->getMessage()));
         }
     }
 
@@ -214,7 +214,7 @@ class Image
 
             return $image->reduceColors(1)->pickColor(0, 0)->toString();
         } catch (\Exception $e) {
-            throw new RuntimeException(\sprintf('Can\'t get dominant color of "%s": %s', $asset['path'], $e->getMessage()));
+            throw new RuntimeException(\sprintf('Unable to get dominant color of "%s": %s', $asset['path'], $e->getMessage()));
         }
     }
 
@@ -230,7 +230,7 @@ class Image
 
             return (string) $image->blur(50)->encode()->toDataUri();
         } catch (\Exception $e) {
-            throw new RuntimeException(\sprintf('can\'t create LQIP of "%s": %s', $asset['path'], $e->getMessage()));
+            throw new RuntimeException(\sprintf('Unable to create LQIP of "%s": %s', $asset['path'], $e->getMessage()));
         }
     }
 
@@ -243,7 +243,7 @@ class Image
     public static function buildHtmlSrcset(Asset $asset, array $widths): string
     {
         if (!self::isImage($asset)) {
-            throw new RuntimeException(\sprintf('can\'t build "srcset" of "%s": it\'s not an image file.', $asset['path']));
+            throw new RuntimeException(\sprintf('unable to build "srcset" of "%s": it\'s not an image file.', $asset['path']));
         }
 
         $srcset = '';

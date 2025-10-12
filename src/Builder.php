@@ -575,7 +575,7 @@ class Builder implements LoggerAwareInterface
                 $filePath = Util\File::getRealPath('VERSION');
                 $version = Util\File::fileGetContents($filePath);
                 if ($version === false) {
-                    throw new RuntimeException(\sprintf('Can\'t read content of "%s".', $filePath));
+                    throw new RuntimeException(\sprintf('Unable to read content of "%s".', $filePath));
                 }
                 self::$version = trim($version);
             } catch (\Exception) {
