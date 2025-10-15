@@ -2,6 +2,18 @@
 
 All notable changes to this project will be documented in this file. Dates are displayed in UTC.
 
+#### [8.69.0](https://github.com/Cecilapp/Cecil/compare/8.68.0...8.69.0)
+
+> 15 October 2025
+
+- feat: add XSLT to XML sitemap [`#2232`](https://github.com/Cecilapp/Cecil/pull/2232)
+- chore(deps): bump james-heinrich/getid3 from 1.9.23 to 1.9.24 [`#2230`](https://github.com/Cecilapp/Cecil/pull/2230)
+- chore(deps): bump cecil/resource-watcher from 4.0.0 to 4.1.0 [`#2227`](https://github.com/Cecilapp/Cecil/pull/2227)
+- refactor: better error/warning messages [`9e6b455`](https://github.com/Cecilapp/Cecil/commit/9e6b455d71c3525b7ccfe252e076bf704b7ee7e7)
+- chore: update deps [`470baf6`](https://github.com/Cecilapp/Cecil/commit/470baf6d522d49e7a2a8988288bde9290c82c6b9)
+- docs: update deploy page [`c204d88`](https://github.com/Cecilapp/Cecil/commit/c204d884f3609cc7eb8e21ff4cb6aeeb63da4f1f)
+- fix: SAPI warning message [`b270353`](https://github.com/Cecilapp/Cecil/commit/b27035366e560b3310b2fd8db140c7a35c213cf1)
+
 #### [8.68.0](https://github.com/Cecilapp/Cecil/compare/8.67.0...8.68.0)
 
 > 7 October 2025
