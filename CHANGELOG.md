@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. Dates are displayed in UTC.
 
+#### [8.69.1](https://github.com/Cecilapp/Cecil/compare/8.69.0...8.69.1)
+
+> 15 October 2025
+
+- fix: sitemap style [`e1172a6`](https://github.com/Cecilapp/Cecil/commit/e1172a6fdf3d49bbdbd24fe9733a408c8043d6a1)
+- chore: code cleaning [`a9f0bab`](https://github.com/Cecilapp/Cecil/commit/a9f0bab73a05e123706aa938e3d93fabb8effdfb)
+
 #### [8.69.0](https://github.com/Cecilapp/Cecil/compare/8.68.0...8.69.0)
 
 > 15 October 2025
