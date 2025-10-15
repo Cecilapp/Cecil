@@ -1,4 +1,7 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+{%- if site.page('xsl/sitemap') ~%}
+<?xml-stylesheet type="text/xsl" href="{{ url('xsl/sitemap') }}" media="all"?>
+{%- endif ~%}
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
   xmlns:xhtml="http://www.w3.org/1999/xhtml"
   xmlns:video="http://www.google.com/schemas/sitemap-video/1.1">
