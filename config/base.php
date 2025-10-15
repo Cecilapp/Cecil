@@ -59,6 +59,14 @@ return [
                 'excluded'     => true,
                 'multilingual' => false,
             ],
+            'xsl/sitemap' => [
+                'path'      => 'xsl/sitemap',
+                'layout'    => 'sitemap',
+                'output'    => 'xsl',
+                'uglyurl'   => true,
+                'published' => true,
+                'excluded'  => true,
+            ],
             'xsl/atom' => [
                 'path'      => 'xsl/atom',
                 'layout'    => 'feed',
