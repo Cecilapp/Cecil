@@ -95,7 +95,7 @@ class AbstractCommand extends Command
         if (self::DESKTOP_NOTIFICATION) {
             $this->notification = (new Notification())
                 ->setTitle('Cecil')
-                ->setIcon(__DIR__.'/../../resources/icon.png')
+                ->setIcon(__DIR__ . '/../../resources/icon.png')
                 ->setBody('...')
             ;
         }
