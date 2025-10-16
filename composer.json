@@ -111,7 +111,7 @@
     "code": ["@code:analyse", "@code:fix", "@code:style"],
     "code:analyse": ["phpstan analyse ./src/ --memory-limit=1G --level=2 --no-progress --error-format=raw"],
     "code:analyse:gh": ["phpstan analyse ./src/ --memory-limit=1G --level=2 --no-progress --error-format=github"],
-    "code:md": "phpmd ./src text codesize,unusedcode,naming",
+    "code:md": "phpmd ./src text ./.phpmd-rules.xml",
     "code:md:gh": "phpmd ./src github codesize,unusedcode,naming",
     "code:style": "phpcs",
     "code:fix": "php-cs-fixer fix --allow-risky=yes --show-progress=none",
@@ -129,6 +129,8 @@
     "test:phar": "box compile && cd dist && php cecil.phar --version && mkdir demo && php cecil.phar new:site demo --demo -f -n && php cecil.phar new:page demo -f -n && php cecil.phar build demo -v && php cecil.phar show:content demo && rm -rf demo"
   },
   "scripts-descriptions": {
+    "post-install-cmd": "Install dependencies for the test website",
+    "post-update-cmd": "Update dependencies for the test website",
     "build": "Builds cecil.phar",
     "code": "Runs code quality checks",
     "code:analyse": "Analyses code with PHPStan",
