@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "5866b4996615a2859da29eaf69c2364d",
+    "content-hash": "5a16a9daf1ba76877f1a914b0a3435cf",
     "packages": [
         {
             "name": "benjaminhoegh/parsedown-toc",
@@ -597,6 +597,129 @@
                 "source": "https://github.com/JamesHeinrich/getID3/tree/v1.9.24"
             },
             "time": "2025-10-09T17:48:17+00:00"
+        },
+        {
+            "name": "jolicode/jolinotif",
+            "version": "v3.2.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/jolicode/JoliNotif.git",
+                "reference": "6f6490f8fd062deda601a8bfc03ea03305253d29"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/jolicode/JoliNotif/zipball/6f6490f8fd062deda601a8bfc03ea03305253d29",
+                "reference": "6f6490f8fd062deda601a8bfc03ea03305253d29",
+                "shasum": ""
+            },
+            "require": {
+                "jolicode/php-os-helper": "^0.3",
+                "php": ">=8.2",
+                "psr/log": "^1.0 || ^2.0 || ^3.0",
+                "symfony/deprecation-contracts": "^3",
+                "symfony/process": "^6.4 || ^7.3 || ^8.0"
+            },
+            "require-dev": {
+                "monolog/monolog": "^3.9",
+                "symfony/finder": "^6.4 || ^7.3 || ^8.0",
+                "symfony/phpunit-bridge": "^7.3 || ^8.0"
+            },
+            "suggest": {
+                "ext-ffi": "Needed to send notifications via libnotify on Linux"
+            },
+            "bin": [
+                "jolinotif"
+            ],
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-main": "3.x-dev"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Joli\\JoliNotif\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Loïck Piera",
+                    "email": "pyrech@gmail.com"
+                }
+            ],
+            "description": "Send desktop notifications on Windows, Linux, MacOS.",
+            "keywords": [
+                "MAC",
+                "growl",
+                "linux",
+                "notification",
+                "windows"
+            ],
+            "support": {
+                "issues": "https://github.com/jolicode/JoliNotif/issues",
+                "source": "https://github.com/jolicode/JoliNotif/tree/v3.2.0"
+            },
+            "funding": [
+                {
+                    "url": "https://tidelift.com/funding/github/packagist/jolicode/jolinotif",
+                    "type": "tidelift"
+                }
+            ],
+            "time": "2025-10-16T21:31:31+00:00"
+        },
+        {
+            "name": "jolicode/php-os-helper",
+            "version": "v0.3.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/jolicode/php-os-helper.git",
+                "reference": "e71596ae67d477fe214a5908f5522b9e4d19fd37"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/jolicode/php-os-helper/zipball/e71596ae67d477fe214a5908f5522b9e4d19fd37",
+                "reference": "e71596ae67d477fe214a5908f5522b9e4d19fd37",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=8.2"
+            },
+            "require-dev": {
+                "symfony/phpunit-bridge": "^6.4"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "JoliCode\\PhpOsHelper\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Loïck Piera",
+                    "email": "pyrech@gmail.com"
+                }
+            ],
+            "description": "Helpers to detect the OS of the machine where PHP is running.",
+            "keywords": [
+                "linux",
+                "os",
+                "osx",
+                "php",
+                "windows"
+            ],
+            "support": {
+                "issues": "https://github.com/jolicode/php-os-helper/issues",
+                "source": "https://github.com/jolicode/php-os-helper/tree/v0.3.0"
+            },
+            "time": "2025-10-11T13:02:06+00:00"
         },
         {
             "name": "laravel-zero/phar-updater",
@@ -9706,10 +9829,7 @@
         "php": "^8.2||^8.3||^8.4",
         "ext-fileinfo": "*",
         "ext-gd": "*",
-        "ext-mbstring": "*",
-        "lib-gd": "*",
-        "lib-gd-libjpeg": "*",
-        "lib-gd-libpng": "*"
+        "ext-mbstring": "*"
     },
     "platform-dev": {},
     "platform-overrides": {

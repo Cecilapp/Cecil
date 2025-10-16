@@ -15,6 +15,7 @@ namespace Cecil\Command;
 
 use Cecil\Exception\RuntimeException;
 use Cecil\Util;
+use Joli\JoliNotif\DefaultNotifier;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
@@ -222,6 +223,12 @@ EOF
                         error_log($buffer, 3, Util::joinFile($this->getPath(), self::TMP_DIR, 'errors.log'));
                     }
                 });
+                // notification
+                if (self::DESKTOP_NOTIFICATION) {
+                    $notifier = new DefaultNotifier();
+                    $this->notification->setBody('Starting server');
+                    $notifier->send($this->notification);
+                }
                 if ($open) {
                     $output->writeln('Opening web browser...');
                     Util\Platform::openBrowser(\sprintf('http://%s:%s', $host, $port));

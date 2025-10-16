@@ -18,6 +18,7 @@ use Cecil\Config;
 use Cecil\Exception\RuntimeException;
 use Cecil\Logger\ConsoleLogger;
 use Cecil\Util;
+use Joli\JoliNotif\Notification;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
@@ -38,6 +39,10 @@ class AbstractCommand extends Command
     public const TMP_DIR = '.cecil';
     public const EXCLUDED_CMD = ['about', 'new:site', 'self-update'];
     public const SERVE_OUTPUT = '.cecil/preview';
+    public const DESKTOP_NOTIFICATION = false; // set to true to enable desktop notifications
+
+    /** @var Notification */
+    public $notification;
 
     /** @var InputInterface */
     protected $input;
@@ -85,6 +90,14 @@ class AbstractCommand extends Command
                     $this->io->warning(\sprintf('Could not find configuration file "%s".', $fileName));
                 }
             }
+        }
+        // prepare notification
+        if (self::DESKTOP_NOTIFICATION) {
+            $this->notification = (new Notification())
+                ->setTitle('Cecil')
+                ->setIcon(__DIR__.'/../../resources/icon.png')
+                ->setBody('...')
+            ;
         }
 
         parent::initialize($input, $output);
