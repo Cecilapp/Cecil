@@ -2,6 +2,14 @@
 
 All notable changes to this project will be documented in this file. Dates are displayed in UTC.
 
+#### [8.69.2](https://github.com/Cecilapp/Cecil/compare/8.69.1...8.69.2)
+
+> 17 October 2025
+
+- test: add PHPMD config file [`d32c140`](https://github.com/Cecilapp/Cecil/commit/d32c14075110558622bd78bee333ef01a6784f51)
+- fix: XML templates [`e175571`](https://github.com/Cecilapp/Cecil/commit/e175571c3ceaeaebaafa7731e4e5bfe3da3759a8)
+- refactor: add link to URL in sitemap style [`5d1c983`](https://github.com/Cecilapp/Cecil/commit/5d1c983361886e0f13555c4ff875ce2b8ddfa0a5)
+
 #### [8.69.1](https://github.com/Cecilapp/Cecil/compare/8.69.0...8.69.1)
 
 > 15 October 2025
