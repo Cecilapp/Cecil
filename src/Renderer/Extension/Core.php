@@ -629,7 +629,7 @@ class Core extends SlugifyExtension
      */
     public function imageSrcset(Asset $asset): string
     {
-        return Image::buildHtmlSrcset($asset, $this->config->getAssetsImagesWidths());
+        return Image::buildHtmlSrcset($asset, $this->config->getAssetsImagesWidths(), true);
     }
 
     /**
