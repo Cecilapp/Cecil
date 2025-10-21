@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. Dates are displayed in UTC.
 
+#### [8.69.3](https://github.com/Cecilapp/Cecil/compare/8.69.2...8.69.3)
+
+> 21 October 2025
+
+- chore(deps-dev): bump friendsofphp/php-cs-fixer from 3.88.2 to 3.89.0 [`#2234`](https://github.com/Cecilapp/Cecil/pull/2234)
+- fix: image_srcset function [`58bf42c`](https://github.com/Cecilapp/Cecil/commit/58bf42c6e5d9bc1122b47e91f8d0c975cac6a345)
+
 #### [8.69.2](https://github.com/Cecilapp/Cecil/compare/8.69.1...8.69.2)
 
 > 17 October 2025
