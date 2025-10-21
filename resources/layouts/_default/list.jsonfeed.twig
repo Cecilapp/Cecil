@@ -4,24 +4,29 @@
 {
   "version": "https://jsonfeed.org/version/1.1",
   "title": {{ title|json_encode(constant('JSON_UNESCAPED_UNICODE')) }},
-  "description": {{ page.description|default(site.description)|json_encode(constant('JSON_UNESCAPED_UNICODE')) }},
-  "feed_url": "{{ url(page, {canonical: true, format: 'jsonfeed'}) }}",
   "home_page_url": "{{ url(page, {canonical: true}) }}",
+  "feed_url": "{{ url(page, {canonical: true, format: 'jsonfeed'}) }}",
+  "description": {{ page.description|default(site.description)|json_encode(constant('JSON_UNESCAPED_UNICODE')) }},
   {%- set icon = asset(site.metatags.favicon.image|default('favicon.png'), {'ignore_missing': true}) -%}
   {%- if not icon.missing ~%}
   "icon": "{{ icon|resize(512)|url({canonical: true}) }}",
   "favicon": "{{ icon|resize(64)|url({canonical: true}) }}",
-  {%- endif ~%}
-  {%- if site.author.firstname is defined and site.author.lastname is defined -%}
-  {%- set author = site.author.firstname ~ ' ' ~ site.author.lastname -%}
-  {%- endif ~%}
-  {%- if author|default ~%}
+  {%- endif -%}
+  {%- set author = site.author|default -%}
+  {%- if author is not iterable -%}
+    {%- set author = {'name': site.author|default} -%}
+  {%- endif -%}
+  {%- if author.name|default ~%}
   "authors": [
     {
-      "name": {{ author|json_encode }}
-      {%- if not icon.missing -%}
+      "name": {{ author.name|json_encode }}
+      {%- if author.url|default -%}
       ,
-      "avatar": "{{ icon|resize(128)|url({canonical: true}) }}"
+      "url": "{{ author.url }}"
+      {%- endif ~%}
+      {%- if author.avatar|default -%}
+      ,
+      "avatar": "{{ url(author.avatar|resize(512), {canonical: true}) }}"
       {%- endif ~%}
     }
   ],
@@ -36,26 +41,41 @@
       "title": {{ item.title|json_encode(constant('JSON_UNESCAPED_UNICODE')) }},
       "content_text": {{ item.content|striptags|json_encode(constant('JSON_UNESCAPED_UNICODE')) }},
       "content_html": {{ item.content|json_encode(constant('JSON_UNESCAPED_UNICODE') b-or constant('JSON_UNESCAPED_SLASHES')) }},
+      {%- if item.description is defined ~%}
+      "summary": {{ item.description|json_encode(constant('JSON_UNESCAPED_UNICODE')) }},
+      {%- endif ~%}
       {%- if item.image is defined ~%}
       "image": "{{ url(asset(item.image), {canonical: true}) }}",
       {%- endif ~%}
       "date_published": "{{ item.date|date('c') }}",
       {%- if item.updated is defined ~%}
       "date_modified": "{{ item.updated|date('c') }}",
-      {%- endif ~%}
+      {%- endif -%}
+      {%- set author = item.author|default -%}
+      {%- if author is not iterable -%}
+        {%- set author = {'name': item.author|default} -%}
+      {%- endif -%}
+      {%- if author.name|default ~%}
+      "authors": [
+        {
+          "name": {{ author.name|json_encode }}
+          {%- if author.url|default -%}
+          ,
+          "url": "{{ author.url }}"
+          {%- endif ~%}
+          {%- if author.avatar|default -%}
+          ,
+          "avatar": "{{ url(author.avatar|resize(512), {canonical: true}) }}"
+          {%- endif ~%}
+        }
+      ],
+      {%- endif -%}
       {%- if item.tags is defined ~%}
       "tags": {{ item.tags|default([])|json_encode }},
       {%- endif ~%}
       {%- for variable, value in item.fmvariables|filter((v, k) => k starts with '_') ~%}
       "{{ variable }}": {{ value|json_encode(constant('JSON_UNESCAPED_SLASHES')) }},
       {%- endfor ~%}
-      {%- if page.author is defined ~%}
-      "authors": [
-        {
-          "name": {{ page.author|json_encode }}
-        }
-      ],
-      {%- endif ~%}
       "language": "{{ item.language|default(site.language|default('en')) }}"
       {%- endblock ~%}
     }
