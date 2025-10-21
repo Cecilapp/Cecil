@@ -535,7 +535,7 @@ class Core extends SlugifyExtension
         $formats = (array) $this->config->get('layouts.images.formats');
         extract($options, EXTR_IF_EXISTS);
 
-        // builds HTML attributes
+        // prepare HTML attributes
         foreach ($attributes as $name => $value) {
             $attribute = \sprintf(' %s="%s"', $name, $value);
             if (!isset($value)) {
@@ -619,7 +619,7 @@ class Core extends SlugifyExtension
             return $img;
         }
 
-        throw new RuntimeException(\sprintf('%s is available for CSS, JavaScript and images files only.', '"html" filter'));
+        throw new RuntimeException(\sprintf('%s is available for CSS, JavaScript and image files only.', '"html" filter'));
     }
 
     /**
