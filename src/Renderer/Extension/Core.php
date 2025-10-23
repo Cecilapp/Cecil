@@ -519,15 +519,21 @@ class Core extends SlugifyExtension
     /**
      * Creates the HTML element of an asset.
      *
-     * $options[
+     * @param array                     $context    Twig context
+     * @param Asset|array<Asset,string> $assets     Asset or array of assets and associated media query
+     * @param array                     $attributes HTML attributes
+     * @param array                     $options    Options:
+     * [
      *     'preload'    => false,
      *     'responsive' => false,
      *     'formats'    => [],
      * ];
      *
+     * @return string HTML element
+     *
      * @throws RuntimeException
      */
-    public function html(array $context, Asset $asset, array $attributes = [], array $options = []): string
+    public function html(array $context, Asset|array $assets, array $attributes = [], array $options = []): string
     {
         $htmlAttributes = '';
         $preload = false;
@@ -544,24 +550,42 @@ class Core extends SlugifyExtension
             $htmlAttributes .= $attribute;
         }
 
-        // be sure Asset file is saved
-        $asset->save();
-
-        // CSS or JavaScript
-        switch ($asset['ext']) {
-            case 'css':
-                if ($preload) {
-                    return \sprintf(
-                        '<link href="%s" rel="preload" as="style" onload="this.onload=null;this.rel=\'stylesheet\'"%s><noscript><link rel="stylesheet" href="%1$s"%2$s></noscript>',
-                        $this->url($context, $asset, $options),
-                        $htmlAttributes
-                    );
-                }
-
-                return \sprintf('<link rel="stylesheet" href="%s"%s>', $this->url($context, $asset, $options), $htmlAttributes);
-            case 'js':
-                return \sprintf('<script src="%s"%s></script>', $this->url($context, $asset, $options), $htmlAttributes);
+        if (!\is_array($assets)) {
+            $assets = [$assets => null];
         }
+        foreach ($assets as $asset => $media) {
+            if (!$asset instanceof Asset) {
+                $asset = new Asset($this->builder, $asset);
+            }
+
+            // media attribute
+            $htmlAttributes .= $media ? \sprintf(' media="%s"', $media) : '';
+
+            // be sure Asset file is saved
+            $asset->save();
+
+            // CSS or JavaScript
+            switch ($asset['ext']) {
+                case 'css':
+                    if ($preload) {
+                        return \sprintf(
+                            '<link href="%s" rel="preload" as="style" onload="this.onload=null;this.rel=\'stylesheet\'"%s><noscript><link rel="stylesheet" href="%1$s"%2$s></noscript>',
+                            $this->url($context, $asset, $options),
+                            $htmlAttributes
+                        );
+                    }
+
+                    return \sprintf('<link rel="stylesheet" href="%s"%s>', $this->url($context, $asset, $options), $htmlAttributes);
+                case 'js':
+                    return \sprintf('<script src="%s"%s></script>', $this->url($context, $asset, $options), $htmlAttributes);
+            }
+
+
+        }
+
+
+
+
         // image
         if ($asset['type'] == 'image') {
             // if responsive is enabled
