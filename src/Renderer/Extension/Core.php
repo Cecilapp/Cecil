@@ -579,8 +579,6 @@ class Core extends SlugifyExtension
                 case 'js':
                     return \sprintf('<script src="%s"%s></script>', $this->url($context, $asset, $options), $htmlAttributes);
             }
-
-
         }
 
 
