@@ -123,7 +123,7 @@ jobs:
         run: gh attestation verify dist/cecil.phar --repo ${{ github.repository }}
       # upload
       - name: Upload files
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v5
         with:
           name: cecil-${{ github.sha }}.phar
           path: |
