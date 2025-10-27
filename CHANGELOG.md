@@ -2,6 +2,15 @@
 
 All notable changes to this project will be documented in this file. Dates are displayed in UTC.
 
+#### [8.69.4](https://github.com/Cecilapp/Cecil/compare/8.69.3...8.69.4)
+
+> 24 October 2025
+
+- refactor: better JSON feed template [`0fbd7b1`](https://github.com/Cecilapp/Cecil/commit/0fbd7b11651adde9fce1a32e23a07bb674a1a6cf)
+- chore: update deps [`779544f`](https://github.com/Cecilapp/Cecil/commit/779544fb306322464ebbbbe3e861c1c8d88a2b81)
+- fix: minor template fix [`db9e84f`](https://github.com/Cecilapp/Cecil/commit/db9e84f379835eab82c6efb6027aac34767ab0c8)
+- Bump composer.lock [`5cf6a4f`](https://github.com/Cecilapp/Cecil/commit/5cf6a4f7e4d49bd6fee0a403d7ff740e7ff5cd54)
+
 #### [8.69.3](https://github.com/Cecilapp/Cecil/compare/8.69.2...8.69.3)
 
 > 21 October 2025
