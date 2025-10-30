@@ -51,7 +51,7 @@ cd $TARGET_BRANCH
 mkdir -p $TARGET_DOCS_DIR
 #find $HOME/$SOURCE_DOCS_DIR/ -type f -name '*.md' | xargs cp -t $TARGET_DOCS_DIR
 #cp -Rf $HOME/$SOURCE_DOCS_DIR/* $TARGET_DOCS_DIR
-cp -Rfv $HOME/$SOURCE_DOCS_DIR/**/*.{md,png} $TARGET_DOCS_DIR/**/*.{md,png}
+cp -Rfv $HOME/$SOURCE_DOCS_DIR/**/*.{md,png} $TARGET_DOCS_DIR --parents
 # api dir
 mkdir -p $TARGET_API_DIR
 cp -Rf $HOME/$SOURCE_API_DIR/* $TARGET_API_DIR
