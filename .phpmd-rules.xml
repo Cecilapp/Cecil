@@ -6,9 +6,12 @@
   xsi:noNamespaceSchemaLocation="http://pmd.sf.net/ruleset_xml_schema.xsd"
 >
   <description>Rules set that checks Cecil code.</description>
+  <exclude-pattern>*Parsedown.php</exclude-pattern>
   <rule ref="rulesets/codesize.xml/CyclomaticComplexity">
     <properties>
-      <property name="reportLevel" value="50" />
+      <property name="reportLevel" value="33" />
+      <property name="showClassesComplexity" value="true" />
+      <property name="showMethodsComplexity" value="true" />
     </properties>
   </rule>
   <rule ref="rulesets/unusedcode.xml">
