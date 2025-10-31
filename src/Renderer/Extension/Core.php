@@ -576,7 +576,7 @@ class Core extends SlugifyExtension
      */
     public function htmlCss(array $context, Asset $asset, array $attributes = [], array $options = []): string
     {
-        $htmlAttributes = $this->htmlAttributes($attributes);
+        $htmlAttributes = self::htmlAttributes($attributes);
         $preload = $options['preload'] ?? false;
         if ($preload) {
             return \sprintf(
@@ -594,7 +594,7 @@ class Core extends SlugifyExtension
      */
     public function htmlJs(array $context, Asset $asset, array $attributes = [], array $options = []): string
     {
-        $htmlAttributes = $this->htmlAttributes($attributes);
+        $htmlAttributes = self::htmlAttributes($attributes);
 
         return \sprintf('<script src="%s"%s></script>', $this->url($context, $asset, $options), $htmlAttributes);
     }
@@ -604,7 +604,7 @@ class Core extends SlugifyExtension
      */
     public function htmlImage(array $context, Asset $asset, array $attributes = [], array $options = []): string
     {
-        $htmlAttributes = $this->htmlAttributes($attributes);
+        $htmlAttributes = self::htmlAttributes($attributes);
         $responsive = $options['responsive'] ?? $this->config->isEnabled('layouts.images.responsive');
 
         // if responsive is enabled
@@ -661,23 +661,6 @@ class Core extends SlugifyExtension
         }
 
         return $img;
-    }
-
-    /**
-     * Builds the HTML attributes string from an array.
-     */
-    private function htmlAttributes(array $attributes): string
-    {
-        $htmlAttributes = '';
-        foreach ($attributes as $name => $value) {
-            $attribute = \sprintf(' %s="%s"', $name, $value);
-            if (!isset($value)) {
-                $attribute = \sprintf(' %s', $name);
-            }
-            $htmlAttributes .= $attribute;
-        }
-
-        return $htmlAttributes;
     }
 
     /**
@@ -1132,5 +1115,22 @@ class Core extends SlugifyExtension
         $valid = $valid && ctype_xdigit($hex);
 
         return $valid;
+    }
+
+    /**
+     * Builds the HTML attributes string from an array.
+     */
+    private static function htmlAttributes(array $attributes): string
+    {
+        $htmlAttributes = '';
+        foreach ($attributes as $name => $value) {
+            $attribute = \sprintf(' %s="%s"', $name, $value);
+            if (!isset($value)) {
+                $attribute = \sprintf(' %s', $name);
+            }
+            $htmlAttributes .= $attribute;
+        }
+
+        return $htmlAttributes;
     }
 }
