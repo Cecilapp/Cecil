@@ -608,14 +608,9 @@ class Core extends SlugifyExtension
         $htmlAttributes = self::htmlAttributes($attributes);
         $responsive = $options['responsive'] ?? $this->config->isEnabled('layouts.images.responsive');
 
-        // if responsive is enabled
+        // create responsive attributes
         $sizes = '';
-        if (
-            $responsive && $srcset = Image::buildHtmlSrcset(
-                $asset,
-                $this->config->getAssetsImagesWidths()
-            )
-        ) {
+        if ($responsive && $srcset = Image::buildHtmlSrcset($asset, $this->config->getAssetsImagesWidths())) {
             $htmlAttributes .= \sprintf(' srcset="%s"', $srcset);
             $sizes = Image::getHtmlSizes($attributes['class'] ?? '', $this->config->getAssetsImagesSizes());
             $htmlAttributes .= \sprintf(' sizes="%s"', $sizes);
@@ -624,21 +619,21 @@ class Core extends SlugifyExtension
             }
         }
 
-        // `<img>` element
+        // create `<img>` element
         $img = \sprintf(
             '<img src="%s" width="' . ($asset['width'] ?: '') . '" height="' . ($asset['height'] ?: '') . '"%s>',
             $this->url($context, $asset, $options),
             $htmlAttributes
         );
 
-        // multiple formats (`<source>`)?
+        // create alternative formats (`<source>`)
         $formats = $options['formats'] ?? (array) $this->config->get('layouts.images.formats');
         if (\count($formats) > 0) {
             $source = '';
             foreach ($formats as $format) {
                 try {
                     $assetConverted = $asset->convert($format);
-                    // if responsive is enabled
+                    // responsive
                     if ($responsive && $srcset = Image::buildHtmlSrcset($assetConverted, $this->config->getAssetsImagesWidths())) {
                         // `<source>` element
                         $source .= \sprintf(
@@ -648,7 +643,7 @@ class Core extends SlugifyExtension
                         );
                         continue;
                     }
-                    // `<source>` element
+                    // default `<source>` element
                     $source .= \sprintf("\n  <source type=\"image/$format\" srcset=\"%s\">", $assetConverted);
                 } catch (\Exception $e) {
                     $this->builder->getLogger()->error($e->getMessage());
