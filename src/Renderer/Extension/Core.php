@@ -565,7 +565,7 @@ class Core extends SlugifyExtension
             }
             unset($attributes['media']);
         }
-        if (!empty($html)) {
+        if (empty($html)) {
             throw new RuntimeException(\sprintf('%s is available for CSS, JavaScript and image files only.', '"html" filter'));
         }
 
