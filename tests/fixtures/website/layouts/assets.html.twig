@@ -144,7 +144,9 @@
   <p>
     <pre>html(asset('css/style.css'))</pre>
     <blockquote>{{ html(asset('css/style.css'))|e }}</blockquote>
-    <blockquote>{{ asset('css/style.css')|html|e }}</blockquote> (with deprecated `html` filter)
+    With deprecated `html` filter:
+    <pre>asset('css/style.css')|html</pre>
+    <blockquote>{{ asset('css/style.css')|html|e }}</blockquote>
   </p>
   <h3>HTML JS</h3>
   <p>
