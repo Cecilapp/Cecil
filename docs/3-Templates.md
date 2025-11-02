@@ -639,7 +639,7 @@ _Examples:_
 
 ```twig
 {# CSS with an attribute #}
-{{ html(asset('styles.css'), {media: 'print'}) }}
+{{ html(asset('print.css'), {media: 'print'}) }}
 ```
 
 ```twig
@@ -655,8 +655,8 @@ _Examples:_
 ```twig
 {# Array of assets with media query #}
 {{ html([
-  {'asset': asset('css/style.css')},
-  {'asset': asset('css/style.css'), 'attributes': {'media': '(prefers-color-scheme: dark)'}},
+  {asset: asset('css/style.css')},
+  {asset: asset('css/style.css'), attributes: {media: '(prefers-color-scheme: dark)'}},
 ]) }}
 ```
 
