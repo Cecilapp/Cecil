@@ -519,10 +519,10 @@ class Core extends SlugifyExtension
     /**
      * Creates the HTML element of an asset.
      *
-     * @param array                                              $context    Twig context
-     * @param Asset|array<int,array{asset:string,media:?string}> $assets     Asset or array of assets and associated media query
-     * @param array                                              $attributes HTML attributes to add to the element
-     * @param array                                              $options    Options:
+     * @param array                                                                $context    Twig context
+     * @param Asset|array<int,array{asset:Asset,attributes:?array<string,string>}> $assets     Asset or array of assets + attributes
+     * @param array                                                                $attributes HTML attributes to add to the element
+     * @param array                                                                $options    Options:
      * [
      *     'preload'    => false,
      *     'responsive' => false,
@@ -537,33 +537,33 @@ class Core extends SlugifyExtension
     {
         $html = array();
         if (!\is_array($assets)) {
-            $assets = [['asset' => $assets, 'media' => null]];
+            $assets = [['asset' => $assets, 'attributes' => null]];
         }
         foreach ($assets as $assetData) {
             $asset = $assetData['asset'];
-            $media = $assetData['media'] ?? null;
             if (!$asset instanceof Asset) {
                 $asset = new Asset($this->builder, $asset);
             }
-            // media attribute
-            if ($media !== null) {
-                $attributes['media'] = $media;
+            $attr = $attributes;
+            // specific attributes
+            if ($assetData['attributes'] !== null) {
+                $attr = $attributes + $assetData['attributes'];
             }
             // be sure Asset file is saved
             $asset->save();
             // CSS or JavaScript
             switch ($asset['ext']) {
                 case 'css':
-                    $html[] = $this->htmlCss($context, $asset, $attributes, $options);
+                    $html[] = $this->htmlCss($context, $asset, $attr, $options);
                     break;
                 case 'js':
-                    $html[] = $this->htmlJs($context, $asset, $attributes, $options);
+                    $html[] = $this->htmlJs($context, $asset, $attr, $options);
             }
             // image
             if ($asset['type'] == 'image') {
-                $html[] = $this->htmlImage($context, $asset, $attributes, $options);
+                $html[] = $this->htmlImage($context, $asset, $attr, $options);
             }
-            unset($attributes['media']);
+            unset($attr);
         }
         if (empty($html)) {
             throw new RuntimeException(\sprintf('%s is available for CSS, JavaScript and image files only.', '"html" filter'));
