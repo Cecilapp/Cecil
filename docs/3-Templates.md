@@ -601,7 +601,7 @@ _Examples:_
 
 ### html
 
-Creates an HTML element from an asset.
+Creates an HTML element from an asset (or an array of assets).
 
 ```twig
 {{ html(asset, {attributes}, {options}) }}
@@ -650,6 +650,14 @@ _Examples:_
 ```twig
 {# JavaScript #}
 {{ html(asset('script.js')) }}
+```
+
+```twig
+{# Array of assets with media query #}
+{{ html([
+  {'asset': asset('css/style.css')},
+  {'asset': asset('css/style.css'), 'media': '(prefers-color-scheme: dark)'},
+]) }}
 ```
 
 :::info
