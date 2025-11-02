@@ -1,7 +1,7 @@
 <!--
 description: "Working with layouts, templates and components."
 date: 2021-05-07
-updated: 2025-10-07
+updated: 2025-11-02
 alias: documentation/layouts
 -->
 # Templates
@@ -601,7 +601,7 @@ _Examples:_
 
 ### html
 
-Creates an HTML element from an asset (or an array of assets).
+Creates an HTML element from an asset (or an array of assets with custom attributes).
 
 ```twig
 {{ html(asset, {attributes}, {options}) }}
@@ -656,7 +656,7 @@ _Examples:_
 {# Array of assets with media query #}
 {{ html([
   {'asset': asset('css/style.css')},
-  {'asset': asset('css/style.css'), 'media': '(prefers-color-scheme: dark)'},
+  {'asset': asset('css/style.css'), 'attributes': {'media': '(prefers-color-scheme: dark)'}},
 ]) }}
 ```
 
