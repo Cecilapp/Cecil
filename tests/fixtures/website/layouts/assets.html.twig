@@ -142,7 +142,7 @@
   <h2>HTML element</h2>
   <h3>HTML CSS</h3>
   <p>
-    <pre>{% verbatim %}{{ html(asset('css/style.css')) }}{% endverbatim %}</pre>
+    <pre>html(asset('css/style.css'))</pre>
     <blockquote>{{ html(asset('css/style.css'))|e }}</blockquote>
     <blockquote>{{ asset('css/style.css')|html|e }}</blockquote> (with deprecated `html` filter)
   </p>
@@ -154,15 +154,17 @@
   <h3>Array of assets</h3>
   <p>
     <pre>html([
-  {'asset': asset('css/style.css'), 'media': null},
-  {'asset': asset('css/style.css'), 'media': '(prefers-color-scheme: dark)'},
-  {'asset': asset('js/script.js')},
+  {'asset': asset('css/style.css')},
+  {'asset': asset('css/style.css'), 'attributes': {'media': '(prefers-color-scheme: dark)'}},
+  {'asset': asset('js/script.js'), 'attributes': {'test': 'test'}},
+  {'asset': asset('js/script.js'), 'attributes': null},
 ])</pre>
     <blockquote>{{ html([
-        {'asset': asset('css/style.css'), 'media': null},
-        {'asset': asset('css/style.css'), 'media': '(prefers-color-scheme: dark)'},
-        {'asset': asset('js/script.js')},
-      ])|e }}</blockquote>
+      {'asset': asset('css/style.css')},
+      {'asset': asset('css/style.css'), 'attributes': {'media': '(prefers-color-scheme: dark)'}},
+      {'asset': asset('js/script.js'), 'attributes': {'test': 'test'}},
+      {'asset': asset('js/script.js'), 'attributes': null},
+    ])|e }}</blockquote>
   </p>
   <h3>HTML image</h3>
   <p>
