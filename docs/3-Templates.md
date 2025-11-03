@@ -610,7 +610,7 @@ Creates an HTML element from an asset (or an array of assets with custom attribu
 | Option     | Description                                     | Type  |
 | ---------- | ----------------------------------------------- | ----- |
 | attributes | Adds `name="value"` couple to the HTML element. | array |
-| options    | For CSS:<br>`{preload: boolean}`: preloads.<br>For images:<br>`{responsive: boolean}`: adds responsives images.<br>`{formats: array}`: adds alternatives formats. | array |
+| options    | For CSS:<br>`{preload: boolean}`: preloads.<br>For images:<br>`{responsive: boolean}`: adds responsive images.<br>`{formats: array}`: adds alternative formats. | array |
 
 :::warning
 Since version ++8.42.0++, the `html` function replace the deprecated `html` filter.
@@ -656,7 +656,7 @@ _Examples:_
 {# Array of assets with media query #}
 {{ html([
   {asset: asset('css/style.css')},
-  {asset: asset('css/style.css'), attributes: {media: '(prefers-color-scheme: dark)'}},
+  {asset: asset('css/style-dark.css'), attributes: {media: '(prefers-color-scheme: dark)'}},
 ]) }}
 ```
 
