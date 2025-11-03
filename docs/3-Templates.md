@@ -664,7 +664,6 @@ _Examples:_
 For convenience the `html` function stay available as a filter (but is considered as deprecated):
 
 ```twig
-# asset
 {{ asset|html({attributes}, {options}) }}
 ```
 
