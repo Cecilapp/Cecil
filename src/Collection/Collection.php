@@ -292,6 +292,8 @@ class Collection implements CollectionInterface
      *
      * @param mixed         $offset
      * @param ItemInterface $value
+     *
+     * @SuppressWarnings(UnusedFormalParameter)
      */
     #[\ReturnTypeWillChange]
     public function offsetSet($offset, $value): void
