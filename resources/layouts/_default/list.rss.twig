@@ -3,7 +3,7 @@
 {% block feed %}
 <?xml version="1.0" encoding="utf-8"?>
 {%- if site.page('xsl/rss') ~%}
-<?xml-stylesheet type="text/xsl" href="{{ url('xsl/rss') }}" media="all"?>
+<?xml-stylesheet type="text/xsl" href="{{ url('xsl/rss', {canonical: true}) }}" media="all"?>
 {%- endif ~%}
 <rss version="2.0">
   <channel>

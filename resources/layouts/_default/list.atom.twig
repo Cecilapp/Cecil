@@ -6,7 +6,7 @@
 {% block feed %}
 <?xml version="1.0" encoding="utf-8"?>
 {%- if site.page('xsl/atom') ~%}
-<?xml-stylesheet type="text/xsl" href="{{ url('xsl/atom') }}" media="all"?>
+<?xml-stylesheet type="text/xsl" href="{{ url('xsl/atom', {canonical: true}) }}" media="all"?>
 {%- endif ~%}
 <feed xmlns="http://www.w3.org/2005/Atom" xml:lang="{{ lang }}">
   <id>{{ url(page, {canonical: true}) }}</id>

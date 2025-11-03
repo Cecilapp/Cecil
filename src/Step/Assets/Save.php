@@ -95,7 +95,7 @@ class Save extends AbstractStep
             try {
                 Util\File::getFS()->remove($this->config->getCachePath());
             } catch (\Exception) {
-                throw new RuntimeException(\sprintf('Can\'t remove cache directory "%s".', $this->config->getCachePath()));
+                throw new RuntimeException(\sprintf('Unable to remove cache directory "%s".', $this->config->getCachePath()));
             }
         }
     }

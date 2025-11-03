@@ -519,107 +519,144 @@ class Core extends SlugifyExtension
     /**
      * Creates the HTML element of an asset.
      *
-     * $options[
+     * @param array                                                                $context    Twig context
+     * @param Asset|array<int,array{asset:Asset,attributes:?array<string,string>}> $assets     Asset or array of assets + attributes
+     * @param array                                                                $attributes HTML attributes to add to the element
+     * @param array                                                                $options    Options:
+     * [
      *     'preload'    => false,
      *     'responsive' => false,
      *     'formats'    => [],
      * ];
      *
+     * @return string HTML element
+     *
      * @throws RuntimeException
      */
-    public function html(array $context, Asset $asset, array $attributes = [], array $options = []): string
+    public function html(array $context, Asset|array $assets, array $attributes = [], array $options = []): string
     {
-        $htmlAttributes = '';
-        $preload = false;
-        $responsive = $this->config->isEnabled('layouts.images.responsive');
-        $formats = (array) $this->config->get('layouts.images.formats');
-        extract($options, EXTR_IF_EXISTS);
-
-        // builds HTML attributes
-        foreach ($attributes as $name => $value) {
-            $attribute = \sprintf(' %s="%s"', $name, $value);
-            if (!isset($value)) {
-                $attribute = \sprintf(' %s', $name);
+        $html = array();
+        if (!\is_array($assets)) {
+            $assets = [['asset' => $assets, 'attributes' => null]];
+        }
+        foreach ($assets as $assetData) {
+            $asset = $assetData['asset'];
+            if (!$asset instanceof Asset) {
+                $asset = new Asset($this->builder, $asset);
             }
-            $htmlAttributes .= $attribute;
+            $attr = $attributes;
+            // specific attributes
+            if ($assetData['attributes'] !== null) {
+                $attr = $attributes + $assetData['attributes'];
+            }
+            // be sure Asset file is saved
+            $asset->save();
+            // CSS or JavaScript
+            switch ($asset['ext']) {
+                case 'css':
+                    $html[] = $this->htmlCss($context, $asset, $attr, $options);
+                    break;
+                case 'js':
+                    $html[] = $this->htmlJs($context, $asset, $attr, $options);
+            }
+            // image
+            if ($asset['type'] == 'image') {
+                $html[] = $this->htmlImage($context, $asset, $attr, $options);
+            }
+            unset($attr);
+        }
+        if (empty($html)) {
+            throw new RuntimeException(\sprintf('%s is available for CSS, JavaScript and image files only.', '"html" filter'));
         }
 
-        // be sure Asset file is saved
-        $asset->save();
+        return implode(PHP_EOL, $html);
+    }
 
-        // CSS or JavaScript
-        switch ($asset['ext']) {
-            case 'css':
-                if ($preload) {
-                    return \sprintf(
-                        '<link href="%s" rel="preload" as="style" onload="this.onload=null;this.rel=\'stylesheet\'"%s><noscript><link rel="stylesheet" href="%1$s"%2$s></noscript>',
-                        $this->url($context, $asset, $options),
-                        $htmlAttributes
-                    );
-                }
-
-                return \sprintf('<link rel="stylesheet" href="%s"%s>', $this->url($context, $asset, $options), $htmlAttributes);
-            case 'js':
-                return \sprintf('<script src="%s"%s></script>', $this->url($context, $asset, $options), $htmlAttributes);
-        }
-        // image
-        if ($asset['type'] == 'image') {
-            // if responsive is enabled
-            $sizes = '';
-            if (
-                $responsive && $srcset = Image::buildHtmlSrcset(
-                    $asset,
-                    $this->config->getAssetsImagesWidths()
-                )
-            ) {
-                $htmlAttributes .= \sprintf(' srcset="%s"', $srcset);
-                $sizes = Image::getHtmlSizes($attributes['class'] ?? '', $this->config->getAssetsImagesSizes());
-                $htmlAttributes .= \sprintf(' sizes="%s"', $sizes);
-                if ($asset['width'] > max($this->config->getAssetsImagesWidths())) {
-                    $asset = $asset->resize(max($this->config->getAssetsImagesWidths()));
-                }
-            }
-
-            // `<img>` element
-            $img = \sprintf(
-                '<img src="%s" width="' . ($asset['width'] ?: '') . '" height="' . ($asset['height'] ?: '') . '"%s>',
+    /**
+     * Builds the HTML link element of a CSS Asset.
+     */
+    public function htmlCss(array $context, Asset $asset, array $attributes = [], array $options = []): string
+    {
+        $htmlAttributes = self::htmlAttributes($attributes);
+        $preload = $options['preload'] ?? false;
+        if ($preload) {
+            return \sprintf(
+                '<link href="%s" rel="preload" as="style" onload="this.onload=null;this.rel=\'stylesheet\'"%s><noscript><link rel="stylesheet" href="%1$s"%2$s></noscript>',
                 $this->url($context, $asset, $options),
                 $htmlAttributes
             );
-
-            // multiple formats (`<source>`)?
-            if (\count($formats) > 0) {
-                $source = '';
-                foreach ($formats as $format) {
-                    try {
-                        $assetConverted = $asset->convert($format);
-                        // if responsive is enabled
-                        if ($responsive && $srcset = Image::buildHtmlSrcset($assetConverted, $this->config->getAssetsImagesWidths())) {
-                            // `<source>` element
-                            $source .= \sprintf(
-                                "\n  <source type=\"image/$format\" srcset=\"%s\" sizes=\"%s\">",
-                                $srcset,
-                                $sizes
-                            );
-                            continue;
-                        }
-                        // `<source>` element
-                        $source .= \sprintf("\n  <source type=\"image/$format\" srcset=\"%s\">", $assetConverted);
-                    } catch (\Exception $e) {
-                        $this->builder->getLogger()->error($e->getMessage());
-                        continue;
-                    }
-                }
-                // put `<source>` in `<picture>`
-                if (!empty($source)) {
-                    return \sprintf("<picture>%s\n  %s\n</picture>", $source, $img);
-                }
-            }
-
-            return $img;
         }
 
-        throw new RuntimeException(\sprintf('%s is available for CSS, JavaScript and images files only.', '"html" filter'));
+        return \sprintf('<link rel="stylesheet" href="%s"%s>', $this->url($context, $asset, $options), $htmlAttributes);
+    }
+
+    /**
+     * Builds the HTML script element of a JS Asset.
+     */
+    public function htmlJs(array $context, Asset $asset, array $attributes = [], array $options = []): string
+    {
+        $htmlAttributes = self::htmlAttributes($attributes);
+
+        return \sprintf('<script src="%s"%s></script>', $this->url($context, $asset, $options), $htmlAttributes);
+    }
+
+    /**
+     * Builds the HTML img element of an image Asset.
+     */
+    public function htmlImage(array $context, Asset $asset, array $attributes = [], array $options = []): string
+    {
+        $htmlAttributes = self::htmlAttributes($attributes);
+        $responsive = $options['responsive'] ?? $this->config->isEnabled('layouts.images.responsive');
+
+        // create responsive attributes
+        $sizes = '';
+        if ($responsive && $srcset = Image::buildHtmlSrcset($asset, $this->config->getAssetsImagesWidths())) {
+            $htmlAttributes .= \sprintf(' srcset="%s"', $srcset);
+            $sizes = Image::getHtmlSizes($attributes['class'] ?? '', $this->config->getAssetsImagesSizes());
+            $htmlAttributes .= \sprintf(' sizes="%s"', $sizes);
+            if ($asset['width'] > max($this->config->getAssetsImagesWidths())) {
+                $asset = $asset->resize(max($this->config->getAssetsImagesWidths()));
+            }
+        }
+
+        // create `<img>` element
+        $img = \sprintf(
+            '<img src="%s" width="' . ($asset['width'] ?: '') . '" height="' . ($asset['height'] ?: '') . '"%s>',
+            $this->url($context, $asset, $options),
+            $htmlAttributes
+        );
+
+        // create alternative formats (`<source>`)
+        $formats = $options['formats'] ?? (array) $this->config->get('layouts.images.formats');
+        if (\count($formats) > 0) {
+            $source = '';
+            foreach ($formats as $format) {
+                try {
+                    $assetConverted = $asset->convert($format);
+                    // responsive
+                    if ($responsive && $srcset = Image::buildHtmlSrcset($assetConverted, $this->config->getAssetsImagesWidths())) {
+                        // `<source>` element
+                        $source .= \sprintf(
+                            "\n  <source type=\"image/$format\" srcset=\"%s\" sizes=\"%s\">",
+                            $srcset,
+                            $sizes
+                        );
+                        continue;
+                    }
+                    // default `<source>` element
+                    $source .= \sprintf("\n  <source type=\"image/$format\" srcset=\"%s\">", $assetConverted);
+                } catch (\Exception $e) {
+                    $this->builder->getLogger()->error($e->getMessage());
+                    continue;
+                }
+            }
+            // put `<source>` in `<picture>`
+            if (!empty($source)) {
+                return \sprintf("<picture>%s\n  %s\n</picture>", $source, $img);
+            }
+        }
+
+        return $img;
     }
 
     /**
@@ -629,7 +666,7 @@ class Core extends SlugifyExtension
      */
     public function imageSrcset(Asset $asset): string
     {
-        return Image::buildHtmlSrcset($asset, $this->config->getAssetsImagesWidths());
+        return Image::buildHtmlSrcset($asset, $this->config->getAssetsImagesWidths(), true);
     }
 
     /**
@@ -667,13 +704,13 @@ class Core extends SlugifyExtension
             return $asset;
         }
         if (Image::isAnimatedGif($asset)) {
-            throw new RuntimeException(\sprintf('Can\'t convert the animated GIF "%s" to %s.', $asset['path'], $format));
+            throw new RuntimeException(\sprintf('Unable to convert the animated GIF "%s" to %s.', $asset['path'], $format));
         }
 
         try {
             return $asset->$format($quality);
         } catch (\Exception $e) {
-            throw new RuntimeException(\sprintf('Can\'t convert "%s" to %s (%s).', $asset['path'], $format, $e->getMessage()));
+            throw new RuntimeException(\sprintf('Unable to convert "%s" to %s (%s).', $asset['path'], $format, $e->getMessage()));
         }
     }
 
@@ -1074,5 +1111,22 @@ class Core extends SlugifyExtension
         $valid = $valid && ctype_xdigit($hex);
 
         return $valid;
+    }
+
+    /**
+     * Builds the HTML attributes string from an array.
+     */
+    private static function htmlAttributes(array $attributes): string
+    {
+        $htmlAttributes = '';
+        foreach ($attributes as $name => $value) {
+            $attribute = \sprintf(' %s="%s"', $name, $value);
+            if (!isset($value)) {
+                $attribute = \sprintf(' %s', $name);
+            }
+            $htmlAttributes .= $attribute;
+        }
+
+        return $htmlAttributes;
     }
 }

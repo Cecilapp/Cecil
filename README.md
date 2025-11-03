@@ -18,7 +18,6 @@ Cecil is a CLI application that merges plain text files (written in [Markdown](h
 [![Codacy badge](https://app.codacy.com/project/badge/Grade/07232d3c7ff34f3da5abdac8f3ad2cee)](https://app.codacy.com/gh/Cecilapp/Cecil/dashboard)
 [![Coverage score](https://coveralls.io/repos/github/Cecilapp/Cecil/badge.svg?branch=master)](https://coveralls.io/github/Cecilapp/Cecil?branch=master)
 [![StyleCI status](https://github.styleci.io/repos/7548986/shield?style=plastic)](https://styleci.io/repos/12738012)
-[![SymfonyInsight badge](https://insight.symfony.com/projects/ada27715-6342-43f8-a1e7-4d5a8fe78e62/mini.svg)](https://insight.symfony.com/projects/ada27715-6342-43f8-a1e7-4d5a8fe78e62)
 
 ## Quick Start
 

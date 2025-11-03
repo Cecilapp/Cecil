@@ -155,7 +155,7 @@ class Image
                 quality: $quality
             );
         } catch (\Exception $e) {
-            throw new RuntimeException(\sprintf('Can\'t make Asset "%s" maskable: %s', $asset['path'], $e->getMessage()));
+            throw new RuntimeException(\sprintf('Unable to make Asset "%s" maskable: %s', $asset['path'], $e->getMessage()));
         }
     }
 
@@ -182,7 +182,7 @@ class Image
                 quality: $quality
             );
         } catch (\Exception $e) {
-            throw new RuntimeException(\sprintf('Not able to convert "%s" to %s: %s', $asset['path'], $format, $e->getMessage()));
+            throw new RuntimeException(\sprintf('Unable to convert "%s" to %s: %s', $asset['path'], $format, $e->getMessage()));
         }
     }
 
@@ -198,7 +198,7 @@ class Image
 
             return (string) $image->encode(new AutoEncoder(quality: $quality))->toDataUri();
         } catch (\Exception $e) {
-            throw new RuntimeException(\sprintf('Can\'t get Data URL of "%s": %s', $asset['path'], $e->getMessage()));
+            throw new RuntimeException(\sprintf('Unable to get Data URL of "%s": %s', $asset['path'], $e->getMessage()));
         }
     }
 
@@ -214,7 +214,7 @@ class Image
 
             return $image->reduceColors(1)->pickColor(0, 0)->toString();
         } catch (\Exception $e) {
-            throw new RuntimeException(\sprintf('Can\'t get dominant color of "%s": %s', $asset['path'], $e->getMessage()));
+            throw new RuntimeException(\sprintf('Unable to get dominant color of "%s": %s', $asset['path'], $e->getMessage()));
         }
     }
 
@@ -230,7 +230,7 @@ class Image
 
             return (string) $image->blur(50)->encode()->toDataUri();
         } catch (\Exception $e) {
-            throw new RuntimeException(\sprintf('can\'t create LQIP of "%s": %s', $asset['path'], $e->getMessage()));
+            throw new RuntimeException(\sprintf('Unable to create LQIP of "%s": %s', $asset['path'], $e->getMessage()));
         }
     }
 
@@ -238,12 +238,15 @@ class Image
      * Build the `srcset` HTML attribute for responsive images.
      * e.g.: `srcset="/img-480.jpg 480w, /img-800.jpg 800w"`.
      *
+     * $widths is an array of widths to include in the `srcset`.
+     * If $notEmpty is true, the source image is always added to the `srcset`.
+     *
      * @throws RuntimeException
      */
-    public static function buildHtmlSrcset(Asset $asset, array $widths): string
+    public static function buildHtmlSrcset(Asset $asset, array $widths, $notEmpty = false): string
     {
         if (!self::isImage($asset)) {
-            throw new RuntimeException(\sprintf('can\'t build "srcset" of "%s": it\'s not an image file.', $asset['path']));
+            throw new RuntimeException(\sprintf('Unable to build "srcset" of "%s": it\'s not an image file.', $asset['path']));
         }
 
         $srcset = '';
@@ -259,7 +262,7 @@ class Image
             $widthMax = $width;
         }
         // adds source image
-        if (!empty($srcset) && ($asset['width'] < max($widths) && $asset['width'] != $widthMax)) {
+        if ((!empty($srcset) || $notEmpty) && ($asset['width'] < max($widths) && $asset['width'] != $widthMax)) {
             $srcset .= \sprintf('%s %sw', (string) $asset, $asset['width']);
         }
 

@@ -120,7 +120,7 @@ EOF
         $phpFinder = new PhpExecutableFinder();
         $php = $phpFinder->find();
         if ($php === false) {
-            throw new RuntimeException('Can\'t find a local PHP executable.');
+            throw new RuntimeException('Unable to find a local PHP executable.');
         }
 
         // setup server

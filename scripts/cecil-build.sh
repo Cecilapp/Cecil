@@ -111,9 +111,9 @@ if [ $CECIL_IS_INSTALLED -ne 0 ]; then
     if [ $(curl -LI https://cecil.app/download/$CECIL_VERSION/cecil.phar -o /dev/null -w '%{http_code}\n' -s) == '200' ]; then
       curl -sSOL https://cecil.app/download/$CECIL_VERSION/cecil.phar
     else
-      echo "Can't download Cecil $CECIL_VERSION from Cecil.app. Trying from GitHub's release.";
+      echo "Unable to download Cecil $CECIL_VERSION from Cecil.app. Trying from GitHub's release.";
       if [ $(curl -LI https://github.com/Cecilapp/Cecil/releases/download/$CECIL_VERSION/cecil.phar -o /dev/null -w '%{http_code}\n' -s) != '200' ]; then
-      echo "Can't download Cecil $CECIL_VERSION from GitHub"; exit 1
+      echo "Unable to download Cecil $CECIL_VERSION from GitHub"; exit 1
       fi
       curl -sSOL https://github.com/Cecilapp/Cecil/releases/download/$CECIL_VERSION/cecil.phar
     fi

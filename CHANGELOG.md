@@ -2,6 +2,55 @@
 
 All notable changes to this project will be documented in this file. Dates are displayed in UTC.
 
+#### [8.69.4](https://github.com/Cecilapp/Cecil/compare/8.69.3...8.69.4)
+
+> 24 October 2025
+
+- refactor: better JSON feed template [`0fbd7b1`](https://github.com/Cecilapp/Cecil/commit/0fbd7b11651adde9fce1a32e23a07bb674a1a6cf)
+- chore: update deps [`779544f`](https://github.com/Cecilapp/Cecil/commit/779544fb306322464ebbbbe3e861c1c8d88a2b81)
+- fix: minor template fix [`db9e84f`](https://github.com/Cecilapp/Cecil/commit/db9e84f379835eab82c6efb6027aac34767ab0c8)
+- Bump composer.lock [`5cf6a4f`](https://github.com/Cecilapp/Cecil/commit/5cf6a4f7e4d49bd6fee0a403d7ff740e7ff5cd54)
+
+#### [8.69.3](https://github.com/Cecilapp/Cecil/compare/8.69.2...8.69.3)
+
+> 21 October 2025
+
+- chore(deps-dev): bump friendsofphp/php-cs-fixer from 3.88.2 to 3.89.0 [`#2234`](https://github.com/Cecilapp/Cecil/pull/2234)
+- fix: image_srcset function [`58bf42c`](https://github.com/Cecilapp/Cecil/commit/58bf42c6e5d9bc1122b47e91f8d0c975cac6a345)
+
+#### [8.69.2](https://github.com/Cecilapp/Cecil/compare/8.69.1...8.69.2)
+
+> 17 October 2025
+
+- test: add PHPMD config file [`d32c140`](https://github.com/Cecilapp/Cecil/commit/d32c14075110558622bd78bee333ef01a6784f51)
+- fix: XML templates [`e175571`](https://github.com/Cecilapp/Cecil/commit/e175571c3ceaeaebaafa7731e4e5bfe3da3759a8)
+- refactor: add link to URL in sitemap style [`5d1c983`](https://github.com/Cecilapp/Cecil/commit/5d1c983361886e0f13555c4ff875ce2b8ddfa0a5)
+
+#### [8.69.1](https://github.com/Cecilapp/Cecil/compare/8.69.0...8.69.1)
+
+> 15 October 2025
+
+- fix: sitemap style [`e1172a6`](https://github.com/Cecilapp/Cecil/commit/e1172a6fdf3d49bbdbd24fe9733a408c8043d6a1)
+- chore: code cleaning [`a9f0bab`](https://github.com/Cecilapp/Cecil/commit/a9f0bab73a05e123706aa938e3d93fabb8effdfb)
+
+#### [8.69.0](https://github.com/Cecilapp/Cecil/compare/8.68.0...8.69.0)
+
+> 15 October 2025
+
+- feat: add XSLT to XML sitemap [`#2232`](https://github.com/Cecilapp/Cecil/pull/2232)
+- chore(deps): bump james-heinrich/getid3 from 1.9.23 to 1.9.24 [`#2230`](https://github.com/Cecilapp/Cecil/pull/2230)
+- chore(deps): bump cecil/resource-watcher from 4.0.0 to 4.1.0 [`#2227`](https://github.com/Cecilapp/Cecil/pull/2227)
+- refactor: better error/warning messages [`9e6b455`](https://github.com/Cecilapp/Cecil/commit/9e6b455d71c3525b7ccfe252e076bf704b7ee7e7)
+- chore: update deps [`470baf6`](https://github.com/Cecilapp/Cecil/commit/470baf6d522d49e7a2a8988288bde9290c82c6b9)
+- docs: update deploy page [`c204d88`](https://github.com/Cecilapp/Cecil/commit/c204d884f3609cc7eb8e21ff4cb6aeeb63da4f1f)
+- fix: SAPI warning message [`b270353`](https://github.com/Cecilapp/Cecil/commit/b27035366e560b3310b2fd8db140c7a35c213cf1)
+
+#### [8.68.0](https://github.com/Cecilapp/Cecil/compare/8.67.0...8.68.0)
+
+> 7 October 2025
+
+- feat: add custom rules to robots.txt [`#2225`](https://github.com/Cecilapp/Cecil/pull/2225)
+
 #### [8.67.0](https://github.com/Cecilapp/Cecil/compare/8.66.6...8.67.0)
 
 > 7 October 2025

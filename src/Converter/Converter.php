@@ -72,7 +72,7 @@ class Converter implements ConverterInterface
         try {
             $result = Yaml::parse((string) $string, Yaml::PARSE_DATETIME) ?? [];
             if (!\is_array($result)) {
-                throw new RuntimeException('Can\'t parse YAML front matter.');
+                throw new RuntimeException('Unable to parse YAML front matter.');
             }
 
             return $result;
@@ -92,7 +92,7 @@ class Converter implements ConverterInterface
     {
         $result = parse_ini_string($string, true);
         if ($result === false) {
-            throw new RuntimeException('Can\'t parse INI front matter.');
+            throw new RuntimeException('Unable to parse INI front matter.');
         }
 
         return $result;
@@ -108,7 +108,7 @@ class Converter implements ConverterInterface
         try {
             $result = Toml::Parse((string) $string) ?? [];
             if (!\is_array($result)) {
-                throw new RuntimeException('Can\'t parse TOML front matter.');
+                throw new RuntimeException('Unable to parse TOML front matter.');
             }
 
             return $result;
@@ -134,7 +134,7 @@ class Converter implements ConverterInterface
 
             return $result;
         } catch (\Exception) {
-            throw new RuntimeException('Can\'t parse JSON front matter.');
+            throw new RuntimeException('Unable to parse JSON front matter.');
         }
     }
 }

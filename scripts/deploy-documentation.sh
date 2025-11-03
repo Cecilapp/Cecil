@@ -49,9 +49,8 @@ fi
 cd $TARGET_BRANCH
 # docs dir
 mkdir -p $TARGET_DOCS_DIR
-#find $HOME/$SOURCE_DOCS_DIR/ -type f -name '*.md' | xargs cp -t $TARGET_DOCS_DIR
-#cp -Rf $HOME/$SOURCE_DOCS_DIR/* $TARGET_DOCS_DIR
-cp -f $HOME/$SOURCE_DOCS_DIR/*.md $TARGET_DOCS_DIR
+cp -Rfv $HOME/$SOURCE_DOCS_DIR/* $TARGET_DOCS_DIR # copy too many files, so next line is to ensure we get only md and png
+#cp -Rfv $HOME/$SOURCE_DOCS_DIR/**/*.{md,png} $TARGET_DOCS_DIR --parents # parents works only at the root of docs dir
 # api dir
 mkdir -p $TARGET_API_DIR
 cp -Rf $HOME/$SOURCE_API_DIR/* $TARGET_API_DIR

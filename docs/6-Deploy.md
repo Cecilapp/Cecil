@@ -1,7 +1,7 @@
 <!--
 description: "Deploy (publish) your website."
 date: 2020-12-19
-updated: 2025-09-17
+updated: 2025-10-12
 alias: documentation/publish
 -->
 # Deploy
@@ -155,8 +155,13 @@ jobs:
           key: cecil-cache-
           restore-keys: |
             cecil-cache-
+      - name: Setup Pages
+        id: pages
+        uses: actions/configure-pages@v5
       - name: Build with Cecil
         uses: Cecilapp/Cecil-Action@v3
+        with:
+          args: '-v --baseurl="${{ steps.pages.outputs.base_url }}/"'
       - name: Save Cecil cache
         uses: actions/cache/save@v4
         with:

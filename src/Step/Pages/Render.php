@@ -225,7 +225,7 @@ class Render extends AbstractStep
                 } catch (\Twig\Error\Error $e) {
                     throw new RuntimeException(
                         \sprintf(
-                            'Can\'t render template "%s" for page "%s".',
+                            'Unable to render template "%s" for page "%s".',
                             $e->getSourceContext()->getName(),
                             $page->getFileName() ?? $page->getId()
                         ),
