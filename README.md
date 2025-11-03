@@ -104,19 +104,27 @@ npx all-contributors generate
 
 ## Development
 
-### Build binary
+### Build binaries
 
-Build the `cecil.phar` binary with [Box](https://github.com/box-project/box/):
+Build binaries with [Box](https://github.com/box-project/box/) and [phpacker](https://github.com/phpacker/phpacker):
 
 ```bash
-# Install Box globally
+# Install globally
 composer global require humbug/box
-# Add Box to your PATH
+composer global require phpacker/phpacker
+# Add to your PATH
 export PATH=~/.composer/vendor/bin:$PATH
-# Build the phar file
-composer build
-# Check the phar file
+```
+
+```bash
+# Build the PHAR file
+composer build:phar
+# Check the PHAR file
 php dist/cecil.phar about
+# Build the package (with PHP binary included)
+composer build:package
+# Check the package
+./dist/build/<os>/<os>-<arch> about
 ```
 
 ### Build API documentation
