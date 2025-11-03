@@ -140,23 +140,42 @@
   </p>
 
   <h2>HTML element</h2>
+  <h3>HTML CSS</h3>
   <p>
-    <pre>{% verbatim %}{{ asset('css/style.css')|html }}{% endverbatim %}</pre>
-    <pre>{{ asset('css/style.css')|html|e }}</pre>
+    <pre>html(asset('css/style.css'))</pre>
+    <blockquote>{{ html(asset('css/style.css'))|e }}</blockquote>
+    With deprecated `html` filter:
+    <pre>asset('css/style.css')|html</pre>
+    <blockquote>{{ asset('css/style.css')|html|e }}</blockquote>
   </p>
+  <h3>HTML JS</h3>
   <p>
-    <pre>asset('js/script.js')|html</pre>
-    <pre>{{ asset('js/script.js')|html|e }}</pre>
+    <pre>html(asset('js/script.js'))</pre>
+    <blockquote>{{ html(asset('js/script.js'))|e }}</blockquote>
   </p>
-
-  <h2>Image as HTML element</h2>
+  <h3>Array of assets</h3>
   <p>
-    <pre>asset('cecil-logo-big.png')|html({title: 'title', alt: 'alternative', loading: 'lazy'})</pre>
+    <pre>html([
+  {asset: asset('css/style.css')},
+  {asset: asset('css/style.css'), attributes: {media: '(prefers-color-scheme: dark)'}},
+  {asset: asset('js/script.js'), attributes: {test: 'test'}},
+  {asset: asset('js/script.js'), attributes: null},
+])</pre>
+    <blockquote>{{ html([
+      {asset: asset('css/style.css')},
+      {asset: asset('css/style.css'), attributes: {media: '(prefers-color-scheme: dark)'}},
+      {asset: asset('js/script.js'), attributes: {test: 'test'}},
+      {asset: asset('js/script.js'), attributes: null},
+    ])|e }}</blockquote>
+  </p>
+  <h3>HTML image</h3>
+  <p>
+    <pre>html(asset('cecil-logo-big.png'), {title: 'title', alt: 'alternative', loading: 'lazy'})</pre>
     <blockquote>
-      {{- asset('cecil-logo-big.png')|html({title: 'title', alt: 'alternative', loading: 'lazy'}) }}
+      {{- html(asset('cecil-logo-big.png'), {title: 'title', alt: 'alternative', loading: 'lazy'}) }}
     </blockquote>
     <pre>
-      {{~ asset('cecil-logo-big.png')|html({title: 'title', alt: 'alternative', loading: 'lazy'})|e -}}
+      {{~ html(asset('cecil-logo-big.png'), {title: 'title', alt: 'alternative', loading: 'lazy'})|e -}}
     </pre>
   </p>
 

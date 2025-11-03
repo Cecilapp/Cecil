@@ -1,7 +1,7 @@
 <!--
 description: "Working with layouts, templates and components."
 date: 2021-05-07
-updated: 2025-10-07
+updated: 2025-11-02
 alias: documentation/layouts
 -->
 # Templates
@@ -601,7 +601,7 @@ _Examples:_
 
 ### html
 
-Creates an HTML element from an asset.
+Creates an HTML element from an asset (or an array of assets with custom attributes).
 
 ```twig
 {{ html(asset, {attributes}, {options}) }}
@@ -610,7 +610,7 @@ Creates an HTML element from an asset.
 | Option     | Description                                     | Type  |
 | ---------- | ----------------------------------------------- | ----- |
 | attributes | Adds `name="value"` couple to the HTML element. | array |
-| options    | For CSS:<br>`{preload: boolean}`: preloads.<br>For images:<br>`{responsive: boolean}`: adds responsives images.<br>`{formats: array}`: adds alternatives formats. | array |
+| options    | For CSS:<br>`{preload: boolean}`: preloads.<br>For images:<br>`{responsive: boolean}`: adds responsive images.<br>`{formats: array}`: adds alternative formats. | array |
 
 :::warning
 Since version ++8.42.0++, the `html` function replace the deprecated `html` filter.
@@ -639,7 +639,7 @@ _Examples:_
 
 ```twig
 {# CSS with an attribute #}
-{{ html(asset('styles.css'), {media: 'print'}) }}
+{{ html(asset('print.css'), {media: 'print'}) }}
 ```
 
 ```twig
@@ -652,11 +652,18 @@ _Examples:_
 {{ html(asset('script.js')) }}
 ```
 
+```twig
+{# Array of assets with media query #}
+{{ html([
+  {asset: asset('css/style.css')},
+  {asset: asset('css/style-dark.css'), attributes: {media: '(prefers-color-scheme: dark)'}}
+]) }}
+```
+
 :::info
 For convenience the `html` function stay available as a filter (but is considered as deprecated):
 
 ```twig
-# asset
 {{ asset|html({attributes}, {options}) }}
 ```
 
