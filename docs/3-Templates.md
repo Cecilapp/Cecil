@@ -656,7 +656,7 @@ _Examples:_
 {# Array of assets with media query #}
 {{ html([
   {asset: asset('css/style.css')},
-  {asset: asset('css/style-dark.css'), attributes: {media: '(prefers-color-scheme: dark)'}},
+  {asset: asset('css/style-dark.css'), attributes: {media: '(prefers-color-scheme: dark)'}}
 ]) }}
 ```
 
