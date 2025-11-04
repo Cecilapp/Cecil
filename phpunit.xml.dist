@@ -11,10 +11,10 @@
     <exclude>
       <directory>./tests</directory>
       <directory>./vendor</directory>
+      <directory suffix=".php">./src/Command</directory>
+      <file>./src/Application.php</file>
+      <file>./src/bootstrap.php</file>
     </exclude>
-    <exclude>./src/Command</exclude>
-    <exclude>./src/Application.php</exclude>
-    <exclude>./src/bootstrap.php</exclude>
   </source>
   <php>
     <ini name="error_reporting" value="-1"/>
@@ -30,8 +30,8 @@
   </testsuites>
   <coverage includeUncoveredFiles="false">
     <report>
-      <clover outputFile="./build/logs/clover.xml"/>
-      <text showUncoveredFiles="true" showOnlySummary="false"/>
+      <clover outputFile="./coverage/clover.xml"/>
+      <text showUncoveredFiles="true" showOnlySummary="false" outputFile="./coverage/clover.txt"/>
     </report>
   </coverage>
 </phpunit>
