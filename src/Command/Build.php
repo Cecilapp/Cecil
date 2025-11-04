@@ -14,6 +14,7 @@ declare(strict_types=1);
 namespace Cecil\Command;
 
 use Cecil\Util;
+use Joli\JoliNotif\DefaultNotifier;
 use Symfony\Component\Console\Helper\Table;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
@@ -86,7 +87,7 @@ EOF
     /**
      * {@inheritdoc}
      */
-    protected function execute(InputInterface $input, OutputInterface $output)
+    protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $config = [];
         $options = [];
@@ -146,6 +147,12 @@ EOF
         // build
         $builder->build($options);
         $output->writeln('Done 🎉');
+        // notification
+        if (self::DESKTOP_NOTIFICATION) {
+            $notifier = new DefaultNotifier();
+            $this->notification->setBody('Build done 🎉');
+            $notifier->send($this->notification);
+        }
 
         // show build steps metrics
         if ($input->getOption('metrics')) {
