@@ -28,4 +28,10 @@
       <file>./tests/IntegrationCliTests.php</file>
     </testsuite>
   </testsuites>
+  <coverage includeUncoveredFiles="false">
+    <report>
+      <clover outputFile="./build/logs/clover.xml"/>
+      <text showUncoveredFiles="true" showOnlySummary="false"/>
+    </report>
+  </coverage>
 </phpunit>
