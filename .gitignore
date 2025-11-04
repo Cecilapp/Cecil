@@ -1,12 +1,13 @@
-vendor/
-.vscode/
-.phpunit.result.cache
-.php-cs-fixer.cache
-.phpmd.result-cache.php
-phpdoc
-.phpdoc/cache/
-
 # if you run Cecil here
 _site/
 .cache/
 .cecil/
+
+.vscode/
+vendor/
+.phpunit.result.cache
+coverage/
+.php-cs-fixer.cache
+.phpmd.result-cache.php
+phpdoc
+.phpdoc/cache/
