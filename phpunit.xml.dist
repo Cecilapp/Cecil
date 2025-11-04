@@ -28,10 +28,5 @@
       <file>./tests/IntegrationCliTests.php</file>
     </testsuite>
   </testsuites>
-  <coverage includeUncoveredFiles="false">
-    <report>
-      <clover outputFile="./coverage/clover.xml"/>
-      <text showUncoveredFiles="true" showOnlySummary="false" outputFile="./coverage/clover.txt"/>
-    </report>
-  </coverage>
+  <coverage includeUncoveredFiles="false"></coverage>
 </phpunit>
