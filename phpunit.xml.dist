@@ -21,6 +21,8 @@
     <testsuite name="IntegrationTests">
       <file>./tests/IntegrationTests.php</file>
       <exclude>./src/Command</exclude>
+      <exclude>./src/Application.php</exclude>
+      <exclude>./src/bootstrap.php</exclude>
     </testsuite>
     <testsuite name="IntegrationCliTests">
       <file>./tests/IntegrationCliTests.php</file>
