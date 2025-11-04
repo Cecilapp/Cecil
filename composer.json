@@ -122,7 +122,7 @@
     "test": "@test:integration",
     "test:integration": "phpunit -c ./ --testsuite=IntegrationTests",
     "test:cli": "phpunit -c ./ --testsuite=IntegrationCliTests",
-    "test:coverage": "phpunit -c ./ --testsuite=IntegrationCliTests --coverage-text --coverage-clover=build/logs/clover.xml",
+    "test:coverage": "phpunit -c ./ --testsuite=IntegrationTests --coverage-text --coverage-clover=build/logs/clover.xml",
     "test:coverage:install": [
       "wget -c -nc --retry-connrefused --tries=0 https://github.com/php-coveralls/php-coveralls/releases/download/v2.5.3/php-coveralls.phar -O coveralls.phar",
       "chmod +x coveralls.phar",
