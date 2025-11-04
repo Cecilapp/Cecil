@@ -20,15 +20,18 @@
   <testsuites>
     <testsuite name="IntegrationTests">
       <file>./tests/IntegrationTests.php</file>
-      <exclude>./src/Command</exclude>
-      <exclude>./src/Application.php</exclude>
-      <exclude>./src/bootstrap.php</exclude>
     </testsuite>
     <testsuite name="IntegrationCliTests">
       <file>./tests/IntegrationCliTests.php</file>
     </testsuite>
   </testsuites>
   <coverage includeUncoveredFiles="false">
+    <include>
+      <directory suffix=".php">src/</directory>
+    </include>
+    <exclude>./src/Command</exclude>
+    <exclude>./src/Application.php</exclude>
+    <exclude>./src/bootstrap.php</exclude>
     <report>
       <clover outputFile="./build/logs/clover.xml"/>
       <text showUncoveredFiles="true" showOnlySummary="false"/>
