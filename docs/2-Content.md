@@ -1,7 +1,7 @@
 <!--
 description: "Create content and organize it."
 date: 2021-05-07
-updated: 2025-08-29
+updated: 2025-11-04
 -->
 # Content
 
@@ -345,13 +345,13 @@ _Example:_
 ![](/image.jpg){width=800}
 ```
 
-If `responsive` option is enabled, then this Markdown line will be converted to:
+will be converted to:
 
 ```html
 <img src="/thumbnails/800/image.jpg" width="800" height="600"
-  srcset="/thumbnails/320/image.jpg 320w,
+  srcset="/thumbnails/800/image.jpg 800w,
           /thumbnails/640/image.jpg 640w,
-          /thumbnails/800/image.jpg 800w"
+          /thumbnails/320/image.jpg 320w"
   sizes="100vw"
 >
 ```
