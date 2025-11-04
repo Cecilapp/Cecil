@@ -2,6 +2,21 @@
 
 All notable changes to this project will be documented in this file. Dates are displayed in UTC.
 
+#### [8.70.0](https://github.com/Cecilapp/Cecil/compare/8.69.4...8.70.0)
+
+> 3 November 2025
+
+- chore(deps): bump actions/setup-node from 4 to 6 [`#2231`](https://github.com/Cecilapp/Cecil/pull/2231)
+- chore(deps): bump actions/download-artifact from 5 to 6 [`#2239`](https://github.com/Cecilapp/Cecil/pull/2239)
+- feat: Add support of array of assets to html() function [`#2235`](https://github.com/Cecilapp/Cecil/pull/2235)
+- chore(deps): bump twig/twig from 3.21.1 to 3.22.0 [`#2243`](https://github.com/Cecilapp/Cecil/pull/2243)
+- chore(deps): bump twig/cache-extra from 3.21.0 to 3.22.0 [`#2242`](https://github.com/Cecilapp/Cecil/pull/2242)
+- chore(deps): bump twig/string-extra from 3.21.0 to 3.22.0 [`#2241`](https://github.com/Cecilapp/Cecil/pull/2241)
+- chore(deps): bump twig/intl-extra from 3.21.0 to 3.22.0 [`#2240`](https://github.com/Cecilapp/Cecil/pull/2240)
+- chore(deps-dev): bump friendsofphp/php-cs-fixer from 3.89.0 to 3.89.1 [`#2237`](https://github.com/Cecilapp/Cecil/pull/2237)
+- chore: update deps [`c6b04bb`](https://github.com/Cecilapp/Cecil/commit/c6b04bb8c596e867d526c859dad8f446712685c3)
+- Remove Symfony Insight [`adf8537`](https://github.com/Cecilapp/Cecil/commit/adf853748c00429796a25454b238dd2497e89e62)
+
 #### [8.69.4](https://github.com/Cecilapp/Cecil/compare/8.69.3...8.69.4)
 
 > 24 October 2025
