@@ -610,7 +610,7 @@ class Core extends SlugifyExtension
 
         // create responsive attributes
         $sizes = '';
-        if ($responsive && $srcset = Image::buildHtmlSrcset($asset, $this->config->getAssetsImagesWidths())) {
+        if ($responsive && $srcset = Image::buildHtmlSrcsetW($asset, $this->config->getAssetsImagesWidths())) {
             $htmlAttributes .= \sprintf(' srcset="%s"', $srcset);
             $sizes = Image::getHtmlSizes($attributes['class'] ?? '', $this->config->getAssetsImagesSizes());
             $htmlAttributes .= \sprintf(' sizes="%s"', $sizes);
@@ -634,7 +634,7 @@ class Core extends SlugifyExtension
                 try {
                     $assetConverted = $asset->convert($format);
                     // responsive
-                    if ($responsive && $srcset = Image::buildHtmlSrcset($assetConverted, $this->config->getAssetsImagesWidths())) {
+                    if ($responsive && $srcset = Image::buildHtmlSrcsetW($assetConverted, $this->config->getAssetsImagesWidths())) {
                         // `<source>` element
                         $source .= \sprintf(
                             "\n  <source type=\"image/$format\" srcset=\"%s\" sizes=\"%s\">",
@@ -660,13 +660,13 @@ class Core extends SlugifyExtension
     }
 
     /**
-     * Builds the HTML img `srcset` (responsive) attribute of an image Asset.
+     * Builds the HTML img `srcset` (responsive) attribute of an image Asset, based on configured widths.
      *
      * @throws RuntimeException
      */
     public function imageSrcset(Asset $asset): string
     {
-        return Image::buildHtmlSrcset($asset, $this->config->getAssetsImagesWidths(), true);
+        return Image::buildHtmlSrcsetW($asset, $this->config->getAssetsImagesWidths(), true);
     }
 
     /**
