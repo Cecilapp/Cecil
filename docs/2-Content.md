@@ -325,8 +325,8 @@ Could be converted to:
 
 ```html
 <picture>
-  <source srcset="/image.avif" type="image/avif">
   <source srcset="/image.webp" type="image/webp">
+  <source srcset="/image.avif" type="image/avif">
   <img src="/image.jpg">
 </picture>
 ```
@@ -349,9 +349,9 @@ will be converted to:
 
 ```html
 <img src="/thumbnails/800/image.jpg" width="800" height="600"
-  srcset="/thumbnails/800/image.jpg 800w,
+  srcset="/thumbnails/320/image.jpg 320w,
           /thumbnails/640/image.jpg 640w,
-          /thumbnails/320/image.jpg 320w"
+          /thumbnails/800/image.jpg 800w"
   sizes="100vw"
 >
 ```

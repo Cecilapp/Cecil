@@ -258,7 +258,7 @@ class Image
                 continue;
             }
             $img = $asset->resize($width);
-            $srcset .= \sprintf('%s %sw, ', (string) $img, $width);
+            $srcset = \sprintf('%s %sw, ', (string) $img, $width) . $srcset;
             $widthMax = $width;
         }
         // adds source image
