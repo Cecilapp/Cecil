@@ -608,12 +608,14 @@ class Core extends SlugifyExtension
         $htmlAttributes = self::htmlAttributes($attributes);
         $responsive = $options['responsive'] ?? $this->config->isEnabled('layouts.images.responsive');
 
-        // create responsive attributes
-        $sizes = '';
-        if ($responsive && $srcset = Image::buildHtmlSrcset($asset, $this->config->getAssetsImagesWidths())) {
-            $htmlAttributes .= \sprintf(' srcset="%s"', $srcset);
-            $sizes = Image::getHtmlSizes($attributes['class'] ?? '', $this->config->getAssetsImagesSizes());
-            $htmlAttributes .= \sprintf(' sizes="%s"', $sizes);
+        // build responsive attributes (srcset + sizes)
+        if ($responsive && $srcset = Image::buildHtmlSrcsetW($asset, $this->config->getAssetsImagesWidths())) {
+            $htmlAttributes .= \sprintf(
+                ' srcset="%s" sizes="%s"',
+                $srcset,
+                Image::getHtmlSizes($attributes['class'] ?? '', $this->config->getAssetsImagesSizes()),
+            );
+            // prevent oversize images
             if ($asset['width'] > max($this->config->getAssetsImagesWidths())) {
                 $asset = $asset->resize(max($this->config->getAssetsImagesWidths()));
             }
@@ -639,7 +641,7 @@ class Core extends SlugifyExtension
                         $source .= \sprintf(
                             "\n  <source type=\"image/$format\" srcset=\"%s\" sizes=\"%s\">",
                             $srcset,
-                            $sizes
+                            Image::getHtmlSizes($attributes['class'] ?? '', $this->config->getAssetsImagesSizes())
                         );
                         continue;
                     }
