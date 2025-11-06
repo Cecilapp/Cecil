@@ -609,7 +609,7 @@ class Core extends SlugifyExtension
         $responsive = $options['responsive'] ?? $this->config->isEnabled('layouts.images.responsive');
 
         // build responsive attributes (srcset + sizes)
-        if ($responsive && $srcset = Image::buildHtmlSrcsetW($asset, $this->config->getAssetsImagesWidths())) {
+        if ($responsive && $srcset = Image::buildHtmlSrcset($asset, $this->config->getAssetsImagesWidths())) {
             $htmlAttributes .= \sprintf(
                 ' srcset="%s" sizes="%s"',
                 $srcset,
