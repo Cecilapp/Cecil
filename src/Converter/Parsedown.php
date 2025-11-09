@@ -409,33 +409,29 @@ class Parsedown extends \ParsedownToc
                     $srcset = '';
                     try {
                         $assetConverted = ($assetResized ?? $asset)->convert($format);
+                        // build responsive images?
+                        if ($this->config->isEnabled('pages.body.images.responsive')) {
+                            $srcset = Image::buildHtmlSrcset($assetConverted, $this->config->getAssetsImagesWidths());
+                        }
+                        // if not, use default image as srcset
+                        if (empty($srcset)) {
+                            $srcset = (string) $assetConverted;
+                        }
+                        // add format to <sources>
+                        $sources[] = [
+                            'name'       => 'source',
+                            'attributes' => [
+                                'type'   => "image/$format",
+                                'srcset' => $srcset,
+                                'sizes'  => $sizes,
+                                'width'  => $InlineImage['element']['attributes']['width'],
+                                'height' => $InlineImage['element']['attributes']['height'],
+                            ],
+                        ];
                     } catch (\Exception $e) {
-                        $this->builder->getLogger()->error($e->getMessage());
+                        $this->builder->getLogger()->warning($e->getMessage());
                         continue;
                     }
-                    // build responsive images?
-                    if ($this->config->isEnabled('pages.body.images.responsive')) {
-                        try {
-                            $srcset = Image::buildHtmlSrcset($assetConverted, $this->config->getAssetsImagesWidths());
-                        } catch (\Exception $e) {
-                            $this->builder->getLogger()->warning($e->getMessage());
-                        }
-                    }
-                    // if not, use default image as srcset
-                    if (empty($srcset)) {
-                        $srcset = (string) $assetConverted;
-                    }
-                    // add format to <sources>
-                    $sources[] = [
-                        'name'       => 'source',
-                        'attributes' => [
-                            'type'   => "image/$format",
-                            'srcset' => $srcset,
-                            'sizes'  => $sizes,
-                            'width'  => $InlineImage['element']['attributes']['width'],
-                            'height' => $InlineImage['element']['attributes']['height'],
-                        ],
-                    ];
                 }
                 if (\count($sources) > 0) {
                     $picture = [
