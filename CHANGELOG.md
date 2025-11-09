@@ -2,6 +2,20 @@
 
 All notable changes to this project will be documented in this file. Dates are displayed in UTC.
 
+#### [8.70.1](https://github.com/Cecilapp/Cecil/compare/8.70.0...8.70.1)
+
+> 7 November 2025
+
+- test: better fixtures [`c0d5f73`](https://github.com/Cecilapp/Cecil/commit/c0d5f73c2af1922f66bcd51d874708b7dfd1bf14)
+- doc: minor changes [`1cc28f2`](https://github.com/Cecilapp/Cecil/commit/1cc28f20960c574b0f8b815572ea7174fc305a24)
+- chore: update deps [`f502cee`](https://github.com/Cecilapp/Cecil/commit/f502cee0804138d08aad1ea398e9f0b2cce61b89)
+- refactor: better code [`902447b`](https://github.com/Cecilapp/Cecil/commit/902447bcd672304962bae28c54c062f14d874668)
+- chore: update deps [`fc4dd80`](https://github.com/Cecilapp/Cecil/commit/fc4dd808d5384edb6329f654d2854631992239b8)
+- refactor: sort srcset images [`c8652ec`](https://github.com/Cecilapp/Cecil/commit/c8652ec36531dfa7598b96e713dd8ac6e2f9165f)
+- chore: update translations [`95493c3`](https://github.com/Cecilapp/Cecil/commit/95493c30351882aadb20fb7783e6b884486843ea)
+- doc: minor fix [`2315d39`](https://github.com/Cecilapp/Cecil/commit/2315d397e24023a87b473a39da97b6452078c4ec)
+- fix: minor regression [`2a58b89`](https://github.com/Cecilapp/Cecil/commit/2a58b898abb79201a34d1481dd2530e23e9d0812)
+
 #### [8.70.0](https://github.com/Cecilapp/Cecil/compare/8.69.4...8.70.0)
 
 > 3 November 2025
