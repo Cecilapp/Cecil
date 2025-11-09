@@ -2,6 +2,12 @@
 
 All notable changes to this project will be documented in this file. Dates are displayed in UTC.
 
+#### [8.70.3](https://github.com/Cecilapp/Cecil/compare/8.70.2...8.70.3)
+
+> 9 November 2025
+
+- fix: embed no cookies YouTube video [`9547461`](https://github.com/Cecilapp/Cecil/commit/9547461d25574d2964fc378d56268a27c2ac411a)
+
 #### [8.70.2](https://github.com/Cecilapp/Cecil/compare/8.70.1...8.70.2)
 
 > 9 November 2025
