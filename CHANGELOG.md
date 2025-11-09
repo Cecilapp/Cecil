@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. Dates are displayed in UTC.
 
+#### [8.70.2](https://github.com/Cecilapp/Cecil/compare/8.70.1...8.70.2)
+
+> 9 November 2025
+
+- fix: do not stop render html() if SVG [`df0d17b`](https://github.com/Cecilapp/Cecil/commit/df0d17bdd3a1e3e42fc3fabbb7a65ff0a89ef984)
+- fix: build AVIF before WebP [`2fe60a9`](https://github.com/Cecilapp/Cecil/commit/2fe60a9bc34ef1d675881e842c9c6d128a5946d6)
+
 #### [8.70.1](https://github.com/Cecilapp/Cecil/compare/8.70.0...8.70.1)
 
 > 7 November 2025
