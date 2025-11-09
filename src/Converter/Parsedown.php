@@ -365,7 +365,7 @@ class Parsedown extends \ParsedownToc
                     $InlineImage['element']['attributes']['sizes'] = $sizes;
                 }
             } catch (\Exception $e) {
-                $this->builder->getLogger()->debug($e->getMessage());
+                $this->builder->getLogger()->warning($e->getMessage());
             }
         }
 
@@ -418,7 +418,7 @@ class Parsedown extends \ParsedownToc
                         try {
                             $srcset = Image::buildHtmlSrcset($assetConverted, $this->config->getAssetsImagesWidths());
                         } catch (\Exception $e) {
-                            $this->builder->getLogger()->debug($e->getMessage());
+                            $this->builder->getLogger()->warning($e->getMessage());
                         }
                     }
                     // if not, use default image as srcset

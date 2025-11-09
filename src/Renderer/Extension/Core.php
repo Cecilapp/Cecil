@@ -609,16 +609,20 @@ class Core extends SlugifyExtension
         $responsive = $options['responsive'] ?? $this->config->isEnabled('layouts.images.responsive');
 
         // build responsive attributes (srcset + sizes)
-        if ($responsive && $srcset = Image::buildHtmlSrcset($asset, $this->config->getAssetsImagesWidths())) {
-            $htmlAttributes .= \sprintf(
-                ' srcset="%s" sizes="%s"',
-                $srcset,
-                Image::getHtmlSizes($attributes['class'] ?? '', $this->config->getAssetsImagesSizes()),
-            );
-            // prevent oversize images
-            if ($asset['width'] > max($this->config->getAssetsImagesWidths())) {
-                $asset = $asset->resize(max($this->config->getAssetsImagesWidths()));
+        try {
+            if ($responsive && $srcset = Image::buildHtmlSrcset($asset, $this->config->getAssetsImagesWidths())) {
+                $htmlAttributes .= \sprintf(
+                    ' srcset="%s" sizes="%s"',
+                    $srcset,
+                    Image::getHtmlSizes($attributes['class'] ?? '', $this->config->getAssetsImagesSizes()),
+                );
+                // prevent oversize images
+                if ($asset['width'] > max($this->config->getAssetsImagesWidths())) {
+                    $asset = $asset->resize(max($this->config->getAssetsImagesWidths()));
+                }
             }
+        } catch (\Exception $e) {
+            $this->builder->getLogger()->warning($e->getMessage());
         }
 
         // create `<img>` element
@@ -629,33 +633,37 @@ class Core extends SlugifyExtension
         );
 
         // create alternative formats (`<source>`)
-        $formats = $options['formats'] ?? (array) $this->config->get('layouts.images.formats');
-        if (\count($formats) > 0) {
-            $source = '';
-            foreach ($formats as $format) {
-                try {
-                    $assetConverted = $asset->convert($format);
-                    // responsive
-                    if ($responsive && $srcset = Image::buildHtmlSrcset($assetConverted, $this->config->getAssetsImagesWidths())) {
-                        // `<source>` element
-                        $source .= \sprintf(
-                            "\n  <source type=\"image/$format\" srcset=\"%s\" sizes=\"%s\">",
-                            $srcset,
-                            Image::getHtmlSizes($attributes['class'] ?? '', $this->config->getAssetsImagesSizes())
-                        );
+        try {
+            $formats = $options['formats'] ?? (array) $this->config->get('layouts.images.formats');
+            if (\count($formats) > 0) {
+                $source = '';
+                foreach ($formats as $format) {
+                    try {
+                        $assetConverted = $asset->convert($format);
+                        // responsive
+                        if ($responsive && $srcset = Image::buildHtmlSrcset($assetConverted, $this->config->getAssetsImagesWidths())) {
+                            // `<source>` element
+                            $source .= \sprintf(
+                                "\n  <source type=\"image/$format\" srcset=\"%s\" sizes=\"%s\">",
+                                $srcset,
+                                Image::getHtmlSizes($attributes['class'] ?? '', $this->config->getAssetsImagesSizes())
+                            );
+                            continue;
+                        }
+                        // default `<source>` element
+                        $source .= \sprintf("\n  <source type=\"image/$format\" srcset=\"%s\">", $assetConverted);
+                    } catch (\Exception $e) {
+                        $this->builder->getLogger()->warning($e->getMessage());
                         continue;
                     }
-                    // default `<source>` element
-                    $source .= \sprintf("\n  <source type=\"image/$format\" srcset=\"%s\">", $assetConverted);
-                } catch (\Exception $e) {
-                    $this->builder->getLogger()->error($e->getMessage());
-                    continue;
+                }
+                // put `<source>` in `<picture>`
+                if (!empty($source)) {
+                    return \sprintf("<picture>%s\n  %s\n</picture>", $source, $img);
                 }
             }
-            // put `<source>` in `<picture>`
-            if (!empty($source)) {
-                return \sprintf("<picture>%s\n  %s\n</picture>", $source, $img);
-            }
+        } catch (\Exception $e) {
+            $this->builder->getLogger()->warning($e->getMessage());
         }
 
         return $img;
