@@ -374,11 +374,11 @@ class Parsedown extends \ParsedownToc
         <figure>
             <!-- if formats: a <picture> is required for each <source> -->
             <picture>
-                <source type="image/webp"
+                <source type="image/avif"
                     srcset="..."
                     sizes="..."
                 >
-                <source type="image/avif"
+                <source type="image/webp"
                     srcset="..."
                     sizes="..."
                 >

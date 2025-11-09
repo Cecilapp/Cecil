@@ -645,7 +645,7 @@ _Examples:_
 
 ```twig
 {# image with specific attributes and options #}
-{{ html(asset('image.jpg'), {alt: 'Description', loading: 'lazy'}, {responsive: true, formats: ['avif','webp']}) }}
+{{ html(asset('image.jpg'), {alt: 'Description', loading: 'lazy'}, {responsive: true, formats: ['avif', 'webp']}) }}
 ```
 
 ```twig
