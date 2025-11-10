@@ -137,7 +137,7 @@ class Image
             $image = self::manager()->create(
                 width: (int) round($asset['width'] * (1 + $padding / 100), 0),
                 height: (int) round($asset['height'] * (1 + $padding / 100), 0)
-            )->fill(self::getDominantColor($asset));
+            )->fill(self::getBackgroundColor($asset));
             // inserts the original image in the center
             $image->place(
                 $source,
@@ -215,6 +215,22 @@ class Image
             return $image->reduceColors(1)->pickColor(0, 0)->toString();
         } catch (\Exception $e) {
             throw new RuntimeException(\sprintf('Unable to get dominant color of "%s": %s', $asset['path'], $e->getMessage()));
+        }
+    }
+
+    /**
+     * Returns the background RGB color of an image asset.
+     *
+     * @throws RuntimeException
+     */
+    public static function getBackgroundColor(Asset $asset): string
+    {
+        try {
+            $image = self::manager()->read(self::resize($asset, 100, 50));
+
+            return $image->pickColor(0, 0)->toString();
+        } catch (\Exception $e) {
+            throw new RuntimeException(\sprintf('Unable to background color of "%s": %s', $asset['path'], $e->getMessage()));
         }
     }
 
