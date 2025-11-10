@@ -2,6 +2,12 @@
 
 All notable changes to this project will be documented in this file. Dates are displayed in UTC.
 
+#### [8.70.4](https://github.com/Cecilapp/Cecil/compare/8.70.3...8.70.4)
+
+> 9 November 2025
+
+- fix: better way to handle image formats [`c42ddc3`](https://github.com/Cecilapp/Cecil/commit/c42ddc35a6a68f659867a381bad496b5d2ce744b)
+
 #### [8.70.3](https://github.com/Cecilapp/Cecil/compare/8.70.2...8.70.3)
 
 > 9 November 2025
