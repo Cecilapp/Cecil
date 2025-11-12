@@ -2,6 +2,12 @@
 
 All notable changes to this project will be documented in this file. Dates are displayed in UTC.
 
+#### [8.70.5](https://github.com/Cecilapp/Cecil/compare/8.70.4...8.70.5)
+
+> 10 November 2025
+
+- fix: background color of maskable function [`60346aa`](https://github.com/Cecilapp/Cecil/commit/60346aafa56d86f7f8ae088e4b31e6ce85c6cd44)
+
 #### [8.70.4](https://github.com/Cecilapp/Cecil/compare/8.70.3...8.70.4)
 
 > 9 November 2025
