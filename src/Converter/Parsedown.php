@@ -166,7 +166,7 @@ class Parsedown extends \ParsedownToc
         // https://regex101.com/r/gznM1j/1
         $pattern = '(?:https?:\/\/)?(?:www\.)?youtu(?:\.be\/|be.com\/\S*(?:watch|embed)(?:(?:(?=\/[-a-zA-Z0-9_]{11,}(?!\S))\/)|(?:\S*v=|v\/)))([-a-zA-Z0-9_]{11,})';
         if (preg_match('/' . $pattern . '/is', (string) $link['element']['attributes']['href'], $matches)) {
-            return $this->createFigure($this->createEmbeddedVideoFromLink($link, 'https://www.youtube.com/embed/', $matches[1]));
+            return $this->createFigure($this->createEmbeddedVideoFromLink($link, 'https://www.youtube-nocookie.com/embed/', $matches[1]));
         }
         // Vimeo link?
         // https://regex101.com/r/wCEFhd/1
@@ -365,7 +365,7 @@ class Parsedown extends \ParsedownToc
                     $InlineImage['element']['attributes']['sizes'] = $sizes;
                 }
             } catch (\Exception $e) {
-                $this->builder->getLogger()->debug($e->getMessage());
+                $this->builder->getLogger()->warning($e->getMessage());
             }
         }
 
@@ -374,11 +374,11 @@ class Parsedown extends \ParsedownToc
         <figure>
             <!-- if formats: a <picture> is required for each <source> -->
             <picture>
-                <source type="image/webp"
+                <source type="image/avif"
                     srcset="..."
                     sizes="..."
                 >
-                <source type="image/avif"
+                <source type="image/webp"
                     srcset="..."
                     sizes="..."
                 >
@@ -409,33 +409,29 @@ class Parsedown extends \ParsedownToc
                     $srcset = '';
                     try {
                         $assetConverted = ($assetResized ?? $asset)->convert($format);
+                        // build responsive images?
+                        if ($this->config->isEnabled('pages.body.images.responsive')) {
+                            $srcset = Image::buildHtmlSrcset($assetConverted, $this->config->getAssetsImagesWidths());
+                        }
+                        // if not, use default image as srcset
+                        if (empty($srcset)) {
+                            $srcset = (string) $assetConverted;
+                        }
+                        // add format to <sources>
+                        $sources[] = [
+                            'name'       => 'source',
+                            'attributes' => [
+                                'type'   => "image/$format",
+                                'srcset' => $srcset,
+                                'sizes'  => $sizes,
+                                'width'  => $InlineImage['element']['attributes']['width'],
+                                'height' => $InlineImage['element']['attributes']['height'],
+                            ],
+                        ];
                     } catch (\Exception $e) {
-                        $this->builder->getLogger()->error($e->getMessage());
+                        $this->builder->getLogger()->warning($e->getMessage());
                         continue;
                     }
-                    // build responsive images?
-                    if ($this->config->isEnabled('pages.body.images.responsive')) {
-                        try {
-                            $srcset = Image::buildHtmlSrcsetW($assetConverted, $this->config->getAssetsImagesWidths());
-                        } catch (\Exception $e) {
-                            $this->builder->getLogger()->debug($e->getMessage());
-                        }
-                    }
-                    // if not, use default image as srcset
-                    if (empty($srcset)) {
-                        $srcset = (string) $assetConverted;
-                    }
-                    // add format to <sources>
-                    $sources[] = [
-                        'name'       => 'source',
-                        'attributes' => [
-                            'type'   => "image/$format",
-                            'srcset' => $srcset,
-                            'sizes'  => $sizes,
-                            'width'  => $InlineImage['element']['attributes']['width'],
-                            'height' => $InlineImage['element']['attributes']['height'],
-                        ],
-                    ];
                 }
                 if (\count($sources) > 0) {
                     $picture = [

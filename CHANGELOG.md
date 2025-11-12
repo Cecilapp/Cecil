@@ -2,6 +2,45 @@
 
 All notable changes to this project will be documented in this file. Dates are displayed in UTC.
 
+#### [8.70.5](https://github.com/Cecilapp/Cecil/compare/8.70.4...8.70.5)
+
+> 10 November 2025
+
+- fix: background color of maskable function [`60346aa`](https://github.com/Cecilapp/Cecil/commit/60346aafa56d86f7f8ae088e4b31e6ce85c6cd44)
+
+#### [8.70.4](https://github.com/Cecilapp/Cecil/compare/8.70.3...8.70.4)
+
+> 9 November 2025
+
+- fix: better way to handle image formats [`c42ddc3`](https://github.com/Cecilapp/Cecil/commit/c42ddc35a6a68f659867a381bad496b5d2ce744b)
+
+#### [8.70.3](https://github.com/Cecilapp/Cecil/compare/8.70.2...8.70.3)
+
+> 9 November 2025
+
+- fix: embed no cookies YouTube video [`9547461`](https://github.com/Cecilapp/Cecil/commit/9547461d25574d2964fc378d56268a27c2ac411a)
+
+#### [8.70.2](https://github.com/Cecilapp/Cecil/compare/8.70.1...8.70.2)
+
+> 9 November 2025
+
+- fix: do not stop render html() if SVG [`df0d17b`](https://github.com/Cecilapp/Cecil/commit/df0d17bdd3a1e3e42fc3fabbb7a65ff0a89ef984)
+- fix: build AVIF before WebP [`2fe60a9`](https://github.com/Cecilapp/Cecil/commit/2fe60a9bc34ef1d675881e842c9c6d128a5946d6)
+
+#### [8.70.1](https://github.com/Cecilapp/Cecil/compare/8.70.0...8.70.1)
+
+> 7 November 2025
+
+- test: better fixtures [`c0d5f73`](https://github.com/Cecilapp/Cecil/commit/c0d5f73c2af1922f66bcd51d874708b7dfd1bf14)
+- doc: minor changes [`1cc28f2`](https://github.com/Cecilapp/Cecil/commit/1cc28f20960c574b0f8b815572ea7174fc305a24)
+- chore: update deps [`f502cee`](https://github.com/Cecilapp/Cecil/commit/f502cee0804138d08aad1ea398e9f0b2cce61b89)
+- refactor: better code [`902447b`](https://github.com/Cecilapp/Cecil/commit/902447bcd672304962bae28c54c062f14d874668)
+- chore: update deps [`fc4dd80`](https://github.com/Cecilapp/Cecil/commit/fc4dd808d5384edb6329f654d2854631992239b8)
+- refactor: sort srcset images [`c8652ec`](https://github.com/Cecilapp/Cecil/commit/c8652ec36531dfa7598b96e713dd8ac6e2f9165f)
+- chore: update translations [`95493c3`](https://github.com/Cecilapp/Cecil/commit/95493c30351882aadb20fb7783e6b884486843ea)
+- doc: minor fix [`2315d39`](https://github.com/Cecilapp/Cecil/commit/2315d397e24023a87b473a39da97b6452078c4ec)
+- fix: minor regression [`2a58b89`](https://github.com/Cecilapp/Cecil/commit/2a58b898abb79201a34d1481dd2530e23e9d0812)
+
 #### [8.70.0](https://github.com/Cecilapp/Cecil/compare/8.69.4...8.70.0)
 
 > 3 November 2025

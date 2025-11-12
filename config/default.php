@@ -91,7 +91,7 @@ return [
             'toc' => ['h2', 'h3'], // headers used to build the table of contents
             'highlight' => false, // enables code syntax highlighting
             'images' => [
-                'formats' => [], // creates and adds formats images as `source` (e.g.: ['webp', 'avif'])
+                'formats' => [], // creates and adds formats images as `source` (e.g.: ['avif', 'webp'])
                 'resize' => 0, // apply a global width to images (in pixels, `0` to disable)
                 'responsive' => false, // creates responsive images and adds them to the `srcset` attribute
                 'lazy' => true, // adds `loading="lazy"` attribute
@@ -151,7 +151,6 @@ return [
         'images' => [
             'optimize' => false, // enables images optimization with JpegOptim, Optipng, Pngquant 2, SVGO 1, Gifsicle, cwebp, avifenc
             'quality' => 75, // image quality after optimization or resize
-            'formats' => [], // creates and adds formats images as `source` (e.g.: ['webp', 'avif'])
             'responsive' => [ // options of generated responsive images
                 'widths' => [480, 640, 768, 1024, 1366, 1600, 1920], // `srcset` widths
                 'sizes' => ['default' => '100vw'] // default `sizes` attribute
@@ -175,7 +174,7 @@ return [
     'layouts' => [ // layouts and templates
         'dir' => 'layouts', // Twig templates directory
         'images' => [ // how to handle images in templates
-            'formats' => [], // creates and adds formats images as `source` (e.g.: ['webp', 'avif'])
+            'formats' => [], // creates and adds formats images as `source` (e.g.: ['avif', 'webp'])
             'responsive' => false, // enables responsive images
             ],
         'translations' => [ // i18n

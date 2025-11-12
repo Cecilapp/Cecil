@@ -325,8 +325,8 @@ Could be converted to:
 
 ```html
 <picture>
-  <source srcset="/image.webp" type="image/webp">
   <source srcset="/image.avif" type="image/avif">
+  <source srcset="/image.webp" type="image/webp">
   <img src="/image.jpg">
 </picture>
 ```
