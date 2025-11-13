@@ -644,12 +644,12 @@ _Examples:_
 ```
 
 ```twig
-{# image with specific attributes and options #}
-{{ html(asset('image.jpg'), {alt: 'Description', loading: 'lazy'}, {responsive: 'width', formats: ['avif', 'webp']}) }}
+{# image with specific attributes, responsive images and alternative formats #}
+{{ html(asset('image.jpg'), {alt: 'Description', loading: 'lazy'}, {responsive: true, formats: ['avif', 'webp']}) }}
 ```
 
 ```twig
-{# image with named arguments` #}
+{# image with responsive pixels density images #}
 {{ html(asset('image.jpg'), options={responsive: 'density'}, attributes={width: 256}) }}
 ```
 
