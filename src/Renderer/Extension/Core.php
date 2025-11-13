@@ -665,7 +665,11 @@ class Core extends SlugifyExtension
         if (isset($attributes['width']) && $attributes['width'] > 0) {
             $asset = $asset->resize((int) $attributes['width']);
         }
-        $img = \sprintf('<img src="%s" width="' . ($asset['width'] ?: '') . '" height="' . ($asset['height'] ?: '') . '"%s>', $this->url($context, $asset, $options), $htmlAttributes);
+        if (!isset($attributes['width'])) {
+            $htmlAttributes .= \sprintf(' width="%s"', $asset['width'] ?: '');
+        }
+        $htmlAttributes .= \sprintf(' height="%s"', $asset['height'] ?: '');
+        $img = \sprintf('<img src="%s"%s>', $this->url($context, $asset, $options), $htmlAttributes);
 
         // put `<source>` elements in `<picture>` if exists
         if (!empty($source)) {
@@ -1135,6 +1139,7 @@ class Core extends SlugifyExtension
     private static function htmlAttributes(array $attributes): string
     {
         $htmlAttributes = '';
+        $attributes = array_unique($attributes);
         foreach ($attributes as $name => $value) {
             $attribute = \sprintf(' %s="%s"', $name, $value);
             if (!isset($value)) {
