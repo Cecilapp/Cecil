@@ -606,38 +606,29 @@ class Core extends SlugifyExtension
     public function htmlImage(array $context, Asset $asset, array $attributes = [], array $options = []): string
     {
         $htmlAttributes = self::htmlAttributes($attributes);
-        $responsive = $options['responsive'] ?? $this->config->get('layouts.images.responsive');
-
-        // build responsive attributes
-        if ($responsive !== false) {
-            try {
-                switch ($responsive) {
-                    case 'density':
-                        $width1x = isset($attributes['width']) && $attributes['width'] > 0 ? (int) $attributes['width'] : $asset['width'];
-                        $srcset = Image::buildHtmlSrcsetX($asset, $width1x, $this->config->getAssetsImagesDensities());
-                        $htmlAttributes .= \sprintf(' srcset="%s"', $srcset);
-                        break;
-                    default:
-                        $srcset = Image::buildHtmlSrcsetW($asset, $this->config->getAssetsImagesWidths());
-                        $htmlAttributes .= \sprintf(' srcset="%s" sizes="%s"', $srcset, Image::getHtmlSizes($attributes['class'] ?? '', $this->config->getAssetsImagesSizes()));
-                        // prevent oversized images
-                        if ($asset['width'] > max($this->config->getAssetsImagesWidths())) {
-                            $asset = $asset->resize(max($this->config->getAssetsImagesWidths()));
-                        }
-                }
-            } catch (\Exception $e) {
-                $this->builder->getLogger()->warning($e->getMessage());
-            }
-        }
-
-        // create `<img>` element
-        if (isset($attributes['width']) && $attributes['width'] > 0) {
-            $asset = $asset->resize((int) $attributes['width']);
-        }
         if (!isset($attributes['alt'])) {
             $htmlAttributes .= ' alt=""';
         }
-        $img = \sprintf('<img src="%s" width="' . ($asset['width'] ?: '') . '" height="' . ($asset['height'] ?: '') . '"%s>', $this->url($context, $asset, $options), $htmlAttributes);
+        $responsive = $options['responsive'] ?? $this->config->get('layouts.images.responsive');
+
+        // build responsive attributes
+        try {
+            if ($responsive === true || $responsive == 'width') {
+                $srcset = Image::buildHtmlSrcsetW($asset, $this->config->getAssetsImagesWidths());
+                $htmlAttributes .= \sprintf(' srcset="%s" sizes="%s"', $srcset, Image::getHtmlSizes($attributes['class'] ?? '', $this->config->getAssetsImagesSizes()));
+                // prevent oversized images
+                if ($asset['width'] > max($this->config->getAssetsImagesWidths())) {
+                    $asset = $asset->resize(max($this->config->getAssetsImagesWidths()));
+                }
+            }
+            if ($responsive == 'density') {
+                $width1x = isset($attributes['width']) && $attributes['width'] > 0 ? (int) $attributes['width'] : $asset['width'];
+                $srcset = Image::buildHtmlSrcsetX($asset, $width1x, $this->config->getAssetsImagesDensities());
+                $htmlAttributes .= \sprintf(' srcset="%s"', $srcset);
+            }
+        } catch (\Exception $e) {
+            $this->builder->getLogger()->warning($e->getMessage());
+        }
 
         // create alternative formats (`<source>`)
         try {
@@ -665,13 +656,20 @@ class Core extends SlugifyExtension
                         continue;
                     }
                 }
-                // put `<source>` elements in `<picture>` if exists
-                if (!empty($source)) {
-                    return \sprintf("<picture>%s\n  %s\n</picture>", $source, $img);
-                }
             }
         } catch (\Exception $e) {
             $this->builder->getLogger()->warning($e->getMessage());
+        }
+
+        // create `<img>` element
+        if (isset($attributes['width']) && $attributes['width'] > 0) {
+            $asset = $asset->resize((int) $attributes['width']);
+        }
+        $img = \sprintf('<img src="%s" width="' . ($asset['width'] ?: '') . '" height="' . ($asset['height'] ?: '') . '"%s>', $this->url($context, $asset, $options), $htmlAttributes);
+
+        // put `<source>` elements in `<picture>` if exists
+        if (!empty($source)) {
+            return \sprintf("<picture>%s\n  %s\n</picture>", $source, $img);
         }
 
         return $img;
