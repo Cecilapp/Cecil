@@ -454,6 +454,14 @@ class Config
         return $this->get('assets.images.responsive.sizes');
     }
 
+    /**
+     * Returns asset image densities.
+     */
+    public function getAssetsImagesDensities(): array
+    {
+        return $this->get('assets.images.responsive.densities');
+    }
+
     /*
      * Theme helpers.
      */

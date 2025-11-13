@@ -355,7 +355,7 @@ class Parsedown extends \ParsedownToc
         if ($this->config->isEnabled('pages.body.images.responsive')) {
             try {
                 if (
-                    $srcset = Image::buildHtmlSrcset(
+                    $srcset = Image::buildHtmlSrcsetW(
                         $assetResized ?? $asset,
                         $this->config->getAssetsImagesWidths()
                     )

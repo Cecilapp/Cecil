@@ -51,10 +51,10 @@
     "symfony/validator": "^6.4",
     "symfony/var-dumper": "^6.4",
     "symfony/yaml": "^6.4",
-    "twig/cache-extra": "^3.21",
-    "twig/intl-extra": "^3.21",
-    "twig/string-extra": "^3.21",
-    "twig/twig": "^3.21",
+    "twig/cache-extra": "^3.22",
+    "twig/intl-extra": "^3.22",
+    "twig/string-extra": "^3.22",
+    "twig/twig": "^3.22",
     "voku/html-min": "^4.5",
     "wapmorgan/mp3info": "^0.1",
     "yosymfony/toml": "^1.0"
@@ -80,7 +80,7 @@
       "ergebnis/composer-normalize": true
     },
     "platform": {
-      "php": "8.1.32"
+      "php": "8.1.33"
     },
     "sort-packages": true
   },

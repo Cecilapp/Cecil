@@ -251,21 +251,21 @@ class Image
     }
 
     /**
-     * Build the `srcset` HTML attribute for responsive images.
+     * Build the `srcset` HTML attribute for responsive images, based on widths.
      * e.g.: `srcset="/img-480.jpg 480w, /img-800.jpg 800w"`.
      *
-     * $widths is an array of widths to include in the `srcset`.
-     * If $notEmpty is true, the source image is always added to the `srcset`.
+     * @param array $widths   An array of widths to include in the `srcset`
+     * @param bool  $notEmpty If true the source image is always added to the `srcset`
      *
      * @throws RuntimeException
      */
-    public static function buildHtmlSrcset(Asset $asset, array $widths, $notEmpty = false): string
+    public static function buildHtmlSrcsetW(Asset $asset, array $widths, $notEmpty = false): string
     {
         if (!self::isImage($asset)) {
             throw new RuntimeException(\sprintf('Unable to build "srcset" of "%s": it\'s not an image file.', $asset['path']));
         }
 
-        $srcset = '';
+        $srcset = [];
         $widthMax = 0;
         sort($widths, SORT_NUMERIC);
         $widths = array_reverse($widths);
@@ -274,15 +274,58 @@ class Image
                 continue;
             }
             $img = $asset->resize($width);
-            $srcset = \sprintf('%s %sw, ', (string) $img, $width) . $srcset;
+            array_unshift($srcset, \sprintf('%s %sw', (string) $img, $width));
             $widthMax = $width;
         }
         // adds source image
         if ((!empty($srcset) || $notEmpty) && ($asset['width'] < max($widths) && $asset['width'] != $widthMax)) {
-            $srcset .= \sprintf('%s %sw', (string) $asset, $asset['width']);
+            $srcset[] = \sprintf('%s %sw', (string) $asset, $asset['width']);
         }
 
-        return rtrim($srcset, ', ');
+        return implode(', ', $srcset);
+    }
+
+    /**
+     * Alias of buildHtmlSrcsetW for backward compatibility.
+     */
+    public static function buildHtmlSrcset(Asset $asset, array $widths, $notEmpty = false): string
+    {
+        return self::buildHtmlSrcsetW($asset, $widths, $notEmpty);
+    }
+
+    /**
+     * Build the `srcset` HTML attribute for responsive images, based on pixel ratios.
+     * e.g.: `srcset="/img-1x.jpg 1.0x, /img-2x.jpg 2.0x"`.
+     *
+     * @param int   $width1x  The width of the 1x image
+     * @param array $ratios   An array of pixel ratios to include in the `srcset`
+     *
+     * @throws RuntimeException
+     */
+    public static function buildHtmlSrcsetX(Asset $asset, int $width1x, array $ratios): string
+    {
+        if (!self::isImage($asset)) {
+            throw new RuntimeException(\sprintf('Unable to build "srcset" of "%s": it\'s not an image file.', $asset['path']));
+        }
+
+        $srcset = [];
+        sort($ratios, SORT_NUMERIC);
+        $ratios = array_reverse($ratios);
+        foreach ($ratios as $ratio) {
+            if ($ratio <= 1) {
+                continue;
+            }
+            $width = (int) round($width1x * $ratio, 0);
+            if ($asset['width'] < $width) {
+                continue;
+            }
+            $img = $asset->resize($width);
+            array_unshift($srcset, \sprintf('%s %dx', (string) $img, $ratio));
+        }
+        // adds 1x image
+        array_unshift($srcset, \sprintf('%s 1x', (string) $asset->resize($width1x)));
+
+        return implode(', ', $srcset);
     }
 
     /**

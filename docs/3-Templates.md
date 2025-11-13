@@ -1,7 +1,7 @@
 <!--
 description: "Working with layouts, templates and components."
 date: 2021-05-07
-updated: 2025-11-05
+updated: 2025-11-13
 alias: documentation/layouts
 -->
 # Templates
@@ -626,14 +626,14 @@ Creates an HTML element from an asset (or an array of assets with custom attribu
 | Option     | Description                                     | Type  |
 | ---------- | ----------------------------------------------- | ----- |
 | attributes | Adds `name="value"` couple to the HTML element. | array |
-| options    | For CSS:<br>`{preload: boolean}`: preloads.<br>For images:<br>`{responsive: boolean}`: adds responsive images.<br>`{formats: array}`: adds alternative formats. | array |
+| options    | For CSS:<br>`{preload: boolean}`: preloads.<br>For images:<br>`{formats: array}`: adds alternative formats.<br>`{responsive: bool|string}`: adds responsive images (based on `width` or pixels `density`). | array |
 
 :::warning
 Since version ++8.42.0++, the `html` function replace the deprecated `html` filter.
 :::
 
 :::tip
-You can define a global default behavior of images options (`responsive` and `formats`) through the [layouts configuration](4-Configuration.md#layouts-images).
+You can define a global default behavior of images options (`formats` and `responsive`) through the [layouts configuration](4-Configuration.md#layouts-images).
 :::
 
 _Examples:_
@@ -644,13 +644,13 @@ _Examples:_
 ```
 
 ```twig
-{# image with specific attributes and options #}
+{# image with specific attributes, responsive images and alternative formats #}
 {{ html(asset('image.jpg'), {alt: 'Description', loading: 'lazy'}, {responsive: true, formats: ['avif', 'webp']}) }}
 ```
 
 ```twig
-{# image with named argument `options` #}
-{{ html(asset('image.jpg'), options={responsive: true}) }}
+{# image with responsive pixels density images #}
+{{ html(asset('image.jpg'), options={responsive: 'density'}, attributes={width: 256}) }}
 ```
 
 ```twig
