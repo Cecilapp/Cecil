@@ -299,7 +299,6 @@ class Image
      *
      * @param int   $width1x  The width of the 1x image
      * @param array $ratios   An array of pixel ratios to include in the `srcset`
-     * @param bool  $notEmpty If true the source image is always added to the `srcset`
      *
      * @throws RuntimeException
      */
