@@ -626,7 +626,7 @@ Creates an HTML element from an asset (or an array of assets with custom attribu
 | Option     | Description                                     | Type  |
 | ---------- | ----------------------------------------------- | ----- |
 | attributes | Adds `name="value"` couple to the HTML element. | array |
-| options    | For CSS:<br>`{preload: boolean}`: preloads.<br>For images:<br>`{responsive: boolean}`: adds responsive images.<br>`{formats: array}`: adds alternative formats. | array |
+| options    | For CSS:<br>`{preload: boolean}`: preloads.<br>For images:<br>`{responsive: string}`: adds responsive images based on `width` or pixel `density`.<br>`{formats: array}`: adds alternative formats. | array |
 
 :::warning
 Since version ++8.42.0++, the `html` function replace the deprecated `html` filter.
@@ -645,12 +645,12 @@ _Examples:_
 
 ```twig
 {# image with specific attributes and options #}
-{{ html(asset('image.jpg'), {alt: 'Description', loading: 'lazy'}, {responsive: true, formats: ['avif', 'webp']}) }}
+{{ html(asset('image.jpg'), {alt: 'Description', loading: 'lazy'}, {responsive: 'width', formats: ['avif', 'webp']}) }}
 ```
 
 ```twig
 {# image with named argument `options` #}
-{{ html(asset('image.jpg'), options={responsive: true}) }}
+{{ html(asset('image.jpg'), options={responsive: 'density'}) }}
 ```
 
 ```twig

@@ -265,7 +265,7 @@ class Image
             throw new RuntimeException(\sprintf('Unable to build "srcset" of "%s": it\'s not an image file.', $asset['path']));
         }
 
-        $srcset = '';
+        $srcset = [];
         $widthMax = 0;
         sort($widths, SORT_NUMERIC);
         $widths = array_reverse($widths);
@@ -274,15 +274,15 @@ class Image
                 continue;
             }
             $img = $asset->resize($width);
-            $srcset = \sprintf('%s %sw, ', (string) $img, $width) . $srcset;
+            array_unshift($srcset, \sprintf('%s %sw', (string) $img, $width));
             $widthMax = $width;
         }
         // adds source image
         if ((!empty($srcset) || $notEmpty) && ($asset['width'] < max($widths) && $asset['width'] != $widthMax)) {
-            $srcset .= \sprintf('%s %sw', (string) $asset, $asset['width']);
+            $srcset[] = \sprintf('%s %sw', (string) $asset, $asset['width']);
         }
 
-        return rtrim($srcset, ', ');
+        return implode(', ', $srcset);
     }
 
     /**
@@ -290,44 +290,43 @@ class Image
      */
     public static function buildHtmlSrcset(Asset $asset, array $widths, $notEmpty = false): string
     {
-        return self::buildHtmlSrcset($asset, $widths, $notEmpty);
+        return self::buildHtmlSrcsetW($asset, $widths, $notEmpty);
     }
 
     /**
      * Build the `srcset` HTML attribute for responsive images, based on pixel ratios.
      * e.g.: `srcset="/img-1x.jpg 1.0x, /img-2x.jpg 2.0x"`.
      *
+     * @param int   $width1x  The width of the 1x image
      * @param array $ratios   An array of pixel ratios to include in the `srcset`
      * @param bool  $notEmpty If true the source image is always added to the `srcset`
      *
      * @throws RuntimeException
      */
-    public static function buildHtmlSrcsetX(Asset $asset, array $ratios, $notEmpty = false): string
+    public static function buildHtmlSrcsetX(Asset $asset, int $width1x, array $ratios): string
     {
         if (!self::isImage($asset)) {
             throw new RuntimeException(\sprintf('Unable to build "srcset" of "%s": it\'s not an image file.', $asset['path']));
         }
 
-        $srcset = '';
+        $srcset = [];
         sort($ratios, SORT_NUMERIC);
         $ratios = array_reverse($ratios);
         foreach ($ratios as $ratio) {
-            if ($ratio <= 0) {
+            if ($ratio <= 1) {
                 continue;
             }
-            $width = (int) round($asset['width'] * $ratio, 0);
+            $width = (int) round($width1x * $ratio, 0);
             if ($asset['width'] < $width) {
                 continue;
             }
             $img = $asset->resize($width);
-            $srcset .= \sprintf('%s %.1fx, ', (string) $img, $ratio);
+            array_unshift($srcset, \sprintf('%s %dx', (string) $img, $ratio));
         }
-        // adds source image
-        if ((!empty($srcset) || $notEmpty) && !\in_array(1, $ratios, true)) {
-            $srcset .= \sprintf('%s 1.0x', (string) $asset);
-        }
+        // adds 1x image
+        array_unshift($srcset, \sprintf('%s 1x', (string) $asset->resize($width1x)));
 
-        return rtrim($srcset, ', ');
+        return implode(', ', $srcset);
     }
 
     /**

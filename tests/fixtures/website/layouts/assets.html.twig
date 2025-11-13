@@ -341,15 +341,31 @@
     </blockquote>
     <pre>{{ html(asset('cecil-logo-big.png'), options={responsive: false, formats: ['webp', 'avif']})|e }}</pre>
   </p>
-  <h4>Responsive</h4>
+  <h4>Responsive (density)</h4>
   <p>
-    <pre>html(asset('cecil-logo-big.png'), options={responsive: true})</pre>
+    <pre>html(asset('cecil-logo-big.png'), options={responsive: 'density'}, attributes={width: 200})</pre>
     <blockquote>
-      {{ html(asset('cecil-logo-big.png'), options={responsive: true, formats: []}) }}
+      {{ html(asset('cecil-logo-big.png'), options={responsive: 'density', formats: []}, attributes={width: 200}) }}
     </blockquote>
-    <pre>{{ html(asset('cecil-logo-big.png'), options={responsive: true, formats: []})|e }}</pre>
+    <pre>{{ html(asset('cecil-logo-big.png'), options={responsive: 'density', formats: []}, attributes={width: 200})|e }}</pre>
   </p>
-  <h4>Responsive + Formats</h4>
+  <h4>Responsive (width)</h4>
+  <p>
+    <pre>html(asset('cecil-logo-big.png'), options={responsive: 'width'})</pre>
+    <blockquote>
+      {{ html(asset('cecil-logo-big.png'), options={responsive: 'width', formats: []}) }}
+    </blockquote>
+    <pre>{{ html(asset('cecil-logo-big.png'), options={responsive: 'width', formats: []})|e }}</pre>
+  </p>
+  <h4>Responsive (density) + formats</h4>
+  <p>
+    <pre>html(asset('cecil-logo-big.png'), options={responsive: 'density', formats: ['webp', 'avif']}, attributes={width: 500})</pre>
+    <blockquote>
+      {{ html(asset('cecil-logo-big.png'), options={responsive: 'density', formats: ['webp', 'avif']}, attributes={width: 500}) }}
+    </blockquote>
+    <pre>{{ html(asset('cecil-logo-big.png'), options={responsive: 'density', formats: ['webp', 'avif']}, attributes={width: 500})|e }}</pre>
+  </p>
+  <h4>Responsive (width) + formats</h4>
   <p>
     <pre>html(asset('cecil-logo-big.png'), options={responsive: true, formats: ['webp', 'avif']})</pre>
     <blockquote>
