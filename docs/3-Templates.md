@@ -626,7 +626,7 @@ Creates an HTML element from an asset (or an array of assets with custom attribu
 | Option     | Description                                     | Type  |
 | ---------- | ----------------------------------------------- | ----- |
 | attributes | Adds `name="value"` couple to the HTML element. | array |
-| options    | For CSS:<br>`{preload: boolean}`: preloads.<br>For images:<br>`{formats: array}`: adds alternative formats.<br>`{responsive: bool\|string}`: adds responsive images (based on `width` or pixels `density`). | array |
+| options    | For CSS:<br>`{preload: boolean}`: preloads.<br>For images:<br>`{formats: array}`: adds alternative formats.<br>`{responsive: bool|string}`: adds responsive images (based on `width` or pixels `density`). | array |
 
 :::warning
 Since version ++8.42.0++, the `html` function replace the deprecated `html` filter.
