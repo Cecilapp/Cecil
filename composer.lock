@@ -4144,21 +4144,21 @@
         },
         {
             "name": "twig/cache-extra",
-            "version": "v3.22.0",
+            "version": "v3.22.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/twigphp/cache-extra.git",
-                "reference": "e57367caab3e983b8e5601a0eff9b25d27815ea3"
+                "reference": "043bd496ada6bf2f73ed3186434fd9e6479a1b8d"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/twigphp/cache-extra/zipball/e57367caab3e983b8e5601a0eff9b25d27815ea3",
-                "reference": "e57367caab3e983b8e5601a0eff9b25d27815ea3",
+                "url": "https://api.github.com/repos/twigphp/cache-extra/zipball/043bd496ada6bf2f73ed3186434fd9e6479a1b8d",
+                "reference": "043bd496ada6bf2f73ed3186434fd9e6479a1b8d",
                 "shasum": ""
             },
             "require": {
                 "php": ">=8.1.0",
-                "symfony/cache": "^5.4|^6.4|^7.0",
+                "symfony/cache": "^5.4|^6.4|^7.0|^8.0",
                 "twig/twig": "^3.21|^4.0"
             },
             "require-dev": {
@@ -4193,7 +4193,7 @@
                 "twig"
             ],
             "support": {
-                "source": "https://github.com/twigphp/cache-extra/tree/v3.22.0"
+                "source": "https://github.com/twigphp/cache-extra/tree/v3.22.1"
             },
             "funding": [
                 {
@@ -4205,7 +4205,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2025-02-19T14:29:33+00:00"
+            "time": "2025-11-02T11:00:49+00:00"
         },
         {
             "name": "twig/intl-extra",
