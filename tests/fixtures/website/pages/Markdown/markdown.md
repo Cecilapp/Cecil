@@ -25,35 +25,43 @@ title: Markdown
 
 ### Embedded links
 
-#### YouTube links
+#### YouTube link
 
 [An example YouTube video](https://www.youtube.com/watch?v=FTpBS7g7YnI){embed=true}
 
-#### YouTube links (embed = false)
+#### YouTube link (embed = false)
 
 [An example YouTube video](https://www.youtube.com/watch?v=FTpBS7g7YnI){embed=false}
 
-#### GitHub Gist links
+#### Vimeo link
+
+[An example Vimeo video](https://vimeo.com/76979871){embed=true}
+
+#### Dailymotion link
+
+[An example Dailymotion video](https://www.dailymotion.com/video/x8tm8cu){embed=true}
+
+#### GitHub Gist link
 
 [Cecil build script](<https://gist.github.com/ArnaudLigny/6b2aa9e6b25581c96435e9296efe0c0e){embed=true>}
 
-#### Video links
+#### Video link
 
 [Video example](/video/test.mp4 "/video/test.mp4"){embed=true controls poster=/video/test.png}
 
-#### Video links (without controls = autoplay + loop)
+#### Video link (without controls = autoplay + loop)
 
 [Video example](/video/test.mp4 "/video/test.mp4"){embed=true poster=/images/cecil-logo.png}
 
-#### Video links (embed = false)
+#### Video link (embed = false)
 
 [Video example](/video/test.mp4 "/video/test.mp4"){embed=false controls poster=/images/cecil-logo.png}
 
-#### Audio links
+#### Audio link
 
 [Audio example](/audio/test.mp3 "/audio/test.mp3"){embed=true controls}
 
-#### Audio links (embed = false)
+#### Audio link (embed = false)
 
 [Audio example](/audio/test.mp3 "/audio/test.mp3"){embed=false controls}
 

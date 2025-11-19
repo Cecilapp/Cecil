@@ -174,6 +174,12 @@ class Parsedown extends \ParsedownToc
         if (preg_match('/' . $pattern . '/is', (string) $link['element']['attributes']['href'], $matches)) {
             return $this->createFigure($this->createEmbeddedVideoFromLink($link, 'https://player.vimeo.com/video/', $matches[1]));
         }
+        // Dailymotion link?
+        // https://regex101.com/r/YKnLPm/1
+        $pattern = '(?:https?:\/\/)?(?:www\.)?dailymotion\.com\/video\/([a-z0-9]+)';
+        if (preg_match('/' . $pattern . '/is', (string) $link['element']['attributes']['href'], $matches)) {
+            return $this->createFigure($this->createEmbeddedVideoFromLink($link, 'https://geo.dailymotion.com/player.html?video=', $matches[1]));
+        }
         // GitHub Gist link?
         // https://regex101.com/r/KWVMYI/1
         $pattern = 'https:\/\/gist\.github\.com\/[-a-zA-Z0-9_]+\/[-a-zA-Z0-9_]+';
@@ -700,9 +706,9 @@ class Parsedown extends \ParsedownToc
                     'width'           => '640',
                     'height'          => '360',
                     'title'           => $link['element']['text'],
-                    'src'             => Util::joinPath($baseSrc, $match),
+                    'src'             => $baseSrc . $match,
                     'frameborder'     => '0',
-                    'allow'           => 'accelerometer;autoplay;encrypted-media;gyroscope;picture-in-picture;',
+                    'allow'           => 'accelerometer;autoplay;encrypted-media;gyroscope;picture-in-picture;fullscreen;web-share;',
                     'allowfullscreen' => '',
                     'style'           => 'position:absolute;top:0;left:0;width:100%;height:100%;border:0;background-color:#d8d8d8;',
                 ],
