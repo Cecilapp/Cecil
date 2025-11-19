@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. Dates are displayed in UTC.
 
+#### [8.71.0](https://github.com/Cecilapp/Cecil/compare/8.70.5...8.71.0)
+
+> 14 November 2025
+
+- feat: pixels density support for responsive images [`#2244`](https://github.com/Cecilapp/Cecil/pull/2244)
+- chore: update deps [`c5d9f5e`](https://github.com/Cecilapp/Cecil/commit/c5d9f5ef9aa74813957014f15c69ce8a2a157581)
+
 #### [8.70.5](https://github.com/Cecilapp/Cecil/compare/8.70.4...8.70.5)
 
 > 10 November 2025
