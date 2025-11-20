@@ -304,12 +304,33 @@
     With deprecated `html` filter:
     <pre>asset('css/style.css')|html</pre>
     <blockquote>{{ asset('css/style.css')|html|e }}</blockquote>
+    With `preload` option:
+    <pre>html(asset('css/style.css'), options:{preload: true})</pre>
+    <blockquote>{{ html(asset('css/style.css'), options:{preload: true})|e }}</blockquote>
+    With `css` function:
+    <pre>css(asset('css/style.css'))</pre>
+    <blockquote>{{ css(asset('css/style.css'))|e }}</blockquote>
   </p>
   <h3>HTML JS</h3>
   <p>
     <pre>html(asset('js/script.js'))</pre>
     <blockquote>{{ html(asset('js/script.js'))|e }}</blockquote>
+    With `js` function:
+    <pre>js(asset('js/script.js'))</pre>
+    <blockquote>{{ js(asset('js/script.js'))|e }}</blockquote>
   </p>
+
+  <h3>HTML video</h3>
+  <p>
+    <pre>html(asset('https://cecil.app/videos/cecil-demo.mp4'))</pre>
+    <blockquote>{{ html(asset('https://cecil.app/videos/cecil-demo.mp4')) }}</blockquote>
+    <pre>{{ html(asset('https://cecil.app/videos/cecil-demo.mp4'))|e }}</pre>
+    With `video` function:
+    <pre>video(asset('https://cecil.app/videos/cecil-demo.mp4'))</pre>
+    <blockquote>{{ video(asset('https://cecil.app/videos/cecil-demo.mp4')) }}</blockquote>
+    <pre>{{ video(asset('https://cecil.app/videos/cecil-demo.mp4'))|e }}</pre>
+  </p>
+
   <h3>Array of assets</h3>
   <p>
     <pre>html([
@@ -332,6 +353,12 @@
       {{ html(asset('cecil-logo-big.png'), {title: 'title', alt: 'alternative', loading: 'lazy'}, {responsive: false, formats: []}) }}
     </blockquote>
     <pre>{{ html(asset('cecil-logo-big.png'), {title: 'title', alt: 'alternative', loading: 'lazy'}, {responsive: false, formats: []})|e }}</pre>
+    With `image` function:
+    <pre>image(asset('cecil-logo-big.png'), {title: 'title', alt: 'alternative', loading: 'lazy'})</pre>
+    <blockquote>
+      {{ image(asset('cecil-logo-big.png'), {title: 'title', alt: 'alternative', loading: 'lazy'}, {responsive: false, formats: []}) }}
+    </blockquote>
+    <pre>{{ image(asset('cecil-logo-big.png'), {title: 'title', alt: 'alternative', loading: 'lazy'}, {responsive: false, formats: []})|e }}</pre>
   </p>
   <h4>Alternative formats</h4>
   <p>

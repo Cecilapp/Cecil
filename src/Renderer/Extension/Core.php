@@ -85,6 +85,10 @@ class Core extends SlugifyExtension
             // assets
             new \Twig\TwigFunction('asset', [$this, 'asset']),
             new \Twig\TwigFunction('html', [$this, 'html'], ['needs_context' => true]),
+            new \Twig\TwigFunction('css', [$this, 'htmlCss'], ['needs_context' => true]),
+            new \Twig\TwigFunction('js', [$this, 'htmlJs'], ['needs_context' => true]),
+            new \Twig\TwigFunction('image', [$this, 'htmlImage'], ['needs_context' => true]),
+            new \Twig\TwigFunction('video', [$this, 'htmlVideo'], ['needs_context' => true]),
             new \Twig\TwigFunction('integrity', [$this, 'integrity']),
             new \Twig\TwigFunction('image_srcset', [$this, 'imageSrcset']),
             new \Twig\TwigFunction('image_sizes', [$this, 'imageSizes']),
@@ -544,24 +548,37 @@ class Core extends SlugifyExtension
             if (!$asset instanceof Asset) {
                 $asset = new Asset($this->builder, $asset);
             }
+            // be sure Asset file is saved
+            $asset->save();
+            // merge attributes
             $attr = $attributes;
-            // specific attributes
             if ($assetData['attributes'] !== null) {
                 $attr = $attributes + $assetData['attributes'];
             }
-            // be sure Asset file is saved
-            $asset->save();
-            // CSS or JavaScript
+            // process by extension
+            $as = $asset['type'];
             switch ($asset['ext']) {
                 case 'css':
                     $html[] = $this->htmlCss($context, $asset, $attr, $options);
+                    $as = 'style';
                     break;
                 case 'js':
                     $html[] = $this->htmlJs($context, $asset, $attr, $options);
+                    $as = 'script';
+                    break;
             }
-            // image
-            if ($asset['type'] == 'image') {
-                $html[] = $this->htmlImage($context, $asset, $attr, $options);
+            // process by MIME type
+            switch ($asset['type']) {
+                case 'image':
+                    $html[] = $this->htmlImage($context, $asset, $attr, $options);
+                    break;
+                case 'video':
+                    $html[] = $this->htmlVideo($context, $asset, $attr, $options);
+                    break;
+            }
+            // preload
+            if ($options['preload'] ?? false) {
+                array_unshift($html, \sprintf('<link rel="preload" href="%s" as="%s"%s>', $this->url($context, $asset, $options), $as, self::htmlAttributes($attributes)));
             }
             unset($attr);
         }
@@ -577,17 +594,7 @@ class Core extends SlugifyExtension
      */
     public function htmlCss(array $context, Asset $asset, array $attributes = [], array $options = []): string
     {
-        $htmlAttributes = self::htmlAttributes($attributes);
-        $preload = $options['preload'] ?? false;
-        if ($preload) {
-            return \sprintf(
-                '<link href="%s" rel="preload" as="style" onload="this.onload=null;this.rel=\'stylesheet\'"%s><noscript><link rel="stylesheet" href="%1$s"%2$s></noscript>',
-                $this->url($context, $asset, $options),
-                $htmlAttributes
-            );
-        }
-
-        return \sprintf('<link rel="stylesheet" href="%s"%s>', $this->url($context, $asset, $options), $htmlAttributes);
+        return \sprintf('<link rel="stylesheet" href="%s"%s>', $this->url($context, $asset, $options), self::htmlAttributes($attributes));
     }
 
     /**
@@ -595,9 +602,7 @@ class Core extends SlugifyExtension
      */
     public function htmlJs(array $context, Asset $asset, array $attributes = [], array $options = []): string
     {
-        $htmlAttributes = self::htmlAttributes($attributes);
-
-        return \sprintf('<script src="%s"%s></script>', $this->url($context, $asset, $options), $htmlAttributes);
+        return \sprintf('<script src="%s"%s></script>', $this->url($context, $asset, $options), self::htmlAttributes($attributes));
     }
 
     /**
@@ -677,6 +682,18 @@ class Core extends SlugifyExtension
         }
 
         return $img;
+    }
+
+    /**
+     * Builds the HTML video element of a video Asset.
+     */
+    public function htmlVideo(array $context, Asset $asset, array $attributes = [], array $options = []): string
+    {
+        if (empty($attributes)) {
+            $attributes['controls'] = '';
+        }
+
+        return \sprintf('<video%s><source src="%s" type="%s"></video>', self::htmlAttributes($attributes), $this->url($context, $asset, $options), $asset['subtype']);
     }
 
     /**

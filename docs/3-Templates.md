@@ -1,7 +1,7 @@
 <!--
 description: "Working with layouts, templates and components."
 date: 2021-05-07
-updated: 2025-11-13
+updated: 2025-11-20
 alias: documentation/layouts
 -->
 # Templates
@@ -621,12 +621,17 @@ Creates an HTML element from an asset (or an array of assets with custom attribu
 
 ```twig
 {{ html(asset, {attributes}, {options}) }}
+{# dedicated functions for each type of asset #}
+{{ css(asset, {attributes}, {options}) }}
+{{ js(asset, {attributes}, {options}) }}
+{{ image(asset, {attributes}, {options}) }}
+{{ video(asset, {attributes}, {options}) }}
 ```
 
 | Option     | Description                                     | Type  |
 | ---------- | ----------------------------------------------- | ----- |
 | attributes | Adds `name="value"` couple to the HTML element. | array |
-| options    | For CSS:<br>`{preload: boolean}`: preloads.<br>For images:<br>`{formats: array}`: adds alternative formats.<br>`{responsive: bool|string}`: adds responsive images (based on `width` or pixels `density`). | array |
+| options    | `{preload: boolean}`: preloads.<br>For images:<br>`{formats: array}`: adds alternative formats.<br>`{responsive: bool|string}`: adds responsive images (based on `width` or pixels `density`). | array |
 
 :::warning
 Since version ++8.42.0++, the `html` function replace the deprecated `html` filter.
