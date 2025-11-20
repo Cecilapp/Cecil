@@ -580,7 +580,7 @@ class Core extends SlugifyExtension
             // preload
             if ($options['preload'] ?? false) {
                 $attributes['type'] = $asset['subtype'];
-                if (empty($attributes['crossorigin']) ) {
+                if (empty($attributes['crossorigin'])) {
                     $attributes['crossorigin'] = 'anonymous';
                 }
                 array_unshift($html, \sprintf('<link rel="preload" href="%s"%s>', $this->url($context, $asset, $options), self::htmlAttributes($attributes)));
