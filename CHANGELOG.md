@@ -2,6 +2,18 @@
 
 All notable changes to this project will be documented in this file. Dates are displayed in UTC.
 
+#### [8.72.0](https://github.com/Cecilapp/Cecil/compare/8.71.0...8.72.0)
+
+> 20 November 2025
+
+- chore(deps): bump twig/cache-extra from 3.22.0 to 3.22.1 [`#2247`](https://github.com/Cecilapp/Cecil/pull/2247)
+- chore(deps): bump twig/string-extra from 3.22.0 to 3.22.1 [`#2245`](https://github.com/Cecilapp/Cecil/pull/2245)
+- chore: update deps [`0d72395`](https://github.com/Cecilapp/Cecil/commit/0d72395cfa457980fb94c6a68f5a972e2d22a082)
+- feat: add video support to html function [`dc3f7ed`](https://github.com/Cecilapp/Cecil/commit/dc3f7ed6e54ef3159c4106f777a20e19d4534faf)
+- feat: add support of Dailymotion embed [`3fa5154`](https://github.com/Cecilapp/Cecil/commit/3fa5154d9cab4ea7401917355273925e1ff35b6a)
+- refactor: cleaning code [`41c18e9`](https://github.com/Cecilapp/Cecil/commit/41c18e91e742158bb901e1c2c7daff274069faa4)
+- chore: update dev deps [`0a9706c`](https://github.com/Cecilapp/Cecil/commit/0a9706c312f655bac975310c4c554ccd36b0ea6f)
+
 #### [8.71.0](https://github.com/Cecilapp/Cecil/compare/8.70.5...8.71.0)
 
 > 14 November 2025
