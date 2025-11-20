@@ -36,6 +36,7 @@
     "psr/simple-cache": "^3.0",
     "scrivo/highlight.php": "^9.18",
     "scssphp/scssphp": "^2.0",
+    "league/uri": "7.5.1",
     "spatie/image-optimizer": "^1.8",
     "symfony/config": "^6.4",
     "symfony/console": "^6.4",
