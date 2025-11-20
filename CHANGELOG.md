@@ -2,6 +2,12 @@
 
 All notable changes to this project will be documented in this file. Dates are displayed in UTC.
 
+#### [8.72.2](https://github.com/Cecilapp/Cecil/compare/8.72.1...8.72.2)
+
+> 20 November 2025
+
+- fix: temporary downgrade league/uri [`2cbc4b0`](https://github.com/Cecilapp/Cecil/commit/2cbc4b05dd1a4ef6f8b3be0ea927c53024f45727)
+
 #### [8.72.1](https://github.com/Cecilapp/Cecil/compare/8.72.0...8.72.1)
 
 > 20 November 2025
