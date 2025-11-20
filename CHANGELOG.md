@@ -2,6 +2,12 @@
 
 All notable changes to this project will be documented in this file. Dates are displayed in UTC.
 
+#### [8.72.1](https://github.com/Cecilapp/Cecil/compare/8.72.0...8.72.1)
+
+> 20 November 2025
+
+- fix: html function [`cb61595`](https://github.com/Cecilapp/Cecil/commit/cb615950a98d851b90557bfcbc8de24b4567dc1f)
+
 #### [8.72.0](https://github.com/Cecilapp/Cecil/compare/8.71.0...8.72.0)
 
 > 20 November 2025
