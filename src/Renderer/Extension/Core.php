@@ -578,15 +578,15 @@ class Core extends SlugifyExtension
             }
             // preload
             if ($options['preload'] ?? false) {
-                array_unshift($html, \sprintf('<link rel="preload" href="%s" as="%s"%s>', $this->url($context, $asset, $options), $as, self::htmlAttributes($attributes)));
+                array_unshift($html, \sprintf('<link rel="preload" href="%s" as="%s" crossorigin="anonymous"%s>', $this->url($context, $asset, $options), $as, self::htmlAttributes($attributes)));
             }
             unset($attr);
         }
         if (empty($html)) {
-            throw new RuntimeException(\sprintf('%s is available for CSS, JavaScript and image files only.', '"html" filter'));
+            throw new RuntimeException(\sprintf('%s failed to generate HTML element(s) for file(s) provided.', '"html" function'));
         }
 
-        return implode(PHP_EOL, $html);
+        return implode("\n    ", $html);
     }
 
     /**
