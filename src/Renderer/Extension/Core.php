@@ -556,15 +556,16 @@ class Core extends SlugifyExtension
                 $attr = $attributes + $assetData['attributes'];
             }
             // process by extension
-            $as = $asset['type'];
+            $attributes['as'] = $asset['type'];
             switch ($asset['ext']) {
                 case 'css':
                     $html[] = $this->htmlCss($context, $asset, $attr, $options);
-                    $as = 'style';
+                    $attributes['as'] = 'style';
+                    unset($attributes['defer']);
                     break;
                 case 'js':
                     $html[] = $this->htmlJs($context, $asset, $attr, $options);
-                    $as = 'script';
+                    $attributes['as'] = $asset['script'];
                     break;
             }
             // process by MIME type
@@ -578,7 +579,11 @@ class Core extends SlugifyExtension
             }
             // preload
             if ($options['preload'] ?? false) {
-                array_unshift($html, \sprintf('<link rel="preload" href="%s" as="%s" crossorigin="anonymous"%s>', $this->url($context, $asset, $options), $as, self::htmlAttributes($attributes)));
+                $attributes['type'] = $asset['subtype'];
+                if (empty($attributes['crossorigin']) ) {
+                    $attributes['crossorigin'] = 'anonymous';
+                }
+                array_unshift($html, \sprintf('<link rel="preload" href="%s"%s>', $this->url($context, $asset, $options), self::htmlAttributes($attributes)));
             }
             unset($attr);
         }
@@ -594,6 +599,16 @@ class Core extends SlugifyExtension
      */
     public function htmlCss(array $context, Asset $asset, array $attributes = [], array $options = []): string
     {
+        // simulate "defer" by using "preload" and "onload"
+        if (isset($attributes['defer'])) {
+            unset($attributes['defer']);
+            return \sprintf(
+                '<link rel="preload" href="%s" as="style" onload="this.onload=null;this.rel=\'stylesheet\'"%s><noscript><link rel="stylesheet" href="%1$s"%2$s></noscript>',
+                $this->url($context, $asset, $options),
+                self::htmlAttributes($attributes)
+            );
+        }
+
         return \sprintf('<link rel="stylesheet" href="%s"%s>', $this->url($context, $asset, $options), self::htmlAttributes($attributes));
     }
 
@@ -1158,7 +1173,7 @@ class Core extends SlugifyExtension
         $htmlAttributes = '';
         foreach ($attributes as $name => $value) {
             $attribute = \sprintf(' %s="%s"', $name, $value);
-            if (!isset($value)) {
+            if (empty($value)) {
                 $attribute = \sprintf(' %s', $name);
             }
             $htmlAttributes .= $attribute;
