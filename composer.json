@@ -35,8 +35,7 @@
     "psr/log": "^3.0",
     "psr/simple-cache": "^3.0",
     "scrivo/highlight.php": "^9.18",
-    "scssphp/scssphp": "^2.0",
-    "league/uri": "7.5.1",
+    "scssphp/scssphp": "^2.1",
     "spatie/image-optimizer": "^1.8",
     "symfony/config": "^6.4",
     "symfony/console": "^6.4",
@@ -62,7 +61,7 @@
   },
   "require-dev": {
     "ergebnis/composer-normalize": "^2.48",
-    "friendsofphp/php-cs-fixer": "^3.89",
+    "friendsofphp/php-cs-fixer": "^3.90",
     "phpmd/phpmd": "^2.15",
     "phpstan/phpstan": "^1.12",
     "phpunit/phpunit": "^9.6",
