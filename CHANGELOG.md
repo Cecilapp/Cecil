@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. Dates are displayed in UTC.
 
+#### [8.72.3](https://github.com/Cecilapp/Cecil/compare/8.72.2...8.72.3)
+
+> 20 November 2025
+
+- Apply fixes from StyleCI [`#2249`](https://github.com/Cecilapp/Cecil/pull/2249)
+- refactor: html functions [`ed35fca`](https://github.com/Cecilapp/Cecil/commit/ed35fca5fabd944c285dd0f47ba1b080c316fd18)
+
 #### [8.72.2](https://github.com/Cecilapp/Cecil/compare/8.72.1...8.72.2)
 
 > 20 November 2025
