@@ -265,7 +265,6 @@ class Builder implements LoggerAwareInterface
         $steps = [];
         // init...
         foreach (self::STEPS as $step) {
-            /** @var Step\StepInterface $stepObject */
             $stepObject = new $step($this);
             $stepObject->init($this->options);
             if ($stepObject->canProcess()) {
@@ -277,7 +276,6 @@ class Builder implements LoggerAwareInterface
         $stepsTotal = \count($steps);
         foreach ($steps as $step) {
             $stepNumber++;
-            /** @var Step\StepInterface $step */
             $this->getLogger()->notice($step->getName(), ['step' => [$stepNumber, $stepsTotal]]);
             $stepStartTime = microtime(true);
             $stepStartMemory = memory_get_usage();

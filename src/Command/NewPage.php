@@ -75,7 +75,7 @@ EOF
      *
      * @throws RuntimeException
      */
-    protected function execute(InputInterface $input, OutputInterface $output)
+    protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $name = (string) $input->getOption('name');
         $slugify = $input->getOption('slugify');
