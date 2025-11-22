@@ -3,8 +3,8 @@
 {% block head %}
 {{ parent() }}
     {% set style %}
-    $primary-color:rgb(202, 201, 242);
-    $bg-color: white;
+    $primary-color:rgba(69, 66, 209, 1);
+    $bg-color: rgba(186, 185, 221, 1);
     body {
       color: $primary-color;
       background-color: $bg-color;
@@ -14,7 +14,8 @@
       color: $primary-color;
     }
     pre {
-      background-color:rgb(14, 39, 81);
+      color: rgb(255, 255, 255);
+      background-color: rgb(14, 39, 81);
     }
     {% endset %}
     <style>
@@ -25,7 +26,7 @@
 {% block content %}
   <h1>asset()</h1>
 
-  <h2>Search file</h2>
+  <h2>Locate file</h2>
   <h3>in static/</h3>
   <p>
     <pre>{% verbatim %}{{ asset('css/_style.css') }}{% endverbatim %}</pre>
@@ -44,7 +45,7 @@
     <pre>{% verbatim %}{{ asset('css/style.css').file }}{% endverbatim %}</pre>
     <blockquote>{{ asset('css/style.css').file }}</blockquote>
   </p>
-  <h3>Remote</h3>
+  <h3>Remote file</h3>
   <p>
     {%- set snipcart = asset('https://cdn.snipcart.com/themes/v3.1.1/default/snipcart.js', {ignore_missing: true}) ~%}
     <pre>{% verbatim %}{{ asset('https://cdn.snipcart.com/themes/v3.1.1/default/snipcart.js') }}{% endverbatim %}</pre>
@@ -54,23 +55,23 @@
     <pre>{% verbatim %}{{ asset('https://cdn.snipcart.com/themes/v3.1.1/default/snipcart.js').ext }}{% endverbatim %}</pre>
     <blockquote>{% if snipcart.ext is defined %}{{ snipcart.ext }}{% endif %}</blockquote>
   </p>
-  <h3>Remote (URL with query params)</h3>
+  <h3>Remote file (with query params)</h3>
   <p>
     <pre>{% verbatim %}{{ asset('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;700;900&amp;display=swap') }}{% endverbatim %}</pre>
     <blockquote>{{ asset('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;700;900&amp;display=swap') }}</blockquote>
   </p>
 
-  <h2>Bundle files</h2>
+  <h2>Files bundle</h2>
   <p>
     <pre>{% verbatim %}{{ asset(['css/style-1.css', 'css/style-2.css']) }}{% endverbatim %}</pre>
     <blockquote>{{ asset(['css/style-1.css', 'css/style-2.css']) }}</blockquote>
   </p>
-  <h2>Bundle files (with custom filename)</h2>
+  <h2>Files bundle (with custom filename)</h2>
   <p>
     <pre>{% verbatim %}{{ asset(['css/hyde.css', 'css/poole.css', 'css/syntax.css'], {filename: 'bundle.css'}) }}{% endverbatim %}</pre>
     <blockquote>{{ asset(['css/hyde.css', 'css/poole.css', 'css/syntax.css'], {filename: 'bundle.css'}) }}</blockquote>
   </p>
-  <h2>Bundle files (scripts)</h2>
+  <h2>Files bundle (JavaScript)</h2>
   <p>
     <pre>{% verbatim %}{{ asset(['js/script.js', 'js/script.js']) }}{% endverbatim %}</pre>
     <blockquote>{{ asset(['js/script.js', 'js/script.js']) }}</blockquote>
@@ -83,10 +84,10 @@
       {{- url(asset('images/cecil-logo.png')) -}}
     </blockquote>
   </p>
-  <h3>Canonical URL</h3>
+  <h3>With `canonical` option</h3>
   <p>
-    <pre>{% verbatim %}{{ url(asset('css/style.css'), {canonical: true}) }}{% endverbatim %}</pre>
-    <blockquote>{{ url(asset('css/style.css'), {canonical: true}) }}</blockquote>
+    <pre>{% verbatim %}{{ url(asset('images/cecil-logo.png'), {canonical: true}) }}{% endverbatim %}</pre>
+    <blockquote>{{ url(asset('images/cecil-logo.png'), {canonical: true}) }}</blockquote>
   </p>
   <h3>With filter</h3>
   <p>
@@ -110,6 +111,17 @@
     <blockquote>{{ asset('css/style.css', {fingerprint: true})|fingerprint }}</blockquote>
   </p>
 
+  <h2>Minify</h2>
+  <p>
+    <pre>{% verbatim %}{{ asset('css/style.css')|minify|inline }}{% endverbatim %}</pre>
+    <blockquote>{{ asset('css/style.css')|minify|inline }}</blockquote>
+  </p>
+  <h3>With option</h3>
+  <p>
+    <pre>{% verbatim %}{{ asset('css/style.css', {minify: true})|inline }}{% endverbatim %}</pre>
+    <blockquote>{{ asset('css/style.css', {minify: true})|inline }}</blockquote>
+  </p>
+
   <h2>Compile SCSS</h2>
   <p>
     <pre>{% verbatim %}{{ asset('scss/colors.scss')|to_css }}{% endverbatim %}</pre>
@@ -124,63 +136,13 @@
   </p>
   <p>
     Minify filter force compilation:
-    <pre>{% verbatim %}{{ asset('scss/colors.scss')|minify }}{% endverbatim %}</pre>
-    <blockquote>{{ asset('scss/colors.scss')|minify }}</blockquote>
+    <pre>{% verbatim %}{{ asset('scss/colors.scss')|minify|inline }}{% endverbatim %}</pre>
+    <blockquote>{{ asset('scss/colors.scss')|minify|inline }}</blockquote>
   </p>
 
-  <h2>Minify</h2>
-  <p>
-    <pre>{% verbatim %}{{ asset('css/style.css')|minify }}{% endverbatim %}</pre>
-    <blockquote>{{ asset('css/style.css')|minify }}</blockquote>
-  </p>
-  <h3>With option</h3>
-  <p>
-    <pre>{% verbatim %}{{ asset('css/style.css', {minify: true}) }}{% endverbatim %}</pre>
-    <blockquote>{{ asset('css/style.css', {minify: true}) }}</blockquote>
-  </p>
-
-  <h2>HTML element</h2>
-  <h3>HTML CSS</h3>
-  <p>
-    <pre>html(asset('css/style.css'))</pre>
-    <blockquote>{{ html(asset('css/style.css'))|e }}</blockquote>
-    With deprecated `html` filter:
-    <pre>asset('css/style.css')|html</pre>
-    <blockquote>{{ asset('css/style.css')|html|e }}</blockquote>
-  </p>
-  <h3>HTML JS</h3>
-  <p>
-    <pre>html(asset('js/script.js'))</pre>
-    <blockquote>{{ html(asset('js/script.js'))|e }}</blockquote>
-  </p>
-  <h3>Array of assets</h3>
-  <p>
-    <pre>html([
-  {asset: asset('css/style.css')},
-  {asset: asset('css/style.css'), attributes: {media: '(prefers-color-scheme: dark)'}},
-  {asset: asset('js/script.js'), attributes: {test: 'test'}},
-  {asset: asset('js/script.js'), attributes: null},
-])</pre>
-    <blockquote>{{ html([
-      {asset: asset('css/style.css')},
-      {asset: asset('css/style.css'), attributes: {media: '(prefers-color-scheme: dark)'}},
-      {asset: asset('js/script.js'), attributes: {test: 'test'}},
-      {asset: asset('js/script.js'), attributes: null},
-    ])|e }}</blockquote>
-  </p>
-  <h3>HTML image</h3>
-  <p>
-    <pre>html(asset('cecil-logo-big.png'), {title: 'title', alt: 'alternative', loading: 'lazy'})</pre>
-    <blockquote>
-      {{- html(asset('cecil-logo-big.png'), {title: 'title', alt: 'alternative', loading: 'lazy'}) }}
-    </blockquote>
-    <pre>
-      {{~ html(asset('cecil-logo-big.png'), {title: 'title', alt: 'alternative', loading: 'lazy'})|e -}}
-    </pre>
-  </p>
-
+  <h2>Image</h2>
   {# commented for Scrutinizer
-  <h2>Image PNG to WebP</h2>
+  <h3>Image PNG to WebP</h3>
   <p>
     <pre>asset('images/cecil-logo.png')|webp</pre>
     <blockquote>
@@ -188,8 +150,7 @@
     </blockquote>
   </p>
   #}
-
-  <h2>Image properties</h2>
+  <h3>Image properties</h3>
   <p>
     <pre>{% verbatim %}{{ asset('images/cecil-logo.png').width x asset('images/cecil-logo.png').height }}{% endverbatim %}</pre>
     <blockquote>
@@ -201,8 +162,8 @@
     <pre>{% verbatim %}{{ asset('images/cecil-logo.png')|resize(96) }}{% endverbatim %}</pre>
     <pre>{{ asset('images/cecil-logo.png')|resize(96) }}</pre>
   </p>
-  <h3>Do not resize</h3>
   <p>
+    Don't need to resize:
     <pre>{% verbatim %}{{ asset('images/cecil-logo.png')|resize(999) }}{% endverbatim %}</pre>
     <pre>{{ asset('images/cecil-logo.png')|resize(999) }}</pre>
   </p>
@@ -240,20 +201,6 @@
     <pre>{% verbatim %}{{ asset('japon_sample.jpg').exif.GPS }}{% endverbatim %}</pre>
     <blockquote>
       {{- d(asset('images/japon_sample.jpg').exif.GPS) -}}
-    </blockquote>
-  </p>
-  <h3>Image `srcset`</h3>
-  <p>
-    <pre>{% verbatim %}{{ image_srcset(asset('cecil-logo-big.png')) }}{% endverbatim %}</pre>
-    <blockquote>
-      {{- image_srcset(asset('cecil-logo-big.png')) -}}
-    </blockquote>
-  </p>
-  <h3>Image `sizes`</h3>
-  <p>
-    <pre>{% verbatim %}{{ image_sizes('test') }}{% endverbatim %}</pre>
-    <blockquote>
-      {{- image_sizes('test') -}}
     </blockquote>
   </p>
 
@@ -336,7 +283,7 @@
   </p>
   <p>
     <pre>{% verbatim %}{{ asset('asssset.css', {ignore_missing: true}).missing) }}{% endverbatim %}</pre>
-    <blockquote>{{ dump(asset('asssset.css', {ignore_missing: true}).missing) }}</blockquote>
+    <blockquote>{{ d(asset('asssset.css', {ignore_missing: true}).missing) }}</blockquote>
   </p>
 
   <h2>Access to wrong properties</h2>
@@ -348,4 +295,124 @@
     <pre>{% verbatim %}{{ asset('css/style.css').width }} x {{ asset('css/style.css').height }}{% endverbatim %}</pre>
     <blockquote>{{ asset('css/style.css').width }} x {{ asset('css/style.css').height }}</blockquote>
   </p>
+
+  <h2>HTML element</h2>
+  <h3>HTML CSS</h3>
+  <p>
+    <pre>html(asset('css/style.css'))</pre>
+    <blockquote>{{ html(asset('css/style.css'))|e }}</blockquote>
+    With deprecated `html` filter:
+    <pre>asset('css/style.css')|html</pre>
+    <blockquote>{{ asset('css/style.css')|html|e }}</blockquote>
+    With `preload` option:
+    <pre>html(asset('css/style.css'), options:{preload: true})</pre>
+    <blockquote>{{ html(asset('css/style.css'), options:{preload: true})|e }}</blockquote>
+    With `css` function:
+    <pre>css(asset('css/style.css'))</pre>
+    <blockquote>{{ css(asset('css/style.css'))|e }}</blockquote>
+  </p>
+  <h3>HTML JS</h3>
+  <p>
+    <pre>html(asset('js/script.js'))</pre>
+    <blockquote>{{ html(asset('js/script.js'))|e }}</blockquote>
+    With `js` function:
+    <pre>js(asset('js/script.js'))</pre>
+    <blockquote>{{ js(asset('js/script.js'))|e }}</blockquote>
+  </p>
+
+  <h3>HTML video</h3>
+  <p>
+    <pre>html(asset('https://cecil.app/videos/cecil-demo.mp4'))</pre>
+    <blockquote>{{ html(asset('https://cecil.app/videos/cecil-demo.mp4')) }}</blockquote>
+    <pre>{{ html(asset('https://cecil.app/videos/cecil-demo.mp4'))|e }}</pre>
+    With `video` function:
+    <pre>video(asset('https://cecil.app/videos/cecil-demo.mp4'))</pre>
+    <blockquote>{{ video(asset('https://cecil.app/videos/cecil-demo.mp4')) }}</blockquote>
+    <pre>{{ video(asset('https://cecil.app/videos/cecil-demo.mp4'))|e }}</pre>
+  </p>
+
+  <h3>Array of assets</h3>
+  <p>
+    <pre>html([
+  {asset: asset('css/style.css')},
+  {asset: asset('css/style.css'), attributes: {media: '(prefers-color-scheme: dark)'}},
+  {asset: asset('js/script.js'), attributes: {test: 'test'}},
+  {asset: asset('js/script.js'), attributes: null},
+])</pre>
+    <blockquote>{{ html([
+      {asset: asset('css/style.css')},
+      {asset: asset('css/style.css'), attributes: {media: '(prefers-color-scheme: dark)'}},
+      {asset: asset('js/script.js'), attributes: {test: 'test'}},
+      {asset: asset('js/script.js'), attributes: null},
+    ])|e }}</blockquote>
+  </p>
+  <h3>HTML image</h3>
+  <p>
+    <pre>html(asset('cecil-logo-big.png'), {title: 'title', alt: 'alternative', loading: 'lazy'})</pre>
+    <blockquote>
+      {{ html(asset('cecil-logo-big.png'), {title: 'title', alt: 'alternative', loading: 'lazy'}, {responsive: false, formats: []}) }}
+    </blockquote>
+    <pre>{{ html(asset('cecil-logo-big.png'), {title: 'title', alt: 'alternative', loading: 'lazy'}, {responsive: false, formats: []})|e }}</pre>
+    With `image` function:
+    <pre>image(asset('cecil-logo-big.png'), {title: 'title', alt: 'alternative', loading: 'lazy'})</pre>
+    <blockquote>
+      {{ image(asset('cecil-logo-big.png'), {title: 'title', alt: 'alternative', loading: 'lazy'}, {responsive: false, formats: []}) }}
+    </blockquote>
+    <pre>{{ image(asset('cecil-logo-big.png'), {title: 'title', alt: 'alternative', loading: 'lazy'}, {responsive: false, formats: []})|e }}</pre>
+  </p>
+  <h4>Alternative formats</h4>
+  <p>
+    <pre>html(asset('cecil-logo-big.png'), options={formats: ['webp', 'avif']})</pre>
+    <blockquote>
+      {{ html(asset('cecil-logo-big.png'), options={responsive: false, formats: ['webp', 'avif']}) }}
+    </blockquote>
+    <pre>{{ html(asset('cecil-logo-big.png'), options={responsive: false, formats: ['webp', 'avif']})|e }}</pre>
+  </p>
+  <h4>Responsive (density)</h4>
+  <p>
+    <pre>html(asset('cecil-logo-big.png'), options={responsive: 'density'}, attributes={width: 200})</pre>
+    <blockquote>
+      {{ html(asset('cecil-logo-big.png'), options={responsive: 'density', formats: []}, attributes={width: 200}) }}
+    </blockquote>
+    <pre>{{ html(asset('cecil-logo-big.png'), options={responsive: 'density', formats: []}, attributes={width: 200})|e }}</pre>
+  </p>
+  <h4>Responsive (width)</h4>
+  <p>
+    <pre>html(asset('cecil-logo-big.png'), options={responsive: 'width'})</pre>
+    <blockquote>
+      {{ html(asset('cecil-logo-big.png'), options={responsive: 'width', formats: []}) }}
+    </blockquote>
+    <pre>{{ html(asset('cecil-logo-big.png'), options={responsive: 'width', formats: []})|e }}</pre>
+  </p>
+  <h4>Responsive (density) + formats</h4>
+  <p>
+    <pre>html(asset('cecil-logo-big.png'), options={responsive: 'density', formats: ['webp', 'avif']}, attributes={width: 500})</pre>
+    <blockquote>
+      {{ html(asset('cecil-logo-big.png'), options={responsive: 'density', formats: ['webp', 'avif']}, attributes={width: 500}) }}
+    </blockquote>
+    <pre>{{ html(asset('cecil-logo-big.png'), options={responsive: 'density', formats: ['webp', 'avif']}, attributes={width: 500})|e }}</pre>
+  </p>
+  <h4>Responsive (width) + formats</h4>
+  <p>
+    <pre>html(asset('cecil-logo-big.png'), options={responsive: true, formats: ['webp', 'avif']})</pre>
+    <blockquote>
+      {{ html(asset('cecil-logo-big.png'), options={responsive: true, formats: ['webp', 'avif']}) }}
+    </blockquote>
+    <pre>{{ html(asset('cecil-logo-big.png'), options={responsive: true, formats: ['webp', 'avif']})|e }}</pre>
+  </p>
+  <h3>Image `srcset`</h3>
+  <p>
+    <pre>{% verbatim %}{{ image_srcset(asset('cecil-logo-big.png')) }}{% endverbatim %}</pre>
+    <blockquote>
+      {{- image_srcset(asset('cecil-logo-big.png')) -}}
+    </blockquote>
+  </p>
+  <h3>Image `sizes`</h3>
+  <p>
+    <pre>{% verbatim %}{{ image_sizes('test') }}{% endverbatim %}</pre>
+    <blockquote>
+      {{- image_sizes('test') -}}
+    </blockquote>
+  </p>
+
 {% endblock content %}

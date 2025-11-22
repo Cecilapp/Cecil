@@ -1,8 +1,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: \n"
-"POT-Creation-Date: 2025-10-15 13:53+0200\n"
-"PO-Revision-Date: 2025-10-15 13:53+0200\n"
+"POT-Creation-Date: 2025-11-06 15:22+0100\n"
+"PO-Revision-Date: 2025-11-06 15:22+0100\n"
 "Last-Translator: Arnaud Ligny <arnaud@ligny.fr>\n"
 "Language-Team: \n"
 "Language: fr\n"
@@ -10,7 +10,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
-"X-Generator: Poedit 3.4.4\n"
+"X-Generator: Poedit 3.8\n"
 "X-Poedit-Basepath: ../layouts\n"
 "X-Poedit-SearchPath-0: .\n"
 
@@ -59,11 +59,11 @@ msgstr "Redirection…"
 msgid "Click here if you are not redirected."
 msgstr "Cliquez ici si vous n'êtes pas redirigé automatiquement."
 
-#: _default/sitemap.xsl.twig:52
+#: _default/sitemap.xsl.twig:55
 msgid "List of URLs for %url%:"
 msgstr "Liste des URL pour %url% :"
 
-#: _default/sitemap.xsl.twig:54
+#: _default/sitemap.xsl.twig:57
 msgid "Sitemap URL:"
 msgstr "URL du Sitemap :"
 

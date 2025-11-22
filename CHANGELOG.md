@@ -2,6 +2,98 @@
 
 All notable changes to this project will be documented in this file. Dates are displayed in UTC.
 
+#### [8.72.3](https://github.com/Cecilapp/Cecil/compare/8.72.2...8.72.3)
+
+> 20 November 2025
+
+- Apply fixes from StyleCI [`#2249`](https://github.com/Cecilapp/Cecil/pull/2249)
+- refactor: html functions [`ed35fca`](https://github.com/Cecilapp/Cecil/commit/ed35fca5fabd944c285dd0f47ba1b080c316fd18)
+
+#### [8.72.2](https://github.com/Cecilapp/Cecil/compare/8.72.1...8.72.2)
+
+> 20 November 2025
+
+- fix: temporary downgrade league/uri [`2cbc4b0`](https://github.com/Cecilapp/Cecil/commit/2cbc4b05dd1a4ef6f8b3be0ea927c53024f45727)
+
+#### [8.72.1](https://github.com/Cecilapp/Cecil/compare/8.72.0...8.72.1)
+
+> 20 November 2025
+
+- fix: html function [`cb61595`](https://github.com/Cecilapp/Cecil/commit/cb615950a98d851b90557bfcbc8de24b4567dc1f)
+
+#### [8.72.0](https://github.com/Cecilapp/Cecil/compare/8.71.0...8.72.0)
+
+> 20 November 2025
+
+- chore(deps): bump twig/cache-extra from 3.22.0 to 3.22.1 [`#2247`](https://github.com/Cecilapp/Cecil/pull/2247)
+- chore(deps): bump twig/string-extra from 3.22.0 to 3.22.1 [`#2245`](https://github.com/Cecilapp/Cecil/pull/2245)
+- chore: update deps [`0d72395`](https://github.com/Cecilapp/Cecil/commit/0d72395cfa457980fb94c6a68f5a972e2d22a082)
+- feat: add video support to html function [`dc3f7ed`](https://github.com/Cecilapp/Cecil/commit/dc3f7ed6e54ef3159c4106f777a20e19d4534faf)
+- feat: add support of Dailymotion embed [`3fa5154`](https://github.com/Cecilapp/Cecil/commit/3fa5154d9cab4ea7401917355273925e1ff35b6a)
+- refactor: cleaning code [`41c18e9`](https://github.com/Cecilapp/Cecil/commit/41c18e91e742158bb901e1c2c7daff274069faa4)
+- chore: update dev deps [`0a9706c`](https://github.com/Cecilapp/Cecil/commit/0a9706c312f655bac975310c4c554ccd36b0ea6f)
+
+#### [8.71.0](https://github.com/Cecilapp/Cecil/compare/8.70.5...8.71.0)
+
+> 14 November 2025
+
+- feat: pixels density support for responsive images [`#2244`](https://github.com/Cecilapp/Cecil/pull/2244)
+- chore: update deps [`c5d9f5e`](https://github.com/Cecilapp/Cecil/commit/c5d9f5ef9aa74813957014f15c69ce8a2a157581)
+
+#### [8.70.5](https://github.com/Cecilapp/Cecil/compare/8.70.4...8.70.5)
+
+> 10 November 2025
+
+- fix: background color of maskable function [`60346aa`](https://github.com/Cecilapp/Cecil/commit/60346aafa56d86f7f8ae088e4b31e6ce85c6cd44)
+
+#### [8.70.4](https://github.com/Cecilapp/Cecil/compare/8.70.3...8.70.4)
+
+> 9 November 2025
+
+- fix: better way to handle image formats [`c42ddc3`](https://github.com/Cecilapp/Cecil/commit/c42ddc35a6a68f659867a381bad496b5d2ce744b)
+
+#### [8.70.3](https://github.com/Cecilapp/Cecil/compare/8.70.2...8.70.3)
+
+> 9 November 2025
+
+- fix: embed no cookies YouTube video [`9547461`](https://github.com/Cecilapp/Cecil/commit/9547461d25574d2964fc378d56268a27c2ac411a)
+
+#### [8.70.2](https://github.com/Cecilapp/Cecil/compare/8.70.1...8.70.2)
+
+> 9 November 2025
+
+- fix: do not stop render html() if SVG [`df0d17b`](https://github.com/Cecilapp/Cecil/commit/df0d17bdd3a1e3e42fc3fabbb7a65ff0a89ef984)
+- fix: build AVIF before WebP [`2fe60a9`](https://github.com/Cecilapp/Cecil/commit/2fe60a9bc34ef1d675881e842c9c6d128a5946d6)
+
+#### [8.70.1](https://github.com/Cecilapp/Cecil/compare/8.70.0...8.70.1)
+
+> 7 November 2025
+
+- test: better fixtures [`c0d5f73`](https://github.com/Cecilapp/Cecil/commit/c0d5f73c2af1922f66bcd51d874708b7dfd1bf14)
+- doc: minor changes [`1cc28f2`](https://github.com/Cecilapp/Cecil/commit/1cc28f20960c574b0f8b815572ea7174fc305a24)
+- chore: update deps [`f502cee`](https://github.com/Cecilapp/Cecil/commit/f502cee0804138d08aad1ea398e9f0b2cce61b89)
+- refactor: better code [`902447b`](https://github.com/Cecilapp/Cecil/commit/902447bcd672304962bae28c54c062f14d874668)
+- chore: update deps [`fc4dd80`](https://github.com/Cecilapp/Cecil/commit/fc4dd808d5384edb6329f654d2854631992239b8)
+- refactor: sort srcset images [`c8652ec`](https://github.com/Cecilapp/Cecil/commit/c8652ec36531dfa7598b96e713dd8ac6e2f9165f)
+- chore: update translations [`95493c3`](https://github.com/Cecilapp/Cecil/commit/95493c30351882aadb20fb7783e6b884486843ea)
+- doc: minor fix [`2315d39`](https://github.com/Cecilapp/Cecil/commit/2315d397e24023a87b473a39da97b6452078c4ec)
+- fix: minor regression [`2a58b89`](https://github.com/Cecilapp/Cecil/commit/2a58b898abb79201a34d1481dd2530e23e9d0812)
+
+#### [8.70.0](https://github.com/Cecilapp/Cecil/compare/8.69.4...8.70.0)
+
+> 3 November 2025
+
+- chore(deps): bump actions/setup-node from 4 to 6 [`#2231`](https://github.com/Cecilapp/Cecil/pull/2231)
+- chore(deps): bump actions/download-artifact from 5 to 6 [`#2239`](https://github.com/Cecilapp/Cecil/pull/2239)
+- feat: Add support of array of assets to html() function [`#2235`](https://github.com/Cecilapp/Cecil/pull/2235)
+- chore(deps): bump twig/twig from 3.21.1 to 3.22.0 [`#2243`](https://github.com/Cecilapp/Cecil/pull/2243)
+- chore(deps): bump twig/cache-extra from 3.21.0 to 3.22.0 [`#2242`](https://github.com/Cecilapp/Cecil/pull/2242)
+- chore(deps): bump twig/string-extra from 3.21.0 to 3.22.0 [`#2241`](https://github.com/Cecilapp/Cecil/pull/2241)
+- chore(deps): bump twig/intl-extra from 3.21.0 to 3.22.0 [`#2240`](https://github.com/Cecilapp/Cecil/pull/2240)
+- chore(deps-dev): bump friendsofphp/php-cs-fixer from 3.89.0 to 3.89.1 [`#2237`](https://github.com/Cecilapp/Cecil/pull/2237)
+- chore: update deps [`c6b04bb`](https://github.com/Cecilapp/Cecil/commit/c6b04bb8c596e867d526c859dad8f446712685c3)
+- Remove Symfony Insight [`adf8537`](https://github.com/Cecilapp/Cecil/commit/adf853748c00429796a25454b238dd2497e89e62)
+
 #### [8.69.4](https://github.com/Cecilapp/Cecil/compare/8.69.3...8.69.4)
 
 > 24 October 2025

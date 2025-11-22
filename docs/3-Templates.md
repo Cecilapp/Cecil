@@ -1,7 +1,7 @@
 <!--
 description: "Working with layouts, templates and components."
 date: 2021-05-07
-updated: 2025-11-02
+updated: 2025-11-20
 alias: documentation/layouts
 -->
 # Templates
@@ -215,8 +215,7 @@ Most of those layouts are available by default, see [built-in templates](#built-
 
 ## Variables
 
-> The application passes variables to the templates for manipulation in the template. Variables may have attributes or elements you can access, too.
->
+> The application passes variables to the templates for manipulation in the template. Variables may have attributes or elements you can access, too.  
 > Use a dot (.) to access attributes of a variable: `{{ foo.bar }}`
 
 You can use variables from different scopes: [`site`](#site), [`page`](#page), [`cecil`](#cecil).
@@ -463,25 +462,25 @@ Creates a valid URL for a page, a menu entry, an asset, a page ID or a path.
 
 | Option    | Description                                                                | Type    | Default |
 | --------- | -------------------------------------------------------------------------- | ------- | ------- |
-| canonical | Prefixes URL with [`baseurl`](4-Configuration.md#baseurl) or use [`canonical.url`](4-Configuration.md#metatags-options). | boolean | `false` |
+| canonical | Prefix URL with [`baseurl`](4-Configuration.md#baseurl) or use [`canonical.url`](4-Configuration.md#metatags-options) if exists. | boolean | `false` |
 | format    | Defines page [output format](4-Configuration.md#output-formats) (e.g.: `json`).   | string  | `html`  |
-| language  | Trying to force page [language](4-Configuration.md#language) (e.g.: `fr`). | string  | null    |
+| language  | Defines page [language](4-Configuration.md#language) (e.g.: `fr`). | string  | null    |
 
 _Examples:_
 
 ```twig
-# page
+{# page #}
 {{ url(page) }}
 {{ url(page, {canonical: true}) }}
 {{ url(page, {format: json}) }}
 {{ url(page, {language: fr}) }}
-# menu entry
+{# menu entry #}
 {{ url(site.menus.main.about) }}
-# asset
+{# asset #}
 {{ url(asset('styles.css')) }}
-# page ID
+{# page ID #}
 {{ url('page-id') }}
-# path
+{# path #}
 {{ url('about-me/') }}
 {{ url('tags/' ~ tag) }}
 ```
@@ -490,10 +489,10 @@ _Examples:_
 For convenience the `url` function is also available as a filter:
 
 ```twig
-# page
+{# page #}
 {{ page|url }}
 {{ page|url({canonical: true, format: json, language: fr}) }}
-# asset
+{# asset #}
 {{ asset('styles.css')|url }}
 ```
 
@@ -533,17 +532,17 @@ You don't need to clear the [cache](#cache) after modifying an asset: the cache 
 _Examples:_
 
 ```twig
-# CSS
+{# CSS #}
 {{ asset('styles.css') }}
-# CSS bundle
+{# CSS bundle #}
 {{ asset(['poole.css', 'hyde.css'], {filename: styles.css}) }}
-# JavaScript
+{# JavaScript #}
 {{ asset('scripts.js') }}
-# image
+{# image #}
 {{ asset('image.jpeg') }}
-# remote file
+{# remote file #}
 {{ asset('https://cdnjs.cloudflare.com/ajax/libs/anchor-js/4.3.1/anchor.min.js', {minify: false}) }}
-# with filter
+{# with filter #}
 {{ asset('styles.css')|minify }}
 {{ asset('styles.scss')|to_css|minify }}
 ```
@@ -583,20 +582,37 @@ Media:
 _Examples:_
 
 ```twig
-# image width in pixels
+{# image width in pixels #}
 {{ asset('image.png').width }}px
 
-# photo's date in seconds
+{# photo's date in seconds #}
 {{ asset('photo.jpeg').exif.EXIF.DateTimeOriginal|date('U') }}
 
-# MP3 song duration in minutes
+{# MP3 song duration in minutes #}
 {{ asset('song.mp3').audio.duration|round }} min
 
-# Video duration in seconds
+{# video duration in seconds #}
 {{ asset('movie.mp4').video.duration|round }} s
 
-# file integrity hash
+{# file integrity hash #}
 {% set integrity = asset('styles.scss').integrity %}
+```
+
+### integrity
+
+Creates the hash (`sha384`) of a file (from an asset or a path).
+
+```twig
+{{ integrity(asset) }}
+```
+
+Used for SRI ([Subresource Integrity](https://developer.mozilla.org/fr/docs/Web/Security/Subresource_Integrity)).
+
+_Example:_
+
+```twig
+{{ integrity('styles.css') }}
+{# sha384-oGDH3qCjzMm/vI+jF4U5kdQW0eAydL8ZqXjHaLLGduOsvhPRED9v3el/sbiLa/9g #}
 ```
 
 ### html
@@ -605,19 +621,24 @@ Creates an HTML element from an asset (or an array of assets with custom attribu
 
 ```twig
 {{ html(asset, {attributes}, {options}) }}
+{# dedicated functions for each type of asset #}
+{{ css(asset, {attributes}, {options}) }}
+{{ js(asset, {attributes}, {options}) }}
+{{ image(asset, {attributes}, {options}) }}
+{{ video(asset, {attributes}, {options}) }}
 ```
 
 | Option     | Description                                     | Type  |
 | ---------- | ----------------------------------------------- | ----- |
 | attributes | Adds `name="value"` couple to the HTML element. | array |
-| options    | For CSS:<br>`{preload: boolean}`: preloads.<br>For images:<br>`{responsive: boolean}`: adds responsive images.<br>`{formats: array}`: adds alternative formats. | array |
+| options    | `{preload: boolean}`: preloads.<br>For images:<br>`{formats: array}`: adds alternative formats.<br>`{responsive: bool|string}`: adds responsive images (based on `width` or pixels `density`). | array |
 
 :::warning
 Since version ++8.42.0++, the `html` function replace the deprecated `html` filter.
 :::
 
 :::tip
-You can define a global default behavior of images options (`responsive` and `formats`) through the [layouts configuration](4-Configuration.md#layouts-images).
+You can define a global default behavior of images options (`formats` and `responsive`) through the [layouts configuration](4-Configuration.md#layouts-images).
 :::
 
 _Examples:_
@@ -628,13 +649,13 @@ _Examples:_
 ```
 
 ```twig
-{# image with specific attributes and options #}
-{{ html(asset('image.jpg'), {alt: 'Description', loading: 'lazy'}, {responsive: true, formats: ['avif','webp']}) }}
+{# image with specific attributes, responsive images and alternative formats #}
+{{ html(asset('image.jpg'), {alt: 'Description', loading: 'lazy'}, {responsive: true, formats: ['avif', 'webp']}) }}
 ```
 
 ```twig
-{# image with named argument `options` #}
-{{ html(asset('image.jpg'), options={responsive: true}) }}
+{# image with responsive pixels density images #}
+{{ html(asset('image.jpg'), options={responsive: 'density'}, attributes={width: 256}) }}
 ```
 
 ```twig
@@ -698,22 +719,6 @@ _Examples:_
 ```twig
 {% set asset = asset(image_path) %}
 <img src="{{ url(asset) }}" width="{{ asset.width }}" height="{{ asset.height }}" alt="" class="asset" srcset="{{ image_srcset(asset) }}" sizes="{{ image_sizes('asset') }}">
-```
-
-### integrity
-
-Creates the hash (`sha384`) of a file (from an asset or a path).
-
-```twig
-{{ integrity(asset) }}
-```
-
-Used for SRI ([Subresource Integrity](https://developer.mozilla.org/fr/docs/Web/Security/Subresource_Integrity)).
-
-_Example:_
-
-```twig
-{{ integrity('styles.css') }}
 ```
 
 ### readtime

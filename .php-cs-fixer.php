@@ -28,14 +28,14 @@ return (new Config())
     ->setParallelConfig(ParallelConfigFactory::detect())
     ->setUnsupportedPhpVersionAllowed(true)
     ->setRules([
-        '@PSR12' => true,
-        'native_function_invocation' => true,
-        'nullable_type_declaration_for_default_null_value' => true,
         'header_comment' => [
             'header' => $fileHeader,
             'comment_type' => 'PHPDoc',
             'location' => 'after_open',
         ],
+        '@PSR12' => true,
+        'native_function_invocation' => true,
+        'nullable_type_declaration_for_default_null_value' => true,
     ])
     ->setFinder(
         (new Finder())

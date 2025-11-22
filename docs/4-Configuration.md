@@ -1,7 +1,7 @@
 <!--
 description: "Configure your website."
 date: 2021-05-07
-updated: 2025-10-07
+updated: 2025-11-13
 -->
 # Configuration
 
@@ -561,7 +561,7 @@ Images handling options.
 pages:
   body:
     images:
-      formats: []       # adds alternative image formats as `source` (e.g. `[webp, avif]`, empty array by default)
+      formats: []       # adds alternative image formats as `source` (e.g. `[avif, webp]`, empty array by default)
       resize: 0         # resizes all images to <width> (in pixels, `0` to disable)
       responsive: false # adds responsives images them to the `srcset` attribute (`false` by default)
       lazy: true        # adds `loading="lazy"` attribute (`true` by default)
@@ -1003,8 +1003,8 @@ Images handling options.
 ```yaml
 layouts:
   images:
-    formats: []       # used by `html` function: adds alternatives image formats as `source` (empty array by default)
-    responsive: false # used by `html` function: adds responsive images (`false` by default)
+    formats: []       # used by `html` function: adds alternatives image formats as `source` (e.g. `[avif, webp]`, empty array by default)
+    responsive: false # used by `html` function: adds responsive images ('width' or 'density', `false` by default)
 ```
 
 ### layouts.translations
