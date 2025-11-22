@@ -26,7 +26,7 @@ jobs:
     steps:
       # checkout/php/cache/deps
       - name: Checkout source code
-        uses: actions/checkout@v5
+        uses: actions/checkout@v6
         with:
           fetch-depth: 0
       - name: Install PHP
@@ -145,7 +145,7 @@ jobs:
     needs: build
     steps:
       - name: Checkout source code
-        uses: actions/checkout@v5
+        uses: actions/checkout@v6
         with:
           fetch-depth: 1
       - name: Download files
@@ -250,7 +250,7 @@ jobs:
     needs: [build, deploy_to_website]
     steps:
       - name: Checkout source code
-        uses: actions/checkout@v5
+        uses: actions/checkout@v6
         with:
           fetch-depth: 1
       - name: Download files
