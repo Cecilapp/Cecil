@@ -124,7 +124,7 @@
     "test:cli": "phpunit -c ./ --testsuite=IntegrationCliTests",
     "test:coverage": "XDEBUG_MODE=coverage phpunit -c ./ --testsuite=IntegrationTests --coverage-text --coverage-clover=coverage/clover.xml",
     "test:coverage:install": [
-      "wget -c -nc --retry-connrefused --tries=0 https://github.com/php-coveralls/php-coveralls/releases/download/v2.5.3/php-coveralls.phar -O coveralls.phar",
+      "wget -c -nc --retry-connrefused --tries=0 https://github.com/php-coveralls/php-coveralls/releases/download/v2.8.0/php-coveralls.phar -O coveralls.phar",
       "chmod +x coveralls.phar",
       "php coveralls.phar --version"
     ],
