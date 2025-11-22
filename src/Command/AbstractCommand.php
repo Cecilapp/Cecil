@@ -39,7 +39,6 @@ class AbstractCommand extends Command
     public const TMP_DIR = '.cecil';
     public const EXCLUDED_CMD = ['about', 'new:site', 'self-update'];
     public const SERVE_OUTPUT = '.cecil/preview';
-    public const DESKTOP_NOTIFICATION = false; // set to true to enable desktop notifications
 
     /** @var Notification */
     public $notification;
@@ -92,13 +91,11 @@ class AbstractCommand extends Command
             }
         }
         // prepare notification
-        if (self::DESKTOP_NOTIFICATION) {
-            $this->notification = (new Notification())
-                ->setTitle('Cecil')
-                ->setIcon(__DIR__ . '/../../resources/icon.png')
-                ->setBody('...')
-            ;
-        }
+        $this->notification = (new Notification())
+            ->setTitle('Cecil')
+            ->setIcon(__DIR__ . '/../../resources/icon.png')
+            ->setBody('Notification from Cecil static site generator.')
+        ;
 
         parent::initialize($input, $output);
     }

@@ -51,6 +51,7 @@ class Build extends AbstractCommand
                 new InputOption('render-subset', null, InputOption::VALUE_REQUIRED, 'Render a subset of pages'),
                 new InputOption('show-pages', null, InputOption::VALUE_NONE, 'Show list of built pages in a table'),
                 new InputOption('metrics', 'm', InputOption::VALUE_NONE, 'Show build metrics (duration and memory) of each step'),
+                new InputOption('notif', null, InputOption::VALUE_NONE, 'Send desktop notification on build completion'),
             ])
             ->setHelp(
                 <<<'EOF'
@@ -80,6 +81,10 @@ This is useful to <comment>build only a part of the website</comment>, for examp
 To show build steps <comment>metrics</comment>, run:
 
   <info>%command.full_name% --metrics</>
+
+Send a desktop <comment>notification</comment> on build completion, run:
+
+  <info>%command.full_name% --notif</>
 EOF
             );
     }
@@ -146,9 +151,10 @@ EOF
 
         // build
         $builder->build($options);
-        $output->writeln('Done 🎉');
+        $output->writeln('Build done 🎉');
+
         // notification
-        if (self::DESKTOP_NOTIFICATION) {
+        if ($input->getOption('notif')) {
             $notifier = new DefaultNotifier();
             $this->notification->setBody('Build done 🎉');
             $notifier->send($this->notification);

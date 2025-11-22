@@ -63,6 +63,7 @@ class Serve extends AbstractCommand
                 new InputOption('no-ignore-vcs', null, InputOption::VALUE_NONE, 'Changes watcher must not ignore VCS directories'),
                 new InputOption('metrics', 'm', InputOption::VALUE_NONE, 'Show build metrics (duration and memory) of each step'),
                 new InputOption('timeout', null, InputOption::VALUE_REQUIRED, 'Sets the process timeout (max. runtime) in seconds', 7200), // default is 2 hours
+                new InputOption('notif', null, InputOption::VALUE_NONE, 'Send desktop notification on server start'),
             ])
             ->setHelp(
                 <<<'EOF'
@@ -90,6 +91,10 @@ To start the server with changes watcher <comment>not ignoring VCS</comment> dir
 To define the process <comment>timeout</comment> (in seconds), run:
 
   <info>%command.full_name% --timeout=7200</>
+
+Send a desktop <comment>notification</comment> on server start, run:
+
+  <info>%command.full_name% --notif</>
 EOF
             );
     }
@@ -217,16 +222,17 @@ EOF
                     pcntl_signal(SIGTERM, [$this, 'tearDownServer']);
                 }
                 $output->writeln(\sprintf('<comment>Server process: %s</comment>', $command), OutputInterface::VERBOSITY_DEBUG);
-                $output->writeln(\sprintf('Starting server (<href=http://%s:%d>http://%s:%d</>)%s...', $host, $port, $host, $port, $messageSuffix));
+                $output->writeln(\sprintf('Starting server%s (<href=http://%s:%d>http://%s:%d</>) 🚀', $messageSuffix, $host, $port, $host, $port));
                 $process->start(function ($type, $buffer) {
                     if ($type === Process::ERR) {
                         error_log($buffer, 3, Util::joinFile($this->getPath(), self::TMP_DIR, 'errors.log'));
                     }
                 });
                 // notification
-                if (self::DESKTOP_NOTIFICATION) {
+                if ($input->getOption('notif')) {
                     $notifier = new DefaultNotifier();
-                    $this->notification->setBody('Starting server');
+                    $this->notification->setBody('Starting server 🚀');
+                    $this->notification->addOption('url', \sprintf('http://%s:%s', $host, $port));
                     $notifier->send($this->notification);
                 }
                 if ($open) {
