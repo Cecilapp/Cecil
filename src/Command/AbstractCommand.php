@@ -52,6 +52,9 @@ class AbstractCommand extends Command
     /** @var SymfonyStyle */
     protected $io;
 
+    /** @var string */
+    protected $rootPath;
+
     /** @var null|string */
     private $path = null;
 
@@ -72,6 +75,7 @@ class AbstractCommand extends Command
         $this->input = $input;
         $this->output = $output;
         $this->io = new SymfonyStyle($input, $output);
+        $this->rootPath = Util\Platform::isPhar() ? Util\Platform::getPharPath() . '/' : realpath(Util::joinFile(__DIR__, '/../../'));
 
         // prepare configuration files list
         if (!\in_array($this->getName(), self::EXCLUDED_CMD)) {

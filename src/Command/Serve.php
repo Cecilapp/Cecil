@@ -338,11 +338,9 @@ EOF
     private function setUpServer(): void
     {
         try {
-            // define root path
-            $root = Util\Platform::isPhar() ? Util\Platform::getPharPath() . '/' : realpath(Util::joinFile(__DIR__, '/../../'));
             // copying router
             Util\File::getFS()->copy(
-                $root . '/resources/server/router.php',
+                $this->rootPath . '/resources/server/router.php',
                 Util::joinFile($this->getPath(), self::TMP_DIR, 'router.php'),
                 true
             );
@@ -353,7 +351,7 @@ EOF
             }
             if ($this->watcherEnabled) {
                 Util\File::getFS()->copy(
-                    $root . '/resources/server/livereload.js',
+                    $this->rootPath . '/resources/server/livereload.js',
                     $livereloadJs,
                     true
                 );
