@@ -97,7 +97,7 @@ class AbstractCommand extends Command
         // prepare notification
         $this->notification = (new Notification())
             ->setTitle('Cecil')
-            ->setIcon(__DIR__ . '/../../resources/icon.png')
+            ->setIcon('./resources/icon.png')
             ->setBody('Notification from Cecil static site generator.')
         ;
 
