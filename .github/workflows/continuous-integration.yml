@@ -71,6 +71,12 @@ jobs:
           brew install libavif
           npm install -g svgo
 
+      - name: Install image files optimizers (Windows)
+        if: ${{ matrix.os == 'windows-latest' && join(matrix.type) == '' }}
+        uses: MinoruSekine/setup-scoop@v4.0.2
+        with:
+          apps: jpegoptim optipng libwebp libavif
+
       - name: Setup cache of PHP extensions
         id: extcache
         uses: shivammathur/cache-extensions@v1
