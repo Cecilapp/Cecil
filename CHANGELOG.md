@@ -2,6 +2,21 @@
 
 All notable changes to this project will be documented in this file. Dates are displayed in UTC.
 
+#### [8.73.0](https://github.com/Cecilapp/Cecil/compare/8.72.3...8.73.0)
+
+> 28 November 2025
+
+- chore(deps): bump spatie/image-optimizer from 1.8.0 to 1.8.1 [`#2253`](https://github.com/Cecilapp/Cecil/pull/2253)
+- chore(deps): bump DavidAnson/markdownlint-cli2-action from 20 to 21 [`#2248`](https://github.com/Cecilapp/Cecil/pull/2248)
+- chore(deps): bump actions/checkout from 5 to 6 [`#2251`](https://github.com/Cecilapp/Cecil/pull/2251)
+- chore(deps-dev): bump friendsofphp/php-cs-fixer from 3.89.2 to 3.90.0 [`#2250`](https://github.com/Cecilapp/Cecil/pull/2250)
+- chore: update deps [`e13cf79`](https://github.com/Cecilapp/Cecil/commit/e13cf79ae5f0bb55d26ab045f42045725758f606)
+- chore: update deps [`fdb471c`](https://github.com/Cecilapp/Cecil/commit/fdb471c2722125c9dd88e8b9f08fee3c37cbb989)
+- test: update video asset URLs in test fixture [`a7bd1a9`](https://github.com/Cecilapp/Cecil/commit/a7bd1a94c6210101d44b3ddfef0d7e6a081e19f0)
+- feat: Add label option to language switcher [`99be560`](https://github.com/Cecilapp/Cecil/commit/99be560a15f8b62d1e3eb74a61e58f9d9fa39c6b)
+- Add PHP 8.5 support in composer.json [`0bbdc6d`](https://github.com/Cecilapp/Cecil/commit/0bbdc6d10ce4edb2e2b806ae2243ab8f2c958a98)
+- Remove PHIVE installation option from Quick Start [`58477cd`](https://github.com/Cecilapp/Cecil/commit/58477cdf5e0a079dd40170173cecb1ed86040f4a)
+
 #### [8.72.3](https://github.com/Cecilapp/Cecil/compare/8.72.2...8.72.3)
 
 > 20 November 2025
