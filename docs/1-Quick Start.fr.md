@@ -44,7 +44,6 @@ Vous pouvez également [télécharger Cecil](https://cecil.app/download/) manuel
 
 - [Homebrew](https://brew.sh): `brew install cecilapp/tap/cecil`
 - [Scoop](https://scoop.sh): `scoop install https://cecil.app/scoop/cecil.json`
-- [PHIVE](https://phar.io): `phive install cecil`
 
 ### 2. Créer un nouveau site
 
