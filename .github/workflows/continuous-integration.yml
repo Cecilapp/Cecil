@@ -30,7 +30,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        php: ['8.2', '8.3', '8.4', '8.5']
+        php: ['8.1', '8.2', '8.3', '8.4', '8.5']
         os: [ubuntu-latest, macos-latest, windows-latest]
         type: ['']
         exclude:
@@ -70,6 +70,12 @@ jobs:
           brew install webp
           brew install libavif
           npm install -g svgo
+
+      - name: Install image files optimizers (Windows)
+        if: ${{ matrix.os == 'windows-latest' && join(matrix.type) == '' }}
+        uses: MinoruSekine/setup-scoop@v4.0.2
+        with:
+          apps: jpegoptim optipng libwebp libavif
 
       - name: Setup cache of PHP extensions
         id: extcache
@@ -188,6 +194,6 @@ jobs:
           composer run-script test:coverage:upload
 
       - name: Build a skeleton site from `cecil.phar` binary
-        if: ${{ matrix.os == 'ubuntu-latest' && matrix.php >= 8.2 && contains(matrix.type, '') || contains(matrix.type, 'experimental') }}
+        if: ${{ matrix.os == 'ubuntu-latest' && matrix.php >= 8.2 && (contains(matrix.type, '') || contains(matrix.type, 'experimental')) }}
         run: |
           composer run-script test:phar
