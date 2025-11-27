@@ -1756,6 +1756,16 @@ Search.appendIndex(
             "summary": "",
             "url": "classes/Cecil-Command-AbstractCommand.html#constant_SERVE_OUTPUT"
         },                {
+            "fqsen": "\\Cecil\\Command\\AbstractCommand\u003A\u003ADESKTOP_NOTIFICATION",
+            "name": "DESKTOP_NOTIFICATION",
+            "summary": "",
+            "url": "classes/Cecil-Command-AbstractCommand.html#constant_DESKTOP_NOTIFICATION"
+        },                {
+            "fqsen": "\\Cecil\\Command\\AbstractCommand\u003A\u003A\u0024notification",
+            "name": "notification",
+            "summary": "",
+            "url": "classes/Cecil-Command-AbstractCommand.html#property_notification"
+        },                {
             "fqsen": "\\Cecil\\Command\\AbstractCommand\u003A\u003A\u0024input",
             "name": "input",
             "summary": "",
@@ -2578,7 +2588,7 @@ Search.appendIndex(
         },                {
             "fqsen": "\\Cecil\\Converter\\Parsedown\u003A\u003AcreateFigure\u0028\u0029",
             "name": "createFigure",
-            "summary": "Create\u0020a\u0020figure\u0020\/\u0020caption\u0020element.",
+            "summary": "Create\u0020a\u0020figure\u0020\u003E\u0020figcaption\u0020element.",
             "url": "classes/Cecil-Converter-Parsedown.html#method_createFigure"
         },                {
             "fqsen": "\\Cecil\\Converter\\Parsedown\u003A\u003AhandleExternalLink\u0028\u0029",
@@ -3091,6 +3101,21 @@ Search.appendIndex(
             "summary": "Creates\u0020the\u0020HTML\u0020element\u0020of\u0020an\u0020asset.",
             "url": "classes/Cecil-Renderer-Extension-Core.html#method_html"
         },                {
+            "fqsen": "\\Cecil\\Renderer\\Extension\\Core\u003A\u003AhtmlCss\u0028\u0029",
+            "name": "htmlCss",
+            "summary": "Builds\u0020the\u0020HTML\u0020link\u0020element\u0020of\u0020a\u0020CSS\u0020Asset.",
+            "url": "classes/Cecil-Renderer-Extension-Core.html#method_htmlCss"
+        },                {
+            "fqsen": "\\Cecil\\Renderer\\Extension\\Core\u003A\u003AhtmlJs\u0028\u0029",
+            "name": "htmlJs",
+            "summary": "Builds\u0020the\u0020HTML\u0020script\u0020element\u0020of\u0020a\u0020JS\u0020Asset.",
+            "url": "classes/Cecil-Renderer-Extension-Core.html#method_htmlJs"
+        },                {
+            "fqsen": "\\Cecil\\Renderer\\Extension\\Core\u003A\u003AhtmlImage\u0028\u0029",
+            "name": "htmlImage",
+            "summary": "Builds\u0020the\u0020HTML\u0020img\u0020element\u0020of\u0020an\u0020image\u0020Asset.",
+            "url": "classes/Cecil-Renderer-Extension-Core.html#method_htmlImage"
+        },                {
             "fqsen": "\\Cecil\\Renderer\\Extension\\Core\u003A\u003AimageSrcset\u0028\u0029",
             "name": "imageSrcset",
             "summary": "Builds\u0020the\u0020HTML\u0020img\u0020\u0060srcset\u0060\u0020\u0028responsive\u0029\u0020attribute\u0020of\u0020an\u0020image\u0020Asset.",
@@ -3235,6 +3260,11 @@ Search.appendIndex(
             "name": "isHex",
             "summary": "Is\u0020a\u0020hexadecimal\u0020color\u0020is\u0020valid\u003F",
             "url": "classes/Cecil-Renderer-Extension-Core.html#method_isHex"
+        },                {
+            "fqsen": "\\Cecil\\Renderer\\Extension\\Core\u003A\u003AhtmlAttributes\u0028\u0029",
+            "name": "htmlAttributes",
+            "summary": "Builds\u0020the\u0020HTML\u0020attributes\u0020string\u0020from\u0020an\u0020array.",
+            "url": "classes/Cecil-Renderer-Extension-Core.html#method_htmlAttributes"
         },                {
             "fqsen": "\\Cecil\\Renderer\\Extension\\Core\u003A\u003A\u0024builder",
             "name": "builder",
