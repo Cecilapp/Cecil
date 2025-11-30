@@ -1512,7 +1512,7 @@ To use _fragments_ cache, you must wrap the content you want to cache with the `
 ```
 
 :::info
-More details on the official _Twig cache extension_ documentation: <https://twig.symfony.com/doc/tags/cache.html>.
+More details on the official [_Twig cache extension_ documentation](https://twig.symfony.com/doc/tags/cache.html).
 :::
 
 Fragments cache is persistent, so during development you may need to clear it, with the following command:
