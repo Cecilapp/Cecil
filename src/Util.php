@@ -139,4 +139,53 @@ class Util
             }
         });
     }
+
+    /**
+     * Matches a URL against known embedded content patterns.
+     * Supports YouTube, Vimeo, Dailymotion, and GitHub Gists.
+     *
+     * @param string $url The URL to check
+     *
+     * @return array|false An associative array with 'type' and 'url' keys if a match is found, or false otherwise
+     */
+    public static function matchesUrlPattern(string $url): array|false
+    {
+        $services = [
+            'youtube' => [
+                // https://regex101.com/r/gznM1j/1
+                'pattern' => '(?:https?:\/\/)?(?:www\.)?youtu(?:\.be\/|be.com\/\S*(?:watch|embed)(?:(?:(?=\/[-a-zA-Z0-9_]{11,}(?!\S))\/)|(?:\S*v=|v\/)))([-a-zA-Z0-9_]{11,})',
+                'baseurl' => 'https://www.youtube-nocookie.com/embed/',
+                'type' => 'video',
+            ],
+            'vimeo' => [
+                // https://regex101.com/r/wCEFhd/1
+                'pattern' => '(?:https?:\/\/)?(?:www\.)?vimeo\.com\/(channels\/[A-z0-9]+\/|groups\/[A-z0-9]+\/videos\/|album\/[0-9]+\/video\/|video\/|)([0-9]+)',
+                'baseurl' => 'https://player.vimeo.com/video/',
+                'type' => 'video',
+            ],
+            'dailymotion' => [
+                // https://regex101.com/r/YKnLPm/1
+                'pattern' => '(?:https?:\/\/)?(?:www\.)?dailymotion\.com\/video\/([a-z0-9]+)',
+                'baseurl' => 'hhttps://geo.dailymotion.com/player.html?video=',
+                'type' => 'video',
+            ],
+            'github_gist' => [
+                // https://regex101.com/r/KWVMYI/1
+                'pattern' => 'https:\/\/gist\.github\.com\/([-a-zA-Z0-9_]+\/[-a-zA-Z0-9_]+)',
+                'baseurl' => 'https://gist.github.com/',
+                'type' => 'script',
+            ],
+        ];
+
+        foreach ($services as $service) {
+            if (preg_match('/' . $service['pattern'] . '/is', $url, $matches)) {
+                return [
+                    'type' => $service['type'],
+                    'url' => $service['baseurl'] . $matches[1],
+                ];
+            }
+        }
+
+        return false;
+    }
 }

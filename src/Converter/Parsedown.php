@@ -162,41 +162,26 @@ class Parsedown extends \ParsedownToc
         if (!$embed) {
             return $link;
         }
-        // Youtube link?
-        // https://regex101.com/r/gznM1j/1
-        $pattern = '(?:https?:\/\/)?(?:www\.)?youtu(?:\.be\/|be.com\/\S*(?:watch|embed)(?:(?:(?=\/[-a-zA-Z0-9_]{11,}(?!\S))\/)|(?:\S*v=|v\/)))([-a-zA-Z0-9_]{11,})';
-        if (preg_match('/' . $pattern . '/is', (string) $link['element']['attributes']['href'], $matches)) {
-            return $this->createFigure($this->createEmbeddedVideoFromLink($link, 'https://www.youtube-nocookie.com/embed/', $matches[1]));
-        }
-        // Vimeo link?
-        // https://regex101.com/r/wCEFhd/1
-        $pattern = 'https:\/\/vimeo\.com\/([0-9]+)';
-        if (preg_match('/' . $pattern . '/is', (string) $link['element']['attributes']['href'], $matches)) {
-            return $this->createFigure($this->createEmbeddedVideoFromLink($link, 'https://player.vimeo.com/video/', $matches[1]));
-        }
-        // Dailymotion link?
-        // https://regex101.com/r/YKnLPm/1
-        $pattern = '(?:https?:\/\/)?(?:www\.)?dailymotion\.com\/video\/([a-z0-9]+)';
-        if (preg_match('/' . $pattern . '/is', (string) $link['element']['attributes']['href'], $matches)) {
-            return $this->createFigure($this->createEmbeddedVideoFromLink($link, 'https://geo.dailymotion.com/player.html?video=', $matches[1]));
-        }
-        // GitHub Gist link?
-        // https://regex101.com/r/KWVMYI/1
-        $pattern = 'https:\/\/gist\.github\.com\/[-a-zA-Z0-9_]+\/[-a-zA-Z0-9_]+';
-        if (preg_match('/' . $pattern . '/is', (string) $link['element']['attributes']['href'], $matches)) {
-            $gist = [
-                'extent'  => $link['extent'],
-                'element' => [
-                    'name'       => 'script',
-                    'text'       => $link['element']['text'],
-                    'attributes' => [
-                        'src'   => $matches[0] . '.js',
-                        'title' => $link['element']['attributes']['title'],
-                    ],
-                ],
-            ];
 
-            return $this->createFigure($gist);
+        if (false !== $result = Util::matchesUrlPattern((string) $link['element']['attributes']['href'])) {
+            switch ($result['type']) {
+                case 'video':
+                    return $this->createFigure($this->createEmbeddedVideoFromLink($link, $result['url']));
+                case 'script':
+                    $script = [
+                        'extent'  => $link['extent'],
+                        'element' => [
+                            'name'       => 'script',
+                            'text'       => $link['element']['text'],
+                            'attributes' => [
+                                'src'   => $result['url'] . '.js',
+                                'title' => $link['element']['attributes']['title'],
+                            ],
+                        ],
+                    ];
+
+                    return $this->createFigure($script);
+            }
         }
 
         return $link;
@@ -691,12 +676,9 @@ class Parsedown extends \ParsedownToc
     }
 
     /**
-     * Create an embedded video element from a link.
-     *
-     * $baseSrc is the base URL to embed the video
-     * $match is the video ID or the rest of the URL to append to $baseSrc
+     * Create an embedded video element from a link element and an URL.
      */
-    private function createEmbeddedVideoFromLink(array $link, string $baseSrc, string $match): array
+    private function createEmbeddedVideoFromLink(array $link, string $url): array
     {
         $iframe = [
             'element' => [
@@ -706,7 +688,7 @@ class Parsedown extends \ParsedownToc
                     'width'           => '640',
                     'height'          => '360',
                     'title'           => $link['element']['text'],
-                    'src'             => $baseSrc . $match,
+                    'src'             => $url,
                     'frameborder'     => '0',
                     'allow'           => 'accelerometer;autoplay;encrypted-media;gyroscope;picture-in-picture;fullscreen;web-share;',
                     'allowfullscreen' => '',
