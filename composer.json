@@ -61,7 +61,7 @@
   },
   "require-dev": {
     "ergebnis/composer-normalize": "^2.48",
-    "friendsofphp/php-cs-fixer": "^3.90",
+    "friendsofphp/php-cs-fixer": "^3.91",
     "phpmd/phpmd": "^2.15",
     "phpstan/phpstan": "^1.12",
     "phpunit/phpunit": "^9.6",
