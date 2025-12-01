@@ -14,6 +14,7 @@ All notable changes to this project will be documented in this file. Dates are d
 - chore: update deps [`fdb471c`](https://github.com/Cecilapp/Cecil/commit/fdb471c2722125c9dd88e8b9f08fee3c37cbb989)
 - test: update video asset URLs in test fixture [`a7bd1a9`](https://github.com/Cecilapp/Cecil/commit/a7bd1a94c6210101d44b3ddfef0d7e6a081e19f0)
 - feat: Add label option to language switcher [`99be560`](https://github.com/Cecilapp/Cecil/commit/99be560a15f8b62d1e3eb74a61e58f9d9fa39c6b)
+- chore: update composer lock [`d5727be`](https://github.com/Cecilapp/Cecil/commit/d5727becb0b5acf0d162d0ca47d0c188d0ac24c8)
 - Add PHP 8.5 support in composer.json [`0bbdc6d`](https://github.com/Cecilapp/Cecil/commit/0bbdc6d10ce4edb2e2b806ae2243ab8f2c958a98)
 - Remove PHIVE installation option from Quick Start [`58477cd`](https://github.com/Cecilapp/Cecil/commit/58477cdf5e0a079dd40170173cecb1ed86040f4a)
 
