@@ -122,11 +122,11 @@ class Parsedown extends \ParsedownToc
             return $link;
         }
 
-        // External link
+        // Handle external link
         $link = $this->handleExternalLink($link);
 
         /*
-         * Embed link?
+         * Embed enabled or embed attribute set?
          */
         $embed = $this->config->isEnabled('pages.body.links.embed');
         if (isset($link['element']['attributes']['embed'])) {
@@ -136,8 +136,12 @@ class Parsedown extends \ParsedownToc
             }
             unset($link['element']['attributes']['embed']);
         }
+
+        /*
+         * Local video and audio link
+         */
         $extension = pathinfo($link['element']['attributes']['href'], \PATHINFO_EXTENSION);
-        // video?
+        // video
         if (\in_array($extension, $this->config->get('pages.body.links.embed.video') ?? [])) {
             if (!$embed) {
                 $link['element']['attributes']['href'] = new Url($this->builder, $link['element']['attributes']['href']);
@@ -148,7 +152,7 @@ class Parsedown extends \ParsedownToc
 
             return $this->createFigure($video);
         }
-        // audio?
+        // audio
         if (\in_array($extension, $this->config->get('pages.body.links.embed.audio') ?? [])) {
             if (!$embed) {
                 $link['element']['attributes']['href'] = new Url($this->builder, $link['element']['attributes']['href']);
@@ -159,28 +163,21 @@ class Parsedown extends \ParsedownToc
 
             return $this->createFigure($audio);
         }
-        if (!$embed) {
-            return $link;
-        }
 
-        if (false !== $result = Util::matchesUrlPattern((string) $link['element']['attributes']['href'])) {
-            switch ($result['type']) {
+        /*
+         * Embed link to a service resource?
+         * e.g.: YouTube, Vimeo, Dailymotion, GitHub Gist.
+         */
+        if ($embed && false !== $matches = Util::matchesUrlPattern((string) $link['element']['attributes']['href'])) {
+            switch ($matches['type']) {
                 case 'video':
-                    return $this->createFigure($this->createEmbeddedVideoFromLink($link, $result['url']));
+                    return $this->createFigure(
+                        $this->createEmbeddedVideoFromLink($link, $matches['url'])
+                    );
                 case 'script':
-                    $script = [
-                        'extent'  => $link['extent'],
-                        'element' => [
-                            'name'       => 'script',
-                            'text'       => $link['element']['text'],
-                            'attributes' => [
-                                'src'   => $result['url'] . '.js',
-                                'title' => $link['element']['attributes']['title'],
-                            ],
-                        ],
-                    ];
-
-                    return $this->createFigure($script);
+                    return $this->createFigure(
+                        $this->createScriptFromLink($link, $matches['url'])
+                    );
             }
         }
 
@@ -676,7 +673,7 @@ class Parsedown extends \ParsedownToc
     }
 
     /**
-     * Create an embedded video element from a link element and an URL.
+     * Create an embedded video iframe element from a link element and an URL.
      */
     private function createEmbeddedVideoFromLink(array $link, string $url): array
     {
@@ -697,6 +694,7 @@ class Parsedown extends \ParsedownToc
             ],
         ];
 
+        // div wrapper
         return [
             'extent'  => $link['extent'],
             'element' => [
@@ -707,6 +705,24 @@ class Parsedown extends \ParsedownToc
                 ],
                 'attributes' => [
                     'style' => 'position:relative;padding-bottom:56.25%;height:0;overflow:hidden;',
+                    'title' => $link['element']['attributes']['title'],
+                ],
+            ],
+        ];
+    }
+
+    /**
+     * Create a script element from a link element and an URL.
+     */
+    private function createScriptFromLink(array $link, string $url): array
+    {
+        return [
+            'extent'  => $link['extent'],
+            'element' => [
+                'name'       => 'script',
+                'text'       => $link['element']['text'],
+                'attributes' => [
+                    'src'   => $url . '.js',
                     'title' => $link['element']['attributes']['title'],
                 ],
             ],
