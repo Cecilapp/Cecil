@@ -159,18 +159,18 @@ class Util
             ],
             'vimeo' => [
                 // https://regex101.com/r/wCEFhd/1
-                'pattern' => '(?:https?:\/\/)?(?:www\.)?vimeo\.com\/(channels\/[A-z0-9]+\/|groups\/[A-z0-9]+\/videos\/|album\/[0-9]+\/video\/|video\/|)([0-9]+)',
+                'pattern' => 'https:\/\/vimeo\.com\/([0-9]+)',
                 'baseurl' => 'https://player.vimeo.com/video/',
                 'type' => 'video',
             ],
             'dailymotion' => [
                 // https://regex101.com/r/YKnLPm/1
                 'pattern' => '(?:https?:\/\/)?(?:www\.)?dailymotion\.com\/video\/([a-z0-9]+)',
-                'baseurl' => 'hhttps://geo.dailymotion.com/player.html?video=',
+                'baseurl' => 'https://geo.dailymotion.com/player.html?video=',
                 'type' => 'video',
             ],
             'github_gist' => [
-                // https://regex101.com/r/KWVMYI/1
+                // https://regex101.com/r/y3bm2M/1
                 'pattern' => 'https:\/\/gist\.github\.com\/([-a-zA-Z0-9_]+\/[-a-zA-Z0-9_]+)',
                 'baseurl' => 'https://gist.github.com/',
                 'type' => 'script',
