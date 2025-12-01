@@ -97,7 +97,7 @@ layouts/blog/list.rss.twig   # `section` is "blog" and `format` is "rss"
 
 Cecil comes with a set of [built-in templates](https://github.com/Cecilapp/Cecil/tree/master/resources/layouts).
 
-:::tips
+:::tip
 If you need to modify built-in templates, you can easily extract them via the following command: they will be copied in the `layouts` directory of your site.
 
 ```bash

@@ -424,7 +424,7 @@ _Examples:_
 ![](/images/img.jpg){placeholder=lqip}
 ```
 
-:::tips
+:::tip
 You can set a value to the `placeholder` attribute for each image with the [`placeholder` option](4-Configuration.md#pages-body-images).
 :::
 
