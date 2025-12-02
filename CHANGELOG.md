@@ -2,6 +2,18 @@
 
 All notable changes to this project will be documented in this file. Dates are displayed in UTC.
 
+#### [8.74.0](https://github.com/Cecilapp/Cecil/compare/8.73.0...8.74.0)
+
+> 2 December 2025
+
+- feat: image_from_url Twig function [`#2256`](https://github.com/Cecilapp/Cecil/pull/2256)
+- chore(deps-dev): bump friendsofphp/php-cs-fixer from 3.91.1 to 3.91.2 [`#2255`](https://github.com/Cecilapp/Cecil/pull/2255)
+- chore: update deps [`eef8ca4`](https://github.com/Cecilapp/Cecil/commit/eef8ca443d5bc52796c1546637ac3cd7bcda2035)
+- chore: update deps [`c57e634`](https://github.com/Cecilapp/Cecil/commit/c57e634634c0a961f4779ac77ee0658e1a0d8ca5)
+- fix docs markdown [`e7fd6e1`](https://github.com/Cecilapp/Cecil/commit/e7fd6e13a95ad55f60fa2184ef1d7f8f46a41fe4)
+- refactor: better code [`16a8bc3`](https://github.com/Cecilapp/Cecil/commit/16a8bc31c68192883fba854c3de8d650015e0e42)
+- chore: update deps [`1e2dfb3`](https://github.com/Cecilapp/Cecil/commit/1e2dfb330b737d7b126af063c4b191292c679093)
+
 #### [8.73.0](https://github.com/Cecilapp/Cecil/compare/8.72.3...8.73.0)
 
 > 28 November 2025
