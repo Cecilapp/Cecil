@@ -26,6 +26,8 @@ use Cecil\Converter\Parsedown;
 use Cecil\Exception\ConfigException;
 use Cecil\Exception\RuntimeException;
 use Cecil\Url;
+use Cecil\Util;
+use Cecil\Util\Html;
 use Cocur\Slugify\Bridge\Twig\SlugifyExtension;
 use Cocur\Slugify\Slugify;
 use Highlight\Highlighter;
@@ -92,6 +94,7 @@ class Core extends SlugifyExtension
             new \Twig\TwigFunction('integrity', [$this, 'integrity']),
             new \Twig\TwigFunction('image_srcset', [$this, 'imageSrcset']),
             new \Twig\TwigFunction('image_sizes', [$this, 'imageSizes']),
+            new \Twig\TwigFunction('image_from_url', [$this, 'htmlImageFromUrl'], ['needs_context' => true]),
             // content
             new \Twig\TwigFunction('readtime', [$this, 'readtime']),
             new \Twig\TwigFunction('hash', [$this, 'hash']),
@@ -727,6 +730,26 @@ class Core extends SlugifyExtension
     public function imageSizes(string $class): string
     {
         return Image::getHtmlSizes($class, $this->config->getAssetsImagesSizes());
+    }
+
+    /**
+     * Builds the HTML img element from a URL by extracting the image from meta tags.
+     * Returns null if no image found.
+     *
+     * @throws RuntimeException
+     */
+    public function htmlImageFromUrl(array $context, string $url, array $attributes = [], array $options = []): ?string
+    {
+        if (false !== $html = Util\File::fileGetContents($url)) {
+            $imageUrl = Util\Html::getImageFromMetaTags($html);
+            if ($imageUrl !== null) {
+                $asset = new Asset($this->builder, $imageUrl);
+
+                return $this->htmlImage($context, $asset, $attributes, $options);
+            }
+        }
+
+        return null;
     }
 
     /**
