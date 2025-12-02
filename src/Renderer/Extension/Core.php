@@ -742,15 +742,14 @@ class Core extends SlugifyExtension
     {
         if (false !== $html = Util\File::fileGetContents($url)) {
             $imageUrl = Util\Html::getImageFromMetaTags($html);
-            if ($imageUrl === null) {
-                return null;
+            if ($imageUrl !== null) {
+                $asset = new Asset($this->builder, $imageUrl);
+
+                return $this->htmlImage($context, $asset, $attributes, $options);
             }
-            $asset = new Asset($this->builder, $imageUrl);
-        } else {
-            return null;
         }
 
-        return $this->htmlImage($context, $asset, $attributes, $options);
+        return null;
     }
 
     /**
