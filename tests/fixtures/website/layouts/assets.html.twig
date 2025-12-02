@@ -419,6 +419,8 @@
     <pre>{% verbatim %}{{ image_from_url('https://cecil.app', {alt: 'Example Image from URL', loading: 'lazy'}) }}{% endverbatim %}</pre>
     <blockquote>
       {{ image_from_url('https://cecil.app', {alt: 'Example Image from URL', loading: 'lazy'}) }}
+      {#- No image found case ~#}
+      {{ image_from_url('https://example.com') }}
     </blockquote>
     <pre>{{ image_from_url('https://cecil.app', {alt: 'Example Image from URL', loading: 'lazy'})|e }}</pre>
   </p>
