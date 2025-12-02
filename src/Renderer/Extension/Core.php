@@ -734,12 +734,21 @@ class Core extends SlugifyExtension
 
     /**
      * Builds the HTML img element from a URL by extracting the image from meta tags.
+     * Returns null if no image found.
+     *
+     * @throws RuntimeException
      */
-    public function htmlImageFromUrl(array $context, string $url, array $attributes = [], array $options = []): string
+    public function htmlImageFromUrl(array $context, string $url, array $attributes = [], array $options = []): ?string
     {
-        $html = Util\File::fileGetContents($url);
-        $imageUrl = Util\Html::getImageFromMetaTags($html);
-        $asset = new Asset($this->builder, $imageUrl);
+        if (false !== $html = Util\File::fileGetContents($url)) {
+            $imageUrl = Util\Html::getImageFromMetaTags($html);
+            if ($imageUrl === null) {
+                return null;
+            }
+            $asset = new Asset($this->builder, $imageUrl);
+        } else {
+            return null;
+        }
 
         return $this->htmlImage($context, $asset, $attributes, $options);
     }
