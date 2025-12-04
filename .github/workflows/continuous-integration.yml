@@ -24,13 +24,13 @@ jobs:
     runs-on: ${{ matrix.os }}
     continue-on-error: ${{ join(matrix.type) == 'experimental' }}
     env:
-      extensions: :psr, mbstring, intl, gettext, fileinfo, gd, sodium, exif
+      extensions: :psr, mbstring, intl, gettext, fileinfo, gd, sodium, exif, :redis, :relay
       ext-cache-key: cache-ext-v1
 
     strategy:
       fail-fast: false
       matrix:
-        php: ['8.1', '8.2', '8.3', '8.4', '8.5']
+        php: ['8.2', '8.3', '8.4', '8.5']
         os: [ubuntu-latest, macos-latest, windows-latest]
         type: ['']
         exclude:

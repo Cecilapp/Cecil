@@ -26,7 +26,8 @@
         "*.po",
         "LICENSE*",
         "License*",
-        "VERSION"
+        "VERSION",
+        "icon.png"
       ],
       "notName": [
         "composer.json",
