@@ -1,7 +1,7 @@
 <!--
 description: "Working with layouts, templates and components."
 date: 2021-05-07
-updated: 2025-11-20
+updated: 2025-12-02
 alias: documentation/layouts
 -->
 # Templates
@@ -97,7 +97,7 @@ layouts/blog/list.rss.twig   # `section` is "blog" and `format` is "rss"
 
 Cecil comes with a set of [built-in templates](https://github.com/Cecilapp/Cecil/tree/master/resources/layouts).
 
-:::tips
+:::tip
 If you need to modify built-in templates, you can easily extract them via the following command: they will be copied in the `layouts` directory of your site.
 
 ```bash
@@ -719,6 +719,20 @@ _Examples:_
 ```twig
 {% set asset = asset(image_path) %}
 <img src="{{ url(asset) }}" width="{{ asset.width }}" height="{{ asset.height }}" alt="" class="asset" srcset="{{ image_srcset(asset) }}" sizes="{{ image_sizes('asset') }}">
+```
+
+### image_from_url
+
+Builds the HTML img element from an URL by extracting the image from meta tags.
+
+```twig
+image_from_url('<url>')
+```
+
+_Examples:_
+
+```twig
+{{ image_from_url('https://example.com/page-with-image.html') }}
 ```
 
 ### readtime
@@ -1512,7 +1526,7 @@ To use _fragments_ cache, you must wrap the content you want to cache with the `
 ```
 
 :::info
-More details on the official _Twig cache extension_ documentation: <https://twig.symfony.com/doc/tags/cache.html>.
+More details on the official [_Twig cache extension_ documentation](https://twig.symfony.com/doc/tags/cache.html).
 :::
 
 Fragments cache is persistent, so during development you may need to clear it, with the following command:

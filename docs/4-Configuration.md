@@ -1218,7 +1218,7 @@ server:
           value: "<value>"
 ```
 
-:::tips
+:::tip
 It's useful to test custom [Content Security Policy](https://developer.mozilla.org/docs/Web/HTTP/CSP) or [Cache-Control](https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Cache-Control).
 :::
 
@@ -1281,7 +1281,7 @@ optimize: true
 Once the global option is enabled, the 4 file types will be processed.  
 It is possible to disable each of them via `enabled: false` and modify processed files extension via `ext`.
 
-:::tips
+:::tip
 It is also possible to enable this option through CLI when using the "build" and "serve" commands via the `--optimize` option.
 :::
 

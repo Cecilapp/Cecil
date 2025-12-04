@@ -205,7 +205,7 @@ You can change this behavior with [`pages.body.links.external` options](4-Config
 You can let Cecil tries to turns a link into an embedded content by using the `{embed}` attribute or by setting the global configuration option `pages.body.links.embed.enabled` to `true`.
 
 :::important
-Only **YouTube**, **Vimeo** and **GitHub Gits** links are supported.
+Only **YouTube**, **Vimeo**, **Dailymotion** and **GitHub Gits** links are supported.
 :::
 
 _Example:_
@@ -424,7 +424,7 @@ _Examples:_
 ![](/images/img.jpg){placeholder=lqip}
 ```
 
-:::tips
+:::tip
 You can set a value to the `placeholder` attribute for each image with the [`placeholder` option](4-Configuration.md#pages-body-images).
 :::
 

@@ -1,34 +1,18 @@
 <!--
 description: "Create a new website and preview it locally."
 date: 2020-12-19
-updated: 2025-10-08
+updated: 2025-11-27
 menu: home
 -->
 # Quick Start
 
 Cecil is a CLI application, powered by [PHP](https://www.php.net), that merge plain text files (written in [Markdown](https://daringfireball.net/projects/markdown/)), images and [Twig](https://twig.symfony.com/) templates to generate a [static website](https://en.wikipedia.org/wiki/Static_web_page).
 
-## Create a blog
-
-If you want to create a no-hassle blog, quickly, the [starter blog](https://github.com/Cecilapp/the-butler#readme) is for you.
-
-[![New blog example](/docs/cecil-newblog.png)](https://github.com/Cecilapp/the-butler#readme)
-
-The easiest way to deploy and manage your blog is certainly with [Netlify](https://cecil.app/hosting/netlify/deploy/) or [Vercel](https://cecil.app/hosting/vercel/deploy/).
-
-### Deploy to Netlify
-
-[![Deploy to Netlify](https://www.netlify.com/img/deploy/button.svg)](https://cecil.app/hosting/netlify/deploy/)
-
-### Deploy to Vercel
-
-[![Deploy to Vercel](https://vercel.com/button/default.svg)](https://cecil.app/hosting/vercel/deploy/)
-
-----
-
 ## Create a website
 
-Create create a website in a few steps.
+You can create a new website from scratch in a few minutes.
+
+Follow the steps below to create your first Cecil website.
 
 [![New website example](/docs/cecil-newsite.png)](https://cecilapp.github.io/skeleton/)
 
@@ -54,7 +38,6 @@ You can also [download Cecil](https://cecil.app/download/) manually, or use:
 
 - [Homebrew](https://brew.sh): `brew install cecilapp/tap/cecil`
 - [Scoop](https://scoop.sh): `scoop install https://cecil.app/scoop/cecil.json`
-- [PHIVE](https://phar.io): `phive install cecil`
 
 ### 2. Create a new site
 
@@ -103,3 +86,21 @@ php cecil.phar build
 ```
 
 You can now copy the content of the `_site` directory to a Web server 🎉
+
+----
+
+## Create a blog
+
+If you want to create a no-hassle blog, quickly, the [starter blog](https://github.com/Cecilapp/the-butler#readme) is for you.
+
+[![New blog example](/docs/cecil-newblog.png)](https://github.com/Cecilapp/the-butler#readme)
+
+The easiest way to deploy and manage your blog is certainly with [Netlify](https://cecil.app/hosting/netlify/deploy/) or [Vercel](https://cecil.app/hosting/vercel/deploy/).
+
+### Deploy to Netlify
+
+[![Deploy to Netlify](https://www.netlify.com/img/deploy/button.svg)](https://cecil.app/hosting/netlify/deploy/)
+
+### Deploy to Vercel
+
+[![Deploy to Vercel](https://vercel.com/button/default.svg)](https://cecil.app/hosting/vercel/deploy/)

@@ -1,8 +1,9 @@
 {#- Language switcher -#}
-{%- if page.translations|default({})|length >= 1 -%}
+{#- label = 'code' -#}
+{%- if page.translations|default([])|length >= 1 -%}
   {%- for p in page.translations -%}
     {%- if p.language is defined -%}
-<a href="{{ url(p) }}">{{ site.language.name(p.language) }}</a>{% if not loop.last %}, {% endif %}
+<a href="{{ url(p) }}">{% if label|default == 'code' %}{{ p.language|upper }}{% else %}{{ site.language.name(p.language) }}{% endif %}</a>{% if not loop.last %}, {% endif %}
     {%- endif -%}
   {%- endfor -%}
 {%- endif -%}

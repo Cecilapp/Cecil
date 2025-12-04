@@ -43,10 +43,8 @@ class File
 
     /**
      * file_get_contents() function with error handler.
-     *
-     * @return string|false
      */
-    public static function fileGetContents(string $filename, ?string $userAgent = null)
+    public static function fileGetContents(string $filename, ?string $userAgent = null): string|false
     {
         if (empty($filename)) {
             return false;

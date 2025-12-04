@@ -26,6 +26,8 @@ use Cecil\Converter\Parsedown;
 use Cecil\Exception\ConfigException;
 use Cecil\Exception\RuntimeException;
 use Cecil\Url;
+use Cecil\Util;
+use Cecil\Util\Html;
 use Cocur\Slugify\Bridge\Twig\SlugifyExtension;
 use Cocur\Slugify\Slugify;
 use Highlight\Highlighter;
@@ -92,6 +94,7 @@ class Core extends SlugifyExtension
             new \Twig\TwigFunction('integrity', [$this, 'integrity']),
             new \Twig\TwigFunction('image_srcset', [$this, 'imageSrcset']),
             new \Twig\TwigFunction('image_sizes', [$this, 'imageSizes']),
+            new \Twig\TwigFunction('image_from_url', [$this, 'htmlImageFromUrl'], ['needs_context' => true]),
             // content
             new \Twig\TwigFunction('readtime', [$this, 'readtime']),
             new \Twig\TwigFunction('hash', [$this, 'hash']),
@@ -625,26 +628,22 @@ class Core extends SlugifyExtension
      */
     public function htmlImage(array $context, Asset $asset, array $attributes = [], array $options = []): string
     {
-        $htmlAttributes = self::htmlAttributes($attributes);
-        if (!isset($attributes['alt'])) {
-            $htmlAttributes .= ' alt=""';
-        }
         $responsive = $options['responsive'] ?? $this->config->get('layouts.images.responsive');
 
         // build responsive attributes
         try {
             if ($responsive === true || $responsive == 'width') {
                 $srcset = Image::buildHtmlSrcsetW($asset, $this->config->getAssetsImagesWidths());
-                $htmlAttributes .= \sprintf(' srcset="%s" sizes="%s"', $srcset, Image::getHtmlSizes($attributes['class'] ?? '', $this->config->getAssetsImagesSizes()));
+                $attributes['srcset'] = $srcset;
+                $attributes['sizes'] = Image::getHtmlSizes($attributes['class'] ?? '', $this->config->getAssetsImagesSizes());
                 // prevent oversized images
                 if ($asset['width'] > max($this->config->getAssetsImagesWidths())) {
                     $asset = $asset->resize(max($this->config->getAssetsImagesWidths()));
                 }
-            }
-            if ($responsive == 'density') {
+            } elseif ($responsive == 'density') {
                 $width1x = isset($attributes['width']) && $attributes['width'] > 0 ? (int) $attributes['width'] : $asset['width'];
                 $srcset = Image::buildHtmlSrcsetX($asset, $width1x, $this->config->getAssetsImagesDensities());
-                $htmlAttributes .= \sprintf(' srcset="%s"', $srcset);
+                $attributes['srcset'] = $srcset;
             }
         } catch (\Exception $e) {
             $this->builder->getLogger()->warning($e->getMessage());
@@ -682,14 +681,20 @@ class Core extends SlugifyExtension
         }
 
         // create `<img>` element
+        if (!isset($attributes['alt'])) {
+            $attributes['alt'] = '';
+        }
         if (isset($attributes['width']) && $attributes['width'] > 0) {
             $asset = $asset->resize((int) $attributes['width']);
         }
         if (!isset($attributes['width'])) {
-            $htmlAttributes .= \sprintf(' width="%s"', $asset['width'] ?: '');
+            $attributes['width'] = $asset['width'] ?: '';
         }
-        $htmlAttributes .= \sprintf(' height="%s"', $asset['height'] ?: '');
-        $img = \sprintf('<img src="%s"%s>', $this->url($context, $asset, $options), $htmlAttributes);
+        $with = $attributes['width'];
+        unset($attributes['width']);
+        $attributes['width'] = $with;
+        $attributes['height'] = $asset['height'] ?: '';
+        $img = \sprintf('<img src="%s"%s>', $this->url($context, $asset, $options), self::htmlAttributes($attributes));
 
         // put `<source>` elements in `<picture>` if exists
         if (!empty($source)) {
@@ -727,6 +732,26 @@ class Core extends SlugifyExtension
     public function imageSizes(string $class): string
     {
         return Image::getHtmlSizes($class, $this->config->getAssetsImagesSizes());
+    }
+
+    /**
+     * Builds the HTML img element from a URL by extracting the image from meta tags.
+     * Returns null if no image found.
+     *
+     * @throws RuntimeException
+     */
+    public function htmlImageFromUrl(array $context, string $url, array $attributes = [], array $options = []): ?string
+    {
+        if (false !== $html = Util\File::fileGetContents($url)) {
+            $imageUrl = Util\Html::getImageFromMetaTags($html);
+            if ($imageUrl !== null) {
+                $asset = new Asset($this->builder, $imageUrl);
+
+                return $this->htmlImage($context, $asset, $attributes, $options);
+            }
+        }
+
+        return null;
     }
 
     /**
