@@ -102,8 +102,8 @@ class Asset implements \ArrayAccess
             'type'     => '',    // file type (e.g.: image, audio, video, etc.)
             'subtype'  => '',    // file media type (e.g.: image/png, audio/mp3, etc.)
             'size'     => 0,     // file size (in bytes)
-            'width'    => null,  // image width (in pixels)
-            'height'   => null,  // image height (in pixels)
+            'width'    => null,  // width (in pixels)
+            'height'   => null,  // height (in pixels)
             'exif'     => [],    // image exif data
             'duration' => null,  // audio or video duration
             'content'  => '',    // file content
@@ -652,7 +652,7 @@ class Asset implements \ArrayAccess
                     throw new RuntimeException(\sprintf('Unable to get height of "%s".', $this->data['path']));
                 }
 
-                return $size[0];
+                return $size[1];
             case 'video':
                 return $this->getVideo()['height'];
         }
