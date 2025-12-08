@@ -1,7 +1,7 @@
 <!--
 description: "Working with layouts, templates and components."
 date: 2021-05-07
-updated: 2025-12-02
+updated: 2025-12-08
 alias: documentation/layouts
 -->
 # Templates
@@ -540,6 +540,10 @@ _Examples:_
 {{ asset('scripts.js') }}
 {# image #}
 {{ asset('image.jpeg') }}
+{# audio #}
+{{ asset('audio.mp3') }}
+{# video #}
+{{ asset('video.mp4') }}
 {# remote file #}
 {{ asset('https://cdnjs.cloudflare.com/ajax/libs/anchor-js/4.3.1/anchor.min.js', {minify: false}) }}
 {# with filter #}
@@ -554,19 +558,24 @@ Assets created with the `asset()` function expose some useful attributes.
 Common:
 
 - `file`: filesystem path
-- `path`: public path
 - `missing`: `true` if file is not found but missing is allowed
+- `path`: public path
 - `ext`: file extension
 - `type`: media type (e.g.: `image`)
 - `subtype`: media sub type (e.g.: `image/jpeg`)
 - `size`: size in octets
 - `content`: file content
+- `hash`: file content hash (md5)
+- `dataurl`: data URL encoded in Base64
 - `integrity`: integrity hash
+
+Remote:
+
+- `url`: URL of the remote file
 
 Bundle:
 
 - `files`: array of filesystem path in case of a bundle
-- `filename`: custom file name
 
 Image:
 
@@ -574,10 +583,17 @@ Image:
 - `height`: image height in pixels
 - `exif`: image EXIF data as array
 
-Media:
+Audio:
 
-- `audio`: [Mp3Info](https://github.com/wapmorgan/Mp3Info#audio-information) object
-- `video`: array of basic video information (duration in seconds, width and height)
+- `duration`: duration in seconds.microseconds
+- `bitrate`: bitrate in bps
+- `channel`: 'stereo', 'dual_mono', 'joint_stereo' or 'mono'
+
+Video:
+
+- `duration`: duration in seconds
+- `width`: width in pixels
+- `height`: height in pixels
 
 _Examples:_
 
@@ -588,11 +604,11 @@ _Examples:_
 {# photo's date in seconds #}
 {{ asset('photo.jpeg').exif.EXIF.DateTimeOriginal|date('U') }}
 
-{# MP3 song duration in minutes #}
-{{ asset('song.mp3').audio.duration|round }} min
+{# audio duration in seconds #}
+{{ asset('song.mp3').duration|round }} s
 
 {# video duration in seconds #}
-{{ asset('movie.mp4').video.duration|round }} s
+{{ asset('movie.mp4').duration|round }} s
 
 {# file integrity hash #}
 {% set integrity = asset('styles.scss').integrity %}
@@ -625,6 +641,7 @@ Creates an HTML element from an asset (or an array of assets with custom attribu
 {{ css(asset, {attributes}, {options}) }}
 {{ js(asset, {attributes}, {options}) }}
 {{ image(asset, {attributes}, {options}) }}
+{{ audio(asset, {attributes}, {options}) }}
 {{ video(asset, {attributes}, {options}) }}
 ```
 
