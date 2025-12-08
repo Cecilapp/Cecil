@@ -90,6 +90,7 @@ class Core extends SlugifyExtension
             new \Twig\TwigFunction('css', [$this, 'htmlCss'], ['needs_context' => true]),
             new \Twig\TwigFunction('js', [$this, 'htmlJs'], ['needs_context' => true]),
             new \Twig\TwigFunction('image', [$this, 'htmlImage'], ['needs_context' => true]),
+            new \Twig\TwigFunction('audio', [$this, 'htmlAudio'], ['needs_context' => true]),
             new \Twig\TwigFunction('video', [$this, 'htmlVideo'], ['needs_context' => true]),
             new \Twig\TwigFunction('integrity', [$this, 'integrity']),
             new \Twig\TwigFunction('image_srcset', [$this, 'imageSrcset']),
@@ -576,6 +577,9 @@ class Core extends SlugifyExtension
                 case 'image':
                     $html[] = $this->htmlImage($context, $asset, $attr, $options);
                     break;
+                case 'audio':
+                    $html[] = $this->htmlAudio($context, $asset, $attr, $options);
+                    break;
                 case 'video':
                     $html[] = $this->htmlVideo($context, $asset, $attr, $options);
                     break;
@@ -702,6 +706,18 @@ class Core extends SlugifyExtension
         }
 
         return $img;
+    }
+
+    /**
+     * Builds the HTML audio element of an audio Asset.
+     */
+    public function htmlAudio(array $context, Asset $asset, array $attributes = [], array $options = []): string
+    {
+        if (empty($attributes)) {
+            $attributes['controls'] = '';
+        }
+
+        return \sprintf('<audio%s src="%s" type="%s"></audio>', self::htmlAttributes($attributes), $this->url($context, $asset, $options), $asset['subtype']);
     }
 
     /**
