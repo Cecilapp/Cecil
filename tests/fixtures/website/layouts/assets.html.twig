@@ -25,8 +25,25 @@
 
 {% block content %}
   <h1>asset()</h1>
+  <ol>
+    <li><a href="#locate-file">Locate file</a></li>
+    <li><a href="#files-bundle">Files bundle</a></li>
+    <li><a href="#url">URL</a></li>
+    <li><a href="#fingerprint">Fingerprint</a></li>
+    <li><a href="#minify">Minify</a></li>
+    <li><a href="#compile-scss">Compile SCSS</a></li>
+    <li><a href="#image">Image</a></li>
+    <li><a href="#data-url">Data URL</a></li>
+    <li><a href="#inline">Inline</a></li>
+    <li><a href="#integrity">Integrity</a></li>
+    <li><a href="#audio-file">Audio file</a></li>
+    <li><a href="#video-file">Video file</a></li>
+    <li><a href="#asset-with-wrong-path--ignore-directive">Asset with wrong path + ignore directive</a></li>
+    <li><a href="#access-to-wrong-properties">Access to wrong properties</a></li>
+    <li><a href="#html-element">HTML element</a></li>
+  </ol>
 
-  <h2>Locate file</h2>
+  <h2 id="locate-file">Locate file</h2>
   <h3>in static/</h3>
   <p>
     <pre>{% verbatim %}{{ asset('css/_style.css') }}{% endverbatim %}</pre>
@@ -61,7 +78,7 @@
     <blockquote>{{ asset('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;700;900&amp;display=swap') }}</blockquote>
   </p>
 
-  <h2>Files bundle</h2>
+  <h2 id="files-bundle">Files bundle</h2>
   <p>
     <pre>{% verbatim %}{{ asset(['css/style-1.css', 'css/style-2.css']) }}{% endverbatim %}</pre>
     <blockquote>{{ asset(['css/style-1.css', 'css/style-2.css']) }}</blockquote>
@@ -77,7 +94,7 @@
     <blockquote>{{ asset(['js/script.js', 'js/script.js']) }}</blockquote>
   </p>
 
-  <h2>URL</h2>
+  <h2 id="url">URL</h2>
   <p>
     <pre>{% verbatim %}{{ url(asset('images/cecil-logo.png')) }}{% endverbatim %}</pre>
     <blockquote>
@@ -95,7 +112,7 @@
     <blockquote>{{ asset('css/style.css')|url({canonical: true}) }}</blockquote>
   </p>
 
-  <h2>Fingerprint</h2>
+  <h2 id="fingerprint">Fingerprint</h2>
   <p>
     <pre>{% verbatim %}{{ asset('css/style.css')|fingerprint }}{% endverbatim %}</pre>
     <blockquote>{{ asset('css/style.css')|fingerprint }}</blockquote>
@@ -111,7 +128,7 @@
     <blockquote>{{ asset('css/style.css', {fingerprint: true})|fingerprint }}</blockquote>
   </p>
 
-  <h2>Minify</h2>
+  <h2 id="minify">Minify</h2>
   <p>
     <pre>{% verbatim %}{{ asset('css/style.css')|minify|inline }}{% endverbatim %}</pre>
     <blockquote>{{ asset('css/style.css')|minify|inline }}</blockquote>
@@ -122,7 +139,7 @@
     <blockquote>{{ asset('css/style.css', {minify: true})|inline }}</blockquote>
   </p>
 
-  <h2>Compile SCSS</h2>
+  <h2 id="compile-scss">Compile SCSS</h2>
   <p>
     <pre>{% verbatim %}{{ asset('scss/colors.scss')|to_css }}{% endverbatim %}</pre>
     <blockquote>{{ asset('scss/colors.scss')|to_css }}</blockquote>
@@ -140,7 +157,7 @@
     <blockquote>{{ asset('scss/colors.scss')|minify|inline }}</blockquote>
   </p>
 
-  <h2>Image</h2>
+  <h2 id="image">Image</h2>
   {# commented for Scrutinizer
   <h3>Image PNG to WebP</h3>
   <p>
@@ -204,7 +221,7 @@
     </blockquote>
   </p>
 
-  <h2>Data URL</h2>
+  <h2 id="data-url">Data URL</h2>
   <h3>Data URL of a file</h3>
   <p>
     <pre>{% verbatim %}{{ asset('css/style.css')|dataurl }}{% endverbatim %}</pre>
@@ -220,7 +237,7 @@
     </blockquote>
   </p>
 
-  <h2>Inline</h2>
+  <h2 id="inline">Inline</h2>
   <p>
     <pre>{% verbatim %}{{ asset('css/style.css')|inline }}{% endverbatim %}</pre>
     <blockquote>{{ asset('css/style.css')|inline }}</blockquote>
@@ -240,7 +257,7 @@
     <blockquote>{{ asset('js/script.js')|minify|inline }}</blockquote>
   </p>
 
-  <h2>Integrity</h2>
+  <h2 id="integrity">Integrity</h2>
   <p>
     <pre>{% verbatim %}{{ asset('css/style.css').integrity }}{% endverbatim %}</pre>
     <blockquote>{{ asset('css/style.css').integrity }}</blockquote>
@@ -260,23 +277,35 @@
     <blockquote>{{ integrity(asset('css/style.css')) }}</blockquote>
   </p>
 
-  <h2>Audio file</h2>
+  <h2 id="audio-file">Audio file</h2>
   <p>
     <pre>{% verbatim %}{{ asset('audio/test.mp3').audio.duration }}{% endverbatim %}</pre>
     <blockquote>
       {{ (asset('audio/test.mp3').audio.duration / 60)|round }} min {{ (asset('audio/test.mp3').audio.duration % 60)|round }} s
     </blockquote>
   </p>
+  <p>
+    <pre>{% verbatim %}{{ asset('audio/test.mp3').audio }}{% endverbatim %}</pre>
+    <blockquote>
+      {{ d(asset('audio/test.mp3').audio) }}
+    </blockquote>
+  </p>
 
-  <h2>Video file</h2>
+  <h2 id="video-file">Video file</h2>
   <p>
     <pre>{% verbatim %}{{ asset('video/test.mp4').video.duration }}{% endverbatim %}</pre>
     <blockquote>
       {{ (asset('video/test.mp4').video.duration)|round }} seconds
     </blockquote>
   </p>
+  <p>
+    <pre>{% verbatim %}{{ asset('video/test.mp4').video }}{% endverbatim %}</pre>
+    <blockquote>
+      {{ d(asset('video/test.mp4').video) }} seconds
+    </blockquote>
+  </p>
 
-  <h2>Asset with wrong path + ignore directive</h2>
+  <h2 id="asset-with-wrong-path--ignore-directive">Asset with wrong path + ignore directive</h2>
   <p>
     <pre>{% verbatim %}{{ asset('asssset.css', {ignore_missing: true})) }}{% endverbatim %}</pre>
     <blockquote>{{ asset('asssset.css', {ignore_missing: true}) }}</blockquote>
@@ -286,7 +315,7 @@
     <blockquote>{{ d(asset('asssset.css', {ignore_missing: true}).missing) }}</blockquote>
   </p>
 
-  <h2>Access to wrong properties</h2>
+  <h2 id="access-to-wrong-properties">Access to wrong properties</h2>
   {#<p>
     <pre>{% verbatim %}{{ asset('css/style.css').audio }}{% endverbatim %}</pre>
     <blockquote>{{ asset('css/style.css').audio }}</blockquote>
@@ -296,7 +325,7 @@
     <blockquote>{{ asset('css/style.css').width }} x {{ asset('css/style.css').height }}</blockquote>
   </p>
 
-  <h2>HTML element</h2>
+  <h2 id="html-element">HTML element</h2>
   <h3>HTML CSS</h3>
   <p>
     <pre>html(asset('css/style.css'))</pre>
@@ -319,7 +348,6 @@
     <pre>js(asset('js/script.js'))</pre>
     <blockquote>{{ js(asset('js/script.js'))|e }}</blockquote>
   </p>
-
   <h3>HTML video</h3>
   <p>
     <pre>html(asset('video/test.mp4'))</pre>
@@ -330,7 +358,6 @@
     <blockquote>{{ video(asset('video/test.mp4')) }}</blockquote>
     <pre>{{ video(asset('video/test.mp4'))|e }}</pre>
   </p>
-
   <h3>Array of assets</h3>
   <p>
     <pre>html([

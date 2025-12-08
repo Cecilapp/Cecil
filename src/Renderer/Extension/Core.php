@@ -445,7 +445,7 @@ class Core extends SlugifyExtension
             $asset = new Asset($this->builder, $asset);
         }
 
-        return $asset->getIntegrity($algo);
+        return $asset->integrity($algo);
     }
 
     /**

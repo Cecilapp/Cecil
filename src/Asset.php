@@ -102,9 +102,10 @@ class Asset implements \ArrayAccess
             'type'     => '',    // file type (e.g.: image, audio, video, etc.)
             'subtype'  => '',    // file media type (e.g.: image/png, audio/mp3, etc.)
             'size'     => 0,     // file size (in bytes)
-            'width'    => 0,     // image width (in pixels)
-            'height'   => 0,     // image height (in pixels)
+            'width'    => null,  // image width (in pixels)
+            'height'   => null,  // image height (in pixels)
             'exif'     => [],    // image exif data
+            'duration' => null,  // audio or video duration
             'content'  => '',    // file content
             'hash'     => '',    // file content hash (md5)
         ];
@@ -124,7 +125,7 @@ class Asset implements \ArrayAccess
             \is_array($options) ? $options : []
         );
 
-        // cache
+        // cache for "locate file(s)"
         $cache = new Cache($this->builder, 'assets');
         $locateCacheKey = \sprintf('%s_locate__%s__%s', $options['filename'] ?: implode('_', $paths), $this->builder->getBuildId(), $this->builder->getVersion());
 
@@ -150,7 +151,7 @@ class Asset implements \ArrayAccess
                     $this->data['ext'] = Util\File::getExtension($file);
                     $this->data['type'] = $type;
                     $this->data['subtype'] = Util\File::getMediaType($file)[1];
-                    $this->data['size'] += filesize($file);
+                    $this->data['size'] += filesize($file) ?: 0;
                     $this->data['content'] .= Util\File::fileGetContents($file);
                     $this->data['hash'] = hash('md5', $this->data['content']);
                     // bundle default filename
@@ -197,7 +198,7 @@ class Asset implements \ArrayAccess
             return;
         }
 
-        // cache
+        // cache for "process asset"
         $cache = new Cache($this->builder, 'assets');
         // create cache tags from options
         $this->cacheTags = $options;
@@ -225,19 +226,25 @@ class Asset implements \ArrayAccess
             if ($options['minify']) {
                 $this->doMinify();
             }
-            // get image width, height and exif
-            if ($this->data['type'] == 'image') {
-                $this->data['width'] = $this->getWidth();
-                $this->data['height'] = $this->getHeight();
-                if ($this->data['subtype'] == 'image/jpeg') {
-                    $this->data['exif'] = Util\File::readExif($this->data['file']);
-                }
+            // get width and height
+            $this->data['width'] = $this->getWidth();
+            $this->data['height'] = $this->getHeight();
+            // get image exif
+            if ($this->data['subtype'] == 'image/jpeg') {
+                $this->data['exif'] = Util\File::readExif($this->data['file']);
+            }
+            // get duration
+            if ($this->data['type'] == 'audio') {
+                $this->data['duration'] = $this->getAudio()['duration'];
+            }
+            if ($this->data['type'] == 'video') {
+                $this->data['duration'] = $this->getVideo()['duration'];
             }
             $cache->set($cacheKey, $this->data, $this->config->get('cache.assets.ttl'));
             $this->builder->getLogger()->debug(\sprintf('Asset cached: "%s"', $this->data['path']));
             // optimizing images files (in cache directory)
             if ($optimize) {
-                $this->optimize($cache->getContentFilePathname($this->data['path']), $this->data['path'], $quality);
+                $this->optimizeImage($cache->getContentFilePathname($this->data['path']), $this->data['path'], $quality);
             }
         }
         $this->data = $cache->get($cacheKey);
@@ -259,6 +266,82 @@ class Asset implements \ArrayAccess
         }
 
         return $this->data['path'];
+    }
+
+    /**
+     * Implements \ArrayAccess.
+     */
+    #[\ReturnTypeWillChange]
+    public function offsetSet($offset, $value): void
+    {
+        if (!\is_null($offset)) {
+            $this->data[$offset] = $value;
+        }
+    }
+
+    /**
+     * Implements \ArrayAccess.
+     */
+    #[\ReturnTypeWillChange]
+    public function offsetExists($offset): bool
+    {
+        return isset($this->data[$offset]);
+    }
+
+    /**
+     * Implements \ArrayAccess.
+     */
+    #[\ReturnTypeWillChange]
+    public function offsetUnset($offset): void
+    {
+        unset($this->data[$offset]);
+    }
+
+    /**
+     * Implements \ArrayAccess.
+     */
+    #[\ReturnTypeWillChange]
+    public function offsetGet($offset)
+    {
+        return isset($this->data[$offset]) ? $this->data[$offset] : null;
+    }
+
+    /**
+     * Adds asset path to the list of assets to save.
+     *
+     * @throws RuntimeException
+     */
+    public function save(): void
+    {
+        if ($this->data['missing']) {
+            return;
+        }
+
+        $cache = new Cache($this->builder, 'assets');
+        if (empty($this->data['path']) || !Util\File::getFS()->exists($cache->getContentFilePathname($this->data['path']))) {
+            throw new RuntimeException(
+                \sprintf('Unable to add "%s" to assets list. Please clear cache and retry.', $this->data['path'])
+            );
+        }
+
+        $this->builder->addAsset($this->data['path']);
+    }
+
+    /**
+     * Add hash to the file name + cache.
+     */
+    public function fingerprint(): self
+    {
+        $this->cacheTags['fingerprint'] = true;
+        $cache = new Cache($this->builder, 'assets');
+        $cacheKey = $cache->createKeyFromAsset($this, $this->cacheTags);
+        if (!$cache->has($cacheKey)) {
+            $this->doFingerprint();
+            $cache->set($cacheKey, $this->data, $this->config->get('cache.assets.ttl'));
+        }
+        $this->data = $cache->get($cacheKey);
+
+        return $this;
     }
 
     /**
@@ -298,20 +381,28 @@ class Asset implements \ArrayAccess
     }
 
     /**
-     * Add hash to the file name + cache.
+     * Returns the Data URL (encoded in Base64).
+     *
+     * @throws RuntimeException
      */
-    public function fingerprint(): self
+    public function dataurl(): string
     {
-        $this->cacheTags['fingerprint'] = true;
-        $cache = new Cache($this->builder, 'assets');
-        $cacheKey = $cache->createKeyFromAsset($this, $this->cacheTags);
-        if (!$cache->has($cacheKey)) {
-            $this->doFingerprint();
-            $cache->set($cacheKey, $this->data, $this->config->get('cache.assets.ttl'));
+        if ($this->data['type'] == 'image' && !Image::isSVG($this)) {
+            return Image::getDataUrl($this, (int) $this->config->get('assets.images.quality'));
         }
-        $this->data = $cache->get($cacheKey);
 
-        return $this;
+        return \sprintf('data:%s;base64,%s', $this->data['subtype'], base64_encode($this->data['content']));
+    }
+
+    /**
+     * Hashing content of an asset with the specified algo, sha384 by default.
+     * Used for SRI (Subresource Integrity).
+     *
+     * @see https://developer.mozilla.org/fr/docs/Web/Security/Subresource_Integrity
+     */
+    public function integrity(string $algo = 'sha384'): string
+    {
+        return \sprintf('%s-%s', $algo, base64_encode(hash($algo, $this->data['content'], true)));
     }
 
     /**
@@ -501,125 +592,6 @@ class Asset implements \ArrayAccess
     }
 
     /**
-     * Implements \ArrayAccess.
-     */
-    #[\ReturnTypeWillChange]
-    public function offsetSet($offset, $value): void
-    {
-        if (!\is_null($offset)) {
-            $this->data[$offset] = $value;
-        }
-    }
-
-    /**
-     * Implements \ArrayAccess.
-     */
-    #[\ReturnTypeWillChange]
-    public function offsetExists($offset): bool
-    {
-        return isset($this->data[$offset]);
-    }
-
-    /**
-     * Implements \ArrayAccess.
-     */
-    #[\ReturnTypeWillChange]
-    public function offsetUnset($offset): void
-    {
-        unset($this->data[$offset]);
-    }
-
-    /**
-     * Implements \ArrayAccess.
-     */
-    #[\ReturnTypeWillChange]
-    public function offsetGet($offset)
-    {
-        return isset($this->data[$offset]) ? $this->data[$offset] : null;
-    }
-
-    /**
-     * Hashing content of an asset with the specified algo, sha384 by default.
-     * Used for SRI (Subresource Integrity).
-     *
-     * @see https://developer.mozilla.org/fr/docs/Web/Security/Subresource_Integrity
-     */
-    public function getIntegrity(string $algo = 'sha384'): string
-    {
-        return \sprintf('%s-%s', $algo, base64_encode(hash($algo, $this->data['content'], true)));
-    }
-
-    /**
-     * Returns MP3 file infos.
-     *
-     * @see https://github.com/wapmorgan/Mp3Info
-     */
-    public function getAudio(): Mp3Info
-    {
-        if ($this->data['type'] !== 'audio') {
-            throw new RuntimeException(\sprintf('Unable to get audio infos of "%s".', $this->data['path']));
-        }
-
-        return new Mp3Info($this->data['file']);
-    }
-
-    /**
-     * Returns MP4 file infos:
-     * - duration (in seconds)
-     * - width (in pixels)
-     * - height (in pixels)
-     */
-    public function getVideo(): array
-    {
-        if ($this->data['type'] !== 'video') {
-            throw new RuntimeException(\sprintf('Unable to get video infos of "%s".', $this->data['path']));
-        }
-
-        $videoInfos = (new \getID3())->analyze($this->data['file']);
-
-        return [
-            'duration' => $videoInfos['playtime_seconds'] ?? 0,
-            'width'    => $videoInfos['video']['resolution_x'] ?? 0,
-            'height'   => $videoInfos['video']['resolution_y'] ?? 0,
-        ];
-    }
-
-    /**
-     * Returns the Data URL (encoded in Base64).
-     *
-     * @throws RuntimeException
-     */
-    public function dataurl(): string
-    {
-        if ($this->data['type'] == 'image' && !Image::isSVG($this)) {
-            return Image::getDataUrl($this, (int) $this->config->get('assets.images.quality'));
-        }
-
-        return \sprintf('data:%s;base64,%s', $this->data['subtype'], base64_encode($this->data['content']));
-    }
-
-    /**
-     * Adds asset path to the list of assets to save.
-     *
-     * @throws RuntimeException
-     */
-    public function save(): void
-    {
-        if ($this->data['missing']) {
-            return;
-        }
-
-        $cache = new Cache($this->builder, 'assets');
-        if (empty($this->data['path']) || !Util\File::getFS()->exists($cache->getContentFilePathname($this->data['path']))) {
-            throw new RuntimeException(
-                \sprintf('Unable to add "%s" to assets list. Please clear cache and retry.', $this->data['path'])
-            );
-        }
-
-        $this->builder->addAsset($this->data['path']);
-    }
-
-    /**
      * Is the asset an image and is it in CDN?
      */
     public function isImageInCdn(): bool
@@ -638,6 +610,96 @@ class Asset implements \ArrayAccess
         }
 
         return false;
+    }
+
+    /**
+     * Returns the width of an image/SVG or a video.
+     *
+     * @throws RuntimeException
+     */
+    public function getWidth(): ?int
+    {
+        switch ($this->data['type']) {
+            case 'image':
+                if (Image::isSVG($this) && false !== $svg = Image::getSvgAttributes($this)) {
+                    return (int) $svg->width;
+                }
+                if (false === $size = $this->getImageSize()) {
+                    throw new RuntimeException(\sprintf('Unable to get width of "%s".', $this->data['path']));
+                }
+
+                return $size[0];
+            case 'video':
+                return $this->getVideo()['width'];
+        }
+
+        return null;
+    }
+
+    /**
+     * Returns the height of an image/SVG or a video.
+     *
+     * @throws RuntimeException
+     */
+    public function getHeight(): ?int
+    {
+        switch ($this->data['type']) {
+            case 'image':
+                if (Image::isSVG($this) && false !== $svg = Image::getSvgAttributes($this)) {
+                    return (int) $svg->height;
+                }
+                if (false === $size = $this->getImageSize()) {
+                    throw new RuntimeException(\sprintf('Unable to get height of "%s".', $this->data['path']));
+                }
+
+                return $size[0];
+            case 'video':
+                return $this->getVideo()['height'];
+        }
+
+        return null;
+    }
+
+    /**
+     * Returns audio file infos:
+     * - duration (in seconds.microseconds)
+     * - bitrate (in bps)
+     * - channel ('stereo', 'dual_mono', 'joint_stereo' or 'mono')
+     *
+     * @see https://github.com/wapmorgan/Mp3Info
+     */
+    public function getAudio(): array
+    {
+        $audio = new Mp3Info($this->data['file']);
+
+        return [
+            'duration' => $audio->duration,
+            'bitrate'  => $audio->bitRate,
+            'channel'  => $audio->channel,
+        ];
+    }
+
+    /**
+     * Returns video file infos:
+     * - duration (in seconds)
+     * - width (in pixels)
+     * - height (in pixels)
+     *
+     * @see https://github.com/JamesHeinrich/getID3
+     */
+    public function getVideo(): array
+    {
+        if ($this->data['type'] !== 'video') {
+            throw new RuntimeException(\sprintf('Unable to get video infos of "%s".', $this->data['path']));
+        }
+
+        $video = (new \getID3())->analyze($this->data['file']);
+
+        return [
+            'duration' => $video['playtime_seconds'],
+            'width'    => $video['video']['resolution_x'],
+            'height'   => $video['video']['resolution_y'],
+        ];
     }
 
     /**
@@ -665,6 +727,22 @@ class Asset implements \ArrayAccess
     public static function sanitize(string $string): string
     {
         return str_replace(['<', '>', ':', '"', '\\', '|', '?', '*'], '_', $string);
+    }
+
+    /**
+     * Add hash to the file name.
+     */
+    protected function doFingerprint(): self
+    {
+        $hash = hash('md5', $this->data['content']);
+        $this->data['path'] = preg_replace(
+            '/\.' . $this->data['ext'] . '$/m',
+            ".$hash." . $this->data['ext'],
+            $this->data['path']
+        );
+        $this->builder->getLogger()->debug(\sprintf('Asset fingerprinted: "%s"', $this->data['path']));
+
+        return $this;
     }
 
     /**
@@ -787,22 +865,6 @@ class Asset implements \ArrayAccess
     }
 
     /**
-     * Add hash to the file name.
-     */
-    protected function doFingerprint(): self
-    {
-        $hash = hash('md5', $this->data['content']);
-        $this->data['path'] = preg_replace(
-            '/\.' . $this->data['ext'] . '$/m',
-            ".$hash." . $this->data['ext'],
-            $this->data['path']
-        );
-        $this->builder->getLogger()->debug(\sprintf('Asset fingerprinted: "%s"', $this->data['path']));
-
-        return $this;
-    }
-
-    /**
      * Returns local file path and updated path, or throw an exception.
      * If $fallback path is set, it will be used if the remote file is not found.
      *
@@ -909,19 +971,14 @@ class Asset implements \ArrayAccess
      * Optimizing $filepath image.
      * Returns the new file size.
      */
-    private function optimize(string $filepath, string $path, int $quality): int
+    private function optimizeImage(string $filepath, string $path, int $quality): int
     {
         $message = \sprintf('Asset not optimized: "%s"', $path);
         $sizeBefore = filesize($filepath);
         Optimizer::create($quality)->optimize($filepath);
         $sizeAfter = filesize($filepath);
         if ($sizeAfter < $sizeBefore) {
-            $message = \sprintf(
-                'Asset optimized: "%s" (%s Ko -> %s Ko)',
-                $path,
-                ceil($sizeBefore / 1000),
-                ceil($sizeAfter / 1000)
-            );
+            $message = \sprintf('Asset optimized: "%s" (%s Ko -> %s Ko)', $path, ceil($sizeBefore / 1000), ceil($sizeAfter / 1000));
         }
         $this->builder->getLogger()->debug($message);
 
@@ -929,53 +986,13 @@ class Asset implements \ArrayAccess
     }
 
     /**
-     * Returns the width of an image/SVG.
-     *
-     * @throws RuntimeException
-     */
-    private function getWidth(): int
-    {
-        if ($this->data['type'] != 'image') {
-            return 0;
-        }
-        if (Image::isSVG($this) && false !== $svg = Image::getSvgAttributes($this)) {
-            return (int) $svg->width;
-        }
-        if (false === $size = $this->getImageSize()) {
-            throw new RuntimeException(\sprintf('Unable to get width of "%s".', $this->data['path']));
-        }
-
-        return $size[0];
-    }
-
-    /**
-     * Returns the height of an image/SVG.
-     *
-     * @throws RuntimeException
-     */
-    private function getHeight(): int
-    {
-        if ($this->data['type'] != 'image') {
-            return 0;
-        }
-        if (Image::isSVG($this) && false !== $svg = Image::getSvgAttributes($this)) {
-            return (int) $svg->height;
-        }
-        if (false === $size = $this->getImageSize()) {
-            throw new RuntimeException(\sprintf('Unable to get height of "%s".', $this->data['path']));
-        }
-
-        return $size[1];
-    }
-
-    /**
      * Returns image size informations.
      *
      * @see https://www.php.net/manual/function.getimagesize.php
      *
-     * @return array|false
+     * @throws RuntimeException
      */
-    private function getImageSize()
+    private function getImageSize(): array|false
     {
         if (!$this->data['type'] == 'image') {
             return false;
