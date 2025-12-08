@@ -2,6 +2,14 @@
 
 All notable changes to this project will be documented in this file. Dates are displayed in UTC.
 
+#### [8.74.1](https://github.com/Cecilapp/Cecil/compare/8.74.0...8.74.1)
+
+> 2 December 2025
+
+- Refactor embedded content detection for links [`#2254`](https://github.com/Cecilapp/Cecil/pull/2254)
+- Apply fixes from StyleCI [`#2257`](https://github.com/Cecilapp/Cecil/pull/2257)
+- refactor: image attribute handling in htmlImage [`e960d79`](https://github.com/Cecilapp/Cecil/commit/e960d79220fe803ba2d521e8feb06e182f203a71)
+
 #### [8.74.0](https://github.com/Cecilapp/Cecil/compare/8.73.0...8.74.0)
 
 > 2 December 2025
