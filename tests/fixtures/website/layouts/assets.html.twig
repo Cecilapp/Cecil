@@ -279,7 +279,7 @@
 
   <h2 id="audio-file">Audio file</h2>
   <p>
-    <audio controls src="{{ url(asset('audio/test.mp3')) }}"></audio>
+    {{ html(asset('audio/test.mp3')) }}
     <pre>{% verbatim %}{{ (asset('audio/test.mp3').duration / 60)|round }} min {{ (asset('audio/test.mp3').duration % 60)|round }} s{% endverbatim %}</pre>
     <blockquote>
       {{ (asset('audio/test.mp3').duration / 60)|round }} min {{ (asset('audio/test.mp3').duration % 60)|round }} s
@@ -294,7 +294,7 @@
 
   <h2 id="video-file">Video file</h2>
   <p>
-    <video controls src="{{ url(asset('video/test.mp4')) }}" width="{{ asset('video/test.mp4').width / 2 }}" height="{{ asset('video/test.mp4').height / 2 }}"></video>
+    {{ html(asset('video/test.mp4'), attributes={controls: 'controls', width: asset('video/test.mp4').width / 2, height: asset('video/test.mp4').height / 2}) }}
     <pre>{% verbatim %}{{ (asset('video/test.mp4').duration)|round }} seconds{% endverbatim %}</pre>
     <blockquote>
       {{ (asset('video/test.mp4').duration)|round }} seconds
