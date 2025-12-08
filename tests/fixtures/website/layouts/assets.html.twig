@@ -279,9 +279,10 @@
 
   <h2 id="audio-file">Audio file</h2>
   <p>
-    <pre>{% verbatim %}{{ asset('audio/test.mp3').audio.duration }}{% endverbatim %}</pre>
+    <audio controls src="{{ url(asset('audio/test.mp3')) }}"></audio>
+    <pre>{% verbatim %}{{ (asset('audio/test.mp3').duration / 60)|round }} min {{ (asset('audio/test.mp3').duration % 60)|round }} s{% endverbatim %}</pre>
     <blockquote>
-      {{ (asset('audio/test.mp3').audio.duration / 60)|round }} min {{ (asset('audio/test.mp3').audio.duration % 60)|round }} s
+      {{ (asset('audio/test.mp3').duration / 60)|round }} min {{ (asset('audio/test.mp3').duration % 60)|round }} s
     </blockquote>
   </p>
   <p>
@@ -293,15 +294,16 @@
 
   <h2 id="video-file">Video file</h2>
   <p>
-    <pre>{% verbatim %}{{ asset('video/test.mp4').video.duration }}{% endverbatim %}</pre>
+    <video controls src="{{ url(asset('video/test.mp4')) }}" width="{{ asset('video/test.mp4').width / 2 }}" height="{{ asset('video/test.mp4').height / 2 }}"></video>
+    <pre>{% verbatim %}{{ (asset('video/test.mp4').duration)|round }} seconds{% endverbatim %}</pre>
     <blockquote>
-      {{ (asset('video/test.mp4').video.duration)|round }} seconds
+      {{ (asset('video/test.mp4').duration)|round }} seconds
     </blockquote>
   </p>
   <p>
     <pre>{% verbatim %}{{ asset('video/test.mp4').video }}{% endverbatim %}</pre>
     <blockquote>
-      {{ d(asset('video/test.mp4').video) }} seconds
+      {{ d(asset('video/test.mp4').video) }}
     </blockquote>
   </p>
 
