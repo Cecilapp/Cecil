@@ -600,16 +600,12 @@ _Examples:_
 ```twig
 {# image width in pixels #}
 {{ asset('image.png').width }}px
-
 {# photo's date in seconds #}
 {{ asset('photo.jpeg').exif.EXIF.DateTimeOriginal|date('U') }}
-
 {# audio duration in seconds #}
 {{ asset('song.mp3').duration|round }} s
-
 {# video duration in seconds #}
 {{ asset('movie.mp4').duration|round }} s
-
 {# file integrity hash #}
 {% set integrity = asset('styles.scss').integrity %}
 ```
@@ -637,9 +633,6 @@ Creates an HTML element from an asset (or an array of assets with custom attribu
 
 ```twig
 {{ html(asset, {attributes}, {options}) }}
-```
-
-```twig
 {# dedicated functions for each common type of asset #}
 {{ css(asset) }}
 {{ js(asset) }}
@@ -666,47 +659,23 @@ _Examples:_
 ```twig
 {# CSS with an attribute #}
 {{ html(asset('print.css'), {media: 'print'}) }}
-```
-
-```twig
 {# CSS with an attribute and an option #}
 {{ html(asset('styles.css'), {title: 'Main theme'}, {preload: true}) }}
-```
-
-```twig
 {# Array of assets with media query #}
 {{ html([
   {asset: asset('css/style.css')},
   {asset: asset('css/style-dark.css'), attributes: {media: '(prefers-color-scheme: dark)'}}
 ]) }}
-```
-
-```twig
 {# JavaScript #}
 {{ html(asset('script.js')) }}
-```
-
-```twig
 {# image without specific attributes nor options #}
 {{ html(asset('image.png')) }}
-```
-
-```twig
 {# image with specific attributes, responsive images and alternative formats #}
 {{ html(asset('image.jpg'), {alt: 'Description', loading: 'lazy'}, {responsive: true, formats: ['avif', 'webp']}) }}
-```
-
-```twig
 {# image with responsive pixels density images #}
 {{ html(asset('image.jpg'), options={responsive: 'density'}, attributes={width: 256}) }}
-```
-
-```twig
 {# Audio #}
 {{ html(asset('audio.mp3')) }}
-```
-
-```twig
 {# Video #}
 {{ html(asset('video.mp4')) }}
 ```
@@ -849,13 +818,13 @@ Sorts a collection by date (most recent first).
 _Example:_
 
 ```twig
-# sort by date
+{# sort by date #}
 {{ site.pages|sort_by_date }}
-# sort by updated variable instead of date
+{# sort by updated variable instead of date #}
 {{ site.pages|sort_by_date(variable='updated') }}
-# sort items with the same date by desc title
+{# sort items with the same date by desc title #}
 {{ site.pages|sort_by_date(desc_title=true) }}
-# reverse sort
+{# reverse sort #}
 {{ site.pages|sort_by_date|reverse }}
 ```
 
@@ -1475,7 +1444,7 @@ Uses the Twig [`format_date`](https://twig.symfony.com/doc/3.x/filters/format_da
 
 ```twig
 {{ page.date|format_date('long') }}
-# September 30, 2022
+{# September 30, 2022 #}
 ```
 
 Supported values are: `short`, `medium`, `long`, and `full`.
@@ -1551,7 +1520,7 @@ To use _fragments_ cache, you must wrap the content you want to cache with the `
 
 ```twig
 {% cache 'unique-key' %}
-    {# content #}
+{# content #}
 {% endcache %}
 ```
 
