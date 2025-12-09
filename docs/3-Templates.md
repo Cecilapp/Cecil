@@ -1,7 +1,7 @@
 <!--
 description: "Working with layouts, templates and components."
 date: 2021-05-07
-updated: 2025-12-08
+updated: 2025-12-09
 alias: documentation/layouts
 -->
 # Templates
@@ -500,7 +500,7 @@ For convenience the `url` function is also available as a filter:
 
 ### asset
 
-An asset is a resource useable in templates, like CSS, JavaScript, image, audio, etc.
+An asset is a resource useable in templates, like CSS, JavaScript, image, audio, video, etc.
 
 The `asset()` function creates an _asset_ object from a file path, an array of files path (bundle) or an URL (remote file), and are processed (minified, fingerprinted, etc.) according to the [configuration](4-Configuration.md#assets).
 
@@ -637,12 +637,15 @@ Creates an HTML element from an asset (or an array of assets with custom attribu
 
 ```twig
 {{ html(asset, {attributes}, {options}) }}
-{# dedicated functions for each type of asset #}
-{{ css(asset, {attributes}, {options}) }}
-{{ js(asset, {attributes}, {options}) }}
-{{ image(asset, {attributes}, {options}) }}
-{{ audio(asset, {attributes}, {options}) }}
-{{ video(asset, {attributes}, {options}) }}
+```
+
+```twig
+{# dedicated functions for each common type of asset #}
+{{ css(asset) }}
+{{ js(asset) }}
+{{ image(asset) }}
+{{ audio(asset) }}
+{{ video(asset) }}
 ```
 
 | Option     | Description                                     | Type  |
@@ -661,6 +664,29 @@ You can define a global default behavior of images options (`formats` and `respo
 _Examples:_
 
 ```twig
+{# CSS with an attribute #}
+{{ html(asset('print.css'), {media: 'print'}) }}
+```
+
+```twig
+{# CSS with an attribute and an option #}
+{{ html(asset('styles.css'), {title: 'Main theme'}, {preload: true}) }}
+```
+
+```twig
+{# Array of assets with media query #}
+{{ html([
+  {asset: asset('css/style.css')},
+  {asset: asset('css/style-dark.css'), attributes: {media: '(prefers-color-scheme: dark)'}}
+]) }}
+```
+
+```twig
+{# JavaScript #}
+{{ html(asset('script.js')) }}
+```
+
+```twig
 {# image without specific attributes nor options #}
 {{ html(asset('image.png')) }}
 ```
@@ -676,26 +702,13 @@ _Examples:_
 ```
 
 ```twig
-{# CSS with an attribute #}
-{{ html(asset('print.css'), {media: 'print'}) }}
+{# Audio #}
+{{ html(asset('audio.mp3')) }}
 ```
 
 ```twig
-{# CSS with an attribute and an option #}
-{{ html(asset('styles.css'), {title: 'Main theme'}, {preload: true}) }}
-```
-
-```twig
-{# JavaScript #}
-{{ html(asset('script.js')) }}
-```
-
-```twig
-{# Array of assets with media query #}
-{{ html([
-  {asset: asset('css/style.css')},
-  {asset: asset('css/style-dark.css'), attributes: {media: '(prefers-color-scheme: dark)'}}
-]) }}
+{# Video #}
+{{ html(asset('video.mp4')) }}
 ```
 
 :::info
