@@ -379,14 +379,14 @@ metatags:
   title:                   # title options
     divider: " &middot; "    # string between page title and site title
     only: false              # displays page title only (`false` by default)
-    pagination:
-      shownumber: true       # displays page number in title (`true` by default)
-      label: "Page %s"       # how to display page number (`Page %s` by default)
+    pagination:              # pagination options
+      shownumber: true         # displays page number in title (`true` by default)
+      label: "Page %s"         # how to display page number (`Page %s` by default)
   robots: "index,follow"   # web crawlers directives (`index,follow` by default)
-  favicon:
-    enabled: true          # includes favicon (`true` by default)
+  favicon:                 # favicon options
+    enabled: true            # includes favicon (`true` by default)
     image: favicon.png       # path to favicon image
-    sizes:
+    sizes:                   # sizes by device
       - "icon": [32, 57, 76, 96, 128, 192, 228]  # web browsers
       - "shortcut icon": [196]                   # Android
       - "apple-touch-icon": [120, 152, 180]      # iOS
