@@ -1,7 +1,7 @@
 <!--
 description: "Working with layouts, templates and components."
 date: 2021-05-07
-updated: 2025-12-09
+updated: 2025-12-10
 alias: documentation/layouts
 -->
 # Templates
@@ -1457,6 +1457,10 @@ If you want to use the `format_date` filter **with other locales than "en"**, yo
 
 Cecil provides a components logic to give you the power making reusable template "units".
 
+:::info
+The components feature is provided by the [_Twig components extension_](https://github.com/giorgiopogliani/twig-components) created by Giorgio Pogliani.
+:::
+
 ### Components syntax
 
 Components are just Twig templates stored in the `components/` subdirectory and can be used anywhere in your templates:
@@ -1486,10 +1490,6 @@ It will render:
     <strong>Click me</strong>
 </button>
 ```
-
-:::info
-The components feature is provided by the [_Twig components extension_](https://github.com/giorgiopogliani/twig-components) created by Giorgio Pogliani, inspired by the [Laravel Blade components](https://laravel.com/docs/blade#components).
-:::
 
 ## Cache
 
