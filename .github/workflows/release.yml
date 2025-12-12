@@ -38,7 +38,7 @@ jobs:
           coverage: none
       - name: Restore/Cache Composer packages
         id: composer-cache
-        uses: actions/cache@v4
+        uses: actions/cache@v5
         with:
           path: |
             vendor
