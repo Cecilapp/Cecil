@@ -1,7 +1,7 @@
 <!--
 description: "Working with layouts, templates and components."
 date: 2021-05-07
-updated: 2025-12-10
+updated: 2025-12-13
 alias: documentation/layouts
 -->
 # Templates
@@ -182,8 +182,8 @@ All rules are detailed below, for each page type, in the priority order.
 1. `<section>/<layout>.<format>.twig`
 2. `<layout>.<format>.twig`
 3. `<section>/page.<format>.twig`
-4. `page.<format>.twig`
-5. `_default/<layout>.<format>.twig`
+4. `_default/<layout>.<format>.twig`
+5. `page.<format>.twig`
 6. `_default/page.<format>.twig`
 
 ### Type _section_
@@ -193,7 +193,8 @@ All rules are detailed below, for each page type, in the priority order.
 3. `<section>/list.<format>.twig`
 4. `section/<section>.<format>.twig`
 5. `_default/section.<format>.twig`
-6. `_default/list.<format>.twig`
+6. `list.<format>.twig`
+7. `_default/list.<format>.twig`
 
 ### Type _vocabulary_
 
