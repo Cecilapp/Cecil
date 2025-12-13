@@ -2,6 +2,14 @@
 
 All notable changes to this project will be documented in this file. Dates are displayed in UTC.
 
+#### [8.75.0](https://github.com/Cecilapp/Cecil/compare/8.74.1...8.75.0)
+
+> 9 December 2025
+
+- refactor: Asset() [`#2258`](https://github.com/Cecilapp/Cecil/pull/2258)
+- chore(deps-dev): bump friendsofphp/php-cs-fixer from 3.91.2 to 3.91.3 [`#2259`](https://github.com/Cecilapp/Cecil/pull/2259)
+- chore: update deps [`8cbe646`](https://github.com/Cecilapp/Cecil/commit/8cbe646fdf807cb9f390bd83501e4e110e67a025)
+
 #### [8.74.1](https://github.com/Cecilapp/Cecil/compare/8.74.0...8.74.1)
 
 > 2 December 2025
