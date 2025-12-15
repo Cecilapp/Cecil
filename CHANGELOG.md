@@ -2,6 +2,12 @@
 
 All notable changes to this project will be documented in this file. Dates are displayed in UTC.
 
+#### [8.75.1](https://github.com/Cecilapp/Cecil/compare/8.75.0...8.75.1)
+
+> 13 December 2025
+
+- fix: template resolution order for section pages [`4b6869c`](https://github.com/Cecilapp/Cecil/commit/4b6869c012d36df1f27295fa15c4f413bc056ea1)
+
 #### [8.75.0](https://github.com/Cecilapp/Cecil/compare/8.74.1...8.75.0)
 
 > 9 December 2025
