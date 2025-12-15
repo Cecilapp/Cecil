@@ -682,10 +682,11 @@ class Parsedown extends \ParsedownToc
                 'name'       => 'iframe',
                 'text'       => $link['element']['text'],
                 'attributes' => [
+                    'src'             => $url,
+                    'loading'         => 'lazy',
                     'width'           => '640',
                     'height'          => '360',
                     'title'           => $link['element']['text'],
-                    'src'             => $url,
                     'frameborder'     => '0',
                     'allow'           => 'accelerometer;autoplay;encrypted-media;gyroscope;picture-in-picture;fullscreen;web-share;',
                     'allowfullscreen' => '',
@@ -704,8 +705,8 @@ class Parsedown extends \ParsedownToc
                     $iframe['element'],
                 ],
                 'attributes' => [
-                    'style' => 'position:relative;padding-bottom:56.25%;height:0;overflow:hidden;',
                     'title' => $link['element']['attributes']['title'],
+                    'style' => 'position:relative;padding-bottom:56.25%;height:0;overflow:hidden;',
                 ],
             ],
         ];
