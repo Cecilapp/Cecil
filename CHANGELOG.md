@@ -2,6 +2,14 @@
 
 All notable changes to this project will be documented in this file. Dates are displayed in UTC.
 
+#### [8.75.2](https://github.com/Cecilapp/Cecil/compare/8.75.1...8.75.2)
+
+> 15 December 2025
+
+- chore(deps): bump twig/twig from 3.22.1 to 3.22.2 [`#2262`](https://github.com/Cecilapp/Cecil/pull/2262)
+- chore: update deps [`0b11581`](https://github.com/Cecilapp/Cecil/commit/0b115818bf91b0dc44519ae403e23c3e00b5fb71)
+- fix: add lazy loading to embedded iframes [`91d765a`](https://github.com/Cecilapp/Cecil/commit/91d765a813152af547e7ee0969d9773920b142e2)
+
 #### [8.75.1](https://github.com/Cecilapp/Cecil/compare/8.75.0...8.75.1)
 
 > 13 December 2025
