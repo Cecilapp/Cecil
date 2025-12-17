@@ -192,7 +192,7 @@ class File
             if (str_starts_with($path, 'https://') && !\extension_loaded('openssl')) {
                 throw new RuntimeException('The OpenSSL PHP extension is required to get HTTPS remote files.');
             }
-            $handle = fopen($path, 'r');
+            $handle = @fopen($path, 'r');
             if (!empty(get_headers($path))) {
                 if (400 < (int) explode(' ', get_headers($path)[0])[1]) {
                     return false;
