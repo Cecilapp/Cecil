@@ -2,6 +2,14 @@
 
 All notable changes to this project will be documented in this file. Dates are displayed in UTC.
 
+#### [8.75.3](https://github.com/Cecilapp/Cecil/compare/8.75.2...8.75.3)
+
+> 17 December 2025
+
+- chore(deps-dev): bump friendsofphp/php-cs-fixer from 3.92.0 to 3.92.1 [`#2266`](https://github.com/Cecilapp/Cecil/pull/2266)
+- feat: local server new support PDF files [`fb9f34a`](https://github.com/Cecilapp/Cecil/commit/fb9f34af290a5e4d7e50e0594feef4c306f6a48b)
+- Fix image height attribute handling in html() [`0ff0c0c`](https://github.com/Cecilapp/Cecil/commit/0ff0c0cec77dffd42d30e68066b169ac2362a376)
+
 #### [8.75.2](https://github.com/Cecilapp/Cecil/compare/8.75.1...8.75.2)
 
 > 15 December 2025
