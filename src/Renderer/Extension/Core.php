@@ -694,10 +694,9 @@ class Core extends SlugifyExtension
         if (!isset($attributes['width'])) {
             $attributes['width'] = $asset['width'] ?: '';
         }
-        $with = $attributes['width'];
-        unset($attributes['width']);
-        $attributes['width'] = $with;
-        $attributes['height'] = $asset['height'] ?: '';
+        if (!isset($attributes['height'])) {
+            $attributes['height'] = $asset['height'] ?: '';
+        }
         $img = \sprintf('<img src="%s"%s>', $this->url($context, $asset, $options), self::htmlAttributes($attributes));
 
         // put `<source>` elements in `<picture>` if exists
