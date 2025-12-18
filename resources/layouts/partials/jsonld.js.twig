@@ -14,9 +14,10 @@
             "{{ url(asset(site.image), {canonical: true}) }}"
           ]
           {%- endif ~%}
-          {%- if page.social|default(site.social|default) ~%},
+          {%- set socials = page.social|default(site.social|default([]))|filter((v) => v['url'] is defined) -%}
+          {%- if socials|length > 0 ~%},
           "sameAs": [
-            {%- for social in page.social|default(site.social)|filter((v) => v['url'] is defined) ~%}
+            {%- for social in socials ~%}
             "{{ social.url }}"{% if not loop.last %},{% endif %}
             {%- endfor ~%}
           ]
@@ -24,7 +25,8 @@
         }
         {%- endcache ~%}
 {#- SiteNavigationElement ~#}
-        {%- if site.menus.main is defined -%}
+        {%- set items = site.menus.main|default([])|filter(i => i.id != site.home)|sort_by_weight -%}
+        {%- if items|length > 0 -%}
         {%- cache 'jsonld_navigation_' ~ hash(site.menus.main) ~ '__' ~ cecil.version -%}
         ,{
           "@context": "http://schema.org",
