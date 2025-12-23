@@ -1,7 +1,7 @@
 <!--
 description: "Create a new website and preview it locally."
 date: 2020-12-19
-updated: 2025-11-27
+updated: 2025-12-23
 menu: home
 -->
 # Quick Start
@@ -52,10 +52,10 @@ php cecil.phar new:site
 Run the `new:page` command:
 
 ```bash
-php cecil.phar new:page --name=my-first-page.md
+php cecil.phar new:page
 ```
 
-Now you can edit the newly created page with your Markdown editor: `<mywebsite>/pages/my-first-page.md`.
+Now you can edit the newly created page with your Markdown editor: `<mywebsite>/pages/<new-page>.md`.
 
 :::tip
 We recommend you to use [Typora](https://www.typora.io) to edit your Markdown files.

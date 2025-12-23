@@ -2,7 +2,7 @@
 title: Démarrage rapide
 description: "Créez un nouveau site web et prévisualiser le localement."
 date: 2021-11-03
-updated: 2025-11-27
+updated: 2025-12-23
 slug: demarrage-rapide
 menu: home
 -->
@@ -58,10 +58,10 @@ php cecil.phar new:site
 Exécutez la commande `new:page` :
 
 ```bash
-php cecil.phar new:page --name=ma-premiere-page.md
+php cecil.phar new:page
 ```
 
-Vous pouvez maintenant modifier la page nouvellement créée avec votre éditeur Markdown : `<monsiteweb>/pages/ma-premiere-page.md`.
+Vous pouvez maintenant modifier la page nouvellement créée avec votre éditeur Markdown : `<monsiteweb>/pages/<nouvelle-page>.md`.
 
 :::tip
 Nous vous recommandons d’utiliser [Typora](https://www.typora.io) pour éditer vos fichiers Markdown.
