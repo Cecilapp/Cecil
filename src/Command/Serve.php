@@ -233,7 +233,9 @@ EOF
                     $notifier = new DefaultNotifier();
                     $this->notification->setBody('Starting server 🚀');
                     $this->notification->addOption('url', \sprintf('http://%s:%s', $host, $port));
-                    $notifier->send($this->notification);
+                    if (false === $notifier->send($this->notification)) {
+                        $output->writeln('<comment>Desktop notification could not be sent.</comment>');
+                    }
                 }
                 if ($open) {
                     $output->writeln('Opening web browser...');
