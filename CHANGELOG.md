@@ -2,6 +2,15 @@
 
 All notable changes to this project will be documented in this file. Dates are displayed in UTC.
 
+#### [8.75.4](https://github.com/Cecilapp/Cecil/compare/8.75.3...8.75.4)
+
+> 18 December 2025
+
+- chore(deps-dev): bump friendsofphp/php-cs-fixer from 3.92.1 to 3.92.2 [`#2267`](https://github.com/Cecilapp/Cecil/pull/2267)
+- refactor: Improve remote file existence check [`c9cae77`](https://github.com/Cecilapp/Cecil/commit/c9cae772469b8fc5241556f3270a55ff62ac497f)
+- fix JSON-LD [`e9a8bca`](https://github.com/Cecilapp/Cecil/commit/e9a8bca5cc20df05a4a52d05cacf2247c4b72a2f)
+- chore: rollback "@"... [`a65903c`](https://github.com/Cecilapp/Cecil/commit/a65903cb656b7abae3ce776ec1fa807e6d76e3ac)
+
 #### [8.75.3](https://github.com/Cecilapp/Cecil/compare/8.75.2...8.75.3)
 
 > 17 December 2025
