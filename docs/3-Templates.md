@@ -1,7 +1,7 @@
 <!--
 description: "Working with layouts, templates and components."
 date: 2021-05-07
-updated: 2025-12-02
+updated: 2025-12-13
 alias: documentation/layouts
 -->
 # Templates
@@ -182,8 +182,8 @@ All rules are detailed below, for each page type, in the priority order.
 1. `<section>/<layout>.<format>.twig`
 2. `<layout>.<format>.twig`
 3. `<section>/page.<format>.twig`
-4. `page.<format>.twig`
-5. `_default/<layout>.<format>.twig`
+4. `_default/<layout>.<format>.twig`
+5. `page.<format>.twig`
 6. `_default/page.<format>.twig`
 
 ### Type _section_
@@ -193,7 +193,8 @@ All rules are detailed below, for each page type, in the priority order.
 3. `<section>/list.<format>.twig`
 4. `section/<section>.<format>.twig`
 5. `_default/section.<format>.twig`
-6. `_default/list.<format>.twig`
+6. `list.<format>.twig`
+7. `_default/list.<format>.twig`
 
 ### Type _vocabulary_
 
@@ -500,7 +501,7 @@ For convenience the `url` function is also available as a filter:
 
 ### asset
 
-An asset is a resource useable in templates, like CSS, JavaScript, image, audio, etc.
+An asset is a resource useable in templates, like CSS, JavaScript, image, audio, video, etc.
 
 The `asset()` function creates an _asset_ object from a file path, an array of files path (bundle) or an URL (remote file), and are processed (minified, fingerprinted, etc.) according to the [configuration](4-Configuration.md#assets).
 
@@ -540,6 +541,10 @@ _Examples:_
 {{ asset('scripts.js') }}
 {# image #}
 {{ asset('image.jpeg') }}
+{# audio #}
+{{ asset('audio.mp3') }}
+{# video #}
+{{ asset('video.mp4') }}
 {# remote file #}
 {{ asset('https://cdnjs.cloudflare.com/ajax/libs/anchor-js/4.3.1/anchor.min.js', {minify: false}) }}
 {# with filter #}
@@ -554,19 +559,24 @@ Assets created with the `asset()` function expose some useful attributes.
 Common:
 
 - `file`: filesystem path
-- `path`: public path
 - `missing`: `true` if file is not found but missing is allowed
+- `path`: public path
 - `ext`: file extension
 - `type`: media type (e.g.: `image`)
 - `subtype`: media sub type (e.g.: `image/jpeg`)
 - `size`: size in octets
 - `content`: file content
+- `hash`: file content hash (md5)
+- `dataurl`: data URL encoded in Base64
 - `integrity`: integrity hash
+
+Remote:
+
+- `url`: URL of the remote file
 
 Bundle:
 
 - `files`: array of filesystem path in case of a bundle
-- `filename`: custom file name
 
 Image:
 
@@ -574,26 +584,29 @@ Image:
 - `height`: image height in pixels
 - `exif`: image EXIF data as array
 
-Media:
+Audio:
 
-- `audio`: [Mp3Info](https://github.com/wapmorgan/Mp3Info#audio-information) object
-- `video`: array of basic video information (duration in seconds, width and height)
+- `duration`: duration in seconds.microseconds
+- `bitrate`: bitrate in bps
+- `channel`: 'stereo', 'dual_mono', 'joint_stereo' or 'mono'
+
+Video:
+
+- `duration`: duration in seconds
+- `width`: width in pixels
+- `height`: height in pixels
 
 _Examples:_
 
 ```twig
 {# image width in pixels #}
 {{ asset('image.png').width }}px
-
 {# photo's date in seconds #}
 {{ asset('photo.jpeg').exif.EXIF.DateTimeOriginal|date('U') }}
-
-{# MP3 song duration in minutes #}
-{{ asset('song.mp3').audio.duration|round }} min
-
+{# audio duration in seconds #}
+{{ asset('song.mp3').duration|round }} s
 {# video duration in seconds #}
-{{ asset('movie.mp4').video.duration|round }} s
-
+{{ asset('movie.mp4').duration|round }} s
 {# file integrity hash #}
 {% set integrity = asset('styles.scss').integrity %}
 ```
@@ -621,11 +634,12 @@ Creates an HTML element from an asset (or an array of assets with custom attribu
 
 ```twig
 {{ html(asset, {attributes}, {options}) }}
-{# dedicated functions for each type of asset #}
-{{ css(asset, {attributes}, {options}) }}
-{{ js(asset, {attributes}, {options}) }}
-{{ image(asset, {attributes}, {options}) }}
-{{ video(asset, {attributes}, {options}) }}
+{# dedicated functions for each common type of asset #}
+{{ css(asset) }}
+{{ js(asset) }}
+{{ image(asset) }}
+{{ audio(asset) }}
+{{ video(asset) }}
 ```
 
 | Option     | Description                                     | Type  |
@@ -644,41 +658,27 @@ You can define a global default behavior of images options (`formats` and `respo
 _Examples:_
 
 ```twig
-{# image without specific attributes nor options #}
-{{ html(asset('image.png')) }}
-```
-
-```twig
-{# image with specific attributes, responsive images and alternative formats #}
-{{ html(asset('image.jpg'), {alt: 'Description', loading: 'lazy'}, {responsive: true, formats: ['avif', 'webp']}) }}
-```
-
-```twig
-{# image with responsive pixels density images #}
-{{ html(asset('image.jpg'), options={responsive: 'density'}, attributes={width: 256}) }}
-```
-
-```twig
 {# CSS with an attribute #}
 {{ html(asset('print.css'), {media: 'print'}) }}
-```
-
-```twig
 {# CSS with an attribute and an option #}
 {{ html(asset('styles.css'), {title: 'Main theme'}, {preload: true}) }}
-```
-
-```twig
-{# JavaScript #}
-{{ html(asset('script.js')) }}
-```
-
-```twig
 {# Array of assets with media query #}
 {{ html([
   {asset: asset('css/style.css')},
   {asset: asset('css/style-dark.css'), attributes: {media: '(prefers-color-scheme: dark)'}}
 ]) }}
+{# JavaScript #}
+{{ html(asset('script.js')) }}
+{# image without specific attributes nor options #}
+{{ html(asset('image.png')) }}
+{# image with specific attributes, responsive images and alternative formats #}
+{{ html(asset('image.jpg'), {alt: 'Description', loading: 'lazy'}, {responsive: true, formats: ['avif', 'webp']}) }}
+{# image with responsive pixels density images #}
+{{ html(asset('image.jpg'), options={responsive: 'density'}, attributes={width: 256}) }}
+{# Audio #}
+{{ html(asset('audio.mp3')) }}
+{# Video #}
+{{ html(asset('video.mp4')) }}
 ```
 
 :::info
@@ -819,13 +819,13 @@ Sorts a collection by date (most recent first).
 _Example:_
 
 ```twig
-# sort by date
+{# sort by date #}
 {{ site.pages|sort_by_date }}
-# sort by updated variable instead of date
+{# sort by updated variable instead of date #}
 {{ site.pages|sort_by_date(variable='updated') }}
-# sort items with the same date by desc title
+{# sort items with the same date by desc title #}
 {{ site.pages|sort_by_date(desc_title=true) }}
-# reverse sort
+{# reverse sort #}
 {{ site.pages|sort_by_date|reverse }}
 ```
 
@@ -1445,7 +1445,7 @@ Uses the Twig [`format_date`](https://twig.symfony.com/doc/3.x/filters/format_da
 
 ```twig
 {{ page.date|format_date('long') }}
-# September 30, 2022
+{# September 30, 2022 #}
 ```
 
 Supported values are: `short`, `medium`, `long`, and `full`.
@@ -1457,6 +1457,10 @@ If you want to use the `format_date` filter **with other locales than "en"**, yo
 ## Components
 
 Cecil provides a components logic to give you the power making reusable template "units".
+
+:::info
+The components feature is provided by the [_Twig components extension_](https://github.com/giorgiopogliani/twig-components) created by Giorgio Pogliani.
+:::
 
 ### Components syntax
 
@@ -1488,10 +1492,6 @@ It will render:
 </button>
 ```
 
-:::info
-The components feature is provided by the [_Twig components extension_](https://github.com/giorgiopogliani/twig-components) created by Giorgio Pogliani, inspired by the [Laravel Blade components](https://laravel.com/docs/blade#components).
-:::
-
 ## Cache
 
 Cecil uses a cache system to speed up the generation process, it can be disabled or cleared.
@@ -1521,7 +1521,7 @@ To use _fragments_ cache, you must wrap the content you want to cache with the `
 
 ```twig
 {% cache 'unique-key' %}
-    {# content #}
+{# content #}
 {% endcache %}
 ```
 

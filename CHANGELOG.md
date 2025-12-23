@@ -2,6 +2,53 @@
 
 All notable changes to this project will be documented in this file. Dates are displayed in UTC.
 
+#### [8.75.4](https://github.com/Cecilapp/Cecil/compare/8.75.3...8.75.4)
+
+> 18 December 2025
+
+- chore(deps-dev): bump friendsofphp/php-cs-fixer from 3.92.1 to 3.92.2 [`#2267`](https://github.com/Cecilapp/Cecil/pull/2267)
+- refactor: Improve remote file existence check [`c9cae77`](https://github.com/Cecilapp/Cecil/commit/c9cae772469b8fc5241556f3270a55ff62ac497f)
+- fix JSON-LD [`e9a8bca`](https://github.com/Cecilapp/Cecil/commit/e9a8bca5cc20df05a4a52d05cacf2247c4b72a2f)
+- chore: rollback "@"... [`a65903c`](https://github.com/Cecilapp/Cecil/commit/a65903cb656b7abae3ce776ec1fa807e6d76e3ac)
+
+#### [8.75.3](https://github.com/Cecilapp/Cecil/compare/8.75.2...8.75.3)
+
+> 17 December 2025
+
+- chore(deps-dev): bump friendsofphp/php-cs-fixer from 3.92.0 to 3.92.1 [`#2266`](https://github.com/Cecilapp/Cecil/pull/2266)
+- feat: local server new support PDF files [`fb9f34a`](https://github.com/Cecilapp/Cecil/commit/fb9f34af290a5e4d7e50e0594feef4c306f6a48b)
+- Fix image height attribute handling in html() [`0ff0c0c`](https://github.com/Cecilapp/Cecil/commit/0ff0c0cec77dffd42d30e68066b169ac2362a376)
+
+#### [8.75.2](https://github.com/Cecilapp/Cecil/compare/8.75.1...8.75.2)
+
+> 15 December 2025
+
+- chore(deps): bump twig/twig from 3.22.1 to 3.22.2 [`#2262`](https://github.com/Cecilapp/Cecil/pull/2262)
+- chore: update deps [`0b11581`](https://github.com/Cecilapp/Cecil/commit/0b115818bf91b0dc44519ae403e23c3e00b5fb71)
+- fix: add lazy loading to embedded iframes [`91d765a`](https://github.com/Cecilapp/Cecil/commit/91d765a813152af547e7ee0969d9773920b142e2)
+
+#### [8.75.1](https://github.com/Cecilapp/Cecil/compare/8.75.0...8.75.1)
+
+> 13 December 2025
+
+- fix: template resolution order for section pages [`4b6869c`](https://github.com/Cecilapp/Cecil/commit/4b6869c012d36df1f27295fa15c4f413bc056ea1)
+
+#### [8.75.0](https://github.com/Cecilapp/Cecil/compare/8.74.1...8.75.0)
+
+> 9 December 2025
+
+- refactor: Asset() [`#2258`](https://github.com/Cecilapp/Cecil/pull/2258)
+- chore(deps-dev): bump friendsofphp/php-cs-fixer from 3.91.2 to 3.91.3 [`#2259`](https://github.com/Cecilapp/Cecil/pull/2259)
+- chore: update deps [`8cbe646`](https://github.com/Cecilapp/Cecil/commit/8cbe646fdf807cb9f390bd83501e4e110e67a025)
+
+#### [8.74.1](https://github.com/Cecilapp/Cecil/compare/8.74.0...8.74.1)
+
+> 2 December 2025
+
+- Refactor embedded content detection for links [`#2254`](https://github.com/Cecilapp/Cecil/pull/2254)
+- Apply fixes from StyleCI [`#2257`](https://github.com/Cecilapp/Cecil/pull/2257)
+- refactor: image attribute handling in htmlImage [`e960d79`](https://github.com/Cecilapp/Cecil/commit/e960d79220fe803ba2d521e8feb06e182f203a71)
+
 #### [8.74.0](https://github.com/Cecilapp/Cecil/compare/8.73.0...8.74.0)
 
 > 2 December 2025

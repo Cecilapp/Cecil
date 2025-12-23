@@ -1,14 +1,12 @@
 <!--
 description: "Deploy (publish) your website."
 date: 2020-12-19
-updated: 2025-10-12
+updated: 2025-12-23
 alias: documentation/publish
 -->
 # Deploy
 
-:::info
-By default your static site is built in the `_site` directory, and can be deployed as is.
-:::
+By default your static site is built in the **`_site`** directory, and **can be deployed as is**.
 
 Below are some recipes to automate build and/or deployment of a static site.
 

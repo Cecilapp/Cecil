@@ -120,6 +120,7 @@ class Layout
                     // "$section/list.$format.$ext",
                     // "section/$section.$format.$ext",
                     "_default/section.$format.$ext",
+                    "list.$format.$ext",
                     "_default/list.$format.$ext",
                 ];
                 if ($page->getPath()) {

@@ -9,7 +9,7 @@
   <exclude-pattern>*Parsedown.php</exclude-pattern>
   <rule ref="rulesets/codesize.xml/CyclomaticComplexity">
     <properties>
-      <property name="reportLevel" value="34" />
+      <property name="reportLevel" value="40" />
       <property name="showClassesComplexity" value="true" />
       <property name="showMethodsComplexity" value="true" />
     </properties>

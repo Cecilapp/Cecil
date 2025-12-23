@@ -138,6 +138,11 @@ foreach ($pathInfo['headers'] as $header) {
 if ($pathInfo['media_maintype'] == 'video') {
     return logger(false);
 }
+// if PDF: download file
+if ($pathInfo['media_subtype'] == 'pdf') {
+    readfile($filename);
+    return logger(false);
+}
 // custom headers based on path
 $headersFile = __DIR__ . '/headers.ini';
 if (file_exists($headersFile)) {
@@ -242,7 +247,18 @@ function getPathInfo(string $path): array
         case 'mp4':
             $info['headers'] = [
                 'Content-Type: video/mp4',
-                'Accept-Ranges: bytes'
+                'Accept-Ranges: bytes',
+            ];
+            break;
+        case 'pdf':
+            $info = [
+                'media_maintype' => 'application',
+                'media_subtype'  => 'pdf',
+                'headers'        => [
+                    'Content-Type: application/pdf',
+                    'Content-Length: ' . filesize($filename),
+                    'Content-Disposition: attachment; filename="' . $filename . '"',
+                ],
             ];
             break;
     }

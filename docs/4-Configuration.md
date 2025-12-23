@@ -1,7 +1,7 @@
 <!--
 description: "Configure your website."
 date: 2021-05-07
-updated: 2025-11-13
+updated: 2025-12-09
 -->
 # Configuration
 
@@ -320,18 +320,17 @@ This template adds the following meta tags:
 - Page/Site description
 - Page/Site keywords
 - Page/Site author
-- Search engine crawler directives
+- Search engine crawler directives (_robots_)
 - Favicon links
-- Previous and next page links
-- Pagination links (first, previous, next, last)
+- Navigation links (first, previous, next, last)
 - Canonical URL
-- Links to alternate versions (i.e.: RSS feed, others languages)
-- `rel=me` links
-- Open Graph
+- Alternate links (i.e.: RSS feed, others languages)
+- [`rel=me`](https://developer.mozilla.org/docs/Web/HTML/Reference/Attributes/rel/me) links
+- [Open Graph](https://ogp.me)
 - Facebook profile ID
-- Twitter/X Card
-- Mastodon meta
-- Structured data (JSON-LD)
+- [Twitter/X Card](https://developer.x.com/docs/x-for-websites/cards/guides/getting-started)
+- [Fediverse tag](https://blog.joinmastodon.org/2024/07/highlighting-journalism-on-mastodon/)
+- [Structured data](https://developers.google.com/search/docs/appearance/structured-data/intro-structured-data) (JSON-LD)
 
 #### metatags options
 
@@ -377,27 +376,27 @@ If needed, `title` and `image` can be overridden:
 
 ```yaml
 metatags:
-  title:                 # title options
-    divider: " &middot; "  # string between page title and site title
-    only: false            # displays page title only (`false` by default)
-    pagination:
-      shownumber: true     # displays page number in title (`true` by default)
-      label: "Page %s"     # how to display page number (`Page %s` by default)
-  robots: "index,follow" # web crawlers directives (`index,follow` by default)
-  favicon:
-    enabled: true        # includes favicon (`true` by default)
-    image: favicon.png     # path to favicon image
-    sizes:
-      - "icon": [32, 57, 76, 96, 128, 192, 228] # web browsers
-      - "shortcut icon": [196]                  # Android
-      - "apple-touch-icon": [120, 152, 180]     # iOS
-  navigation: true       # includes previous and next links (`true` by default)
-  image: true            # includes image (`true` by default)
-  og: true               # includes Open Graph meta tags (`true` by default)
-  articles: "blog"       # articles' section (`blog` by default)
-  twitter: true          # includes Twitter/X Card meta tags (`true` by default)
-  mastodon: true         # includes Mastodon meta tags (`true` by default)
-  data: false            # includes JSON-LD structured data (`false` by default)
+  title:                   # title options
+    divider: " &middot; "    # string between page title and site title
+    only: false              # displays page title only (`false` by default)
+    pagination:              # pagination options
+      shownumber: true         # displays page number in title (`true` by default)
+      label: "Page %s"         # how to display page number (`Page %s` by default)
+  robots: "index,follow"   # web crawlers directives (`index,follow` by default)
+  favicon:                 # favicon options
+    enabled: true            # includes favicon (`true` by default)
+    image: favicon.png       # path to favicon image
+    sizes:                   # sizes by device
+      - "icon": [32, 57, 76, 96, 128, 192, 228]  # web browsers
+      - "shortcut icon": [196]                   # Android
+      - "apple-touch-icon": [120, 152, 180]      # iOS
+  navigation: true         # includes previous and next links (`true` by default)
+  image: true              # includes image (`true` by default)
+  og: true                 # includes Open Graph meta tags (`true` by default)
+  articles: "blog"         # articles' section (`blog` by default)
+  twitter: true            # includes Twitter/X Card meta tags (`true` by default)
+  mastodon: true           # includes Mastodon meta tags (`true` by default)
+  data: false              # includes JSON-LD structured data (`false` by default)
 ```
 
 ### debug

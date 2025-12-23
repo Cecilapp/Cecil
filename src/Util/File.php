@@ -189,9 +189,12 @@ class File
     public static function isRemoteExists(string $path): bool
     {
         if (self::isRemote($path)) {
+            if (str_starts_with($path, 'https://') && !\extension_loaded('openssl')) {
+                throw new RuntimeException('The OpenSSL PHP extension is required to get HTTPS remote files.');
+            }
             $handle = @fopen($path, 'r');
-            if (!empty($http_response_header)) {
-                if (400 < (int) explode(' ', $http_response_header[0])[1]) {
+            if (!empty(get_headers($path))) {
+                if (400 < (int) explode(' ', get_headers($path)[0])[1]) {
                     return false;
                 }
             }
