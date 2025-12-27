@@ -15,6 +15,7 @@ namespace Cecil\Command;
 
 use Cecil\Exception\RuntimeException;
 use Cecil\Util;
+use Joli\JoliNotif\DefaultNotifier;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
@@ -62,6 +63,7 @@ class Serve extends AbstractCommand
                 new InputOption('no-ignore-vcs', null, InputOption::VALUE_NONE, 'Changes watcher must not ignore VCS directories'),
                 new InputOption('metrics', 'm', InputOption::VALUE_NONE, 'Show build metrics (duration and memory) of each step'),
                 new InputOption('timeout', null, InputOption::VALUE_REQUIRED, 'Sets the process timeout (max. runtime) in seconds', 7200), // default is 2 hours
+                new InputOption('notif', null, InputOption::VALUE_NONE, 'Send desktop notification on server start'),
             ])
             ->setHelp(
                 <<<'EOF'
@@ -89,6 +91,10 @@ To start the server with changes watcher <comment>not ignoring VCS</comment> dir
 To define the process <comment>timeout</comment> (in seconds), run:
 
   <info>%command.full_name% --timeout=7200</>
+
+Send a desktop <comment>notification</comment> on server start, run:
+
+  <info>%command.full_name% --notif</>
 EOF
             );
     }
@@ -98,7 +104,7 @@ EOF
      *
      * @throws RuntimeException
      */
-    protected function execute(InputInterface $input, OutputInterface $output)
+    protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $open = $input->getOption('open');
         $host = $input->getOption('host');
@@ -216,12 +222,21 @@ EOF
                     pcntl_signal(SIGTERM, [$this, 'tearDownServer']);
                 }
                 $output->writeln(\sprintf('<comment>Server process: %s</comment>', $command), OutputInterface::VERBOSITY_DEBUG);
-                $output->writeln(\sprintf('Starting server (<href=http://%s:%d>http://%s:%d</>)%s...', $host, $port, $host, $port, $messageSuffix));
+                $output->writeln(\sprintf('Starting server%s (<href=http://%s:%d>http://%s:%d</>) 🚀', $messageSuffix, $host, $port, $host, $port));
                 $process->start(function ($type, $buffer) {
                     if ($type === Process::ERR) {
                         error_log($buffer, 3, Util::joinFile($this->getPath(), self::TMP_DIR, 'errors.log'));
                     }
                 });
+                // notification
+                if ($input->getOption('notif')) {
+                    $notifier = new DefaultNotifier();
+                    $this->notification->setBody('Starting server 🚀');
+                    $this->notification->addOption('url', \sprintf('http://%s:%s', $host, $port));
+                    if (false === $notifier->send($this->notification)) {
+                        $output->writeln('<comment>Desktop notification could not be sent.</comment>');
+                    }
+                }
                 if ($open) {
                     $output->writeln('Opening web browser...');
                     Util\Platform::openBrowser(\sprintf('http://%s:%s', $host, $port));
@@ -325,11 +340,9 @@ EOF
     private function setUpServer(): void
     {
         try {
-            // define root path
-            $root = Util\Platform::isPhar() ? Util\Platform::getPharPath() . '/' : realpath(Util::joinFile(__DIR__, '/../../'));
             // copying router
             Util\File::getFS()->copy(
-                $root . '/resources/server/router.php',
+                $this->rootPath . '/resources/server/router.php',
                 Util::joinFile($this->getPath(), self::TMP_DIR, 'router.php'),
                 true
             );
@@ -340,7 +353,7 @@ EOF
             }
             if ($this->watcherEnabled) {
                 Util\File::getFS()->copy(
-                    $root . '/resources/server/livereload.js',
+                    $this->rootPath . '/resources/server/livereload.js',
                     $livereloadJs,
                     true
                 );

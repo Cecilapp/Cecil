@@ -28,7 +28,7 @@ Démo du résultat attendu : <https://cecilapp.github.io/skeleton/>.
 
 ### Prérequis
 
-- [PHP](https://php.net/manual/fr/install.php) 8.1+
+- [PHP](https://php.net/manual/fr/install.php) 8.2+
 - Terminal (une compréhension de base du [terminal](https://fr.wikipedia.org/wiki/%C3%89mulateur_de_terminal))
 - Éditeur de texte, comme [VS Code](https://code.visualstudio.com) et/ou [Typora](https://typora.io)
 
