@@ -51,8 +51,13 @@ class Builder implements LoggerAwareInterface
      * - 'dry-run': if true, generated files are not saved (default: false)
      * - 'page': if specified, only this page is processed (default: '')
      * - 'render-subset': limits the render step to a specific subset (default: '')
-     * @var array<string, bool|string>
      * @see \Cecil\Builder::build()
+     * @phpstan-type BuildOptions array{
+     *   drafts?: bool,
+     *   dry-run?: bool,
+     *   page?: string,
+     *   render-subset?: string
+     * }
      */
     public const OPTIONS = [
         'drafts'  => false,
@@ -66,6 +71,7 @@ class Builder implements LoggerAwareInterface
      * Each step is a class that implements the StepInterface.
      * @var array<string>
      * @see \Cecil\Step\StepInterface
+     * @see \Cecil\Builder::build()
      */
     public const STEPS = [
         'Cecil\Step\Pages\Load',
@@ -111,9 +117,9 @@ class Builder implements LoggerAwareInterface
     /**
      * Build options.
      * These options can be passed to the build() method to customize the build process.
-     * @var array
      * @see \Cecil\Builder::OPTIONS
      * @see \Cecil\Builder::build()
+     * @var BuildOptions
      */
     protected $options = [];
     /**
@@ -243,8 +249,8 @@ class Builder implements LoggerAwareInterface
      * This method processes the build steps in order, collects content, data, static files,
      * generates pages, renders them, and saves the output to the destination directory.
      * It also collects metrics about the build process, such as duration and memory usage.
-     * @param array<self::OPTIONS> $options
      * @see \Cecil\Builder::OPTIONS
+     * @param BuildOptions $options
      */
     public function build(array $options): self
     {

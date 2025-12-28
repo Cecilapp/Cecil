@@ -21,6 +21,8 @@ use Cecil\Builder;
  * This interface defines the methods that any step in the build process must implement.
  * Steps are used to perform specific actions during the build process, such as generating
  * pages, processing data, or applying transformations.
+ *
+ * @phpstan-import-type BuildOptions from Builder
  */
 interface StepInterface
 {
@@ -37,7 +39,8 @@ interface StepInterface
     /**
      * This method is called before the step is processed to initialize
      * the step with necessary options and to determine if it can be executed.
-     * @param Builder::OPTIONS $options
+     * @param BuildOptions $options
+     * @see Builder::OPTIONS
      */
     public function init(array $options): void;
 
