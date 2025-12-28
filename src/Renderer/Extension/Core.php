@@ -883,8 +883,10 @@ class Core extends SlugifyExtension
     }
 
     /**
-     * Extract table of content of a Markdown string,
-     * in the given format ("html" or "json", "html" by default).
+     * Extracts only headings matching the given `selectors` (h2, h3, etc.),
+     * or those defined in config `pages.body.toc` if not specified.
+     * The `format` parameter defines the output format: `html` or `json`.
+     * The `url` parameter is used to build links to headings.
      *
      * @throws RuntimeException
      */
