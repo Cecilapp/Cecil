@@ -14,6 +14,7 @@ declare(strict_types=1);
 namespace Cecil\Command;
 
 use Cecil\Util;
+use Joli\JoliNotif\DefaultNotifier;
 use Symfony\Component\Console\Helper\Table;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
@@ -50,6 +51,7 @@ class Build extends AbstractCommand
                 new InputOption('render-subset', null, InputOption::VALUE_REQUIRED, 'Render a subset of pages'),
                 new InputOption('show-pages', null, InputOption::VALUE_NONE, 'Show list of built pages in a table'),
                 new InputOption('metrics', 'm', InputOption::VALUE_NONE, 'Show build metrics (duration and memory) of each step'),
+                new InputOption('notif', null, InputOption::VALUE_NONE, 'Send desktop notification on build completion'),
             ])
             ->setHelp(
                 <<<'EOF'
@@ -79,6 +81,10 @@ This is useful to <comment>build only a part of the website</comment>, for examp
 To show build steps <comment>metrics</comment>, run:
 
   <info>%command.full_name% --metrics</>
+
+Send a desktop <comment>notification</comment> on build completion, run:
+
+  <info>%command.full_name% --notif</>
 EOF
             );
     }
@@ -86,7 +92,7 @@ EOF
     /**
      * {@inheritdoc}
      */
-    protected function execute(InputInterface $input, OutputInterface $output)
+    protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $config = [];
         $options = [];
@@ -145,7 +151,16 @@ EOF
 
         // build
         $builder->build($options);
-        $output->writeln('Done 🎉');
+        $output->writeln('Build done 🎉');
+
+        // notification
+        if ($input->getOption('notif')) {
+            $notifier = new DefaultNotifier();
+            $this->notification->setBody('Build done 🎉');
+            if (false === $notifier->send($this->notification)) {
+                $output->writeln('<comment>Desktop notification could not be sent.</comment>');
+            }
+        }
 
         // show build steps metrics
         if ($input->getOption('metrics')) {

@@ -10,7 +10,7 @@
  * file that was distributed with this source code.
  */
 
-if (PHP_SAPI !== 'cli' && PHP_SAPI !== 'phpdbg') {
+if (PHP_SAPI !== 'cli' && PHP_SAPI !== 'phpdbg' && PHP_SAPI !== 'micro') {
     printf('Warning: Cecil should be invoked via the CLI version of PHP, not the %s SAPI.%s', PHP_SAPI, PHP_EOL);
 }
 
@@ -31,7 +31,7 @@ if (getenv('CECIL_DEBUG') == 'true') {
 
 $name                  = 'Cecil';
 $version               = '@git_version@';
-$phpMinimumVersion     = '8.1.0';
+$phpMinimumVersion     = '8.2.0';
 $phpRequiredExtensions = ['fileinfo', 'gd', 'mbstring'];
 
 // checks PHP minimal version

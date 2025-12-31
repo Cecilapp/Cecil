@@ -64,7 +64,7 @@ EOF
      *
      * @throws RuntimeException
      */
-    protected function execute(InputInterface $input, OutputInterface $output)
+    protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $count = 0;
         $contentTypes = ['pages', 'data'];

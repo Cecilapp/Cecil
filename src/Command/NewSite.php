@@ -68,7 +68,7 @@ EOF
      *
      * @throws RuntimeException
      */
-    protected function execute(InputInterface $input, OutputInterface $output)
+    protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $force = $input->getOption('force');
         $demo = $input->getOption('demo');
@@ -81,8 +81,6 @@ EOF
                     return 0;
                 }
             }
-            // define root path
-            $root = Util\Platform::isPhar() ? Util\Platform::getPharPath() . '/' : realpath(Util::joinFile(__DIR__, '/../../'));
             // setup questions
             $title = $this->io->ask('Give a title to your website', 'New website');
             $baseline = $this->io->ask('Give a baseline to your website', '');
@@ -90,7 +88,7 @@ EOF
             $description = $this->io->ask('Write a full description of your site', 'Website created with Cecil.');
             $demo = ($demo !== false) ?: $this->io->confirm('Add demo content?', false);
             // override skeleton default config
-            $config = Yaml::parseFile(Util::joinPath($root, 'resources/skeleton', self::CONFIG_FILE[0]), Yaml::PARSE_DATETIME);
+            $config = Yaml::parseFile(Util::joinPath($this->rootPath, 'resources/skeleton', self::CONFIG_FILE[0]), Yaml::PARSE_DATETIME);
             $config = array_replace_recursive($config, [
                 'title'       => $title,
                 'baseline'    => $baseline,
@@ -121,7 +119,7 @@ EOF
                 ] as $value
             ) {
                 Util\File::getFS()->copy(
-                    Util::joinPath($root, 'resources/skeleton', $value),
+                    Util::joinPath($this->rootPath, 'resources/skeleton', $value),
                     Util::joinPath($this->getPath(), $value)
                 );
             }
@@ -136,7 +134,7 @@ EOF
                     ] as $value
                 ) {
                     Util\File::getFS()->mirror(
-                        Util::joinPath($root, 'resources/skeleton', $value),
+                        Util::joinPath($this->rootPath, 'resources/skeleton', $value),
                         Util::joinPath($this->getPath(), $value)
                     );
                 }

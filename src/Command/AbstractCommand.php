@@ -18,6 +18,7 @@ use Cecil\Config;
 use Cecil\Exception\RuntimeException;
 use Cecil\Logger\ConsoleLogger;
 use Cecil\Util;
+use Joli\JoliNotif\Notification;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
@@ -39,6 +40,9 @@ class AbstractCommand extends Command
     public const EXCLUDED_CMD = ['about', 'new:site', 'self-update'];
     public const SERVE_OUTPUT = '.cecil/preview';
 
+    /** @var Notification */
+    public $notification;
+
     /** @var InputInterface */
     protected $input;
 
@@ -47,6 +51,9 @@ class AbstractCommand extends Command
 
     /** @var SymfonyStyle */
     protected $io;
+
+    /** @var string */
+    protected $rootPath;
 
     /** @var null|string */
     private $path = null;
@@ -68,6 +75,7 @@ class AbstractCommand extends Command
         $this->input = $input;
         $this->output = $output;
         $this->io = new SymfonyStyle($input, $output);
+        $this->rootPath = Util\Platform::isPhar() ? Util\Platform::getPharPath() . '/' : realpath(Util::joinFile(__DIR__, '/../../'));
 
         // prepare configuration files list
         if (!\in_array($this->getName(), self::EXCLUDED_CMD)) {
@@ -86,6 +94,12 @@ class AbstractCommand extends Command
                 }
             }
         }
+        // prepare notification
+        $this->notification = (new Notification())
+            ->setTitle('Cecil')
+            ->setIcon('./resources/icon.png')
+            ->setBody('Notification from Cecil static site generator.')
+        ;
 
         parent::initialize($input, $output);
     }
