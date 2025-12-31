@@ -1,7 +1,7 @@
 <!--
 description: "Working with layouts, templates and components."
 date: 2021-05-07
-updated: 2025-12-13
+updated: 2025-12-28
 alias: documentation/layouts
 -->
 # Templates
@@ -914,17 +914,20 @@ _Examples:_
 
 ### toc
 
-Extracts table of content from a Markdown string, in the given format ("html" or "json", "html" by default) and an optional base URL.
+Extracts only headings matching the given `selectors` (h2, h3, etc.), or those defined in config `pages.body.toc` if not specified.  
+The `format` parameter defines the output format: `html` or `json`.  
+The `url` parameter is used to build links to headings.
 
 ```twig
-{{ markdown|toc(format, url) }}
+{{ markdown|toc(format, selectors, url) }}
 ```
 
 _Examples:_
 
 ```twig
 {{ page.body|toc }}
-{{ page.body|toc('json') }}
+{{ page.body|toc('html') }}
+{{ page.body|toc(selectors=['h2']) }}
 {{ page.body|toc(url=url(page)) }}
 ```
 
