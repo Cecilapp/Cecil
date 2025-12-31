@@ -33,7 +33,7 @@ jobs:
         uses: shivammathur/setup-php@v2
         with:
           php-version: ${{ env.PHP_VERSION }}
-          extensions: :psr, mbstring, intl, gettext, fileinfo, gd
+          extensions: :psr, mbstring, intl, gettext, fileinfo, gd, :redis, :relay
           tools: composer, box
           coverage: none
       - name: Restore/Cache Composer packages
