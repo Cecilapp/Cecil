@@ -2,6 +2,18 @@
 
 All notable changes to this project will be documented in this file. Dates are displayed in UTC.
 
+#### [8.76.0](https://github.com/Cecilapp/Cecil/compare/8.75.4...8.76.0)
+
+> 31 December 2025
+
+- feat: new features and drop support of PHP 8.1 [`#2226`](https://github.com/Cecilapp/Cecil/pull/2226)
+- chore(deps): bump intervention/image from 3.11.5 to 3.11.6 [`#2269`](https://github.com/Cecilapp/Cecil/pull/2269)
+- chore(deps-dev): bump friendsofphp/php-cs-fixer from 3.92.2 to 3.92.3 [`#2268`](https://github.com/Cecilapp/Cecil/pull/2268)
+- docs: minor updates [`84d9ed5`](https://github.com/Cecilapp/Cecil/commit/84d9ed5da78d91aba97602ca0a5b8919ba18d074)
+- docs: update ToC filter description [`6bb0164`](https://github.com/Cecilapp/Cecil/commit/6bb01641d4adf9e11553b8d9b121e298416305fd)
+- chore: update deps [`a260d6a`](https://github.com/Cecilapp/Cecil/commit/a260d6a4912c7c00d8a700efda408134d7004c6a)
+- fix CI [`33dd992`](https://github.com/Cecilapp/Cecil/commit/33dd992cba9fa2db2b5f8614bcd954b30bcc1c01)
+
 #### [8.75.4](https://github.com/Cecilapp/Cecil/compare/8.75.3...8.75.4)
 
 > 18 December 2025
