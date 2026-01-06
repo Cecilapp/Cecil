@@ -194,33 +194,27 @@ jobs:
 _.gitlab-ci.yml_:
 
 ```yml
-image: wordpress:cli-php8.4
-
-before_script:
-  - |
-    echo "Downloading Cecil..."
-    if [[ -z "$CECIL_VERSION" ]]; then
-      curl -sSOL https://cecil.app/cecil.phar
-    else
-      curl -sSOL https://cecil.app/download/$CECIL_VERSION/cecil.phar
-    fi
-  - php cecil.phar --version
-  - COMPOSER_CACHE_DIR=composer-cache composer install --prefer-dist --no-dev --no-progress --no-interaction
+image: wordpress:cli-php8.2
 
 test:
   stage: test
+  variables:
+    CECIL_OUTPUT_DIR: test
   script:
-    - php cecil.phar build --verbose --output=test
+    - curl -sSOL https://cecil.app/build.sh && bash ./build.sh
   artifacts:
     paths:
-      - test
+     - test
   except:
-    - master
+   - master
 
 pages:
   stage: deploy
+  variables:
+    CECIL_ENV: production
+    CECIL_OUTPUT_DIR: public
   script:
-    - php cecil.phar build --output=public
+    - curl -sSOL https://cecil.app/build.sh && bash ./build.sh
   artifacts:
     paths:
       - public
