@@ -41,9 +41,6 @@ class AbstractCommand extends Command
     public const EXCLUDED_CMD = ['about', 'new:site', 'self-update'];
     public const SERVE_OUTPUT = '.cecil/preview';
 
-    /** @var Notification */
-    public $notification;
-
     /** @var InputInterface */
     protected $input;
 
@@ -76,7 +73,7 @@ class AbstractCommand extends Command
         $this->input = $input;
         $this->output = $output;
         $this->io = new SymfonyStyle($input, $output);
-        $this->rootPath = Util\Platform::isPhar() ? Util\Platform::getPharPath() . '/' : realpath(Util::joinFile(__DIR__, '/../../'));
+        $this->rootPath = (Util\Platform::isPhar() ? Util\Platform::getPharPath() : realpath(Util::joinFile(__DIR__, '/../../'))) . '/';
 
         // prepare configuration files list
         if (!\in_array($this->getName(), self::EXCLUDED_CMD)) {
@@ -95,11 +92,6 @@ class AbstractCommand extends Command
                 }
             }
         }
-        // prepare notification
-        $this->notification = (new Notification())
-            ->setTitle('Cecil')
-            ->setIcon('./resources/icon.png')
-        ;
 
         parent::initialize($input, $output);
     }
@@ -158,9 +150,13 @@ class AbstractCommand extends Command
     public function notification(string $body): void
     {
         $notifier = new DefaultNotifier();
-        $this->notification->setBody($body);
-        if (false === $notifier->send($this->notification)) {
-            $this->output->writeln('<comment>Desktop notification could not be sent.</comment>');
+        $notification = (new Notification())
+            ->setTitle('Cecil')
+            ->setIcon($this->rootPath . 'resources/icon.png')
+            ->setBody($body)
+        ;
+        if (false === $notifier->send($notification)) {
+            $this->output->writeln('<comment>Desktop notification could not be sent</comment>');
         }
     }
 

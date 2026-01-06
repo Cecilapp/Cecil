@@ -346,7 +346,7 @@ EOF
         try {
             // copying router
             Util\File::getFS()->copy(
-                $this->rootPath . '/resources/server/router.php',
+                $this->rootPath . 'resources/server/router.php',
                 Util::joinFile($this->getPath(), self::TMP_DIR, 'router.php'),
                 true
             );
@@ -357,7 +357,7 @@ EOF
             }
             if ($this->watcherEnabled) {
                 Util\File::getFS()->copy(
-                    $this->rootPath . '/resources/server/livereload.js',
+                    $this->rootPath . 'resources/server/livereload.js',
                     $livereloadJs,
                     true
                 );
