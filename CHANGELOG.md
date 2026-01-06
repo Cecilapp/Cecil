@@ -2,6 +2,18 @@
 
 All notable changes to this project will be documented in this file. Dates are displayed in UTC.
 
+#### [8.76.1](https://github.com/Cecilapp/Cecil/compare/8.76.0...8.76.1)
+
+> 6 January 2026
+
+- refactor: enhance notifications [`#2273`](https://github.com/Cecilapp/Cecil/pull/2273)
+- chore(deps): bump dependabot/fetch-metadata from 2.4.0 to 2.5.0 [`#2272`](https://github.com/Cecilapp/Cecil/pull/2272)
+- chore(deps-dev): bump friendsofphp/php-cs-fixer from 3.92.3 to 3.92.4 [`#2271`](https://github.com/Cecilapp/Cecil/pull/2271)
+- fix: Make bin/cecil executable again [`#2270`](https://github.com/Cecilapp/Cecil/pull/2270)
+- doc: Update GitLab CI config [`f545156`](https://github.com/Cecilapp/Cecil/commit/f545156648e2f0035d366e985019e3c8fd12c363)
+- Modify cecil-build.sh for new hosting and caching [`54f6655`](https://github.com/Cecilapp/Cecil/commit/54f665530a6a33befb1cae71368c4f4d80c5135d)
+- Add condition for GitLab CI environment [`2d4ce94`](https://github.com/Cecilapp/Cecil/commit/2d4ce944f915763da4f2d177a375cbfc33708b15)
+
 #### [8.76.0](https://github.com/Cecilapp/Cecil/compare/8.75.4...8.76.0)
 
 > 31 December 2025
