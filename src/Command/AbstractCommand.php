@@ -18,6 +18,7 @@ use Cecil\Config;
 use Cecil\Exception\RuntimeException;
 use Cecil\Logger\ConsoleLogger;
 use Cecil\Util;
+use Joli\JoliNotif\DefaultNotifier;
 use Joli\JoliNotif\Notification;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
@@ -98,7 +99,6 @@ class AbstractCommand extends Command
         $this->notification = (new Notification())
             ->setTitle('Cecil')
             ->setIcon('./resources/icon.png')
-            ->setBody('Notification from Cecil static site generator.')
         ;
 
         parent::initialize($input, $output);
@@ -149,6 +149,18 @@ class AbstractCommand extends Command
             $this->io->error($message);
 
             exit(1);
+        }
+    }
+
+    /**
+     * Send desktop notification.
+     */
+    public function notification(string $body): void
+    {
+        $notifier = new DefaultNotifier();
+        $this->notification->setBody($body);
+        if (false === $notifier->send($this->notification)) {
+            $this->output->writeln('<comment>Desktop notification could not be sent.</comment>');
         }
     }
 
