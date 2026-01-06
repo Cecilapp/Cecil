@@ -26,6 +26,9 @@ URL=""
 if [ "$CI" = "true" ]; then
   RUNNING_ON="statichost?"
 fi
+if [ "$GITLAB_CI" = "true" ]; then
+  RUNNING_ON="GitLab"
+fi
 if [ "$NETLIFY" = "true" ]; then
   RUNNING_ON="Netlify"
 fi
