@@ -15,7 +15,6 @@ namespace Cecil\Command;
 
 use Cecil\Exception\RuntimeException;
 use Cecil\Util;
-use Joli\JoliNotif\DefaultNotifier;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
@@ -241,14 +240,14 @@ EOF
                 while ($process->isRunning()) {
                     sleep(1); // wait for server is ready
                     if (!fsockopen($host, (int) $port)) {
-                        $output->writeln('<info>Server is not ready.</info>');
+                        $output->writeln('<info>Server is not ready</info>');
 
                         return 1;
                     }
                     if ($this->watcherEnabled && $resourceWatcher instanceof ResourceWatcher) {
                         $watcher = $resourceWatcher->findChanges();
                         if ($watcher->hasChanges()) {
-                            $output->writeln('<comment>Changes detected.</comment>');
+                            $output->writeln('<comment>Changes detected</comment>');
                             // notification
                             if ($notif) {
                                 $this->notification('Changes detected, building website...');

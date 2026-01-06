@@ -14,7 +14,6 @@ declare(strict_types=1);
 namespace Cecil\Command;
 
 use Cecil\Util;
-use Joli\JoliNotif\DefaultNotifier;
 use Symfony\Component\Console\Helper\Table;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
