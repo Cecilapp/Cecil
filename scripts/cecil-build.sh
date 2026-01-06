@@ -1,7 +1,7 @@
 #!/bin/bash
 export LC_ALL=$(locale -a|grep -ix 'c.utf-\?8' || echo C)
 
-# This script build a Cecil website (locally, on Netlify / Vercel / Cloudflare Pages / Render).
+# This script build a Cecil website (locally, on statichost / GitLab / Netlify / Vercel / Cloudflare Pages / Render).
 # It is intended to be used on CI / CD.
 
 # Requirements
@@ -140,7 +140,8 @@ if [ -f "./composer.json" ]; then
     echo "$($COMPOSER_CMD --version) is available."
   fi
   echo "Installing themes..."
-  $COMPOSER_CMD install --prefer-dist --no-dev --no-progress --no-interaction --quiet
+  # Composer cache dir: "composer-cache"
+  COMPOSER_CACHE_DIR=composer-cache $COMPOSER_CMD install --prefer-dist --no-dev --no-progress --no-interaction --quiet
   if [ $? -eq 0 ]; then
       echo "OK"
   fi
