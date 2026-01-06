@@ -151,15 +151,11 @@ EOF
 
         // build
         $builder->build($options);
-        $output->writeln('Build done 🎉');
+        $output->writeln('Build done');
 
         // notification
         if ($input->getOption('notif')) {
-            $notifier = new DefaultNotifier();
-            $this->notification->setBody('Build done 🎉');
-            if (false === $notifier->send($this->notification)) {
-                $output->writeln('<comment>Desktop notification could not be sent.</comment>');
-            }
+            $this->notification('Build done 🎉');
         }
 
         // show build steps metrics

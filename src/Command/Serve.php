@@ -117,6 +117,7 @@ EOF
         $metrics = $input->getOption('metrics');
         $timeout = $input->getOption('timeout');
         $verbose = $input->getOption('verbose');
+        $notif = $input->getOption('notif');
 
         $resourceWatcher = null;
         $this->watcherEnabled = $input->getOption('watch');
@@ -174,7 +175,7 @@ EOF
             $buildProcessArguments[] = '--page';
             $buildProcessArguments[] = $page;
         }
-        if (!empty($metrics)) {
+        if ($metrics) {
             $buildProcessArguments[] = '--metrics';
         }
         $buildProcessArguments[] = '--baseurl';
@@ -222,21 +223,17 @@ EOF
                     pcntl_signal(SIGTERM, [$this, 'tearDownServer']);
                 }
                 $output->writeln(\sprintf('<comment>Server process: %s</comment>', $command), OutputInterface::VERBOSITY_DEBUG);
-                $output->writeln(\sprintf('Starting server%s (<href=http://%s:%d>http://%s:%d</>) 🚀', $messageSuffix, $host, $port, $host, $port));
+                $output->writeln(\sprintf('Starting server%s (<href=http://%s:%d>http://%s:%d</>)', $messageSuffix, $host, $port, $host, $port));
                 $process->start(function ($type, $buffer) {
                     if ($type === Process::ERR) {
                         error_log($buffer, 3, Util::joinFile($this->getPath(), self::TMP_DIR, 'errors.log'));
                     }
                 });
                 // notification
-                if ($input->getOption('notif')) {
-                    $notifier = new DefaultNotifier();
-                    $this->notification->setBody('Starting server 🚀');
-                    $this->notification->addOption('url', \sprintf('http://%s:%s', $host, $port));
-                    if (false === $notifier->send($this->notification)) {
-                        $output->writeln('<comment>Desktop notification could not be sent.</comment>');
-                    }
+                if ($notif) {
+                    $this->notification('Starting server 🚀');
                 }
+                // open web browser
                 if ($open) {
                     $output->writeln('Opening web browser...');
                     Util\Platform::openBrowser(\sprintf('http://%s:%s', $host, $port));
@@ -252,6 +249,10 @@ EOF
                         $watcher = $resourceWatcher->findChanges();
                         if ($watcher->hasChanges()) {
                             $output->writeln('<comment>Changes detected.</comment>');
+                            // notification
+                            if ($notif) {
+                                $this->notification('Changes detected, building website...');
+                            }
                             // prints deleted/new/updated files in debug mode
                             if (\count($watcher->getDeletedFiles()) > 0) {
                                 $output->writeln('<comment>Deleted files:</comment>', OutputInterface::VERBOSITY_DEBUG);
@@ -278,6 +279,10 @@ EOF
                                 $this->buildSuccessActions($output);
                             }
                             $output->writeln('<info>Server is runnning...</info>');
+                            // notification
+                            if ($notif) {
+                                $this->notification('Server is runnning...');
+                            }
                         }
                     }
                 }
