@@ -882,10 +882,11 @@ class Asset implements \ArrayAccess
         // remote file
         if (Util\File::isRemote($path)) {
             try {
-                $content = $this->getRemoteFileContent($path, $userAgent);
-                $path = self::buildPathFromUrl($path);
+                $url = $path;
+                $path = self::buildPathFromUrl($url);
                 $cache = new Cache($this->builder, 'assets/remote');
                 if (!$cache->has($path)) {
+                    $content = $this->getRemoteFileContent($url, $userAgent);
                     $cache->set($path, [
                         'content' => $content,
                         'path'    => $path,
