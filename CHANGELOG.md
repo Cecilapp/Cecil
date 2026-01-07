@@ -2,6 +2,12 @@
 
 All notable changes to this project will be documented in this file. Dates are displayed in UTC.
 
+#### [8.76.2](https://github.com/Cecilapp/Cecil/compare/8.76.1...8.76.2)
+
+> 6 January 2026
+
+- fix notifications icon [`e44bd19`](https://github.com/Cecilapp/Cecil/commit/e44bd19395e753c485a40be3a022616372ca87aa)
+
 #### [8.76.1](https://github.com/Cecilapp/Cecil/compare/8.76.0...8.76.1)
 
 > 6 January 2026
