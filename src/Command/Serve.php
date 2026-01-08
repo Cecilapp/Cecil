@@ -277,10 +277,10 @@ EOF
                             if ($buildProcess->isSuccessful()) {
                                 $this->buildSuccessActions($output);
                             }
-                            $output->writeln('<info>Server is runnning...</info>');
+                            $output->writeln('<info>Server is running...</info>');
                             // notification
                             if ($notif) {
-                                $this->notification('Server is runnning...');
+                                $this->notification('Server is running...');
                             }
                         }
                     }
@@ -378,7 +378,7 @@ EOF
     public function tearDownServer(): void
     {
         $this->output->writeln('');
-        $this->output->writeln('<info>Server stopped.</info>');
+        $this->output->writeln('<info>Server stopped</info>');
 
         try {
             Util\File::getFS()->remove(Util::joinFile($this->getPath(), self::TMP_DIR));
