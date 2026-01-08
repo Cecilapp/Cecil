@@ -2,6 +2,12 @@
 
 All notable changes to this project will be documented in this file. Dates are displayed in UTC.
 
+#### [8.76.3](https://github.com/Cecilapp/Cecil/compare/8.76.2...8.76.3)
+
+> 7 January 2026
+
+- Fix remote asset caching logic [`d70b685`](https://github.com/Cecilapp/Cecil/commit/d70b685526048f2c08ac1addaff7526911bfeb75)
+
 #### [8.76.2](https://github.com/Cecilapp/Cecil/compare/8.76.1...8.76.2)
 
 > 6 January 2026
