@@ -26,7 +26,7 @@ _netlify.toml_:
   command = "curl -sSOL https://cecil.app/build.sh && bash ./build.sh"
 
 [build.environment]
-  PHP_VERSION = "8.4"
+  PHP_VERSION = "8.3"
 
 [context.production.environment]
   CECIL_ENV = "production"
