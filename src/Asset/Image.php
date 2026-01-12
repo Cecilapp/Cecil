@@ -63,62 +63,53 @@ class Image
     }
 
     /**
-     * Scales down an image Asset to the given width, keeping the aspect ratio.
+     * Scales an image Asset to the given width or height, keeping the aspect ratio.
      *
      * @throws RuntimeException
      */
-    public static function resize(Asset $asset, int $width, int $quality): string
+    public static function resize(Asset $asset, ?int $width, ?int $height, int $quality): string
     {
         try {
-            // creates image object from source
             $image = self::manager()->read($asset['content']);
-            // resizes to $width with constraint the aspect-ratio and unwanted upsizing
-            $image->scaleDown(width: $width);
-            // return image data
+
+            $image->scale(width: $width, height: $height);
+
             return (string) $image->encodeByMediaType(
                 $asset['subtype'],
-                /** @scrutinizer ignore-type */
-                progressive: true,
-                /** @scrutinizer ignore-type */
-                interlaced: false,
+                /** @scrutinizer ignore-type */ progressive: true,
+                /** @scrutinizer ignore-type */ interlaced: false,
                 quality: $quality
             );
         } catch (\Exception $e) {
-            throw new RuntimeException(\sprintf('Asset "%s" can\'t be resized: %s', $asset['path'], $e->getMessage()));
+            throw new RuntimeException(\sprintf('Asset "%s" can\'t be resized: %s.', $asset['path'], $e->getMessage()));
         }
     }
 
     /**
-     * Crops an image Asset to the given width and height, keeping the aspect ratio.
+     * Resizes and crops an image Asset to the given width and height.
      *
      * @throws RuntimeException
      */
     public static function cover(Asset $asset, int $width, int $height, int $quality): string
     {
         try {
-            // creates image object from source
             $image = self::manager()->read($asset['content']);
+
             // turns an animated image (i.e GIF) into a static image
             if ($image->isAnimated()) {
                 $image = $image->removeAnimation('25%'); // use 25% to avoid an "empty" frame
             }
-            // crops the image
-            $image->cover(
-                width: $width,
-                height: $height,
-                position: 'center'
-            );
-            // return image data
+
+            $image->cover(width: $width, height: $height, position: 'center');
+
             return (string) $image->encodeByMediaType(
                 $asset['subtype'],
-                /** @scrutinizer ignore-type */
-                progressive: true,
-                /** @scrutinizer ignore-type */
-                interlaced: false,
+                /** @scrutinizer ignore-type */ progressive: true,
+                /** @scrutinizer ignore-type */ interlaced: false,
                 quality: $quality
             );
         } catch (\Exception $e) {
-            throw new RuntimeException(\sprintf('Asset "%s" can\'t be cropped: %s', $asset['path'], $e->getMessage()));
+            throw new RuntimeException(\sprintf('Asset "%s" can\'t be cropped: %s.', $asset['path'], $e->getMessage()));
         }
     }
 
@@ -130,8 +121,8 @@ class Image
     public static function maskable(Asset $asset, int $quality, int $padding): string
     {
         try {
-            // creates image object from source
             $source = self::manager()->read($asset['content']);
+
             // creates a new image with the dominant color as background
             // and the size of the original image plus the padding
             $image = self::manager()->create(
@@ -139,23 +130,18 @@ class Image
                 height: (int) round($asset['height'] * (1 + $padding / 100), 0)
             )->fill(self::getBackgroundColor($asset));
             // inserts the original image in the center
-            $image->place(
-                $source,
-                position: 'center'
-            );
-            // scales down the new image to the original image size
+            $image->place($source, position: 'center');
+
             $image->scaleDown(width: $asset['width']);
-            // return image data
+
             return (string) $image->encodeByMediaType(
                 $asset['subtype'],
-                /** @scrutinizer ignore-type */
-                progressive: true,
-                /** @scrutinizer ignore-type */
-                interlaced: false,
+                /** @scrutinizer ignore-type */ progressive: true,
+                /** @scrutinizer ignore-type */ interlaced: false,
                 quality: $quality
             );
         } catch (\Exception $e) {
-            throw new RuntimeException(\sprintf('Unable to make Asset "%s" maskable: %s', $asset['path'], $e->getMessage()));
+            throw new RuntimeException(\sprintf('Unable to make Asset "%s" maskable: %s.', $asset['path'], $e->getMessage()));
         }
     }
 
@@ -167,22 +153,20 @@ class Image
     public static function convert(Asset $asset, string $format, int $quality): string
     {
         try {
-            $image = self::manager()->read($asset['content']);
-
             if (!\function_exists("image$format")) {
                 throw new RuntimeException(\sprintf('Function "image%s" is not available.', $format));
             }
 
+            $image = self::manager()->read($asset['content']);
+
             return (string) $image->encodeByExtension(
                 $format,
-                /** @scrutinizer ignore-type */
-                progressive: true,
-                /** @scrutinizer ignore-type */
-                interlaced: false,
+                /** @scrutinizer ignore-type */ progressive: true,
+                /** @scrutinizer ignore-type */ interlaced: false,
                 quality: $quality
             );
         } catch (\Exception $e) {
-            throw new RuntimeException(\sprintf('Unable to convert "%s" to %s: %s', $asset['path'], $format, $e->getMessage()));
+            throw new RuntimeException(\sprintf('Unable to convert "%s" to %s: %s.', $asset['path'], $format, $e->getMessage()));
         }
     }
 
@@ -198,7 +182,7 @@ class Image
 
             return (string) $image->encode(new AutoEncoder(quality: $quality))->toDataUri();
         } catch (\Exception $e) {
-            throw new RuntimeException(\sprintf('Unable to get Data URL of "%s": %s', $asset['path'], $e->getMessage()));
+            throw new RuntimeException(\sprintf('Unable to get Data URL of "%s": %s.', $asset['path'], $e->getMessage()));
         }
     }
 
@@ -214,7 +198,7 @@ class Image
 
             return $image->reduceColors(1)->pickColor(0, 0)->toString();
         } catch (\Exception $e) {
-            throw new RuntimeException(\sprintf('Unable to get dominant color of "%s": %s', $asset['path'], $e->getMessage()));
+            throw new RuntimeException(\sprintf('Unable to get dominant color of "%s": %s.', $asset['path'], $e->getMessage()));
         }
     }
 
@@ -230,7 +214,7 @@ class Image
 
             return $image->pickColor(0, 0)->toString();
         } catch (\Exception $e) {
-            throw new RuntimeException(\sprintf('Unable to background color of "%s": %s', $asset['path'], $e->getMessage()));
+            throw new RuntimeException(\sprintf('Unable to get background color of "%s": %s.', $asset['path'], $e->getMessage()));
         }
     }
 
@@ -246,7 +230,7 @@ class Image
 
             return (string) $image->blur(50)->encode()->toDataUri();
         } catch (\Exception $e) {
-            throw new RuntimeException(\sprintf('Unable to create LQIP of "%s": %s', $asset['path'], $e->getMessage()));
+            throw new RuntimeException(\sprintf('Unable to create LQIP of "%s": %s.', $asset['path'], $e->getMessage()));
         }
     }
 

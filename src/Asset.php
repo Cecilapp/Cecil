@@ -183,10 +183,7 @@ class Asset implements \ArrayAccess
                         $this->data['missing'] = true;
                         continue;
                     }
-                    throw new RuntimeException(
-                        \sprintf('Unable to handle asset "%s".', $paths[$i]),
-                        previous: $e
-                    );
+                    throw new RuntimeException(\sprintf('Unable to handle asset "%s".', $paths[$i]), previous: $e);
                 }
             }
             $cache->set($locateCacheKey, $this->data);
@@ -319,9 +316,7 @@ class Asset implements \ArrayAccess
 
         $cache = new Cache($this->builder, 'assets');
         if (empty($this->data['path']) || !Util\File::getFS()->exists($cache->getContentFilePathname($this->data['path']))) {
-            throw new RuntimeException(
-                \sprintf('Unable to add "%s" to assets list. Please clear cache and retry.', $this->data['path'])
-            );
+            throw new RuntimeException(\sprintf('Unable to add "%s" to assets list. Please clear cache and retry.', $this->data['path']));
         }
 
         $this->builder->addAsset($this->data['path']);
@@ -1004,7 +999,7 @@ class Asset implements \ArrayAccess
                 return false;
             }
         } catch (\Exception $e) {
-            throw new RuntimeException(\sprintf('Handling asset "%s" failed: "%s"', $this->data['path'], $e->getMessage()));
+            throw new RuntimeException(\sprintf('Handling asset "%s" failed: "%s".', $this->data['path'], $e->getMessage()));
         }
 
         return $size;
