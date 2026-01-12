@@ -76,8 +76,10 @@ class Image
 
             return (string) $image->encodeByMediaType(
                 $asset['subtype'],
-                /** @scrutinizer ignore-type */ progressive: true,
-                /** @scrutinizer ignore-type */ interlaced: false,
+                /** @scrutinizer ignore-type */
+                progressive: true,
+                /** @scrutinizer ignore-type */
+                interlaced: false,
                 quality: $quality
             );
         } catch (\Exception $e) {
@@ -104,8 +106,10 @@ class Image
 
             return (string) $image->encodeByMediaType(
                 $asset['subtype'],
-                /** @scrutinizer ignore-type */ progressive: true,
-                /** @scrutinizer ignore-type */ interlaced: false,
+                /** @scrutinizer ignore-type */
+                progressive: true,
+                /** @scrutinizer ignore-type */
+                interlaced: false,
                 quality: $quality
             );
         } catch (\Exception $e) {
@@ -136,8 +140,10 @@ class Image
 
             return (string) $image->encodeByMediaType(
                 $asset['subtype'],
-                /** @scrutinizer ignore-type */ progressive: true,
-                /** @scrutinizer ignore-type */ interlaced: false,
+                /** @scrutinizer ignore-type */
+                progressive: true,
+                /** @scrutinizer ignore-type */
+                interlaced: false,
                 quality: $quality
             );
         } catch (\Exception $e) {
@@ -161,8 +167,10 @@ class Image
 
             return (string) $image->encodeByExtension(
                 $format,
-                /** @scrutinizer ignore-type */ progressive: true,
-                /** @scrutinizer ignore-type */ interlaced: false,
+                /** @scrutinizer ignore-type */
+                progressive: true,
+                /** @scrutinizer ignore-type */
+                interlaced: false,
                 quality: $quality
             );
         } catch (\Exception $e) {
