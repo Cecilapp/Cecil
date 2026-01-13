@@ -138,7 +138,6 @@ class Core extends SlugifyExtension
             new \Twig\TwigFilter('scss_to_css', [$this, 'scssToCss']),
             new \Twig\TwigFilter('sass_to_css', [$this, 'scssToCss']),
             new \Twig\TwigFilter('resize', [$this, 'resize']),
-            new \Twig\TwigFilter('cover', [$this, 'cover']),
             new \Twig\TwigFilter('maskable', [$this, 'maskable']),
             new \Twig\TwigFilter('dataurl', [$this, 'dataurl']),
             new \Twig\TwigFilter('dominant_color', [$this, 'dominantColor']),
@@ -368,35 +367,19 @@ class Core extends SlugifyExtension
     }
 
     /**
-     * Resizes an image.
+     * Resizes an image Asset to the given width or/and height.
      *
      * @param string|Asset $asset
      *
      * @return Asset
      */
-    public function resize($asset, int $size): Asset
+    public function resize($asset, ?int $width = null, ?int $height = null): Asset
     {
         if (!$asset instanceof Asset) {
             $asset = new Asset($this->builder, $asset);
         }
 
-        return $asset->resize($size);
-    }
-
-    /**
-     * Crops an image Asset to the given width and height, keeping the aspect ratio.
-     *
-     * @param string|Asset $asset
-     *
-     * @return Asset
-     */
-    public function cover($asset, int $width, int $height): Asset
-    {
-        if (!$asset instanceof Asset) {
-            $asset = new Asset($this->builder, $asset);
-        }
-
-        return $asset->cover($width, $height);
+        return $asset->resize($width, $height);
     }
 
     /**

@@ -401,24 +401,31 @@ class Asset implements \ArrayAccess
     }
 
     /**
-     * Scales down an image to a new $width.
+     * Resizes an image to the given width or/and height.
      *
      * @throws RuntimeException
      */
-    public function resize(int $width): self
+    public function resize(?int $width = null, ?int $height = null): self
     {
         $this->checkImage();
 
-        // if the image is already smaller than the requested width, return it
-        if ($width >= $this->data['width']) {
+        // if the image is already smaller, return it
+        if (($width === null || $this->data['width'] <= $width) &&
+            ($height === null || $this->data['height'] <= $height)) {
             return $this;
         }
 
         $assetResized = clone $this;
-        $assetResized->data['width'] = $width;
+        $assetResized->data['width'] = $width ?? $this->data['width'];
+        $assetResized->data['height'] = $height ?? $this->data['height'];
 
         if ($this->isImageInCdn()) {
-            $assetResized->data['height'] = round($this->data['height'] / ($this->data['width'] / $width));
+            if ($width === null) {
+                $assetResized->data['width'] = round($this->data['width'] / ($this->data['height'] / $height));
+            }
+            if ($height === null) {
+                $assetResized->data['height'] = round($this->data['height'] / ($this->data['width'] / $width));
+            }
 
             return $assetResized; // returns asset with the new dimensions only: CDN do the rest of the job
         }
@@ -428,49 +435,10 @@ class Asset implements \ArrayAccess
         $cache = new Cache($this->builder, 'assets');
         $assetResized->cacheTags['quality'] = $quality;
         $assetResized->cacheTags['width'] = $width;
-        $cacheKey = $cache->createKeyFromAsset($assetResized, $assetResized->cacheTags);
-        if (!$cache->has($cacheKey)) {
-            $assetResized->data['content'] = Image::resize($assetResized, $width, $quality);
-            $assetResized->data['path'] = '/' . Util::joinPath(
-                (string) $this->config->get('assets.target'),
-                self::IMAGE_THUMB,
-                (string) $width,
-                $assetResized->data['path']
-            );
-            $assetResized->data['path'] = $this->deduplicateThumbPath($assetResized->data['path']);
-            $assetResized->data['height'] = $assetResized->getHeight();
-            $assetResized->data['size'] = \strlen($assetResized->data['content']);
-
-            $cache->set($cacheKey, $assetResized->data, $this->config->get('cache.assets.ttl'));
-            $this->builder->getLogger()->debug(\sprintf('Asset resized: "%s" (%sx)', $assetResized->data['path'], $width));
-        }
-        $assetResized->data = $cache->get($cacheKey);
-
-        return $assetResized;
-    }
-
-    /**
-     * Crops the image to the specified width and height, keeping the specified position.
-     *
-     * @throws RuntimeException
-     */
-    public function cover(int $width, int $height): self
-    {
-        $this->checkImage();
-
-        $assetResized = clone $this;
-        $assetResized->data['width'] = $width;
-        $assetResized->data['height'] = $height;
-
-        $quality = (int) $this->config->get('assets.images.quality');
-
-        $cache = new Cache($this->builder, 'assets');
-        $assetResized->cacheTags['quality'] = $quality;
-        $assetResized->cacheTags['width'] = $width;
         $assetResized->cacheTags['height'] = $height;
         $cacheKey = $cache->createKeyFromAsset($assetResized, $assetResized->cacheTags);
         if (!$cache->has($cacheKey)) {
-            $assetResized->data['content'] = Image::cover($assetResized, $width, $height, $quality);
+            $assetResized->data['content'] = Image::resize($assetResized, $width, $height, $quality);
             $assetResized->data['path'] = '/' . Util::joinPath(
                 (string) $this->config->get('assets.target'),
                 self::IMAGE_THUMB,
@@ -478,6 +446,8 @@ class Asset implements \ArrayAccess
                 $assetResized->data['path']
             );
             $assetResized->data['path'] = $this->deduplicateThumbPath($assetResized->data['path']);
+            $assetResized->data['width'] = $assetResized->getWidth();
+            $assetResized->data['height'] = $assetResized->getHeight();
             $assetResized->data['size'] = \strlen($assetResized->data['content']);
 
             $cache->set($cacheKey, $assetResized->data, $this->config->get('cache.assets.ttl'));

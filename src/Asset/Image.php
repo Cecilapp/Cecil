@@ -65,9 +65,13 @@ class Image
     /**
      * Resizes an image Asset to the given width or/and height.
      *
+     * If both width and height are provided, the image is cropped to fit the dimensions.
+     * If only one dimension is provided, the image is scaled proportionally.
+     * The $rmAnimation parameter can be set to true to remove animations from animated images (e.g., GIFs).
+     *
      * @throws RuntimeException
      */
-    public static function resize(Asset $asset, ?int $width, ?int $height, int $quality, ?bool $rmAnimation): string
+    public static function resize(Asset $asset, ?int $width = null, ?int $height = null, int $quality = 75, bool $rmAnimation = false): string
     {
         try {
             $image = self::manager()->read($asset['content']);
@@ -76,15 +80,19 @@ class Image
                 $image = $image->removeAnimation('25%'); // use 25% to avoid an "empty" frame
             }
 
-            if ($width && $height) {
-                $image->cover(width: $width, height: $height, position: 'center');
-            } elseif ($width) {
-                $image->scale(width: $width);
-            } elseif ($height) {
-                $image->scale(height: $height);
-            } else {
+            $resize = function (?int $width, ?int $height) use ($image) {
+                if ($width && $height) {
+                    return $image->cover(width: $width, height: $height, position: 'center');
+                }
+                if ($width) {
+                    return $image->scale(width: $width);
+                }
+                if ($height) {
+                    return $image->scale(height: $height);
+                }
                 throw new RuntimeException('Width or height must be specified.');
-            }
+            };
+            $image = $resize($width, $height);
 
             return (string) $image->encodeByMediaType(
                 $asset['subtype'],
