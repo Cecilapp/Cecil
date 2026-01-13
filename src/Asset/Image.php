@@ -63,57 +63,37 @@ class Image
     }
 
     /**
-     * Scales an image Asset to the given width or height, keeping the aspect ratio.
+     * Resizes an image Asset to the given width or/and height.
      *
      * @throws RuntimeException
      */
-    public static function resize(Asset $asset, ?int $width, ?int $height, int $quality): string
+    public static function resize(Asset $asset, ?int $width, ?int $height, int $quality, ?bool $rmAnimation): string
     {
         try {
             $image = self::manager()->read($asset['content']);
 
-            $image->scale(width: $width, height: $height);
+            if ($rmAnimation && $image->isAnimated()) {
+                $image = $image->removeAnimation('25%'); // use 25% to avoid an "empty" frame
+            }
+
+            if ($width && $height) {
+                $image->cover(width: $width, height: $height, position: 'center');
+            } elseif ($width) {
+                $image->scale(width: $width);
+            } elseif ($height) {
+                $image->scale(height: $height);
+            } else {
+                throw new RuntimeException('Width or height must be specified.');
+            }
 
             return (string) $image->encodeByMediaType(
                 $asset['subtype'],
-                /** @scrutinizer ignore-type */
-                progressive: true,
-                /** @scrutinizer ignore-type */
-                interlaced: false,
+                /** @scrutinizer ignore-type */ progressive: true,
+                /** @scrutinizer ignore-type */ interlaced: false,
                 quality: $quality
             );
         } catch (\Exception $e) {
             throw new RuntimeException(\sprintf('Asset "%s" can\'t be resized: %s.', $asset['path'], $e->getMessage()));
-        }
-    }
-
-    /**
-     * Resizes and crops an image Asset to the given width and height.
-     *
-     * @throws RuntimeException
-     */
-    public static function cover(Asset $asset, int $width, int $height, int $quality): string
-    {
-        try {
-            $image = self::manager()->read($asset['content']);
-
-            // turns an animated image (i.e GIF) into a static image
-            if ($image->isAnimated()) {
-                $image = $image->removeAnimation('25%'); // use 25% to avoid an "empty" frame
-            }
-
-            $image->cover(width: $width, height: $height, position: 'center');
-
-            return (string) $image->encodeByMediaType(
-                $asset['subtype'],
-                /** @scrutinizer ignore-type */
-                progressive: true,
-                /** @scrutinizer ignore-type */
-                interlaced: false,
-                quality: $quality
-            );
-        } catch (\Exception $e) {
-            throw new RuntimeException(\sprintf('Asset "%s" can\'t be cropped: %s.', $asset['path'], $e->getMessage()));
         }
     }
 
@@ -140,10 +120,8 @@ class Image
 
             return (string) $image->encodeByMediaType(
                 $asset['subtype'],
-                /** @scrutinizer ignore-type */
-                progressive: true,
-                /** @scrutinizer ignore-type */
-                interlaced: false,
+                /** @scrutinizer ignore-type */ progressive: true,
+                /** @scrutinizer ignore-type */ interlaced: false,
                 quality: $quality
             );
         } catch (\Exception $e) {
@@ -167,10 +145,8 @@ class Image
 
             return (string) $image->encodeByExtension(
                 $format,
-                /** @scrutinizer ignore-type */
-                progressive: true,
-                /** @scrutinizer ignore-type */
-                interlaced: false,
+                /** @scrutinizer ignore-type */ progressive: true,
+                /** @scrutinizer ignore-type */ interlaced: false,
                 quality: $quality
             );
         } catch (\Exception $e) {
