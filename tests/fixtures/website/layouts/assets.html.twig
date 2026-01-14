@@ -175,14 +175,53 @@
     </blockquote>
   </p>
   <h3>Image resize</h3>
+  <h4>Resize (width by default)</h4>
   <p>
     <pre>{% verbatim %}{{ asset('images/cecil-logo.png')|resize(96) }}{% endverbatim %}</pre>
+    <blockquote>
+      {{ html(asset('images/cecil-logo.png')|resize(96), {alt: 'Cecil Logo resized to 96px'}) }}
+    </blockquote>
     <pre>{{ asset('images/cecil-logo.png')|resize(96) }}</pre>
   </p>
+  <h4>Resize (larger than original, don't upscale)</h4>
   <p>
-    Don't need to resize:
     <pre>{% verbatim %}{{ asset('images/cecil-logo.png')|resize(999) }}{% endverbatim %}</pre>
+    <blockquote>
+      {{ html(asset('images/cecil-logo.png')|resize(999), {alt: 'Cecil Logo resized to 999px'}) }}
+    </blockquote>
     <pre>{{ asset('images/cecil-logo.png')|resize(999) }}</pre>
+  </p>
+  <h4>Resize width</h4>
+  <p>
+    <pre>{% verbatim %}{{ asset('images/cecil-logo.png')|resize(width: 96) }}{% endverbatim %}</pre>
+    <blockquote>
+      {{ html(asset('images/cecil-logo.png')|resize(width: 96), {alt: 'Cecil Logo resized to width 96px'}) }}
+    </blockquote>
+    <pre>{{ asset('images/cecil-logo.png')|resize(width: 96) }}</pre>
+  </p>
+  <h4>Resize height</h4>
+  <p>
+    <pre>{% verbatim %}{{ asset('images/cecil-logo.png')|resize(height: 96) }}{% endverbatim %}</pre>
+    <blockquote>
+      {{ html(asset('images/cecil-logo.png')|resize(height: 96), {alt: 'Cecil Logo resized to height 96px'}) }}
+    </blockquote>
+    <pre>{{ asset('images/cecil-logo.png')|resize(height: 96) }}</pre>
+  </p>
+  <h4>Resize width and height</h4>
+  <p>
+    <pre>{% verbatim %}{{ asset('images/cecil-logo.png')|resize(width: 96, height: 96) }}{% endverbatim %}</pre>
+    <blockquote>
+      {{ html(asset('images/cecil-logo.png')|resize(width: 96, height: 96), {alt: 'Cecil Logo resized to 96x96px'}) }}
+    </blockquote>
+    <pre>{{ asset('images/cecil-logo.png')|resize(width: 96, height: 96) }}</pre>
+  </p>
+  <h4>Resize and crop center</h4>
+  <p>
+    <pre>{% verbatim %}{{ asset('images/cecil-logo.png')|resize(width: 300, height: 100) }}{% endverbatim %}</pre>
+    <blockquote>
+      {{ html(asset('images/cecil-logo.png')|resize(width: 300, height: 100), {alt: 'Cecil Logo resized to 300x100px'}) }}
+    </blockquote>
+    <pre>{{ asset('images/cecil-logo.png')|resize(width: 300, height: 100) }}</pre>
   </p>
   <h3>Image dominant color</h3>
   <p>

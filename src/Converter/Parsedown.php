@@ -411,11 +411,13 @@ class Parsedown extends \ParsedownToc
                             'attributes' => [
                                 'type'   => "image/$format",
                                 'srcset' => $srcset,
-                                'sizes'  => $sizes,
                                 'width'  => $InlineImage['element']['attributes']['width'],
                                 'height' => $InlineImage['element']['attributes']['height'],
                             ],
                         ];
+                        if (!empty($sizes)) {
+                            $sources[\count($sources) - 1]['attributes']['sizes'] = $sizes;
+                        }
                     } catch (\Exception $e) {
                         $this->builder->getLogger()->warning($e->getMessage());
                         continue;

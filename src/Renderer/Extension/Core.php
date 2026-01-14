@@ -621,7 +621,9 @@ class Core extends SlugifyExtension
         try {
             if ($responsive === true || $responsive == 'width') {
                 $srcset = Image::buildHtmlSrcsetW($asset, $this->config->getAssetsImagesWidths());
-                $attributes['srcset'] = $srcset;
+                if (!empty($srcset)) {
+                    $attributes['srcset'] = $srcset;
+                }
                 $attributes['sizes'] = Image::getHtmlSizes($attributes['class'] ?? '', $this->config->getAssetsImagesSizes());
                 // prevent oversized images
                 if ($asset['width'] > max($this->config->getAssetsImagesWidths())) {
@@ -630,7 +632,9 @@ class Core extends SlugifyExtension
             } elseif ($responsive == 'density') {
                 $width1x = isset($attributes['width']) && $attributes['width'] > 0 ? (int) $attributes['width'] : $asset['width'];
                 $srcset = Image::buildHtmlSrcsetX($asset, $width1x, $this->config->getAssetsImagesDensities());
-                $attributes['srcset'] = $srcset;
+                if (!empty($srcset)) {
+                    $attributes['srcset'] = $srcset;
+                }
             }
         } catch (\Exception $e) {
             $this->builder->getLogger()->warning($e->getMessage());
@@ -647,12 +651,19 @@ class Core extends SlugifyExtension
                         // responsive
                         if ($responsive === true || $responsive == 'width') {
                             $srcset = Image::buildHtmlSrcsetW($assetConverted, $this->config->getAssetsImagesWidths());
+                            if (empty($srcset)) {
+                                $source .= \sprintf("\n  <source type=\"image/$format\" srcset=\"%s\">", (string) $assetConverted);
+                                continue;
+                            }
                             $source .= \sprintf("\n  <source type=\"image/$format\" srcset=\"%s\" sizes=\"%s\">", $srcset, Image::getHtmlSizes($attributes['class'] ?? '', $this->config->getAssetsImagesSizes()));
                             continue;
                         }
                         if ($responsive == 'density') {
                             $width1x = isset($attributes['width']) && $attributes['width'] > 0 ? (int) $attributes['width'] : $asset['width'];
                             $srcset = Image::buildHtmlSrcsetX($assetConverted, $width1x, $this->config->getAssetsImagesDensities());
+                            if (empty($srcset)) {
+                                $srcset = (string) $assetConverted;
+                            }
                             $source .= \sprintf("\n  <source type=\"image/$format\" srcset=\"%s\">", $srcset);
                             continue;
                         }
