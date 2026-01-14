@@ -28,6 +28,7 @@ use Symfony\Component\Finder\SplFileInfo;
 class Page extends Item
 {
     public const SLUGIFY_PATTERN = '/(^\/|[^._a-z0-9\/]|-)+/'; // should be '/^\/|[^_a-z0-9\/]+/'
+    public const SLUGIFY_RULESETS = ['default', 'chinese'];    // should be configurable
 
     /** @var bool True if page is not created from a file. */
     protected $virtual;
@@ -129,7 +130,10 @@ class Page extends Item
     public static function slugify(string $path): string
     {
         if (!self::$slugifier instanceof Slugify) {
-            self::$slugifier = Slugify::create(['regexp' => self::SLUGIFY_PATTERN]);
+            self::$slugifier = Slugify::create([
+                'regexp' => self::SLUGIFY_PATTERN,
+                'rulesets' => self::SLUGIFY_RULESETS,
+            ]);
         }
 
         return self::$slugifier->slugify($path);
