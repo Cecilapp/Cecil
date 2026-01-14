@@ -1236,4 +1236,15 @@ class Core extends SlugifyExtension
 
         return $htmlAttributes;
     }
+
+    /**
+     * Override parent's slugifyFilter to add Chinese character support.
+     */
+    public function slugifyFilter(string $string, $separator = '-'): string
+    {
+        return self::$slugifier->slugify($string, [
+            'separator' => $separator,
+            'ruleset' => 'chinese',
+        ]);
+    }
 }

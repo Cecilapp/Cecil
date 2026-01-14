@@ -122,7 +122,7 @@ class Url
             case \is_string($value): // others cases
                 /** @var non-falsy-string $value */
                 // $value is a potential Page ID
-                $pageId = self::$slugifier->slugify($value);
+                $pageId = self::$slugifier->slugify($value, ['ruleset' => 'chinese']);
                 // should force language?
                 $lang = '';
                 if ($language !== null && $language != $this->config->getLanguageDefault()) {
