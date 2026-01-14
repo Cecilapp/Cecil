@@ -1,7 +1,7 @@
 <!--
 description: "Deploy (publish) your website."
 date: 2020-12-19
-updated: 2025-12-23
+updated: 2026-01-14
 alias: documentation/publish
 -->
 # Deploy
@@ -24,9 +24,6 @@ _netlify.toml_:
 [build]
   publish = "_site"
   command = "curl -sSOL https://cecil.app/build.sh && bash ./build.sh"
-
-[build.environment]
-  PHP_VERSION = "8.4"
 
 [context.production.environment]
   CECIL_ENV = "production"
@@ -144,7 +141,7 @@ jobs:
       - name: Setup PHP
         uses: shivammathur/setup-php@v2
         with:
-          php-version: '8.4'
+          php-version: pre-installed
           extensions: mbstring, fileinfo, gd, imagick, intl, gettext
       - name: Restore Cecil cache
         uses: actions/cache/restore@v4
@@ -194,7 +191,7 @@ jobs:
 _.gitlab-ci.yml_:
 
 ```yml
-image: wordpress:cli-php8.2
+image: wordpress:cli-php8.4
 
 test:
   stage: test
