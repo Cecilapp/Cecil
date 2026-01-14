@@ -20,7 +20,6 @@ use Cecil\Collection\Page\Page;
 use Cecil\Config;
 use Cecil\Renderer\Page as PageRenderer;
 use Cecil\Util;
-use Cocur\Slugify\Slugify;
 
 /**
  * URL class.
@@ -38,9 +37,6 @@ class Url
     /** @var string */
     protected $url;
 
-    /** @var Slugify Slugifier */
-    private static $slugifier;
-
     /**
      * Creates an URL from a Page, a Menu Entry, an Asset or a string.
      *
@@ -52,9 +48,6 @@ class Url
     {
         $this->builder = $builder;
         $this->config = $builder->getConfig();
-        if (!self::$slugifier instanceof Slugify) {
-            self::$slugifier = Slugify::create(['regexp' => Page::SLUGIFY_PATTERN]);
-        }
 
         // handles options
         $canonical = null; // if true prefix url with baseurl config
@@ -122,7 +115,7 @@ class Url
             case \is_string($value): // others cases
                 /** @var non-falsy-string $value */
                 // $value is a potential Page ID
-                $pageId = self::$slugifier->slugify($value);
+                $pageId = Page::slugify($value);
                 // should force language?
                 $lang = '';
                 if ($language !== null && $language != $this->config->getLanguageDefault()) {

@@ -129,10 +129,17 @@ class Page extends Item
     public static function slugify(string $path): string
     {
         if (!self::$slugifier instanceof Slugify) {
-            self::$slugifier = Slugify::create(['regexp' => self::SLUGIFY_PATTERN]);
+            self::$slugifier = Slugify::create([
+                'regexp' => self::SLUGIFY_PATTERN,
+            ]);
         }
 
-        return self::$slugifier->slugify($path);
+        // Use the Chinese ruleset only when the path contains Chinese (Han) characters.
+        $options = [];
+        if (preg_match('/\p{Han}/u', $path)) {
+            $options['ruleset'] = 'chinese';
+        }
+        return self::$slugifier->slugify($path, $options);
     }
 
     /**
