@@ -94,7 +94,7 @@ class Core extends SlugifyExtension
             new \Twig\TwigFunction('integrity', [$this, 'integrity']),
             new \Twig\TwigFunction('image_srcset', [$this, 'imageSrcset']),
             new \Twig\TwigFunction('image_sizes', [$this, 'imageSizes']),
-            new \Twig\TwigFunction('image_from_url', [$this, 'htmlImageFromUrl'], ['needs_context' => true]),
+            new \Twig\TwigFunction('image_from_website', [$this, 'htmlImageFromWebsite'], ['needs_context' => true]),
             // content
             new \Twig\TwigFunction('readtime', [$this, 'readtime']),
             new \Twig\TwigFunction('hash', [$this, 'hash']),
@@ -111,6 +111,11 @@ class Core extends SlugifyExtension
                 'toCSS',
                 [$this, 'toCss'],
                 ['deprecation_info' => new DeprecatedCallableInfo('', '', 'to_css filter')]
+            ),
+            new \Twig\TwigFunction(
+                'image_from_url',
+                [$this, 'htmlImageFromWebsite'],
+                ['deprecation_info' => new DeprecatedCallableInfo('', '', 'image_from_website function')]
             ),
         ];
     }
@@ -751,12 +756,14 @@ class Core extends SlugifyExtension
     }
 
     /**
-     * Builds the HTML img element from a URL by extracting the image from meta tags.
+     * Builds the HTML img element from a website URL by extracting the image from meta tags.
      * Returns null if no image found.
+     *
+     * @todo enhance performance by caching results?
      *
      * @throws RuntimeException
      */
-    public function htmlImageFromUrl(array $context, string $url, array $attributes = [], array $options = []): ?string
+    public function htmlImageFromWebsite(array $context, string $url, array $attributes = [], array $options = []): ?string
     {
         if (false !== $html = Util\File::fileGetContents($url)) {
             $imageUrl = Util\Html::getImageFromMetaTags($html);

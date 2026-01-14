@@ -1,7 +1,7 @@
 <!--
 description: "Working with layouts, templates and components."
 date: 2021-05-07
-updated: 2025-12-28
+updated: 2026-01-14
 alias: documentation/layouts
 -->
 # Templates
@@ -721,18 +721,18 @@ _Examples:_
 <img src="{{ url(asset) }}" width="{{ asset.width }}" height="{{ asset.height }}" alt="" class="asset" srcset="{{ image_srcset(asset) }}" sizes="{{ image_sizes('asset') }}">
 ```
 
-### image_from_url
+### image_from_website
 
-Builds the HTML img element from an URL by extracting the image from meta tags.
+Builds the HTML img element from a website URL by extracting the image from meta tags.
 
 ```twig
-image_from_url('<url>')
+image_from_website('<url>')
 ```
 
 _Examples:_
 
 ```twig
-{{ image_from_url('https://example.com/page-with-image.html') }}
+{{ image_from_website('https://example.com/page-with-image.html') }}
 ```
 
 ### readtime
