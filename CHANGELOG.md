@@ -2,6 +2,14 @@
 
 All notable changes to this project will be documented in this file. Dates are displayed in UTC.
 
+#### [8.77.0](https://github.com/Cecilapp/Cecil/compare/8.76.3...8.77.0)
+
+> 14 January 2026
+
+- refactor: rebuilding images processing [`#2277`](https://github.com/Cecilapp/Cecil/pull/2277)
+- chore(deps-dev): bump friendsofphp/php-cs-fixer from 3.92.4 to 3.92.5 [`#2274`](https://github.com/Cecilapp/Cecil/pull/2274)
+- chore: cleaning code [`9cfdf4a`](https://github.com/Cecilapp/Cecil/commit/9cfdf4a0d2b127737287c7deca09e0c151793648)
+
 #### [8.76.3](https://github.com/Cecilapp/Cecil/compare/8.76.2...8.76.3)
 
 > 7 January 2026
