@@ -134,7 +134,12 @@ class Page extends Item
             ]);
         }
 
-        return self::$slugifier->slugify($path, ['ruleset' => 'chinese']); // add Chinese characters support
+        // Use the Chinese ruleset only when the path contains Chinese (Han) characters.
+        $options = [];
+        if (preg_match('/\p{Han}/u', $path)) {
+            $options['ruleset'] = 'chinese';
+        }
+        return self::$slugifier->slugify($path, $options);
     }
 
     /**
