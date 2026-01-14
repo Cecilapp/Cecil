@@ -1209,25 +1209,39 @@ _Examples:_
 
 ### resize
 
-Resizes an image to a specified width (in pixels).
+Resizes an image to a specified width (in pixels) or/and height (in pixels).
+
+- If only the width is specified, the height is calculated to preserve the aspect ratio
+- If only the height is specified, the width is calculated to preserve the aspect ratio
+- If both width and height are specified, the image is resized to fit within the given dimensions, image is cropped and centered if necessary
 
 ```twig
-{{ asset(image_path)|resize(width) }}
+{{ asset(image_path)|resize(width: width, height: height) }}
 ```
 
 :::info
-Aspect ratio is preserved, the original file is not altered and the resized version is saved at `/thumbnails/<width>/image.jpg`.
+The original file is not altered and the resized version is saved at `/thumbnails/<width>x<height>/image.jpg`.
 :::
 
-_Example:_
+_Examples:_
 
 ```twig
 {{ asset(page.image)|resize(300) }}
+{# equivalent to: #}
+{{ asset(page.image)|resize(width: 300) }}
+{# resizes to 300px width, height auto-calculated to preserve aspect ratio #}
+{{ asset(page.image)|resize(height: 200) }}
+{# resiszes to 300px width and 200px height, and crops if necessary #}
+{{ asset(page.image)|resize(300, 200) }}
 ```
 
 ### cover
 
-Resizes an image to a specified width **and height**, cropping it if necessary.
+Resizes an image to a specified width and height, cropping it if necessary.
+
+:::warning
+The `cover` filter is deprecated since version ++8.77++ and will be removed in future versions. Use the [`resize`](#resize) filter instead, with both width and height parameters.
+:::
 
 ```twig
 {{ asset(image_path)|cover(width, height) }}
