@@ -2,6 +2,12 @@
 
 All notable changes to this project will be documented in this file. Dates are displayed in UTC.
 
+#### [8.78.1](https://github.com/Cecilapp/Cecil/compare/8.78.0...8.78.1)
+
+> 14 January 2026
+
+- fix: refine image resize logic in Asset class [`739cf18`](https://github.com/Cecilapp/Cecil/commit/739cf188148d38799e1341a1433423a258367526)
+
 #### [8.78.0](https://github.com/Cecilapp/Cecil/compare/8.77.1...8.78.0)
 
 > 14 January 2026
