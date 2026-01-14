@@ -2,6 +2,12 @@
 
 All notable changes to this project will be documented in this file. Dates are displayed in UTC.
 
+#### [8.77.1](https://github.com/Cecilapp/Cecil/compare/8.77.0...8.77.1)
+
+> 14 January 2026
+
+- fix: add 'cover' Twig filter as alias for 'resize' [`04232a4`](https://github.com/Cecilapp/Cecil/commit/04232a4973b7acb8c5af8f882de03265e31ad2b5)
+
 #### [8.77.0](https://github.com/Cecilapp/Cecil/compare/8.76.3...8.77.0)
 
 > 14 January 2026
