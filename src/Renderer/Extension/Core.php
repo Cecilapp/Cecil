@@ -27,7 +27,6 @@ use Cecil\Exception\ConfigException;
 use Cecil\Exception\RuntimeException;
 use Cecil\Url;
 use Cecil\Util;
-use Cecil\Util\Html;
 use Cocur\Slugify\Bridge\Twig\SlugifyExtension;
 use Cocur\Slugify\Slugify;
 use Highlight\Highlighter;
@@ -168,6 +167,14 @@ class Core extends SlugifyExtension
                 [
                     'needs_context' => true,
                     'deprecation_info' => new DeprecatedCallableInfo('', '', 'html function')
+                ]
+            ),
+            new \Twig\TwigFilter(
+                'cover',
+                [$this, 'resize'],
+                [
+                    'needs_context' => true,
+                    'deprecation_info' => new DeprecatedCallableInfo('', '', 'resize filter')
                 ]
             ),
         ];
