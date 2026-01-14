@@ -2,6 +2,14 @@
 
 All notable changes to this project will be documented in this file. Dates are displayed in UTC.
 
+#### [8.78.0](https://github.com/Cecilapp/Cecil/compare/8.77.1...8.78.0)
+
+> 14 January 2026
+
+- refactor: rename image_from_url to image_from_website [`4861671`](https://github.com/Cecilapp/Cecil/commit/4861671fac4eed39f32091df012139e395e23a14)
+- feat: option to remove animation in image resize [`29b9f34`](https://github.com/Cecilapp/Cecil/commit/29b9f3498a16b677eb00f17cbfbf8a1e69b25e9b)
+- doc: update image resize filter documentation [`8195447`](https://github.com/Cecilapp/Cecil/commit/8195447619c85ee3214f0c3a74d6c0ecae28b6b2)
+
 #### [8.77.1](https://github.com/Cecilapp/Cecil/compare/8.77.0...8.77.1)
 
 > 14 January 2026
