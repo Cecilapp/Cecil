@@ -1018,10 +1018,10 @@ class Asset implements \ArrayAccess
      */
     private function deduplicateThumbPath(string $path): string
     {
-        // https://regex101.com/r/1HXJmw/1
-        $pattern = '/(' . self::IMAGE_THUMB . '\/\d+(x\d+){0,1}\/)(' . self::IMAGE_THUMB . '\/\d+(x\d+){0,1}\/)(.*)/i';
+        // https://regex101.com/r/0r7FMY/1
+        $pattern = '/(' . self::IMAGE_THUMB . '\/(\d+){0,1}x(\d+){0,1}\/)(' . self::IMAGE_THUMB . '\/(\d+){0,1}x(\d+){0,1}\/)(.*)/i';
 
-        if (null === $result = preg_replace($pattern, '$1$5', $path)) {
+        if (null === $result = preg_replace($pattern, '$1$7', $path)) {
             return $path;
         }
 
