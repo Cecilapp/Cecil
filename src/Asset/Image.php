@@ -81,13 +81,13 @@ class Image
             }
 
             $resize = function (?int $width, ?int $height) use ($image) {
-                if ($width && $height) {
+                if ($width !== null && $height !== null) {
                     return $image->cover(width: $width, height: $height, position: 'center');
                 }
-                if ($width) {
+                if ($width !== null) {
                     return $image->scale(width: $width);
                 }
-                if ($height) {
+                if ($height !== null) {
                     return $image->scale(height: $height);
                 }
                 throw new RuntimeException('Width or height must be specified.');
