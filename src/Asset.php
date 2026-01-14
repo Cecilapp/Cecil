@@ -414,8 +414,16 @@ class Asset implements \ArrayAccess
     {
         $this->checkImage();
 
-        // if the image is already smaller, return it
-        if (($width === null || $this->data['width'] <= $width) && ($height === null || $this->data['height'] <= $height)) {
+        // if no width and no height, return the original image
+        if ($width === null && $height === null) {
+            return $this;
+        }
+
+        // if the image width or height is already smaller, return it
+        if ($width !== null && $this->data['width'] <= $width && $height === null) {
+            return $this;
+        }
+        if ($height !== null && $this->data['height'] <= $height && $width === null) {
             return $this;
         }
 
