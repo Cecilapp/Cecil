@@ -381,17 +381,22 @@ class Core extends SlugifyExtension
     /**
      * Resizes an image Asset to the given width or/and height.
      *
+     * - If only the width is specified, the height is calculated to preserve the aspect ratio
+     * - If only the height is specified, the width is calculated to preserve the aspect ratio
+     * - If both width and height are specified, the image is resized to fit within the given dimensions, image is cropped and centered if necessary
+     * - If remove_animation is true, any animation in the image (e.g., GIF) will be removed.
+     *
      * @param string|Asset $asset
      *
      * @return Asset
      */
-    public function resize($asset, ?int $width = null, ?int $height = null): Asset
+    public function resize($asset, ?int $width = null, ?int $height = null, bool $remove_animation = false): Asset
     {
         if (!$asset instanceof Asset) {
             $asset = new Asset($this->builder, $asset);
         }
 
-        return $asset->resize($width, $height);
+        return $asset->resize(width: $width, height: $height, rmAnimation: $remove_animation);
     }
 
     /**

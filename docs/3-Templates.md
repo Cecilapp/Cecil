@@ -1214,9 +1214,10 @@ Resizes an image to a specified width (in pixels) or/and height (in pixels).
 - If only the width is specified, the height is calculated to preserve the aspect ratio
 - If only the height is specified, the width is calculated to preserve the aspect ratio
 - If both width and height are specified, the image is resized to fit within the given dimensions, image is cropped and centered if necessary
+- If remove_animation is true, any animation in the image (e.g., GIF) will be removed
 
 ```twig
-{{ asset(image_path)|resize(width: width, height: height) }}
+{{ asset(image_path)|resize(width: width, height: height, remove_animation: bool) }}
 ```
 
 :::info
@@ -1231,8 +1232,10 @@ _Examples:_
 {{ asset(page.image)|resize(width: 300) }}
 {# resizes to 300px width, height auto-calculated to preserve aspect ratio #}
 {{ asset(page.image)|resize(height: 200) }}
-{# resiszes to 300px width and 200px height, and crops if necessary #}
+{# resizes to 300px width and 200px height, and crops if necessary #}
 {{ asset(page.image)|resize(300, 200) }}
+{# removes any animation from the image #}
+{{ asset(page.image)|resize(width: 1200, height: 630, remove_animation: true) }}
 ```
 
 ### cover

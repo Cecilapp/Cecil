@@ -403,9 +403,14 @@ class Asset implements \ArrayAccess
     /**
      * Resizes an image to the given width or/and height.
      *
+     * - If only the width is specified, the height is calculated to preserve the aspect ratio
+     * - If only the height is specified, the width is calculated to preserve the aspect ratio
+     * - If both width and height are specified, the image is resized to fit within the given dimensions, image is cropped and centered if necessary
+     * - If rmAnimation is true, any animation in the image (e.g., GIF) will be removed.
+     *
      * @throws RuntimeException
      */
-    public function resize(?int $width = null, ?int $height = null): self
+    public function resize(?int $width = null, ?int $height = null, bool $rmAnimation = false): self
     {
         $this->checkImage();
 
@@ -437,7 +442,7 @@ class Asset implements \ArrayAccess
         $assetResized->cacheTags['height'] = $height;
         $cacheKey = $cache->createKeyFromAsset($assetResized, $assetResized->cacheTags);
         if (!$cache->has($cacheKey)) {
-            $assetResized->data['content'] = Image::resize($assetResized, $width, $height, $quality);
+            $assetResized->data['content'] = Image::resize($assetResized, $width, $height, $quality, $rmAnimation);
             $assetResized->data['path'] = '/' . Util::joinPath(
                 (string) $this->config->get('assets.target'),
                 self::IMAGE_THUMB,

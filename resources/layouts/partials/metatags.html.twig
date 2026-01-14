@@ -110,9 +110,9 @@
   {%- endif %}
   {#- if image is large, turn it in cover image #}
   {%- if image_asset is image_large %}
-    {%- set opengraph = opengraph|merge({'image': image_asset|resize(width: 1200, height: 630)}) %}
+    {%- set opengraph = opengraph|merge({'image': image_asset|resize(width: 1200, height: 630, remove_animation: true)}) %}
   {%- else %}
-    {%- set opengraph = opengraph|merge({'image': image_asset|resize(width: 512)}) %}
+    {%- set opengraph = opengraph|merge({'image': image_asset|resize(width: 512, remove_animation: true)}) %}
   {%- endif %}
 {% endif %}
 {# merge page.opengraph #}
