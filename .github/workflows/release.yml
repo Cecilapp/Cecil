@@ -215,7 +215,7 @@ jobs:
             ---
             - Documentation: <https://cecil.app/documentation/>
             - Download: <https://cecil.app/download/>
-            - Self Update: `php cecil.phar self-update`
+            - Update: <https://cecil.app/download/#update>
       - name: Summary
         run: echo "📦 GitHub [release ${{ steps.release.outputs.tag_name }}](${{ steps.release.outputs.html_url }}) updated" >> $GITHUB_STEP_SUMMARY
 
