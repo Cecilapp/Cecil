@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. Dates are displayed in UTC.
 
+#### [8.79.0](https://github.com/Cecilapp/Cecil/compare/8.78.1...8.79.0)
+
+> 14 January 2026
+
+- feat: support Chinese slugify ruleset [`#2281`](https://github.com/Cecilapp/Cecil/pull/2281)
+- doc: update deployment docs for PHP version [`896557e`](https://github.com/Cecilapp/Cecil/commit/896557e92e5ddf2d8bd3644f497058e5c6e0bab7)
+
 #### [8.78.1](https://github.com/Cecilapp/Cecil/compare/8.78.0...8.78.1)
 
 > 14 January 2026
