@@ -147,7 +147,7 @@ class AbstractCommand extends Command
     /**
      * Send desktop notification.
      */
-    public function notification(string $body): void
+    public function notification(string $body, ?string $url = null): void
     {
         $notifier = new DefaultNotifier();
         $notification = (new Notification())
@@ -155,6 +155,9 @@ class AbstractCommand extends Command
             ->setIcon($this->rootPath . 'resources/icon.png')
             ->setBody($body)
         ;
+        if ($url !== null) {
+            $notification->addOption('url', $url);
+        }
         if (false === $notifier->send($notification)) {
             $this->output->writeln('<comment>Desktop notification could not be sent</comment>');
         }

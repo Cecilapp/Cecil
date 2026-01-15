@@ -230,7 +230,7 @@ EOF
                 });
                 // notification
                 if ($notif) {
-                    $this->notification('Starting server 🚀');
+                    $this->notification('Starting server 🚀', \sprintf('http://%s:%s', $host, $port));
                 }
                 // open web browser
                 if ($open) {
