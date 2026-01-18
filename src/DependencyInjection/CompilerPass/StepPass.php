@@ -43,7 +43,7 @@ class StepPass implements CompilerPassInterface
 
         foreach ($taggedServices as $id => $tags) {
             $definition = $container->findDefinition($id);
-            
+
             // S'assurer que les steps sont publics pour être accessibles par le Builder
             $definition->setPublic(true);
         }

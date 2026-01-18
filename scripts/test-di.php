@@ -73,7 +73,7 @@ echo "4. Test de l'Application avec DI...\n";
 try {
     $app = new Application();
     echo "   ✓ Application créée\n";
-    
+
     $appContainer = $app->getContainer();
     if ($appContainer !== null) {
         echo "   ✓ Container DI disponible dans l'application\n";

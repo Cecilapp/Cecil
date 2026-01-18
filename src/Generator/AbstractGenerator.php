@@ -50,7 +50,7 @@ abstract class AbstractGenerator implements GeneratorInterface
     {
         $this->builder = $builder;
         $this->config = $builder->getConfig();
-        
+
         // Initialize generatedPages if not already done
         if (!isset($this->generatedPages)) {
             $this->generatedPages = new PagesCollection('generator-' . Util::formatClassName($this, ['lowercase' => true]));

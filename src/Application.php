@@ -117,13 +117,15 @@ class Application extends BaseApplication
                 $command = new \Cecil\Command\SelfUpdate();
                 $command->setContainer($this->container);
                 $commands[] = $command;
-            } catch (\Exception $e) {}
-            
+            } catch (\Exception $e) {
+            }
+
             try {
                 $command = new \Cecil\Command\UtilTemplatesExtract();
                 $command->setContainer($this->container);
                 $commands[] = $command;
-            } catch (\Exception $e) {}
+            } catch (\Exception $e) {
+            }
         }
 
         return $commands;
