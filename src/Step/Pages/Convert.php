@@ -31,6 +31,14 @@ use Cecil\Util;
  */
 class Convert extends AbstractStep
 {
+    /** @var Converter */
+    protected $converter;
+
+    public function __construct(Converter $converter)
+    {
+        $this->converter = $converter;
+    }
+
     /**
      * {@inheritdoc}
      */
@@ -112,7 +120,7 @@ class Convert extends AbstractStep
     public function convertPage(Builder $builder, Page $page, ?string $format = null, ?ConverterInterface $converter = null): Page
     {
         $format = $format ?? (string) $builder->getConfig()->get('pages.frontmatter');
-        $converter = $converter ?? new Converter($builder);
+        $converter = $converter ?? $this->converter;
 
         // converts front matter
         if ($page->getFrontmatter()) {

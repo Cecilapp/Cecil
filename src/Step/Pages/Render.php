@@ -23,6 +23,7 @@ use Cecil\Renderer\Layout;
 use Cecil\Renderer\Page as PageRenderer;
 use Cecil\Renderer\Site;
 use Cecil\Renderer\Twig;
+use Cecil\Renderer\TwigFactory;
 use Cecil\Step\AbstractStep;
 use Cecil\Util;
 
@@ -40,6 +41,14 @@ class Render extends AbstractStep
     public const TMP_DIR = '.cecil';
 
     protected $subset = [];
+
+    /** @var TwigFactory */
+    protected $twigFactory;
+
+    public function __construct(TwigFactory $twigFactory)
+    {
+        $this->twigFactory = $twigFactory;
+    }
 
     /**
      * {@inheritdoc}
@@ -79,7 +88,7 @@ class Render extends AbstractStep
     public function process(): void
     {
         // prepares renderer
-        $this->builder->setRenderer(new Twig($this->builder, $this->getAllLayoutsPaths()));
+        $this->builder->setRenderer($this->twigFactory->create($this->builder, $this->getAllLayoutsPaths()));
 
         // adds global variables
         $this->addGlobals();

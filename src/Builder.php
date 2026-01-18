@@ -17,8 +17,10 @@ use Cecil\Collection\Page\Collection as PagesCollection;
 use Cecil\Exception\RuntimeException;
 use Cecil\Generator\GeneratorManager;
 use Cecil\Logger\PrintLogger;
+use Cecil\Step\StepRegistry;
 use Psr\Log\LoggerAwareInterface;
 use Psr\Log\LoggerInterface;
+use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\Finder\Finder;
 
 /**
@@ -196,36 +198,39 @@ class Builder implements LoggerAwareInterface
      * @var array
      */
     protected $metrics = [];
+    
     /**
      * Current build ID.
      * This is a unique identifier for the current build process.
      * It is generated based on the current date and time when the build starts.
-     * It can be used to track builds, especially in environments where multiple builds may occur.
-     * @var string
-     * @see \Cecil\Builder::build()
+     * @var string|null
      */
     protected $buildId;
+    
+    /**
+     * Dependency injection container.
+     * @var ContainerInterface
+     */
+    protected ContainerInterface $container;
 
     /**
-     * @param Config|array|null    $config
-     * @param LoggerInterface|null $logger
+     * @param Config $config The configuration instance
+     * @param LoggerInterface $logger The logger instance
+     * @param ContainerInterface $container The DI container
      */
-    public function __construct($config = null, ?LoggerInterface $logger = null)
-    {
-        // init and set config
-        $this->config = new Config();
-        if ($config !== null) {
-            $this->setConfig($config);
-        }
+    public function __construct(
+        Config $config,
+        LoggerInterface $logger,
+        ContainerInterface $container
+    ) {
+        $this->config = $config;
+        $this->logger = $logger;
+        $this->container = $container;
+        
         // debug mode?
         if (getenv('CECIL_DEBUG') == 'true' || $this->getConfig()->isEnabled('debug')) {
             $this->debug = true;
         }
-        // set logger
-        if ($logger === null) {
-            $logger = new PrintLogger(self::VERBOSITY_VERBOSE);
-        }
-        $this->setLogger($logger);
     }
 
     /**
@@ -236,6 +241,17 @@ class Builder implements LoggerAwareInterface
         $class = new \ReflectionClass(\get_called_class());
 
         return $class->newInstanceArgs(\func_get_args());
+    }
+
+    /**
+     * Gets all build steps, initialized and ready to process.
+     *
+     * @return \Cecil\Step\StepInterface[] Array of initialized steps
+     */
+    protected function getSteps(): array
+    {
+        $registry = new StepRegistry($this, $this->container);
+        return $registry->getSteps($this->options);
     }
 
     /**
@@ -262,15 +278,8 @@ class Builder implements LoggerAwareInterface
         $this->buildId = date('YmdHis');
 
         // process each step
-        $steps = [];
-        // init...
-        foreach (self::STEPS as $step) {
-            $stepObject = new $step($this);
-            $stepObject->init($this->options);
-            if ($stepObject->canProcess()) {
-                $steps[] = $stepObject;
-            }
-        }
+        $steps = $this->getSteps();
+        
         // ...and process
         $stepNumber = 0;
         $stepsTotal = \count($steps);
@@ -304,6 +313,9 @@ class Builder implements LoggerAwareInterface
      */
     public function getBuildId(): string
     {
+        if ($this->buildId === null) {
+            $this->buildId = date('YmdHis');
+        }
         return $this->buildId;
     }
 
@@ -476,6 +488,9 @@ class Builder implements LoggerAwareInterface
      */
     public function getPages(): ?PagesCollection
     {
+        if ($this->pages === null) {
+            $this->pages = new PagesCollection('pages');
+        }
         return $this->pages;
     }
 

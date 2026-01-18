@@ -15,6 +15,7 @@ namespace Cecil\Step\Pages;
 
 use Cecil\Generator\GeneratorManager;
 use Cecil\Step\AbstractStep;
+use Symfony\Component\DependencyInjection\ContainerInterface;
 
 /**
  * Generate pages step.
@@ -25,6 +26,17 @@ use Cecil\Step\AbstractStep;
  */
 class Generate extends AbstractStep
 {
+    /** @var GeneratorManager */
+    protected $generatorManager;
+
+    /** @var ContainerInterface */
+    protected $container;
+
+    public function __construct(GeneratorManager $generatorManager, ContainerInterface $container)
+    {
+        $this->generatorManager = $generatorManager;
+        $this->container = $container;
+    }
     /**
      * {@inheritdoc}
      */
@@ -48,18 +60,49 @@ class Generate extends AbstractStep
      */
     public function process(): void
     {
-        $generatorManager = new GeneratorManager($this->builder);
         $generators = (array) $this->config->get('pages.generators');
-        array_walk($generators, function ($generator, $priority) use ($generatorManager) {
-            if (!class_exists($generator)) {
-                $message = \sprintf('Unable to load generator "%s" (priority: %s).', $generator, $priority);
+        array_walk($generators, function ($generatorClass, $priority) {
+            if (!class_exists($generatorClass)) {
+                $message = \sprintf('Unable to load generator "%s" (priority: %s).', $generatorClass, $priority);
                 $this->builder->getLogger()->error($message);
 
                 return;
             }
-            $generatorManager->addGenerator(new $generator($this->builder), $priority);
+            // Try to get generator from container, otherwise instantiate manually
+            try {
+                $generator = $this->container->get($generatorClass);
+                // Set builder for generators (needed for context)
+                if (method_exists($generator, 'setBuilder')) {
+                    $generator->setBuilder($this->builder);
+                }
+            } catch (\Symfony\Component\DependencyInjection\Exception\ServiceNotFoundException $e) {
+                // Generator not in container or inlined, instantiate manually
+                // Special case for ExternalBody which needs Converter
+                if ($generatorClass === 'Cecil\\Generator\\ExternalBody') {
+                    try {
+                        $converter = $this->container->get('Cecil\\Converter\\Converter');
+                    } catch (\Exception $converterException) {
+                        // Fallback: create converter manually
+                        $parsedown = new \Cecil\Converter\Parsedown($this->builder);
+                        $converter = new \Cecil\Converter\Converter($this->builder, $parsedown);
+                    }
+                    $generator = new $generatorClass($this->builder, $converter);
+                } else {
+                    $generator = new $generatorClass($this->builder);
+                    // Verify builder is set
+                    if (property_exists($generator, 'builder')) {
+                        $reflection = new \ReflectionProperty($generator, 'builder');
+                        $reflection->setAccessible(true);
+                        $builderValue = $reflection->getValue($generator);
+                        if ($builderValue === null) {
+                            throw new \RuntimeException("Builder not set for generator $generatorClass");
+                        }
+                    }
+                }
+            }
+            $this->generatorManager->addGenerator($generator, $priority);
         });
-        $pages = $generatorManager->process();
+        $pages = $this->generatorManager->process();
         $this->builder->setPages($pages);
     }
 }

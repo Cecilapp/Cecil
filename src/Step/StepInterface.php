@@ -25,11 +25,6 @@ use Cecil\Builder;
 interface StepInterface
 {
     /**
-     * StepInterface constructor.
-     */
-    public function __construct(Builder $builder);
-
-    /**
      * Returns the step name.
      */
     public function getName(): string;

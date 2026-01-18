@@ -42,22 +42,25 @@ class Homepage extends AbstractGenerator implements GeneratorInterface
             // creates a new index page...
             $page = (new Page($pageId))->setPath('')->setVariable('title', 'Home');
             // ... clones it if already exists
-            if ($this->builder->getPages()->has($pageId)) {
+            if ($this->builder->getPages() && $this->builder->getPages()->has($pageId)) {
                 $page = clone $this->builder->getPages()->get($pageId);
             }
             /** @var \Cecil\Collection\Page\Page $page */
             $page->setType(Type::HOMEPAGE->value);
             // collects all pages
-            $pages = $this->builder->getPages()->filter(function (Page $page) use ($language) {
-                return $page->getType() == Type::PAGE->value
-                    && $page->getVariable('published') === true
-                    && ($page->getVariable('excluded') !== true && $page->getVariable('exclude') !== true)
-                    && $page->isVirtual() === false
-                    && $page->getVariable('language') == $language;
-            });
+            $pages = null;
+            if ($this->builder->getPages()) {
+                $pages = $this->builder->getPages()->filter(function (Page $page) use ($language) {
+                    return $page->getType() == Type::PAGE->value
+                        && $page->getVariable('published') === true
+                        && ($page->getVariable('excluded') !== true && $page->getVariable('exclude') !== true)
+                        && $page->isVirtual() === false
+                        && $page->getVariable('language') == $language;
+                });
+            }
             // or collects pages from a specified section
             /** @var \Cecil\Collection\Page\Collection $pages */
-            if ($page->hasVariable('pagesfrom') && $this->builder->getPages()->has((string) $page->getVariable('pagesfrom'))) {
+            if ($page->hasVariable('pagesfrom') && $this->builder->getPages() && $this->builder->getPages()->has((string) $page->getVariable('pagesfrom'))) {
                 $pages = $this->builder->getPages()->get((string) $page->getVariable('pagesfrom'))->getPages();
             }
             if ($pages instanceof \Cecil\Collection\Page\Collection) {

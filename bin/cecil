@@ -78,7 +78,8 @@ $version = ($version === '@' . 'git_version' . '@')
     ? Builder::getVersion()
     : $version;
 
-$application = new Application($name, $version);
+// Mode DI activé (mode legacy supprimé)
+$application = new Application();
 
 $exit = $application->run();
 exit($exit);

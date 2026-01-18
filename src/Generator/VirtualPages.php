@@ -63,7 +63,7 @@ class VirtualPages extends AbstractGenerator implements GeneratorInterface
                     }
                 }
                 // abord if the page id already exists
-                if ($this->builder->getPages()->has($pageId)) {
+                if ($this->builder->getPages() && $this->builder->getPages()->has($pageId)) {
                     continue;
                 }
                 $page = (new Page($pageId))

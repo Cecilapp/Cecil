@@ -1,0 +1,140 @@
+# Configuration des services pour Cecil
+# Ce fichier définit tous les services utilisés par l'application
+# et configure l'autowiring et l'autoconfiguration pour simplifier la gestion des dépendances
+
+services:
+    _defaults:
+        autowire: true      # Résolution automatique des dépendances
+        autoconfigure: true # Configuration automatique basée sur les interfaces
+        public: false       # Les services ne sont pas publics par défaut
+
+    # Alias pour l'interface ContainerInterface
+    Symfony\Component\DependencyInjection\ContainerInterface:
+        alias: service_container
+        public: true
+
+    # Configuration
+    Cecil\Config:
+        public: true
+        lazy: true
+
+    # Builder (service principal)
+    Cecil\Builder:
+        public: true
+        lazy: true
+        arguments:
+            $config: '@Cecil\Config'
+            $logger: '@Psr\Log\LoggerInterface'
+            $container: '@service_container'
+
+    Cecil\BuilderFactory:
+        public: true
+
+    # Logger
+    Psr\Log\LoggerInterface:
+        public: true
+        alias: Cecil\Logger\PrintLogger
+
+    Cecil\Logger\PrintLogger:
+        public: true
+        arguments:
+            $printLevelMax: '%cecil.verbosity%'
+
+    Cecil\Logger\ConsoleLogger: ~
+
+    # Renderer
+    Cecil\Renderer\Twig:
+        lazy: true
+        autowire: true
+
+    Cecil\Renderer\TwigFactory:
+        public: true
+
+    # Converter (Markdown, YAML, etc.)
+    Cecil\Converter\Converter:
+        public: true
+        lazy: true
+
+    Cecil\Converter\Parsedown:
+        public: true
+        lazy: true
+
+    # Generator Manager
+    Cecil\Generator\GeneratorManager:
+        public: true
+        lazy: true
+
+    # Cache
+    Cecil\Cache:
+        shared: false
+        arguments:
+            $builder: '@Cecil\Builder'
+            $pool: ''
+
+    # Asset
+    Cecil\Asset:
+        shared: false
+
+    Cecil\Asset\Image:
+        shared: false
+
+    # Url
+    Cecil\Url:
+        shared: false
+
+    # Collections
+    Cecil\Collection\Collection:
+        shared: false
+
+    Cecil\Collection\Page\Collection:
+        shared: false
+
+    Cecil\Collection\Menu\Collection:
+        shared: false
+
+    Cecil\Collection\Taxonomy\Collection:
+        shared: false
+
+    # Auto-enregistrement des Generators
+    Cecil\Generator\:
+        resource: '../src/Generator/*'
+        exclude: '../src/Generator/{GeneratorManager.php,GeneratorInterface.php,AbstractGenerator.php}'
+        tags: ['cecil.generator']
+
+    # Auto-enregistrement des Steps
+    Cecil\Step\:
+        resource: '../src/Step/**/*'
+        exclude: '../src/Step/{AbstractStep.php,StepInterface.php}'
+        tags: ['cecil.step']
+
+    # Commands - Déclaration explicite pour le moment
+    Cecil\Command\About:
+        tags: ['console.command']
+        calls:
+            - [setContainer, ['@service_container']]
+            
+    Cecil\Command\Build:
+        tags: ['console.command']
+        calls:
+            - [setContainer, ['@service_container']]
+            
+    Cecil\Command\ListCommand:
+        tags: ['console.command']
+
+    # Converters
+    Cecil\Converter\:
+        resource: '../src/Converter/*'
+        exclude: '../src/Converter/{ConverterInterface.php}'
+
+    # Renderer Extensions
+    Cecil\Renderer\Extension\:
+        resource: '../src/Renderer/Extension/*'
+        tags: ['cecil.twig.extension']
+
+parameters:
+    # Paramètres par défaut
+    cecil.verbosity: 0
+    cecil.debug: false
+    cecil.source_dir: '%env(PWD)%'
+    cecil.destination_dir: '_site'
+    cecil.cache_dir: '.cecil/cache'

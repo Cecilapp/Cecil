@@ -32,9 +32,13 @@ class Converter implements ConverterInterface
     /** @var Builder */
     protected $builder;
 
-    public function __construct(Builder $builder)
+    /** @var Parsedown */
+    protected $parsedown;
+
+    public function __construct(Builder $builder, Parsedown $parsedown)
     {
         $this->builder = $builder;
+        $this->parsedown = $parsedown;
     }
 
     /**
@@ -57,9 +61,7 @@ class Converter implements ConverterInterface
      */
     public function convertBody(string $string): string
     {
-        $parsedown = new Parsedown($this->builder);
-
-        return $parsedown->text($string);
+        return $this->parsedown->text($string);
     }
 
     /**

@@ -12,7 +12,9 @@
 namespace Cecil\Test;
 
 use Cecil\Builder;
+use Cecil\BuilderFactory;
 use Cecil\Config;
+use Cecil\DependencyInjection\ContainerBuilder;
 use Cecil\Logger\PrintLogger;
 use Cecil\Util;
 use Symfony\Component\Filesystem\Filesystem;
@@ -52,8 +54,23 @@ class IntegrationTests extends \PHPUnit\Framework\TestCase
         putenv('CECIL_TITLE=Cecil (env)');
         putenv('CECIL_DESCRIPTION=Description (env)');
         echo "\n";
-        //Builder::create(require($this->config), new PrintLogger())
-        Builder::create(Config::loadFile($this->config), new PrintLogger())
+        
+        // Load config from test fixture
+        $configArray = Config::loadFile($this->config);
+        $config = new Config($configArray);
+        
+        // Create DI container
+        $container = ContainerBuilder::build([
+            'cecil.verbosity' => 1,
+            'cecil.debug' => true,
+        ]);
+        
+        // Get logger
+        $logger = $container->get('Psr\\Log\\LoggerInterface');
+        
+        // Create builder manually with test config
+        $builder = new Builder($config, $logger, $container);
+        $builder
             ->setSourceDir($this->source)
             ->setDestinationDir($this->destination)
             ->build([

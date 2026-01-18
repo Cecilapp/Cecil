@@ -43,6 +43,21 @@ abstract class AbstractGenerator implements GeneratorInterface
     }
 
     /**
+     * Sets the builder instance.
+     * This method is called by the GeneratorManager when using DI.
+     */
+    public function setBuilder(Builder $builder): void
+    {
+        $this->builder = $builder;
+        $this->config = $builder->getConfig();
+        
+        // Initialize generatedPages if not already done
+        if (!isset($this->generatedPages)) {
+            $this->generatedPages = new PagesCollection('generator-' . Util::formatClassName($this, ['lowercase' => true]));
+        }
+    }
+
+    /**
      * Run the `generate` method of the generator and returns pages.
      */
     public function runGenerate(): PagesCollection

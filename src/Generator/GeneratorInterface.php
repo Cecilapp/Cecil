@@ -19,11 +19,6 @@ namespace Cecil\Generator;
 interface GeneratorInterface
 {
     /**
-     * Gives the Builder to the object.
-     */
-    public function __construct(\Cecil\Builder $builder);
-
-    /**
      * Creates pages and adds it to collection.
      *
      * Use `$this->generatedPages->add($page);`

@@ -18,6 +18,7 @@ use Cecil\Config;
 use Cecil\Exception\RuntimeException;
 use Cecil\Logger\ConsoleLogger;
 use Cecil\Util;
+use Symfony\Component\DependencyInjection\ContainerInterface;
 use Joli\JoliNotif\DefaultNotifier;
 use Joli\JoliNotif\Notification;
 use Symfony\Component\Console\Command\Command;
@@ -64,6 +65,9 @@ class AbstractCommand extends Command
 
     /** @var Builder */
     private $builder;
+
+    /** @var ContainerInterface|null */
+    private $container;
 
     /**
      * {@inheritdoc}
@@ -202,6 +206,14 @@ class AbstractCommand extends Command
     }
 
     /**
+     * Sets the DI container.
+     */
+    public function setContainer(?ContainerInterface $container): void
+    {
+        $this->container = $container;
+    }
+
+    /**
      * Creates or returns a Builder instance.
      *
      * @throws RuntimeException
@@ -221,7 +233,15 @@ class AbstractCommand extends Command
             }
             // creates builder instance if not already done
             if ($this->builder === null) {
-                $this->builder = (new Builder($this->config, new ConsoleLogger($this->output)))
+                // Use container if available
+                if ($this->container !== null && $this->container->has('Cecil\\Builder')) {
+                    $this->builder = $this->container->get('Cecil\\Builder');
+                } else {
+                    // Direct instantiation with fallback container
+                    $fallbackContainer = $this->container ?? new \Symfony\Component\DependencyInjection\ContainerBuilder();
+                    $this->builder = new Builder($this->config, new ConsoleLogger($this->output), $fallbackContainer);
+                }
+                $this->builder
                     ->setSourceDir($this->getPath())
                     ->setDestinationDir($this->getPath());
             }

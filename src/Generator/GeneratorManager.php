@@ -69,6 +69,9 @@ class GeneratorManager extends \SplPriorityQueue
     {
         /** @var PagesCollection $pagesCollection */
         $pagesCollection = $this->builder->getPages();
+        if ($pagesCollection === null) {
+            $pagesCollection = new PagesCollection('pages');
+        }
         $total = $this->count();
 
         if ($total > 0) {

@@ -51,6 +51,17 @@ abstract class AbstractStep implements StepInterface
     }
 
     /**
+     * Sets the builder instance.
+     * This method is called by the StepRegistry when using DI.
+     * It allows steps to receive the builder after construction with other dependencies.
+     */
+    public function setBuilder(Builder $builder): void
+    {
+        $this->builder = $builder;
+        $this->config = $builder->getConfig();
+    }
+
+    /**
      * {@inheritdoc}
      */
     public function init(array $options): void
