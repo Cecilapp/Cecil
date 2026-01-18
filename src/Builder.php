@@ -198,7 +198,7 @@ class Builder implements LoggerAwareInterface
      * @var array
      */
     protected $metrics = [];
-    
+
     /**
      * Current build ID.
      * This is a unique identifier for the current build process.
@@ -206,7 +206,7 @@ class Builder implements LoggerAwareInterface
      * @var string|null
      */
     protected $buildId;
-    
+
     /**
      * Dependency injection container.
      * @var ContainerInterface
@@ -226,7 +226,7 @@ class Builder implements LoggerAwareInterface
         $this->config = $config;
         $this->logger = $logger;
         $this->container = $container;
-        
+
         // debug mode?
         if (getenv('CECIL_DEBUG') == 'true' || $this->getConfig()->isEnabled('debug')) {
             $this->debug = true;
@@ -279,7 +279,7 @@ class Builder implements LoggerAwareInterface
 
         // process each step
         $steps = $this->getSteps();
-        
+
         // ...and process
         $stepNumber = 0;
         $stepsTotal = \count($steps);

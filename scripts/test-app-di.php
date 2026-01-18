@@ -11,7 +11,7 @@ try {
     echo "Test de l'application avec DI...\n";
     $app = new Application(true);
     echo "✓ Application créée\n";
-    
+
     $container = $app->getContainer();
     if ($container) {
         echo "✓ Container disponible\n";
@@ -19,11 +19,11 @@ try {
     } else {
         echo "✗ Container non disponible\n";
     }
-    
+
     echo "\nTest des commandes:\n";
     $commands = $app->all();
     echo "✓ " . count($commands) . " commandes chargées\n";
-    
+
     if (count($commands) < 10) {
         echo "\nERREUR: Trop peu de commandes chargées!\n";
         echo "Vérification du container:\n";
@@ -37,11 +37,10 @@ try {
             }
         }
     }
-    
+
     foreach ($commands as $name => $command) {
         echo "  - $name: " . get_class($command) . "\n";
     }
-    
 } catch (\Exception $e) {
     echo "✗ Erreur: " . $e->getMessage() . "\n";
     echo "  File: " . $e->getFile() . ":" . $e->getLine() . "\n";
