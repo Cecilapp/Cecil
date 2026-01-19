@@ -282,14 +282,14 @@ class Builder implements LoggerAwareInterface
         // init...
         foreach (self::STEPS as $step) {
             // Use DI container to create steps with dependency injection.
-            // All steps defined in config/dependencies.php should be resolved from the container.
+            // All steps defined in the DI container configuration should be resolved from the container.
             // Falls back to direct instantiation only if a step is not registered in the container.
             try {
                 $stepObject = $this->container->get($step);
             } catch (NotFoundException $e) {
                 // Fallback for steps not declared in the container
-                // This should rarely happen as all steps in STEPS constant are defined in config/dependencies.php
-                $this->getLogger()->warning(\sprintf(
+                // This should rarely happen as all steps in STEPS constant are defined in the DI container configuration
+                $this->getLogger()->warning(sprintf(
                     'Step %s not found in DI container, using direct instantiation as fallback',
                     $step
                 ));
