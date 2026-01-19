@@ -159,7 +159,7 @@ class ContainerFactoryTest extends TestCase
         $this->assertTrue($this->container->has(Parsedown::class));
         $this->assertTrue($this->container->has(Converter::class));
 
-        // Note: These services depend on Builder (Parsedown needs builder->Config->Builder).
+        // Note: These services depend on Builder (Parsedown requires Builder via Config parameter).
         // Since Builder injects itself after container creation (see ContainerFactory::create),
         // we verify definitions exist without instantiation to avoid initialization order issues.
     }
@@ -260,15 +260,13 @@ class ContainerFactoryTest extends TestCase
         $this->builder->setDestinationDir($source);
 
         // Build the site - this exercises the fallback mechanism in Builder::build()
-        try {
-            $this->builder->build([
-                'drafts'  => false,
-                'dry-run' => true, // Use dry-run to avoid writing files
-            ]);
-            $this->assertTrue(true, 'Build completed successfully with DI container');
-        } catch (\Exception $e) {
-            $this->fail('Build failed with DI container: ' . $e->getMessage());
-        }
+        $this->builder->build([
+            'drafts'  => false,
+            'dry-run' => true, // Use dry-run to avoid writing files
+        ]);
+        
+        // If we reach here without exceptions, the build with DI was successful
+        $this->addToAssertionCount(1);
     }
 
     /**
