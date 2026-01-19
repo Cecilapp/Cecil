@@ -63,7 +63,6 @@ class ContainerFactoryTest extends TestCase
     public function testContainerFactoryCreatesContainer(): void
     {
         $this->assertInstanceOf(Container::class, $this->container);
-        $this->assertNotNull($this->container);
     }
 
     /**
@@ -218,6 +217,9 @@ class ContainerFactoryTest extends TestCase
      */
     public function testContainerInDebugMode(): void
     {
+        // Save original value to restore later
+        $originalValue = getenv('CECIL_DEBUG');
+        
         // Set debug environment variable
         putenv('CECIL_DEBUG=true');
         
@@ -234,8 +236,12 @@ class ContainerFactoryTest extends TestCase
             // The container should work without compilation in debug mode
             $this->assertTrue($container->has(Config::class));
         } finally {
-            // Clean up environment variable
-            putenv('CECIL_DEBUG');
+            // Restore original environment variable value
+            if ($originalValue !== false) {
+                putenv("CECIL_DEBUG={$originalValue}");
+            } else {
+                putenv('CECIL_DEBUG');
+            }
         }
     }
 
