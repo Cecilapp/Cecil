@@ -272,11 +272,14 @@ class ContainerFactoryTest extends TestCase
     /**
      * Test 13: Verify lazy loading of services.
      */
-    public function testLazyLoadedServices(): void
-    {
-        // Core extension is marked as lazy
-        $this->assertTrue($this->container->has(\Cecil\Renderer\Extension\Core::class));
-        
+        $serviceId = \Cecil\Renderer\Extension\Core::class;
+
+        // Core extension should be registered (and configured as lazy in the container)
+        $this->assertTrue($this->container->has($serviceId));
+
+        // Resolving the service should instantiate it correctly when needed
+        $extension = $this->container->get($serviceId);
+        $this->assertInstanceOf($serviceId, $extension);
         // Note: We can't fully test lazy loading without triggering instantiation,
         // but we can verify the definition exists
     }
