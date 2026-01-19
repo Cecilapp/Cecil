@@ -16,6 +16,7 @@ namespace Cecil\Renderer\Twig;
 use Cecil\Builder;
 use Cecil\Config;
 use Cecil\Renderer\Twig;
+use Psr\Log\LoggerInterface;
 
 /**
  * Factory to create and configure the Twig Renderer.
@@ -26,13 +27,22 @@ use Cecil\Renderer\Twig;
 class TwigFactory
 {
     private Config $config;
+    
+    /**
+     * Logger instance for future use.
+     * Reserved for consistency with other factory patterns in the codebase.
+     */
+    private LoggerInterface $logger;
+    
     private Builder $builder;
 
     public function __construct(
         Config $config,
+        LoggerInterface $logger,
         Builder $builder
     ) {
         $this->config = $config;
+        $this->logger = $logger;
         $this->builder = $builder;
     }
 
