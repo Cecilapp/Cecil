@@ -23,18 +23,18 @@ return [
     /*
      * Converters
      */
-    // Parsedown : injecte Config et Builder
+    // Parsedown: injects Config and Builder
     \Cecil\Converter\Parsedown::class => autowire()
         ->constructorParameter('config', get(\Cecil\Config::class))
         ->constructorParameter('options', null),
-    // Converter : injecte automatiquement Parsedown
+    // Converter: automatically injects Parsedown
     \Cecil\Converter\Converter::class => autowire()
         ->constructorParameter('parsedown', get(\Cecil\Converter\Parsedown::class)),
 
     /*
      * Generators
      */
-    // GeneratorManager : injecte Builder, Config et Logger
+    // GeneratorManager: injects Builder, Config and Logger
     \Cecil\Generator\GeneratorManager::class => autowire(),
     // Individual generators
     \Cecil\Generator\ExternalBody::class => autowire(),
