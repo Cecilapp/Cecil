@@ -305,12 +305,15 @@ public function __construct(Config $config)
 public function __construct($config) // No type hint
 ```
 
-### 4. Avoid `new` Keyword for Services
+### 4. Don't Use `new` Keyword for Services
 
 ✅ **Good:**
 ```php
 #[Inject]
 private Cache $cache;
+
+// Or for contextual instances:
+$cache = $this->builder->getCache('pool');
 ```
 
 ❌ **Avoid:**
@@ -318,10 +321,7 @@ private Cache $cache;
 $cache = new Cache($this->builder, 'pool');
 ```
 
-**Exception:** Use helper methods for contextual instances:
-```php
-$cache = $this->builder->getCache('pool'); // ✅ OK
-```
+**All instances of `new Cache()` have been replaced with `Builder::getCache()` throughout the codebase for consistency.**
 
 ### 5. Don't Inject Builder Everywhere
 
