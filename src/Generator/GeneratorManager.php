@@ -14,8 +14,10 @@ declare(strict_types=1);
 namespace Cecil\Generator;
 
 use Cecil\Builder;
+use Cecil\Config;
 use Cecil\Collection\Page\Collection as PagesCollection;
 use Cecil\Util;
+use Psr\Log\LoggerInterface;
 
 /**
  * GeneratorManager class.
@@ -29,15 +31,25 @@ class GeneratorManager extends \SplPriorityQueue
 {
     /** @var Builder */
     protected $builder;
+    
+    /** @var Config */
+    protected $config;
+    
+    /** @var LoggerInterface */
+    protected $logger;
 
     /**
      * @param Builder $builder
+     * @param Config $config
+     * @param LoggerInterface $logger
      *
      * @return void
      */
-    public function __construct(Builder $builder)
+    public function __construct(Builder $builder, Config $config, LoggerInterface $logger)
     {
         $this->builder = $builder;
+        $this->config = $config;
+        $this->logger = $logger;
     }
 
     /**
@@ -91,7 +103,7 @@ class GeneratorManager extends \SplPriorityQueue
                     }
                 }
                 $message = \sprintf('%s "%s" pages generated and %s pages updated', $countPagesAdded, Util::formatClassName($generator), $countPagesUpdated);
-                $this->builder->getLogger()->info($message, ['progress' => [$count, $total]]);
+                $this->logger->info($message, ['progress' => [$count, $total]]);
 
                 $this->next();
             }

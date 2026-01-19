@@ -14,9 +14,11 @@ declare(strict_types=1);
 namespace Cecil;
 
 use Cecil\Collection\Page\Collection as PagesCollection;
+use Cecil\Container\ContainerFactory;
 use Cecil\Exception\RuntimeException;
 use Cecil\Generator\GeneratorManager;
 use Cecil\Logger\PrintLogger;
+use DI\Container;
 use Psr\Log\LoggerAwareInterface;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\Finder\Finder;
@@ -205,6 +207,13 @@ class Builder implements LoggerAwareInterface
      * @see \Cecil\Builder::build()
      */
     protected $buildId;
+    /**
+     * Dependency injection container.
+     * This container is used to manage dependencies and services throughout the application.
+     * It allows for easier testing, better modularity, and cleaner separation of concerns.
+     * @var Container
+     */
+    protected $container;
 
     /**
      * @param Config|array|null    $config
@@ -226,6 +235,12 @@ class Builder implements LoggerAwareInterface
             $logger = new PrintLogger(self::VERBOSITY_VERBOSE);
         }
         $this->setLogger($logger);
+
+        // initialize DI container
+        $this->container = ContainerFactory::create($this->config, $this->logger);
+
+        // Inject Builder itself into the container for services that need it
+        $this->container->set(Builder::class, $this);
     }
 
     /**
@@ -265,7 +280,13 @@ class Builder implements LoggerAwareInterface
         $steps = [];
         // init...
         foreach (self::STEPS as $step) {
-            $stepObject = new $step($this);
+            // Use DI container to create steps
+            try {
+                $stepObject = $this->container->get($step);
+            } catch (\Exception $e) {
+                // Fallback for steps not declared in the container
+                $stepObject = new $step($this);
+            }
             $stepObject->init($this->options);
             if ($stepObject->canProcess()) {
                 $steps[] = $stepObject;
@@ -582,6 +603,26 @@ class Builder implements LoggerAwareInterface
         }
 
         return self::$version;
+    }
+
+    /**
+     * Gets a service from the DI container.
+     * This method provides access to services managed by the dependency injection container.
+     * @param string $id The service identifier (typically a class name)
+     * @return mixed The resolved service instance
+     */
+    public function get(string $id): mixed
+    {
+        return $this->container->get($id);
+    }
+
+    /**
+     * Gets the DI container instance.
+     * @return Container The dependency injection container
+     */
+    public function getContainer(): Container
+    {
+        return $this->container;
     }
 
     /**

@@ -13,10 +13,13 @@ declare(strict_types=1);
 
 namespace Cecil\Generator;
 
+use Cecil\Builder;
 use Cecil\Collection\Page\Page;
+use Cecil\Config;
 use Cecil\Converter\Converter;
 use Cecil\Exception\RuntimeException;
 use Cecil\Util;
+use Psr\Log\LoggerInterface;
 
 /**
  * ExternalBody generator class.
@@ -29,6 +32,17 @@ use Cecil\Util;
  */
 class ExternalBody extends AbstractGenerator implements GeneratorInterface
 {
+    private Converter $converter;
+
+    public function __construct(
+        Builder $builder,
+        Config $config,
+        LoggerInterface $logger,
+        Converter $converter
+    ) {
+        parent::__construct($builder, $config, $logger);
+        $this->converter = $converter;
+    }
     /**
      * {@inheritdoc}
      */
@@ -45,13 +59,13 @@ class ExternalBody extends AbstractGenerator implements GeneratorInterface
                 if ($pageContent === false) {
                     throw new RuntimeException(\sprintf('Unable to get external contents from "%s".', $page->getVariable('external')));
                 }
-                $html = (new Converter($this->builder))->convertBody($pageContent);
+                $html = $this->converter->convertBody($pageContent);
                 $page->setBodyHtml($html);
 
                 $this->generatedPages->add($page);
             } catch (\Exception $e) {
                 $message = \sprintf('Error in "%s": %s', $page->getFilePath(), $e->getMessage());
-                $this->builder->getLogger()->error($message);
+                $this->logger->error($message);
             }
         }
     }

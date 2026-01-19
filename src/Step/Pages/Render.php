@@ -16,15 +16,18 @@ namespace Cecil\Step\Pages;
 use Cecil\Builder;
 use Cecil\Collection\Page\Collection;
 use Cecil\Collection\Page\Page;
+use Cecil\Config;
 use Cecil\Exception\ConfigException;
 use Cecil\Exception\RuntimeException;
-use Cecil\Renderer\Config;
+use Cecil\Renderer\Config as RendererConfig;
 use Cecil\Renderer\Layout;
 use Cecil\Renderer\Page as PageRenderer;
 use Cecil\Renderer\Site;
 use Cecil\Renderer\Twig;
+use Cecil\Renderer\Twig\TwigFactory;
 use Cecil\Step\AbstractStep;
 use Cecil\Util;
+use Psr\Log\LoggerInterface;
 
 /**
  * Render step.
@@ -40,6 +43,18 @@ class Render extends AbstractStep
     public const TMP_DIR = '.cecil';
 
     protected $subset = [];
+    
+    private TwigFactory $twigFactory;
+
+    public function __construct(
+        Builder $builder,
+        Config $config,
+        LoggerInterface $logger,
+        TwigFactory $twigFactory
+    ) {
+        parent::__construct($builder, $config, $logger);
+        $this->twigFactory = $twigFactory;
+    }
 
     /**
      * {@inheritdoc}
@@ -56,7 +71,7 @@ class Render extends AbstractStep
     {
         if (!is_dir($this->config->getLayoutsPath()) && !$this->config->hasTheme()) {
             $message = \sprintf('"%s" is not a valid layouts directory', $this->config->getLayoutsPath());
-            $this->builder->getLogger()->debug($message);
+            $this->logger->debug($message);
         }
 
         // render a subset of pages?
@@ -79,7 +94,7 @@ class Render extends AbstractStep
     public function process(): void
     {
         // prepares renderer
-        $this->builder->setRenderer(new Twig($this->builder, $this->getAllLayoutsPaths()));
+        $this->builder->setRenderer($this->twigFactory->create($this->getAllLayoutsPaths()));
 
         // adds global variables
         $this->addGlobals();
@@ -133,9 +148,9 @@ class Render extends AbstractStep
                     throw new RuntimeException(\sprintf('Class "%s" not found', $postprocessor));
                 }
                 $postprocessors[] = new $postprocessor($this->builder);
-                $this->builder->getLogger()->debug(\sprintf('Output post processor "%s" loaded', $name));
+                $this->logger->debug(\sprintf('Output post processor "%s" loaded', $name));
             } catch (\Exception $e) {
-                $this->builder->getLogger()->error(\sprintf('Unable to load output post processor "%s": %s', $name, $e->getMessage()));
+                $this->logger->error(\sprintf('Unable to load output post processor "%s": %s', $name, $e->getMessage()));
             }
         }
 
@@ -162,7 +177,7 @@ class Render extends AbstractStep
 
             // global config raw variables
             if (!isset($cache['config'][$language])) {
-                $cache['config'][$language] = new Config($this->builder, $language);
+                $cache['config'][$language] = new RendererConfig($this->builder, $language);
             }
             $this->builder->getRenderer()->addGlobal('config', $cache['config'][$language]);
 

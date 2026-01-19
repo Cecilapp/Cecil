@@ -14,8 +14,10 @@ declare(strict_types=1);
 namespace Cecil\Generator;
 
 use Cecil\Builder;
+use Cecil\Config;
 use Cecil\Collection\Page\Collection as PagesCollection;
 use Cecil\Util;
+use Psr\Log\LoggerInterface;
 
 /**
  * Generator abstract class.
@@ -25,19 +27,23 @@ abstract class AbstractGenerator implements GeneratorInterface
     /** @var Builder */
     protected $builder;
 
-    /** @var \Cecil\Config */
+    /** @var Config */
     protected $config;
+
+    /** @var LoggerInterface */
+    protected $logger;
 
     /** @var PagesCollection */
     protected $generatedPages;
 
     /**
-     * {@inheritdoc}
+     * Flexible constructor supporting dependency injection or legacy mode.
      */
-    public function __construct(Builder $builder)
+    public function __construct(Builder $builder, ?Config $config = null, ?LoggerInterface $logger = null)
     {
         $this->builder = $builder;
-        $this->config = $builder->getConfig();
+        $this->config = $config ?? $builder->getConfig();
+        $this->logger = $logger ?? $builder->getLogger();
         // Creates a new empty collection
         $this->generatedPages = new PagesCollection('generator-' . Util::formatClassName($this, ['lowercase' => true]));
     }

@@ -13,8 +13,11 @@ declare(strict_types=1);
 
 namespace Cecil\Step\Pages;
 
+use Cecil\Builder;
+use Cecil\Config;
 use Cecil\Generator\GeneratorManager;
 use Cecil\Step\AbstractStep;
+use Psr\Log\LoggerInterface;
 
 /**
  * Generate pages step.
@@ -25,6 +28,17 @@ use Cecil\Step\AbstractStep;
  */
 class Generate extends AbstractStep
 {
+    private GeneratorManager $generatorManager;
+
+    public function __construct(
+        Builder $builder,
+        Config $config,
+        LoggerInterface $logger,
+        GeneratorManager $generatorManager
+    ) {
+        parent::__construct($builder, $config, $logger);
+        $this->generatorManager = $generatorManager;
+    }
     /**
      * {@inheritdoc}
      */
@@ -48,18 +62,25 @@ class Generate extends AbstractStep
      */
     public function process(): void
     {
-        $generatorManager = new GeneratorManager($this->builder);
         $generators = (array) $this->config->get('pages.generators');
-        array_walk($generators, function ($generator, $priority) use ($generatorManager) {
+        array_walk($generators, function ($generator, $priority) {
             if (!class_exists($generator)) {
                 $message = \sprintf('Unable to load generator "%s" (priority: %s).', $generator, $priority);
-                $this->builder->getLogger()->error($message);
+                $this->logger->error($message);
 
                 return;
             }
-            $generatorManager->addGenerator(new $generator($this->builder), $priority);
+            // Use DI container to create the generator if possible
+            try {
+                $generatorInstance = $this->builder->get($generator);
+            } catch (\Exception $e) {
+                // Fallback: create manually if not in container
+                $this->logger->debug(\sprintf('Using fallback for generator "%s": %s', $generator, $e->getMessage()));
+                $generatorInstance = new $generator($this->builder);
+            }
+            $this->generatorManager->addGenerator($generatorInstance, $priority);
         });
-        $pages = $generatorManager->process();
+        $pages = $this->generatorManager->process();
         $this->builder->setPages($pages);
     }
 }

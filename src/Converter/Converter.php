@@ -13,7 +13,6 @@ declare(strict_types=1);
 
 namespace Cecil\Converter;
 
-use Cecil\Builder;
 use Cecil\Exception\RuntimeException;
 use Symfony\Component\Yaml\Exception\ParseException;
 use Symfony\Component\Yaml\Yaml;
@@ -29,12 +28,12 @@ use Yosymfony\Toml\Toml;
  */
 class Converter implements ConverterInterface
 {
-    /** @var Builder */
-    protected $builder;
+    /** @var Parsedown */
+    protected $parsedown;
 
-    public function __construct(Builder $builder)
+    public function __construct(Parsedown $parsedown)
     {
-        $this->builder = $builder;
+        $this->parsedown = $parsedown;
     }
 
     /**
@@ -57,9 +56,7 @@ class Converter implements ConverterInterface
      */
     public function convertBody(string $string): string
     {
-        $parsedown = new Parsedown($this->builder);
-
-        return $parsedown->text($string);
+        return $this->parsedown->text($string);
     }
 
     /**
