@@ -98,8 +98,9 @@ class ContainerFactoryTest extends TestCase
                 "Container should have {$stepClass}"
             );
 
-            // Note: We can't fully instantiate steps without Builder,
-            // but we can verify the container knows about them
+            // Note: Steps are not fully instantiated here because they require Builder
+            // as a constructor parameter. Builder is injected after container creation,
+            // so we verify the definitions exist without triggering instantiation.
         }
     }
 
@@ -158,8 +159,9 @@ class ContainerFactoryTest extends TestCase
         $this->assertTrue($this->container->has(Parsedown::class));
         $this->assertTrue($this->container->has(Converter::class));
 
-        // Note: Full instantiation requires Builder, which creates a circular dependency
-        // without proper initialization. The presence test verifies the definitions exist.
+        // Note: These services depend on Builder (Parsedown needs builder->Config->Builder).
+        // Since Builder injects itself after container creation (see ContainerFactory::create),
+        // we verify definitions exist without instantiation to avoid initialization order issues.
     }
 
     /**
