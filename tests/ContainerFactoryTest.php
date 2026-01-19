@@ -98,8 +98,8 @@ class ContainerFactoryTest extends TestCase
                 "Container should have {$stepClass}"
             );
 
-            // Note: Steps are not fully instantiated here because they require Builder
-            // as a constructor parameter. Builder is injected after container creation,
+            // Note: This test only verifies that step services are registered
+            // in the container; their behavior is covered by dedicated tests.
             // so we verify the definitions exist without triggering instantiation.
         }
     }
