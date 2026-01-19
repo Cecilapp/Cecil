@@ -63,13 +63,18 @@ class Generate extends AbstractStep
 
                 return;
             }
-            // Use DI container to create the generator if possible
+            // Use DI container to create the generator; fail loudly if it cannot be resolved
             try {
                 $generatorInstance = $this->builder->get($generator);
-            } catch (\Exception $e) {
-                // Fallback: create manually if not in container
-                $this->logger->debug(\sprintf('Using fallback for generator "%s": %s', $generator, $e->getMessage()));
-                $generatorInstance = new $generator($this->builder);
+            } catch (\Throwable $e) {
+                $this->logger->error(\sprintf(
+                    'Unable to instantiate generator "%s" (priority: %s): %s',
+                    $generator,
+                    $priority,
+                    $e->getMessage()
+                ));
+
+                throw $e;
             }
             $this->generatorManager->addGenerator($generatorInstance, $priority);
         });
