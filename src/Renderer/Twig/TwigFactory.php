@@ -27,7 +27,13 @@ use Psr\Log\LoggerInterface;
 class TwigFactory
 {
     private Config $config;
+
+    /**
+     * Logger instance for future use.
+     * Reserved for consistency with other factory patterns in the codebase.
+     */
     private LoggerInterface $logger;
+
     private Builder $builder;
 
     public function __construct(
