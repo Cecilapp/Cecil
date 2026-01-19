@@ -25,6 +25,7 @@ return [
      */
     // Parsedown: injects Config and Builder
     \Cecil\Converter\Parsedown::class => autowire()
+        ->constructorParameter('builder', get(\Cecil\Builder::class))
         ->constructorParameter('config', get(\Cecil\Config::class))
         ->constructorParameter('options', null),
     // Converter: automatically injects Parsedown
