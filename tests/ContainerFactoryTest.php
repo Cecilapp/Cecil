@@ -125,14 +125,14 @@ class ContainerFactoryTest extends TestCase
         }
     }
 
-    /**
-     * Test 5: Verify TwigFactory can be resolved and used.
+     * Test 5: Verify TwigFactory can be resolved and instantiated.
      */
     public function testContainerResolvesTwigFactory(): void
     {
         $this->assertTrue($this->container->has(TwigFactory::class));
-        
-        // Note: Full instantiation would require Builder, but we can verify
+
+        $twigFactory = $this->container->get(TwigFactory::class);
+        $this->assertInstanceOf(TwigFactory::class, $twigFactory);
         // the container knows about the factory
     }
 
