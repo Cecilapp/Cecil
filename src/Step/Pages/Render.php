@@ -43,7 +43,7 @@ class Render extends AbstractStep
     public const TMP_DIR = '.cecil';
 
     protected $subset = [];
-    
+
     private TwigFactory $twigFactory;
 
     public function __construct(

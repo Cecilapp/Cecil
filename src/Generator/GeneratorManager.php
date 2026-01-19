@@ -31,10 +31,10 @@ class GeneratorManager extends \SplPriorityQueue
 {
     /** @var Builder */
     protected $builder;
-    
+
     /** @var Config */
     protected $config;
-    
+
     /** @var LoggerInterface */
     protected $logger;
 
