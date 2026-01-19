@@ -14,6 +14,9 @@ use Cecil\Generator\Redirect;
 use Cecil\Generator\Section;
 use Cecil\Generator\Taxonomy;
 use Cecil\Generator\VirtualPages;
+use Cecil\Cache;
+use Cecil\Renderer\Extension\Core as CoreExtension;
+use Cecil\Renderer\Twig;
 use Cecil\Renderer\Twig\TwigFactory;
 use Cecil\Step\Assets\Save as AssetsSave;
 use Cecil\Step\Data\Load as DataLoad;
@@ -99,6 +102,19 @@ return [
      */
     // Twig Factory: for lazy loading of template engine
     TwigFactory::class => autowire(),
+
+    // Twig Renderer: constructed via factory
+    Twig::class => \DI\factory(function (TwigFactory $factory) {
+        return $factory->create();
+    }),
+
+    // Cache: factory to create cache instances with different pools
+    Cache::class => \DI\factory(function (\Cecil\Builder $builder) {
+        return new Cache($builder, '');
+    }),
+
+    // Twig Extensions: singleton for better performance
+    CoreExtension::class => \DI\autowire()->lazy(),
 
     // Config and Logger will be dynamically injected by Builder
     // (see ContainerFactory::create)

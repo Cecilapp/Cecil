@@ -32,6 +32,9 @@ class ContainerFactory
     ): Container {
         $builder = new ContainerBuilder();
 
+        // Enable PHP 8 attributes for dependency injection
+        $builder->useAttributes(true);
+
         // Load dependencies configuration
         $definitionsFile = __DIR__ . '/../../config/dependencies.php';
         if (file_exists($definitionsFile)) {

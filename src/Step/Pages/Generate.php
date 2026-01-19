@@ -17,6 +17,7 @@ use Cecil\Builder;
 use Cecil\Config;
 use Cecil\Generator\GeneratorManager;
 use Cecil\Step\AbstractStep;
+use DI\Attribute\Inject;
 use Psr\Log\LoggerInterface;
 
 /**
@@ -28,17 +29,9 @@ use Psr\Log\LoggerInterface;
  */
 class Generate extends AbstractStep
 {
+    #[Inject]
     private GeneratorManager $generatorManager;
 
-    public function __construct(
-        Builder $builder,
-        Config $config,
-        LoggerInterface $logger,
-        GeneratorManager $generatorManager
-    ) {
-        parent::__construct($builder, $config, $logger);
-        $this->generatorManager = $generatorManager;
-    }
     /**
      * {@inheritdoc}
      */

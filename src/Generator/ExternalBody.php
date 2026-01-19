@@ -19,6 +19,7 @@ use Cecil\Config;
 use Cecil\Converter\Converter;
 use Cecil\Exception\RuntimeException;
 use Cecil\Util;
+use DI\Attribute\Inject;
 use Psr\Log\LoggerInterface;
 
 /**
@@ -32,17 +33,9 @@ use Psr\Log\LoggerInterface;
  */
 class ExternalBody extends AbstractGenerator implements GeneratorInterface
 {
+    #[Inject]
     private Converter $converter;
 
-    public function __construct(
-        Builder $builder,
-        Config $config,
-        LoggerInterface $logger,
-        Converter $converter
-    ) {
-        parent::__construct($builder, $config, $logger);
-        $this->converter = $converter;
-    }
     /**
      * {@inheritdoc}
      */

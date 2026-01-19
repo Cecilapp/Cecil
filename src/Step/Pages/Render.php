@@ -27,6 +27,7 @@ use Cecil\Renderer\Twig;
 use Cecil\Renderer\Twig\TwigFactory;
 use Cecil\Step\AbstractStep;
 use Cecil\Util;
+use DI\Attribute\Inject;
 use Psr\Log\LoggerInterface;
 
 /**
@@ -44,17 +45,8 @@ class Render extends AbstractStep
 
     protected $subset = [];
 
+    #[Inject]
     private TwigFactory $twigFactory;
-
-    public function __construct(
-        Builder $builder,
-        Config $config,
-        LoggerInterface $logger,
-        TwigFactory $twigFactory
-    ) {
-        parent::__construct($builder, $config, $logger);
-        $this->twigFactory = $twigFactory;
-    }
 
     /**
      * {@inheritdoc}

@@ -617,6 +617,18 @@ class Builder implements LoggerAwareInterface
     }
 
     /**
+     * Gets a Cache instance for a specific pool.
+     * This is a convenience method to create cache instances with different namespaces.
+     *
+     * @param string $pool The cache pool name (e.g., 'assets', 'pages', 'templates')
+     * @return Cache A cache instance for the specified pool
+     */
+    public function getCache(string $pool = ''): Cache
+    {
+        return new Cache($this, $pool);
+    }
+
+    /**
      * Gets the DI container instance.
      * @return Container The dependency injection container
      */

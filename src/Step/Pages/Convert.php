@@ -21,6 +21,7 @@ use Cecil\Converter\ConverterInterface;
 use Cecil\Exception\RuntimeException;
 use Cecil\Step\AbstractStep;
 use Cecil\Util;
+use DI\Attribute\Inject;
 use Psr\Log\LoggerInterface;
 
 /**
@@ -33,17 +34,9 @@ use Psr\Log\LoggerInterface;
  */
 class Convert extends AbstractStep
 {
+    #[Inject]
     private Converter $converter;
 
-    public function __construct(
-        Builder $builder,
-        Config $config,
-        LoggerInterface $logger,
-        Converter $converter
-    ) {
-        parent::__construct($builder, $config, $logger);
-        $this->converter = $converter;
-    }
     /**
      * {@inheritdoc}
      */

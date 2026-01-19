@@ -51,7 +51,7 @@ class Save extends AbstractStep
             return;
         }
 
-        $this->cache = new Cache($this->builder, 'assets');
+        $this->cache = $this->builder->getCache('assets');
         $this->cacheKey = \sprintf('_list__%s', $this->builder->getVersion());
         if (empty($this->builder->getAssets()) && $this->cache->has($this->cacheKey)) {
             $this->builder->setAssets($this->cache->get($this->cacheKey));
