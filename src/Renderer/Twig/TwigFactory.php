@@ -29,8 +29,10 @@ class TwigFactory
     private Config $config;
 
     /**
-     * Logger instance for future use.
-     * Reserved for consistency with other factory patterns in the codebase.
+     * Logger instance reserved for potential future logging needs.
+     *
+     * Currently stored to preserve the constructor signature and allow
+     * easy integration of logging without introducing breaking changes.
      */
     private LoggerInterface $logger;
 
