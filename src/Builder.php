@@ -19,6 +19,7 @@ use Cecil\Exception\RuntimeException;
 use Cecil\Generator\GeneratorManager;
 use Cecil\Logger\PrintLogger;
 use DI\Container;
+use DI\NotFoundException;
 use Psr\Log\LoggerAwareInterface;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\Finder\Finder;
@@ -280,11 +281,18 @@ class Builder implements LoggerAwareInterface
         $steps = [];
         // init...
         foreach (self::STEPS as $step) {
-            // Use DI container to create steps
+            // Use DI container to create steps with dependency injection.
+            // All steps defined in the DI container configuration should be resolved from the container.
+            // Falls back to direct instantiation only if a step is not registered in the container.
             try {
                 $stepObject = $this->container->get($step);
-            } catch (\Exception $e) {
+            } catch (NotFoundException $e) {
                 // Fallback for steps not declared in the container
+                // This should rarely happen as all steps in STEPS constant are defined in the DI container configuration
+                $this->getLogger()->warning(sprintf(
+                    'Step %s not found in DI container, using direct instantiation as fallback',
+                    $step
+                ));
                 $stepObject = new $step($this);
             }
             $stepObject->init($this->options);
