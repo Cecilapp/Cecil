@@ -223,20 +223,22 @@ class ContainerFactoryTest extends TestCase
         // Set debug environment variable
         putenv('CECIL_DEBUG=true');
         
-        $source = Util::joinFile(__DIR__, 'fixtures/website');
-        $configFile = Util::joinFile($source, 'config.yml');
-        $logger = new PrintLogger(Builder::VERBOSITY_NORMAL);
-        
-        $builder = Builder::create(Config::loadFile($configFile), $logger);
-        $container = $builder->getContainer();
-        
-        $this->assertInstanceOf(Container::class, $container);
+        try {
+            $source = Util::joinFile(__DIR__, 'fixtures/website');
+            $configFile = Util::joinFile($source, 'config.yml');
+            $logger = new PrintLogger(Builder::VERBOSITY_NORMAL);
+            
+            $builder = Builder::create(Config::loadFile($configFile), $logger);
+            $container = $builder->getContainer();
+            
+            $this->assertInstanceOf(Container::class, $container);
 
-        // The container should work without compilation in debug mode
-        $this->assertTrue($container->has(Config::class));
-        
-        // Clean up
-        putenv('CECIL_DEBUG');
+            // The container should work without compilation in debug mode
+            $this->assertTrue($container->has(Config::class));
+        } finally {
+            // Clean up environment variable
+            putenv('CECIL_DEBUG');
+        }
     }
 
     /**
