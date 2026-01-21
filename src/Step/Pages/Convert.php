@@ -15,11 +15,14 @@ namespace Cecil\Step\Pages;
 
 use Cecil\Builder;
 use Cecil\Collection\Page\Page;
+use Cecil\Config;
 use Cecil\Converter\Converter;
 use Cecil\Converter\ConverterInterface;
 use Cecil\Exception\RuntimeException;
 use Cecil\Step\AbstractStep;
 use Cecil\Util;
+use DI\Attribute\Inject;
+use Psr\Log\LoggerInterface;
 
 /**
  * Convert step.
@@ -31,6 +34,9 @@ use Cecil\Util;
  */
 class Convert extends AbstractStep
 {
+    #[Inject]
+    private Converter $converter;
+
     /**
      * {@inheritdoc}
      */
@@ -78,11 +84,11 @@ class Convert extends AbstractStep
                         $convertedPage->setVariable('language', $this->config->getLanguageDefault());
                     }
                 } catch (RuntimeException $e) {
-                    $this->builder->getLogger()->error(\sprintf('Unable to convert "%s:%s": %s', $e->getFile(), $e->getLine(), $e->getMessage()));
+                    $this->logger->error(\sprintf('Unable to convert "%s:%s": %s', $e->getFile(), $e->getLine(), $e->getMessage()));
                     $this->builder->getPages()->remove($page->getId());
                     continue;
                 } catch (\Exception $e) {
-                    $this->builder->getLogger()->error(\sprintf('Unable to convert "%s": %s', Util::joinPath(Util\File::getFS()->makePathRelative($page->getFilePath(), $this->config->getPagesPath())), $e->getMessage()));
+                    $this->logger->error(\sprintf('Unable to convert "%s": %s', Util::joinPath(Util\File::getFS()->makePathRelative($page->getFilePath(), $this->config->getPagesPath())), $e->getMessage()));
                     $this->builder->getPages()->remove($page->getId());
                     continue;
                 }
@@ -97,7 +103,7 @@ class Convert extends AbstractStep
                     $this->builder->getPages()->replace($page->getId(), $convertedPage);
                     $statusMessage = '';
                 }
-                $this->builder->getLogger()->info($message . $statusMessage, ['progress' => [$count, $total]]);
+                $this->logger->info($message . $statusMessage, ['progress' => [$count, $total]]);
             }
         }
     }
@@ -112,7 +118,7 @@ class Convert extends AbstractStep
     public function convertPage(Builder $builder, Page $page, ?string $format = null, ?ConverterInterface $converter = null): Page
     {
         $format = $format ?? (string) $builder->getConfig()->get('pages.frontmatter');
-        $converter = $converter ?? new Converter($builder);
+        $converter = $converter ?? $this->converter;
 
         // converts front matter
         if ($page->getFrontmatter()) {

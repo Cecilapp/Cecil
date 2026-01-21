@@ -33,6 +33,7 @@
     "laravel-zero/phar-updater": "^1.4",
     "matthiasmullie/minify": "^1.3",
     "performing/twig-components": "^0.7",
+    "php-di/php-di": "^7.0",
     "psr/log": "^3.0",
     "psr/simple-cache": "^3.0",
     "scrivo/highlight.php": "^9.18",

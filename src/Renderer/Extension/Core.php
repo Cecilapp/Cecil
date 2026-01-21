@@ -460,7 +460,7 @@ class Core extends SlugifyExtension
             return $value;
         }
 
-        $cache = new Cache($this->builder, 'assets');
+        $cache = $this->builder->getCache('assets');
         $cacheKey = $cache->createKeyFromValue(null, $value);
         if (!$cache->has($cacheKey)) {
             $minifier = new Minify\CSS($value);
@@ -482,7 +482,7 @@ class Core extends SlugifyExtension
             return $value;
         }
 
-        $cache = new Cache($this->builder, 'assets');
+        $cache = $this->builder->getCache('assets');
         $cacheKey = $cache->createKeyFromValue(null, $value);
         if (!$cache->has($cacheKey)) {
             $minifier = new Minify\JS($value);
@@ -502,7 +502,7 @@ class Core extends SlugifyExtension
     {
         $value = $value ?? '';
 
-        $cache = new Cache($this->builder, 'assets');
+        $cache = $this->builder->getCache('assets');
         $cacheKey = $cache->createKeyFromValue(null, $value);
         if (!$cache->has($cacheKey)) {
             $scssPhp = new Compiler();
@@ -883,7 +883,7 @@ class Core extends SlugifyExtension
         $markdown = $markdown ?? '';
 
         try {
-            $parsedown = new Parsedown($this->builder);
+            $parsedown = new Parsedown($this->builder, $this->config);
             $html = $parsedown->text($markdown);
         } catch (\Exception $e) {
             throw new RuntimeException(
@@ -909,7 +909,7 @@ class Core extends SlugifyExtension
         $selectors = $selectors ?? (array) $this->config->get('pages.body.toc');
 
         try {
-            $parsedown = new Parsedown($this->builder, ['selectors' => $selectors, 'url' => $url]);
+            $parsedown = new Parsedown($this->builder, $this->config, ['selectors' => $selectors, 'url' => $url]);
             $parsedown->body($markdown);
             $return = $parsedown->contentsList($format);
         } catch (\Exception) {

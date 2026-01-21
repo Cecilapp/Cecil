@@ -15,6 +15,7 @@ namespace Cecil\Step;
 
 use Cecil\Builder;
 use Cecil\Config;
+use Psr\Log\LoggerInterface;
 
 /**
  * Abstract step class.
@@ -32,6 +33,9 @@ abstract class AbstractStep implements StepInterface
     /** @var Config */
     protected $config;
 
+    /** @var LoggerInterface */
+    protected $logger;
+
     /**
      * Configuration options for the step.
      * @var Builder::OPTIONS
@@ -42,12 +46,13 @@ abstract class AbstractStep implements StepInterface
     protected $canProcess = false;
 
     /**
-     * {@inheritdoc}
+     * Flexible constructor supporting dependency injection or legacy mode.
      */
-    public function __construct(Builder $builder)
+    public function __construct(Builder $builder, ?Config $config = null, ?LoggerInterface $logger = null)
     {
         $this->builder = $builder;
-        $this->config = $builder->getConfig();
+        $this->config = $config ?? $builder->getConfig();
+        $this->logger = $logger ?? $builder->getLogger();
     }
 
     /**

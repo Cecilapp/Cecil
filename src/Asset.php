@@ -126,7 +126,7 @@ class Asset implements \ArrayAccess
         );
 
         // cache for "locate file(s)"
-        $cache = new Cache($this->builder, 'assets');
+        $cache = $this->builder->getCache('assets');
         $locateCacheKey = \sprintf('%s_locate__%s__%s', $options['filename'] ?: implode('_', $paths), $this->builder->getBuildId(), $this->builder->getVersion());
 
         // locate file(s) and get content
@@ -196,7 +196,7 @@ class Asset implements \ArrayAccess
         }
 
         // cache for "process asset"
-        $cache = new Cache($this->builder, 'assets');
+        $cache = $this->builder->getCache('assets');
         // create cache tags from options
         $this->cacheTags = $options;
         // remove unnecessary cache tags
@@ -314,7 +314,7 @@ class Asset implements \ArrayAccess
             return;
         }
 
-        $cache = new Cache($this->builder, 'assets');
+        $cache = $this->builder->getCache('assets');
         if (empty($this->data['path']) || !Util\File::getFS()->exists($cache->getContentFilePathname($this->data['path']))) {
             throw new RuntimeException(\sprintf('Unable to add "%s" to assets list. Please clear cache and retry.', $this->data['path']));
         }
@@ -328,7 +328,7 @@ class Asset implements \ArrayAccess
     public function fingerprint(): self
     {
         $this->cacheTags['fingerprint'] = true;
-        $cache = new Cache($this->builder, 'assets');
+        $cache = $this->builder->getCache('assets');
         $cacheKey = $cache->createKeyFromAsset($this, $this->cacheTags);
         if (!$cache->has($cacheKey)) {
             $this->doFingerprint();
@@ -347,7 +347,7 @@ class Asset implements \ArrayAccess
     public function compile(): self
     {
         $this->cacheTags['compile'] = true;
-        $cache = new Cache($this->builder, 'assets');
+        $cache = $this->builder->getCache('assets');
         $cacheKey = $cache->createKeyFromAsset($this, $this->cacheTags);
         if (!$cache->has($cacheKey)) {
             $this->doCompile();
@@ -364,7 +364,7 @@ class Asset implements \ArrayAccess
     public function minify(): self
     {
         $this->cacheTags['minify'] = true;
-        $cache = new Cache($this->builder, 'assets');
+        $cache = $this->builder->getCache('assets');
         $cacheKey = $cache->createKeyFromAsset($this, $this->cacheTags);
         if (!$cache->has($cacheKey)) {
             $this->doMinify();
@@ -444,7 +444,7 @@ class Asset implements \ArrayAccess
 
         $quality = (int) $this->config->get('assets.images.quality');
 
-        $cache = new Cache($this->builder, 'assets');
+        $cache = $this->builder->getCache('assets');
         $assetResized->cacheTags['quality'] = $quality;
         $assetResized->cacheTags['width'] = $width;
         $assetResized->cacheTags['height'] = $height;
@@ -487,7 +487,7 @@ class Asset implements \ArrayAccess
 
         $quality = (int) $this->config->get('assets.images.quality');
 
-        $cache = new Cache($this->builder, 'assets');
+        $cache = $this->builder->getCache('assets');
         $assetMaskable->cacheTags['maskable'] = true;
         $cacheKey = $cache->createKeyFromAsset($assetMaskable, $assetMaskable->cacheTags);
         if (!$cache->has($cacheKey)) {
@@ -530,7 +530,7 @@ class Asset implements \ArrayAccess
             return $asset; // returns the asset with the new extension only: CDN do the rest of the job
         }
 
-        $cache = new Cache($this->builder, 'assets');
+        $cache = $this->builder->getCache('assets');
         $this->cacheTags['quality'] = $quality;
         if ($this->data['width']) {
             $this->cacheTags['width'] = $this->data['width'];
@@ -861,7 +861,7 @@ class Asset implements \ArrayAccess
             try {
                 $url = $path;
                 $path = self::buildPathFromUrl($url);
-                $cache = new Cache($this->builder, 'assets/remote');
+                $cache = $this->builder->getCache('assets/remote');
                 if (!$cache->has($path)) {
                     $content = $this->getRemoteFileContent($url, $userAgent);
                     $cache->set($path, [

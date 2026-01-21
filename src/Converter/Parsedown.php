@@ -16,6 +16,7 @@ namespace Cecil\Converter;
 use Cecil\Asset;
 use Cecil\Asset\Image;
 use Cecil\Builder;
+use Cecil\Config;
 use Cecil\Exception\RuntimeException;
 use Cecil\Url;
 use Cecil\Util;
@@ -38,7 +39,7 @@ class Parsedown extends \ParsedownToc
     /** @var Builder */
     protected $builder;
 
-    /** @var \Cecil\Config */
+    /** @var Config */
     protected $config;
 
     /**
@@ -56,10 +57,10 @@ class Parsedown extends \ParsedownToc
     /** @var Highlighter */
     protected $highlighter;
 
-    public function __construct(Builder $builder, ?array $options = null)
+    public function __construct(Builder $builder, Config $config, ?array $options = null)
     {
         $this->builder = $builder;
-        $this->config = $builder->getConfig();
+        $this->config = $config;
 
         // "insert" line block: ++text++ -> <ins>text</ins>
         $this->InlineTypes['+'][] = 'Insert'; // @phpstan-ignore-line

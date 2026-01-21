@@ -80,7 +80,7 @@ abstract class AbstractOptimize extends AbstractStep
 
         $count = 0;
         $optimized = 0;
-        $cache = new Cache($this->builder, 'optimized');
+        $cache = $this->builder->getCache('optimized');
 
         /** @var \Symfony\Component\Finder\SplFileInfo $file */
         foreach ($files as $file) {
