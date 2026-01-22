@@ -87,12 +87,12 @@ EOF
         try {
             // ask
             if (empty($name)) {
-                $name = $this->io->ask('What is the name of the page file?', 'new-page.md');
+                $name = $this->io->ask('Give a name for the page file:', 'new-page.md');
                 $slugify = ($slugify !== null) ? $slugify : $this->io->confirm('Slugify the file name?', true);
                 $prefix = ($prefix !== false) ?: $this->io->confirm('Add date prefix to the filename?', false);
-                $open = ($open !== false) ?: $this->io->confirm('Do you want open the created file with your editor?', false);
+                $open = ($open !== false) ?: $this->io->confirm('Open the created file with your editor?', false);
                 if ($open && !$this->getBuilder()->getConfig()->has('editor')) {
-                    $editor = ($editor !== null) ? $editor : $this->io->ask('Which editor?');
+                    $editor = ($editor !== null) ? $editor : $this->io->ask('Which editor do you want to use?');
                 }
             }
             // parse given path name
