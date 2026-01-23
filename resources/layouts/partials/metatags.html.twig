@@ -56,7 +56,7 @@
 {% if page.metatags.favicon ?? site.metatags.favicon ?? true %}
   {%- set favicon_defaults = {
     'icon': [32, 57, 76, 96, 128, 192, 228],
-    'shortcut icon': [196],
+    'shortcut icon': [128, 196],
     'apple-touch-icon': [120, 152, 180],
   } -%}
 {% endif %}
@@ -151,6 +151,7 @@
       {%- set favicon_ico = asset('favicon.ico', {'ignore_missing': true}) -%}
       {%- if not favicon_ico.missing ~%}
     <link rel="icon" href="{{ url(favicon_ico, {'canonical': true}) }}" type="image/x-icon">
+    <link rel="icon" href="{{ url(favicon_ico, {'canonical': true}) }}" type="image/vnd.microsoft.icon">
     <link rel="shortcut icon" href="{{ url(favicon_ico, {'canonical': true}) }}" type="image/x-icon">
       {%- endif -%}
     {#- favicon.svg ~#}
