@@ -2,6 +2,17 @@
 
 All notable changes to this project will be documented in this file. Dates are displayed in UTC.
 
+#### [8.79.1](https://github.com/Cecilapp/Cecil/compare/8.79.0...8.79.1)
+
+> 23 January 2026
+
+- chore(deps-dev): bump phpstan/phpstan from 2.1.34 to 2.1.35 [`#2292`](https://github.com/Cecilapp/Cecil/pull/2292)
+- chore(deps-dev): bump phpstan/phpstan from 2.1.33 to 2.1.34 [`#2291`](https://github.com/Cecilapp/Cecil/pull/2291)
+- chore: update deps [`6465fef`](https://github.com/Cecilapp/Cecil/commit/6465fef154a3760f827abf8a640cb1ff4501a215)
+- chore: update deps [`a374c29`](https://github.com/Cecilapp/Cecil/commit/a374c29379c2a424a62409c09b307a62e5dda33c)
+- feat: add URL option to desktop notifications [`2c01131`](https://github.com/Cecilapp/Cecil/commit/2c011316a921514bd528be625297cf31413c1236)
+- fix: favicon link tags for broader compatibility [`8b13d2f`](https://github.com/Cecilapp/Cecil/commit/8b13d2f2bf21716e25315f416bc7d9bb64a02ca2)
+
 #### [8.79.0](https://github.com/Cecilapp/Cecil/compare/8.78.1...8.79.0)
 
 > 14 January 2026
