@@ -599,7 +599,7 @@ class Config
     public function isCacheDirIsAbsolute(): bool
     {
         $path = (string) $this->get('cache.dir');
-        if (Util::joinFile($path) == realpath(Util::joinFile($path))) {
+        if (Util\File::getFS()->isAbsolutePath($path)) {
             return true;
         }
 
