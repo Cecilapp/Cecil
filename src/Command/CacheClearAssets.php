@@ -53,7 +53,8 @@ EOF
         if (!Util\File::getFS()->exists($this->getBuilder()->getConfig()->getCacheAssetsPath())) {
             $output->writeln('<info>No assets cache.</info>');
 
-            return Command::SUCCESS;;
+            return Command::SUCCESS;
+            ;
         }
         $output->writeln('Removing assets cache directory...');
         $output->writeln(
@@ -63,6 +64,7 @@ EOF
         Util\File::getFS()->remove($this->getBuilder()->getConfig()->getCacheAssetsPath());
         $output->writeln('<info>Assets cache is clear.</info>');
 
-        return Command::SUCCESS;;
+        return Command::SUCCESS;
+        ;
     }
 }

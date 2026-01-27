@@ -91,6 +91,7 @@ EOF
             throw new RuntimeException($e->getMessage());
         }
 
-        return Command::SUCCESS;;
+        return Command::SUCCESS;
+        ;
     }
 }

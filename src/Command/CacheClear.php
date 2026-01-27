@@ -53,7 +53,8 @@ EOF
         if (!Util\File::getFS()->exists($this->getBuilder()->getConfig()->getCachePath())) {
             $output->writeln('<info>No cache.</info>');
 
-            return Command::SUCCESS;;
+            return Command::SUCCESS;
+            ;
         }
         $output->writeln('Removing cache directory...');
         $output->writeln(
@@ -63,6 +64,7 @@ EOF
         Util\File::getFS()->remove($this->getBuilder()->getConfig()->getCachePath());
         $output->writeln('<info>Cache is clear.</info>');
 
-        return Command::SUCCESS;;
+        return Command::SUCCESS;
+        ;
     }
 }

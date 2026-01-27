@@ -53,7 +53,8 @@ EOF
         if (!Util\File::getFS()->exists($this->getBuilder()->getConfig()->getCacheTranslationsPath())) {
             $output->writeln('<info>No translations cache.</info>');
 
-            return Command::SUCCESS;;
+            return Command::SUCCESS;
+            ;
         }
         $output->writeln('Removing translations cache directory...');
         $output->writeln(
@@ -63,6 +64,7 @@ EOF
         Util\File::getFS()->remove($this->getBuilder()->getConfig()->getCacheTranslationsPath());
         $output->writeln('<info>Translations cache is clear.</info>');
 
-        return Command::SUCCESS;;
+        return Command::SUCCESS;
+        ;
     }
 }
