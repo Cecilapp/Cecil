@@ -69,7 +69,6 @@ EOF
                     $output->writeln('<comment>No editor configured.</comment>');
 
                     return Command::SUCCESS;
-                    ;
                 }
                 $editor = (string) $this->getBuilder()->getConfig()->get('editor');
             }
@@ -80,6 +79,5 @@ EOF
         }
 
         return Command::SUCCESS;
-        ;
     }
 }

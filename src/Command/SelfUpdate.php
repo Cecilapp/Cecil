@@ -83,7 +83,6 @@ EOF
                 $output->writeln('Rollback done.');
 
                 return Command::SUCCESS;
-                ;
             } catch (\Exception $e) {
                 $output->writeln($e->getMessage());
 
@@ -108,17 +107,14 @@ EOF
                 $output->writeln(\sprintf('Updated from <comment>%s</comment> to <info>%s</info>.', $old, $new));
 
                 return Command::SUCCESS;
-                ;
             }
             $output->writeln(\sprintf('You are already using the last version (<comment>%s</comment>).', $version));
 
             return Command::SUCCESS;
-            ;
         } catch (\Exception $e) {
             $output->writeln($e->getMessage());
 
             return Command::FAILURE;
-            ;
         }
     }
 }

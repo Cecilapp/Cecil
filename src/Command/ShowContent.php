@@ -103,7 +103,6 @@ EOF
             }
 
             return Command::SUCCESS;
-            ;
         } catch (\Exception $e) {
             throw new RuntimeException(\sprintf($e->getMessage()));
         }

@@ -54,7 +54,6 @@ EOF
             $output->writeln('<info>No cache.</info>');
 
             return Command::SUCCESS;
-            ;
         }
         $output->writeln('Removing cache directory...');
         $output->writeln(
@@ -65,6 +64,5 @@ EOF
         $output->writeln('<info>Cache is clear.</info>');
 
         return Command::SUCCESS;
-        ;
     }
 }

@@ -54,7 +54,6 @@ EOF
             $output->writeln('<info>No assets cache.</info>');
 
             return Command::SUCCESS;
-            ;
         }
         $output->writeln('Removing assets cache directory...');
         $output->writeln(
@@ -65,6 +64,5 @@ EOF
         $output->writeln('<info>Assets cache is clear.</info>');
 
         return Command::SUCCESS;
-        ;
     }
 }

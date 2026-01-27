@@ -54,7 +54,6 @@ EOF
             $output->writeln('<info>No translations cache.</info>');
 
             return Command::SUCCESS;
-            ;
         }
         $output->writeln('Removing translations cache directory...');
         $output->writeln(
@@ -65,6 +64,5 @@ EOF
         $output->writeln('<info>Translations cache is clear.</info>');
 
         return Command::SUCCESS;
-        ;
     }
 }

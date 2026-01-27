@@ -204,7 +204,6 @@ EOF
             $this->tearDownServer();
 
             return Command::FAILURE;
-            ;
         }
 
         // handles serve process
@@ -245,7 +244,6 @@ EOF
                         $output->writeln('<info>Server is not ready</info>');
 
                         return Command::FAILURE;
-                        ;
                     }
                     if ($this->watcherEnabled && $resourceWatcher instanceof ResourceWatcher) {
                         $watcher = $resourceWatcher->findChanges();
@@ -299,7 +297,6 @@ EOF
         }
 
         return Command::SUCCESS;
-        ;
     }
 
     /**

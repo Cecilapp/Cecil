@@ -57,7 +57,6 @@ EOF
         $command->run($input, $output);
 
         return Command::SUCCESS;
-        ;
     }
 
     /**

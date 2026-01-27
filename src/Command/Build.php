@@ -198,6 +198,5 @@ EOF
         }
 
         return Command::SUCCESS;
-        ;
     }
 }

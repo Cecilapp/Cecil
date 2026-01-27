@@ -69,7 +69,6 @@ EOF
         }
 
         return Command::SUCCESS;
-        ;
     }
 
     /**

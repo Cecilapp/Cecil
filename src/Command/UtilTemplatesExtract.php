@@ -92,6 +92,5 @@ EOF
         }
 
         return Command::SUCCESS;
-        ;
     }
 }

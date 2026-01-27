@@ -63,7 +63,6 @@ EOF
             $output->writeln('<info>No templates cache.</info>');
 
             return Command::SUCCESS;
-            ;
         }
         if ($input->getOption('fragments')) {
             $output->writeln('Removing templates fragments cache directory...');
@@ -73,7 +72,6 @@ EOF
             $output->writeln('<info>Templates fragments cache is clear.</info>');
 
             return Command::SUCCESS;
-            ;
         }
         $output->writeln('Removing templates cache directory...');
         $output->writeln(\sprintf('<comment>Path: %s</comment>', $cacheTemplatesPath), OutputInterface::VERBOSITY_VERBOSE);
@@ -81,6 +79,5 @@ EOF
         $output->writeln('<info>Templates cache is clear.</info>');
 
         return Command::SUCCESS;
-        ;
     }
 }
