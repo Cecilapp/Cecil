@@ -76,7 +76,7 @@ EOF
         try {
             // ask to override existing site?
             if (Util\File::getFS()->exists(Util::joinFile($this->getPath(false), $this->locateConfigFile($this->getPath())['name'] ?: self::CONFIG_FILE[0])) && !$force) {
-                $output->writeln('<comment>Website already exists.</comment>');
+                $this->io->warning('Website already exists.');
                 if (!$this->io->confirm('Do you want to override it?', false)) {
                     return 0;
                 }
@@ -140,8 +140,8 @@ EOF
                 }
             }
             // done
-            $output->writeln(\sprintf('<info>Your new website is created in %s.</info>', realpath($this->getPath())));
-            $this->io->newLine();
+            $output->write(sprintf("\033\143"));
+            $this->io->success(\sprintf('Website created at %s', realpath($this->getPath())));
             $this->io->listing([
                 'Start the built-in preview server with <info>' . $this->binName() . ' serve</info>',
                 'You can create a new page with <info>' . $this->binName() . ' new:page</info>',

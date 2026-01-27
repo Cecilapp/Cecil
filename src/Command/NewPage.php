@@ -101,14 +101,16 @@ EOF
             $basename = $nameParts['basename'];
             $extension = $nameParts['extension'];
             $title = substr($basename, 0, -\strlen(".$extension"));
-            $filename = $basename;
+            // define file name (and slugify if needed)
+            $filename = $slugify ? \Cecil\Collection\Page\Page::slugify($basename) : $basename;
+            // check extension
             if (!\in_array($extension, (array) $this->getBuilder()->getConfig()->get('pages.ext'))) {
                 $title = $filename;
-                $filename = trim("$basename.md"); // force a valid extension
+                $filename = trim("$filename.md"); // add a valid file extension
             }
             $title = trim(ucfirst(str_replace('-', ' ', $title)));
             $date = date('Y-m-d');
-            // date prefix?
+            // add date prefix?
             $datePrefix = $prefix ? \sprintf('%s-', $date) : '';
             // define target path
             $fileRelativePath = \sprintf(
@@ -117,12 +119,12 @@ EOF
                 DIRECTORY_SEPARATOR,
                 empty($dirname) ? '' : $dirname . DIRECTORY_SEPARATOR,
                 $datePrefix,
-                $slugify ? \Cecil\Collection\Page\Page::slugify($filename) : $filename
+                $filename
             );
             $filePath = Util::joinFile($this->getPath(), $fileRelativePath);
             // ask to override existing file?
             if (Util\File::getFS()->exists($filePath) && !$force) {
-                $output->writeln(\sprintf('<comment>The file "%s" already exists.</comment>', $fileRelativePath));
+                $this->io->warning(\sprintf('The file "%s" already exists.', $fileRelativePath));
                 if (!$this->io->confirm('Do you want to override it?', false)) {
                     return 0;
                 }
@@ -135,18 +137,20 @@ EOF
                 $model['content']
             );
             Util\File::getFS()->dumpFile($filePath, $fileContent);
-            $output->writeln(\sprintf('<info>File %s created (with "%s" model).</info>', $filePath, $model['name']));
+            // done
+            $output->write(sprintf("\033\143"));
+            $this->io->success(\sprintf('File created with "%s" model at %s', $model['name'], $filePath));
             // open editor?
             if ($open) {
                 if ($editor === null) {
                     if (!$this->getBuilder()->getConfig()->has('editor')) {
-                        $output->writeln('<comment>No editor configured.</comment>');
+                        $this->io->caution('No editor configured.');
 
                         return 0;
                     }
                     $editor = (string) $this->getBuilder()->getConfig()->get('editor');
                 }
-                $output->writeln(\sprintf('<info>Opening file with %s...</info>', ucfirst($editor)));
+                $this->io->info(\sprintf('Opening file with %s...', ucfirst($editor)));
                 $this->openEditor($filePath, $editor);
             }
         } catch (\Exception $e) {
