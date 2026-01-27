@@ -15,6 +15,7 @@ namespace Cecil\Command;
 
 use Cecil\Exception\RuntimeException;
 use Cecil\Util;
+use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
@@ -67,7 +68,7 @@ EOF
                 if (!$this->getBuilder()->getConfig()->has('editor')) {
                     $output->writeln('<comment>No editor configured.</comment>');
 
-                    return 0;
+                    return Command::SUCCESS;;
                 }
                 $editor = (string) $this->getBuilder()->getConfig()->get('editor');
             }
@@ -77,6 +78,6 @@ EOF
             throw new RuntimeException(\sprintf($e->getMessage()));
         }
 
-        return 0;
+        return Command::SUCCESS;;
     }
 }

@@ -14,6 +14,7 @@ declare(strict_types=1);
 namespace Cecil\Command;
 
 use Cecil\Builder;
+use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
@@ -51,6 +52,6 @@ EOF
             "See <href=https://cecil.app>https://cecil.app</> for more information."
         ]);
 
-        return 0;
+        return Command::SUCCESS;
     }
 }

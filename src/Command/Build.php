@@ -14,6 +14,7 @@ declare(strict_types=1);
 namespace Cecil\Command;
 
 use Cecil\Util;
+use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Helper\Table;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
@@ -196,6 +197,6 @@ EOF
             $table->setStyle('box')->render();
         }
 
-        return 0;
+        return Command::SUCCESS;;
     }
 }

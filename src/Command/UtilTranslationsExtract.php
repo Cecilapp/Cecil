@@ -15,6 +15,7 @@ namespace Cecil\Command;
 
 use Cecil\Exception\RuntimeException;
 use Symfony\Bridge\Twig\Translation\TwigExtractor;
+use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
@@ -129,7 +130,7 @@ EOF
             }
         }
 
-        return 0;
+        return Command::SUCCESS;;
     }
 
     private function checkOptions(InputInterface $input): void

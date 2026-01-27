@@ -14,6 +14,7 @@ declare(strict_types=1);
 namespace Cecil\Command;
 
 use Cecil\Util;
+use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
@@ -61,7 +62,7 @@ EOF
         if (!Util\File::getFS()->exists($cacheTemplatesPath)) {
             $output->writeln('<info>No templates cache.</info>');
 
-            return 0;
+            return Command::SUCCESS;;
         }
         if ($input->getOption('fragments')) {
             $output->writeln('Removing templates fragments cache directory...');
@@ -70,13 +71,13 @@ EOF
             Util\File::getFS()->remove($cacheFragmentsPath);
             $output->writeln('<info>Templates fragments cache is clear.</info>');
 
-            return 0;
+            return Command::SUCCESS;;
         }
         $output->writeln('Removing templates cache directory...');
         $output->writeln(\sprintf('<comment>Path: %s</comment>', $cacheTemplatesPath), OutputInterface::VERBOSITY_VERBOSE);
         Util\File::getFS()->remove($cacheTemplatesPath);
         $output->writeln('<info>Templates cache is clear.</info>');
 
-        return 0;
+        return Command::SUCCESS;;
     }
 }

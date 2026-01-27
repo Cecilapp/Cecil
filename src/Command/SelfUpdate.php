@@ -14,6 +14,7 @@ declare(strict_types=1);
 namespace Cecil\Command;
 
 use Humbug\SelfUpdate\Updater;
+use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
@@ -77,15 +78,15 @@ EOF
                 if (!$result) {
                     $output->writeln('Rollback failed.');
 
-                    return 1;
+                    return Command::FAILURE;
                 }
                 $output->writeln('Rollback done.');
 
-                return 0;
+                return Command::SUCCESS;;
             } catch (\Exception $e) {
                 $output->writeln($e->getMessage());
 
-                return 1;
+                return Command::FAILURE;
             }
         }
 
@@ -105,15 +106,15 @@ EOF
                 $old = $updater->getOldVersion();
                 $output->writeln(\sprintf('Updated from <comment>%s</comment> to <info>%s</info>.', $old, $new));
 
-                return 0;
+                return Command::SUCCESS;;
             }
             $output->writeln(\sprintf('You are already using the last version (<comment>%s</comment>).', $version));
 
-            return 0;
+            return Command::SUCCESS;;
         } catch (\Exception $e) {
             $output->writeln($e->getMessage());
 
-            return 1;
+            return Command::FAILURE;;
         }
     }
 }

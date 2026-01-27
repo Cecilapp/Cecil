@@ -14,6 +14,7 @@ declare(strict_types=1);
 namespace Cecil\Command;
 
 use Cecil\Exception\RuntimeException;
+use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
@@ -67,7 +68,7 @@ EOF
             throw new RuntimeException($e->getMessage());
         }
 
-        return 0;
+        return Command::SUCCESS;;
     }
 
     /**

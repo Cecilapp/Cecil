@@ -19,6 +19,7 @@ use Cecil\Exception\RuntimeException;
 use Cecil\Util;
 use RecursiveDirectoryIterator;
 use RecursiveTreeIterator;
+use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
@@ -101,7 +102,7 @@ EOF
                 }
             }
 
-            return 0;
+            return Command::SUCCESS;;
         } catch (\Exception $e) {
             throw new RuntimeException(\sprintf($e->getMessage()));
         }

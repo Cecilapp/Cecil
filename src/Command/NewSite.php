@@ -15,6 +15,7 @@ namespace Cecil\Command;
 
 use Cecil\Exception\RuntimeException;
 use Cecil\Util;
+use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
@@ -78,7 +79,7 @@ EOF
             if (Util\File::getFS()->exists(Util::joinFile($this->getPath(false), $this->locateConfigFile($this->getPath())['name'] ?: self::CONFIG_FILE[0])) && !$force) {
                 $this->io->warning('Website already exists.');
                 if (!$this->io->confirm('Do you want to override it?', false)) {
-                    return 0;
+                    return Command::SUCCESS;
                 }
             }
             // setup questions
@@ -152,6 +153,6 @@ EOF
             throw new RuntimeException(\sprintf($e->getMessage()));
         }
 
-        return 0;
+        return Command::SUCCESS;
     }
 }

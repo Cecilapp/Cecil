@@ -15,6 +15,7 @@ namespace Cecil\Command;
 
 use Cecil\Exception\RuntimeException;
 use Cecil\Util;
+use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
@@ -126,7 +127,7 @@ EOF
             if (Util\File::getFS()->exists($filePath) && !$force) {
                 $this->io->warning(\sprintf('The file "%s" already exists.', $fileRelativePath));
                 if (!$this->io->confirm('Do you want to override it?', false)) {
-                    return 0;
+                    return Command::FAILURE;
                 }
             }
             // creates a new file
@@ -146,7 +147,7 @@ EOF
                     if (!$this->getBuilder()->getConfig()->has('editor')) {
                         $this->io->caution('No editor configured.');
 
-                        return 0;
+                        return Command::FAILURE;
                     }
                     $editor = (string) $this->getBuilder()->getConfig()->get('editor');
                 }
@@ -157,7 +158,7 @@ EOF
             throw new RuntimeException(\sprintf($e->getMessage()));
         }
 
-        return 0;
+        return Command::SUCCESS;
     }
 
     /**
