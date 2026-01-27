@@ -56,7 +56,8 @@ EOF
         $command = $this->getApplication()->find('cache:clear');
         $command->run($input, $output);
 
-        return Command::SUCCESS;;
+        return Command::SUCCESS;
+        ;
     }
 
     /**

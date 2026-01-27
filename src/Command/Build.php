@@ -197,6 +197,7 @@ EOF
             $table->setStyle('box')->render();
         }
 
-        return Command::SUCCESS;;
+        return Command::SUCCESS;
+        ;
     }
 }

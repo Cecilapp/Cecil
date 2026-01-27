@@ -62,7 +62,8 @@ EOF
         if (!Util\File::getFS()->exists($cacheTemplatesPath)) {
             $output->writeln('<info>No templates cache.</info>');
 
-            return Command::SUCCESS;;
+            return Command::SUCCESS;
+            ;
         }
         if ($input->getOption('fragments')) {
             $output->writeln('Removing templates fragments cache directory...');
@@ -71,13 +72,15 @@ EOF
             Util\File::getFS()->remove($cacheFragmentsPath);
             $output->writeln('<info>Templates fragments cache is clear.</info>');
 
-            return Command::SUCCESS;;
+            return Command::SUCCESS;
+            ;
         }
         $output->writeln('Removing templates cache directory...');
         $output->writeln(\sprintf('<comment>Path: %s</comment>', $cacheTemplatesPath), OutputInterface::VERBOSITY_VERBOSE);
         Util\File::getFS()->remove($cacheTemplatesPath);
         $output->writeln('<info>Templates cache is clear.</info>');
 
-        return Command::SUCCESS;;
+        return Command::SUCCESS;
+        ;
     }
 }

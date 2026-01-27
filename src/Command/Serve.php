@@ -203,7 +203,8 @@ EOF
         if ($buildProcess->getExitCode() !== 0) {
             $this->tearDownServer();
 
-            return Command::FAILURE;;
+            return Command::FAILURE;
+            ;
         }
 
         // handles serve process
@@ -243,7 +244,8 @@ EOF
                     if (!fsockopen($host, (int) $port)) {
                         $output->writeln('<info>Server is not ready</info>');
 
-                        return Command::FAILURE;;
+                        return Command::FAILURE;
+                        ;
                     }
                     if ($this->watcherEnabled && $resourceWatcher instanceof ResourceWatcher) {
                         $watcher = $resourceWatcher->findChanges();
@@ -296,7 +298,8 @@ EOF
             }
         }
 
-        return Command::SUCCESS;;
+        return Command::SUCCESS;
+        ;
     }
 
     /**

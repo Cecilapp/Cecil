@@ -130,7 +130,8 @@ EOF
             }
         }
 
-        return Command::SUCCESS;;
+        return Command::SUCCESS;
+        ;
     }
 
     private function checkOptions(InputInterface $input): void

@@ -68,7 +68,8 @@ EOF
                 if (!$this->getBuilder()->getConfig()->has('editor')) {
                     $output->writeln('<comment>No editor configured.</comment>');
 
-                    return Command::SUCCESS;;
+                    return Command::SUCCESS;
+                    ;
                 }
                 $editor = (string) $this->getBuilder()->getConfig()->get('editor');
             }
@@ -78,6 +79,7 @@ EOF
             throw new RuntimeException(\sprintf($e->getMessage()));
         }
 
-        return Command::SUCCESS;;
+        return Command::SUCCESS;
+        ;
     }
 }
