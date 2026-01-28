@@ -2,6 +2,22 @@
 
 All notable changes to this project will be documented in this file. Dates are displayed in UTC.
 
+#### [8.79.4](https://github.com/Cecilapp/Cecil/compare/8.79.3...8.79.4)
+
+> 28 January 2026
+
+- Ensure assets are saved before usage [`3d467e0`](https://github.com/Cecilapp/Cecil/commit/3d467e0e1414029d64d1cc87261f3e9d6e207465)
+
+#### [8.79.3](https://github.com/Cecilapp/Cecil/compare/8.79.2...8.79.3)
+
+> 28 January 2026
+
+- chore(deps-dev): bump ergebnis/composer-normalize from 2.48.2 to 2.49.0 [`#2301`](https://github.com/Cecilapp/Cecil/pull/2301)
+- chore: update deps [`6bcf363`](https://github.com/Cecilapp/Cecil/commit/6bcf3639474874f548f494d7189e19ea72b488d6)
+- Refactor asset list management methods [`4d5770d`](https://github.com/Cecilapp/Cecil/commit/4d5770db00800cc1b60d2e2bde1255cfe83a5b63)
+- Fix image resize logic for equal dimensions [`440f4c0`](https://github.com/Cecilapp/Cecil/commit/440f4c0d85bd40f4f976194d3d82606232acba1e)
+- Set asset target directory and update remote asset path [`d898960`](https://github.com/Cecilapp/Cecil/commit/d89896083cd3c7e9f8d2a7f5fea9fee0d90fc9e7)
+
 #### [8.79.2](https://github.com/Cecilapp/Cecil/compare/8.79.1...8.79.2)
 
 > 26 January 2026
