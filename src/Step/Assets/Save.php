@@ -29,7 +29,6 @@ use Cecil\Util;
 class Save extends AbstractStep
 {
     protected Cache $cache;
-    protected string $cacheKey;
 
     /**
      * {@inheritdoc}
@@ -52,10 +51,6 @@ class Save extends AbstractStep
         }
 
         $this->cache = new Cache($this->builder, 'assets');
-        $this->cacheKey = \sprintf('_list__%s', $this->builder->getVersion());
-        if (empty($this->builder->getAssets()) && $this->cache->has($this->cacheKey)) {
-            $this->builder->setAssets($this->cache->get($this->cacheKey));
-        }
 
         $this->canProcess = true;
     }
@@ -68,11 +63,11 @@ class Save extends AbstractStep
      */
     public function process(): void
     {
-        $total = \count($this->builder->getAssets());
+        $total = \count($this->builder->getAssetsList());
         if ($total > 0) {
             $count = 0;
-            foreach ($this->builder->getAssets() as $path) {
-                // if file deleted from cache...
+            foreach ($this->builder->getAssetsList() as $path) {
+                // if file deleted from assets cache
                 if (!Util\File::getFS()->exists($this->cache->getContentFilePathname($path))) {
                     $this->builder->getLogger()->warning(\sprintf('Asset "%s" not found in cache, skipping. You should clear all cache.', $path));
                     break;
@@ -82,7 +77,6 @@ class Save extends AbstractStep
                 $message = \sprintf('Asset "%s" saved', $path);
                 $this->builder->getLogger()->info($message, ['progress' => [$count, $total]]);
             }
-            $this->cache->set($this->cacheKey, $this->builder->getAssets());
         }
     }
 

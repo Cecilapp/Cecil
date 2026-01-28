@@ -319,7 +319,7 @@ class Asset implements \ArrayAccess
             throw new RuntimeException(\sprintf('Unable to add "%s" to assets list. Please clear cache and retry.', $this->data['path']));
         }
 
-        $this->builder->addAsset($this->data['path']);
+        $this->builder->addToAssetsList($this->data['path']);
     }
 
     /**

@@ -480,17 +480,9 @@ class Builder implements LoggerAwareInterface
     }
 
     /**
-     * Set assets path list.
-     */
-    public function setAssets(array $assets): void
-    {
-        $this->assets = $assets;
-    }
-
-    /**
      * Add an asset path to assets list.
      */
-    public function addAsset(string $path): void
+    public function addToAssetsList(string $path): void
     {
         if (!\in_array($path, $this->assets, true)) {
             $this->assets[] = $path;
@@ -500,7 +492,7 @@ class Builder implements LoggerAwareInterface
     /**
      * Returns list of assets path.
      */
-    public function getAssets(): array
+    public function getAssetsList(): array
     {
         return $this->assets;
     }
