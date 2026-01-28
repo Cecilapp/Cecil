@@ -552,8 +552,7 @@ class Core extends SlugifyExtension
             if (!$asset instanceof Asset) {
                 $asset = new Asset($this->builder, $asset);
             }
-            // be sure Asset file is saved
-            $asset->save();
+            $asset->save(); // be sure Asset file is saved
             // merge attributes
             $attr = $attributes;
             if ($assetData['attributes'] !== null) {

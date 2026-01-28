@@ -304,7 +304,8 @@ class Asset implements \ArrayAccess
     }
 
     /**
-     * Adds asset path to the list of assets to save.
+     * Saves the asset by adding its path to the build assets list.
+     * Skips assets marked as missing and validates that the asset file exists in cache before adding it.
      *
      * @throws RuntimeException
      */
