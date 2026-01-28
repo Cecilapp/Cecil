@@ -571,6 +571,23 @@ class Core extends SlugifyExtension
                     $attributes['as'] = $asset['script'];
                     break;
             }
+            // preload
+            if ($options['preload'] ?? false) {
+                $attributes['type'] = $asset['subtype'];
+                if (empty($attributes['crossorigin'])) {
+                    $attributes['crossorigin'] = 'anonymous';
+                }
+                $preloadLink = \sprintf('<link rel="preload" href="%s"%s>', $this->url($context, $asset, $options), self::htmlAttributes($attributes));
+                // if image asset with a specified width, preload the right size
+                if (null !== $width = isset($attributes['width']) && $attributes['width'] > 0 ? (int) $attributes['width'] : null) {
+                    $preloadLink = \sprintf('<link rel="preload" href="%s"%s>', $this->url($context, $asset->resize($width), $options), self::htmlAttributes($attributes));
+                }
+                array_unshift($html, $preloadLink);
+                // only CSS and JS can be preloaded this way
+                if (!\in_array($asset['ext'], ['css', 'js'])) {
+                    break;
+                }
+            }
             // process by MIME type
             switch ($asset['type']) {
                 case 'image':
@@ -582,14 +599,6 @@ class Core extends SlugifyExtension
                 case 'video':
                     $html[] = $this->htmlVideo($context, $asset, $attr, $options);
                     break;
-            }
-            // preload
-            if ($options['preload'] ?? false) {
-                $attributes['type'] = $asset['subtype'];
-                if (empty($attributes['crossorigin'])) {
-                    $attributes['crossorigin'] = 'anonymous';
-                }
-                array_unshift($html, \sprintf('<link rel="preload" href="%s"%s>', $this->url($context, $asset, $options), self::htmlAttributes($attributes)));
             }
             unset($attr);
         }
