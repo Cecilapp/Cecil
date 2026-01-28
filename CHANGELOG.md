@@ -2,6 +2,18 @@
 
 All notable changes to this project will be documented in this file. Dates are displayed in UTC.
 
+#### [8.79.2](https://github.com/Cecilapp/Cecil/compare/8.79.1...8.79.2)
+
+> 26 January 2026
+
+- fix absolute cache path [`#2300`](https://github.com/Cecilapp/Cecil/pull/2300)
+- chore(deps): bump twig/string-extra from 3.22.1 to 3.23.0 [`#2299`](https://github.com/Cecilapp/Cecil/pull/2299)
+- chore(deps-dev): bump phpstan/phpstan from 2.1.36 to 2.1.37 [`#2298`](https://github.com/Cecilapp/Cecil/pull/2298)
+- chore(deps-dev): bump friendsofphp/php-cs-fixer from 3.92.5 to 3.93.0 [`#2297`](https://github.com/Cecilapp/Cecil/pull/2297)
+- chore(deps): bump twig/intl-extra from 3.22.1 to 3.23.0 [`#2296`](https://github.com/Cecilapp/Cecil/pull/2296)
+- chore(deps): bump twig/cache-extra from 3.22.1 to 3.23.0 [`#2295`](https://github.com/Cecilapp/Cecil/pull/2295)
+- chore(deps): bump twig/twig from 3.22.2 to 3.23.0 [`#2294`](https://github.com/Cecilapp/Cecil/pull/2294)
+
 #### [8.79.1](https://github.com/Cecilapp/Cecil/compare/8.79.0...8.79.1)
 
 > 23 January 2026
