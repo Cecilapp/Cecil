@@ -140,7 +140,7 @@ jobs:
         with:
           path: |
             vendor
-            tests/fixtures/website/themes
+            tests/fixtures/website/vendor
           key: composer-${{ runner.os }}-php-${{ matrix.php }}-${{ hashFiles('**/composer.lock') }}
           restore-keys: composer-${{ runner.os }}-php-${{ matrix.php }}-
 
