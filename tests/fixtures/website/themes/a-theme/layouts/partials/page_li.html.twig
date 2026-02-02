@@ -4,26 +4,26 @@
           <li>id: {{ item.id }}</li>
           <li>filepath: {{ item.filepath }}</li>
           <li>date: {{ item.date|date("d/m/Y") }}</li>
-{% if item.updated is defined %}
+          {%- if item.updated|default ~%}
           <li>updated: {{ item.updated|date("d/m/Y") }}</li>
-{% endif %}
+          {%- endif -%}
           <li>type: {{ item.type }}</li>
           <li>virtual: {{ item.virtual }}</li>
           <li>section: {{ item.section }}</li>
           <li>path: {{ item.path }}</li>
           <li>folder: {{ item.folder }}</li>
           <li>slug: {{ item.slug }}</li>
-{% if item.menu is defined %}
+          {%- if item.menu|default ~%}
           <li>menu: {{ d(item.menu) }}</li>
-{% endif %}
-{% if item.weight is defined %}
+          {%- endif -%}
+          {%- if item.weight|default ~%}
           <li>weight: {{ item.weight }}</li>
-{% endif %}
-{% if item.language is defined %}
+          {%- endif -%}
+          {%- if item.language|default ~%}
           <li>language: {{ item.language }}</li>
-{% endif %}
-{% if item.langref is defined %}
+          {%- endif -%}
+          {%- if item.langref|default ~%}
           <li>langref: {{ item.langref }}</li>
-{% endif %}
+          {%- endif -%}
         </ul>
     </li>
