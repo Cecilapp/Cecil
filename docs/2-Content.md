@@ -1,7 +1,7 @@
 <!--
 description: "Create content and organize it."
 date: 2021-05-07
-updated: 2025-11-04
+updated: 2026-02-02
 -->
 # Content
 
@@ -559,7 +559,6 @@ It must be the first thing in the file and must be a valid [YAML](https://en.wik
 | `title`     | Title             | File name without extension.                       | `Post 1`      |
 | `layout`    | Template          | See [_Lookup rules_](3-Templates.md#lookup-rules). | `404`         |
 | `date`      | Creation date     | File creation date (PHP _DateTime_ object).        | `2019/04/15`  |
-| `updated`   | Modification date | File modification date (PHP _DateTime_ object).    | `2021/11/19`  |
 | `section`   | Section           | Page's _Section_.                                  | `blog`        |
 | `path`      | Path              | Page's _path_.                                     | `blog/post-1` |
 | `slug`      | Slug              | Page's _slug_.                                     | `post-1`      |
@@ -568,6 +567,22 @@ It must be the first thing in the file and must be a valid [YAML](https://en.wik
 
 :::info
 All the predefined variables can be overridden except `section`.
+:::
+
+### updated
+
+The `updated` variable is used to define the last modification date of a page.
+
+_Example:_
+
+```yaml
+---
+updated: 2026-02-02
+---
+```
+
+:::warning
+Before version 8.80, the `updated` variable was a predefined variable. It is now an optional variable that defines the file modification date.
 :::
 
 ### menu
