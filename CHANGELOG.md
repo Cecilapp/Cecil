@@ -2,6 +2,14 @@
 
 All notable changes to this project will be documented in this file. Dates are displayed in UTC.
 
+#### [8.80.0](https://github.com/Cecilapp/Cecil/compare/8.79.6...8.80.0)
+
+> 2 February 2026
+
+- Add page status + feed/template improvements [`#2306`](https://github.com/Cecilapp/Cecil/pull/2306)
+- chore(deps-dev): bump phpstan/phpstan from 2.1.37 to 2.1.38 [`#2305`](https://github.com/Cecilapp/Cecil/pull/2305)
+- chore(deps-dev): bump friendsofphp/php-cs-fixer from 3.93.0 to 3.93.1 [`#2303`](https://github.com/Cecilapp/Cecil/pull/2303)
+
 #### [8.79.6](https://github.com/Cecilapp/Cecil/compare/8.79.5...8.79.6)
 
 > 28 January 2026
