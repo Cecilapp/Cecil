@@ -2,6 +2,16 @@
 
 All notable changes to this project will be documented in this file. Dates are displayed in UTC.
 
+#### [8.79.6](https://github.com/Cecilapp/Cecil/compare/8.79.5...8.79.6)
+
+> 28 January 2026
+
+- Refactor and enhance asset preload handling [`b7eb05b`](https://github.com/Cecilapp/Cecil/commit/b7eb05bd1687d79eae9ae0fea2d6b68da28122c9)
+
+#### [8.79.5](https://github.com/Cecilapp/Cecil/compare/8.79.4...8.79.5)
+
+> 28 January 2026
+
 #### [8.79.4](https://github.com/Cecilapp/Cecil/compare/8.79.3...8.79.4)
 
 > 28 January 2026
