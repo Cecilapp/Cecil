@@ -14,26 +14,28 @@
   <subtitle><![CDATA[{{ site.description }}]]></subtitle>
   <link href="{{ url(page, {canonical: true, format: 'atom'}) }}" rel="self" type="application/atom+xml" />
   <link href="{{ url(page, {canonical: true, format: 'html'}) }}" rel="alternate" type="text/html" />
-  <updated>{{ date|date('c') }}</updated>
+  <updated>{{ updated|date('c') }}</updated>
   <author>
     <name>{{ author_name }}</name>
     <uri>{{ author_uri }}</uri>
   </author>
-  {%- for p in pages ~%}
+  {%- for item in items ~%}
   <entry xml:lang="{{ lang }}">
     {%- block entry ~%}
-    <id>{{ url(p, {canonical: true}) }}</id>
-    <title>{{ p.title|e }}</title>
-    <published>{{ p.date|date('c') }}</published>
-    <updated>{{ p.updated|date('c') }}</updated>
-    <link href="{{ url(p, {canonical: true}) }}" rel="alternate" type="text/html" />
-    {%- if 'txt' in p.output|default('html') ~%}
+    <id>{{ url(item, {canonical: true}) }}</id>
+    <title>{{ item.title|e }}</title>
+    <published>{{ item.date|date('c') }}</published>
+    {%- if item.updated|default ~%}
+    <updated>{{ item.updated|date('c') }}</updated>
+    {%- endif ~%}
+    <link href="{{ url(item, {canonical: true}) }}" rel="alternate" type="text/html" />
+    {%- if 'txt' in item.output|default('html') ~%}
     <content type="text">
-      <![CDATA[{{ p.content }}]]>
+      <![CDATA[{{ item.content }}]]>
     </content>
     {%- else ~%}
     <content type="html">
-      <![CDATA[{{ p.content }}]]>
+      <![CDATA[{{ item.content }}]]>
     </content>
     {%- endif ~%}
     {%- endblock ~%}

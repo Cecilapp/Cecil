@@ -89,7 +89,6 @@ class Page extends Item
         $this->setVariables([
             'title'            => 'Page Title',
             'date'             => new \DateTime(),
-            'updated'          => new \DateTime(),
             'weight'           => null,
             'filepath'         => null,
             'published'        => true,
@@ -185,7 +184,6 @@ class Page extends Item
         $this->setVariables([
             'title'    => PrefixSuffix::sub($fileName),
             'date'     => (new \DateTime())->setTimestamp($this->file->getMTime()),
-            'updated'  => (new \DateTime())->setTimestamp($this->file->getMTime()),
             'filepath' => $this->file->getRelativePathname(),
         ]);
         /*

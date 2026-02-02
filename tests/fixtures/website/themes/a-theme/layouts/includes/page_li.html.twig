@@ -4,7 +4,9 @@
           <li>id: {{ item.id }}</li>
           <li>filepath: {{ item.filepath }}</li>
           <li>date: {{ item.date|date("d/m/Y") }}</li>
+{% if item.updated is defined %}
           <li>updated: {{ item.updated|date("d/m/Y") }}</li>
+{% endif %}
           <li>type: {{ item.type }}</li>
           <li>virtual: {{ item.virtual }}</li>
           <li>section: {{ item.section }}</li>

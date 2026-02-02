@@ -9,17 +9,17 @@
   <channel>
     <title>{{ title|e }}</title>
     <description><![CDATA[{{ site.description }}]]></description>
-    <lastBuildDate>{{ date|date('c') }}</lastBuildDate>
+    <lastBuildDate>{{ updated|date('c') }}</lastBuildDate>
     <link href="{{ url(page, {canonical: true, format: 'rss'}) }}" rel="self" type="application/rss+xml" />
     <link href="{{ url(page, {canonical: true, format: 'html'}) }}" rel="alternate" type="text/html" />
-    {%- for p in pages ~%}
+    {%- for item in items ~%}
     <item>
       {%- block item ~%}
-      <guid>{{ url(p, {canonical: true}) }}</guid>
-      <title>{{ p.title|e }}</title>
-      <pubDate>{{ p.date|date('c') }}</pubDate>
-      <link href="{{ url(p, {canonical: true}) }}" rel="alternate" type="text/html" />
-      <description><![CDATA[{{ p.content }}]]></description>
+      <guid>{{ url(item, {canonical: true}) }}</guid>
+      <title>{{ item.title|e }}</title>
+      <pubDate>{{ item.date|date('c') }}</pubDate>
+      <link href="{{ url(item, {canonical: true}) }}" rel="alternate" type="text/html" />
+      <description><![CDATA[{{ item.content }}]]></description>
       {%- endblock ~%}
     </item>
     {%- endfor ~%}

@@ -33,20 +33,20 @@
   {%- endif ~%}
   "language": "{{ lang }}",
   "items": [
-    {%- for item in pages ~%}
+    {%- for item in items ~%}
     {
       {%- block item ~%}
       "id": {{ url(item, {canonical: true})|json_encode(constant('JSON_UNESCAPED_SLASHES')) }},
       "url": "{{ url(item, {canonical: true}) }}",
       "title": {{ item.title|json_encode(constant('JSON_UNESCAPED_UNICODE')) }},
-      {%- if item.description is defined ~%}
+      {%- if item.description|default ~%}
       "summary": {{ item.description|json_encode(constant('JSON_UNESCAPED_UNICODE')) }},
       {%- endif ~%}
-      {%- if item.image is defined ~%}
+      {%- if item.image|default ~%}
       "image": "{{ url(asset(item.image), {canonical: true}) }}",
       {%- endif ~%}
       "date_published": "{{ item.date|date('c') }}",
-      {%- if item.updated is defined ~%}
+      {%- if item.updated|default ~%}
       "date_modified": "{{ item.updated|date('c') }}",
       {%- endif -%}
       "content_text": {{ item.content|striptags|json_encode(constant('JSON_UNESCAPED_UNICODE')) }},
@@ -70,10 +70,10 @@
         }
       ],
       {%- endif -%}
-      {%- if item.tags is defined ~%}
+      {%- if item.tags|default ~%}
       "tags": {{ item.tags|default([])|json_encode }},
       {%- endif ~%}
-      {%- for variable, value in item.fmvariables|filter((v, k) => k starts with '_') ~%}
+      {%- for variable, value in item.fmVariables|filter((v, k) => k starts with '_') ~%}
       "{{ variable }}": {{ value|json_encode(constant('JSON_UNESCAPED_SLASHES')) }},
       {%- endfor ~%}
       "language": "{{ item.language|default(lang) }}"

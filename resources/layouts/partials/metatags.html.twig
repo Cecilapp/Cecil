@@ -222,7 +222,9 @@
     <meta property="og:type" content="{{ opengraph.type }}">
     {%- if opengraph.type == 'article' ~%}
     <meta property="article:published_time" content="{{ page.date|date('c') }}">
+    {%- if page.updated|default ~%}
     <meta property="article:modified_time" content="{{ page.updated|date('c') }}">
+    {%- endif ~%}
       {%- if author.name|default ~%}
     <meta property="article:author" content="{{ author.name|e }}">
       {%- endif ~%}
