@@ -11,7 +11,7 @@
   {%- set attributes = attributes|merge({'updated': item.updated|date('c')}) %}
 {% endif %}
 {#- add front matter variables to attributes -#}
-{% set attributes = item.fmvariables|merge(attributes) %}
+{% set attributes = item.fmVariables|merge(attributes) %}
 {#- encode attributes values to JSON -#}
 {% set attributes = attributes|map((v) => v|json_encode(constant('JSON_UNESCAPED_UNICODE') b-or constant('JSON_UNESCAPED_SLASHES'))) %}
     {
