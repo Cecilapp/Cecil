@@ -1,21 +1,18 @@
 {% extends '_default/page.html.twig' %}
 
 {% block content %}
-
+{# debug #}
 {{ d(site.menus) }}
-
 <details>
   <summary>All pages</summary>
   <ul>
-    {% for item in site.pages|sort_by_title %}
+    {%- for item in site.pages|sort_by_title ~%}
     {{ include('partials/page_li.html.twig') }}
-    {% endfor %}
+    {%- endfor ~%}
   </ul>
 </details>
-
-{% if site.foo is defined %}
+{%- if site.foo is defined ~%}
 Imported config (from theme(s)):
 <p>Variable `foo`=`{{ site.foo }}`</p>
-{% endif %}
-
+{%- endif ~%}
 {% endblock %}
