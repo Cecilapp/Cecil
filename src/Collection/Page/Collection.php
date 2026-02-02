@@ -29,13 +29,15 @@ class Collection extends CecilCollection
     public function showable(array $includeStatus = []): self
     {
         return $this->filter(function (Page $page) use ($includeStatus) {
-            // include by status
-            if (\in_array($page->getVariable('status'), $includeStatus, true)) {
-                return true;
-            }
-            // standard showable criteria
+            // check if page status should be explicitly included
+            $statusIncluded = \in_array($page->getVariable('status'), $includeStatus, true);
+
+            // standard showable criteria, with optional status-based inclusion
             if (
-                $page->getVariable('published') === true      // page is published
+                (
+                    $page->getVariable('published') === true  // page is published
+                    || $statusIncluded                         // or explicitly included by status
+                )
                 && (
                     $page->getVariable('excluded') !== true   // page is listed
                     && $page->getVariable('exclude') !== true // backward compatibility
