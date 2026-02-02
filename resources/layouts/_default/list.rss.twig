@@ -12,14 +12,14 @@
     <lastBuildDate>{{ date|date('c') }}</lastBuildDate>
     <link href="{{ url(page, {canonical: true, format: 'rss'}) }}" rel="self" type="application/rss+xml" />
     <link href="{{ url(page, {canonical: true, format: 'html'}) }}" rel="alternate" type="text/html" />
-    {%- for p in pages|sort_by_date ~%}
+    {%- for p in pages ~%}
     <item>
       {%- block item ~%}
       <guid>{{ url(p, {canonical: true}) }}</guid>
       <title>{{ p.title|e }}</title>
-      <description><![CDATA[{{ p.content }}]]></description>
       <pubDate>{{ p.date|date('c') }}</pubDate>
       <link href="{{ url(p, {canonical: true}) }}" rel="alternate" type="text/html" />
+      <description><![CDATA[{{ p.content }}]]></description>
       {%- endblock ~%}
     </item>
     {%- endfor ~%}

@@ -31,16 +31,14 @@
     }
   ],
   {%- endif ~%}
-  "language": "{{ site.language|default('en') }}",
+  "language": "{{ lang }}",
   "items": [
-    {%- for item in pages|sort_by_date ~%}
+    {%- for item in pages ~%}
     {
       {%- block item ~%}
       "id": {{ url(item, {canonical: true})|json_encode(constant('JSON_UNESCAPED_SLASHES')) }},
       "url": "{{ url(item, {canonical: true}) }}",
       "title": {{ item.title|json_encode(constant('JSON_UNESCAPED_UNICODE')) }},
-      "content_text": {{ item.content|striptags|json_encode(constant('JSON_UNESCAPED_UNICODE')) }},
-      "content_html": {{ item.content|json_encode(constant('JSON_UNESCAPED_UNICODE') b-or constant('JSON_UNESCAPED_SLASHES')) }},
       {%- if item.description is defined ~%}
       "summary": {{ item.description|json_encode(constant('JSON_UNESCAPED_UNICODE')) }},
       {%- endif ~%}
@@ -51,6 +49,8 @@
       {%- if item.updated is defined ~%}
       "date_modified": "{{ item.updated|date('c') }}",
       {%- endif -%}
+      "content_text": {{ item.content|striptags|json_encode(constant('JSON_UNESCAPED_UNICODE')) }},
+      "content_html": {{ item.content|json_encode(constant('JSON_UNESCAPED_UNICODE') b-or constant('JSON_UNESCAPED_SLASHES')) }},
       {%- set author = item.author|default -%}
       {%- if author is not iterable -%}
         {%- set author = {'name': item.author|default} -%}
@@ -76,7 +76,7 @@
       {%- for variable, value in item.fmvariables|filter((v, k) => k starts with '_') ~%}
       "{{ variable }}": {{ value|json_encode(constant('JSON_UNESCAPED_SLASHES')) }},
       {%- endfor ~%}
-      "language": "{{ item.language|default(site.language|default('en')) }}"
+      "language": "{{ item.language|default(lang) }}"
       {%- endblock ~%}
     }
     {%- if not loop.last %},{% endif -%}

@@ -26,9 +26,14 @@ class Collection extends CecilCollection
     /**
      * Returns all "showable" pages.
      */
-    public function showable(): self
+    public function showable(array $includeStatus = []): self
     {
-        return $this->filter(function (Page $page) {
+        return $this->filter(function (Page $page) use ($includeStatus) {
+            // include by status
+            if (\in_array($page->getVariable('status'), $includeStatus, true)) {
+                return true;
+            }
+            // standard showable criteria
             if (
                 $page->getVariable('published') === true      // page is published
                 && (
@@ -40,15 +45,16 @@ class Collection extends CecilCollection
             ) {
                 return true;
             }
+            return false;
         });
     }
 
     /**
      * Alias of showable().
      */
-    public function all(): self
+    public function all(array $includeStatus = []): self
     {
-        return $this->showable();
+        return $this->showable($includeStatus);
     }
 
     /**

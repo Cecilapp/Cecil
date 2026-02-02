@@ -19,11 +19,14 @@
     <name>{{ author_name }}</name>
     <uri>{{ author_uri }}</uri>
   </author>
-  {%- for p in pages|sort_by_date ~%}
+  {%- for p in pages ~%}
   <entry xml:lang="{{ lang }}">
     {%- block entry ~%}
     <id>{{ url(p, {canonical: true}) }}</id>
     <title>{{ p.title|e }}</title>
+    <published>{{ p.date|date('c') }}</published>
+    <updated>{{ p.updated|date('c') }}</updated>
+    <link href="{{ url(p, {canonical: true}) }}" rel="alternate" type="text/html" />
     {%- if 'txt' in p.output|default('html') ~%}
     <content type="text">
       <![CDATA[{{ p.content }}]]>
@@ -33,9 +36,6 @@
       <![CDATA[{{ p.content }}]]>
     </content>
     {%- endif ~%}
-    <link href="{{ url(p, {canonical: true}) }}" rel="alternate" type="text/html" />
-    <published>{{ p.date|date('c') }}</published>
-    <updated>{{ p.updated|date('c') }}</updated>
     {%- endblock ~%}
   </entry>
   {%- endfor ~%}
