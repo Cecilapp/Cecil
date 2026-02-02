@@ -1,14 +1,14 @@
-{% set pages = site.pages.showable -%}
+{% set pages = site.pages.showable(['unpublished'])|sort_by_date -%}
 {% if page.pages %}
-  {%- set pages = page.pages.showable %}
+  {%- set pages = page.pages.showable(['unpublished'])|sort_by_date %}
 {% endif -%}
 
-{% set first = pages|first %}
 {% set title = site.title ~ ' - ' ~ page.title %}
+{% set lang = site.language|default('en') -%}
+{% set first = pages|first %}
+{% set date = first.updated|default(site.time) %}
 {% if page.type == 'homepage' %}
   {%- set title = site.title %}
 {% endif -%}
-{% set date = first.date|default(site.time) %}
-{% set lang = site.language -%}
 
 {% block feed %}{% endblock %}

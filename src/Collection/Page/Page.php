@@ -93,6 +93,7 @@ class Page extends Item
             'weight'           => null,
             'filepath'         => null,
             'published'        => true,
+            'status'           => 'published', // draft|published|unpublished|scheduled|expired
             'content_template' => 'page.content.twig',
         ]);
 
