@@ -36,14 +36,14 @@ class Collection extends CecilCollection
             if (
                 (
                     $page->getVariable('published') === true  // page is published
-                    || $statusIncluded                         // or explicitly included by status
+                    || $statusIncluded                          // or explicitly included by status
                 )
                 && (
-                    $page->getVariable('excluded') !== true   // page is listed
-                    && $page->getVariable('exclude') !== true // backward compatibility
+                    $page->getVariable('excluded') !== true   // and page is listed
+                    && $page->getVariable('exclude') !== true   // and backward compatibility
                 )
-                && $page->isVirtual() === false               // page is created from a file
-                && $page->getVariable('redirect') === null    // page is not a redirection
+                && $page->isVirtual() === false               // and page is created from a file
+                && $page->getVariable('redirect') === null    // and page is not a redirection
             ) {
                 return true;
             }

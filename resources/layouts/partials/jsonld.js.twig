@@ -9,7 +9,7 @@
           "name": "{{ site.title|e }}",
           "description": "{{ site.description|e }}",
           "url": "{{ url(site.home, {canonical: true}) }}"
-          {%- if site.image is defined ~%},
+          {%- if site.image|default ~%},
           "image": [
             "{{ url(asset(site.image), {canonical: true}) }}"
           ]
@@ -92,32 +92,32 @@
             "@id": "{{ url(page, {canonical: true}) }}"
           },
           "headline": "{{ title|default(page.title)|e }}",
-          {%- if page.image|default is not empty ~%}
+          {%- if page.image|default ~%}
           "image": [
             "{{ url(asset(page.image), {canonical: true}) }}"
           ],
           {%- endif ~%}
           "datePublished": "{{ page.date|date('Y-m-dTH:i:sP') }}",
-          {%- if page.updated is defined ~%}
+          {%- if page.updated|default ~%}
           "dateModified": "{{ page.updated|date('Y-m-dTH:i:sP') }}",
           {%- endif ~%}
-          {%- if author.name|default is not empty ~%}
+          {%- if author.name|default ~%}
           "author": {
             "@type": "Person",
             "name": "{{ author.name|e }}"
-            {%- if author.url|default is not empty ~%},
+            {%- if author.url|default ~%},
             "url": "{{ author.url }}"
             {%- endif ~%}
-            {%- if author.image|default is not empty ~%},
+            {%- if author.image|default ~%},
             "image": "{{ author.image }}"
             {%- endif ~%}
-            {%- if author.title|default is not empty ~%},
+            {%- if author.title|default ~%},
             "jobTitle": "{{ author.title }}"
             {%- endif ~%}
-            {%- if author.email|default is not empty ~%},
+            {%- if author.email|default ~%},
             "email": "{{ author.email }}"
             {%- endif ~%}
-            {%- if author.telephone|default is not empty ~%},
+            {%- if author.telephone|default ~%},
             "telephone": "{{ author.telephone }}"
             {%- endif ~%}
           },
@@ -135,15 +135,15 @@
           {%- endif ~%}
         {%- endif ~%}
 {#- VideoObject ~#}
-        {%- if page.videos[0] is defined -%}
+        {%- if page.videos[0]|default -%}
         ,{
           "@context": "https://schema.org",
           "@type": "VideoObject",
           "name": "{{ title|default(page.title)|e }}",
-          {%- if page.description is defined ~%}
+          {%- if page.description|default ~%}
           "description": "{{ page.description|e }}",
           {%- endif ~%}
-          {%- if page.image|default is not empty ~%}
+          {%- if page.image|default ~%}
           "thumbnailUrl": [
             "{{ url(asset(page.image)|resize(640), {canonical: true}) }}"
           ],

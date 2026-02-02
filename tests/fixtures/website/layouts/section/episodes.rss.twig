@@ -10,7 +10,7 @@
   <channel>
     <title>{{ title }}</title>
     <description><![CDATA[{{ site.description }}]]></description>
-    <lastBuildDate>{{ date|date('c') }}</lastBuildDate>
+    <lastBuildDate>{{ updated|date('c') }}</lastBuildDate>
     <link>{{ url(page, {canonical: true}) }}</link>
     <language>{{ lang }}</language>
     {%- if site.copyright is defined ~%}
@@ -32,7 +32,7 @@
     {%- endfor ~%}
     <itunes:explicit>{{ site.podcast.explicit|default('false') }}</itunes:explicit>
     {#- /podcast ~#}
-    {%- for item in pages ~%}
+    {%- for item in items ~%}
       {%- set file = asset(item.episode.file) ~%}
     <item>
       <guid>{{ url(file, {canonical: true}) }}</guid>
