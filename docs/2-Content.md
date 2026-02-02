@@ -582,7 +582,7 @@ updated: 2026-02-02
 ```
 
 :::warning
-Before version 8.80, the `updated` variable was a predefined variable. It is now an optional variable that defines the file modification date.
+Before version 8.80.1, the `updated` variable was a predefined variable. It is now an optional variable (and must be defined in the front matter to be used).
 :::
 
 ### menu
