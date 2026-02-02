@@ -1,8 +1,10 @@
 {% extends '_default/page.html.twig' %}
 
 {% block content %}
+
 {# debug #}
 {{ d(site.menus) }}
+
 <details>
   <summary>All pages</summary>
   <ul>
@@ -15,4 +17,5 @@
 Imported config (from theme(s)):
 <p>Variable `foo`=`{{ site.foo }}`</p>
 {%- endif ~%}
+
 {% endblock %}
