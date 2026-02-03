@@ -2,7 +2,7 @@
     <script type="application/ld+json">{%- apply minify_js ~%}
       [
 {#- WebSite ~#}
-        {%- cache 'jsonld_website'  ~ '__' ~ cecil.build ~ '__' ~ cecil.version ~%}
+        {%- cache 'jsonld_website' ~ '__' ~ cecil.build ~ '__' ~ cecil.version ~%}
         {
           "@context": "https://schema.org",
           "@type": "WebSite",
