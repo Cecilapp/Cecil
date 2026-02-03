@@ -2,7 +2,7 @@
     <script type="application/ld+json">{%- apply minify_js ~%}
       [
 {#- WebSite ~#}
-        {%- cache 'jsonld_website' ~ '__' ~ cecil.version ~%}
+        {%- cache 'jsonld_website'  ~ '__' ~ cecil.build ~ '__' ~ cecil.version ~%}
         {
           "@context": "https://schema.org",
           "@type": "WebSite",
@@ -27,7 +27,7 @@
 {#- SiteNavigationElement ~#}
         {%- set items = site.menus.main|default([])|filter(i => i.id != site.home)|sort_by_weight -%}
         {%- if items|length > 0 -%}
-        {%- cache 'jsonld_navigation_' ~ hash(site.menus.main) ~ '__' ~ cecil.version -%}
+        {%- cache 'jsonld_navigation_' ~ hash(site.menus.main) ~ '__' ~ cecil.build ~ '__' ~ cecil.version -%}
         ,{
           "@context": "http://schema.org",
           "@type": "ItemList",
