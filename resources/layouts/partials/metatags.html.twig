@@ -145,7 +145,7 @@
   {%- endif ~%}
   {#- template: favicon ~#}
   {%- block metatags_favicon ~%}
-    {%- cache 'metatags_favicon' ~ '__' ~ cecil.version ~%}
+    {%- cache 'metatags_favicon' ~ '__' ~ cecil.build ~ '__' ~ cecil.version ~%}
     {%- if page.metatags.favicon ?? site.metatags.favicon ?? true ~%}
       {#- favicon.ico ~#}
       {%- set favicon_ico = asset('favicon.ico', {'ignore_missing': true}) -%}

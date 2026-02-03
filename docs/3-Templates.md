@@ -1,7 +1,7 @@
 <!--
 description: "Working with layouts, templates and components."
 date: 2021-05-07
-updated: 2026-01-14
+updated: 2026-02-03
 alias: documentation/layouts
 -->
 # Templates
@@ -443,11 +443,12 @@ Variables available in _vocabulary_ and _term_ templates.
 
 ### cecil
 
-| Variable          | Description                                         |
-| ----------------- | --------------------------------------------------- |
-| `cecil.url`       | URL of the official website.                        |
-| `cecil.version`   | Cecil current version.                              |
-| `cecil.poweredby` | Print `Cecil v%s` with `%s` is the current version. |
+| Variable          | Description                                          |
+| ----------------- | ---------------------------------------------------- |
+| `cecil.url`       | URL of the Cecil website.                            |
+| `cecil.version`   | Cecil current version.                               |
+| `cecil.poweredby` | Print `Cecil v%s`, with `%s` is the current version. |
+| `cecil.build`     | Current build ID.                                    |
 
 ## Functions
 
@@ -1535,7 +1536,7 @@ In practice you don't need to clear the cache manually, Cecil does it for you wh
 
 ### Fragments cache
 
-Cecil can cache templates _fragments_ to avoid re-rendering the same partial content multiple times.
+Cecil provides a way to cache parts of templates rendering to avoid re-rendering the same partial content multiple times.
 
 To use _fragments_ cache, you must wrap the content you want to cache with the `cache` tag.
 
@@ -1549,7 +1550,11 @@ To use _fragments_ cache, you must wrap the content you want to cache with the `
 More details on the official [_Twig cache extension_ documentation](https://twig.symfony.com/doc/tags/cache.html).
 :::
 
-Fragments cache is persistent, so during development you may need to clear it, with the following command:
+:::important
+Fragments cache is persistent, so if the cache key is too generic, you may end up with wrong content displayed.
+:::
+
+To clear fragments cache only:
 
 ```bash
 php cecil.phar cache:clear:templates --fragments

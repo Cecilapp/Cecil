@@ -185,17 +185,17 @@ class Builder implements LoggerAwareInterface
      */
     protected $generatorManager;
     /**
-     * Application version.
-     * @var string
-     */
-    protected static $version;
-    /**
      * Build metrics.
      * This array holds metrics about the build process, such as duration and memory usage for each step.
      * It is used to track the performance of the build and can be useful for debugging and optimization.
      * @var array
      */
     protected $metrics = [];
+    /**
+     * Application version.
+     * @var string
+     */
+    protected static $version;
     /**
      * Current build ID.
      * This is a unique identifier for the current build process.
@@ -204,7 +204,7 @@ class Builder implements LoggerAwareInterface
      * @var string
      * @see \Cecil\Builder::build()
      */
-    protected $buildId;
+    protected static $buildId;
 
     /**
      * @param Config|array|null    $config
@@ -259,7 +259,7 @@ class Builder implements LoggerAwareInterface
         $this->options = array_merge(self::OPTIONS, $options);
 
         // set build ID
-        $this->buildId = date('YmdHis');
+        self::$buildId = date('YmdHis');
 
         // process each step
         $steps = [];
@@ -297,14 +297,6 @@ class Builder implements LoggerAwareInterface
         $this->getLogger()->notice(\sprintf('Built in %s (%s)', $this->metrics['total']['duration'], $this->metrics['total']['memory']));
 
         return $this;
-    }
-
-    /**
-     * Returns current build ID.
-     */
-    public function getBuildId(): string
-    {
-        return $this->buildId;
     }
 
     /**
@@ -574,6 +566,14 @@ class Builder implements LoggerAwareInterface
         }
 
         return self::$version;
+    }
+
+    /**
+     * Returns current build ID (date).
+     */
+    public static function getBuildId(): string
+    {
+        return self::$buildId;
     }
 
     /**
