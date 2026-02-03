@@ -1,7 +1,7 @@
 <!--
 description: "Working with layouts, templates and components."
 date: 2021-05-07
-updated: 2026-01-14
+updated: 2026-02-03
 alias: documentation/layouts
 -->
 # Templates
@@ -443,11 +443,12 @@ Variables available in _vocabulary_ and _term_ templates.
 
 ### cecil
 
-| Variable          | Description                                         |
-| ----------------- | --------------------------------------------------- |
-| `cecil.url`       | URL of the official website.                        |
-| `cecil.version`   | Cecil current version.                              |
-| `cecil.poweredby` | Print `Cecil v%s` with `%s` is the current version. |
+| Variable          | Description                                          |
+| ----------------- | ---------------------------------------------------- |
+| `cecil.url`       | URL of the Cecil website.                            |
+| `cecil.version`   | Cecil current version.                               |
+| `cecil.poweredby` | Print `Cecil v%s`, with `%s` is the current version. |
+| `cecil.build`     | Current build ID.                                    |
 
 ## Functions
 
