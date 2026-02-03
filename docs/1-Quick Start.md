@@ -1,7 +1,7 @@
 <!--
 description: "Create a new website and preview it locally."
 date: 2020-12-19
-updated: 2025-12-23
+updated: 2026-02-02
 menu: home
 -->
 # Quick Start
@@ -99,7 +99,7 @@ The easiest way to deploy and manage your blog is certainly with [Netlify](https
 
 ### Deploy to Netlify
 
-[![Deploy to Netlify](https://www.netlify.com/img/deploy/button.svg)](https://cecil.app/hosting/netlify/deploy/)
+[![Deploy to Netlify](https://cecil.app/images/netlify/button.svg)](https://cecil.app/hosting/netlify/deploy/)
 
 ### Deploy to Vercel
 
