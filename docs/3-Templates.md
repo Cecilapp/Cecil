@@ -1,7 +1,7 @@
 <!--
 description: "Working with layouts, templates and components."
 date: 2021-05-07
-updated: 2026-02-03
+updated: 2026-02-04
 alias: documentation/layouts
 -->
 # Templates
@@ -241,16 +241,28 @@ Can be displayed in a template with:
 
 | Variable              | Description                                            |
 | --------------------- | ------------------------------------------------------ |
-| `site.home`           | ID of the home page.                                   |
-| `site.pages`          | Collection of pages, in the current language.          |
-| `site.pages.showable` | Same as `site.pages` but filtered by "showable" status (published pages and not virtual/redirect/excluded). |
+| `site.pages`          | Collection of all pages, in the current language.      |
+| `site.allpages`       | Collection of all pages, in all languages.             |
 | `site.page('id')`     | A page with the given ID.                              |
-| `site.allpages`       | Collection of all pages, regardless of their language. |
 | `site.taxonomies`     | Collection of vocabularies.                            |
+| `site.home`           | ID of the home page.                                   |
 | `site.time`           | [_Timestamp_](https://wikipedia.org/wiki/Unix_time) of the last generation. |
 | `site.debug`          | Debug mode: `true` or `false`.                         |
 
 :::important
+Use `showable` method on pages collection to return only published and not virtual/redirect/excluded pages.
+
+_Example:_
+
+```twig
+{% for page in site.pages.showable %}
+  <a href="{{ url(page) }}">{{ page.title }}</a>
+{% endfor %}
+```
+
+:::
+
+:::warning
 In some case you can encounter conflicts between configuration and built-in variables (e.g.: `pages.default` configuration), so you can use `config.<variable>` (with `<variable>` is the name/path of the variable) to access directly to the raw configuration.
 
 Example:
@@ -336,19 +348,28 @@ Contains built-in variables of a page **and** those set in the [front matter](2-
 | `page.id`             | Unique identifier.                                     | `blog/post-1`              |
 | `page.title`          | File name (without extension).                         | `Post 1`                   |
 | `page.date`           | File creation date.                                    | _DateTime_                 |
-| `page.updated`        | File modification date.                                | _DateTime_                 |
 | `page.body`           | File body.                                             | _Markdown_                 |
 | `page.content`        | File body converted in HTML.                           | _HTML_                     |
 | `page.section`        | File root folder (_slugified_).                        | `blog`                     |
 | `page.path`           | File path (_slugified_).                               | `blog/post-1`              |
 | `page.slug`           | File name (_slugified_).                               | `post-1`                   |
-| `page.tags`           | Array of _tags_.                                       | `[Tag 1, Tag 2]`           |
-| `page.categories`     | Array of _categories_.                                 | `[Category 1, Category 2]` |
-| `page.pages`          | Collection of all sub pages.                           | _Collection_               |
-| `page.pages.showable` | `page.pages` with "showable" pages only.               | _Collection_               |
-| `page.type`           | `homepage`, `page`, `section`, `vocabulary` or `term`. | `page`                     |
 | `page.filepath`       | File system path.                                      | `Blog/Post 1.md`           |
+| `page.type`           | `homepage`, `page`, `section`, `vocabulary` or `term`. | `page`                     |
+| `page.pages`          | Collection of all sub pages.                           | _Collection_               |
 | `page.translations`   | Collection of translated pages.                        | _Collection_               |
+
+:::important
+Use `showable` method on pages collection to return only published and not _virtual/redirect/excluded_ pages.
+
+_Example:_
+
+```twig
+{% for page in page.pages.showable %}
+  <a href="{{ url(page) }}">{{ page.title }}</a>
+{% endfor %}
+```
+
+:::
 
 #### page.<prev/next>
 
