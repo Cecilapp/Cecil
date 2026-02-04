@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. Dates are displayed in UTC.
 
+#### [8.80.4](https://github.com/Cecilapp/Cecil/compare/8.80.3...8.80.4)
+
+> 4 February 2026
+
+- refactor: simplify pagination logic [`e8591fb`](https://github.com/Cecilapp/Cecil/commit/e8591fba2d5aff100c59fde629a61ec6fe1b6486)
+- docs: minor changes [`7530ab7`](https://github.com/Cecilapp/Cecil/commit/7530ab72ec4b30c5555de046cfa6853b8ae26982)
+
 #### [8.80.3](https://github.com/Cecilapp/Cecil/compare/8.80.2...8.80.3)
 
 > 4 February 2026
