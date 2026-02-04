@@ -1,7 +1,7 @@
 <!--
 description: "Create content and organize it."
 date: 2021-05-07
-updated: 2026-02-02
+updated: 2026-02-04
 -->
 # Content
 
@@ -782,7 +782,7 @@ sortby:
 
 #### pagination
 
-Global [pagination configuration](4-Configuration.md#pages-pagination) can be overridden in each _Section_.
+The global [pagination configuration](4-Configuration.md#pages-pagination) is used by default, but you can change it for a specific _Section_.
 
 _Example:_
 
@@ -791,6 +791,7 @@ _Example:_
 pagination:
   max: 5
   path: "page"
+  pagination: false
 ---
 ```
 

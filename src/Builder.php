@@ -259,7 +259,7 @@ class Builder implements LoggerAwareInterface
         $this->options = array_merge(self::OPTIONS, $options);
 
         // set build ID
-        self::$buildId = date('YmdHis');
+        self::$buildId = hash('adler32', date('YmdHis'));
 
         // process each step
         $steps = [];
@@ -571,7 +571,7 @@ class Builder implements LoggerAwareInterface
     }
 
     /**
-     * Returns current build ID (date).
+     * Returns current build ID.
      */
     public static function getBuildId(): string
     {
