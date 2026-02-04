@@ -223,7 +223,17 @@ You can use variables from different scopes: [`site`](#site), [`page`](#page), [
 
 ### site
 
-The `site` variable contains all variables from the configuration and built-in variables.
+The `site` variable contains built-in variables **and** those set in the [configuration](4-Configuration.md).
+
+| Variable              | Description                                            |
+| --------------------- | ------------------------------------------------------ |
+| `site.pages`          | Collection of all pages, in the current language.      |
+| `site.allpages`       | Collection of all pages, in all languages.             |
+| `site.page(id)`       | A page with the given ID.                              |
+| `site.taxonomies`     | Collection of vocabularies.                            |
+| `site.home`           | ID of the home page.                                   |
+| `site.time`           | [_Timestamp_](https://wikipedia.org/wiki/Unix_time) of the last generation. |
+| `site.debug`          | Debug mode status (`true` or `false`).                 |
 
 _Example:_
 
@@ -237,20 +247,8 @@ Can be displayed in a template with:
 {{ site.title }}
 ```
 
-#### Built-in variables
-
-| Variable              | Description                                            |
-| --------------------- | ------------------------------------------------------ |
-| `site.pages`          | Collection of all pages, in the current language.      |
-| `site.allpages`       | Collection of all pages, in all languages.             |
-| `site.page('id')`     | A page with the given ID.                              |
-| `site.taxonomies`     | Collection of vocabularies.                            |
-| `site.home`           | ID of the home page.                                   |
-| `site.time`           | [_Timestamp_](https://wikipedia.org/wiki/Unix_time) of the last generation. |
-| `site.debug`          | Debug mode: `true` or `false`.                         |
-
 :::important
-Use `showable` method on pages collection to return only published and not virtual/redirect/excluded pages.
+Use `showable` method on pages collection to return only published and not _virtual/redirect/excluded_ pages.
 
 _Example:_
 
@@ -341,7 +339,7 @@ _Examples:_
 
 ### page
 
-Contains built-in variables of a page **and** those set in the [front matter](2-Content.md#front-matter).
+The `page` variable contains built-in variables of a page **and** those set in the [front matter](2-Content.md#front-matter).
 
 | Variable              | Description                                            | Example                    |
 | --------------------- | ------------------------------------------------------ | -------------------------- |
