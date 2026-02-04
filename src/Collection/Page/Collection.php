@@ -60,6 +60,14 @@ class Collection extends CecilCollection
     }
 
     /**
+     * Alias of showable().
+     */
+    public function public(array $includeStatus = []): self
+    {
+        return $this->showable($includeStatus);
+    }
+
+    /**
      * Sorts pages by.
      *
      * $options:
