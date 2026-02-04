@@ -259,7 +259,7 @@ class Builder implements LoggerAwareInterface
         $this->options = array_merge(self::OPTIONS, $options);
 
         // set build ID
-        self::$buildId = hash('adler32', date('YmdHis'));
+        self::$buildId = hash('adler32', date('YmdHis') . self::$version);
 
         // process each step
         $steps = [];

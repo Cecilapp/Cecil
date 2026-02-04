@@ -2,7 +2,7 @@
 {%- if page.section|default and page.type == 'page' -%}
   {%- set section_page = site.page(page.section)|default -%}
   {%- if section_page and section_page.alternates is defined -%}
-    {%- cache 'feeds-from-section_' ~ section_page.id|replace({'/': '_'}) ~ '__' ~ cecil.build ~ '__' ~ cecil.version -%}
+    {%- cache 'feeds-from-section-' ~ section_page.id|replace({'/': '-'}) ~ '-' ~ site.build -%}
     {{- include('partials/alternates.html.twig', {title: section_page.title|e ~ ' - ' ~ site.title|e , page: section_page, alternates: section_page.alternates|filter(a => a.format in feed_formats)}, with_context = false) ~}}
     {%- endcache -%}
   {%- endif -%}

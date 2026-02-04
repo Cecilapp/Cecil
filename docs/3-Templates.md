@@ -225,15 +225,16 @@ You can use variables from different scopes: [`site`](#site), [`page`](#page), [
 
 The `site` variable contains built-in variables **and** those set in the [configuration](4-Configuration.md).
 
-| Variable              | Description                                            |
-| --------------------- | ------------------------------------------------------ |
-| `site.pages`          | Collection of all pages, in the current language.      |
-| `site.allpages`       | Collection of all pages, in all languages.             |
-| `site.page(id)`       | A page with the given ID.                              |
-| `site.taxonomies`     | Collection of vocabularies.                            |
-| `site.home`           | ID of the home page.                                   |
-| `site.time`           | [_Timestamp_](https://wikipedia.org/wiki/Unix_time) of the last generation. |
-| `site.debug`          | Debug mode status (`true` or `false`).                 |
+| Variable              | Description                                                  |
+| --------------------- | ------------------------------------------------------------ |
+| `site.pages`          | Collection of all pages, in the current language.            |
+| `site.allpages`       | Collection of all pages, in all languages.                   |
+| `site.page(id)`       | A page with the given ID.                                    |
+| `site.taxonomies`     | Collection of vocabularies.                                  |
+| `site.home`           | ID of the home page.                                         |
+| `site.time`           | Current [_Timestamp_](https://wikipedia.org/wiki/Unix_time). |
+| `site.debug`          | Debug mode status (`true` or `false`).                       |
+| `site.build`          | Current build ID.                                            |
 
 _Example:_
 
@@ -467,7 +468,6 @@ Variables available in _vocabulary_ and _term_ templates.
 | `cecil.url`       | URL of the Cecil website.                            |
 | `cecil.version`   | Cecil current version.                               |
 | `cecil.poweredby` | Print `Cecil v%s`, with `%s` is the current version. |
-| `cecil.build`     | Current build ID.                                    |
 
 ## Functions
 
@@ -1560,7 +1560,7 @@ Cecil provides a way to cache parts of templates rendering to avoid re-rendering
 To use _fragments_ cache, you must wrap the content you want to cache with the `cache` tag.
 
 ```twig
-{% cache 'unique-key' %}
+{% cache 'unique-key-' ~ site.build %}
 {# content #}
 {% endcache %}
 ```

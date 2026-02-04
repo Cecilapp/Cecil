@@ -66,6 +66,7 @@ class Site implements \ArrayAccess
             case 'taxonomies':
             case 'home':
             case 'debug':
+            case 'build':
                 return true;
         }
 
@@ -100,6 +101,8 @@ class Site implements \ArrayAccess
                 return 'index';
             case 'debug':
                 return $this->builder->isDebug();
+            case 'build':
+                return Builder::getBuildId();
         }
 
         return $this->config->get($offset, $this->language);

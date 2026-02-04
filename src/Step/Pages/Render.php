@@ -300,7 +300,6 @@ class Render extends AbstractStep
             'url'       => \sprintf('https://cecil.app/#%s', Builder::getVersion()),
             'version'   => Builder::getVersion(),
             'poweredby' => \sprintf('Cecil v%s', Builder::getVersion()),
-            'build'     => Builder::getBuildId(),
         ]);
     }
 
