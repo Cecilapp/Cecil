@@ -2,6 +2,12 @@
 
 All notable changes to this project will be documented in this file. Dates are displayed in UTC.
 
+#### [8.80.2](https://github.com/Cecilapp/Cecil/compare/8.80.1...8.80.2)
+
+> 3 February 2026
+
+- Include build id in caches and expose build ID [`#2309`](https://github.com/Cecilapp/Cecil/pull/2309)
+
 #### [8.80.1](https://github.com/Cecilapp/Cecil/compare/8.80.0...8.80.1)
 
 > 3 February 2026
