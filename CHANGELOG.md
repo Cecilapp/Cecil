@@ -2,6 +2,14 @@
 
 All notable changes to this project will be documented in this file. Dates are displayed in UTC.
 
+#### [8.80.3](https://github.com/Cecilapp/Cecil/compare/8.80.2...8.80.3)
+
+> 4 February 2026
+
+- docs: clarify showable pages [`d08f2d8`](https://github.com/Cecilapp/Cecil/commit/d08f2d8cd0f73591bb38be9e9315e1fb303e9667)
+- Add public() alias for showable() [`2f1cb4f`](https://github.com/Cecilapp/Cecil/commit/2f1cb4f63b37dd549e0e92f464cd39e4b67b4ea7)
+- refactor: use Adler-32 hash for build ID [`36b9b2d`](https://github.com/Cecilapp/Cecil/commit/36b9b2d2cca9b79a9dcfdbbfc8adce64e346103f)
+
 #### [8.80.2](https://github.com/Cecilapp/Cecil/compare/8.80.1...8.80.2)
 
 > 3 February 2026
