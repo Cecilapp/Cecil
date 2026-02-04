@@ -479,6 +479,7 @@ class Builder implements LoggerAwareInterface
         if (!\in_array($path, $this->assets, true)) {
             $this->assets[] = $path;
         }
+        //file_put_contents($this->config->getDestinationDir() . '/.cecil/assets-'. Builder::getBuildId() .'.txt', $path.PHP_EOL , FILE_APPEND | LOCK_EX);
     }
 
     /**
@@ -487,6 +488,7 @@ class Builder implements LoggerAwareInterface
     public function getAssetsList(): array
     {
         return $this->assets;
+        //return array_unique(explode("\n", trim(file_get_contents($this->config->getDestinationDir() . '/.cecil/assets-'. Builder::getBuildId() .'.txt'))), SORT_STRING);;
     }
 
     /**
