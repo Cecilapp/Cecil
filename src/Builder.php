@@ -85,6 +85,10 @@ class Builder implements LoggerAwareInterface
         'Cecil\Step\Optimize\Js',
         'Cecil\Step\Optimize\Images',
     ];
+    /**
+     * Temporary directory name.
+     */
+    public const TMP_DIR = '.cecil';
 
     /**
      * Configuration object.

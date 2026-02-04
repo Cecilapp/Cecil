@@ -13,6 +13,7 @@ declare(strict_types=1);
 
 namespace Cecil\Command;
 
+use Cecil\Builder;
 use Cecil\Exception\RuntimeException;
 use Cecil\Util;
 use Symfony\Component\Console\Input\InputArgument;
@@ -136,7 +137,7 @@ EOF
             $host,
             $port,
             Util::joinFile($this->getPath(), self::SERVE_OUTPUT),
-            Util::joinFile($this->getPath(), self::TMP_DIR, 'router.php')
+            Util::joinFile($this->getPath(), Builder::TMP_DIR, 'router.php')
         );
         $process = Process::fromShellCommandline($command);
 
@@ -225,7 +226,7 @@ EOF
                 $output->writeln(\sprintf('Starting server%s (<href=http://%s:%d>http://%s:%d</>)', $messageSuffix, $host, $port, $host, $port));
                 $process->start(function ($type, $buffer) {
                     if ($type === Process::ERR) {
-                        error_log($buffer, 3, Util::joinFile($this->getPath(), self::TMP_DIR, 'errors.log'));
+                        error_log($buffer, 3, Util::joinFile($this->getPath(), Builder::TMP_DIR, 'errors.log'));
                     }
                 });
                 // notification
@@ -305,17 +306,17 @@ EOF
     {
         // writes `changes.flag` file
         if ($this->watcherEnabled) {
-            Util\File::getFS()->dumpFile(Util::joinFile($this->getPath(), self::TMP_DIR, 'changes.flag'), time());
+            Util\File::getFS()->dumpFile(Util::joinFile($this->getPath(), Builder::TMP_DIR, 'changes.flag'), time());
         }
         // writes `headers.ini` file
         $headers = $this->getBuilder()->getConfig()->get('server.headers');
         if (is_iterable($headers)) {
             $output->writeln('Writing headers file...');
-            Util\File::getFS()->remove(Util::joinFile($this->getPath(), self::TMP_DIR, 'headers.ini'));
+            Util\File::getFS()->remove(Util::joinFile($this->getPath(), Builder::TMP_DIR, 'headers.ini'));
             foreach ($headers as $entry) {
-                Util\File::getFS()->appendToFile(Util::joinFile($this->getPath(), self::TMP_DIR, 'headers.ini'), "[{$entry['path']}]\n");
+                Util\File::getFS()->appendToFile(Util::joinFile($this->getPath(), Builder::TMP_DIR, 'headers.ini'), "[{$entry['path']}]\n");
                 foreach ($entry['headers'] ?? [] as $header) {
-                    Util\File::getFS()->appendToFile(Util::joinFile($this->getPath(), self::TMP_DIR, 'headers.ini'), "{$header['key']} = \"{$header['value']}\"\n");
+                    Util\File::getFS()->appendToFile(Util::joinFile($this->getPath(), Builder::TMP_DIR, 'headers.ini'), "{$header['key']} = \"{$header['value']}\"\n");
                 }
             }
         }
@@ -347,11 +348,11 @@ EOF
             // copying router
             Util\File::getFS()->copy(
                 $this->rootPath . 'resources/server/router.php',
-                Util::joinFile($this->getPath(), self::TMP_DIR, 'router.php'),
+                Util::joinFile($this->getPath(), Builder::TMP_DIR, 'router.php'),
                 true
             );
             // copying livereload JS for watcher
-            $livereloadJs = Util::joinFile($this->getPath(), self::TMP_DIR, 'livereload.js');
+            $livereloadJs = Util::joinFile($this->getPath(), Builder::TMP_DIR, 'livereload.js');
             if (is_file($livereloadJs)) {
                 Util\File::getFS()->remove($livereloadJs);
             }
@@ -365,8 +366,8 @@ EOF
         } catch (IOExceptionInterface $e) {
             throw new RuntimeException(\sprintf('An error occurred while copying server\'s files to "%s".', $e->getPath()));
         }
-        if (!is_file(Util::joinFile($this->getPath(), self::TMP_DIR, 'router.php'))) {
-            throw new RuntimeException(\sprintf('Router not found: "%s".', Util::joinFile(self::TMP_DIR, 'router.php')));
+        if (!is_file(Util::joinFile($this->getPath(), Builder::TMP_DIR, 'router.php'))) {
+            throw new RuntimeException(\sprintf('Router not found: "%s".', Util::joinFile(Builder::TMP_DIR, 'router.php')));
         }
     }
 
@@ -381,7 +382,7 @@ EOF
         $this->output->writeln('<info>Server stopped</info>');
 
         try {
-            Util\File::getFS()->remove(Util::joinFile($this->getPath(), self::TMP_DIR));
+            Util\File::getFS()->remove(Util::joinFile($this->getPath(), Builder::TMP_DIR));
         } catch (IOExceptionInterface $e) {
             throw new RuntimeException($e->getMessage());
         }

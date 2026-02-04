@@ -20,7 +20,6 @@ use Cecil\Exception\ConfigException;
 use Cecil\Exception\RuntimeException;
 use Cecil\Renderer\Config;
 use Cecil\Renderer\Layout;
-use Cecil\Renderer\Page as PageRenderer;
 use Cecil\Renderer\Site;
 use Cecil\Renderer\Twig;
 use Cecil\Step\AbstractStep;
@@ -37,8 +36,11 @@ use Cecil\Util;
  */
 class Render extends AbstractStep
 {
-    public const TMP_DIR = '.cecil';
-
+    /**
+     * Subset of pages to render.
+     *
+     * @var array
+     */
     protected $subset = [];
 
     /**
@@ -252,14 +254,14 @@ class Render extends AbstractStep
             try {
                 // HTML
                 $htmlDumper = new \Twig\Profiler\Dumper\HtmlDumper();
-                $profileHtmlFile = Util::joinFile($this->config->getDestinationDir(), self::TMP_DIR, 'twig_profile.html');
+                $profileHtmlFile = Util::joinFile($this->config->getDestinationDir(), Builder::TMP_DIR, 'twig_profile.html');
                 Util\File::getFS()->dumpFile($profileHtmlFile, $htmlDumper->dump($this->builder->getRenderer()->getDebugProfile()));
                 // TXT
                 $textDumper = new \Twig\Profiler\Dumper\TextDumper();
-                $profileTextFile = Util::joinFile($this->config->getDestinationDir(), self::TMP_DIR, 'twig_profile.txt');
+                $profileTextFile = Util::joinFile($this->config->getDestinationDir(), Builder::TMP_DIR, 'twig_profile.txt');
                 Util\File::getFS()->dumpFile($profileTextFile, $textDumper->dump($this->builder->getRenderer()->getDebugProfile()));
                 // log
-                $this->builder->getLogger()->debug(\sprintf('Twig profile dumped in "%s"', Util::joinFile($this->config->getDestinationDir(), self::TMP_DIR)));
+                $this->builder->getLogger()->debug(\sprintf('Twig profile dumped in "%s"', Util::joinFile($this->config->getDestinationDir(), Builder::TMP_DIR)));
             } catch (\Symfony\Component\Filesystem\Exception\IOException $e) {
                 throw new RuntimeException($e->getMessage());
             }

@@ -13,6 +13,7 @@ declare(strict_types=1);
 
 namespace Cecil\Command;
 
+use Cecil\Builder;
 use Cecil\Util;
 use Symfony\Component\Console\Helper\Table;
 use Symfony\Component\Console\Input\InputArgument;
@@ -103,7 +104,7 @@ EOF
         if ($input->getOption('output')) {
             $config['output']['dir'] = $input->getOption('output');
             if ($input->getOption('output') != self::SERVE_OUTPUT) {
-                Util\File::getFS()->dumpFile(Util::joinFile($this->getPath(), self::TMP_DIR, 'output'), (string) $input->getOption('output'));
+                Util\File::getFS()->dumpFile(Util::joinFile($this->getPath(), Builder::TMP_DIR, 'output'), (string) $input->getOption('output'));
             }
         }
         if ($input->getOption('optimize') === true) {
