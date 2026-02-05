@@ -149,7 +149,7 @@ jobs:
         with:
           fetch-depth: 1
       - name: Download files
-        uses: actions/download-artifact@v6
+        uses: actions/download-artifact@v7
         with:
           name: cecil-${{ github.sha }}.phar
           path: dist
@@ -168,7 +168,7 @@ jobs:
     needs: [build, deploy_to_website]
     steps:
       - name: Download files
-        uses: actions/download-artifact@v6
+        uses: actions/download-artifact@v7
         with:
           name: cecil-${{ github.sha }}.phar
           path: .
@@ -254,7 +254,7 @@ jobs:
         with:
           fetch-depth: 1
       - name: Download files
-        uses: actions/download-artifact@v6
+        uses: actions/download-artifact@v7
         with:
           name: cecil-${{ github.sha }}.phar
           path: dist
