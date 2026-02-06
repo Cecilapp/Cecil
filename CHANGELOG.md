@@ -2,6 +2,14 @@
 
 All notable changes to this project will be documented in this file. Dates are displayed in UTC.
 
+#### [8.80.5](https://github.com/Cecilapp/Cecil/compare/8.80.4...8.80.5)
+
+> 4 February 2026
+
+- refactor: centralize TMP_DIR in Builder [`b83f650`](https://github.com/Cecilapp/Cecil/commit/b83f65051e4bd6516c032fe39bdfb91a069226eb)
+- refactor: add site.build and switch cache keys [`669b5aa`](https://github.com/Cecilapp/Cecil/commit/669b5aace7aef450f5a9433ad2e5e5fe45cc3bdc)
+- Persist assets to temp file in debug mode [`1089aa3`](https://github.com/Cecilapp/Cecil/commit/1089aa32d3615397314bcefd765c738014ed7151)
+
 #### [8.80.4](https://github.com/Cecilapp/Cecil/compare/8.80.3...8.80.4)
 
 > 4 February 2026
