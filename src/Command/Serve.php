@@ -16,6 +16,7 @@ namespace Cecil\Command;
 use Cecil\Builder;
 use Cecil\Exception\RuntimeException;
 use Cecil\Util;
+use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
@@ -203,7 +204,7 @@ EOF
         if ($buildProcess->getExitCode() !== 0) {
             $this->tearDownServer();
 
-            return 1;
+            return Command::FAILURE;
         }
 
         // handles serve process
@@ -243,7 +244,7 @@ EOF
                     if (!fsockopen($host, (int) $port)) {
                         $output->writeln('<info>Server is not ready</info>');
 
-                        return 1;
+                        return Command::FAILURE;
                     }
                     if ($this->watcherEnabled && $resourceWatcher instanceof ResourceWatcher) {
                         $watcher = $resourceWatcher->findChanges();
@@ -296,7 +297,7 @@ EOF
             }
         }
 
-        return 0;
+        return Command::SUCCESS;
     }
 
     /**

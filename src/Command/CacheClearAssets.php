@@ -14,6 +14,7 @@ declare(strict_types=1);
 namespace Cecil\Command;
 
 use Cecil\Util;
+use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
@@ -52,7 +53,7 @@ EOF
         if (!Util\File::getFS()->exists($this->getBuilder()->getConfig()->getCacheAssetsPath())) {
             $output->writeln('<info>No assets cache.</info>');
 
-            return 0;
+            return Command::SUCCESS;
         }
         $output->writeln('Removing assets cache directory...');
         $output->writeln(
@@ -62,6 +63,6 @@ EOF
         Util\File::getFS()->remove($this->getBuilder()->getConfig()->getCacheAssetsPath());
         $output->writeln('<info>Assets cache is clear.</info>');
 
-        return 0;
+        return Command::SUCCESS;
     }
 }

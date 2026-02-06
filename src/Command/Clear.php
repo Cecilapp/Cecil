@@ -15,6 +15,7 @@ namespace Cecil\Command;
 
 use Cecil\Builder;
 use Cecil\Util;
+use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
@@ -56,7 +57,7 @@ EOF
         $command = $this->getApplication()->find('cache:clear');
         $command->run($input, $output);
 
-        return 0;
+        return Command::SUCCESS;
     }
 
     /**
