@@ -1560,7 +1560,7 @@ Cecil provides a way to cache parts of templates rendering to avoid re-rendering
 To use _fragments_ cache, you must wrap the content you want to cache with the `cache` tag.
 
 ```twig
-{% cache 'unique-key-' ~ site.build %}
+{% cache 'unique-key;' ~ site.build %}
 {# content #}
 {% endcache %}
 ```

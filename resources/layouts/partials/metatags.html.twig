@@ -145,50 +145,50 @@
   {%- endif ~%}
   {#- template: favicon ~#}
   {%- block metatags_favicon ~%}
-    {%- cache 'metatags-favicon-' ~ site.build ~%}
     {%- if page.metatags.favicon ?? site.metatags.favicon ?? true ~%}
+      {%- cache 'metatags-favicon;' ~ site.build ~%}
       {#- favicon.ico ~#}
-      {%- set favicon_ico = asset('favicon.ico', {'ignore_missing': true}) -%}
+      {%- set favicon_ico = asset('favicon.ico', {ignore_missing: true}) -%}
       {%- if not favicon_ico.missing ~%}
-    <link rel="icon" href="{{ url(favicon_ico, {'canonical': true}) }}" type="image/x-icon">
-    <link rel="icon" href="{{ url(favicon_ico, {'canonical': true}) }}" type="image/vnd.microsoft.icon">
-    <link rel="shortcut icon" href="{{ url(favicon_ico, {'canonical': true}) }}" type="image/x-icon">
+    <link rel="icon" href="{{ url(favicon_ico, {canonical: true}) }}" type="image/x-icon">
+    <link rel="icon" href="{{ url(favicon_ico, {canonical: true}) }}" type="image/vnd.microsoft.icon">
+    <link rel="shortcut icon" href="{{ url(favicon_ico, {canonical: true}) }}" type="image/x-icon">
       {%- endif -%}
     {#- favicon.svg ~#}
-      {%- set favicon_svg = asset('favicon.svg', {'ignore_missing': true}) -%}
+      {%- set favicon_svg = asset('favicon.svg', {ignore_missing: true}) -%}
       {%- if not favicon_svg.missing ~%}
-    <link rel="icon" sizes="any" href="{{ url(favicon_svg, {'canonical': true}) }}" type="image/svg+xml">
+    <link rel="icon" sizes="any" href="{{ url(favicon_svg, {canonical: true}) }}" type="image/svg+xml">
       {%- endif -%}
       {#- favicon.png ~#}
-      {%- set favicon_asset = asset(site.metatags.favicon.image|default('favicon.png'), {'ignore_missing': true}) -%}
+      {%- set favicon_asset = asset(site.metatags.favicon.image|default('favicon.png'), {ignore_missing: true}) -%}
       {%- if not favicon_asset.missing -%}
         {%- for favicon_variant, favicon_sizes in site.metatags.favicon.sizes|default(favicon_defaults) -%}
           {%- for size in favicon_sizes|sort|reverse|filter(size => favicon_asset.width >= size) ~%}
-    <link rel="{{ favicon_variant }}" sizes="{{ size }}x{{ size }}" href="{{ url(favicon_asset|resize(size), {'canonical': true}) }}" type="{{ favicon_asset.subtype }}">
+    <link rel="{{ favicon_variant }}" sizes="{{ size }}x{{ size }}" href="{{ url(favicon_asset|resize(size), {canonical: true}) }}" type="{{ favicon_asset.subtype }}">
           {%- endfor -%}
         {%- endfor -%}
       {%- endif -%}
+      {%- endcache ~%}
     {%- endif ~%}
-    {%- endcache ~%}
   {%- endblock metatags_favicon ~%}
   {%- if page.metatags.navigation ?? site.metatags.navigation ?? true ~%}
     {#- template: prev/next ~#}
     {%- if page.prev.path is defined ~%}
-    <link rel="prev" href="{{ url(page.prev, {'canonical': true}) }}">
+    <link rel="prev" href="{{ url(page.prev, {canonical: true}) }}">
     {%- endif -%}
     {%- if page.next.path is defined ~%}
-    <link rel="next" href="{{ url(page.next, {'canonical': true}) }}">
+    <link rel="next" href="{{ url(page.next, {canonical: true}) }}">
     {%- endif -%}
     {#- template: paginator ~#}
     {%- if page.paginator.pages is defined ~%}
-    <link rel="first" href="{{ url(page.paginator.links.first, {'canonical': true}) }}">
+    <link rel="first" href="{{ url(page.paginator.links.first, {canonical: true}) }}">
       {%- if page.paginator.links.prev is defined ~%}
-    <link rel="prev" href="{{ url(page.paginator.links.prev, {'canonical': true}) }}">
+    <link rel="prev" href="{{ url(page.paginator.links.prev, {canonical: true}) }}">
       {%- endif ~%}
       {%- if page.paginator.links.next is defined ~%}
-    <link rel="next" href="{{ url(page.paginator.links.next, {'canonical': true}) }}">
+    <link rel="next" href="{{ url(page.paginator.links.next, {canonical: true}) }}">
       {%- endif ~%}
-    <link rel="last" href="{{ url(page.paginator.links.last, {'canonical': true}) }}">
+    <link rel="last" href="{{ url(page.paginator.links.last, {canonical: true}) }}">
     {%- endif -%}
   {%- endif -%}
   {#- template: alternates ~#}
@@ -233,20 +233,20 @@
       {%- endfor ~%}
     {%- endif ~%}
     {%- if opengraph.type == 'video' ~%}
-    <meta property="og:video" content="{{ url(opengraph.video, {'canonical': true}) }}">
-    <meta property="og:video:url" content="{{ url(opengraph.video, {'canonical': true}) }}">
-    <meta property="og:video:secure_url" content="{{ url(opengraph.video, {'canonical': true}) }}">
+    <meta property="og:video" content="{{ url(opengraph.video, {canonical: true}) }}">
+    <meta property="og:video:url" content="{{ url(opengraph.video, {canonical: true}) }}">
+    <meta property="og:video:secure_url" content="{{ url(opengraph.video, {canonical: true}) }}">
     <meta property="og:video:type" content="{{ opengraph.video.subtype }}">
     <meta property="og:video:width" content="{{ opengraph.video.video.width }}">
     <meta property="og:video:height" content="{{ opengraph.video.video.height }}">
     {%- elseif opengraph.type == 'audio' ~%}
-    <meta property="og:audio" content="{{ url(opengraph.audio, {'canonical': true}) }}">
-    <meta property="og:audio:url" content="{{ url(opengraph.audio, {'canonical': true}) }}">
-    <meta property="og:audio:secure_url" content="{{ url(opengraph.audio, {'canonical': true}) }}">
+    <meta property="og:audio" content="{{ url(opengraph.audio, {canonical: true}) }}">
+    <meta property="og:audio:url" content="{{ url(opengraph.audio, {canonical: true}) }}">
+    <meta property="og:audio:secure_url" content="{{ url(opengraph.audio, {canonical: true}) }}">
     <meta property="og:audio:type" content="{{ opengraph.audio.subtype }}">
     {%- endif -%}
     {%- if opengraph.image is defined ~%}
-    <meta property="og:image" content="{{ url(opengraph.image, {'canonical': true}) }}">
+    <meta property="og:image" content="{{ url(opengraph.image, {canonical: true}) }}">
     <meta property="og:image:type" content="{{ opengraph.image.subtype }}">
     <meta property="og:image:width" content="{{ opengraph.image.width }}">
     <meta property="og:image:height" content="{{ opengraph.image.height }}">
@@ -266,20 +266,20 @@
     {%- if opengraph.video is defined ~%}
     <meta name="twitter:card" content="player">
       {%- if 'embed' in page.output ~%}
-    <meta name="twitter:player" content="{{ url(page, {'canonical': true, 'format': 'embed'}) }}">
+    <meta name="twitter:player" content="{{ url(page, {canonical: true, format: 'embed'}) }}">
       {%- else ~%}
         {%- deprecated 'The "embed" output format is required by "twitter:card:player" for page "%s"'|format(page.filepath) ~%}
       {%- endif ~%}
     <meta name="twitter:player:width" content="{{ opengraph.video.video.width }}">
     <meta name="twitter:player:height" content="{{ opengraph.video.video.height }}">
-    <meta name="twitter:player:stream" content="{{ url(opengraph.video, {'canonical': true}) }}">
+    <meta name="twitter:player:stream" content="{{ url(opengraph.video, {canonical: true}) }}">
     <meta name="twitter:player:stream:content_type" content="{{ opengraph.video.subtype }}">
     {%- elseif opengraph.audio is defined ~%}
     <meta name="twitter:card" content="player">
-    <meta name="twitter:player" content="{{ url(page, {'canonical': true, 'format': 'embed'}) }}">
+    <meta name="twitter:player" content="{{ url(page, {canonical: true, format: 'embed'}) }}">
     {%- endif -%}
     {%- if opengraph.image is defined ~%}
-    <meta name="twitter:image" content="{{ opengraph.image|url({'canonical': true}) }}">
+    <meta name="twitter:image" content="{{ opengraph.image|url({canonical: true}) }}">
     <meta name="twitter:image:alt" content="{{ opengraph.title }}">
       {%- if opengraph.video is not defined and opengraph.audio is not defined ~%}
         {%- if opengraph.image is image_large ~%}
