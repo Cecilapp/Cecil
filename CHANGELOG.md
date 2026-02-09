@@ -2,6 +2,35 @@
 
 All notable changes to this project will be documented in this file. Dates are displayed in UTC.
 
+#### [8.82.1](https://github.com/Cecilapp/Cecil/compare/8.82.0...8.82.1)
+
+> 10 February 2026
+
+- fix Cache getFile [`c0ff729`](https://github.com/Cecilapp/Cecil/commit/c0ff7291d896e8e4945822ba05133e21bc9150ed)
+- Remove MD5 mention from Asset hash comment [`883785c`](https://github.com/Cecilapp/Cecil/commit/883785c412f488c9178bd4a3d00c40f9e7154969)
+
+#### [8.82.0](https://github.com/Cecilapp/Cecil/compare/8.81.0...8.82.0)
+
+> 9 February 2026
+
+- Refactor cache API and content file handling [`ecac1c0`](https://github.com/Cecilapp/Cecil/commit/ecac1c0376e67b509b7d4306d71ee03203abc975)
+
+#### [8.81.0](https://github.com/Cecilapp/Cecil/compare/8.80.7...8.81.0)
+
+> 9 February 2026
+
+- refactor!: Remove leading_slash asset option [`aaa2e5f`](https://github.com/Cecilapp/Cecil/commit/aaa2e5fb8453d42c2d78ec0e77a8235283565237)
+
+#### [8.80.7](https://github.com/Cecilapp/Cecil/compare/8.80.6...8.80.7)
+
+> 9 February 2026
+
+- Replace md5 Twig filter with xxh128 hash [`a005333`](https://github.com/Cecilapp/Cecil/commit/a005333823744839603966b1337b5030165b7ee5)
+- Use xxh128 for asset hashing [`57f7e8f`](https://github.com/Cecilapp/Cecil/commit/57f7e8fcca3d0c9978f47461e283f73b8676181c)
+- Change default hash algo to xxh128 [`d09987e`](https://github.com/Cecilapp/Cecil/commit/d09987e72833389527f98819a27b1dbf37882b35)
+- Use xxh128 for ETag hashing [`2b38091`](https://github.com/Cecilapp/Cecil/commit/2b380919d41d24b9e0605fab8f19b277d02d21e7)
+- Add Last-Modified header for served files [`8d9ba2c`](https://github.com/Cecilapp/Cecil/commit/8d9ba2c29d73d1f38b642e0b0d20faade4d6b35f)
+
 #### [8.80.6](https://github.com/Cecilapp/Cecil/compare/8.80.5...8.80.6)
 
 > 6 February 2026
