@@ -56,7 +56,6 @@ class Asset implements \ArrayAccess
      * Options:
      * [
      *     'filename' => <string>,
-     *     'leading_slash' => <bool>
      *     'ignore_missing' => <bool>,
      *     'fingerprint' => <bool>,
      *     'minify' => <bool>,
@@ -114,7 +113,6 @@ class Asset implements \ArrayAccess
         $options = array_merge(
             [
                 'filename'       => '',
-                'leading_slash'  => true,
                 'ignore_missing' => false,
                 'fingerprint'    => $this->config->isEnabled('assets.fingerprint'),
                 'minify'         => $this->config->isEnabled('assets.minify'),
@@ -174,9 +172,7 @@ class Asset implements \ArrayAccess
                         $this->data['path'] = $filename;
                     }
                     // add leading slash
-                    if ($options['leading_slash']) {
-                        $this->data['path'] = '/' . ltrim($this->data['path'], '/');
-                    }
+                    $this->data['path'] = '/' . ltrim($this->data['path'], '/');
                     $this->data['_path'] = $this->data['path'];
                 } catch (RuntimeException $e) {
                     if ($options['ignore_missing']) {

@@ -253,9 +253,8 @@ class Parsedown extends \ParsedownToc
         }
 
         // create asset
-        $assetOptions = ['leading_slash' => false];
+        $assetOptions = [];
         if ($this->config->isEnabled('pages.body.images.remote.fallback')) {
-            $assetOptions = ['leading_slash' => true];
             $assetOptions += ['fallback' => (string) $this->config->get('pages.body.images.remote.fallback')];
         }
         $asset = new Asset($this->builder, $InlineImage['element']['attributes']['src'], $assetOptions);

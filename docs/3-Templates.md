@@ -531,16 +531,15 @@ Resource files must be stored in the `assets/` (or `static/`)  directory.
 {{ asset(path, {options}) }}
 ```
 
-| Option         | Description                                     | Type    | Default  |
-| -------------- | ----------------------------------------------- | ------- | -------- |
-| filename       | Save bundle to a custom file name.              | string  | `styles.css` or `scripts.js` |
-| leading_slash  | Add a leading slash to the $path.               | string  | `true`   |
-| ignore_missing | Do not stop build if file is not found.         | boolean | `false`  |
-| fingerprint    | Add content hash to the file name.              | boolean | `true`   |
-| minify         | Compress CSS or JavaScript.                     | boolean | `true`   |
-| optimize       | Compress image.                                 | boolean | `false`  |
-| fallback       | Load a local asset if remote file is not found. | string  | ``       |
-| useragent      | User agent key (from [Assets configuration](4-Configuration.md#assets-remote-useragent)). | string | `default`|
+| Option         | Description                                                                              | Type    | Default                      |
+| -------------- | ---------------------------------------------------------------------------------------- | ------- | ---------------------------- |
+| filename       | Save bundle to a custom file name.                                                       | string  | `styles.css` or `scripts.js` |
+| ignore_missing | Do not stop build if file is not found.                                                  | boolean | `false`                      |
+| fingerprint    | Add content hash to the file name.                                                       | boolean | `true`                       |
+| minify         | Compress CSS or JavaScript.                                                              | boolean | `true`                       |
+| optimize       | Compress image.                                                                          | boolean | `false`                      |
+| fallback       | Load a local asset if remote file is not found.                                          | string  | ``                           |
+| useragent      | User agent key (See [Assets configuration](4-Configuration.md#assets-remote-useragent)). | string  | `default`                    |
 
 :::tip
 You can use [filters](#filters) to manipulate assets.
