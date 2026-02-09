@@ -1158,9 +1158,9 @@ class Core extends SlugifyExtension
     }
 
     /**
-     * Hashing an object, an array or a string (with algo, md5 by default).
+     * Hashing an object, an array or a string (with algo, xxh128 by default).
      */
-    public function hash(object|array|string $data, $algo = 'md5'): string
+    public function hash(object|array|string $data, $algo = 'xxh128'): string
     {
         switch (\gettype($data)) {
             case 'object':
