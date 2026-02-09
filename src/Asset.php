@@ -207,7 +207,7 @@ class Asset implements \ArrayAccess
             $quality = (int) $this->config->get('assets.images.quality');
             $this->cacheTags['quality'] = $quality;
         }
-        $cacheKey = $cache->createKeyFromAsset($this, $this->cacheTags);
+        $cacheKey = $cache->createKey($this, tags: $this->cacheTags);
         if (!$cache->has($cacheKey)) {
             // fingerprinting
             if ($options['fingerprint']) {
@@ -237,7 +237,7 @@ class Asset implements \ArrayAccess
             $this->builder->getLogger()->debug(\sprintf('Asset cached: "%s"', $this->data['path']));
             // optimizing images files (in cache directory)
             if ($optimize) {
-                $this->optimizeImage($cache->getContentFilePathname($this->data['path']), $this->data['path'], $quality);
+                $this->optimizeImage($cache->getContentFile($this->data['path']), $this->data['path'], $quality);
             }
         }
         $this->data = $cache->get($cacheKey);
@@ -312,7 +312,7 @@ class Asset implements \ArrayAccess
         }
 
         $cache = new Cache($this->builder, 'assets');
-        if (empty($this->data['path']) || !Util\File::getFS()->exists($cache->getContentFilePathname($this->data['path']))) {
+        if (empty($this->data['path']) || !Util\File::getFS()->exists($cache->getContentFile($this->data['path']))) {
             throw new RuntimeException(\sprintf('Unable to add "%s" to assets list. Please clear cache and retry.', $this->data['path']));
         }
 
@@ -326,7 +326,7 @@ class Asset implements \ArrayAccess
     {
         $this->cacheTags['fingerprint'] = true;
         $cache = new Cache($this->builder, 'assets');
-        $cacheKey = $cache->createKeyFromAsset($this, $this->cacheTags);
+        $cacheKey = $cache->createKey($this, tags: $this->cacheTags);
         if (!$cache->has($cacheKey)) {
             $this->doFingerprint();
             $cache->set($cacheKey, $this->data, $this->config->get('cache.assets.ttl'));
@@ -345,7 +345,7 @@ class Asset implements \ArrayAccess
     {
         $this->cacheTags['compile'] = true;
         $cache = new Cache($this->builder, 'assets');
-        $cacheKey = $cache->createKeyFromAsset($this, $this->cacheTags);
+        $cacheKey = $cache->createKey($this, tags: $this->cacheTags);
         if (!$cache->has($cacheKey)) {
             $this->doCompile();
             $cache->set($cacheKey, $this->data, $this->config->get('cache.assets.ttl'));
@@ -362,7 +362,7 @@ class Asset implements \ArrayAccess
     {
         $this->cacheTags['minify'] = true;
         $cache = new Cache($this->builder, 'assets');
-        $cacheKey = $cache->createKeyFromAsset($this, $this->cacheTags);
+        $cacheKey = $cache->createKey($this, tags: $this->cacheTags);
         if (!$cache->has($cacheKey)) {
             $this->doMinify();
             $cache->set($cacheKey, $this->data, $this->config->get('cache.assets.ttl'));
@@ -450,7 +450,7 @@ class Asset implements \ArrayAccess
         $assetResized->cacheTags['quality'] = $quality;
         $assetResized->cacheTags['width'] = $width;
         $assetResized->cacheTags['height'] = $height;
-        $cacheKey = $cache->createKeyFromAsset($assetResized, $assetResized->cacheTags);
+        $cacheKey = $cache->createKey($assetResized, tags: $assetResized->cacheTags);
         if (!$cache->has($cacheKey)) {
             $assetResized->data['content'] = Image::resize($assetResized, $width, $height, $quality, $rmAnimation);
             $assetResized->data['path'] = '/' . Util::joinPath(
@@ -491,7 +491,7 @@ class Asset implements \ArrayAccess
 
         $cache = new Cache($this->builder, 'assets');
         $assetMaskable->cacheTags['maskable'] = true;
-        $cacheKey = $cache->createKeyFromAsset($assetMaskable, $assetMaskable->cacheTags);
+        $cacheKey = $cache->createKey($assetMaskable, tags: $assetMaskable->cacheTags);
         if (!$cache->has($cacheKey)) {
             $assetMaskable->data['content'] = Image::maskable($assetMaskable, $quality, $padding);
             $assetMaskable->data['path'] = '/' . Util::joinPath(
@@ -537,7 +537,7 @@ class Asset implements \ArrayAccess
         if ($this->data['width']) {
             $this->cacheTags['width'] = $this->data['width'];
         }
-        $cacheKey = $cache->createKeyFromAsset($asset, $this->cacheTags);
+        $cacheKey = $cache->createKey($asset, tags: $this->cacheTags);
         if (!$cache->has($cacheKey)) {
             $asset->data['content'] = Image::convert($asset, $format, $quality);
             $asset->data['path'] = preg_replace('/\.' . $this->data['ext'] . '$/m', ".$format", $this->data['path']);
@@ -866,7 +866,7 @@ class Asset implements \ArrayAccess
                     (string) $this->config->get('assets.target'),
                     self::buildPathFromUrl($url)
                 );
-                $cache = new Cache($this->builder, 'assets/remote');
+                $cache = new Cache($this->builder, 'assets/_remote');
                 if (!$cache->has($path)) {
                     $content = $this->getRemoteFileContent($url, $userAgent);
                     $cache->set($path, [
@@ -875,7 +875,7 @@ class Asset implements \ArrayAccess
                     ], $this->config->get('cache.assets.remote.ttl'));
                 }
                 return [
-                    'file' => $cache->getContentFilePathname($path),
+                    'file' => $cache->getContentFile($path),
                     'path' => $path,
                 ];
             } catch (RuntimeException $e) {

@@ -26,6 +26,9 @@ use Psr\SimpleCache\CacheInterface;
  */
 class Cache implements CacheInterface
 {
+    /** Reserved characters that cannot be used in a key */
+    public const RESERVED_CHARACTERS = '{}()/\@:';
+
     /** @var Builder */
     protected $builder;
 
@@ -48,7 +51,7 @@ class Cache implements CacheInterface
             $this->prune($key);
             // put file content in a dedicated file
             if (\is_array($value) && !empty($value['content']) && !empty($value['path'])) {
-                Util\File::getFS()->dumpFile($this->getContentFilePathname($value['path']), $value['content']);
+                Util\File::getFS()->dumpFile($this->getContentFile($value['path']), $value['content']);
                 unset($value['content']);
             }
             // serialize data
@@ -56,7 +59,7 @@ class Cache implements CacheInterface
                 'value'      => $value,
                 'expiration' => $ttl === null ? null : time() + $this->duration($ttl),
             ]);
-            Util\File::getFS()->dumpFile($this->getFilePathname($key), $data);
+            Util\File::getFS()->dumpFile($this->getFile($key), $data);
         } catch (\Exception $e) {
             $this->builder->getLogger()->error($e->getMessage());
 
@@ -72,7 +75,7 @@ class Cache implements CacheInterface
     public function has($key): bool
     {
         $key = self::sanitizeKey($key);
-        if (!Util\File::getFS()->exists($this->getFilePathname($key))) {
+        if (!Util\File::getFS()->exists($this->getFile($key))) {
             return false;
         }
 
@@ -87,7 +90,7 @@ class Cache implements CacheInterface
         try {
             $key = self::sanitizeKey($key);
             // return default value if file doesn't exists
-            if (false === $content = Util\File::fileGetContents($this->getFilePathname($key))) {
+            if (false === $content = Util\File::fileGetContents($this->getFile($key))) {
                 return $default;
             }
             // unserialize data
@@ -95,19 +98,14 @@ class Cache implements CacheInterface
             // check expiration
             if ($data['expiration'] !== null && $data['expiration'] <= time()) {
                 $this->builder->getLogger()->debug(\sprintf('Cache expired: "%s"', $key));
-                // remove expired cache
-                if ($this->delete($key)) {
-                    // remove content file if exists
-                    if (!empty($data['value']['path'])) {
-                        $this->deleteContentFile($data['value']['path']);
-                    }
-                }
+                // remove expired cache file
+                $this->delete($key);
 
                 return $default;
             }
             // get content from dedicated file
             if (\is_array($data['value']) && isset($data['value']['path'])) {
-                if (false !== $content = Util\File::fileGetContents($this->getContentFilePathname($data['value']['path']))) {
+                if (false !== $content = Util\File::fileGetContents($this->getContentFile($data['value']['path']))) {
                     $data['value']['content'] = $content;
                 }
             }
@@ -127,8 +125,13 @@ class Cache implements CacheInterface
     {
         try {
             $key = self::sanitizeKey($key);
-            Util\File::getFS()->remove($this->getFilePathname($key));
+            Util\File::getFS()->remove($this->getFile($key));
             $this->prune($key);
+            // remove content dedicated file
+            $value = $this->get($key);
+            if (!empty($value['path'])) {
+                $this->deleteContentFile($value['path']);
+            }
         } catch (\Exception $e) {
             $this->builder->getLogger()->error($e->getMessage());
 
@@ -179,41 +182,49 @@ class Cache implements CacheInterface
     }
 
     /**
-     * Creates key from a name and a hash: "$name__HASH__VERSION".
+     * Creates key: "$name_$tags__HASH__VERSION".
+     *
+     * The $name is generated from the $value (string, Asset, or file) and can be customized with the $name parameter.
+     * The $tags are generated from the $tags parameter and can be used to add extra information to the key (e.g., options used to process the value). They are optional and can be empty.
+     * The $hash is generated from the $value and is used to identify the content. It is generated with a fast non-cryptographic hash function (xxh128) to ensure good performance.
+     * The $version is the Cecil version, used to invalidate cache when Cecil is updated.
+     * The key is sanitized to remove reserved characters and ensure it is a valid file name. It is also truncated to 200 characters to avoid issues with file system limits.
+     *
+     * @throws \InvalidArgumentException if the $value type is not supported or if the generated key contains reserved characters.
      */
-    public function createKey(string $name, string $hash): string
+    public function createKey(mixed $value, ?string $name = null, ?array $tags = null): string
     {
-        $name = self::sanitizeKey($name);
+        // string
+        if (\is_string($value)) {
+            $name .= '-' . hash('adler32', $value);
+            $hash = hash('xxh128', $value);
+        }
 
-        return \sprintf('%s__%s__%s', $name, $hash, $this->builder->getVersion());
-    }
+        // asset
+        if ($value instanceof Asset) {
+            $name = "{$value['_path']}_{$value['ext']}";
+            $hash = $value['hash'];
+        }
 
-    /**
-     * Creates key from a string: "$name__HASH__VERSION".
-     * $name is optional to add a human readable name to the key.
-     */
-    public function createKeyFromValue(?string $name, string $value): string
-    {
-        $hash = hash('md5', $value);
-        $name = $name ?? $hash;
+        // file
+        if ($value instanceof \Symfony\Component\Finder\SplFileInfo) {
+            $name = $value->getRelativePathname();
+            $hash = hash_file('xxh128', $value->getRealPath());
+        }
 
-        return $this->createKey($name, $hash);
-    }
+        if (empty($name) or empty($hash)) {
+            throw new \InvalidArgumentException(\sprintf('Unable to create cache key: invalid value type "%s".', get_debug_type($value)));
+        }
 
-    /**
-     * Creates key from an Asset: "$path_$ext_$tags__HASH__VERSION".
-     */
-    public function createKeyFromAsset(Asset $asset, ?array $tags = null): string
-    {
+        // tags
         $t = $tags;
         $tags = [];
-
         if ($t !== null) {
             foreach ($t as $key => $value) {
                 switch (\gettype($value)) {
                     case 'boolean':
                         if ($value === true) {
-                            $tags[] = $key;
+                            $tags[] = str_replace('_', '', $key);
                         }
                         break;
                     case 'string':
@@ -225,30 +236,13 @@ class Cache implements CacheInterface
                 }
             }
         }
-
-        $tagsInline = implode('_', str_replace('_', '', $tags));
-        $name = "{$asset['_path']}_{$asset['ext']}_$tagsInline";
-
-        // backward compatibility
-        if (empty($asset['hash']) or \is_null($asset['hash'])) {
-            throw new RuntimeException(\sprintf('Asset "%s" has no hash. Please clear cache and retry.', $name));
+        if (\count($tags) > 0) {
+            $name .= '_' . implode('_', $tags);
         }
 
-        return $this->createKey($name, /** @scrutinizer ignore-type */ $asset['hash']);
-    }
+        $name = self::sanitizeKey($name);
 
-    /**
-     * Creates key from a file: "RelativePathname__MD5".
-     *
-     * @throws RuntimeException
-     */
-    public function createKeyFromFile(\Symfony\Component\Finder\SplFileInfo $file): string
-    {
-        if (false === $content = Util\File::fileGetContents($file->getRealPath())) {
-            throw new RuntimeException(\sprintf('Unable to create cache key for "%s".', $file));
-        }
-
-        return $this->createKeyFromValue($file->getRelativePathname(), $content);
+        return \sprintf('%s__%s__%s', $name, $hash, $this->builder->getVersion());
     }
 
     /**
@@ -284,33 +278,43 @@ class Cache implements CacheInterface
     }
 
     /**
-     * Returns cache content file pathname from path.
+     * Returns cache content file from path.
      */
-    public function getContentFilePathname(string $path): string
+    public function getContentFile(string $path): string
     {
         $path = str_replace(['https://', 'http://'], '', $path); // remove protocol (if URL)
 
-        return Util::joinFile($this->cacheDir, 'files', $path);
+        return Util::joinFile($this->cacheDir, '_files', $path);
     }
 
     /**
-     * Returns cache file pathname from key.
+     * Returns cache file from key.
      */
-    private function getFilePathname(string $key): string
+    private function getFile(string $key): string
     {
+        if (\count(explode('-', $key)) > 2) {
+            return Util::joinFile($this->cacheDir, explode('-', $key, 2)[0], explode('-', $key, 2)[1]) . '.ser';
+        }
+
         return Util::joinFile($this->cacheDir, "$key.ser");
     }
 
     /**
      * Prepares and validate $key.
+     *
+     * @throws \InvalidArgumentException if the $key contains reserved characters.
      */
-    public static function sanitizeKey(string $key): string
+    private static function sanitizeKey(string $key): string
     {
         $key = str_replace(['https://', 'http://'], '', $key); // remove protocol (if URL)
         $key = Page::slugify($key);                            // slugify
         $key = trim($key, '/');                                // remove leading/trailing slashes
         $key = str_replace(['\\', '/'], ['-', '-'], $key);     // replace slashes by hyphens
         $key = substr($key, 0, 200);                           // truncate to 200 characters (NTFS filename length limit is 255 characters)
+
+        if (false !== strpbrk($key, self::RESERVED_CHARACTERS)) {
+            throw new \InvalidArgumentException(\sprintf('Cache key "%s" contains reserved characters "%s".', $key, self::RESERVED_CHARACTERS));
+        }
 
         return $key;
     }
@@ -360,7 +364,7 @@ class Cache implements CacheInterface
     protected function deleteContentFile(string $path): bool
     {
         try {
-            Util\File::getFS()->remove($this->getContentFilePathname($path));
+            Util\File::getFS()->remove($this->getContentFile($path));
         } catch (\Exception $e) {
             $this->builder->getLogger()->error($e->getMessage());
 
