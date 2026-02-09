@@ -292,7 +292,7 @@ class Cache implements CacheInterface
      */
     private function getFile(string $key): string
     {
-        if (\count(explode('-', $key)) > 2) {
+        if (\count(explode('-', explode('__', $key)[0])) >= 2) {
             return Util::joinFile($this->cacheDir, explode('-', $key, 2)[0], explode('-', $key, 2)[1]) . '.ser';
         }
 
