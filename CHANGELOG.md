@@ -2,6 +2,16 @@
 
 All notable changes to this project will be documented in this file. Dates are displayed in UTC.
 
+#### [8.80.6](https://github.com/Cecilapp/Cecil/compare/8.80.5...8.80.6)
+
+> 6 February 2026
+
+- chore(deps): bump actions/cache from 4 to 5 [`#2261`](https://github.com/Cecilapp/Cecil/pull/2261)
+- chore(deps): bump DavidAnson/markdownlint-cli2-action from 21 to 22 [`#2260`](https://github.com/Cecilapp/Cecil/pull/2260)
+- chore(deps): bump actions/upload-artifact from 4 to 6 [`#2264`](https://github.com/Cecilapp/Cecil/pull/2264)
+- chore(deps): bump actions/download-artifact from 6 to 7 [`#2263`](https://github.com/Cecilapp/Cecil/pull/2263)
+- refactor: normalize cache keys in templates [`a431b37`](https://github.com/Cecilapp/Cecil/commit/a431b37cf5049a52365cc5e75660ff55e01b83b0)
+
 #### [8.80.5](https://github.com/Cecilapp/Cecil/compare/8.80.4...8.80.5)
 
 > 4 February 2026
