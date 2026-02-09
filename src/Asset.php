@@ -153,7 +153,7 @@ class Asset implements \ArrayAccess
                     $this->data['subtype'] = Util\File::getMediaType($file)[1];
                     $this->data['size'] += filesize($file) ?: 0;
                     $this->data['content'] .= Util\File::fileGetContents($file);
-                    $this->data['hash'] = hash('md5', $this->data['content']);
+                    $this->data['hash'] = hash('xxh128', $this->data['content']);
                     // bundle default filename
                     $filename = $options['filename'];
                     if ($pathsCount > 1 && empty($filename)) {
@@ -717,7 +717,7 @@ class Asset implements \ArrayAccess
      */
     protected function doFingerprint(): self
     {
-        $hash = hash('md5', $this->data['content']);
+        $hash = hash('xxh128', $this->data['content']);
         $this->data['path'] = preg_replace(
             '/\.' . $this->data['ext'] . '$/m',
             ".$hash." . $this->data['ext'],
