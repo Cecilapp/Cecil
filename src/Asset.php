@@ -106,7 +106,7 @@ class Asset implements \ArrayAccess
             'exif'     => [],    // image exif data
             'duration' => null,  // audio or video duration
             'content'  => '',    // file content
-            'hash'     => '',    // file content hash (md5)
+            'hash'     => '',    // file content hash
         ];
 
         // handles options
