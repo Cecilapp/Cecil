@@ -157,6 +157,9 @@ class Convert extends AbstractStep
 
         foreach ($chunks as $chunk) {
             $tmpFile = \tempnam(\sys_get_temp_dir(), 'cecil_convert_');
+            if ($tmpFile === false) {
+                throw new RuntimeException('Unable to create temporary file for pages conversion.');
+            }
 
             $pid = \pcntl_fork();
 
