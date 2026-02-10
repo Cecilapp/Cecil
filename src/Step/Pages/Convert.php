@@ -267,8 +267,13 @@ class Convert extends AbstractStep
 
         if (\file_exists($tmpFile)) {
             $data = \file_get_contents($tmpFile);
-            if ($data !== false) {
-                $results = \unserialize($data);
+            if ($data !== false && $data !== '') {
+                $unserialized = @\unserialize($data, ['allowed_classes' => false]);
+                if (\is_array($unserialized)) {
+                    $results = $unserialized;
+                } else {
+                    $this->builder->getLogger()->warning(\sprintf('Invalid conversion results in temporary file "%s"; ignoring.', $tmpFile));
+                }
             }
             @\unlink($tmpFile);
         }
