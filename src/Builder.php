@@ -507,7 +507,7 @@ class Builder implements LoggerAwareInterface
 
     /**
      * Returns list of assets path.
-     * 
+     *
      * Returns assets from in-memory collection. This works correctly in single-process
      * scenarios where all assets are added during the sequential Render step.
      */
