@@ -493,7 +493,7 @@ class Builder implements LoggerAwareInterface
         $this->assets[$path] = true;
 
         // Persist to file
-        $filePath = Util::joinFile($this->config->getDestinationDir(), self::TMP_DIR, 'assets-' . Builder::getBuildId() . '.txt');
+        $filePath = $this->getAssetsFilePath();
         $dir = \dirname($filePath);
         if (!Util\File::getFS()->exists($dir)) {
             Util\File::getFS()->mkdir($dir);
@@ -507,6 +507,9 @@ class Builder implements LoggerAwareInterface
 
     /**
      * Returns list of assets path.
+     * 
+     * Returns assets from in-memory collection. This works correctly in single-process
+     * scenarios where all assets are added during the sequential Render step.
      */
     public function getAssetsList(): array
     {
@@ -518,10 +521,18 @@ class Builder implements LoggerAwareInterface
      */
     public function deleteAssetsList(): void
     {
-        $filePath = Util::joinFile($this->config->getDestinationDir(), self::TMP_DIR, 'assets-' . Builder::getBuildId() . '.txt');
+        $filePath = $this->getAssetsFilePath();
         if (Util\File::getFS()->exists($filePath)) {
             Util\File::getFS()->remove($filePath);
         }
+    }
+
+    /**
+     * Returns the file path for the assets list.
+     */
+    private function getAssetsFilePath(): string
+    {
+        return Util::joinFile($this->config->getDestinationDir(), self::TMP_DIR, 'assets-' . Builder::getBuildId() . '.txt');
     }
 
     /**
