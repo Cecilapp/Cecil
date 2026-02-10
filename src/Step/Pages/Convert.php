@@ -147,7 +147,8 @@ class Convert extends AbstractStep
         }
 
         $concurrency = $this->getConcurrency($total);
-        $this->builder->getLogger()->info(\sprintf('Using concurrency level: %d (CPU cores: %d, total pages: %d)', $concurrency, $this->getConcurrency($total), $total));
+        $cpuCount = $this->getConcurrency(PHP_INT_MAX);
+        $this->builder->getLogger()->info(\sprintf('Using concurrency level: %d (CPU cores: %d, total pages: %d)', $concurrency, $cpuCount, $total));
         $chunks = \array_chunk($pages, max(1, (int) ceil($total / $concurrency)));
         $format = (string) $this->builder->getConfig()->get('pages.frontmatter');
         $drafts = (bool) $this->options['drafts'];
