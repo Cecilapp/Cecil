@@ -150,6 +150,7 @@ class Builder implements LoggerAwareInterface
      * This is an array that holds paths to assets (like CSS, JS, images) that are used in the build process.
      * It is used to keep track of assets that need to be processed or copied.
      * It can be set to an array of paths or updated with new asset paths.
+     * Keys are asset paths for O(1) lookup during de-duplication.
      * @var array
      */
     protected $assets = [];
@@ -480,11 +481,11 @@ class Builder implements LoggerAwareInterface
      */
     public function addToAssetsList(string $path): void
     {
-        // De-duplicate: only add if not already in the in-memory set
-        if (\in_array($path, $this->assets, true)) {
+        // De-duplicate: only add if not already in the in-memory set (O(1) lookup)
+        if (isset($this->assets[$path])) {
             return;
         }
-        $this->assets[] = $path;
+        $this->assets[$path] = true;
 
         // Persist to file
         $filePath = Util::joinFile($this->config->getDestinationDir(), self::TMP_DIR, 'assets-' . Builder::getBuildId() . '.txt');
@@ -504,7 +505,7 @@ class Builder implements LoggerAwareInterface
      */
     public function getAssetsList(): array
     {
-        return $this->assets;
+        return \array_keys($this->assets);
     }
 
     /**
