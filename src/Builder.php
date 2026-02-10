@@ -480,17 +480,11 @@ class Builder implements LoggerAwareInterface
      */
     public function addToAssetsList(string $path): void
     {
-        if ($this->isDebug()) {
-            file_put_contents(
-                Util::joinFile($this->config->getDestinationDir(), self::TMP_DIR, 'assets-' . Builder::getBuildId() . '.txt'),
-                $path . PHP_EOL,
-                FILE_APPEND | LOCK_EX
-            );
-            return;
-        }
-        if (!\in_array($path, $this->assets, true)) {
-            $this->assets[] = $path;
-        }
+        file_put_contents(
+            Util::joinFile($this->config->getDestinationDir(), self::TMP_DIR, 'assets-' . Builder::getBuildId() . '.txt'),
+            $path . PHP_EOL,
+            FILE_APPEND | LOCK_EX
+        );
     }
 
     /**
@@ -498,18 +492,26 @@ class Builder implements LoggerAwareInterface
      */
     public function getAssetsList(): array
     {
-        if ($this->isDebug()) {
-            $assets = file(
-                Util::joinFile($this->config->getDestinationDir(), self::TMP_DIR, 'assets-' . Builder::getBuildId() . '.txt'),
-                FILE_IGNORE_NEW_LINES | FILE_SKIP_EMPTY_LINES
-            );
-            if ($assets === false) {
-                return [];
-            }
-
-            return $assets;
+        $assets = file(
+            Util::joinFile($this->config->getDestinationDir(), self::TMP_DIR, 'assets-' . Builder::getBuildId() . '.txt'),
+            FILE_IGNORE_NEW_LINES | FILE_SKIP_EMPTY_LINES
+        );
+        if ($assets === false) {
+            return [];
         }
-        return $this->assets;
+
+        return $assets;
+    }
+
+    /**
+     * Deletes assets list.
+     */
+    public function deleteAssetsList(): void
+    {
+        $filePath = Util::joinFile($this->config->getDestinationDir(), self::TMP_DIR, 'assets-' . Builder::getBuildId() . '.txt');
+        if (Util\File::getFS()->exists($filePath)) {
+            Util\File::getFS()->remove($filePath);
+        }
     }
 
     /**
