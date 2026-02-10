@@ -150,12 +150,12 @@ class Builder implements LoggerAwareInterface
      * This is an array that holds paths to assets (like CSS, JS, images) that are used in the build process.
      * It is used to keep track of assets that need to be processed or copied.
      * It can be set to an array of paths or updated with new asset paths.
-     * Keys are asset paths for O(1) lookup during de-duplication.
+     * Keys are asset paths for O(1) lookup during de-duplication; values are boolean true.
      * @var array
      */
     protected $assets = [];
     /**
-     * Tracks whether the assets directory has been created.
+     * Tracks whether the assets directory has been created for this Builder instance.
      * @var bool
      */
     protected $assetsDirectoryCreated = false;
@@ -487,7 +487,9 @@ class Builder implements LoggerAwareInterface
      * Note: This method uses in-memory de-duplication which assumes assets are added
      * in a single process. Currently, assets are created during the Render step which
      * runs sequentially. If assets are ever added during parallelized steps (e.g., Convert),
-     * the de-duplication logic would need to be enhanced to handle cross-process scenarios.
+     * cross-process de-duplication would require either file locking with read-modify-write
+     * operations or a different persistence mechanism, as the current file-based approach
+     * with FILE_APPEND cannot prevent duplicates across processes.
      */
     public function addToAssetsList(string $path): void
     {
@@ -497,7 +499,7 @@ class Builder implements LoggerAwareInterface
         }
         $this->assets[$path] = true;
 
-        // Ensure directory exists (once per build)
+        // Ensure directory exists (once per Builder instance)
         if (!$this->assetsDirectoryCreated) {
             $filePath = $this->getAssetsFilePath();
             $dir = \dirname($filePath);
