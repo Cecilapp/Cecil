@@ -20,6 +20,7 @@ use Cecil\Converter\ConverterInterface;
 use Cecil\Exception\RuntimeException;
 use Cecil\Step\AbstractStep;
 use Cecil\Util;
+use Psr\Log\NullLogger;
 
 /**
  * Convert step.
@@ -28,6 +29,10 @@ use Cecil\Util;
  * (i.e. Markdown) to HTML, applying front matter processing,
  * and ensuring that the pages are ready for rendering. It handles both
  * published and draft pages, depending on the build options.
+ *
+ * When the `pcntl` extension is available, page conversions are parallelized
+ * using pcntl_fork for better performance. Each child process inherits the
+ * full Builder context (pages collection, config, etc.) via copy-on-write.
  */
 class Convert extends AbstractStep
 {
@@ -64,6 +69,21 @@ class Convert extends AbstractStep
             return;
         }
 
+        // Use parallel processing if pcntl is available, otherwise fall back to sequential
+        if (\function_exists('pcntl_fork')) {
+            $this->builder->getLogger()->info('Starting page conversion using parallel processing');
+            $this->processParallel();
+        } else {
+            $this->builder->getLogger()->info('Starting page conversion using sequential processing (pcntl extension not available)');
+            $this->processSequential();
+        }
+    }
+
+    /**
+     * Processes pages sequentially (original behavior).
+     */
+    protected function processSequential(): void
+    {
         $total = \count($this->builder->getPages());
         $count = 0;
         /** @var Page $page */
@@ -100,6 +120,230 @@ class Convert extends AbstractStep
                 $this->builder->getLogger()->info($message . $statusMessage, ['progress' => [$count, $total]]);
             }
         }
+    }
+
+    /**
+     * Processes pages in parallel using pcntl_fork.
+     *
+     * Each child process inherits the parent's memory (copy-on-write), so
+     * the full Builder context (pages collection, config, converters, etc.)
+     * is available. Only the conversion results (variables array + HTML string)
+     * are serialized back to the parent via temporary files.
+     */
+    protected function processParallel(): void
+    {
+        // Collect non-virtual pages
+        $pages = [];
+        /** @var Page $page */
+        foreach ($this->builder->getPages() as $page) {
+            if (!$page->isVirtual()) {
+                $pages[] = $page;
+            }
+        }
+
+        $total = \count($pages);
+        if ($total === 0) {
+            return;
+        }
+
+        $concurrency = $this->getConcurrency($total);
+        $this->builder->getLogger()->info(\sprintf('Using concurrency level: %d (CPU cores: %d, total pages: %d)', $concurrency, $this->getConcurrency($total), $total));
+        $chunks = \array_chunk($pages, max(1, (int) ceil($total / $concurrency)));
+        $format = (string) $this->builder->getConfig()->get('pages.frontmatter');
+        $drafts = (bool) $this->options['drafts'];
+
+        $children = [];
+
+        foreach ($chunks as $chunk) {
+            $tmpFile = \tempnam(\sys_get_temp_dir(), 'cecil_convert_');
+
+            $pid = \pcntl_fork();
+
+            if ($pid === -1) {
+                // Fork failed: convert this chunk sequentially in the parent
+                $this->convertChunk($chunk, $format, $drafts, $tmpFile);
+                $children[] = ['pid' => null, 'tmpFile' => $tmpFile, 'pages' => $chunk];
+                continue;
+            }
+
+            if ($pid === 0) {
+                // === Child process ===
+                // Silence logger to avoid output conflicts with parent
+                $this->builder->setLogger(new NullLogger());
+
+                $this->convertChunk($chunk, $format, $drafts, $tmpFile);
+
+                // Exit child without running parent's shutdown handlers
+                exit(0);
+            }
+
+            // === Parent process ===
+            $children[] = ['pid' => $pid, 'tmpFile' => $tmpFile, 'pages' => $chunk];
+        }
+
+        // Wait for all child processes and apply results
+        $count = 0;
+        foreach ($children as $child) {
+            if ($child['pid'] !== null) {
+                \pcntl_waitpid($child['pid'], $status);
+            }
+            $count = $this->applyChunkResults($child['pages'], $child['tmpFile'], $total, $count);
+        }
+    }
+
+    /**
+     * Converts a chunk of pages using the existing Builder and writes
+     * results to a temporary file.
+     *
+     * Each page's conversion output (front matter variables + HTML body) is
+     * stored as serializable primitives (arrays, strings).
+     *
+     * @param Page[] $pages
+     */
+    protected function convertChunk(array $pages, string $format, bool $drafts, string $tmpFile): void
+    {
+        $converter = new Converter($this->builder);
+        $results = [];
+
+        foreach ($pages as $page) {
+            $pageId = $page->getId();
+
+            try {
+                $variables = null;
+                $html = null;
+
+                // Convert front matter
+                if ($page->getFrontmatter()) {
+                    $variables = $converter->convertFrontmatter($page->getFrontmatter(), $format);
+                }
+
+                // Determine effective published status after front matter processing
+                $published = (bool) $page->getVariable('published');
+                if ($variables !== null) {
+                    if (isset($variables['published'])) {
+                        $published = (bool) $variables['published'];
+                    }
+                    if (isset($variables['draft']) && $variables['draft']) {
+                        $published = false;
+                    }
+                }
+
+                // Convert body (only if page is published or drafts option is enabled)
+                if ($published || $drafts) {
+                    $html = $converter->convertBody($page->getBody() ?? '');
+                }
+
+                $results[$pageId] = [
+                    'success' => true,
+                    'variables' => $variables,
+                    'html' => $html,
+                ];
+            } catch (\Throwable $e) {
+                $results[$pageId] = [
+                    'success' => false,
+                    'error' => $e->getMessage(),
+                ];
+            }
+        }
+
+        \file_put_contents($tmpFile, \serialize($results));
+    }
+
+    /**
+     * Reads conversion results from a temporary file and applies them
+     * to the original Page objects in the parent process.
+     *
+     * @param Page[] $pages
+     *
+     * @return int Updated progress count
+     */
+    protected function applyChunkResults(array $pages, string $tmpFile, int $total, int $count): int
+    {
+        $results = [];
+
+        if (\file_exists($tmpFile)) {
+            $data = \file_get_contents($tmpFile);
+            if ($data !== false) {
+                $results = \unserialize($data);
+            }
+            @\unlink($tmpFile);
+        }
+
+        foreach ($pages as $page) {
+            $pageId = $page->getId();
+            $count++;
+
+            // If results are missing or conversion failed, remove the page
+            if (!isset($results[$pageId]) || !$results[$pageId]['success']) {
+                $error = $results[$pageId]['error'] ?? 'Unknown error';
+                $this->builder->getLogger()->error(\sprintf('Unable to convert "%s": %s', $pageId, $error));
+                $this->builder->getPages()->remove($pageId);
+                continue;
+            }
+
+            $result = $results[$pageId];
+
+            // Apply front matter variables
+            if ($result['variables'] !== null) {
+                $page->setFmVariables($result['variables']);
+                $page->setVariables($result['variables']);
+            }
+
+            // Apply converted HTML body
+            if ($result['html'] !== null) {
+                $page->setBodyHtml($result['html']);
+            }
+
+            // Set default language if necessary
+            if ($page->getVariable('language') === null) {
+                $page->setVariable('language', $this->config->getLanguageDefault());
+            }
+
+            $message = \sprintf('Page "%s" converted (%s)', $pageId, $tmpFile);
+            $statusMessage = ' (not published)';
+
+            // Forces drafts convert?
+            if ($this->builder->getBuildOptions()['drafts']) {
+                $page->setVariable('published', true);
+            }
+
+            // Replaces page in collection
+            if ($page->getVariable('published')) {
+                $this->builder->getPages()->replace($pageId, $page);
+                $statusMessage = '';
+            }
+
+            $this->builder->getLogger()->info($message . $statusMessage, ['progress' => [$count, $total]]);
+        }
+
+        return $count;
+    }
+
+    /**
+     * Determines the optimal concurrency level based on CPU count.
+     */
+    protected function getConcurrency(int $totalPages): int
+    {
+        $cpuCount = 4; // sensible default
+
+        if (PHP_OS_FAMILY === 'Darwin') {
+            $result = @\shell_exec('sysctl -n hw.ncpu 2>/dev/null');
+            if ($result !== null) {
+                $cpuCount = max(1, (int) trim($result));
+            }
+        } elseif (\is_file('/proc/cpuinfo')) {
+            $content = @\file_get_contents('/proc/cpuinfo');
+            if ($content !== false) {
+                $cpuCount = max(1, \substr_count($content, 'processor'));
+            }
+        } elseif (PHP_OS_FAMILY === 'Windows') {
+            $result = @\shell_exec('echo %NUMBER_OF_PROCESSORS% 2>NUL');
+            if ($result !== null) {
+                $cpuCount = max(1, (int) trim($result));
+            }
+        }
+
+        return min($cpuCount, $totalPages);
     }
 
     /**
