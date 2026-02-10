@@ -155,6 +155,11 @@ class Builder implements LoggerAwareInterface
      */
     protected $assets = [];
     /**
+     * Tracks whether the assets directory has been created.
+     * @var bool
+     */
+    protected $assetsDirectoryCreated = false;
+    /**
      * Menus collection.
      * This is an associative array that holds menus for different languages.
      * Each key is a language code, and the value is a Collection\Menu\Collection instance
@@ -492,14 +497,19 @@ class Builder implements LoggerAwareInterface
         }
         $this->assets[$path] = true;
 
-        // Persist to file
-        $filePath = $this->getAssetsFilePath();
-        $dir = \dirname($filePath);
-        if (!Util\File::getFS()->exists($dir)) {
-            Util\File::getFS()->mkdir($dir);
+        // Ensure directory exists (once per build)
+        if (!$this->assetsDirectoryCreated) {
+            $filePath = $this->getAssetsFilePath();
+            $dir = \dirname($filePath);
+            if (!Util\File::getFS()->exists($dir)) {
+                Util\File::getFS()->mkdir($dir);
+            }
+            $this->assetsDirectoryCreated = true;
         }
+
+        // Persist to file
         file_put_contents(
-            $filePath,
+            $this->getAssetsFilePath(),
             $path . PHP_EOL,
             FILE_APPEND | LOCK_EX
         );
