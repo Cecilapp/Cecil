@@ -480,8 +480,20 @@ class Builder implements LoggerAwareInterface
      */
     public function addToAssetsList(string $path): void
     {
+        // De-duplicate: only add if not already in the in-memory set
+        if (\in_array($path, $this->assets, true)) {
+            return;
+        }
+        $this->assets[] = $path;
+
+        // Persist to file
+        $filePath = Util::joinFile($this->config->getDestinationDir(), self::TMP_DIR, 'assets-' . Builder::getBuildId() . '.txt');
+        $dir = \dirname($filePath);
+        if (!Util\File::getFS()->exists($dir)) {
+            Util\File::getFS()->mkdir($dir);
+        }
         file_put_contents(
-            Util::joinFile($this->config->getDestinationDir(), self::TMP_DIR, 'assets-' . Builder::getBuildId() . '.txt'),
+            $filePath,
             $path . PHP_EOL,
             FILE_APPEND | LOCK_EX
         );
@@ -492,15 +504,7 @@ class Builder implements LoggerAwareInterface
      */
     public function getAssetsList(): array
     {
-        $assets = file(
-            Util::joinFile($this->config->getDestinationDir(), self::TMP_DIR, 'assets-' . Builder::getBuildId() . '.txt'),
-            FILE_IGNORE_NEW_LINES | FILE_SKIP_EMPTY_LINES
-        );
-        if ($assets === false) {
-            return [];
-        }
-
-        return $assets;
+        return $this->assets;
     }
 
     /**
