@@ -221,15 +221,13 @@ class Convert extends AbstractStep
                     $variables = $converter->convertFrontmatter($page->getFrontmatter(), $format);
                 }
 
-                // Determine effective published status after front matter processing
+                // Determine effective published status by applying variables to a cloned page
+                // This ensures side effects (e.g., schedule logic) are applied, matching convertPage() behavior
                 $published = (bool) $page->getVariable('published');
                 if ($variables !== null) {
-                    if (isset($variables['published'])) {
-                        $published = (bool) $variables['published'];
-                    }
-                    if (isset($variables['draft']) && $variables['draft']) {
-                        $published = false;
-                    }
+                    $tempPage = clone $page;
+                    $tempPage->setVariables($variables);
+                    $published = (bool) $tempPage->getVariable('published');
                 }
 
                 // Convert body (only if page is published or drafts option is enabled)
