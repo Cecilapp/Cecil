@@ -478,7 +478,7 @@ class Builder implements LoggerAwareInterface
 
     /**
      * Add an asset path to assets list.
-     * 
+     *
      * Note: This method uses in-memory de-duplication which assumes assets are added
      * in a single process. Currently, assets are created during the Render step which
      * runs sequentially. If assets are ever added during parallelized steps (e.g., Convert),
