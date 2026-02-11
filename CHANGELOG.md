@@ -2,6 +2,12 @@
 
 All notable changes to this project will be documented in this file. Dates are displayed in UTC.
 
+#### [8.83.1](https://github.com/Cecilapp/Cecil/compare/8.83.0...8.83.1)
+
+> 11 February 2026
+
+- chore: update deps [`a498527`](https://github.com/Cecilapp/Cecil/commit/a498527f68799c75997dbb4c6fcc90279e373985)
+
 #### [8.83.0](https://github.com/Cecilapp/Cecil/compare/8.82.1...8.83.0)
 
 > 11 February 2026
