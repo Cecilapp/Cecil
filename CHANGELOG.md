@@ -2,6 +2,12 @@
 
 All notable changes to this project will be documented in this file. Dates are displayed in UTC.
 
+#### [8.83.2](https://github.com/Cecilapp/Cecil/compare/8.83.1...8.83.2)
+
+> 11 February 2026
+
+- Require pages.parallel for pcntl-based conversion [`d32e30e`](https://github.com/Cecilapp/Cecil/commit/d32e30eebfda3facaad58698876912795cf207aa)
+
 #### [8.83.1](https://github.com/Cecilapp/Cecil/compare/8.83.0...8.83.1)
 
 > 11 February 2026
