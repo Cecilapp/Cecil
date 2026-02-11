@@ -263,7 +263,7 @@ class Convert extends AbstractStep
         if (\file_exists($tmpFile)) {
             $data = \file_get_contents($tmpFile);
             if ($data !== false && $data !== '') {
-                $unserialized = @\unserialize($data, ['allowed_classes' => false]);
+                $unserialized = @\unserialize($data, ['allowed_classes' => [\DateTimeImmutable::class]]);
                 if (\is_array($unserialized)) {
                     $results = $unserialized;
                 } else {
