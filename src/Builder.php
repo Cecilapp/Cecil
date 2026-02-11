@@ -150,9 +150,15 @@ class Builder implements LoggerAwareInterface
      * This is an array that holds paths to assets (like CSS, JS, images) that are used in the build process.
      * It is used to keep track of assets that need to be processed or copied.
      * It can be set to an array of paths or updated with new asset paths.
+     * Keys are asset paths for O(1) lookup during de-duplication; values are boolean true.
      * @var array
      */
     protected $assets = [];
+    /**
+     * Tracks whether the assets directory has been created for this Builder instance.
+     * @var bool
+     */
+    protected $assetsDirectoryCreated = false;
     /**
      * Menus collection.
      * This is an associative array that holds menus for different languages.
@@ -477,11 +483,35 @@ class Builder implements LoggerAwareInterface
 
     /**
      * Add an asset path to assets list.
+     *
+     * Note: This method uses in-memory de-duplication which assumes assets are added
+     * in a single process. Currently, assets are created during the Render step which
+     * runs sequentially. If assets are ever added during parallelized steps (e.g., Convert),
+     * cross-process de-duplication would require either file locking with read-modify-write
+     * operations or a different persistence mechanism, as the current file-based approach
+     * with FILE_APPEND cannot prevent duplicates across processes.
      */
     public function addToAssetsList(string $path): void
     {
+        // De-duplicate: only add if not already in the in-memory set (O(1) lookup)
+        if (isset($this->assets[$path])) {
+            return;
+        }
+        $this->assets[$path] = true;
+
+        // Ensure directory exists (once per Builder instance)
+        if (!$this->assetsDirectoryCreated) {
+            $filePath = $this->getAssetsFilePath();
+            $dir = \dirname($filePath);
+            if (!Util\File::getFS()->exists($dir)) {
+                Util\File::getFS()->mkdir($dir);
+            }
+            $this->assetsDirectoryCreated = true;
+        }
+
+        // Persist to file
         file_put_contents(
-            Util::joinFile($this->config->getDestinationDir(), self::TMP_DIR, 'assets-' . Builder::getBuildId() . '.txt'),
+            $this->getAssetsFilePath(),
             $path . PHP_EOL,
             FILE_APPEND | LOCK_EX
         );
@@ -489,18 +519,13 @@ class Builder implements LoggerAwareInterface
 
     /**
      * Returns list of assets path.
+     *
+     * Returns assets from in-memory collection. This works correctly in single-process
+     * scenarios where all assets are added during the sequential Render step.
      */
     public function getAssetsList(): array
     {
-        $assets = file(
-            Util::joinFile($this->config->getDestinationDir(), self::TMP_DIR, 'assets-' . Builder::getBuildId() . '.txt'),
-            FILE_IGNORE_NEW_LINES | FILE_SKIP_EMPTY_LINES
-        );
-        if ($assets === false) {
-            return [];
-        }
-
-        return $assets;
+        return \array_keys($this->assets);
     }
 
     /**
@@ -508,10 +533,18 @@ class Builder implements LoggerAwareInterface
      */
     public function deleteAssetsList(): void
     {
-        $filePath = Util::joinFile($this->config->getDestinationDir(), self::TMP_DIR, 'assets-' . Builder::getBuildId() . '.txt');
+        $filePath = $this->getAssetsFilePath();
         if (Util\File::getFS()->exists($filePath)) {
             Util\File::getFS()->remove($filePath);
         }
+    }
+
+    /**
+     * Returns the file path for the assets list.
+     */
+    private function getAssetsFilePath(): string
+    {
+        return Util::joinFile($this->config->getDestinationDir(), self::TMP_DIR, 'assets-' . Builder::getBuildId() . '.txt');
     }
 
     /**
