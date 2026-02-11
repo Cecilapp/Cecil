@@ -71,10 +71,10 @@ class Convert extends AbstractStep
 
         // Use parallel processing if pcntl is available, otherwise fall back to sequential
         if (\function_exists('pcntl_fork')) {
-            $this->builder->getLogger()->info('Starting page conversion using parallel processing');
+            $this->builder->getLogger()->debug('Starting page conversion using parallel processing');
             $this->processParallel();
         } else {
-            $this->builder->getLogger()->info('Starting page conversion using sequential processing (pcntl extension not available)');
+            $this->builder->getLogger()->debug('Starting page conversion using sequential processing (pcntl extension not available)');
             $this->processSequential();
         }
     }
@@ -147,7 +147,7 @@ class Convert extends AbstractStep
         }
 
         $concurrency = $this->getConcurrency($total);
-        $this->builder->getLogger()->info(\sprintf('Using concurrency level: %d (CPU cores: %d, total pages: %d)', $concurrency, $this->getConcurrency($total), $total));
+        $this->builder->getLogger()->debug(\sprintf('Using concurrency level: %d (CPU cores: %d, total pages: %d)', $concurrency, $this->getConcurrency($total), $total));
         $chunks = \array_chunk($pages, max(1, (int) ceil($total / $concurrency)));
         $format = (string) $this->builder->getConfig()->get('pages.frontmatter');
         $drafts = (bool) $this->options['drafts'];
