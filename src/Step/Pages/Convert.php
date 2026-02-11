@@ -125,10 +125,8 @@ class Convert extends AbstractStep
     /**
      * Processes pages in parallel using pcntl_fork.
      *
-     * Each child process inherits the parent's memory (copy-on-write), so
-     * the full Builder context (pages collection, config, converters, etc.)
-     * is available. Only the conversion results (variables array + HTML string)
-     * are serialized back to the parent via temporary files.
+     * Each child process inherits the parent's memory (copy-on-write), so the full Builder context (pages collection, config, converters, etc.) is available.
+     * Only the conversion results (variables array + HTML string) are serialized back to the parent via temporary files.
      */
     protected function processParallel(): void
     {
@@ -147,8 +145,7 @@ class Convert extends AbstractStep
         }
 
         $concurrency = $this->getConcurrency($total);
-        $cpuCount = $this->getConcurrency(PHP_INT_MAX);
-        $this->builder->getLogger()->debug(\sprintf('Using concurrency level: %d (CPU cores: %d, total pages: %d)', $concurrency, $cpuCount, $total));
+        $this->builder->getLogger()->debug(\sprintf('Using concurrency level: %d (total pages: %d)', $concurrency, $total));
         $chunks = \array_chunk($pages, max(1, (int) ceil($total / $concurrency)));
         $format = (string) $this->builder->getConfig()->get('pages.frontmatter');
         $drafts = (bool) $this->options['drafts'];
@@ -171,7 +168,7 @@ class Convert extends AbstractStep
             }
 
             if ($pid === 0) {
-                // === Child process ===
+                // Child process
                 // Silence logger to avoid output conflicts with parent
                 $this->builder->setLogger(new NullLogger());
 
@@ -181,7 +178,7 @@ class Convert extends AbstractStep
                 exit(0);
             }
 
-            // === Parent process ===
+            // Parent process
             $children[] = ['pid' => $pid, 'tmpFile' => $tmpFile, 'pages' => $chunk];
         }
 
@@ -270,7 +267,7 @@ class Convert extends AbstractStep
                 if (\is_array($unserialized)) {
                     $results = $unserialized;
                 } else {
-                    $this->builder->getLogger()->warning(\sprintf('Invalid conversion results in temporary file "%s"; ignoring.', $tmpFile));
+                    $this->builder->getLogger()->warning(\sprintf('Invalid conversion results in temporary file "%s". Ignoring.', $tmpFile));
                 }
             }
             @\unlink($tmpFile);
