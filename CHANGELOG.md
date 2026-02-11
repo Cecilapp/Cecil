@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. Dates are displayed in UTC.
 
+#### [8.83.0](https://github.com/Cecilapp/Cecil/compare/8.82.1...8.83.0)
+
+> 11 February 2026
+
+- Parallelize page conversion using pcntl [`#2313`](https://github.com/Cecilapp/Cecil/pull/2313)
+- chore(deps-dev): bump ergebnis/composer-normalize from 2.49.0 to 2.50.0 [`#2312`](https://github.com/Cecilapp/Cecil/pull/2312)
+
 #### [8.82.1](https://github.com/Cecilapp/Cecil/compare/8.82.0...8.82.1)
 
 > 10 February 2026
