@@ -124,6 +124,7 @@ return [
         //'generators' => [ // list of pages generators class, ordered by weight
         //    <position> => 'Cecil\Generator\<class>',
         //],
+        'parallel' => false, // enables parallel processing of pages conversion (if `pcntl` extension is available)
     ],
     'data' => [ // data files
         'dir' => 'data', // data files directory

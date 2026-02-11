@@ -53,6 +53,10 @@ class Date
         if (\is_int($date)) {
             return (new \DateTime())->setTimestamp($date);
         }
+        // wrong type
+        if (!\is_string($date)) {
+            throw new \Exception(\sprintf('$date (%s) must be a string, an integer timestamp, or an instance of DateTime/DateTimeImmutable.', get_debug_type($date)));
+        }
 
         return new \DateTime($date);
     }
