@@ -148,19 +148,19 @@ class Convert extends AbstractStep
 
         $concurrency = $this->getConcurrency($total);
         $this->builder->getLogger()->debug(\sprintf('Using concurrency level: %d (total pages: %d)', $concurrency, $total));
-        $chunks = \array_chunk($pages, max(1, (int) ceil($total / $concurrency)));
+        $chunks = array_chunk($pages, max(1, (int) ceil($total / $concurrency)));
         $format = (string) $this->builder->getConfig()->get('pages.frontmatter');
         $drafts = (bool) $this->options['drafts'];
 
         $children = [];
 
         foreach ($chunks as $chunk) {
-            $tmpFile = \tempnam(\sys_get_temp_dir(), 'cecil_convert_');
+            $tmpFile = tempnam(sys_get_temp_dir(), 'cecil_convert_');
             if ($tmpFile === false) {
                 throw new RuntimeException('Unable to create temporary file for pages conversion.');
             }
 
-            $pid = \pcntl_fork();
+            $pid = pcntl_fork();
 
             if ($pid === -1) {
                 // Fork failed: convert this chunk sequentially in the parent
@@ -188,8 +188,9 @@ class Convert extends AbstractStep
         $count = 0;
         foreach ($children as $child) {
             if ($child['pid'] !== null) {
-                \pcntl_waitpid($child['pid'], $status);
+                pcntl_waitpid($child['pid'], $status);
             }
+            $this->builder->getLogger()->debug(\sprintf('Applying conversion results from child process (PID: %s, status: %s)', $child['pid'] ?? 'N/A', $status ?? 'N/A'));
             $count = $this->applyChunkResults($child['pages'], $child['tmpFile'], $total, $count);
         }
     }
@@ -247,7 +248,7 @@ class Convert extends AbstractStep
             }
         }
 
-        \file_put_contents($tmpFile, \serialize($results));
+        file_put_contents($tmpFile, serialize($results));
     }
 
     /**
@@ -262,17 +263,17 @@ class Convert extends AbstractStep
     {
         $results = [];
 
-        if (\file_exists($tmpFile)) {
-            $data = \file_get_contents($tmpFile);
+        if (file_exists($tmpFile)) {
+            $data = file_get_contents($tmpFile);
             if ($data !== false && $data !== '') {
-                $unserialized = @\unserialize($data, ['allowed_classes' => [\DateTimeImmutable::class]]);
+                $unserialized = @unserialize($data, ['allowed_classes' => [\DateTimeImmutable::class]]);
                 if (\is_array($unserialized)) {
                     $results = $unserialized;
                 } else {
                     $this->builder->getLogger()->warning(\sprintf('Invalid conversion results in temporary file "%s". Ignoring.', $tmpFile));
                 }
             }
-            @\unlink($tmpFile);
+            @unlink($tmpFile);
         }
 
         foreach ($pages as $page) {
@@ -333,18 +334,18 @@ class Convert extends AbstractStep
         $cpuCount = 4; // sensible default
 
         if (PHP_OS_FAMILY === 'Darwin') {
-            $result = @\shell_exec('sysctl -n hw.ncpu 2>/dev/null');
-            if ($result !== null) {
+            $result = @shell_exec('sysctl -n hw.ncpu 2>/dev/null');
+            if (\is_string($result)) {
                 $cpuCount = max(1, (int) trim($result));
             }
-        } elseif (\is_file('/proc/cpuinfo')) {
-            $content = @\file_get_contents('/proc/cpuinfo');
+        } elseif (is_file('/proc/cpuinfo')) {
+            $content = @file_get_contents('/proc/cpuinfo');
             if ($content !== false) {
-                $cpuCount = max(1, \substr_count($content, 'processor'));
+                $cpuCount = max(1, substr_count($content, 'processor'));
             }
         } elseif (PHP_OS_FAMILY === 'Windows') {
-            $result = @\shell_exec('echo %NUMBER_OF_PROCESSORS% 2>NUL');
-            if ($result !== null) {
+            $result = @shell_exec('echo %NUMBER_OF_PROCESSORS% 2>NUL');
+            if (\is_string($result)) {
                 $cpuCount = max(1, (int) trim($result));
             }
         }
@@ -380,7 +381,7 @@ class Convert extends AbstractStep
             try {
                 $html = $converter->convertBody($page->getBody());
             } catch (RuntimeException $e) {
-                throw new \Exception($e->getMessage());
+                throw new RuntimeException($e->getMessage(), file: $page->getFilePath(), line: $e->getLine());
             }
             $page->setBodyHtml($html);
         }
