@@ -147,7 +147,8 @@ class Convert extends AbstractStep
         }
 
         $concurrency = $this->getConcurrency($total);
-        $this->builder->getLogger()->debug(\sprintf('Using concurrency level: %d (CPU cores: %d, total pages: %d)', $concurrency, $this->getConcurrency($total), $total));
+        $cpuCount = $this->getConcurrency(PHP_INT_MAX);
+        $this->builder->getLogger()->debug(\sprintf('Using concurrency level: %d (CPU cores: %d, total pages: %d)', $concurrency, $cpuCount, $total));
         $chunks = \array_chunk($pages, max(1, (int) ceil($total / $concurrency)));
         $format = (string) $this->builder->getConfig()->get('pages.frontmatter');
         $drafts = (bool) $this->options['drafts'];
@@ -156,6 +157,9 @@ class Convert extends AbstractStep
 
         foreach ($chunks as $chunk) {
             $tmpFile = \tempnam(\sys_get_temp_dir(), 'cecil_convert_');
+            if ($tmpFile === false) {
+                throw new RuntimeException('Unable to create temporary file for pages conversion.');
+            }
 
             $pid = \pcntl_fork();
 
@@ -217,15 +221,13 @@ class Convert extends AbstractStep
                     $variables = $converter->convertFrontmatter($page->getFrontmatter(), $format);
                 }
 
-                // Determine effective published status after front matter processing
+                // Determine effective published status by applying variables to a cloned page
+                // This ensures side effects (e.g., schedule logic) are applied, matching convertPage() behavior
                 $published = (bool) $page->getVariable('published');
                 if ($variables !== null) {
-                    if (isset($variables['published'])) {
-                        $published = (bool) $variables['published'];
-                    }
-                    if (isset($variables['draft']) && $variables['draft']) {
-                        $published = false;
-                    }
+                    $tempPage = clone $page;
+                    $tempPage->setVariables($variables);
+                    $published = (bool) $tempPage->getVariable('published');
                 }
 
                 // Convert body (only if page is published or drafts option is enabled)
@@ -263,8 +265,13 @@ class Convert extends AbstractStep
 
         if (\file_exists($tmpFile)) {
             $data = \file_get_contents($tmpFile);
-            if ($data !== false) {
-                $results = \unserialize($data);
+            if ($data !== false && $data !== '') {
+                $unserialized = @\unserialize($data, ['allowed_classes' => false]);
+                if (\is_array($unserialized)) {
+                    $results = $unserialized;
+                } else {
+                    $this->builder->getLogger()->warning(\sprintf('Invalid conversion results in temporary file "%s"; ignoring.', $tmpFile));
+                }
             }
             @\unlink($tmpFile);
         }
