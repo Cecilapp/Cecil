@@ -73,10 +73,12 @@ class Convert extends AbstractStep
         if (\function_exists('pcntl_fork')) {
             $this->builder->getLogger()->debug('Starting page conversion using parallel processing');
             $this->processParallel();
-        } else {
-            $this->builder->getLogger()->debug('Starting page conversion using sequential processing (pcntl extension not available)');
-            $this->processSequential();
+
+            return;
         }
+
+        $this->builder->getLogger()->debug('Starting page conversion using sequential processing (pcntl extension not available)');
+        $this->processSequential();
     }
 
     /**
