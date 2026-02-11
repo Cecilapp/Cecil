@@ -305,7 +305,7 @@ class Convert extends AbstractStep
                 $page->setVariable('language', $this->config->getLanguageDefault());
             }
 
-            $message = \sprintf('Page "%s" converted (%s)', $pageId, $tmpFile);
+            $message = \sprintf('Page "%s" converted', $pageId);
             $statusMessage = ' (not published)';
 
             // Forces drafts convert?
