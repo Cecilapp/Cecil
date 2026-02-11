@@ -70,14 +70,13 @@ class Convert extends AbstractStep
         }
 
         // Use parallel processing if pcntl is available, otherwise fall back to sequential
-        if (\function_exists('pcntl_fork')) {
-            $this->builder->getLogger()->debug('Starting page conversion using parallel processing');
+        if (\function_exists('pcntl_fork') && $this->config->get('pages.parallel')) {
+            $this->builder->getLogger()->debug('Using parallel processing (pcntl extension available)');
             $this->processParallel();
 
             return;
         }
 
-        $this->builder->getLogger()->debug('Starting page conversion using sequential processing (pcntl extension not available)');
         $this->processSequential();
     }
 
