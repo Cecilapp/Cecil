@@ -772,13 +772,19 @@ class Core extends SlugifyExtension
      * Builds the HTML img element from a website URL by extracting the image from meta tags.
      * Returns null if no image found.
      *
-     * @todo enhance performance by caching results?
-     *
      * @throws RuntimeException
      */
     public function htmlImageFromWebsite(array $context, string $url, array $attributes = [], array $options = []): ?string
     {
-        if (false !== $html = Util\File::fileGetContents($url)) {
+        $htmlAsset = new Asset($this->builder, $url, ['ignore_missing' => true]);
+
+        if ($htmlAsset->isMissing()) {
+            $this->builder->getLogger()->warning(\sprintf('Unable to fetch "%s" to extract image.', $url));
+
+            return null;
+        }
+
+        if (!empty($html = $htmlAsset['content'])) {
             $imageUrl = Util\Html::getImageFromMetaTags($html);
             if ($imageUrl !== null) {
                 $asset = new Asset($this->builder, $imageUrl);

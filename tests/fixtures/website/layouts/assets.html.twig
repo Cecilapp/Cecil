@@ -482,7 +482,6 @@
       {{- image_sizes('test') -}}
     </blockquote>
   </p>
-  {#-
   <H3>HTML image from URL</h3>
   <p>
     <pre>{% verbatim %}{{ image_from_website('https://cecil.app', {alt: 'Example Image from URL', loading: 'lazy'}) }}{% endverbatim %}</pre>
@@ -492,6 +491,5 @@
     </blockquote>
     <pre>{{ image_from_website('https://cecil.app', {alt: 'Example Image from URL', loading: 'lazy'})|e }}</pre>
   </p>
-  ~#}
 
 {% endblock content %}
