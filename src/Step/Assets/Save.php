@@ -77,7 +77,6 @@ class Save extends AbstractStep
                 $message = \sprintf('Asset "%s" saved', $path);
                 $this->builder->getLogger()->info($message, ['progress' => [$count, $total]]);
             }
-            $this->builder->deleteAssetsList();
         }
     }
 
