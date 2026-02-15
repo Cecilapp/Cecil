@@ -2,6 +2,12 @@
 
 All notable changes to this project will be documented in this file. Dates are displayed in UTC.
 
+#### [8.83.3](https://github.com/Cecilapp/Cecil/compare/8.83.2...8.83.3)
+
+> 11 February 2026
+
+- Fix asset de-duplication and ensure temp directory exists [`#2315`](https://github.com/Cecilapp/Cecil/pull/2315)
+
 #### [8.83.2](https://github.com/Cecilapp/Cecil/compare/8.83.1...8.83.2)
 
 > 11 February 2026
