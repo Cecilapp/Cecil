@@ -481,7 +481,6 @@ class Builder implements LoggerAwareInterface
     {
         if (!\in_array($path, $this->assets, true)) {
             $this->assets[] = $path;
-            $this->getLogger()->debug(\sprintf('Asset "%s" added to assets list', $path));
         }
     }
 
