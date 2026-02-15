@@ -187,7 +187,7 @@ class Asset implements \ArrayAccess
         $this->data = $cache->get($locateCacheKey);
 
         // missing
-        if ($this->data['missing']) {
+        if ($this->isMissing()) {
             return;
         }
 
@@ -307,7 +307,7 @@ class Asset implements \ArrayAccess
      */
     public function save(): void
     {
-        if ($this->data['missing']) {
+        if ($this->isMissing()) {
             return;
         }
 
@@ -317,6 +317,14 @@ class Asset implements \ArrayAccess
         }
 
         $this->builder->addToAssetsList($this->data['path']);
+    }
+
+    /**
+     * Checks if the asset is missing.
+     */
+    public function isMissing(): bool
+    {
+        return $this->data['missing'];
     }
 
     /**
@@ -1023,7 +1031,7 @@ class Asset implements \ArrayAccess
      */
     private function checkImage(): void
     {
-        if ($this->data['missing']) {
+        if ($this->isMissing()) {
             throw new RuntimeException(\sprintf('Unable to resize "%s": file not found.', $this->data['path']));
         }
         if ($this->data['type'] != 'image') {
