@@ -116,8 +116,8 @@ class Parsedown extends \ParsedownToc
         }
 
         // Link to a page with "page:page_id" as URL
-        if (Util\Str::startsWith($link['element']['attributes']['href'], 'page:')) {
-            $link['element']['attributes']['href'] = new Url($this->builder, substr($link['element']['attributes']['href'], 5, \strlen($link['element']['attributes']['href'])));
+        if (Util\Str::startsWith((string) $link['element']['attributes']['href'], 'page:')) {
+            $link['element']['attributes']['href'] = new Url($this->builder, substr((string) $link['element']['attributes']['href'], 5, \strlen((string) $link['element']['attributes']['href'])));
 
             return $link;
         }
@@ -140,11 +140,11 @@ class Parsedown extends \ParsedownToc
         /*
          * Local video and audio link
          */
-        $extension = pathinfo($link['element']['attributes']['href'], \PATHINFO_EXTENSION);
+        $extension = pathinfo((string) $link['element']['attributes']['href'], \PATHINFO_EXTENSION);
         // video
         if (\in_array($extension, $this->config->get('pages.body.links.embed.video') ?? [])) {
             if (!$embed) {
-                $link['element']['attributes']['href'] = new Url($this->builder, $link['element']['attributes']['href']);
+                $link['element']['attributes']['href'] = new Url($this->builder, (string) $link['element']['attributes']['href']);
 
                 return $link;
             }
@@ -155,7 +155,7 @@ class Parsedown extends \ParsedownToc
         // audio
         if (\in_array($extension, $this->config->get('pages.body.links.embed.audio') ?? [])) {
             if (!$embed) {
-                $link['element']['attributes']['href'] = new Url($this->builder, $link['element']['attributes']['href']);
+                $link['element']['attributes']['href'] = new Url($this->builder, (string) $link['element']['attributes']['href']);
 
                 return $link;
             }
@@ -524,22 +524,22 @@ class Parsedown extends \ParsedownToc
         if (!$this->config->isEnabled('pages.body.highlight')) {
             return $block;
         }
-        if (!isset($block['element']['text']['attributes'])) {
+        if (!isset($block['element']['element']['attributes'])) {
             return $block;
         }
 
         try {
-            $code = $block['element']['text']['text'];
-            $languageClass = $block['element']['text']['attributes']['class'];
+            $code = $block['element']['element']['text'];
+            $languageClass = $block['element']['element']['attributes']['class'];
             $language = explode('-', $languageClass);
             $highlighted = $this->highlighter->highlight($language[1], $code);
-            $block['element']['text']['attributes']['class'] = vsprintf('%s hljs %s', [
+            $block['element']['element']['attributes']['class'] = vsprintf('%s hljs %s', [
                 $languageClass,
                 $highlighted->language,
             ]);
-            $block['element']['text']['rawHtml'] = $highlighted->value;
-            $block['element']['text']['allowRawHtmlInSafeMode'] = true;
-            unset($block['element']['text']['text']);
+            $block['element']['element']['rawHtml'] = $highlighted->value;
+            $block['element']['element']['allowRawHtmlInSafeMode'] = true;
+            unset($block['element']['element']['text']);
         } catch (\Exception $e) {
             $this->builder->getLogger()->debug("Highlighter: " . $e->getMessage());
         } finally {
@@ -681,7 +681,7 @@ class Parsedown extends \ParsedownToc
         $iframe = [
             'element' => [
                 'name'       => 'iframe',
-                'text'       => $link['element']['text'],
+                'text'       => '',
                 'attributes' => [
                     'src'             => $url,
                     'loading'         => 'lazy',

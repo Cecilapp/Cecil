@@ -26,7 +26,7 @@
     "cecil/resource-watcher": "^4.1",
     "cocur/slugify": "^4.7",
     "dflydev/dot-access-data": "^3.0",
-    "erusev/parsedown-extra": "^0.8",
+    "erusev/parsedown-extra": "^0.9",
     "intervention/image": "^3.11",
     "james-heinrich/getid3": "^1.9",
     "jolicode/jolinotif": "^3.2",
