@@ -2,6 +2,14 @@
 
 All notable changes to this project will be documented in this file. Dates are displayed in UTC.
 
+#### [8.84.1](https://github.com/Cecilapp/Cecil/compare/8.84.0...8.84.1)
+
+> 16 February 2026
+
+- Handle domain-only paths; fetch HTML via Asset [`7d1bf5d`](https://github.com/Cecilapp/Cecil/commit/7d1bf5d8ef2cd1f765f6eca571ba89b10bada797)
+- Add isMissing() helper to Asset [`5abb967`](https://github.com/Cecilapp/Cecil/commit/5abb967634bf78e4de9c603b47a21116a52306c2)
+- Remove debug log when adding assets [`be5969e`](https://github.com/Cecilapp/Cecil/commit/be5969e14ddd417b58259fd10d3336aa669292d8)
+
 #### [8.84.0](https://github.com/Cecilapp/Cecil/compare/8.83.3...8.84.0)
 
 > 15 February 2026
