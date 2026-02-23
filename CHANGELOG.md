@@ -2,6 +2,18 @@
 
 All notable changes to this project will be documented in this file. Dates are displayed in UTC.
 
+#### [8.85.1](https://github.com/Cecilapp/Cecil/compare/8.85.0...8.85.1)
+
+> 23 February 2026
+
+- fix: Handle root path parse_url results [`935fb9b`](https://github.com/Cecilapp/Cecil/commit/935fb9b0b65a04177d880bb0edf13c2fd3b4e1c6)
+
+#### [8.85.0](https://github.com/Cecilapp/Cecil/compare/8.84.1...8.85.0)
+
+> 23 February 2026
+
+- chore(deps-dev): bump friendsofphp/php-cs-fixer from 3.94.0 to 3.94.1 [`#2319`](https://github.com/Cecilapp/Cecil/pull/2319)
+
 #### [8.84.1](https://github.com/Cecilapp/Cecil/compare/8.84.0...8.84.1)
 
 > 16 February 2026
