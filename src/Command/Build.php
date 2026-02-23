@@ -152,7 +152,7 @@ EOF
 
         // build
         $builder->build($options);
-        $output->writeln('Build done');
+        $output->writeln('<info>Build done.</info>');
 
         // notification
         if ($input->getOption('notif')) {
