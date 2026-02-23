@@ -66,9 +66,9 @@ EOF
         try {
             if (null === $editor = $input->getOption('editor')) {
                 if (!$this->getBuilder()->getConfig()->has('editor')) {
-                    $output->writeln('<comment>No editor configured.</comment>');
+                    $this->io->caution('No editor configured.');
 
-                    return Command::SUCCESS;
+                    return Command::FAILURE;
                 }
                 $editor = (string) $this->getBuilder()->getConfig()->get('editor');
             }

@@ -141,7 +141,9 @@ EOF
                 }
             }
             // done
-            $output->write(\sprintf("\033\143"));
+            if ($output->isDecorated()) {
+                $output->write(\sprintf("\033\143"));
+            }
             $this->io->success(\sprintf('Website created at %s', realpath($this->getPath())));
             $this->io->listing([
                 'Start the built-in preview server with <info>' . $this->binName() . ' serve</info>',

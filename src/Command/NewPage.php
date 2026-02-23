@@ -100,8 +100,8 @@ EOF
             $nameParts = pathinfo($name);
             $dirname = trim($nameParts['dirname'], '.');
             $basename = $nameParts['basename'];
-            $extension = $nameParts['extension'];
-            $title = substr($basename, 0, -\strlen(".$extension"));
+            $extension = $nameParts['extension'] ?? '';
+            $title = $extension !== '' ? substr($basename, 0, -\strlen(".$extension")) : $basename;
             // define file name (and slugify if needed)
             $filename = $slugify ? \Cecil\Collection\Page\Page::slugify($basename) : $basename;
             // check extension
@@ -127,7 +127,7 @@ EOF
             if (Util\File::getFS()->exists($filePath) && !$force) {
                 $this->io->warning(\sprintf('The file "%s" already exists.', $fileRelativePath));
                 if (!$this->io->confirm('Do you want to override it?', false)) {
-                    return Command::FAILURE;
+                    return Command::SUCCESS;
                 }
             }
             // creates a new file
@@ -139,7 +139,9 @@ EOF
             );
             Util\File::getFS()->dumpFile($filePath, $fileContent);
             // done
-            $output->write(\sprintf("\033\143"));
+            if ($output->isDecorated()) {
+                $output->write(\sprintf("\033\143"));
+            }
             $this->io->success(\sprintf('File created with "%s" model at %s', $model['name'], $filePath));
             // open editor?
             if ($open) {
@@ -147,7 +149,7 @@ EOF
                     if (!$this->getBuilder()->getConfig()->has('editor')) {
                         $this->io->caution('No editor configured.');
 
-                        return Command::FAILURE;
+                        return Command::SUCCESS;
                     }
                     $editor = (string) $this->getBuilder()->getConfig()->get('editor');
                 }
