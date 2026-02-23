@@ -2,6 +2,10 @@
 
 All notable changes to this project will be documented in this file. Dates are displayed in UTC.
 
+#### [8.85.2](https://github.com/Cecilapp/Cecil/compare/8.85.1...8.85.2)
+
+> 23 February 2026
+
 #### [8.85.1](https://github.com/Cecilapp/Cecil/compare/8.85.0...8.85.1)
 
 > 23 February 2026
