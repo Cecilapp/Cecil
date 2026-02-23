@@ -15,6 +15,7 @@ namespace Cecil\Command;
 
 use Cecil\Builder;
 use Cecil\Util;
+use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Helper\Table;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
@@ -151,7 +152,7 @@ EOF
 
         // build
         $builder->build($options);
-        $output->writeln('Build done');
+        $output->writeln('<info>Build done.</info>');
 
         // notification
         if ($input->getOption('notif')) {
@@ -197,6 +198,6 @@ EOF
             $table->setStyle('box')->render();
         }
 
-        return 0;
+        return Command::SUCCESS;
     }
 }
