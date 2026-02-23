@@ -31,6 +31,7 @@ class Pagination extends AbstractGenerator implements GeneratorInterface
      */
     public function generate(): void
     {
+        // disable pagination globally
         if (!$this->config->isEnabled('pages.pagination')) {
             return;
         }
@@ -53,22 +54,21 @@ class Pagination extends AbstractGenerator implements GeneratorInterface
                 continue;
             }
             $path = $page->getPath();
-            // site pagination configuration
+            // site configuration
             $paginationPerPage = \intval($this->config->get('pages.pagination.max') ?? 5);
             $paginationPath = $this->config->get('pages.pagination.path') ?? 'page';
-            // page pagination configuration
+            // page configuration
             $pagePagination = $page->getVariable('pagination');
-            if ($pagePagination) {
-                if (isset($pagePagination['enabled']) && $pagePagination['enabled'] === false) {
-                    continue;
-                }
-                if (isset($pagePagination['max'])) {
-                    $paginationPerPage = \intval($pagePagination['max']);
-                }
-                if (isset($pagePagination['path'])) {
-                    $paginationPath = (string) $pagePagination['path'];
-                }
+            if ($pagePagination === false || (isset($pagePagination['enabled']) && $pagePagination['enabled'] === false)) {
+                continue;
             }
+            if (isset($pagePagination['max'])) {
+                $paginationPerPage = \intval($pagePagination['max']);
+            }
+            if (isset($pagePagination['path'])) {
+                $paginationPath = (string) $pagePagination['path'];
+            }
+            // total pages
             $pagesTotal = \count($pages);
             // is pagination not necessary?
             if ($pagesTotal <= $paginationPerPage) {

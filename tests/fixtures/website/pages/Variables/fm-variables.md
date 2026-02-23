@@ -1,4 +1,4 @@
 ---
-title: fmvariables
-layout: fmvariables
+title: fmVariables
+layout: fmVariables
 ---

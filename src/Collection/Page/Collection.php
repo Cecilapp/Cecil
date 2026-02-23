@@ -26,29 +26,45 @@ class Collection extends CecilCollection
     /**
      * Returns all "showable" pages.
      */
-    public function showable(): self
+    public function showable(array $includeStatus = []): self
     {
-        return $this->filter(function (Page $page) {
+        return $this->filter(function (Page $page) use ($includeStatus) {
+            // check if page status should be explicitly included
+            $statusIncluded = \in_array($page->getVariable('status'), $includeStatus, true);
+
+            // standard showable criteria, with optional status-based inclusion
             if (
-                $page->getVariable('published') === true      // page is published
-                && (
-                    $page->getVariable('excluded') !== true   // page is listed
-                    && $page->getVariable('exclude') !== true // backward compatibility
+                (
+                    $page->getVariable('published') === true  // page is published
+                    || $statusIncluded                          // or explicitly included by status
                 )
-                && $page->isVirtual() === false               // page is created from a file
-                && $page->getVariable('redirect') === null    // page is not a redirection
+                && (
+                    $page->getVariable('excluded') !== true   // and page is listed
+                    && $page->getVariable('exclude') !== true   // and backward compatibility
+                )
+                && $page->isVirtual() === false               // and page is created from a file
+                && $page->getVariable('redirect') === null    // and page is not a redirection
             ) {
                 return true;
             }
+            return false;
         });
     }
 
     /**
      * Alias of showable().
      */
-    public function all(): self
+    public function all(array $includeStatus = []): self
     {
-        return $this->showable();
+        return $this->showable($includeStatus);
+    }
+
+    /**
+     * Alias of showable().
+     */
+    public function public(array $includeStatus = []): self
+    {
+        return $this->showable($includeStatus);
     }
 
     /**

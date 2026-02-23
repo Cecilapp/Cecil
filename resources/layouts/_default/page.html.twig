@@ -171,9 +171,8 @@
     </header>
     <main>
       {%- block content ~%}
-      {{ page.content }}
+      {{- page.content ~}}
       {%- endblock content ~%}
-      {#- debug ~#}
       {%- if getenv('CECIL_DEBUG') %}{{ d(page) }}{% endif ~%}
     </main>
     <footer>

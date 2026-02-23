@@ -2,7 +2,7 @@
 title: Démarrage rapide
 description: "Créez un nouveau site web et prévisualiser le localement."
 date: 2021-11-03
-updated: 2025-12-23
+updated: 2026-02-02
 slug: demarrage-rapide
 menu: home
 -->
@@ -105,7 +105,7 @@ Le moyen le plus simple de déployer et de gérer votre blog est certainement av
 
 ### Déployer sur Netlify
 
-[![Déployer sur Netlify](https://www.netlify.com/img/deploy/button.svg)](https://cecil.app/hosting/netlify/deploy/)
+[![Déployer sur Netlify](https://cecil.app/images/netlify/button.svg)](https://cecil.app/hosting/netlify/deploy/)
 
 ### Déployer sur Vercel
 

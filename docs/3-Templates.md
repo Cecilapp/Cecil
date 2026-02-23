@@ -1,7 +1,7 @@
 <!--
 description: "Working with layouts, templates and components."
 date: 2021-05-07
-updated: 2026-01-14
+updated: 2026-02-04
 alias: documentation/layouts
 -->
 # Templates
@@ -223,7 +223,18 @@ You can use variables from different scopes: [`site`](#site), [`page`](#page), [
 
 ### site
 
-The `site` variable contains all variables from the configuration and built-in variables.
+The `site` variable contains built-in variables **and** those set in the [configuration](4-Configuration.md).
+
+| Variable              | Description                                                  |
+| --------------------- | ------------------------------------------------------------ |
+| `site.pages`          | Collection of all pages, in the current language.            |
+| `site.allpages`       | Collection of all pages, in all languages.                   |
+| `site.page(id)`       | A page with the given ID.                                    |
+| `site.taxonomies`     | Collection of vocabularies.                                  |
+| `site.home`           | ID of the home page.                                         |
+| `site.time`           | Current [_Timestamp_](https://wikipedia.org/wiki/Unix_time). |
+| `site.debug`          | Debug mode status (`true` or `false`).                       |
+| `site.build`          | Current build ID.                                            |
 
 _Example:_
 
@@ -237,20 +248,20 @@ Can be displayed in a template with:
 {{ site.title }}
 ```
 
-#### Built-in variables
-
-| Variable              | Description                                            |
-| --------------------- | ------------------------------------------------------ |
-| `site.home`           | ID of the home page.                                   |
-| `site.pages`          | Collection of pages, in the current language.          |
-| `site.pages.showable` | Same as `site.pages` but filtered by "showable" status (published pages and not virtual/redirect/excluded). |
-| `site.page('id')`     | A page with the given ID.                              |
-| `site.allpages`       | Collection of all pages, regardless of their language. |
-| `site.taxonomies`     | Collection of vocabularies.                            |
-| `site.time`           | [_Timestamp_](https://wikipedia.org/wiki/Unix_time) of the last generation. |
-| `site.debug`          | Debug mode: `true` or `false`.                         |
-
 :::important
+Use `showable` method on pages collection to return only published and not _virtual/redirect/excluded_ pages.
+
+_Example:_
+
+```twig
+{% for page in site.pages.showable %}
+  <a href="{{ url(page) }}">{{ page.title }}</a>
+{% endfor %}
+```
+
+:::
+
+:::warning
 In some case you can encounter conflicts between configuration and built-in variables (e.g.: `pages.default` configuration), so you can use `config.<variable>` (with `<variable>` is the name/path of the variable) to access directly to the raw configuration.
 
 Example:
@@ -329,26 +340,35 @@ _Examples:_
 
 ### page
 
-Contains built-in variables of a page **and** those set in the [front matter](2-Content.md#front-matter).
+The `page` variable contains built-in variables of a page **and** those set in the [front matter](2-Content.md#front-matter).
 
 | Variable              | Description                                            | Example                    |
 | --------------------- | ------------------------------------------------------ | -------------------------- |
 | `page.id`             | Unique identifier.                                     | `blog/post-1`              |
 | `page.title`          | File name (without extension).                         | `Post 1`                   |
 | `page.date`           | File creation date.                                    | _DateTime_                 |
-| `page.updated`        | File modification date.                                | _DateTime_                 |
 | `page.body`           | File body.                                             | _Markdown_                 |
 | `page.content`        | File body converted in HTML.                           | _HTML_                     |
 | `page.section`        | File root folder (_slugified_).                        | `blog`                     |
 | `page.path`           | File path (_slugified_).                               | `blog/post-1`              |
 | `page.slug`           | File name (_slugified_).                               | `post-1`                   |
-| `page.tags`           | Array of _tags_.                                       | `[Tag 1, Tag 2]`           |
-| `page.categories`     | Array of _categories_.                                 | `[Category 1, Category 2]` |
-| `page.pages`          | Collection of all sub pages.                           | _Collection_               |
-| `page.pages.showable` | `page.pages` with "showable" pages only.               | _Collection_               |
-| `page.type`           | `homepage`, `page`, `section`, `vocabulary` or `term`. | `page`                     |
 | `page.filepath`       | File system path.                                      | `Blog/Post 1.md`           |
+| `page.type`           | `homepage`, `page`, `section`, `vocabulary` or `term`. | `page`                     |
+| `page.pages`          | Collection of all sub pages.                           | _Collection_               |
 | `page.translations`   | Collection of translated pages.                        | _Collection_               |
+
+:::important
+Use `showable` method on pages collection to return only published and not _virtual/redirect/excluded_ pages.
+
+_Example:_
+
+```twig
+{% for page in page.pages.showable %}
+  <a href="{{ url(page) }}">{{ page.title }}</a>
+{% endfor %}
+```
+
+:::
 
 #### page.<prev/next>
 
@@ -443,11 +463,11 @@ Variables available in _vocabulary_ and _term_ templates.
 
 ### cecil
 
-| Variable          | Description                                         |
-| ----------------- | --------------------------------------------------- |
-| `cecil.url`       | URL of the official website.                        |
-| `cecil.version`   | Cecil current version.                              |
-| `cecil.poweredby` | Print `Cecil v%s` with `%s` is the current version. |
+| Variable          | Description                                          |
+| ----------------- | ---------------------------------------------------- |
+| `cecil.url`       | URL of the Cecil website.                            |
+| `cecil.version`   | Cecil current version.                               |
+| `cecil.poweredby` | Print `Cecil v%s`, with `%s` is the current version. |
 
 ## Functions
 
@@ -511,16 +531,15 @@ Resource files must be stored in the `assets/` (or `static/`)  directory.
 {{ asset(path, {options}) }}
 ```
 
-| Option         | Description                                     | Type    | Default  |
-| -------------- | ----------------------------------------------- | ------- | -------- |
-| filename       | Save bundle to a custom file name.              | string  | `styles.css` or `scripts.js` |
-| leading_slash  | Add a leading slash to the $path.               | string  | `true`   |
-| ignore_missing | Do not stop build if file is not found.         | boolean | `false`  |
-| fingerprint    | Add content hash to the file name.              | boolean | `true`   |
-| minify         | Compress CSS or JavaScript.                     | boolean | `true`   |
-| optimize       | Compress image.                                 | boolean | `false`  |
-| fallback       | Load a local asset if remote file is not found. | string  | ``       |
-| useragent      | User agent key (from [Assets configuration](4-Configuration.md#assets-remote-useragent)). | string | `default`|
+| Option         | Description                                                                              | Type    | Default                      |
+| -------------- | ---------------------------------------------------------------------------------------- | ------- | ---------------------------- |
+| filename       | Save bundle to a custom file name.                                                       | string  | `styles.css` or `scripts.js` |
+| ignore_missing | Do not stop build if file is not found.                                                  | boolean | `false`                      |
+| fingerprint    | Add content hash to the file name.                                                       | boolean | `true`                       |
+| minify         | Compress CSS or JavaScript.                                                              | boolean | `true`                       |
+| optimize       | Compress image.                                                                          | boolean | `false`                      |
+| fallback       | Load a local asset if remote file is not found.                                          | string  | ``                           |
+| useragent      | User agent key (See [Assets configuration](4-Configuration.md#assets-remote-useragent)). | string  | `default`                    |
 
 :::tip
 You can use [filters](#filters) to manipulate assets.
@@ -1535,12 +1554,12 @@ In practice you don't need to clear the cache manually, Cecil does it for you wh
 
 ### Fragments cache
 
-Cecil can cache templates _fragments_ to avoid re-rendering the same partial content multiple times.
+Cecil provides a way to cache parts of templates rendering to avoid re-rendering the same partial content multiple times.
 
 To use _fragments_ cache, you must wrap the content you want to cache with the `cache` tag.
 
 ```twig
-{% cache 'unique-key' %}
+{% cache 'unique-key;' ~ site.build %}
 {# content #}
 {% endcache %}
 ```
@@ -1549,7 +1568,11 @@ To use _fragments_ cache, you must wrap the content you want to cache with the `
 More details on the official [_Twig cache extension_ documentation](https://twig.symfony.com/doc/tags/cache.html).
 :::
 
-Fragments cache is persistent, so during development you may need to clear it, with the following command:
+:::important
+Fragments cache is persistent, so if the cache key is too generic, you may end up with wrong content displayed.
+:::
+
+To clear fragments cache only:
 
 ```bash
 php cecil.phar cache:clear:templates --fragments

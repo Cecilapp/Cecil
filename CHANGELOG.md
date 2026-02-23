@@ -2,6 +2,179 @@
 
 All notable changes to this project will be documented in this file. Dates are displayed in UTC.
 
+#### [8.84.1](https://github.com/Cecilapp/Cecil/compare/8.84.0...8.84.1)
+
+> 16 February 2026
+
+- Handle domain-only paths; fetch HTML via Asset [`7d1bf5d`](https://github.com/Cecilapp/Cecil/commit/7d1bf5d8ef2cd1f765f6eca571ba89b10bada797)
+- Add isMissing() helper to Asset [`5abb967`](https://github.com/Cecilapp/Cecil/commit/5abb967634bf78e4de9c603b47a21116a52306c2)
+- Remove debug log when adding assets [`be5969e`](https://github.com/Cecilapp/Cecil/commit/be5969e14ddd417b58259fd10d3336aa669292d8)
+
+#### [8.84.0](https://github.com/Cecilapp/Cecil/compare/8.83.3...8.84.0)
+
+> 15 February 2026
+
+- chore(deps-dev): bump friendsofphp/php-cs-fixer from 3.93.1 to 3.94.0 [`#2318`](https://github.com/Cecilapp/Cecil/pull/2318)
+- Remove parallel convert & file-based asset list [`73fa14f`](https://github.com/Cecilapp/Cecil/commit/73fa14f080b6e2623641ef896d331b9102a312ca)
+- chore: update deps [`6a3cdfc`](https://github.com/Cecilapp/Cecil/commit/6a3cdfc47da34661ed45ec4a0e39138f2c7cec48)
+- chore: Tidy Twig templates: trim whitespace [`6b1c0b8`](https://github.com/Cecilapp/Cecil/commit/6b1c0b8c54811fe2f552c9382a021de96ad687db)
+
+#### [8.83.3](https://github.com/Cecilapp/Cecil/compare/8.83.2...8.83.3)
+
+> 11 February 2026
+
+- Fix asset de-duplication and ensure temp directory exists [`#2315`](https://github.com/Cecilapp/Cecil/pull/2315)
+
+#### [8.83.2](https://github.com/Cecilapp/Cecil/compare/8.83.1...8.83.2)
+
+> 11 February 2026
+
+- Require pages.parallel for pcntl-based conversion [`d32e30e`](https://github.com/Cecilapp/Cecil/commit/d32e30eebfda3facaad58698876912795cf207aa)
+
+#### [8.83.1](https://github.com/Cecilapp/Cecil/compare/8.83.0...8.83.1)
+
+> 11 February 2026
+
+- chore: update deps [`a498527`](https://github.com/Cecilapp/Cecil/commit/a498527f68799c75997dbb4c6fcc90279e373985)
+
+#### [8.83.0](https://github.com/Cecilapp/Cecil/compare/8.82.1...8.83.0)
+
+> 11 February 2026
+
+- Parallelize page conversion using pcntl [`#2313`](https://github.com/Cecilapp/Cecil/pull/2313)
+- chore(deps-dev): bump ergebnis/composer-normalize from 2.49.0 to 2.50.0 [`#2312`](https://github.com/Cecilapp/Cecil/pull/2312)
+
+#### [8.82.1](https://github.com/Cecilapp/Cecil/compare/8.82.0...8.82.1)
+
+> 10 February 2026
+
+- fix Cache getFile [`c0ff729`](https://github.com/Cecilapp/Cecil/commit/c0ff7291d896e8e4945822ba05133e21bc9150ed)
+- Remove MD5 mention from Asset hash comment [`883785c`](https://github.com/Cecilapp/Cecil/commit/883785c412f488c9178bd4a3d00c40f9e7154969)
+
+#### [8.82.0](https://github.com/Cecilapp/Cecil/compare/8.81.0...8.82.0)
+
+> 9 February 2026
+
+- Refactor cache API and content file handling [`ecac1c0`](https://github.com/Cecilapp/Cecil/commit/ecac1c0376e67b509b7d4306d71ee03203abc975)
+
+#### [8.81.0](https://github.com/Cecilapp/Cecil/compare/8.80.7...8.81.0)
+
+> 9 February 2026
+
+- refactor!: Remove leading_slash asset option [`aaa2e5f`](https://github.com/Cecilapp/Cecil/commit/aaa2e5fb8453d42c2d78ec0e77a8235283565237)
+
+#### [8.80.7](https://github.com/Cecilapp/Cecil/compare/8.80.6...8.80.7)
+
+> 9 February 2026
+
+- Replace md5 Twig filter with xxh128 hash [`a005333`](https://github.com/Cecilapp/Cecil/commit/a005333823744839603966b1337b5030165b7ee5)
+- Use xxh128 for asset hashing [`57f7e8f`](https://github.com/Cecilapp/Cecil/commit/57f7e8fcca3d0c9978f47461e283f73b8676181c)
+- Change default hash algo to xxh128 [`d09987e`](https://github.com/Cecilapp/Cecil/commit/d09987e72833389527f98819a27b1dbf37882b35)
+- Use xxh128 for ETag hashing [`2b38091`](https://github.com/Cecilapp/Cecil/commit/2b380919d41d24b9e0605fab8f19b277d02d21e7)
+- Add Last-Modified header for served files [`8d9ba2c`](https://github.com/Cecilapp/Cecil/commit/8d9ba2c29d73d1f38b642e0b0d20faade4d6b35f)
+
+#### [8.80.6](https://github.com/Cecilapp/Cecil/compare/8.80.5...8.80.6)
+
+> 6 February 2026
+
+- chore(deps): bump actions/cache from 4 to 5 [`#2261`](https://github.com/Cecilapp/Cecil/pull/2261)
+- chore(deps): bump DavidAnson/markdownlint-cli2-action from 21 to 22 [`#2260`](https://github.com/Cecilapp/Cecil/pull/2260)
+- chore(deps): bump actions/upload-artifact from 4 to 6 [`#2264`](https://github.com/Cecilapp/Cecil/pull/2264)
+- chore(deps): bump actions/download-artifact from 6 to 7 [`#2263`](https://github.com/Cecilapp/Cecil/pull/2263)
+- refactor: normalize cache keys in templates [`a431b37`](https://github.com/Cecilapp/Cecil/commit/a431b37cf5049a52365cc5e75660ff55e01b83b0)
+
+#### [8.80.5](https://github.com/Cecilapp/Cecil/compare/8.80.4...8.80.5)
+
+> 4 February 2026
+
+- refactor: centralize TMP_DIR in Builder [`b83f650`](https://github.com/Cecilapp/Cecil/commit/b83f65051e4bd6516c032fe39bdfb91a069226eb)
+- refactor: add site.build and switch cache keys [`669b5aa`](https://github.com/Cecilapp/Cecil/commit/669b5aace7aef450f5a9433ad2e5e5fe45cc3bdc)
+- Persist assets to temp file in debug mode [`1089aa3`](https://github.com/Cecilapp/Cecil/commit/1089aa32d3615397314bcefd765c738014ed7151)
+
+#### [8.80.4](https://github.com/Cecilapp/Cecil/compare/8.80.3...8.80.4)
+
+> 4 February 2026
+
+- refactor: simplify pagination logic [`e8591fb`](https://github.com/Cecilapp/Cecil/commit/e8591fba2d5aff100c59fde629a61ec6fe1b6486)
+- docs: minor changes [`7530ab7`](https://github.com/Cecilapp/Cecil/commit/7530ab72ec4b30c5555de046cfa6853b8ae26982)
+
+#### [8.80.3](https://github.com/Cecilapp/Cecil/compare/8.80.2...8.80.3)
+
+> 4 February 2026
+
+- docs: clarify showable pages [`d08f2d8`](https://github.com/Cecilapp/Cecil/commit/d08f2d8cd0f73591bb38be9e9315e1fb303e9667)
+- Add public() alias for showable() [`2f1cb4f`](https://github.com/Cecilapp/Cecil/commit/2f1cb4f63b37dd549e0e92f464cd39e4b67b4ea7)
+- refactor: use Adler-32 hash for build ID [`36b9b2d`](https://github.com/Cecilapp/Cecil/commit/36b9b2d2cca9b79a9dcfdbbfc8adce64e346103f)
+
+#### [8.80.2](https://github.com/Cecilapp/Cecil/compare/8.80.1...8.80.2)
+
+> 3 February 2026
+
+- Include build id in caches and expose build ID [`#2309`](https://github.com/Cecilapp/Cecil/pull/2309)
+
+#### [8.80.1](https://github.com/Cecilapp/Cecil/compare/8.80.0...8.80.1)
+
+> 3 February 2026
+
+- Feed templates: `items` instead of `pages` + optional `updated` [`#2307`](https://github.com/Cecilapp/Cecil/pull/2307)
+
+#### [8.80.0](https://github.com/Cecilapp/Cecil/compare/8.79.6...8.80.0)
+
+> 2 February 2026
+
+- Add page status + feed/template improvements [`#2306`](https://github.com/Cecilapp/Cecil/pull/2306)
+- chore(deps-dev): bump phpstan/phpstan from 2.1.37 to 2.1.38 [`#2305`](https://github.com/Cecilapp/Cecil/pull/2305)
+- chore(deps-dev): bump friendsofphp/php-cs-fixer from 3.93.0 to 3.93.1 [`#2303`](https://github.com/Cecilapp/Cecil/pull/2303)
+
+#### [8.79.6](https://github.com/Cecilapp/Cecil/compare/8.79.5...8.79.6)
+
+> 28 January 2026
+
+- Refactor and enhance asset preload handling [`b7eb05b`](https://github.com/Cecilapp/Cecil/commit/b7eb05bd1687d79eae9ae0fea2d6b68da28122c9)
+
+#### [8.79.5](https://github.com/Cecilapp/Cecil/compare/8.79.4...8.79.5)
+
+> 28 January 2026
+
+#### [8.79.4](https://github.com/Cecilapp/Cecil/compare/8.79.3...8.79.4)
+
+> 28 January 2026
+
+- Ensure assets are saved before usage [`3d467e0`](https://github.com/Cecilapp/Cecil/commit/3d467e0e1414029d64d1cc87261f3e9d6e207465)
+
+#### [8.79.3](https://github.com/Cecilapp/Cecil/compare/8.79.2...8.79.3)
+
+> 28 January 2026
+
+- chore(deps-dev): bump ergebnis/composer-normalize from 2.48.2 to 2.49.0 [`#2301`](https://github.com/Cecilapp/Cecil/pull/2301)
+- chore: update deps [`6bcf363`](https://github.com/Cecilapp/Cecil/commit/6bcf3639474874f548f494d7189e19ea72b488d6)
+- Refactor asset list management methods [`4d5770d`](https://github.com/Cecilapp/Cecil/commit/4d5770db00800cc1b60d2e2bde1255cfe83a5b63)
+- Fix image resize logic for equal dimensions [`440f4c0`](https://github.com/Cecilapp/Cecil/commit/440f4c0d85bd40f4f976194d3d82606232acba1e)
+- Set asset target directory and update remote asset path [`d898960`](https://github.com/Cecilapp/Cecil/commit/d89896083cd3c7e9f8d2a7f5fea9fee0d90fc9e7)
+
+#### [8.79.2](https://github.com/Cecilapp/Cecil/compare/8.79.1...8.79.2)
+
+> 26 January 2026
+
+- fix absolute cache path [`#2300`](https://github.com/Cecilapp/Cecil/pull/2300)
+- chore(deps): bump twig/string-extra from 3.22.1 to 3.23.0 [`#2299`](https://github.com/Cecilapp/Cecil/pull/2299)
+- chore(deps-dev): bump phpstan/phpstan from 2.1.36 to 2.1.37 [`#2298`](https://github.com/Cecilapp/Cecil/pull/2298)
+- chore(deps-dev): bump friendsofphp/php-cs-fixer from 3.92.5 to 3.93.0 [`#2297`](https://github.com/Cecilapp/Cecil/pull/2297)
+- chore(deps): bump twig/intl-extra from 3.22.1 to 3.23.0 [`#2296`](https://github.com/Cecilapp/Cecil/pull/2296)
+- chore(deps): bump twig/cache-extra from 3.22.1 to 3.23.0 [`#2295`](https://github.com/Cecilapp/Cecil/pull/2295)
+- chore(deps): bump twig/twig from 3.22.2 to 3.23.0 [`#2294`](https://github.com/Cecilapp/Cecil/pull/2294)
+
+#### [8.79.1](https://github.com/Cecilapp/Cecil/compare/8.79.0...8.79.1)
+
+> 23 January 2026
+
+- chore(deps-dev): bump phpstan/phpstan from 2.1.34 to 2.1.35 [`#2292`](https://github.com/Cecilapp/Cecil/pull/2292)
+- chore(deps-dev): bump phpstan/phpstan from 2.1.33 to 2.1.34 [`#2291`](https://github.com/Cecilapp/Cecil/pull/2291)
+- chore: update deps [`6465fef`](https://github.com/Cecilapp/Cecil/commit/6465fef154a3760f827abf8a640cb1ff4501a215)
+- chore: update deps [`a374c29`](https://github.com/Cecilapp/Cecil/commit/a374c29379c2a424a62409c09b307a62e5dda33c)
+- feat: add URL option to desktop notifications [`2c01131`](https://github.com/Cecilapp/Cecil/commit/2c011316a921514bd528be625297cf31413c1236)
+- fix: favicon link tags for broader compatibility [`8b13d2f`](https://github.com/Cecilapp/Cecil/commit/8b13d2f2bf21716e25315f416bc7d9bb64a02ca2)
+
 #### [8.79.0](https://github.com/Cecilapp/Cecil/compare/8.78.1...8.79.0)
 
 > 14 January 2026

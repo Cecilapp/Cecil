@@ -14,7 +14,7 @@
       {%- block content ~%}
       <article>
         <header>
-          {% if page.type != 'homepage' %}<h1>{{ page.title }}</h1>{% endif ~%}
+          {%- if page.type != 'homepage' %}<h1>{{ page.title }}</h1>{% endif ~%}
         </header>
         {%- if page.content ~%}
         <section>

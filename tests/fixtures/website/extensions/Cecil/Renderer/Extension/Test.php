@@ -24,7 +24,9 @@ class Test extends \Twig\Extension\AbstractExtension
     public function getFilters()
     {
         return [
-            new \Twig\TwigFilter('md5', 'md5'),
+            new \Twig\TwigFilter('hash', function ($string) {
+                return hash('xxh128', $string);
+            }),
         ];
     }
 }

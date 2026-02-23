@@ -38,7 +38,7 @@ jobs:
           coverage: none
       - name: Restore/Cache Composer packages
         id: composer-cache
-        uses: actions/cache@v4
+        uses: actions/cache@v5
         with:
           path: |
             vendor
@@ -123,7 +123,7 @@ jobs:
         run: gh attestation verify dist/cecil.phar --repo ${{ github.repository }}
       # upload
       - name: Upload files
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v6
         with:
           name: cecil-${{ github.sha }}.phar
           path: |
@@ -149,7 +149,7 @@ jobs:
         with:
           fetch-depth: 1
       - name: Download files
-        uses: actions/download-artifact@v6
+        uses: actions/download-artifact@v7
         with:
           name: cecil-${{ github.sha }}.phar
           path: dist
@@ -168,7 +168,7 @@ jobs:
     needs: [build, deploy_to_website]
     steps:
       - name: Download files
-        uses: actions/download-artifact@v6
+        uses: actions/download-artifact@v7
         with:
           name: cecil-${{ github.sha }}.phar
           path: .
@@ -254,7 +254,7 @@ jobs:
         with:
           fetch-depth: 1
       - name: Download files
-        uses: actions/download-artifact@v6
+        uses: actions/download-artifact@v7
         with:
           name: cecil-${{ github.sha }}.phar
           path: dist

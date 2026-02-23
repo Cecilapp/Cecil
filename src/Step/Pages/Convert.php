@@ -130,7 +130,7 @@ class Convert extends AbstractStep
             try {
                 $html = $converter->convertBody($page->getBody());
             } catch (RuntimeException $e) {
-                throw new \Exception($e->getMessage());
+                throw new RuntimeException($e->getMessage(), file: $page->getFilePath(), line: $e->getLine());
             }
             $page->setBodyHtml($html);
         }

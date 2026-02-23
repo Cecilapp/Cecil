@@ -461,7 +461,7 @@ class Core extends SlugifyExtension
         }
 
         $cache = new Cache($this->builder, 'assets');
-        $cacheKey = $cache->createKeyFromValue(null, $value);
+        $cacheKey = $cache->createKey($value, name: 'css');
         if (!$cache->has($cacheKey)) {
             $minifier = new Minify\CSS($value);
             $value = $minifier->minify();
@@ -483,7 +483,7 @@ class Core extends SlugifyExtension
         }
 
         $cache = new Cache($this->builder, 'assets');
-        $cacheKey = $cache->createKeyFromValue(null, $value);
+        $cacheKey = $cache->createKey($value, name: 'js');
         if (!$cache->has($cacheKey)) {
             $minifier = new Minify\JS($value);
             $value = $minifier->minify();
@@ -503,7 +503,7 @@ class Core extends SlugifyExtension
         $value = $value ?? '';
 
         $cache = new Cache($this->builder, 'assets');
-        $cacheKey = $cache->createKeyFromValue(null, $value);
+        $cacheKey = $cache->createKey($value, name: 'css');
         if (!$cache->has($cacheKey)) {
             $scssPhp = new Compiler();
             $outputStyles = ['expanded', 'compressed'];
@@ -552,8 +552,7 @@ class Core extends SlugifyExtension
             if (!$asset instanceof Asset) {
                 $asset = new Asset($this->builder, $asset);
             }
-            // be sure Asset file is saved
-            $asset->save();
+            $asset->save(); // be sure Asset file is saved
             // merge attributes
             $attr = $attributes;
             if ($assetData['attributes'] !== null) {
@@ -572,6 +571,23 @@ class Core extends SlugifyExtension
                     $attributes['as'] = $asset['script'];
                     break;
             }
+            // preload
+            if ($options['preload'] ?? false) {
+                $attributes['type'] = $asset['subtype'];
+                if (empty($attributes['crossorigin'])) {
+                    $attributes['crossorigin'] = 'anonymous';
+                }
+                $preloadLink = \sprintf('<link rel="preload" href="%s"%s>', $this->url($context, $asset, $options), self::htmlAttributes($attributes));
+                // if image asset with a specified width, preload the right size
+                if (null !== $width = isset($attributes['width']) && $attributes['width'] > 0 ? (int) $attributes['width'] : null) {
+                    $preloadLink = \sprintf('<link rel="preload" href="%s"%s>', $this->url($context, $asset->resize($width), $options), self::htmlAttributes($attributes));
+                }
+                array_unshift($html, $preloadLink);
+                // only CSS and JS can be preloaded this way
+                if (!\in_array($asset['ext'], ['css', 'js'])) {
+                    break;
+                }
+            }
             // process by MIME type
             switch ($asset['type']) {
                 case 'image':
@@ -583,14 +599,6 @@ class Core extends SlugifyExtension
                 case 'video':
                     $html[] = $this->htmlVideo($context, $asset, $attr, $options);
                     break;
-            }
-            // preload
-            if ($options['preload'] ?? false) {
-                $attributes['type'] = $asset['subtype'];
-                if (empty($attributes['crossorigin'])) {
-                    $attributes['crossorigin'] = 'anonymous';
-                }
-                array_unshift($html, \sprintf('<link rel="preload" href="%s"%s>', $this->url($context, $asset, $options), self::htmlAttributes($attributes)));
             }
             unset($attr);
         }
@@ -764,13 +772,19 @@ class Core extends SlugifyExtension
      * Builds the HTML img element from a website URL by extracting the image from meta tags.
      * Returns null if no image found.
      *
-     * @todo enhance performance by caching results?
-     *
      * @throws RuntimeException
      */
     public function htmlImageFromWebsite(array $context, string $url, array $attributes = [], array $options = []): ?string
     {
-        if (false !== $html = Util\File::fileGetContents($url)) {
+        $htmlAsset = new Asset($this->builder, $url, ['ignore_missing' => true]);
+
+        if ($htmlAsset->isMissing()) {
+            $this->builder->getLogger()->warning(\sprintf('Unable to fetch "%s" to extract image.', $url));
+
+            return null;
+        }
+
+        if (!empty($html = $htmlAsset['content'])) {
             $imageUrl = Util\Html::getImageFromMetaTags($html);
             if ($imageUrl !== null) {
                 $asset = new Asset($this->builder, $imageUrl);
@@ -1150,9 +1164,9 @@ class Core extends SlugifyExtension
     }
 
     /**
-     * Hashing an object, an array or a string (with algo, md5 by default).
+     * Hashing an object, an array or a string (with algo, xxh128 by default).
      */
-    public function hash(object|array|string $data, $algo = 'md5'): string
+    public function hash(object|array|string $data, $algo = 'xxh128'): string
     {
         switch (\gettype($data)) {
             case 'object':

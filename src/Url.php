@@ -107,6 +107,7 @@ class Url
                 break;
             case $value instanceof Asset: // $value is an Asset
                 /** @var Asset $value */
+                $value->save(); // be sure Asset file is saved
                 $this->url = $base . '/' . ltrim($value['path'], '/');
                 if ($value->isImageInCdn()) {
                     $this->url = (string) $value;
