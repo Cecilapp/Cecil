@@ -696,7 +696,7 @@ class Asset implements \ArrayAccess
     public static function buildPathFromUrl(string $url): string
     {
         $host = parse_url($url, PHP_URL_HOST);
-        $path = parse_url($url, PHP_URL_PATH) ?? '-index.html'; // if URL ends with a domain (e.g., https://example.com), set path to '-index.html' to avoid empty path
+        $path = \is_string($path = parse_url($url, PHP_URL_PATH)) && $path !== '/' ? $path : '-index.html'; // if URL is only a domain, set path to '-index.html' to avoid empty path
         $query = parse_url($url, PHP_URL_QUERY);
         $ext = pathinfo($path, \PATHINFO_EXTENSION);
         // Google Fonts hack
