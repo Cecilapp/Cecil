@@ -139,7 +139,7 @@ EOF
             );
             Util\File::getFS()->dumpFile($filePath, $fileContent);
             // done
-            $output->write(sprintf("\033\143"));
+            $output->write(\sprintf("\033\143"));
             $this->io->success(\sprintf('File created with "%s" model at %s', $model['name'], $filePath));
             // open editor?
             if ($open) {
