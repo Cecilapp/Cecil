@@ -87,6 +87,9 @@ return [
         //    ]
         //],
         'frontmatter' => 'yaml', // front matter format: `yaml`, `ini`, `toml` or `json`
+        'sections' => [ // sections options
+            //'nested' => true, // enable sub-sections (subfolders with index.md)
+        ],
         'body' => [
             'toc' => ['h2', 'h3'], // headers used to build the table of contents
             'highlight' => false, // enables code syntax highlighting

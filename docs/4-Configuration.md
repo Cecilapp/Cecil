@@ -1,7 +1,7 @@
 <!--
 description: "Configure your website."
 date: 2021-05-07
-updated: 2025-12-09
+updated: 2026-02-25
 -->
 # Configuration
 
@@ -476,6 +476,22 @@ Pagination can be disabled:
 pages:
   pagination: false
 ```
+
+### pages.sections
+
+Options for [_Sections_](2-Content.md#section).
+
+#### Enable sub-sections
+
+Sub-sections (nested sections created by subfolders containing an `index.md` file) are disabled by default. Enable them with the `nested` option:
+
+```yaml
+pages:
+  sections:
+    nested: true
+```
+
+See the [Content documentation](2-Content.md#sub-sections) for details on how to structure sub-sections and the [Templates documentation](3-Templates.md#sub-sections) for available functions and tests.
 
 ### pages.paths
 

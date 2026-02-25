@@ -127,6 +127,21 @@ class Layout
                     $layouts = array_merge(["section/{$section}.$format.$ext"], $layouts);
                     $layouts = array_merge(["{$section}/list.$format.$ext"], $layouts);
                     $layouts = array_merge(["{$section}/index.$format.$ext"], $layouts);
+                    // Sub-section support: also try parent section layouts.
+                    // For "blog/tutorials", also try "blog/list", "blog/index", "section/blog".
+                    if (str_contains($section, '/')) {
+                        $parentSection = substr($section, 0, strrpos($section, '/'));
+                        $layouts = array_merge(
+                            [
+                                "{$section}/index.$format.$ext",
+                                "{$section}/list.$format.$ext",
+                                "section/{$section}.$format.$ext",
+                                "{$parentSection}/list.$format.$ext",
+                                "section/{$parentSection}.$format.$ext",
+                            ],
+                            $layouts
+                        );
+                    }
                 }
                 if ($page->hasVariable('layout')) {
                     $layouts = array_merge(["$layout.$format.$ext"], $layouts);
