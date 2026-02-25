@@ -1,7 +1,7 @@
 <!--
 description: "Working with layouts, templates and components."
 date: 2021-05-07
-updated: 2026-02-04
+updated: 2026-02-25
 alias: documentation/layouts
 -->
 # Templates
@@ -992,7 +992,7 @@ Converts a string to a slug.
 
 ### u
 
-Wraps a text in a `UnicodeString` object to give access to [methods of the class](https://symfony.com/doc/current/components/string.html).
+The `u` filter wraps a text in a Unicode object (a [Symfony UnicodeString instance](https://symfony.com/doc/current/components/string.html)) that exposes methods to "manipulate" the string.
 
 _Example:_
 
@@ -1004,26 +1004,45 @@ _Example:_
 
 ### singular
 
-The `singular` filter transforms a given noun in its plural form into its singular version:
+The `singular` filter transforms a given noun in its plural form into its singular version.
 
 ```twig
-{{ 'partitions'|singular() }}
+{{ string|singular(locale)}}
+```
+
+_Example:_
+
+```twig
+{# English (en) rules are used by default #}
+{{ 'partitions'|singular }}
+```
+
+> partition
+
+```twig
+{{ 'partitions'|singular('fr') }}
 ```
 
 > partition
 
 ### plural
 
-The `plural` filter transforms a given noun in its singular form into its plural version:
+The `plural` filter transforms a given noun in its singular form into its plural version.
 
 ```twig
-{{ 'animal'|plural() }}
+{{ string|plural(locale)}}
+```
+
+_Example:_
+
+```twig
+{# English (en) rules are used by default #}
+{{ 'animal'|plural }}
 ```
 
 > animals
 
 ```twig
-{# English (en) rules are used by default #}
 {{ 'animal'|plural('fr') }}
 ```
 
