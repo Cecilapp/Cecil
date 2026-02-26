@@ -2,6 +2,12 @@
 
 All notable changes to this project will be documented in this file. Dates are displayed in UTC.
 
+#### [8.85.3](https://github.com/Cecilapp/Cecil/compare/8.85.2...8.85.3)
+
+> 23 February 2026
+
+- Improve editor handling, parsing, and output [`2c0df24`](https://github.com/Cecilapp/Cecil/commit/2c0df24b3e974675eaa88a898014776fbecb9278)
+
 #### [8.85.2](https://github.com/Cecilapp/Cecil/compare/8.85.1...8.85.2)
 
 > 23 February 2026
