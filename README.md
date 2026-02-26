@@ -138,6 +138,20 @@ curl -Lo phpdoc https://phpdoc.org/phpDocumentor.phar
 php phpdoc
 ```
 
+## Release
+
+To release a new version, create a new Git tag with the version number (e.g. `1.0.0`), push it to GitHub and the release will be automatically published by GitHub Actions.
+
+```bash
+git tag 1.0.0
+git push origin 1.0.0
+```
+
+> [!TIP]
+> To create a **pre-release**, add a suffix to the version number (e.g. `1.0.0-beta.1`).
+
+The automated workflow also will publish the release to the [website](https://cecil.app/download), update the [Homebrew formula](https://github.com/Cecilapp/homebrew-tap) and the [Scoop manifest](https://cecil.app/scoop/cecil.json).
+
 ## Sponsors
 
 <!--[![Aperture Lab](https://avatars.githubusercontent.com/u/10225022?s=100)](https://aperturelab.fr)&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;-->
