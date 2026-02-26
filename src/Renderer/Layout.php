@@ -123,7 +123,7 @@ class Layout
                     "list.$format.$ext",
                     "_default/list.$format.$ext",
                 ];
-                if ($page->getPath()) {
+                if ($section && $page->getPath()) {
                     $layouts = array_merge(["section/{$section}.$format.$ext"], $layouts);
                     $layouts = array_merge(["{$section}/list.$format.$ext"], $layouts);
                     $layouts = array_merge(["{$section}/index.$format.$ext"], $layouts);

@@ -334,7 +334,7 @@ class Section extends AbstractGenerator implements GeneratorInterface
      * then creates an empty section entry.
      *
      * @param array<string, array<string, list<Page>>>  &$sections    The sections map (modified in-place)
-     * @param string                                     $sectionPath  The section path (already slugified)
+     * @param string                                     $sectionPath The section path (already slugified)
      */
     private function ensureSectionExists(array &$sections, string $sectionPath): void
     {
