@@ -113,7 +113,7 @@ jobs:
               dist/cecil.phar
       - name: Generate binary provenance attestation
         id: attestation
-        uses: actions/attest-build-provenance@v3
+        uses: actions/attest-build-provenance@v4
         with:
           subject-path: dist/cecil.phar
           show-summary: false
