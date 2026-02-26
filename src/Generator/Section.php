@@ -99,32 +99,21 @@ class Section extends AbstractGenerator implements GeneratorInterface
             $sections[$sectionPath][$language][] = $page;
         }
 
-        // Ensure all nested section paths exist in the sections map (even if empty).
-        // Also ensure their parent sections exist.
-        foreach ($nestedSectionPaths as $nestedPath => $_) {
-            if (!isset($sections[$nestedPath])) {
-                // Determine language from the index page
-                if ($this->builder->getPages()->has($nestedPath)) {
-                    $indexPage = $this->builder->getPages()->get($nestedPath);
-                    $lang = $indexPage->getVariable('language', $this->config->getLanguageDefault());
-                    $sections[$nestedPath][$lang] = [];
-                }
-            }
-
-            // Walk up parent paths and ensure they exist as sections too.
+        // Ensure all nested section paths and their ancestors exist in the sections map (even if empty).
+        $pathsToEnsure = [];
+        foreach ($nestedSectionPaths as $nestedPath => $_) { // @SuppressWarnings(PHPMD.UnusedLocalVariable)
+            $pathsToEnsure[$nestedPath] = true;
+            // Collect ancestor paths.
             $parts = explode('/', $nestedPath);
             array_pop($parts);
             while (!empty($parts)) {
-                $parentPath = implode('/', $parts);
-                if (!isset($sections[$parentPath])) {
-                    $parentSlug = Page::slugify($parentPath);
-                    if ($this->builder->getPages()->has($parentSlug)) {
-                        $indexPage = $this->builder->getPages()->get($parentSlug);
-                        $lang = $indexPage->getVariable('language', $this->config->getLanguageDefault());
-                        $sections[$parentPath][$lang] = [];
-                    }
-                }
+                $pathsToEnsure[implode('/', $parts)] = true;
                 array_pop($parts);
+            }
+        }
+        foreach ($pathsToEnsure as $sectionPath => $_) {
+            if (!isset($sections[$sectionPath])) {
+                $this->ensureSectionExists($sections, $sectionPath);
             }
         }
 
@@ -207,7 +196,7 @@ class Section extends AbstractGenerator implements GeneratorInterface
             }
 
             // Step 4: Build parent/child relationships between sections.
-            $this->buildSectionTree($sectionPages, $nestedSectionPaths);
+            $this->buildSectionTree($sectionPages);
         }
     }
 
@@ -292,10 +281,9 @@ class Section extends AbstractGenerator implements GeneratorInterface
     /**
      * Builds parent/child relationships between section pages.
      *
-     * @param array<string, Page>   $sectionPages       Map of "path|language" => section Page
-     * @param array<string, true>   $nestedSectionPaths Map of nested section paths
+     * @param array<string, Page>  $sectionPages Map of "path|language" => section Page
      */
-    protected function buildSectionTree(array $sectionPages, array $nestedSectionPaths): void
+    protected function buildSectionTree(array $sectionPages): void
     {
         foreach ($sectionPages as $key => $sectionPage) {
             [$path, $language] = explode('|', $key);
@@ -336,6 +324,25 @@ class Section extends AbstractGenerator implements GeneratorInterface
 
                 array_pop($parts);
             }
+        }
+    }
+
+    /**
+     * Ensures that a section entry exists for the given path.
+     *
+     * Looks up the corresponding index page to determine the language,
+     * then creates an empty section entry.
+     *
+     * @param array<string, array<string, list<Page>>>  &$sections    The sections map (modified in-place)
+     * @param string                                     $sectionPath  The section path (already slugified)
+     */
+    private function ensureSectionExists(array &$sections, string $sectionPath): void
+    {
+        $slug = Page::slugify($sectionPath);
+        if ($this->builder->getPages()->has($slug)) {
+            $lang = $this->builder->getPages()->get($slug)
+                ->getVariable('language', $this->config->getLanguageDefault());
+            $sections[$sectionPath][$lang] = [];
         }
     }
 
