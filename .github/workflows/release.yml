@@ -226,7 +226,7 @@ jobs:
     steps:
       - name: Change Formula name if preview
         if: "github.event.release.prerelease"
-        run: echo "FORMULA_NAME=cecil@preview" >> $GITHUB_ENV
+        run: echo "FORMULA_NAME=cecil-preview" >> $GITHUB_ENV
       - name: Bump Formula
         uses: mislav/bump-homebrew-formula-action@v3
         env:
