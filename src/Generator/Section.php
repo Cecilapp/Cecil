@@ -41,9 +41,14 @@ class Section extends AbstractGenerator implements GeneratorInterface
      */
     public function generate(): void
     {
-        // Step 1: Detect nested section paths (subfolders with index.md).
-        // Returns a map of slugified-folder-path => page-id.
-        $nestedSectionPaths = $this->detectNestedSectionPaths();
+        // Step 1: Detect nested section paths (subfolders with index.md),
+        // which are only enabled when `pages.sections.nested` is set to true
+        // in the configuration.
+        $nestedSectionPaths = [];
+        if ((bool) $this->config->get('pages.sections.nested', false) === true) {
+            // Returns a map of slugified-folder-path => page-id.
+            $nestedSectionPaths = $this->detectNestedSectionPaths();
+        }
 
         // Build a reverse map: page-id => folder-path (for looking up a page's original folder).
         $pageIdToFolderPath = [];
