@@ -174,8 +174,12 @@ class Section extends AbstractGenerator implements GeneratorInterface
                         ->setPages($pages)
                         ->setVariable('language', $language)
                         ->setVariable('langref', $path);
-                    if ($pages->first()) {
-                        $page->setVariable('date', $pages->first()->getVariable('date'));
+                    $firstPage = $pages->first();
+                    if ($firstPage instanceof Page && $firstPage->hasVariable('date')) {
+                        $page->setVariable('date', $firstPage->getVariable('date'));
+                    } else {
+                        // Ensure the section always has a 'date' variable, even if it has no direct pages
+                        $page->setVariable('date', null);
                     }
                     // human readable title
                     if ($page->getVariable('title') == 'index') {
