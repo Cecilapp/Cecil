@@ -98,6 +98,12 @@ class Core extends SlugifyExtension
             // content
             new \Twig\TwigFunction('readtime', [$this, 'readtime']),
             new \Twig\TwigFunction('hash', [$this, 'hash']),
+            // sub-sections
+            new \Twig\TwigFunction('subsections', [$this, 'getSubSections']),
+            new \Twig\TwigFunction('parent_section', [$this, 'getParentSectionFunc']),
+            new \Twig\TwigFunction('section_breadcrumb', [$this, 'getSectionBreadcrumb']),
+            new \Twig\TwigFunction('all_pages_recursive', [$this, 'getAllPagesRecursive']),
+            new \Twig\TwigFunction('section_tree', [$this, 'getSectionTree']),
             // others
             new \Twig\TwigFunction('getenv', [$this, 'getEnv']),
             new \Twig\TwigFunction('d', [$this, 'varDump'], ['needs_context' => true, 'needs_environment' => true]),
@@ -194,6 +200,13 @@ class Core extends SlugifyExtension
             new \Twig\TwigTest('asset', [$this, 'isAsset']),
             new \Twig\TwigTest('image_large', [$this, 'isImageLarge']),
             new \Twig\TwigTest('image_square', [$this, 'isImageSquare']),
+            // sub-sections
+            new \Twig\TwigTest('subsection', function (Page $page): bool {
+                return $page->isSubSection();
+            }),
+            new \Twig\TwigTest('has_subsections', function (Page $page): bool {
+                return $page->hasSubSections();
+            }),
         ];
     }
 
@@ -203,6 +216,92 @@ class Core extends SlugifyExtension
     public function filterBySection(PagesCollection $pages, string $section): CollectionInterface
     {
         return $this->filterBy($pages, 'section', $section);
+    }
+
+    /**
+     * Returns child sub-sections of a section page.
+     *
+     * @return Page[]|PagesCollection|null
+     */
+    public function getSubSections(Page $page): ?\Cecil\Collection\Page\Collection
+    {
+        if ($page->getType() !== Type::SECTION->value) {
+            return null;
+        }
+
+        return $page->getSubSections();
+    }
+
+    /**
+     * Returns parent section of a sub-section.
+     */
+    public function getParentSectionFunc(Page $page): ?Page
+    {
+        return $page->getParentSection();
+    }
+
+    /**
+     * Returns breadcrumb from root section to the given section.
+     *
+     * @return Page[]
+     */
+    public function getSectionBreadcrumb(Page $page): array
+    {
+        return $page->getSectionBreadcrumb();
+    }
+
+    /**
+     * Returns all pages recursively, including pages from sub-sections.
+     */
+    public function getAllPagesRecursive(Page $page): ?\Cecil\Collection\Page\Collection
+    {
+        if ($page->getType() !== Type::SECTION->value) {
+            return null;
+        }
+
+        return $page->getAllPagesRecursive();
+    }
+
+    /**
+     * Returns the full section tree (root sections with nested children).
+     *
+     * @return array<string, array{page: Page, children: array}>
+     */
+    public function getSectionTree(): array
+    {
+        $tree = [];
+        $pages = $this->builder->getPages();
+        if ($pages === null) {
+            return $tree;
+        }
+
+        /** @var Page $page */
+        foreach ($pages as $page) {
+            if ($page->getType() === Type::SECTION->value && !$page->hasParentSection()) {
+                $tree[$page->getId()] = $this->buildTreeNode($page);
+            }
+        }
+
+        return $tree;
+    }
+
+    /**
+     * Recursively builds a tree node for section_tree().
+     */
+    private function buildTreeNode(Page $page): array
+    {
+        $node = [
+            'page'     => $page,
+            'children' => [],
+        ];
+
+        if ($page->hasSubSections()) {
+            foreach ($page->getSubSections() as $child) {
+                $node['children'][$child->getId()] = $this->buildTreeNode($child);
+            }
+        }
+
+        return $node;
     }
 
     /**

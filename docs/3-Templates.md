@@ -196,6 +196,19 @@ All rules are detailed below, for each page type, in the priority order.
 6. `list.<format>.twig`
 7. `_default/list.<format>.twig`
 
+#### Sub-section lookup
+
+For a sub-section (e.g. `blog/tutorials`), the layout lookup also includes the parent section layouts:
+
+1. `<section>/<subsection>/index.<format>.twig`
+2. `<section>/<subsection>/list.<format>.twig`
+3. `section/<section>/<subsection>.<format>.twig`
+4. `<section>/list.<format>.twig` _(parent section)_
+5. `section/<section>.<format>.twig` _(parent section)_
+6. `_default/section.<format>.twig`
+7. `list.<format>.twig`
+8. `_default/list.<format>.twig`
+
 ### Type _vocabulary_
 
 1. `taxonomy/<plural>.<format>.twig`
@@ -355,6 +368,8 @@ The `page` variable contains built-in variables of a page **and** those set in t
 | `page.filepath`       | File system path.                                      | `Blog/Post 1.md`           |
 | `page.type`           | `homepage`, `page`, `section`, `vocabulary` or `term`. | `page`                     |
 | `page.pages`          | Collection of all sub pages.                           | _Collection_               |
+| `page.subsections`    | Collection of child sub-sections (sections only).      | _Collection_               |
+| `page.parent`         | Parent section (sub-sections only).                    | _Page_                     |
 | `page.translations`   | Collection of translated pages.                        | _Collection_               |
 
 :::important
@@ -794,6 +809,104 @@ _Example:_
 The [_debug mode_](4-Configuration.md#debug) must be enabled.
 :::
 
+### Sub-sections
+
+The following functions and [tests](#tests) help work with [sub-sections](2-Content.md#sub-sections). Sub-sections must be [enabled in the configuration](4-Configuration.md#pages-sections).
+
+#### subsections
+
+Returns the collection of child sub-sections of a _section_ page.
+
+```twig
+{{ subsections(page) }}
+```
+
+_Example:_
+
+```twig
+{% if page is has_subsections %}
+  {% for sub in subsections(page) %}
+    <a href="{{ url(sub) }}">{{ sub.title }}</a>
+  {% endfor %}
+{% endif %}
+```
+
+#### parent_section
+
+Returns the parent section of a sub-section page (or `null` if the page is a root section).
+
+```twig
+{{ parent_section(page) }}
+```
+
+_Example:_
+
+```twig
+{% if page is subsection %}
+  <a href="{{ url(parent_section(page)) }}">Back to {{ parent_section(page).title }}</a>
+{% endif %}
+```
+
+#### section_breadcrumb
+
+Returns an array of pages from the root section down to the given section, useful for building breadcrumb navigation.
+
+```twig
+{{ section_breadcrumb(page) }}
+```
+
+_Example:_
+
+```twig
+{% for crumb in section_breadcrumb(page) %}
+  <a href="{{ url(crumb) }}">{{ crumb.title }}</a>
+  {% if not loop.last %} / {% endif %}
+{% endfor %}
+```
+
+#### all_pages_recursive
+
+Returns all pages of a section including pages from its sub-sections, recursively.
+
+```twig
+{{ all_pages_recursive(page) }}
+```
+
+_Example:_
+
+```twig
+{% for p in all_pages_recursive(page) %}
+  <a href="{{ url(p) }}">{{ p.title }}</a>
+{% endfor %}
+```
+
+#### section_tree
+
+Returns the full hierarchical tree of all sections as an array of nodes. Each node contains a `page` entry (the section page) and a `children` array of sub-nodes.
+
+```twig
+{{ section_tree() }}
+```
+
+_Example:_
+
+```twig
+{% macro render_tree(tree) %}
+  <ul>
+  {% for node in tree %}
+    <li>
+      <a href="{{ url(node.page) }}">{{ node.page.title }}</a>
+      {% if node.children is not empty %}
+        {{ _self.render_tree(node.children) }}
+      {% endif %}
+    </li>
+  {% endfor %}
+  </ul>
+{% endmacro %}
+
+{{ _self.render_tree(section_tree()) }}
+```
+
 ### d
 
 The `d()` function is the HTML version of [`dump()`](#dump) and use the [Symfony VarDumper Component](https://symfony.com/doc/5.4/components/var_dumper.html) behind the scenes.
@@ -808,6 +921,30 @@ The `d()` function is the HTML version of [`dump()`](#dump) and use the [Symfony
 :::important
 The [_debug mode_](4-Configuration.md#debug) must be enabled.
 :::
+
+## Tests
+
+> [Tests](https://twig.symfony.com/doc/tests/index.html) can be used with the `is` operator to check if a variable meets certain criteria.
+
+### subsection
+
+Tests if a _section_ page is a sub-section (i.e. has a parent section).
+
+```twig
+{% if page is subsection %}
+  This section is a sub-section.
+{% endif %}
+```
+
+### has_subsections
+
+Tests if a _section_ page has child sub-sections.
+
+```twig
+{% if page is has_subsections %}
+  This section contains sub-sections.
+{% endif %}
+```
 
 ## Sorts
 
