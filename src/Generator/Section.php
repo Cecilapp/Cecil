@@ -348,9 +348,18 @@ class Section extends AbstractGenerator implements GeneratorInterface
     private function ensureSectionExists(array &$sections, string $sectionPath): void
     {
         $slug = Page::slugify($sectionPath);
+
+        // Determine the language for this section. Prefer the language from an existing
+        // index page when available; otherwise, fall back to the default language.
         if ($this->builder->getPages()->has($slug)) {
             $lang = $this->builder->getPages()->get($slug)
                 ->getVariable('language', $this->config->getLanguageDefault());
+        } else {
+            $lang = $this->config->getLanguageDefault();
+        }
+
+        // Ensure the section entry exists for the resolved language.
+        if (!isset($sections[$sectionPath][$lang])) {
             $sections[$sectionPath][$lang] = [];
         }
     }
