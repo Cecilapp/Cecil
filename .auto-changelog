@@ -3,5 +3,6 @@
   "template": "compact",
   "unreleased": false,
   "commitLimit": false,
+  "hideEmptyReleases": true,
   "hideCredit": true
 }

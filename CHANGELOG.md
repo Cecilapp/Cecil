@@ -2,15 +2,45 @@
 
 All notable changes to this project will be documented in this file. Dates are displayed in UTC.
 
+#### [8.86.0-beta.8](https://github.com/Cecilapp/Cecil/compare/8.86.0-beta.7...8.86.0-beta.8)
+
+> 27 February 2026
+
+- Use cecil-preview for preview Formula [`7560b6e`](https://github.com/Cecilapp/Cecil/commit/7560b6e765e8ac408751628157d0865d82603b59)
+
+#### [8.86.0-beta.3](https://github.com/Cecilapp/Cecil/compare/8.86.0-beta.2...8.86.0-beta.3)
+
+> 26 February 2026
+
+- feat: add sub-section support for pages [`8e3c786`](https://github.com/Cecilapp/Cecil/commit/8e3c78678931ae9d147bf254306eb9cda0662d4a)
+- chore: update deps [`28702da`](https://github.com/Cecilapp/Cecil/commit/28702daa349bf9d1017cfdd3b523a6e320b03cc5)
+- Refactor section path handling and tree build [`5c4cbbd`](https://github.com/Cecilapp/Cecil/commit/5c4cbbd65529fbc470dc2ef8137bf91c8f759200)
+- Only prepend section layouts when section exists [`afdaec0`](https://github.com/Cecilapp/Cecil/commit/afdaec0a9724fb249258852a6160693e55d1f416)
+
+#### [8.86.0-beta.2](https://github.com/Cecilapp/Cecil/compare/8.86.0-beta.1...8.86.0-beta.2)
+
+> 26 February 2026
+
+- chore(deps): bump actions/attest-build-provenance from 3 to 4 [`#2322`](https://github.com/Cecilapp/Cecil/pull/2322)
+- Add release instructions to README [`faeba8e`](https://github.com/Cecilapp/Cecil/commit/faeba8e16b0ae3783d1b431e28174d7657c3bd40)
+- Support alpha/beta tags and mark prereleases [`4f38b8a`](https://github.com/Cecilapp/Cecil/commit/4f38b8a992a5838eed1611e8313a590a1fb1971c)
+
+#### [8.86.0-beta.1](https://github.com/Cecilapp/Cecil/compare/8.85.3...8.86.0-beta.1)
+
+> 26 February 2026
+
+- chore(deps-dev): bump phpstan/phpstan from 2.1.39 to 2.1.40 [`#2320`](https://github.com/Cecilapp/Cecil/pull/2320)
+- feat: add sub-section support for pages [`8e3c786`](https://github.com/Cecilapp/Cecil/commit/8e3c78678931ae9d147bf254306eb9cda0662d4a)
+- chore: update deps [`28702da`](https://github.com/Cecilapp/Cecil/commit/28702daa349bf9d1017cfdd3b523a6e320b03cc5)
+- Refactor section path handling and tree build [`5c4cbbd`](https://github.com/Cecilapp/Cecil/commit/5c4cbbd65529fbc470dc2ef8137bf91c8f759200)
+- docs: clarify filters and examples [`6cdfb3e`](https://github.com/Cecilapp/Cecil/commit/6cdfb3eff9421bc787e143ff2f7fbcb1b1147af8)
+- Only prepend section layouts when section exists [`afdaec0`](https://github.com/Cecilapp/Cecil/commit/afdaec0a9724fb249258852a6160693e55d1f416)
+
 #### [8.85.3](https://github.com/Cecilapp/Cecil/compare/8.85.2...8.85.3)
 
 > 23 February 2026
 
 - Improve editor handling, parsing, and output [`2c0df24`](https://github.com/Cecilapp/Cecil/commit/2c0df24b3e974675eaa88a898014776fbecb9278)
-
-#### [8.85.2](https://github.com/Cecilapp/Cecil/compare/8.85.1...8.85.2)
-
-> 23 February 2026
 
 #### [8.85.1](https://github.com/Cecilapp/Cecil/compare/8.85.0...8.85.1)
 
@@ -153,10 +183,6 @@ All notable changes to this project will be documented in this file. Dates are d
 > 28 January 2026
 
 - Refactor and enhance asset preload handling [`b7eb05b`](https://github.com/Cecilapp/Cecil/commit/b7eb05bd1687d79eae9ae0fea2d6b68da28122c9)
-
-#### [8.79.5](https://github.com/Cecilapp/Cecil/compare/8.79.4...8.79.5)
-
-> 28 January 2026
 
 #### [8.79.4](https://github.com/Cecilapp/Cecil/compare/8.79.3...8.79.4)
 
@@ -548,15 +574,17 @@ All notable changes to this project will be documented in this file. Dates are d
 - ci: test bis [`0d3ee8f`](https://github.com/Cecilapp/Cecil/commit/0d3ee8f3daa6001b9fffdcaea09e2228ab53c831)
 - ci: GPG_SIGNATURE [`8815d1a`](https://github.com/Cecilapp/Cecil/commit/8815d1ab50851c621ca49ae7a0c74cfb49098763)
 
-#### [8.66.0](https://github.com/Cecilapp/Cecil/compare/8.65.3...8.66.0)
+#### [8.66.0](https://github.com/Cecilapp/Cecil/compare/8.66.0-beta.2...8.66.0)
 
 > 18 September 2025
 
 - doc: update API [`21ec53f`](https://github.com/Cecilapp/Cecil/commit/21ec53f4ef1d2d94cf9a4aed948cb2af7422ef7a)
 - feat: add Twig string filters [`c6c94d7`](https://github.com/Cecilapp/Cecil/commit/c6c94d7ee9764478928f8444c27569863d4fd902)
 - Delete .travis.yml.disabled [`5109290`](https://github.com/Cecilapp/Cecil/commit/510929095fd000329dea1d0232b41c8cdb2ac166)
+- refactor: better handle of image convertion [`6e0f4d2`](https://github.com/Cecilapp/Cecil/commit/6e0f4d23912dc0d1bc29cb4727563161eff98472)
 - ci: remove Vercel libs [`a689391`](https://github.com/Cecilapp/Cecil/commit/a689391c063d62bdbbafaf0d865eac4592076909)
 - Delete .github/tap-release.yaml [`2df0c2f`](https://github.com/Cecilapp/Cecil/commit/2df0c2ff67bca31068aad37771b784e7011bd878)
+- chore: update deps [`e873bbc`](https://github.com/Cecilapp/Cecil/commit/e873bbc5e28629d07c01f3fbc9b4793835ba790b)
 - doc: update deploy [`b47e0b8`](https://github.com/Cecilapp/Cecil/commit/b47e0b8af025615db622b9e3e49688d7e36f3a51)
 - doc: minor fix [`2225f1f`](https://github.com/Cecilapp/Cecil/commit/2225f1fa409fc540b3e98de456758d341c334fd0)
 - chore: rename script files [`92cb101`](https://github.com/Cecilapp/Cecil/commit/92cb101929900184f3773169ac5978ee6b32d5a3)
@@ -1768,29 +1796,34 @@ All notable changes to this project will be documented in this file. Dates are d
 - composer: update deps [`39257c3`](https://github.com/Cecilapp/Cecil/commit/39257c3d9e16e320ce64c1649c30aeed8379d769)
 - ci: phpstan ignore env [`de2a5da`](https://github.com/Cecilapp/Cecil/commit/de2a5da2c526f37e007b8c9a6c8deda76792eebc)
 
-#### [8.27.0](https://github.com/Cecilapp/Cecil/compare/8.26.1...8.27.0)
+#### [8.27.0](https://github.com/Cecilapp/Cecil/compare/8.26.2...8.27.0)
 
 > 3 February 2025
 
 - Support for mounts points in static configuration [`#2103`](https://github.com/Cecilapp/Cecil/pull/2103)
+- chore(deps): bump intervention/image from 3.11.0 to 3.11.1 [`#2107`](https://github.com/Cecilapp/Cecil/pull/2107)
+- ci: disable cecil.phar signing temporary [`517ba00`](https://github.com/Cecilapp/Cecil/commit/517ba00a394f35b97d3f7d233cbc7e2463204111)
+- chore: release action comments [`11c66d0`](https://github.com/Cecilapp/Cecil/commit/11c66d0aee44f359ac0d8d9b35243a364598cb81)
+
+#### [8.26.2](https://github.com/Cecilapp/Cecil/compare/8.26.1...8.26.2)
+
+> 31 January 2025
+
+- chore(deps-dev): bump friendsofphp/php-cs-fixer from 3.68.4 to 3.68.5 [`#2106`](https://github.com/Cecilapp/Cecil/pull/2106)
+- chore(deps-dev): bump friendsofphp/php-cs-fixer from 3.68.3 to 3.68.4 [`#2104`](https://github.com/Cecilapp/Cecil/pull/2104)
+- chore: update deps [`d57ed21`](https://github.com/Cecilapp/Cecil/commit/d57ed21eb8b0b9aab20b84998fa3826446945ca6)
 
 #### [8.26.1](https://github.com/Cecilapp/Cecil/compare/8.26.0...8.26.1)
 
-> 3 February 2025
+> 31 January 2025
 
-- chore(deps): bump intervention/image from 3.11.0 to 3.11.1 [`#2107`](https://github.com/Cecilapp/Cecil/pull/2107)
-- chore(deps-dev): bump friendsofphp/php-cs-fixer from 3.68.4 to 3.68.5 [`#2106`](https://github.com/Cecilapp/Cecil/pull/2106)
-- chore(deps-dev): bump friendsofphp/php-cs-fixer from 3.68.3 to 3.68.4 [`#2104`](https://github.com/Cecilapp/Cecil/pull/2104)
 - chore(deps): bump twig/twig from 3.18.0 to 3.19.0 [`#2102`](https://github.com/Cecilapp/Cecil/pull/2102)
 - chore(deps): bump twig/intl-extra from 3.18.0 to 3.19.0 [`#2101`](https://github.com/Cecilapp/Cecil/pull/2101)
 - chore(deps-dev): bump friendsofphp/php-cs-fixer from 3.68.2 to 3.68.3 [`#2100`](https://github.com/Cecilapp/Cecil/pull/2100)
 - chore(deps): bump dependabot/fetch-metadata from 2.2.0 to 2.3.0 [`#2099`](https://github.com/Cecilapp/Cecil/pull/2099)
 - chore: update deps [`3988298`](https://github.com/Cecilapp/Cecil/commit/3988298f56a782097f16ddb72174e54e4ce1526b)
-- ci: disable cecil.phar signing temporary [`517ba00`](https://github.com/Cecilapp/Cecil/commit/517ba00a394f35b97d3f7d233cbc7e2463204111)
 - fix: do not exclude static copy if debug [`3bca62a`](https://github.com/Cecilapp/Cecil/commit/3bca62aadc59ea9b114ece2269f7019eb2028445)
-- chore: update deps [`d57ed21`](https://github.com/Cecilapp/Cecil/commit/d57ed21eb8b0b9aab20b84998fa3826446945ca6)
 - doc: tips about static files copy with regexp [`fa9dbe1`](https://github.com/Cecilapp/Cecil/commit/fa9dbe1b9cb94e47716b3fb09f0fcc0a596855f7)
-- chore: release action comments [`11c66d0`](https://github.com/Cecilapp/Cecil/commit/11c66d0aee44f359ac0d8d9b35243a364598cb81)
 - doc: minor fox [`492df3e`](https://github.com/Cecilapp/Cecil/commit/492df3eb6946fb9b75108796a95c8bf5e2ccbd23)
 - refactor: minor changes [`f01f8f0`](https://github.com/Cecilapp/Cecil/commit/f01f8f0802a605acace45de74fc570be6dee5b98)
 - doc: minor fix [`789b298`](https://github.com/Cecilapp/Cecil/commit/789b2983f2b70317c77f5b8091f35c800ff06906)
@@ -2052,10 +2085,6 @@ All notable changes to this project will be documented in this file. Dates are d
 - chore: update deps [`0ef4909`](https://github.com/Cecilapp/Cecil/commit/0ef4909bd5ecc0f733dae968a587c4e652633f8d)
 - chore: update deps [`b7be542`](https://github.com/Cecilapp/Cecil/commit/b7be54257fb5446fe12a13170eefcc86a0900fbb)
 - fix new site command [`ba2e297`](https://github.com/Cecilapp/Cecil/commit/ba2e2971b2e836587e1b9f3486c993a454777b0b)
-
-#### [8.17.3](https://github.com/Cecilapp/Cecil/compare/8.17.2...8.17.3)
-
-> 17 September 2024
 
 #### [8.17.2](https://github.com/Cecilapp/Cecil/compare/8.17.1...8.17.2)
 
@@ -2457,10 +2486,6 @@ All notable changes to this project will be documented in this file. Dates are d
 
 - ci: trying to debug Brew Formula PR... [`8a8f582`](https://github.com/Cecilapp/Cecil/commit/8a8f5821470b8c564c463fbd4351a0f423791c99)
 
-#### [8.7.3](https://github.com/Cecilapp/Cecil/compare/8.7.2...8.7.3)
-
-> 3 February 2024
-
 #### [8.7.2](https://github.com/Cecilapp/Cecil/compare/8.7.1...8.7.2)
 
 > 2 February 2024
@@ -2618,13 +2643,13 @@ All notable changes to this project will be documented in this file. Dates are d
 > 2 January 2024
 
 - Trying to fix resource-watcher fork dependency [`755ce57`](https://github.com/Cecilapp/Cecil/commit/755ce57d5e7da847f44c34d35659508f77660516)
+- chore: bump deps [`d7ab445`](https://github.com/Cecilapp/Cecil/commit/d7ab445d870938926c28e425844526dd74163465)
 
 #### [8.1.5](https://github.com/Cecilapp/Cecil/compare/8.1.4...8.1.5)
 
 > 2 January 2024
 
 - fix: resource-watcher fork stable version [`a3d1e60`](https://github.com/Cecilapp/Cecil/commit/a3d1e609dbd0a0590dc94e2a30dabebfa03ec93c)
-- chore: bump deps [`d7ab445`](https://github.com/Cecilapp/Cecil/commit/d7ab445d870938926c28e425844526dd74163465)
 
 #### [8.1.4](https://github.com/Cecilapp/Cecil/compare/8.1.3...8.1.4)
 
@@ -2669,6 +2694,7 @@ All notable changes to this project will be documented in this file. Dates are d
 - ci: update release workflow [`3431f68`](https://github.com/Cecilapp/Cecil/commit/3431f68a21c55aa234790bc2bfd01fb21b4f4fbb)
 - fix: layout lookup for type page [`7f60aa3`](https://github.com/Cecilapp/Cecil/commit/7f60aa3f8c6525dda12dac259e54f31351cca12b)
 - refactor: minor change on Redirect generator [`e39d8ba`](https://github.com/Cecilapp/Cecil/commit/e39d8ba7c441bdf5cc1476f9ddf147f0d2f02c63)
+- ci: rollback to upload-artifact v3 [`6a1f09a`](https://github.com/Cecilapp/Cecil/commit/6a1f09a831a48d052140eea5c998c812180cdd6e)
 
 #### [8.1.0](https://github.com/Cecilapp/Cecil/compare/8.0.1...8.1.0)
 
@@ -2677,7 +2703,6 @@ All notable changes to this project will be documented in this file. Dates are d
 - feat: config to define a default sort method [`#1864`](https://github.com/Cecilapp/Cecil/pull/1864)
 - chore(deps): bump actions/upload-artifact from 3 to 4 [`#1862`](https://github.com/Cecilapp/Cecil/pull/1862)
 - chore: update deps [`633e3ac`](https://github.com/Cecilapp/Cecil/commit/633e3ac37511f5e787e22cecf4ea2191abe29f8b)
-- ci: rollback to upload-artifact v3 [`6a1f09a`](https://github.com/Cecilapp/Cecil/commit/6a1f09a831a48d052140eea5c998c812180cdd6e)
 
 #### [8.0.1](https://github.com/Cecilapp/Cecil/compare/8.0.0...8.0.1)
 
@@ -2716,11 +2741,13 @@ All notable changes to this project will be documented in this file. Dates are d
 
 > 7 December 2023
 
+- feat: create beta brew tap [`7de1aa9`](https://github.com/Cecilapp/Cecil/commit/7de1aa9ff5afbe345520c47fe0ea9b66ab23a9c2)
 - fix: page types [`00308bb`](https://github.com/Cecilapp/Cecil/commit/00308bbab21e7b30f1d12830fed74317ef1e5f3d)
+- fix: Asset find file [`db214c7`](https://github.com/Cecilapp/Cecil/commit/db214c75c645d44012866d17842231aa6d3811ed)
 
 #### [8.0.0-beta.6](https://github.com/Cecilapp/Cecil/compare/8.0.0-beta.5...8.0.0-beta.6)
 
-> 7 December 2023
+> 6 December 2023
 
 - refactor: menus creation enhanced [`#1855`](https://github.com/Cecilapp/Cecil/pull/1855)
 - chore(deps-dev): bump phpunit/phpunit from 9.6.13 to 9.6.14 [`#1854`](https://github.com/Cecilapp/Cecil/pull/1854)
@@ -2925,7 +2952,6 @@ All notable changes to this project will be documented in this file. Dates are d
 - chore: cleaning code [`da2e8eb`](https://github.com/Cecilapp/Cecil/commit/da2e8eb998a61832c96c7f08564d05542a9cd820)
 - chore: update Markdown files [`e145738`](https://github.com/Cecilapp/Cecil/commit/e145738a721e789eb93862bb1cdb1560b3c3c130)
 - fix: default layouts [`089f862`](https://github.com/Cecilapp/Cecil/commit/089f86204333396994a4d2ae5d033f81705cf29b)
-- feat: create beta brew tap [`7de1aa9`](https://github.com/Cecilapp/Cecil/commit/7de1aa9ff5afbe345520c47fe0ea9b66ab23a9c2)
 - fix: languages filter and check [`37a2fde`](https://github.com/Cecilapp/Cecil/commit/37a2fde2ef4de4879876b0b9b924273e5499afb9)
 - docs: minor update of File Prefix [`16c2793`](https://github.com/Cecilapp/Cecil/commit/16c279393e5140e4955f170ceaf1d7b1e82ad242)
 - Create SECURITY.md [`f2c394c`](https://github.com/Cecilapp/Cecil/commit/f2c394caaed9a9f269d54fc91b88738c6a016ca3)
@@ -2971,7 +2997,6 @@ All notable changes to this project will be documented in this file. Dates are d
 - fix: alternates feed link [`cf257a6`](https://github.com/Cecilapp/Cecil/commit/cf257a62b742fc2a0b4003da061d24fc296297bc)
 - fix: do not converts SVG to WebP [`cf1047b`](https://github.com/Cecilapp/Cecil/commit/cf1047bc5c5058c18497afee0a0806b0020d0b53)
 - fix: getIdWithoutLang() [`34ad8f4`](https://github.com/Cecilapp/Cecil/commit/34ad8f45a5200df06d783669bf3d98431408aca5)
-- fix: Asset find file [`db214c7`](https://github.com/Cecilapp/Cecil/commit/db214c75c645d44012866d17842231aa6d3811ed)
 - test: enhance fixtures [`ddc0f84`](https://github.com/Cecilapp/Cecil/commit/ddc0f84b2b2779a6bc52f2d13794bc148a271c7f)
 - fix: prevent Box double requirement check [`e02f135`](https://github.com/Cecilapp/Cecil/commit/e02f13595d43eba1842f4a713640b85d2669dc3d)
 - doc: add links to configuration page [`ad90fa9`](https://github.com/Cecilapp/Cecil/commit/ad90fa920831a6e9bc187146bdd54bcc97df8987)
@@ -3233,7 +3258,7 @@ All notable changes to this project will be documented in this file. Dates are d
 
 - fix: d() function without arg [`e1404db`](https://github.com/Cecilapp/Cecil/commit/e1404dbdb392c82c805530fe30c34d22ae875aa4)
 
-#### [7.50.0](https://github.com/Cecilapp/Cecil/compare/7.50.0-beta.2...7.50.0)
+#### [7.50.0](https://github.com/Cecilapp/Cecil/compare/7.49.1...7.50.0)
 
 > 21 October 2023
 
@@ -3241,32 +3266,17 @@ All notable changes to this project will be documented in this file. Dates are d
 - feat: support menu entry in `url()` [`c5e2692`](https://github.com/Cecilapp/Cecil/commit/c5e269272d4f873e7c162a3f0813f77bfcb63386)
 - chore: update release changelog [`da797a5`](https://github.com/Cecilapp/Cecil/commit/da797a56fb8c6d62503a56752a15b68459367f18)
 
-#### [7.50.0-beta.2](https://github.com/Cecilapp/Cecil/compare/7.50.0-beta.1...7.50.0-beta.2)
-
-> 20 October 2023
-
-#### [7.50.0-beta.1](https://github.com/Cecilapp/Cecil/compare/7.49.1...7.50.0-beta.1)
-
-> 20 October 2023
-
-- feat: path prefix for default language [`87e460a`](https://github.com/Cecilapp/Cecil/commit/87e460a18c778395d1ba5655d3e094e6e641df05)
-
 #### [7.49.1](https://github.com/Cecilapp/Cecil/compare/7.49.0...7.49.1)
 
 > 17 October 2023
 
 - chore(deps-dev): bump friendsofphp/php-cs-fixer from 3.34.1 to 3.35.1 [`#1821`](https://github.com/Cecilapp/Cecil/pull/1821)
+- refactor: better debug output for server watcher [`#1820`](https://github.com/Cecilapp/Cecil/pull/1820)
 - fix: languages filter and check [`37a2fde`](https://github.com/Cecilapp/Cecil/commit/37a2fde2ef4de4879876b0b9b924273e5499afb9)
 - chore: update deps [`767180f`](https://github.com/Cecilapp/Cecil/commit/767180fc13a7d83380cc3abff7f5b923f35b2720)
 - chore: update deps [`9150907`](https://github.com/Cecilapp/Cecil/commit/9150907e7f5a94c657342cdffec01ce96bbcf74b)
 - refactor: better cache clear logs [`1d68769`](https://github.com/Cecilapp/Cecil/commit/1d687699278370615b58400e8f6f3c34ee0610ec)
 - fix: server watcher [`393af9e`](https://github.com/Cecilapp/Cecil/commit/393af9edbe4ed3ea0a00a8a9abc6da9182afe78c)
-
-#### [7.49.0](https://github.com/Cecilapp/Cecil/compare/7.48.3...7.49.0)
-
-> 12 October 2023
-
-- refactor: better debug output for server watcher [`#1820`](https://github.com/Cecilapp/Cecil/pull/1820)
 
 #### [7.48.3](https://github.com/Cecilapp/Cecil/compare/7.48.2...7.48.3)
 
@@ -5040,10 +5050,6 @@ All notable changes to this project will be documented in this file. Dates are d
 - Delete cecil-demo.png [`ab73b37`](https://github.com/Cecilapp/Cecil/commit/ab73b37ff6502267f3da95f791d7c2008cd993ac)
 - chore: compress GIF demo [`85bedf4`](https://github.com/Cecilapp/Cecil/commit/85bedf42f2b3420d6009251e040df551ff9285bd)
 
-#### [6.0.0-beta.5](https://github.com/Cecilapp/Cecil/compare/6.0.0-beta.4...6.0.0-beta.5)
-
-> 31 January 2022
-
 #### [6.0.0-beta.4](https://github.com/Cecilapp/Cecil/compare/6.0.0-beta.3...6.0.0-beta.4)
 
 > 1 January 2022
@@ -6508,10 +6514,6 @@ All notable changes to this project will be documented in this file. Dates are d
 
 - Fix static copy target [`#980`](https://github.com/Cecilapp/Cecil/pull/980)
 
-#### [5.42.8](https://github.com/Cecilapp/Cecil/compare/5.42.7...5.42.8)
-
-> 4 January 2021
-
 #### [5.42.7](https://github.com/Cecilapp/Cecil/compare/5.42.6...5.42.7)
 
 > 29 December 2020
@@ -7523,10 +7525,6 @@ All notable changes to this project will be documented in this file. Dates are d
 
 - Optimization file feature [`#548`](https://github.com/Cecilapp/Cecil/pull/548)
 
-#### [5.3.2](https://github.com/Cecilapp/Cecil/compare/5.3.1...5.3.2)
-
-> 27 January 2020
-
 #### [5.3.1](https://github.com/Cecilapp/Cecil/compare/5.3.0...5.3.1)
 
 > 21 January 2020
@@ -7544,10 +7542,6 @@ All notable changes to this project will be documented in this file. Dates are d
 > 20 January 2020
 
 - Fix scssphp [`#534`](https://github.com/Cecilapp/Cecil/pull/534)
-
-#### [5.2.2](https://github.com/Cecilapp/Cecil/compare/5.2.1...5.2.2)
-
-> 20 January 2020
 
 #### [5.2.1](https://github.com/Cecilapp/Cecil/compare/5.2.0...5.2.1)
 
@@ -7761,9 +7755,9 @@ All notable changes to this project will be documented in this file. Dates are d
 > 26 November 2019
 
 - Merge pull request #448 from Cecilapp/dependabot/composer/zendframework/zend-progressbar-2.7.0 [`d1b7183`](https://github.com/Cecilapp/Cecil/commit/d1b71834b17ad4218ec5aa6e83f81b0e8b7b577f)
+- Bump twig/twig from 2.11.3 to 2.12.1 [`e61c587`](https://github.com/Cecilapp/Cecil/commit/e61c58740d5e5a017f78998ec0893841a48e0c68)
 - Bump zendframework/zend-progressbar from 2.6.0 to 2.7.0 [`a3f291e`](https://github.com/Cecilapp/Cecil/commit/a3f291ead866615eb4c4064701b1ea21e2d84b5a)
 - Merge pull request #449 from Cecilapp/dependabot/composer/twig/twig-2.12.1 [`5b5b4e5`](https://github.com/Cecilapp/Cecil/commit/5b5b4e5d28eb29a86f8e7820ef6ea7b0e3911aa4)
-- Bump twig/twig from 2.11.3 to 2.12.1 [`e61c587`](https://github.com/Cecilapp/Cecil/commit/e61c58740d5e5a017f78998ec0893841a48e0c68)
 - Merge pull request #431 from Cecilapp/dependabot/composer/phpmd/phpmd-2.7.0 [`52ee369`](https://github.com/Cecilapp/Cecil/commit/52ee3693b3219a16c0a76ea9c832e65fd231fe6b)
 - Bump phpmd/phpmd from 2.6.1 to 2.7.0 [`7cc402c`](https://github.com/Cecilapp/Cecil/commit/7cc402c1a9cfb364a93da14354c4fa962d75c46e)
 - Fix "alternates" template [`a119cda`](https://github.com/Cecilapp/Cecil/commit/a119cdaa795b4da5fb6f81b677f18c536194ad6e)
@@ -7958,10 +7952,6 @@ All notable changes to this project will be documented in this file. Dates are d
 - Fix #363 [`#364`](https://github.com/Cecilapp/Cecil/pull/364)
 - Fix #363 (#364) [`#363`](https://github.com/Cecilapp/Cecil/issues/363)
 
-#### [4.15.0](https://github.com/Cecilapp/Cecil/compare/4.14.2...4.15.0)
-
-> 30 April 2019
-
 #### [4.14.2](https://github.com/Cecilapp/Cecil/compare/4.14.1...4.14.2)
 
 > 29 April 2019
@@ -7992,10 +7982,6 @@ All notable changes to this project will be documented in this file. Dates are d
 > 21 April 2019
 
 - Fix prefix [`#348`](https://github.com/Cecilapp/Cecil/pull/348)
-
-#### [4.12.2](https://github.com/Cecilapp/Cecil/compare/4.12.1...4.12.2)
-
-> 17 April 2019
 
 #### [4.12.1](https://github.com/Cecilapp/Cecil/compare/4.12.0...4.12.1)
 
@@ -8220,10 +8206,6 @@ All notable changes to this project will be documented in this file. Dates are d
 > 3 January 2019
 
 - Fix 'newsite' command. [`#218`](https://github.com/Cecilapp/Cecil/pull/218)
-
-#### [4.2.0](https://github.com/Cecilapp/Cecil/compare/4.1.6...4.2.0)
-
-> 21 December 2018
 
 #### [4.1.6](https://github.com/Cecilapp/Cecil/compare/4.1.5...4.1.6)
 
@@ -8488,10 +8470,6 @@ All notable changes to this project will be documented in this file. Dates are d
 
 - phpoole/library 2.0.3 [`a1d7081`](https://github.com/Cecilapp/Cecil/commit/a1d70814484469d733745c07ad2d55fdb31b5c5b)
 
-#### [3.2.3](https://github.com/Cecilapp/Cecil/compare/3.2.2...3.2.3)
-
-> 2 August 2018
-
 #### [3.2.2](https://github.com/Cecilapp/Cecil/compare/3.2.1...3.2.2)
 
 > 31 July 2018
@@ -8538,18 +8516,6 @@ All notable changes to this project will be documented in this file. Dates are d
 > 26 July 2018
 
 - Support PHP 7.1+ only. [`#125`](https://github.com/Cecilapp/Cecil/pull/125)
-
-#### [2.3.5](https://github.com/Cecilapp/Cecil/compare/2.3.4...2.3.5)
-
-> 25 July 2018
-
-#### [2.3.4](https://github.com/Cecilapp/Cecil/compare/2.3.3...2.3.4)
-
-> 25 July 2018
-
-#### [2.3.3](https://github.com/Cecilapp/Cecil/compare/2.3.2...2.3.3)
-
-> 25 July 2018
 
 #### [2.3.2](https://github.com/Cecilapp/Cecil/compare/2.3.1...2.3.2)
 
@@ -8602,10 +8568,6 @@ All notable changes to this project will be documented in this file. Dates are d
 - Fix VERSION file again. [`fba80b4`](https://github.com/Cecilapp/Cecil/commit/fba80b4487363ab30213af770ea2e20bfe3396a0)
 - Fix VERSION file. [`58b5c38`](https://github.com/Cecilapp/Cecil/commit/58b5c383f2efa72aae7b06492ae474ecfda95e76)
 
-#### [2.0.0-rc.27](https://github.com/Cecilapp/Cecil/compare/2.0.0-rc.26...2.0.0-rc.27)
-
-> 11 November 2017
-
 #### [2.0.0-rc.26](https://github.com/Cecilapp/Cecil/compare/2.0.0-rc.25...2.0.0-rc.26)
 
 > 5 November 2017
@@ -8632,10 +8594,6 @@ All notable changes to this project will be documented in this file. Dates are d
 - Apply fixes from StyleCI [`#94`](https://github.com/Cecilapp/Cecil/pull/94)
 - Add docs alias [`#90`](https://github.com/Cecilapp/Cecil/pull/90)
 - "getMock" is deprecated? [`c643e25`](https://github.com/Cecilapp/Cecil/commit/c643e25f8fc4c0c82eed6937a90ca57ecb4a3b9d)
-
-#### [2.0.0-rc.22](https://github.com/Cecilapp/Cecil/compare/2.0.0-rc.21...2.0.0-rc.22)
-
-> 27 October 2017
 
 #### [2.0.0-rc.21](https://github.com/Cecilapp/Cecil/compare/2.0.0-rc.20...2.0.0-rc.21)
 
@@ -8670,10 +8628,6 @@ All notable changes to this project will be documented in this file. Dates are d
 - Switch to library 1.6.5. [`b44f5f3`](https://github.com/Cecilapp/Cecil/commit/b44f5f3fcbb6b38a2750a7bb532a28ec8d548a32)
 - Create initial dependencies.yml config [`77ac61d`](https://github.com/Cecilapp/Cecil/commit/77ac61d927b46fdc44e2fe48888c0fad91c1e526)
 
-#### [2.0.0-rc.16](https://github.com/Cecilapp/Cecil/compare/2.0.0-rc.15...2.0.0-rc.16)
-
-> 20 September 2017
-
 #### [2.0.0-rc.15](https://github.com/Cecilapp/Cecil/compare/2.0.0-rc.14...2.0.0-rc.15)
 
 > 20 September 2017
@@ -8690,10 +8644,6 @@ All notable changes to this project will be documented in this file. Dates are d
 - Add editorconfig file. [`d135636`](https://github.com/Cecilapp/Cecil/commit/d1356363d28a6f200ba45f763187d14809583999)
 - Nop, bad idea for PHP 5.5. [`58823fd`](https://github.com/Cecilapp/Cecil/commit/58823fd36f28b39f77728e7b67181985285c4d35)
 - Fix serve router. [`116b276`](https://github.com/Cecilapp/Cecil/commit/116b2769cef19205273e537037acb2f8fd62d03c)
-
-#### [2.0.0-rc.13](https://github.com/Cecilapp/Cecil/compare/2.0.0-rc.12...2.0.0-rc.13)
-
-> 26 February 2017
 
 #### [2.0.0-rc.12](https://github.com/Cecilapp/Cecil/compare/2.0.0-rc.11...2.0.0-rc.12)
 
