@@ -24,16 +24,14 @@ SCOOP_FILE_JSON_PREVIEW="scoop/cecil-preview.json"
 
 # GitHub
 USER_NAME=$GITHUB_ACTOR
-USER_EMAIL="${GITHUB_ACTOR}@cecil.app"
-HOME="${GITHUB_WORKSPACE}/HOME"
 
 echo "Starting deploy Scoop file..."
 mkdir $HOME
 
 # clone target repo
 cd $HOME
-git config --global user.name "${USER_NAME}"
-git config --global user.email "${USER_EMAIL}"
+git config --global user.name "${GITHUB_ACTOR}"
+git config --global user.email "${GITHUB_ACTOR_ID}+${GITHUB_ACTOR}@users.noreply.github.com"
 git clone --depth=1 --quiet --branch=$TARGET_BRANCH https://${GITHUB_TOKEN}@github.com/${TARGET_REPO}.git ${TARGET_REPO} > /dev/null
 cd $TARGET_REPO
 
@@ -78,7 +76,7 @@ cd ..
 # commit and push
 if [[ -n $(git status -s) ]]; then
   git add -Af .
-  git commit -m "Build $GITHUB_RUN_NUMBER: bump Scoop with version ${VERSION}"
+  git commit -m "Build $GITHUB_RUN_NUMBER: bump Scoop with version ${VERSION}. on-behalf-of: @cecilapp contact@cecil.app"
   git push -fq origin $TARGET_BRANCH > /dev/null
 else
   echo "Nothing to update"

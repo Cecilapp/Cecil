@@ -37,8 +37,8 @@ cp dist/$PHAR_FILE $HOME/$PHAR_FILE
 
 # clone target repo
 cd $HOME
-git config --global user.name "${USER_NAME}"
-git config --global user.email "${USER_EMAIL}"
+git config --global user.name "${GITHUB_ACTOR}"
+git config --global user.email "${GITHUB_ACTOR_ID}+${GITHUB_ACTOR}@users.noreply.github.com"
 git clone --depth=1 --quiet --branch=$TARGET_BRANCH https://${GITHUB_TOKEN}@github.com/${TARGET_REPO}.git ${TARGET_REPO} > /dev/null
 cd $TARGET_REPO
 
@@ -86,7 +86,7 @@ fi
 # commit and push
 if [[ -n $(git status -s) ]]; then
   git add -Af .
-  git commit -m "Build $GITHUB_RUN_NUMBER: deploy release ${VERSION}"
+  git commit -m "Build $GITHUB_RUN_NUMBER: deploy release ${VERSION}. on-behalf-of: @cecilapp contact@cecil.app"
   git push -fq origin $TARGET_BRANCH > /dev/null
 else
   echo "Nothing to update"
