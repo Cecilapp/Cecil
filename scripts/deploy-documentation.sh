@@ -16,8 +16,8 @@ TARGET_DOCS_DIR="pages/documentation"
 TARGET_API_DIR="static/documentation/library/api"
 
 # GitHub
-USER_NAME=$GITHUB_ACTOR
-USER_EMAIL="${GITHUB_ACTOR}@cecil.app"
+#USER_NAME=$GITHUB_ACTOR
+#USER_EMAIL="${GITHUB_ACTOR}@cecil.app"
 HOME="${GITHUB_WORKSPACE}/HOME"
 
 # prepare files
@@ -28,8 +28,8 @@ cp -R $SOURCE_API_DIR $HOME/$SOURCE_API_DIR
 # clone or create target repo
 echo "Starting to update documentation to ${TARGET_REPO}..."
 cd $HOME
-git config --global user.name "${USER_NAME}"
-git config --global user.email "${USER_EMAIL}"
+#git config --global user.name "${USER_NAME}"
+#git config --global user.email "${USER_EMAIL}"
 if [ -z "$(git ls-remote --heads https://${GITHUB_ACTOR}:${GITHUB_TOKEN}@github.com/${TARGET_REPO}.git ${TARGET_BRANCH})" ]; then
   echo "Create branch '${TARGET_BRANCH}'"
   git clone --depth=1 --quiet https://${GITHUB_ACTOR}:${GITHUB_TOKEN}@github.com/${TARGET_REPO}.git $TARGET_BRANCH > /dev/null
@@ -58,7 +58,7 @@ cp -Rf $HOME/$SOURCE_API_DIR/* $TARGET_API_DIR
 # commit and push
 if [[ -n $(git status -s) ]]; then
   git add -Af .
-  git commit -m "Build $GITHUB_RUN_NUMBER: update documentation"
+  git commit -m "Build $GITHUB_RUN_NUMBER: update documentation. on-behalf-of: @cecilapp contact@cecil.app"
   git push -fq origin $TARGET_BRANCH > /dev/null
 else
   echo "Nothing to update"
