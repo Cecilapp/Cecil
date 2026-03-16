@@ -118,11 +118,11 @@ export PATH=~/.composer/vendor/bin:$PATH
 
 ```bash
 # Build the PHAR file
-composer build:phar
+composer run build:phar
 # Check the PHAR file
 php dist/cecil.phar about
 # Build the package (with PHP binary included)
-composer build:package
+composer run build:package
 # Check the package
 ./dist/build/<os>/<os>-<arch> about
 ```
