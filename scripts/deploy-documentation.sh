@@ -26,8 +26,8 @@ cp -R $SOURCE_API_DIR $HOME/$SOURCE_API_DIR
 # clone or create target repo
 echo "Starting to update documentation to ${TARGET_REPO}..."
 cd $HOME
-git config --global user.name "${{ github.actor }}"
-git config --global user.email "${{ github.actor_id }}+${{ github.actor }}@users.noreply.github.com"
+git config --global user.name "${GITHUB_ACTOR}"
+git config --global user.email "${GITHUB_ACTOR_ID}+${GITHUB_ACTOR}@users.noreply.github.com"
 if [ -z "$(git ls-remote --heads https://${GITHUB_ACTOR}:${GITHUB_TOKEN}@github.com/${TARGET_REPO}.git ${TARGET_BRANCH})" ]; then
   echo "Create branch '${TARGET_BRANCH}'"
   git clone --depth=1 --quiet https://${GITHUB_ACTOR}:${GITHUB_TOKEN}@github.com/${TARGET_REPO}.git $TARGET_BRANCH > /dev/null
