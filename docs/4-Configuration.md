@@ -693,8 +693,10 @@ Each one can be:
 3. excluded from localization: `multilingual: false`
 
 :::tip
-Since version 8.68.0 you can override the default `robots.txt` page by creating a page with the same `path`:  
+Since version 8.68.0 you can override the default `robots.txt` page by creating a page with the same `path`:
+
 _pages/robots.md_
+
 ```yaml
 ---
 layout: robots
@@ -703,6 +705,7 @@ output: txt
 User-agent: AI-bot
 Disallow: /
 ```
+
 :::
 
 ### pages.generators
