@@ -4604,16 +4604,16 @@
         },
         {
             "name": "twig/cache-extra",
-            "version": "v3.23.0",
+            "version": "v3.24.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/twigphp/cache-extra.git",
-                "reference": "c85c6ca1142db2f1f4f8c853988aef560d064199"
+                "reference": "573e22cb5fe3da13ea785d28dee33a2a88e33d53"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/twigphp/cache-extra/zipball/c85c6ca1142db2f1f4f8c853988aef560d064199",
-                "reference": "c85c6ca1142db2f1f4f8c853988aef560d064199",
+                "url": "https://api.github.com/repos/twigphp/cache-extra/zipball/573e22cb5fe3da13ea785d28dee33a2a88e33d53",
+                "reference": "573e22cb5fe3da13ea785d28dee33a2a88e33d53",
                 "shasum": ""
             },
             "require": {
@@ -4653,7 +4653,7 @@
                 "twig"
             ],
             "support": {
-                "source": "https://github.com/twigphp/cache-extra/tree/v3.23.0"
+                "source": "https://github.com/twigphp/cache-extra/tree/v3.24.0"
             },
             "funding": [
                 {
@@ -4665,7 +4665,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2025-12-02T14:45:16+00:00"
+            "time": "2026-02-07T08:07:38+00:00"
         },
         {
             "name": "twig/intl-extra",
