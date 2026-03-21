@@ -165,7 +165,7 @@
         <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Command/UtilTranslationsExtract.php"><a href="files/src-command-utiltranslationsextract.html"><abbr title="src/Command/UtilTranslationsExtract.php">UtilTranslationsExtract.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">40</span>
+    <span class="phpdocumentor-element-found-in__line">41</span>
 
     </aside>
 
@@ -178,10 +178,8 @@ It can also display the extracted messages in the console.</p>
 
 
 
-
-
-
-
+    
+    
 <h3 id="toc">
     Table of Contents
     <a href="classes/Cecil-Command-UtilTranslationsExtract.html#toc" class="headerlink"><i class="fas fa-link"></i></a>
@@ -207,12 +205,6 @@ It can also display the extracted messages in the console.</p>
 </dt>
 
             <dt class="phpdocumentor-table-of-contents__entry -constant -public">
-    <a class="" href="classes/Cecil-Command-AbstractCommand.html#constant_DESKTOP_NOTIFICATION">DESKTOP_NOTIFICATION</a>
-    <span>
-        &nbsp;= false                            </span>
-</dt>
-
-            <dt class="phpdocumentor-table-of-contents__entry -constant -public">
     <a class="" href="classes/Cecil-Command-AbstractCommand.html#constant_EXCLUDED_CMD">EXCLUDED_CMD</a>
     <span>
         &nbsp;= [&#039;about&#039;, &#039;new:site&#039;, &#039;self-update&#039;]                            </span>
@@ -221,13 +213,7 @@ It can also display the extracted messages in the console.</p>
             <dt class="phpdocumentor-table-of-contents__entry -constant -public">
     <a class="" href="classes/Cecil-Command-AbstractCommand.html#constant_SERVE_OUTPUT">SERVE_OUTPUT</a>
     <span>
-        &nbsp;= &#039;.cecil/preview&#039;                            </span>
-</dt>
-
-            <dt class="phpdocumentor-table-of-contents__entry -constant -public">
-    <a class="" href="classes/Cecil-Command-AbstractCommand.html#constant_TMP_DIR">TMP_DIR</a>
-    <span>
-        &nbsp;= &#039;.cecil&#039;                            </span>
+        &nbsp;= \Cecil\Builder::TMP_DIR . &#039;/preview&#039;                            </span>
 </dt>
 
     </dl>
@@ -239,12 +225,6 @@ It can also display the extracted messages in the console.</p>
 
 </h4>
 <dl class="phpdocumentor-table-of-contents">
-            <dt class="phpdocumentor-table-of-contents__entry -property -public">
-    <a class="" href="classes/Cecil-Command-AbstractCommand.html#property_notification">$notification</a>
-    <span>
-                        &nbsp;: <abbr title="\Joli\JoliNotif\Notification">Notification</abbr>            </span>
-</dt>
-
             <dt class="phpdocumentor-table-of-contents__entry -property -protected">
     <a class="" href="classes/Cecil-Command-AbstractCommand.html#property_input">$input</a>
     <span>
@@ -261,6 +241,12 @@ It can also display the extracted messages in the console.</p>
     <a class="" href="classes/Cecil-Command-AbstractCommand.html#property_output">$output</a>
     <span>
                         &nbsp;: <abbr title="\Symfony\Component\Console\Output\OutputInterface">OutputInterface</abbr>            </span>
+</dt>
+
+            <dt class="phpdocumentor-table-of-contents__entry -property -protected">
+    <a class="" href="classes/Cecil-Command-AbstractCommand.html#property_rootPath">$rootPath</a>
+    <span>
+                        &nbsp;: string            </span>
 </dt>
 
             <dt class="phpdocumentor-table-of-contents__entry -property -private">
@@ -295,6 +281,13 @@ It can also display the extracted messages in the console.</p>
                                 &nbsp;: string    </span>
 </dt>
 <dd>Override default help message.</dd>
+
+            <dt class="phpdocumentor-table-of-contents__entry -method -public">
+    <a class="" href="classes/Cecil-Command-AbstractCommand.html#method_notification">notification()</a>
+    <span>
+                                &nbsp;: void    </span>
+</dt>
+<dd>Send desktop notification.</dd>
 
             <dt class="phpdocumentor-table-of-contents__entry -method -public">
     <a class="" href="classes/Cecil-Command-AbstractCommand.html#method_run">run()</a>
@@ -441,7 +434,7 @@ It can also display the extracted messages in the console.</p>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Command/AbstractCommand.php"><a href="files/src-command-abstractcommand.html"><abbr title="src/Command/AbstractCommand.php">AbstractCommand.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">38</span>
+    <span class="phpdocumentor-element-found-in__line">39</span>
 
     </aside>
 
@@ -459,40 +452,8 @@ It can also display the extracted messages in the console.</p>
     
     
 
-    
-
-</article>
-                    <article class="phpdocumentor-element -constant -public ">
-    <h4 class="phpdocumentor-element__name" id="constant_DESKTOP_NOTIFICATION">
-        DESKTOP_NOTIFICATION
-        <a href="classes/Cecil-Command-AbstractCommand.html#constant_DESKTOP_NOTIFICATION" class="headerlink"><i class="fas fa-link"></i></a>
-
-    </h4>
-
-    <aside class="phpdocumentor-element-found-in">
-    <abbr class="phpdocumentor-element-found-in__file" title="src/Command/AbstractCommand.php"><a href="files/src-command-abstractcommand.html"><abbr title="src/Command/AbstractCommand.php">AbstractCommand.php</abbr></a></abbr>
-    :
-    <span class="phpdocumentor-element-found-in__line">42</span>
-
-    </aside>
-
-    
-    
-    <code class="phpdocumentor-signature phpdocumentor-code ">
-    <span class="phpdocumentor-signature__visibility">public</span>
-        <span class="phpdocumentor-signature__type">mixed</span>
-    <span class="phpdocumentor-signature__name">DESKTOP_NOTIFICATION</span>
-    = <span class="phpdocumentor-signature__default-value">false</span>
-</code>
-
-
-    
-    
-    
-
-    
-
-</article>
+        
+    </article>
                     <article class="phpdocumentor-element -constant -public ">
     <h4 class="phpdocumentor-element__name" id="constant_EXCLUDED_CMD">
         EXCLUDED_CMD
@@ -521,9 +482,8 @@ It can also display the extracted messages in the console.</p>
     
     
 
-    
-
-</article>
+        
+    </article>
                     <article class="phpdocumentor-element -constant -public ">
     <h4 class="phpdocumentor-element__name" id="constant_SERVE_OUTPUT">
         SERVE_OUTPUT
@@ -544,7 +504,7 @@ It can also display the extracted messages in the console.</p>
     <span class="phpdocumentor-signature__visibility">public</span>
         <span class="phpdocumentor-signature__type">mixed</span>
     <span class="phpdocumentor-signature__name">SERVE_OUTPUT</span>
-    = <span class="phpdocumentor-signature__default-value">&#039;.cecil/preview&#039;</span>
+    = <span class="phpdocumentor-signature__default-value">\Cecil\Builder::TMP_DIR . &#039;/preview&#039;</span>
 </code>
 
 
@@ -552,40 +512,8 @@ It can also display the extracted messages in the console.</p>
     
     
 
-    
-
-</article>
-                    <article class="phpdocumentor-element -constant -public ">
-    <h4 class="phpdocumentor-element__name" id="constant_TMP_DIR">
-        TMP_DIR
-        <a href="classes/Cecil-Command-AbstractCommand.html#constant_TMP_DIR" class="headerlink"><i class="fas fa-link"></i></a>
-
-    </h4>
-
-    <aside class="phpdocumentor-element-found-in">
-    <abbr class="phpdocumentor-element-found-in__file" title="src/Command/AbstractCommand.php"><a href="files/src-command-abstractcommand.html"><abbr title="src/Command/AbstractCommand.php">AbstractCommand.php</abbr></a></abbr>
-    :
-    <span class="phpdocumentor-element-found-in__line">39</span>
-
-    </aside>
-
-    
-    
-    <code class="phpdocumentor-signature phpdocumentor-code ">
-    <span class="phpdocumentor-signature__visibility">public</span>
-        <span class="phpdocumentor-signature__type">mixed</span>
-    <span class="phpdocumentor-signature__name">TMP_DIR</span>
-    = <span class="phpdocumentor-signature__default-value">&#039;.cecil&#039;</span>
-</code>
-
-
-    
-    
-    
-
-    
-
-</article>
+        
+    </article>
             </section>
 
         
@@ -595,44 +523,6 @@ It can also display the extracted messages in the console.</p>
             <a href="classes/Cecil-Command-UtilTranslationsExtract.html#properties" class="headerlink"><i class="fas fa-link"></i></a>
 
         </h3>
-                    <article
-        class="
-            phpdocumentor-element
-            -property
-            -public
-                                                                    "
->
-    <h4 class="phpdocumentor-element__name" id="property_notification">
-        $notification
-        <a href="classes/Cecil-Command-AbstractCommand.html#property_notification" class="headerlink"><i class="fas fa-link"></i></a>
-
-        <span class="phpdocumentor-element__modifiers">
-                                            </span>
-    </h4>
-    <aside class="phpdocumentor-element-found-in">
-    <abbr class="phpdocumentor-element-found-in__file" title="src/Command/AbstractCommand.php"><a href="files/src-command-abstractcommand.html"><abbr title="src/Command/AbstractCommand.php">AbstractCommand.php</abbr></a></abbr>
-    :
-    <span class="phpdocumentor-element-found-in__line">45</span>
-
-    </aside>
-
-    
-    
-    <code class="phpdocumentor-code phpdocumentor-signature ">
-        <span class="phpdocumentor-signature__visibility">public</span>
-            <span class="phpdocumentor-signature__type"><abbr title="\Joli\JoliNotif\Notification">Notification</abbr></span>
-    <span class="phpdocumentor-signature__name">$notification</span>
-    </code>
-
-    
-    
-    
-
-    
-
-    
-
-</article>
                     <article
         class="
             phpdocumentor-element
@@ -650,7 +540,7 @@ It can also display the extracted messages in the console.</p>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Command/AbstractCommand.php"><a href="files/src-command-abstractcommand.html"><abbr title="src/Command/AbstractCommand.php">AbstractCommand.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">48</span>
+    <span class="phpdocumentor-element-found-in__line">44</span>
 
     </aside>
 
@@ -666,9 +556,8 @@ It can also display the extracted messages in the console.</p>
     
     
 
-    
-
-    
+        
+        
 
 </article>
                     <article
@@ -688,7 +577,7 @@ It can also display the extracted messages in the console.</p>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Command/AbstractCommand.php"><a href="files/src-command-abstractcommand.html"><abbr title="src/Command/AbstractCommand.php">AbstractCommand.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">54</span>
+    <span class="phpdocumentor-element-found-in__line">50</span>
 
     </aside>
 
@@ -704,9 +593,8 @@ It can also display the extracted messages in the console.</p>
     
     
 
-    
-
-    
+        
+        
 
 </article>
                     <article
@@ -726,7 +614,7 @@ It can also display the extracted messages in the console.</p>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Command/AbstractCommand.php"><a href="files/src-command-abstractcommand.html"><abbr title="src/Command/AbstractCommand.php">AbstractCommand.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">51</span>
+    <span class="phpdocumentor-element-found-in__line">47</span>
 
     </aside>
 
@@ -742,9 +630,45 @@ It can also display the extracted messages in the console.</p>
     
     
 
-    
+        
+        
+
+</article>
+                    <article
+        class="
+            phpdocumentor-element
+            -property
+            -protected
+                                                                    "
+>
+    <h4 class="phpdocumentor-element__name" id="property_rootPath">
+        $rootPath
+        <a href="classes/Cecil-Command-AbstractCommand.html#property_rootPath" class="headerlink"><i class="fas fa-link"></i></a>
+
+        <span class="phpdocumentor-element__modifiers">
+                                            </span>
+    </h4>
+    <aside class="phpdocumentor-element-found-in">
+    <abbr class="phpdocumentor-element-found-in__file" title="src/Command/AbstractCommand.php"><a href="files/src-command-abstractcommand.html"><abbr title="src/Command/AbstractCommand.php">AbstractCommand.php</abbr></a></abbr>
+    :
+    <span class="phpdocumentor-element-found-in__line">53</span>
+
+    </aside>
 
     
+    
+    <code class="phpdocumentor-code phpdocumentor-signature ">
+        <span class="phpdocumentor-signature__visibility">protected</span>
+            <span class="phpdocumentor-signature__type">string</span>
+    <span class="phpdocumentor-signature__name">$rootPath</span>
+    </code>
+
+    
+    
+    
+
+        
+        
 
 </article>
                     <article
@@ -764,7 +688,7 @@ It can also display the extracted messages in the console.</p>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Command/UtilTranslationsExtract.php"><a href="files/src-command-utiltranslationsextract.html"><abbr title="src/Command/UtilTranslationsExtract.php">UtilTranslationsExtract.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">44</span>
+    <span class="phpdocumentor-element-found-in__line">45</span>
 
     </aside>
 
@@ -780,9 +704,8 @@ It can also display the extracted messages in the console.</p>
     
     
 
-    
-
-    
+        
+        
 
 </article>
                     <article
@@ -802,7 +725,7 @@ It can also display the extracted messages in the console.</p>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Command/UtilTranslationsExtract.php"><a href="files/src-command-utiltranslationsextract.html"><abbr title="src/Command/UtilTranslationsExtract.php">UtilTranslationsExtract.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">43</span>
+    <span class="phpdocumentor-element-found-in__line">44</span>
 
     </aside>
 
@@ -818,9 +741,8 @@ It can also display the extracted messages in the console.</p>
     
     
 
-    
-
-    
+        
+        
 
 </article>
                     <article
@@ -840,7 +762,7 @@ It can also display the extracted messages in the console.</p>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Command/UtilTranslationsExtract.php"><a href="files/src-command-utiltranslationsextract.html"><abbr title="src/Command/UtilTranslationsExtract.php">UtilTranslationsExtract.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">42</span>
+    <span class="phpdocumentor-element-found-in__line">43</span>
 
     </aside>
 
@@ -856,9 +778,8 @@ It can also display the extracted messages in the console.</p>
     
     
 
-    
-
-    
+        
+        
 
 </article>
             </section>
@@ -883,7 +804,7 @@ It can also display the extracted messages in the console.</p>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Command/AbstractCommand.php"><a href="files/src-command-abstractcommand.html"><abbr title="src/Command/AbstractCommand.php">AbstractCommand.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">321</span>
+    <span class="phpdocumentor-element-found-in__line">332</span>
 
     </aside>
 
@@ -900,13 +821,65 @@ It can also display the extracted messages in the console.</p>
     
     
 
+        
     
-
             <section>
         <h5 class="phpdocumentor-return-value__heading">Return values</h5>
         <span class="phpdocumentor-signature__response_type">string</span>
             </section>
 
+</article>
+                    <article
+        class="phpdocumentor-element
+            -method
+            -public
+                                                        "
+>
+    <h4 class="phpdocumentor-element__name" id="method_notification">
+        notification()
+        <a href="classes/Cecil-Command-AbstractCommand.html#method_notification" class="headerlink"><i class="fas fa-link"></i></a>
+
+    </h4>
+    <aside class="phpdocumentor-element-found-in">
+    <abbr class="phpdocumentor-element-found-in__file" title="src/Command/AbstractCommand.php"><a href="files/src-command-abstractcommand.html"><abbr title="src/Command/AbstractCommand.php">AbstractCommand.php</abbr></a></abbr>
+    :
+    <span class="phpdocumentor-element-found-in__line">149</span>
+
+    </aside>
+
+        <p class="phpdocumentor-summary">Send desktop notification.</p>
+
+    <code class="phpdocumentor-code phpdocumentor-signature ">
+    <span class="phpdocumentor-signature__visibility">public</span>
+                    <span class="phpdocumentor-signature__name">notification</span><span>(</span><span class="phpdocumentor-signature__argument"><span class="phpdocumentor-signature__argument__type">string&nbsp;</span><span class="phpdocumentor-signature__argument__name">$body</span></span><span class="phpdocumentor-signature__argument"><span>[</span><span>, </span><span class="phpdocumentor-signature__argument__type">string|null&nbsp;</span><span class="phpdocumentor-signature__argument__name">$url</span><span> = </span><span class="phpdocumentor-signature__argument__default-value">null</span><span> ]</span></span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">void</span></code>
+
+    <div class="phpdocumentor-label-line">
+        </div>
+    
+    
+        <h5 class="phpdocumentor-argument-list__heading">Parameters</h5>
+    <dl class="phpdocumentor-argument-list">
+                    <dt class="phpdocumentor-argument-list__entry">
+                <span class="phpdocumentor-argument-list__argument__name">$body</span>
+                : <span class="phpdocumentor-argument-list__argument__type">string</span>
+                            </dt>
+            <dd class="phpdocumentor-argument-list__definition">
+                
+            </dd>
+                    <dt class="phpdocumentor-argument-list__entry">
+                <span class="phpdocumentor-argument-list__argument__name">$url</span>
+                : <span class="phpdocumentor-argument-list__argument__type">string|null</span>
+                 = <span class="phpdocumentor-argument-list__argument__default-value">null</span>            </dt>
+            <dd class="phpdocumentor-argument-list__definition">
+                
+            </dd>
+            </dl>
+
+    
+
+        
+    
+    
 </article>
                     <article
         class="phpdocumentor-element
@@ -922,7 +895,7 @@ It can also display the extracted messages in the console.</p>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Command/AbstractCommand.php"><a href="files/src-command-abstractcommand.html"><abbr title="src/Command/AbstractCommand.php">AbstractCommand.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">109</span>
+    <span class="phpdocumentor-element-found-in__line">101</span>
 
     </aside>
 
@@ -930,7 +903,7 @@ It can also display the extracted messages in the console.</p>
 
     <code class="phpdocumentor-code phpdocumentor-signature ">
     <span class="phpdocumentor-signature__visibility">public</span>
-                    <span class="phpdocumentor-signature__name">run</span><span>(</span><span class="phpdocumentor-signature__argument"><span class="phpdocumentor-signature__argument__return-type"><abbr title="\Symfony\Component\Console\Input\InputInterface">InputInterface</abbr>&nbsp;</span><span class="phpdocumentor-signature__argument__name">$input</span></span><span class="phpdocumentor-signature__argument"><span>, </span><span class="phpdocumentor-signature__argument__return-type"><abbr title="\Symfony\Component\Console\Output\OutputInterface">OutputInterface</abbr>&nbsp;</span><span class="phpdocumentor-signature__argument__name">$output</span></span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">int</span></code>
+                    <span class="phpdocumentor-signature__name">run</span><span>(</span><span class="phpdocumentor-signature__argument"><span class="phpdocumentor-signature__argument__type"><abbr title="\Symfony\Component\Console\Input\InputInterface">InputInterface</abbr>&nbsp;</span><span class="phpdocumentor-signature__argument__name">$input</span></span><span class="phpdocumentor-signature__argument"><span>, </span><span class="phpdocumentor-signature__argument__type"><abbr title="\Symfony\Component\Console\Output\OutputInterface">OutputInterface</abbr>&nbsp;</span><span class="phpdocumentor-signature__argument__name">$output</span></span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">int</span></code>
 
     <div class="phpdocumentor-label-line">
         </div>
@@ -939,15 +912,15 @@ It can also display the extracted messages in the console.</p>
         <h5 class="phpdocumentor-argument-list__heading">Parameters</h5>
     <dl class="phpdocumentor-argument-list">
                     <dt class="phpdocumentor-argument-list__entry">
-                <span class="phpdocumentor-signature__argument__name">$input</span>
-                : <span class="phpdocumentor-signature__argument__return-type"><abbr title="\Symfony\Component\Console\Input\InputInterface">InputInterface</abbr></span>
+                <span class="phpdocumentor-argument-list__argument__name">$input</span>
+                : <span class="phpdocumentor-argument-list__argument__type"><abbr title="\Symfony\Component\Console\Input\InputInterface">InputInterface</abbr></span>
                             </dt>
             <dd class="phpdocumentor-argument-list__definition">
                 
             </dd>
                     <dt class="phpdocumentor-argument-list__entry">
-                <span class="phpdocumentor-signature__argument__name">$output</span>
-                : <span class="phpdocumentor-signature__argument__return-type"><abbr title="\Symfony\Component\Console\Output\OutputInterface">OutputInterface</abbr></span>
+                <span class="phpdocumentor-argument-list__argument__name">$output</span>
+                : <span class="phpdocumentor-argument-list__argument__type"><abbr title="\Symfony\Component\Console\Output\OutputInterface">OutputInterface</abbr></span>
                             </dt>
             <dd class="phpdocumentor-argument-list__definition">
                 
@@ -956,8 +929,8 @@ It can also display the extracted messages in the console.</p>
 
     
 
+        
     
-
             <section>
         <h5 class="phpdocumentor-return-value__heading">Return values</h5>
         <span class="phpdocumentor-signature__response_type">int</span>
@@ -978,7 +951,7 @@ It can also display the extracted messages in the console.</p>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Command/AbstractCommand.php"><a href="files/src-command-abstractcommand.html"><abbr title="src/Command/AbstractCommand.php">AbstractCommand.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">293</span>
+    <span class="phpdocumentor-element-found-in__line">304</span>
 
     </aside>
 
@@ -986,7 +959,7 @@ It can also display the extracted messages in the console.</p>
 
     <code class="phpdocumentor-code phpdocumentor-signature ">
     <span class="phpdocumentor-signature__visibility">public</span>
-            <span class="phpdocumentor-signature__static">static</span>        <span class="phpdocumentor-signature__name">validateUrl</span><span>(</span><span class="phpdocumentor-signature__argument"><span class="phpdocumentor-signature__argument__return-type">string&nbsp;</span><span class="phpdocumentor-signature__argument__name">$url</span></span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">string</span></code>
+            <span class="phpdocumentor-signature__static">static</span>        <span class="phpdocumentor-signature__name">validateUrl</span><span>(</span><span class="phpdocumentor-signature__argument"><span class="phpdocumentor-signature__argument__type">string&nbsp;</span><span class="phpdocumentor-signature__argument__name">$url</span></span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">string</span></code>
 
     <div class="phpdocumentor-label-line">
         </div>
@@ -995,8 +968,8 @@ It can also display the extracted messages in the console.</p>
         <h5 class="phpdocumentor-argument-list__heading">Parameters</h5>
     <dl class="phpdocumentor-argument-list">
                     <dt class="phpdocumentor-argument-list__entry">
-                <span class="phpdocumentor-signature__argument__name">$url</span>
-                : <span class="phpdocumentor-signature__argument__return-type">string</span>
+                <span class="phpdocumentor-argument-list__argument__name">$url</span>
+                : <span class="phpdocumentor-argument-list__argument__type">string</span>
                             </dt>
             <dd class="phpdocumentor-argument-list__definition">
                 
@@ -1020,8 +993,8 @@ It can also display the extracted messages in the console.</p>
                                     </dd>
                                             </dl>
 
+        
     
-
             <section>
         <h5 class="phpdocumentor-return-value__heading">Return values</h5>
         <span class="phpdocumentor-signature__response_type">string</span>
@@ -1042,7 +1015,7 @@ It can also display the extracted messages in the console.</p>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Command/AbstractCommand.php"><a href="files/src-command-abstractcommand.html"><abbr title="src/Command/AbstractCommand.php">AbstractCommand.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">311</span>
+    <span class="phpdocumentor-element-found-in__line">322</span>
 
     </aside>
 
@@ -1059,8 +1032,8 @@ It can also display the extracted messages in the console.</p>
     
     
 
+        
     
-
             <section>
         <h5 class="phpdocumentor-return-value__heading">Return values</h5>
         <span class="phpdocumentor-signature__response_type">string</span>
@@ -1081,7 +1054,7 @@ It can also display the extracted messages in the console.</p>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Command/UtilTranslationsExtract.php"><a href="files/src-command-utiltranslationsextract.html"><abbr title="src/Command/UtilTranslationsExtract.php">UtilTranslationsExtract.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">46</span>
+    <span class="phpdocumentor-element-found-in__line">47</span>
 
     </aside>
 
@@ -1097,8 +1070,8 @@ It can also display the extracted messages in the console.</p>
     
     
 
+        
     
-
     
 </article>
                     <article
@@ -1115,14 +1088,14 @@ It can also display the extracted messages in the console.</p>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Command/UtilTranslationsExtract.php"><a href="files/src-command-utiltranslationsextract.html"><abbr title="src/Command/UtilTranslationsExtract.php">UtilTranslationsExtract.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">81</span>
+    <span class="phpdocumentor-element-found-in__line">82</span>
 
     </aside>
 
     
     <code class="phpdocumentor-code phpdocumentor-signature ">
     <span class="phpdocumentor-signature__visibility">protected</span>
-                    <span class="phpdocumentor-signature__name">execute</span><span>(</span><span class="phpdocumentor-signature__argument"><span class="phpdocumentor-signature__argument__return-type"><abbr title="\Symfony\Component\Console\Input\InputInterface">InputInterface</abbr>&nbsp;</span><span class="phpdocumentor-signature__argument__name">$input</span></span><span class="phpdocumentor-signature__argument"><span>, </span><span class="phpdocumentor-signature__argument__return-type"><abbr title="\Symfony\Component\Console\Output\OutputInterface">OutputInterface</abbr>&nbsp;</span><span class="phpdocumentor-signature__argument__name">$output</span></span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">int</span></code>
+                    <span class="phpdocumentor-signature__name">execute</span><span>(</span><span class="phpdocumentor-signature__argument"><span class="phpdocumentor-signature__argument__type"><abbr title="\Symfony\Component\Console\Input\InputInterface">InputInterface</abbr>&nbsp;</span><span class="phpdocumentor-signature__argument__name">$input</span></span><span class="phpdocumentor-signature__argument"><span>, </span><span class="phpdocumentor-signature__argument__type"><abbr title="\Symfony\Component\Console\Output\OutputInterface">OutputInterface</abbr>&nbsp;</span><span class="phpdocumentor-signature__argument__name">$output</span></span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">int</span></code>
 
     <div class="phpdocumentor-label-line">
         </div>
@@ -1131,15 +1104,15 @@ It can also display the extracted messages in the console.</p>
         <h5 class="phpdocumentor-argument-list__heading">Parameters</h5>
     <dl class="phpdocumentor-argument-list">
                     <dt class="phpdocumentor-argument-list__entry">
-                <span class="phpdocumentor-signature__argument__name">$input</span>
-                : <span class="phpdocumentor-signature__argument__return-type"><abbr title="\Symfony\Component\Console\Input\InputInterface">InputInterface</abbr></span>
+                <span class="phpdocumentor-argument-list__argument__name">$input</span>
+                : <span class="phpdocumentor-argument-list__argument__type"><abbr title="\Symfony\Component\Console\Input\InputInterface">InputInterface</abbr></span>
                             </dt>
             <dd class="phpdocumentor-argument-list__definition">
                 
             </dd>
                     <dt class="phpdocumentor-argument-list__entry">
-                <span class="phpdocumentor-signature__argument__name">$output</span>
-                : <span class="phpdocumentor-signature__argument__return-type"><abbr title="\Symfony\Component\Console\Output\OutputInterface">OutputInterface</abbr></span>
+                <span class="phpdocumentor-argument-list__argument__name">$output</span>
+                : <span class="phpdocumentor-argument-list__argument__type"><abbr title="\Symfony\Component\Console\Output\OutputInterface">OutputInterface</abbr></span>
                             </dt>
             <dd class="phpdocumentor-argument-list__definition">
                 
@@ -1148,8 +1121,8 @@ It can also display the extracted messages in the console.</p>
 
     
 
+        
     
-
             <section>
         <h5 class="phpdocumentor-return-value__heading">Return values</h5>
         <span class="phpdocumentor-signature__response_type">int</span>
@@ -1170,7 +1143,7 @@ It can also display the extracted messages in the console.</p>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Command/AbstractCommand.php"><a href="files/src-command-abstractcommand.html"><abbr title="src/Command/AbstractCommand.php">AbstractCommand.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">197</span>
+    <span class="phpdocumentor-element-found-in__line">208</span>
 
     </aside>
 
@@ -1178,7 +1151,7 @@ It can also display the extracted messages in the console.</p>
 
     <code class="phpdocumentor-code phpdocumentor-signature ">
     <span class="phpdocumentor-signature__visibility">protected</span>
-                    <span class="phpdocumentor-signature__name">getBuilder</span><span>(</span><span class="phpdocumentor-signature__argument"><span>[</span><span class="phpdocumentor-signature__argument__return-type">array&lt;string|int, mixed&gt;&nbsp;</span><span class="phpdocumentor-signature__argument__name">$config</span><span> = </span><span class="phpdocumentor-signature__argument__default-value">[]</span><span> ]</span></span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type"><a href="classes/Cecil-Builder.html"><abbr title="\Cecil\Builder">Builder</abbr></a></span></code>
+                    <span class="phpdocumentor-signature__name">getBuilder</span><span>(</span><span class="phpdocumentor-signature__argument"><span>[</span><span class="phpdocumentor-signature__argument__type">array&lt;string|int, mixed&gt;&nbsp;</span><span class="phpdocumentor-signature__argument__name">$config</span><span> = </span><span class="phpdocumentor-signature__argument__default-value">[]</span><span> ]</span></span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type"><a href="classes/Cecil-Builder.html"><abbr title="\Cecil\Builder">Builder</abbr></a></span></code>
 
     <div class="phpdocumentor-label-line">
         </div>
@@ -1187,9 +1160,9 @@ It can also display the extracted messages in the console.</p>
         <h5 class="phpdocumentor-argument-list__heading">Parameters</h5>
     <dl class="phpdocumentor-argument-list">
                     <dt class="phpdocumentor-argument-list__entry">
-                <span class="phpdocumentor-signature__argument__name">$config</span>
-                : <span class="phpdocumentor-signature__argument__return-type">array&lt;string|int, mixed&gt;</span>
-                 = <span class="phpdocumentor-signature__argument__default-value">[]</span>            </dt>
+                <span class="phpdocumentor-argument-list__argument__name">$config</span>
+                : <span class="phpdocumentor-argument-list__argument__type">array&lt;string|int, mixed&gt;</span>
+                 = <span class="phpdocumentor-argument-list__argument__default-value">[]</span>            </dt>
             <dd class="phpdocumentor-argument-list__definition">
                 
             </dd>
@@ -1212,8 +1185,8 @@ It can also display the extracted messages in the console.</p>
                                     </dd>
                                             </dl>
 
+        
     
-
             <section>
         <h5 class="phpdocumentor-return-value__heading">Return values</h5>
         <span class="phpdocumentor-signature__response_type"><a href="classes/Cecil-Builder.html"><abbr title="\Cecil\Builder">Builder</abbr></a></span>
@@ -1234,7 +1207,7 @@ It can also display the extracted messages in the console.</p>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Command/AbstractCommand.php"><a href="files/src-command-abstractcommand.html"><abbr title="src/Command/AbstractCommand.php">AbstractCommand.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">187</span>
+    <span class="phpdocumentor-element-found-in__line">198</span>
 
     </aside>
 
@@ -1251,8 +1224,8 @@ It can also display the extracted messages in the console.</p>
     
     
 
+        
     
-
             <section>
         <h5 class="phpdocumentor-return-value__heading">Return values</h5>
         <span class="phpdocumentor-signature__response_type">array&lt;string|int, mixed&gt;</span>
@@ -1273,7 +1246,7 @@ It can also display the extracted messages in the console.</p>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Command/AbstractCommand.php"><a href="files/src-command-abstractcommand.html"><abbr title="src/Command/AbstractCommand.php">AbstractCommand.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">157</span>
+    <span class="phpdocumentor-element-found-in__line">168</span>
 
     </aside>
 
@@ -1281,7 +1254,7 @@ It can also display the extracted messages in the console.</p>
 
     <code class="phpdocumentor-code phpdocumentor-signature ">
     <span class="phpdocumentor-signature__visibility">protected</span>
-                    <span class="phpdocumentor-signature__name">getPath</span><span>(</span><span class="phpdocumentor-signature__argument"><span>[</span><span class="phpdocumentor-signature__argument__return-type">bool&nbsp;</span><span class="phpdocumentor-signature__argument__name">$exist</span><span> = </span><span class="phpdocumentor-signature__argument__default-value">true</span><span> ]</span></span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">string|null</span></code>
+                    <span class="phpdocumentor-signature__name">getPath</span><span>(</span><span class="phpdocumentor-signature__argument"><span>[</span><span class="phpdocumentor-signature__argument__type">bool&nbsp;</span><span class="phpdocumentor-signature__argument__name">$exist</span><span> = </span><span class="phpdocumentor-signature__argument__default-value">true</span><span> ]</span></span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">string|null</span></code>
 
     <div class="phpdocumentor-label-line">
         </div>
@@ -1290,9 +1263,9 @@ It can also display the extracted messages in the console.</p>
         <h5 class="phpdocumentor-argument-list__heading">Parameters</h5>
     <dl class="phpdocumentor-argument-list">
                     <dt class="phpdocumentor-argument-list__entry">
-                <span class="phpdocumentor-signature__argument__name">$exist</span>
-                : <span class="phpdocumentor-signature__argument__return-type">bool</span>
-                 = <span class="phpdocumentor-signature__argument__default-value">true</span>            </dt>
+                <span class="phpdocumentor-argument-list__argument__name">$exist</span>
+                : <span class="phpdocumentor-argument-list__argument__type">bool</span>
+                 = <span class="phpdocumentor-argument-list__argument__default-value">true</span>            </dt>
             <dd class="phpdocumentor-argument-list__definition">
                 
             </dd>
@@ -1300,8 +1273,8 @@ It can also display the extracted messages in the console.</p>
 
     
 
+        
     
-
             <section>
         <h5 class="phpdocumentor-return-value__heading">Return values</h5>
         <span class="phpdocumentor-signature__response_type">string|null</span>
@@ -1322,7 +1295,7 @@ It can also display the extracted messages in the console.</p>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Command/AbstractCommand.php"><a href="files/src-command-abstractcommand.html"><abbr title="src/Command/AbstractCommand.php">AbstractCommand.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">71</span>
+    <span class="phpdocumentor-element-found-in__line">70</span>
 
     </aside>
 
@@ -1330,7 +1303,7 @@ It can also display the extracted messages in the console.</p>
 
     <code class="phpdocumentor-code phpdocumentor-signature ">
     <span class="phpdocumentor-signature__visibility">protected</span>
-                    <span class="phpdocumentor-signature__name">initialize</span><span>(</span><span class="phpdocumentor-signature__argument"><span class="phpdocumentor-signature__argument__return-type"><abbr title="\Symfony\Component\Console\Input\InputInterface">InputInterface</abbr>&nbsp;</span><span class="phpdocumentor-signature__argument__name">$input</span></span><span class="phpdocumentor-signature__argument"><span>, </span><span class="phpdocumentor-signature__argument__return-type"><abbr title="\Symfony\Component\Console\Output\OutputInterface">OutputInterface</abbr>&nbsp;</span><span class="phpdocumentor-signature__argument__name">$output</span></span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">mixed</span></code>
+                    <span class="phpdocumentor-signature__name">initialize</span><span>(</span><span class="phpdocumentor-signature__argument"><span class="phpdocumentor-signature__argument__type"><abbr title="\Symfony\Component\Console\Input\InputInterface">InputInterface</abbr>&nbsp;</span><span class="phpdocumentor-signature__argument__name">$input</span></span><span class="phpdocumentor-signature__argument"><span>, </span><span class="phpdocumentor-signature__argument__type"><abbr title="\Symfony\Component\Console\Output\OutputInterface">OutputInterface</abbr>&nbsp;</span><span class="phpdocumentor-signature__argument__name">$output</span></span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">mixed</span></code>
 
     <div class="phpdocumentor-label-line">
         </div>
@@ -1339,15 +1312,15 @@ It can also display the extracted messages in the console.</p>
         <h5 class="phpdocumentor-argument-list__heading">Parameters</h5>
     <dl class="phpdocumentor-argument-list">
                     <dt class="phpdocumentor-argument-list__entry">
-                <span class="phpdocumentor-signature__argument__name">$input</span>
-                : <span class="phpdocumentor-signature__argument__return-type"><abbr title="\Symfony\Component\Console\Input\InputInterface">InputInterface</abbr></span>
+                <span class="phpdocumentor-argument-list__argument__name">$input</span>
+                : <span class="phpdocumentor-argument-list__argument__type"><abbr title="\Symfony\Component\Console\Input\InputInterface">InputInterface</abbr></span>
                             </dt>
             <dd class="phpdocumentor-argument-list__definition">
                 
             </dd>
                     <dt class="phpdocumentor-argument-list__entry">
-                <span class="phpdocumentor-signature__argument__name">$output</span>
-                : <span class="phpdocumentor-signature__argument__return-type"><abbr title="\Symfony\Component\Console\Output\OutputInterface">OutputInterface</abbr></span>
+                <span class="phpdocumentor-argument-list__argument__name">$output</span>
+                : <span class="phpdocumentor-argument-list__argument__type"><abbr title="\Symfony\Component\Console\Output\OutputInterface">OutputInterface</abbr></span>
                             </dt>
             <dd class="phpdocumentor-argument-list__definition">
                 
@@ -1356,8 +1329,8 @@ It can also display the extracted messages in the console.</p>
 
     
 
+        
     
-
     
 </article>
                     <article
@@ -1374,7 +1347,7 @@ It can also display the extracted messages in the console.</p>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Command/AbstractCommand.php"><a href="files/src-command-abstractcommand.html"><abbr title="src/Command/AbstractCommand.php">AbstractCommand.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">247</span>
+    <span class="phpdocumentor-element-found-in__line">258</span>
 
     </aside>
 
@@ -1382,7 +1355,7 @@ It can also display the extracted messages in the console.</p>
 
     <code class="phpdocumentor-code phpdocumentor-signature ">
     <span class="phpdocumentor-signature__visibility">protected</span>
-                    <span class="phpdocumentor-signature__name">locateAdditionalConfigFiles</span><span>(</span><span class="phpdocumentor-signature__argument"><span class="phpdocumentor-signature__argument__return-type">string&nbsp;</span><span class="phpdocumentor-signature__argument__name">$path</span></span><span class="phpdocumentor-signature__argument"><span>, </span><span class="phpdocumentor-signature__argument__return-type">string&nbsp;</span><span class="phpdocumentor-signature__argument__name">$configFilesList</span></span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">array&lt;string|int, mixed&gt;</span></code>
+                    <span class="phpdocumentor-signature__name">locateAdditionalConfigFiles</span><span>(</span><span class="phpdocumentor-signature__argument"><span class="phpdocumentor-signature__argument__type">string&nbsp;</span><span class="phpdocumentor-signature__argument__name">$path</span></span><span class="phpdocumentor-signature__argument"><span>, </span><span class="phpdocumentor-signature__argument__type">string&nbsp;</span><span class="phpdocumentor-signature__argument__name">$configFilesList</span></span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">array&lt;string|int, mixed&gt;</span></code>
 
     <div class="phpdocumentor-label-line">
         </div>
@@ -1391,15 +1364,15 @@ It can also display the extracted messages in the console.</p>
         <h5 class="phpdocumentor-argument-list__heading">Parameters</h5>
     <dl class="phpdocumentor-argument-list">
                     <dt class="phpdocumentor-argument-list__entry">
-                <span class="phpdocumentor-signature__argument__name">$path</span>
-                : <span class="phpdocumentor-signature__argument__return-type">string</span>
+                <span class="phpdocumentor-argument-list__argument__name">$path</span>
+                : <span class="phpdocumentor-argument-list__argument__type">string</span>
                             </dt>
             <dd class="phpdocumentor-argument-list__definition">
                 
             </dd>
                     <dt class="phpdocumentor-argument-list__entry">
-                <span class="phpdocumentor-signature__argument__name">$configFilesList</span>
-                : <span class="phpdocumentor-signature__argument__return-type">string</span>
+                <span class="phpdocumentor-argument-list__argument__name">$configFilesList</span>
+                : <span class="phpdocumentor-argument-list__argument__type">string</span>
                             </dt>
             <dd class="phpdocumentor-argument-list__definition">
                 
@@ -1408,8 +1381,8 @@ It can also display the extracted messages in the console.</p>
 
     
 
+        
     
-
             <section>
         <h5 class="phpdocumentor-return-value__heading">Return values</h5>
         <span class="phpdocumentor-signature__response_type">array&lt;string|int, mixed&gt;</span>
@@ -1430,7 +1403,7 @@ It can also display the extracted messages in the console.</p>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Command/AbstractCommand.php"><a href="files/src-command-abstractcommand.html"><abbr title="src/Command/AbstractCommand.php">AbstractCommand.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">226</span>
+    <span class="phpdocumentor-element-found-in__line">237</span>
 
     </aside>
 
@@ -1438,7 +1411,7 @@ It can also display the extracted messages in the console.</p>
 
     <code class="phpdocumentor-code phpdocumentor-signature ">
     <span class="phpdocumentor-signature__visibility">protected</span>
-                    <span class="phpdocumentor-signature__name">locateConfigFile</span><span>(</span><span class="phpdocumentor-signature__argument"><span class="phpdocumentor-signature__argument__return-type">string&nbsp;</span><span class="phpdocumentor-signature__argument__name">$path</span></span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">array&lt;string|int, mixed&gt;</span></code>
+                    <span class="phpdocumentor-signature__name">locateConfigFile</span><span>(</span><span class="phpdocumentor-signature__argument"><span class="phpdocumentor-signature__argument__type">string&nbsp;</span><span class="phpdocumentor-signature__argument__name">$path</span></span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">array&lt;string|int, mixed&gt;</span></code>
 
     <div class="phpdocumentor-label-line">
         </div>
@@ -1447,8 +1420,8 @@ It can also display the extracted messages in the console.</p>
         <h5 class="phpdocumentor-argument-list__heading">Parameters</h5>
     <dl class="phpdocumentor-argument-list">
                     <dt class="phpdocumentor-argument-list__entry">
-                <span class="phpdocumentor-signature__argument__name">$path</span>
-                : <span class="phpdocumentor-signature__argument__return-type">string</span>
+                <span class="phpdocumentor-argument-list__argument__name">$path</span>
+                : <span class="phpdocumentor-argument-list__argument__type">string</span>
                             </dt>
             <dd class="phpdocumentor-argument-list__definition">
                 
@@ -1457,8 +1430,8 @@ It can also display the extracted messages in the console.</p>
 
     
 
+        
     
-
             <section>
         <h5 class="phpdocumentor-return-value__heading">Return values</h5>
         <span class="phpdocumentor-signature__response_type">array&lt;string|int, mixed&gt;</span>
@@ -1479,7 +1452,7 @@ It can also display the extracted messages in the console.</p>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Command/AbstractCommand.php"><a href="files/src-command-abstractcommand.html"><abbr title="src/Command/AbstractCommand.php">AbstractCommand.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">267</span>
+    <span class="phpdocumentor-element-found-in__line">278</span>
 
     </aside>
 
@@ -1487,7 +1460,7 @@ It can also display the extracted messages in the console.</p>
 
     <code class="phpdocumentor-code phpdocumentor-signature ">
     <span class="phpdocumentor-signature__visibility">protected</span>
-                    <span class="phpdocumentor-signature__name">openEditor</span><span>(</span><span class="phpdocumentor-signature__argument"><span class="phpdocumentor-signature__argument__return-type">string&nbsp;</span><span class="phpdocumentor-signature__argument__name">$path</span></span><span class="phpdocumentor-signature__argument"><span>, </span><span class="phpdocumentor-signature__argument__return-type">string&nbsp;</span><span class="phpdocumentor-signature__argument__name">$editor</span></span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">void</span></code>
+                    <span class="phpdocumentor-signature__name">openEditor</span><span>(</span><span class="phpdocumentor-signature__argument"><span class="phpdocumentor-signature__argument__type">string&nbsp;</span><span class="phpdocumentor-signature__argument__name">$path</span></span><span class="phpdocumentor-signature__argument"><span>, </span><span class="phpdocumentor-signature__argument__type">string&nbsp;</span><span class="phpdocumentor-signature__argument__name">$editor</span></span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">void</span></code>
 
     <div class="phpdocumentor-label-line">
         </div>
@@ -1496,15 +1469,15 @@ It can also display the extracted messages in the console.</p>
         <h5 class="phpdocumentor-argument-list__heading">Parameters</h5>
     <dl class="phpdocumentor-argument-list">
                     <dt class="phpdocumentor-argument-list__entry">
-                <span class="phpdocumentor-signature__argument__name">$path</span>
-                : <span class="phpdocumentor-signature__argument__return-type">string</span>
+                <span class="phpdocumentor-argument-list__argument__name">$path</span>
+                : <span class="phpdocumentor-argument-list__argument__type">string</span>
                             </dt>
             <dd class="phpdocumentor-argument-list__definition">
                 
             </dd>
                     <dt class="phpdocumentor-argument-list__entry">
-                <span class="phpdocumentor-signature__argument__name">$editor</span>
-                : <span class="phpdocumentor-signature__argument__return-type">string</span>
+                <span class="phpdocumentor-argument-list__argument__name">$editor</span>
+                : <span class="phpdocumentor-argument-list__argument__type">string</span>
                             </dt>
             <dd class="phpdocumentor-argument-list__definition">
                 
@@ -1528,8 +1501,8 @@ It can also display the extracted messages in the console.</p>
                                     </dd>
                                             </dl>
 
+        
     
-
     
 </article>
                     <article
@@ -1546,14 +1519,14 @@ It can also display the extracted messages in the console.</p>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Command/UtilTranslationsExtract.php"><a href="files/src-command-utiltranslationsextract.html"><abbr title="src/Command/UtilTranslationsExtract.php">UtilTranslationsExtract.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">135</span>
+    <span class="phpdocumentor-element-found-in__line">136</span>
 
     </aside>
 
     
     <code class="phpdocumentor-code phpdocumentor-signature ">
     <span class="phpdocumentor-signature__visibility">private</span>
-                    <span class="phpdocumentor-signature__name">checkOptions</span><span>(</span><span class="phpdocumentor-signature__argument"><span class="phpdocumentor-signature__argument__return-type"><abbr title="\Symfony\Component\Console\Input\InputInterface">InputInterface</abbr>&nbsp;</span><span class="phpdocumentor-signature__argument__name">$input</span></span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">void</span></code>
+                    <span class="phpdocumentor-signature__name">checkOptions</span><span>(</span><span class="phpdocumentor-signature__argument"><span class="phpdocumentor-signature__argument__type"><abbr title="\Symfony\Component\Console\Input\InputInterface">InputInterface</abbr>&nbsp;</span><span class="phpdocumentor-signature__argument__name">$input</span></span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">void</span></code>
 
     <div class="phpdocumentor-label-line">
         </div>
@@ -1562,8 +1535,8 @@ It can also display the extracted messages in the console.</p>
         <h5 class="phpdocumentor-argument-list__heading">Parameters</h5>
     <dl class="phpdocumentor-argument-list">
                     <dt class="phpdocumentor-argument-list__entry">
-                <span class="phpdocumentor-signature__argument__name">$input</span>
-                : <span class="phpdocumentor-signature__argument__return-type"><abbr title="\Symfony\Component\Console\Input\InputInterface">InputInterface</abbr></span>
+                <span class="phpdocumentor-argument-list__argument__name">$input</span>
+                : <span class="phpdocumentor-argument-list__argument__type"><abbr title="\Symfony\Component\Console\Input\InputInterface">InputInterface</abbr></span>
                             </dt>
             <dd class="phpdocumentor-argument-list__definition">
                 
@@ -1572,8 +1545,8 @@ It can also display the extracted messages in the console.</p>
 
     
 
+        
     
-
     
 </article>
                     <article
@@ -1590,14 +1563,14 @@ It can also display the extracted messages in the console.</p>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Command/UtilTranslationsExtract.php"><a href="files/src-command-utiltranslationsextract.html"><abbr title="src/Command/UtilTranslationsExtract.php">UtilTranslationsExtract.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">190</span>
+    <span class="phpdocumentor-element-found-in__line">191</span>
 
     </aside>
 
     
     <code class="phpdocumentor-code phpdocumentor-signature ">
     <span class="phpdocumentor-signature__visibility">private</span>
-                    <span class="phpdocumentor-signature__name">dumpMessages</span><span>(</span><span class="phpdocumentor-signature__argument"><span class="phpdocumentor-signature__argument__return-type"><abbr title="\Symfony\Component\Translation\Catalogue\OperationInterface">OperationInterface</abbr>&nbsp;</span><span class="phpdocumentor-signature__argument__name">$operation</span></span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">void</span></code>
+                    <span class="phpdocumentor-signature__name">dumpMessages</span><span>(</span><span class="phpdocumentor-signature__argument"><span class="phpdocumentor-signature__argument__type"><abbr title="\Symfony\Component\Translation\Catalogue\OperationInterface">OperationInterface</abbr>&nbsp;</span><span class="phpdocumentor-signature__argument__name">$operation</span></span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">void</span></code>
 
     <div class="phpdocumentor-label-line">
         </div>
@@ -1606,8 +1579,8 @@ It can also display the extracted messages in the console.</p>
         <h5 class="phpdocumentor-argument-list__heading">Parameters</h5>
     <dl class="phpdocumentor-argument-list">
                     <dt class="phpdocumentor-argument-list__entry">
-                <span class="phpdocumentor-signature__argument__name">$operation</span>
-                : <span class="phpdocumentor-signature__argument__return-type"><abbr title="\Symfony\Component\Translation\Catalogue\OperationInterface">OperationInterface</abbr></span>
+                <span class="phpdocumentor-argument-list__argument__name">$operation</span>
+                : <span class="phpdocumentor-argument-list__argument__type"><abbr title="\Symfony\Component\Translation\Catalogue\OperationInterface">OperationInterface</abbr></span>
                             </dt>
             <dd class="phpdocumentor-argument-list__definition">
                 
@@ -1616,8 +1589,8 @@ It can also display the extracted messages in the console.</p>
 
     
 
+        
     
-
     
 </article>
                     <article
@@ -1634,14 +1607,14 @@ It can also display the extracted messages in the console.</p>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Command/UtilTranslationsExtract.php"><a href="files/src-command-utiltranslationsextract.html"><abbr title="src/Command/UtilTranslationsExtract.php">UtilTranslationsExtract.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">161</span>
+    <span class="phpdocumentor-element-found-in__line">162</span>
 
     </aside>
 
     
     <code class="phpdocumentor-code phpdocumentor-signature ">
     <span class="phpdocumentor-signature__visibility">private</span>
-                    <span class="phpdocumentor-signature__name">extractMessages</span><span>(</span><span class="phpdocumentor-signature__argument"><span class="phpdocumentor-signature__argument__return-type">string&nbsp;</span><span class="phpdocumentor-signature__argument__name">$locale</span></span><span class="phpdocumentor-signature__argument"><span>, </span><span class="phpdocumentor-signature__argument__return-type">mixed&nbsp;</span><span class="phpdocumentor-signature__argument__name">$layoutsPath</span></span><span class="phpdocumentor-signature__argument"><span>, </span><span class="phpdocumentor-signature__argument__return-type">string&nbsp;</span><span class="phpdocumentor-signature__argument__name">$prefix</span></span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type"><abbr title="\Symfony\Component\Translation\MessageCatalogue">MessageCatalogue</abbr></span></code>
+                    <span class="phpdocumentor-signature__name">extractMessages</span><span>(</span><span class="phpdocumentor-signature__argument"><span class="phpdocumentor-signature__argument__type">string&nbsp;</span><span class="phpdocumentor-signature__argument__name">$locale</span></span><span class="phpdocumentor-signature__argument"><span>, </span><span class="phpdocumentor-signature__argument__type">mixed&nbsp;</span><span class="phpdocumentor-signature__argument__name">$layoutsPath</span></span><span class="phpdocumentor-signature__argument"><span>, </span><span class="phpdocumentor-signature__argument__type">string&nbsp;</span><span class="phpdocumentor-signature__argument__name">$prefix</span></span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type"><abbr title="\Symfony\Component\Translation\MessageCatalogue">MessageCatalogue</abbr></span></code>
 
     <div class="phpdocumentor-label-line">
         </div>
@@ -1650,22 +1623,22 @@ It can also display the extracted messages in the console.</p>
         <h5 class="phpdocumentor-argument-list__heading">Parameters</h5>
     <dl class="phpdocumentor-argument-list">
                     <dt class="phpdocumentor-argument-list__entry">
-                <span class="phpdocumentor-signature__argument__name">$locale</span>
-                : <span class="phpdocumentor-signature__argument__return-type">string</span>
+                <span class="phpdocumentor-argument-list__argument__name">$locale</span>
+                : <span class="phpdocumentor-argument-list__argument__type">string</span>
                             </dt>
             <dd class="phpdocumentor-argument-list__definition">
                 
             </dd>
                     <dt class="phpdocumentor-argument-list__entry">
-                <span class="phpdocumentor-signature__argument__name">$layoutsPath</span>
-                : <span class="phpdocumentor-signature__argument__return-type">mixed</span>
+                <span class="phpdocumentor-argument-list__argument__name">$layoutsPath</span>
+                : <span class="phpdocumentor-argument-list__argument__type">mixed</span>
                             </dt>
             <dd class="phpdocumentor-argument-list__definition">
                 
             </dd>
                     <dt class="phpdocumentor-argument-list__entry">
-                <span class="phpdocumentor-signature__argument__name">$prefix</span>
-                : <span class="phpdocumentor-signature__argument__return-type">string</span>
+                <span class="phpdocumentor-argument-list__argument__name">$prefix</span>
+                : <span class="phpdocumentor-argument-list__argument__type">string</span>
                             </dt>
             <dd class="phpdocumentor-argument-list__definition">
                 
@@ -1674,8 +1647,8 @@ It can also display the extracted messages in the console.</p>
 
     
 
+        
     
-
             <section>
         <h5 class="phpdocumentor-return-value__heading">Return values</h5>
         <span class="phpdocumentor-signature__response_type"><abbr title="\Symfony\Component\Translation\MessageCatalogue">MessageCatalogue</abbr></span>
@@ -1696,7 +1669,7 @@ It can also display the extracted messages in the console.</p>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Command/UtilTranslationsExtract.php"><a href="files/src-command-utiltranslationsextract.html"><abbr title="src/Command/UtilTranslationsExtract.php">UtilTranslationsExtract.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">145</span>
+    <span class="phpdocumentor-element-found-in__line">146</span>
 
     </aside>
 
@@ -1712,8 +1685,8 @@ It can also display the extracted messages in the console.</p>
     
     
 
+        
     
-
     
 </article>
                     <article
@@ -1730,14 +1703,14 @@ It can also display the extracted messages in the console.</p>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Command/UtilTranslationsExtract.php"><a href="files/src-command-utiltranslationsextract.html"><abbr title="src/Command/UtilTranslationsExtract.php">UtilTranslationsExtract.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">155</span>
+    <span class="phpdocumentor-element-found-in__line">156</span>
 
     </aside>
 
     
     <code class="phpdocumentor-code phpdocumentor-signature ">
     <span class="phpdocumentor-signature__visibility">private</span>
-                    <span class="phpdocumentor-signature__name">initTwigExtractor</span><span>(</span><span class="phpdocumentor-signature__argument"><span>[</span><span class="phpdocumentor-signature__argument__return-type">mixed&nbsp;</span><span class="phpdocumentor-signature__argument__name">$layoutsPath</span><span> = </span><span class="phpdocumentor-signature__argument__default-value">[]</span><span> ]</span></span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">void</span></code>
+                    <span class="phpdocumentor-signature__name">initTwigExtractor</span><span>(</span><span class="phpdocumentor-signature__argument"><span>[</span><span class="phpdocumentor-signature__argument__type">mixed&nbsp;</span><span class="phpdocumentor-signature__argument__name">$layoutsPath</span><span> = </span><span class="phpdocumentor-signature__argument__default-value">[]</span><span> ]</span></span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">void</span></code>
 
     <div class="phpdocumentor-label-line">
         </div>
@@ -1746,9 +1719,9 @@ It can also display the extracted messages in the console.</p>
         <h5 class="phpdocumentor-argument-list__heading">Parameters</h5>
     <dl class="phpdocumentor-argument-list">
                     <dt class="phpdocumentor-argument-list__entry">
-                <span class="phpdocumentor-signature__argument__name">$layoutsPath</span>
-                : <span class="phpdocumentor-signature__argument__return-type">mixed</span>
-                 = <span class="phpdocumentor-signature__argument__default-value">[]</span>            </dt>
+                <span class="phpdocumentor-argument-list__argument__name">$layoutsPath</span>
+                : <span class="phpdocumentor-argument-list__argument__type">mixed</span>
+                 = <span class="phpdocumentor-argument-list__argument__default-value">[]</span>            </dt>
             <dd class="phpdocumentor-argument-list__definition">
                 
             </dd>
@@ -1756,8 +1729,8 @@ It can also display the extracted messages in the console.</p>
 
     
 
+        
     
-
     
 </article>
                     <article
@@ -1774,14 +1747,14 @@ It can also display the extracted messages in the console.</p>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Command/UtilTranslationsExtract.php"><a href="files/src-command-utiltranslationsextract.html"><abbr title="src/Command/UtilTranslationsExtract.php">UtilTranslationsExtract.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">173</span>
+    <span class="phpdocumentor-element-found-in__line">174</span>
 
     </aside>
 
     
     <code class="phpdocumentor-code phpdocumentor-signature ">
     <span class="phpdocumentor-signature__visibility">private</span>
-                    <span class="phpdocumentor-signature__name">loadCurrentMessages</span><span>(</span><span class="phpdocumentor-signature__argument"><span class="phpdocumentor-signature__argument__return-type">string&nbsp;</span><span class="phpdocumentor-signature__argument__name">$locale</span></span><span class="phpdocumentor-signature__argument"><span>, </span><span class="phpdocumentor-signature__argument__return-type">string&nbsp;</span><span class="phpdocumentor-signature__argument__name">$translationsPath</span></span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type"><abbr title="\Symfony\Component\Translation\MessageCatalogue">MessageCatalogue</abbr></span></code>
+                    <span class="phpdocumentor-signature__name">loadCurrentMessages</span><span>(</span><span class="phpdocumentor-signature__argument"><span class="phpdocumentor-signature__argument__type">string&nbsp;</span><span class="phpdocumentor-signature__argument__name">$locale</span></span><span class="phpdocumentor-signature__argument"><span>, </span><span class="phpdocumentor-signature__argument__type">string&nbsp;</span><span class="phpdocumentor-signature__argument__name">$translationsPath</span></span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type"><abbr title="\Symfony\Component\Translation\MessageCatalogue">MessageCatalogue</abbr></span></code>
 
     <div class="phpdocumentor-label-line">
         </div>
@@ -1790,15 +1763,15 @@ It can also display the extracted messages in the console.</p>
         <h5 class="phpdocumentor-argument-list__heading">Parameters</h5>
     <dl class="phpdocumentor-argument-list">
                     <dt class="phpdocumentor-argument-list__entry">
-                <span class="phpdocumentor-signature__argument__name">$locale</span>
-                : <span class="phpdocumentor-signature__argument__return-type">string</span>
+                <span class="phpdocumentor-argument-list__argument__name">$locale</span>
+                : <span class="phpdocumentor-argument-list__argument__type">string</span>
                             </dt>
             <dd class="phpdocumentor-argument-list__definition">
                 
             </dd>
                     <dt class="phpdocumentor-argument-list__entry">
-                <span class="phpdocumentor-signature__argument__name">$translationsPath</span>
-                : <span class="phpdocumentor-signature__argument__return-type">string</span>
+                <span class="phpdocumentor-argument-list__argument__name">$translationsPath</span>
+                : <span class="phpdocumentor-argument-list__argument__type">string</span>
                             </dt>
             <dd class="phpdocumentor-argument-list__definition">
                 
@@ -1807,8 +1780,8 @@ It can also display the extracted messages in the console.</p>
 
     
 
+        
     
-
             <section>
         <h5 class="phpdocumentor-return-value__heading">Return values</h5>
         <span class="phpdocumentor-signature__response_type"><abbr title="\Symfony\Component\Translation\MessageCatalogue">MessageCatalogue</abbr></span>
@@ -1829,14 +1802,14 @@ It can also display the extracted messages in the console.</p>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Command/UtilTranslationsExtract.php"><a href="files/src-command-utiltranslationsextract.html"><abbr title="src/Command/UtilTranslationsExtract.php">UtilTranslationsExtract.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">183</span>
+    <span class="phpdocumentor-element-found-in__line">184</span>
 
     </aside>
 
     
     <code class="phpdocumentor-code phpdocumentor-signature ">
     <span class="phpdocumentor-signature__visibility">private</span>
-                    <span class="phpdocumentor-signature__name">saveDump</span><span>(</span><span class="phpdocumentor-signature__argument"><span class="phpdocumentor-signature__argument__return-type"><abbr title="\Symfony\Component\Translation\MessageCatalogueInterface">MessageCatalogueInterface</abbr>&nbsp;</span><span class="phpdocumentor-signature__argument__name">$messageCatalogue</span></span><span class="phpdocumentor-signature__argument"><span>, </span><span class="phpdocumentor-signature__argument__return-type">string&nbsp;</span><span class="phpdocumentor-signature__argument__name">$format</span></span><span class="phpdocumentor-signature__argument"><span>, </span><span class="phpdocumentor-signature__argument__return-type">string&nbsp;</span><span class="phpdocumentor-signature__argument__name">$translationsPath</span></span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">void</span></code>
+                    <span class="phpdocumentor-signature__name">saveDump</span><span>(</span><span class="phpdocumentor-signature__argument"><span class="phpdocumentor-signature__argument__type"><abbr title="\Symfony\Component\Translation\MessageCatalogueInterface">MessageCatalogueInterface</abbr>&nbsp;</span><span class="phpdocumentor-signature__argument__name">$messageCatalogue</span></span><span class="phpdocumentor-signature__argument"><span>, </span><span class="phpdocumentor-signature__argument__type">string&nbsp;</span><span class="phpdocumentor-signature__argument__name">$format</span></span><span class="phpdocumentor-signature__argument"><span>, </span><span class="phpdocumentor-signature__argument__type">string&nbsp;</span><span class="phpdocumentor-signature__argument__name">$translationsPath</span></span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">void</span></code>
 
     <div class="phpdocumentor-label-line">
         </div>
@@ -1845,22 +1818,22 @@ It can also display the extracted messages in the console.</p>
         <h5 class="phpdocumentor-argument-list__heading">Parameters</h5>
     <dl class="phpdocumentor-argument-list">
                     <dt class="phpdocumentor-argument-list__entry">
-                <span class="phpdocumentor-signature__argument__name">$messageCatalogue</span>
-                : <span class="phpdocumentor-signature__argument__return-type"><abbr title="\Symfony\Component\Translation\MessageCatalogueInterface">MessageCatalogueInterface</abbr></span>
+                <span class="phpdocumentor-argument-list__argument__name">$messageCatalogue</span>
+                : <span class="phpdocumentor-argument-list__argument__type"><abbr title="\Symfony\Component\Translation\MessageCatalogueInterface">MessageCatalogueInterface</abbr></span>
                             </dt>
             <dd class="phpdocumentor-argument-list__definition">
                 
             </dd>
                     <dt class="phpdocumentor-argument-list__entry">
-                <span class="phpdocumentor-signature__argument__name">$format</span>
-                : <span class="phpdocumentor-signature__argument__return-type">string</span>
+                <span class="phpdocumentor-argument-list__argument__name">$format</span>
+                : <span class="phpdocumentor-argument-list__argument__type">string</span>
                             </dt>
             <dd class="phpdocumentor-argument-list__definition">
                 
             </dd>
                     <dt class="phpdocumentor-argument-list__entry">
-                <span class="phpdocumentor-signature__argument__name">$translationsPath</span>
-                : <span class="phpdocumentor-signature__argument__return-type">string</span>
+                <span class="phpdocumentor-argument-list__argument__name">$translationsPath</span>
+                : <span class="phpdocumentor-argument-list__argument__type">string</span>
                             </dt>
             <dd class="phpdocumentor-argument-list__definition">
                 
@@ -1869,8 +1842,8 @@ It can also display the extracted messages in the console.</p>
 
     
 
+        
     
-
     
 </article>
             </section>
@@ -1989,20 +1962,18 @@ It can also display the extracted messages in the console.</p>
                 <li>
                     <ul class="phpdocumentor-list -clean">
                                                     <li class=""><a href="classes/Cecil-Command-AbstractCommand.html#constant_CONFIG_FILE">CONFIG_FILE</a></li>
-                                                    <li class=""><a href="classes/Cecil-Command-AbstractCommand.html#constant_DESKTOP_NOTIFICATION">DESKTOP_NOTIFICATION</a></li>
                                                     <li class=""><a href="classes/Cecil-Command-AbstractCommand.html#constant_EXCLUDED_CMD">EXCLUDED_CMD</a></li>
                                                     <li class=""><a href="classes/Cecil-Command-AbstractCommand.html#constant_SERVE_OUTPUT">SERVE_OUTPUT</a></li>
-                                                    <li class=""><a href="classes/Cecil-Command-AbstractCommand.html#constant_TMP_DIR">TMP_DIR</a></li>
                                             </ul>
                 </li>
             
                             <li class="phpdocumentor-on-this-page-section__title">Properties</li>
                 <li>
                     <ul class="phpdocumentor-list -clean">
-                                                    <li class=""><a href="classes/Cecil-Command-AbstractCommand.html#property_notification">$notification</a></li>
                                                     <li class=""><a href="classes/Cecil-Command-AbstractCommand.html#property_input">$input</a></li>
                                                     <li class=""><a href="classes/Cecil-Command-AbstractCommand.html#property_io">$io</a></li>
                                                     <li class=""><a href="classes/Cecil-Command-AbstractCommand.html#property_output">$output</a></li>
+                                                    <li class=""><a href="classes/Cecil-Command-AbstractCommand.html#property_rootPath">$rootPath</a></li>
                                                     <li class=""><a href="classes/Cecil-Command-UtilTranslationsExtract.html#property_extractor">$extractor</a></li>
                                                     <li class=""><a href="classes/Cecil-Command-UtilTranslationsExtract.html#property_reader">$reader</a></li>
                                                     <li class=""><a href="classes/Cecil-Command-UtilTranslationsExtract.html#property_writer">$writer</a></li>
@@ -2013,6 +1984,7 @@ It can also display the extracted messages in the console.</p>
             <li>
                 <ul class="phpdocumentor-list -clean">
                                             <li class=""><a href="classes/Cecil-Command-AbstractCommand.html#method_getProcessedHelp">getProcessedHelp()</a></li>
+                                            <li class=""><a href="classes/Cecil-Command-AbstractCommand.html#method_notification">notification()</a></li>
                                             <li class=""><a href="classes/Cecil-Command-AbstractCommand.html#method_run">run()</a></li>
                                             <li class=""><a href="classes/Cecil-Command-AbstractCommand.html#method_validateUrl">validateUrl()</a></li>
                                             <li class=""><a href="classes/Cecil-Command-AbstractCommand.html#method_binName">binName()</a></li>

@@ -177,10 +177,8 @@ It supports both GD and Imagick drivers, depending on the available PHP extensio
 
 
 
-
-
-
-
+    
+    
 <h3 id="toc">
     Table of Contents
     <a href="classes/Cecil-Asset-Image.html#toc" class="headerlink"><i class="fas fa-link"></i></a>
@@ -207,7 +205,21 @@ It supports both GD and Imagick drivers, depending on the available PHP extensio
     <span>
                                 &nbsp;: string    </span>
 </dt>
-<dd>Build the `srcset` HTML attribute for responsive images.</dd>
+<dd>Alias of buildHtmlSrcsetW for backward compatibility.</dd>
+
+            <dt class="phpdocumentor-table-of-contents__entry -method -public">
+    <a class="" href="classes/Cecil-Asset-Image.html#method_buildHtmlSrcsetW">buildHtmlSrcsetW()</a>
+    <span>
+                                &nbsp;: string    </span>
+</dt>
+<dd>Build the `srcset` HTML attribute for responsive images, based on widths.</dd>
+
+            <dt class="phpdocumentor-table-of-contents__entry -method -public">
+    <a class="" href="classes/Cecil-Asset-Image.html#method_buildHtmlSrcsetX">buildHtmlSrcsetX()</a>
+    <span>
+                                &nbsp;: string    </span>
+</dt>
+<dd>Build the `srcset` HTML attribute for responsive images, based on pixel ratios.</dd>
 
             <dt class="phpdocumentor-table-of-contents__entry -method -public">
     <a class="" href="classes/Cecil-Asset-Image.html#method_convert">convert()</a>
@@ -217,11 +229,11 @@ It supports both GD and Imagick drivers, depending on the available PHP extensio
 <dd>Converts an image Asset to the target format.</dd>
 
             <dt class="phpdocumentor-table-of-contents__entry -method -public">
-    <a class="" href="classes/Cecil-Asset-Image.html#method_cover">cover()</a>
+    <a class="" href="classes/Cecil-Asset-Image.html#method_getBackgroundColor">getBackgroundColor()</a>
     <span>
                                 &nbsp;: string    </span>
 </dt>
-<dd>Crops an image Asset to the given width and height, keeping the aspect ratio.</dd>
+<dd>Returns the background RGB color of an image asset.</dd>
 
             <dt class="phpdocumentor-table-of-contents__entry -method -public">
     <a class="" href="classes/Cecil-Asset-Image.html#method_getDataUrl">getDataUrl()</a>
@@ -298,7 +310,7 @@ It supports both GD and Imagick drivers, depending on the available PHP extensio
     <span>
                                 &nbsp;: string    </span>
 </dt>
-<dd>Scales down an image Asset to the given width, keeping the aspect ratio.</dd>
+<dd>Resizes an image Asset to the given width or/and height.</dd>
 
             <dt class="phpdocumentor-table-of-contents__entry -method -private">
     <a class="" href="classes/Cecil-Asset-Image.html#method_manager">manager()</a>
@@ -335,53 +347,118 @@ It supports both GD and Imagick drivers, depending on the available PHP extensio
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Asset/Image.php"><a href="files/src-asset-image.html"><abbr title="src/Asset/Image.php">Image.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">246</span>
+    <span class="phpdocumentor-element-found-in__line">273</span>
 
     </aside>
 
-        <p class="phpdocumentor-summary">Build the `srcset` HTML attribute for responsive images.</p>
+        <p class="phpdocumentor-summary">Alias of buildHtmlSrcsetW for backward compatibility.</p>
 
     <code class="phpdocumentor-code phpdocumentor-signature ">
     <span class="phpdocumentor-signature__visibility">public</span>
-            <span class="phpdocumentor-signature__static">static</span>        <span class="phpdocumentor-signature__name">buildHtmlSrcset</span><span>(</span><span class="phpdocumentor-signature__argument"><span class="phpdocumentor-signature__argument__return-type"><a href="classes/Cecil-Asset.html"><abbr title="\Cecil\Asset">Asset</abbr></a>&nbsp;</span><span class="phpdocumentor-signature__argument__name">$asset</span></span><span class="phpdocumentor-signature__argument"><span>, </span><span class="phpdocumentor-signature__argument__return-type">array&lt;string|int, mixed&gt;&nbsp;</span><span class="phpdocumentor-signature__argument__name">$widths</span></span><span class="phpdocumentor-signature__argument"><span>[</span><span>, </span><span class="phpdocumentor-signature__argument__return-type">mixed&nbsp;</span><span class="phpdocumentor-signature__argument__name">$notEmpty</span><span> = </span><span class="phpdocumentor-signature__argument__default-value">false</span><span> ]</span></span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">string</span></code>
+            <span class="phpdocumentor-signature__static">static</span>        <span class="phpdocumentor-signature__name">buildHtmlSrcset</span><span>(</span><span class="phpdocumentor-signature__argument"><span class="phpdocumentor-signature__argument__type"><a href="classes/Cecil-Asset.html"><abbr title="\Cecil\Asset">Asset</abbr></a>&nbsp;</span><span class="phpdocumentor-signature__argument__name">$asset</span></span><span class="phpdocumentor-signature__argument"><span>, </span><span class="phpdocumentor-signature__argument__type">array&lt;string|int, mixed&gt;&nbsp;</span><span class="phpdocumentor-signature__argument__name">$widths</span></span><span class="phpdocumentor-signature__argument"><span>[</span><span>, </span><span class="phpdocumentor-signature__argument__type">mixed&nbsp;</span><span class="phpdocumentor-signature__argument__name">$notEmpty</span><span> = </span><span class="phpdocumentor-signature__argument__default-value">false</span><span> ]</span></span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">string</span></code>
 
     <div class="phpdocumentor-label-line">
         </div>
     
-        <section class="phpdocumentor-description"><p>e.g.: <code class="prettyprint">srcset=&quot;/img-480.jpg 480w, /img-800.jpg 800w&quot;</code>.</p>
-<p>$widths is an array of widths to include in the <code class="prettyprint">srcset</code>.
-If $notEmpty is true, the source image is always added to the <code class="prettyprint">srcset</code>.</p>
-</section>
-
+    
         <h5 class="phpdocumentor-argument-list__heading">Parameters</h5>
     <dl class="phpdocumentor-argument-list">
                     <dt class="phpdocumentor-argument-list__entry">
-                <span class="phpdocumentor-signature__argument__name">$asset</span>
-                : <span class="phpdocumentor-signature__argument__return-type"><a href="classes/Cecil-Asset.html"><abbr title="\Cecil\Asset">Asset</abbr></a></span>
+                <span class="phpdocumentor-argument-list__argument__name">$asset</span>
+                : <span class="phpdocumentor-argument-list__argument__type"><a href="classes/Cecil-Asset.html"><abbr title="\Cecil\Asset">Asset</abbr></a></span>
                             </dt>
             <dd class="phpdocumentor-argument-list__definition">
                 
             </dd>
                     <dt class="phpdocumentor-argument-list__entry">
-                <span class="phpdocumentor-signature__argument__name">$widths</span>
-                : <span class="phpdocumentor-signature__argument__return-type">array&lt;string|int, mixed&gt;</span>
+                <span class="phpdocumentor-argument-list__argument__name">$widths</span>
+                : <span class="phpdocumentor-argument-list__argument__type">array&lt;string|int, mixed&gt;</span>
                             </dt>
             <dd class="phpdocumentor-argument-list__definition">
                 
             </dd>
                     <dt class="phpdocumentor-argument-list__entry">
-                <span class="phpdocumentor-signature__argument__name">$notEmpty</span>
-                : <span class="phpdocumentor-signature__argument__return-type">mixed</span>
-                 = <span class="phpdocumentor-signature__argument__default-value">false</span>            </dt>
+                <span class="phpdocumentor-argument-list__argument__name">$notEmpty</span>
+                : <span class="phpdocumentor-argument-list__argument__type">mixed</span>
+                 = <span class="phpdocumentor-argument-list__argument__default-value">false</span>            </dt>
             <dd class="phpdocumentor-argument-list__definition">
                 
             </dd>
             </dl>
 
     
+
+        
+    
+            <section>
+        <h5 class="phpdocumentor-return-value__heading">Return values</h5>
+        <span class="phpdocumentor-signature__response_type">string</span>
+            </section>
+
+</article>
+                    <article
+        class="phpdocumentor-element
+            -method
+            -public
+                                    -static                    "
+>
+    <h4 class="phpdocumentor-element__name" id="method_buildHtmlSrcsetW">
+        buildHtmlSrcsetW()
+        <a href="classes/Cecil-Asset-Image.html#method_buildHtmlSrcsetW" class="headerlink"><i class="fas fa-link"></i></a>
+
+    </h4>
+    <aside class="phpdocumentor-element-found-in">
+    <abbr class="phpdocumentor-element-found-in__file" title="src/Asset/Image.php"><a href="files/src-asset-image.html"><abbr title="src/Asset/Image.php">Image.php</abbr></a></abbr>
+    :
+    <span class="phpdocumentor-element-found-in__line">244</span>
+
+    </aside>
+
+        <p class="phpdocumentor-summary">Build the `srcset` HTML attribute for responsive images, based on widths.</p>
+
+    <code class="phpdocumentor-code phpdocumentor-signature ">
+    <span class="phpdocumentor-signature__visibility">public</span>
+            <span class="phpdocumentor-signature__static">static</span>        <span class="phpdocumentor-signature__name">buildHtmlSrcsetW</span><span>(</span><span class="phpdocumentor-signature__argument"><span class="phpdocumentor-signature__argument__type"><a href="classes/Cecil-Asset.html"><abbr title="\Cecil\Asset">Asset</abbr></a>&nbsp;</span><span class="phpdocumentor-signature__argument__name">$asset</span></span><span class="phpdocumentor-signature__argument"><span>, </span><span class="phpdocumentor-signature__argument__type">array&lt;string|int, mixed&gt;&nbsp;</span><span class="phpdocumentor-signature__argument__name">$widths</span></span><span class="phpdocumentor-signature__argument"><span>[</span><span>, </span><span class="phpdocumentor-signature__argument__type">bool&nbsp;</span><span class="phpdocumentor-signature__argument__name">$notEmpty</span><span> = </span><span class="phpdocumentor-signature__argument__default-value">false</span><span> ]</span></span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">string</span></code>
+
+    <div class="phpdocumentor-label-line">
+        </div>
+    
+        <section class="phpdocumentor-description"><p>e.g.: <code class="prettyprint">srcset=&quot;/img-480.jpg 480w, /img-800.jpg 800w&quot;</code>.</p>
+</section>
+
+        <h5 class="phpdocumentor-argument-list__heading">Parameters</h5>
+    <dl class="phpdocumentor-argument-list">
+                    <dt class="phpdocumentor-argument-list__entry">
+                <span class="phpdocumentor-argument-list__argument__name">$asset</span>
+                : <span class="phpdocumentor-argument-list__argument__type"><a href="classes/Cecil-Asset.html"><abbr title="\Cecil\Asset">Asset</abbr></a></span>
+                            </dt>
+            <dd class="phpdocumentor-argument-list__definition">
+                
+            </dd>
+                    <dt class="phpdocumentor-argument-list__entry">
+                <span class="phpdocumentor-argument-list__argument__name">$widths</span>
+                : <span class="phpdocumentor-argument-list__argument__type">array&lt;string|int, mixed&gt;</span>
+                            </dt>
+            <dd class="phpdocumentor-argument-list__definition">
+                    <section class="phpdocumentor-description"><p>An array of widths to include in the <code class="prettyprint">srcset</code></p>
+</section>
+
+            </dd>
+                    <dt class="phpdocumentor-argument-list__entry">
+                <span class="phpdocumentor-argument-list__argument__name">$notEmpty</span>
+                : <span class="phpdocumentor-argument-list__argument__type">bool</span>
+                 = <span class="phpdocumentor-argument-list__argument__default-value">false</span>            </dt>
+            <dd class="phpdocumentor-argument-list__definition">
+                    <section class="phpdocumentor-description"><p>If true the source image is always added to the <code class="prettyprint">srcset</code></p>
+</section>
+
+            </dd>
+            </dl>
+
+    
     <h5 class="phpdocumentor-tag-list__heading" id="tags">
         Tags
-        <a href="classes/Cecil-Asset-Image.html#method_buildHtmlSrcset#tags" class="headerlink"><i class="fas fa-link"></i></a>
+        <a href="classes/Cecil-Asset-Image.html#method_buildHtmlSrcsetW#tags" class="headerlink"><i class="fas fa-link"></i></a>
 
     </h5>
     <dl class="phpdocumentor-tag-list">
@@ -395,8 +472,92 @@ If $notEmpty is true, the source image is always added to the <code class="prett
                                     </dd>
                                             </dl>
 
+        
     
+            <section>
+        <h5 class="phpdocumentor-return-value__heading">Return values</h5>
+        <span class="phpdocumentor-signature__response_type">string</span>
+            </section>
 
+</article>
+                    <article
+        class="phpdocumentor-element
+            -method
+            -public
+                                    -static                    "
+>
+    <h4 class="phpdocumentor-element__name" id="method_buildHtmlSrcsetX">
+        buildHtmlSrcsetX()
+        <a href="classes/Cecil-Asset-Image.html#method_buildHtmlSrcsetX" class="headerlink"><i class="fas fa-link"></i></a>
+
+    </h4>
+    <aside class="phpdocumentor-element-found-in">
+    <abbr class="phpdocumentor-element-found-in__file" title="src/Asset/Image.php"><a href="files/src-asset-image.html"><abbr title="src/Asset/Image.php">Image.php</abbr></a></abbr>
+    :
+    <span class="phpdocumentor-element-found-in__line">287</span>
+
+    </aside>
+
+        <p class="phpdocumentor-summary">Build the `srcset` HTML attribute for responsive images, based on pixel ratios.</p>
+
+    <code class="phpdocumentor-code phpdocumentor-signature ">
+    <span class="phpdocumentor-signature__visibility">public</span>
+            <span class="phpdocumentor-signature__static">static</span>        <span class="phpdocumentor-signature__name">buildHtmlSrcsetX</span><span>(</span><span class="phpdocumentor-signature__argument"><span class="phpdocumentor-signature__argument__type"><a href="classes/Cecil-Asset.html"><abbr title="\Cecil\Asset">Asset</abbr></a>&nbsp;</span><span class="phpdocumentor-signature__argument__name">$asset</span></span><span class="phpdocumentor-signature__argument"><span>, </span><span class="phpdocumentor-signature__argument__type">int&nbsp;</span><span class="phpdocumentor-signature__argument__name">$width1x</span></span><span class="phpdocumentor-signature__argument"><span>, </span><span class="phpdocumentor-signature__argument__type">array&lt;string|int, mixed&gt;&nbsp;</span><span class="phpdocumentor-signature__argument__name">$ratios</span></span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">string</span></code>
+
+    <div class="phpdocumentor-label-line">
+        </div>
+    
+        <section class="phpdocumentor-description"><p>e.g.: <code class="prettyprint">srcset=&quot;/img-1x.jpg 1.0x, /img-2x.jpg 2.0x&quot;</code>.</p>
+</section>
+
+        <h5 class="phpdocumentor-argument-list__heading">Parameters</h5>
+    <dl class="phpdocumentor-argument-list">
+                    <dt class="phpdocumentor-argument-list__entry">
+                <span class="phpdocumentor-argument-list__argument__name">$asset</span>
+                : <span class="phpdocumentor-argument-list__argument__type"><a href="classes/Cecil-Asset.html"><abbr title="\Cecil\Asset">Asset</abbr></a></span>
+                            </dt>
+            <dd class="phpdocumentor-argument-list__definition">
+                
+            </dd>
+                    <dt class="phpdocumentor-argument-list__entry">
+                <span class="phpdocumentor-argument-list__argument__name">$width1x</span>
+                : <span class="phpdocumentor-argument-list__argument__type">int</span>
+                            </dt>
+            <dd class="phpdocumentor-argument-list__definition">
+                    <section class="phpdocumentor-description"><p>The width of the 1x image</p>
+</section>
+
+            </dd>
+                    <dt class="phpdocumentor-argument-list__entry">
+                <span class="phpdocumentor-argument-list__argument__name">$ratios</span>
+                : <span class="phpdocumentor-argument-list__argument__type">array&lt;string|int, mixed&gt;</span>
+                            </dt>
+            <dd class="phpdocumentor-argument-list__definition">
+                    <section class="phpdocumentor-description"><p>An array of pixel ratios to include in the <code class="prettyprint">srcset</code></p>
+</section>
+
+            </dd>
+            </dl>
+
+    
+    <h5 class="phpdocumentor-tag-list__heading" id="tags">
+        Tags
+        <a href="classes/Cecil-Asset-Image.html#method_buildHtmlSrcsetX#tags" class="headerlink"><i class="fas fa-link"></i></a>
+
+    </h5>
+    <dl class="phpdocumentor-tag-list">
+                                    <dt class="phpdocumentor-tag-list__entry">
+                    <span class="phpdocumentor-tag__name">throws</span>
+                </dt>
+                <dd class="phpdocumentor-tag-list__definition">
+                                                                <span class="phpdocumentor-tag-link"><a href="classes/Cecil-Exception-RuntimeException.html"><abbr title="\Cecil\Exception\RuntimeException">RuntimeException</abbr></a></span>
+                                                            
+                                             
+                                    </dd>
+                                            </dl>
+
+        
+    
             <section>
         <h5 class="phpdocumentor-return-value__heading">Return values</h5>
         <span class="phpdocumentor-signature__response_type">string</span>
@@ -417,7 +578,7 @@ If $notEmpty is true, the source image is always added to the <code class="prett
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Asset/Image.php"><a href="files/src-asset-image.html"><abbr title="src/Asset/Image.php">Image.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">167</span>
+    <span class="phpdocumentor-element-found-in__line">149</span>
 
     </aside>
 
@@ -425,7 +586,7 @@ If $notEmpty is true, the source image is always added to the <code class="prett
 
     <code class="phpdocumentor-code phpdocumentor-signature ">
     <span class="phpdocumentor-signature__visibility">public</span>
-            <span class="phpdocumentor-signature__static">static</span>        <span class="phpdocumentor-signature__name">convert</span><span>(</span><span class="phpdocumentor-signature__argument"><span class="phpdocumentor-signature__argument__return-type"><a href="classes/Cecil-Asset.html"><abbr title="\Cecil\Asset">Asset</abbr></a>&nbsp;</span><span class="phpdocumentor-signature__argument__name">$asset</span></span><span class="phpdocumentor-signature__argument"><span>, </span><span class="phpdocumentor-signature__argument__return-type">string&nbsp;</span><span class="phpdocumentor-signature__argument__name">$format</span></span><span class="phpdocumentor-signature__argument"><span>, </span><span class="phpdocumentor-signature__argument__return-type">int&nbsp;</span><span class="phpdocumentor-signature__argument__name">$quality</span></span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">string</span></code>
+            <span class="phpdocumentor-signature__static">static</span>        <span class="phpdocumentor-signature__name">convert</span><span>(</span><span class="phpdocumentor-signature__argument"><span class="phpdocumentor-signature__argument__type"><a href="classes/Cecil-Asset.html"><abbr title="\Cecil\Asset">Asset</abbr></a>&nbsp;</span><span class="phpdocumentor-signature__argument__name">$asset</span></span><span class="phpdocumentor-signature__argument"><span>, </span><span class="phpdocumentor-signature__argument__type">string&nbsp;</span><span class="phpdocumentor-signature__argument__name">$format</span></span><span class="phpdocumentor-signature__argument"><span>, </span><span class="phpdocumentor-signature__argument__type">int&nbsp;</span><span class="phpdocumentor-signature__argument__name">$quality</span></span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">string</span></code>
 
     <div class="phpdocumentor-label-line">
         </div>
@@ -434,22 +595,22 @@ If $notEmpty is true, the source image is always added to the <code class="prett
         <h5 class="phpdocumentor-argument-list__heading">Parameters</h5>
     <dl class="phpdocumentor-argument-list">
                     <dt class="phpdocumentor-argument-list__entry">
-                <span class="phpdocumentor-signature__argument__name">$asset</span>
-                : <span class="phpdocumentor-signature__argument__return-type"><a href="classes/Cecil-Asset.html"><abbr title="\Cecil\Asset">Asset</abbr></a></span>
+                <span class="phpdocumentor-argument-list__argument__name">$asset</span>
+                : <span class="phpdocumentor-argument-list__argument__type"><a href="classes/Cecil-Asset.html"><abbr title="\Cecil\Asset">Asset</abbr></a></span>
                             </dt>
             <dd class="phpdocumentor-argument-list__definition">
                 
             </dd>
                     <dt class="phpdocumentor-argument-list__entry">
-                <span class="phpdocumentor-signature__argument__name">$format</span>
-                : <span class="phpdocumentor-signature__argument__return-type">string</span>
+                <span class="phpdocumentor-argument-list__argument__name">$format</span>
+                : <span class="phpdocumentor-argument-list__argument__type">string</span>
                             </dt>
             <dd class="phpdocumentor-argument-list__definition">
                 
             </dd>
                     <dt class="phpdocumentor-argument-list__entry">
-                <span class="phpdocumentor-signature__argument__name">$quality</span>
-                : <span class="phpdocumentor-signature__argument__return-type">int</span>
+                <span class="phpdocumentor-argument-list__argument__name">$quality</span>
+                : <span class="phpdocumentor-argument-list__argument__type">int</span>
                             </dt>
             <dd class="phpdocumentor-argument-list__definition">
                 
@@ -473,8 +634,8 @@ If $notEmpty is true, the source image is always added to the <code class="prett
                                     </dd>
                                             </dl>
 
+        
     
-
             <section>
         <h5 class="phpdocumentor-return-value__heading">Return values</h5>
         <span class="phpdocumentor-signature__response_type">string</span>
@@ -487,23 +648,23 @@ If $notEmpty is true, the source image is always added to the <code class="prett
             -public
                                     -static                    "
 >
-    <h4 class="phpdocumentor-element__name" id="method_cover">
-        cover()
-        <a href="classes/Cecil-Asset-Image.html#method_cover" class="headerlink"><i class="fas fa-link"></i></a>
+    <h4 class="phpdocumentor-element__name" id="method_getBackgroundColor">
+        getBackgroundColor()
+        <a href="classes/Cecil-Asset-Image.html#method_getBackgroundColor" class="headerlink"><i class="fas fa-link"></i></a>
 
     </h4>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Asset/Image.php"><a href="files/src-asset-image.html"><abbr title="src/Asset/Image.php">Image.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">96</span>
+    <span class="phpdocumentor-element-found-in__line">208</span>
 
     </aside>
 
-        <p class="phpdocumentor-summary">Crops an image Asset to the given width and height, keeping the aspect ratio.</p>
+        <p class="phpdocumentor-summary">Returns the background RGB color of an image asset.</p>
 
     <code class="phpdocumentor-code phpdocumentor-signature ">
     <span class="phpdocumentor-signature__visibility">public</span>
-            <span class="phpdocumentor-signature__static">static</span>        <span class="phpdocumentor-signature__name">cover</span><span>(</span><span class="phpdocumentor-signature__argument"><span class="phpdocumentor-signature__argument__return-type"><a href="classes/Cecil-Asset.html"><abbr title="\Cecil\Asset">Asset</abbr></a>&nbsp;</span><span class="phpdocumentor-signature__argument__name">$asset</span></span><span class="phpdocumentor-signature__argument"><span>, </span><span class="phpdocumentor-signature__argument__return-type">int&nbsp;</span><span class="phpdocumentor-signature__argument__name">$width</span></span><span class="phpdocumentor-signature__argument"><span>, </span><span class="phpdocumentor-signature__argument__return-type">int&nbsp;</span><span class="phpdocumentor-signature__argument__name">$height</span></span><span class="phpdocumentor-signature__argument"><span>, </span><span class="phpdocumentor-signature__argument__return-type">int&nbsp;</span><span class="phpdocumentor-signature__argument__name">$quality</span></span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">string</span></code>
+            <span class="phpdocumentor-signature__static">static</span>        <span class="phpdocumentor-signature__name">getBackgroundColor</span><span>(</span><span class="phpdocumentor-signature__argument"><span class="phpdocumentor-signature__argument__type"><a href="classes/Cecil-Asset.html"><abbr title="\Cecil\Asset">Asset</abbr></a>&nbsp;</span><span class="phpdocumentor-signature__argument__name">$asset</span></span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">string</span></code>
 
     <div class="phpdocumentor-label-line">
         </div>
@@ -512,29 +673,8 @@ If $notEmpty is true, the source image is always added to the <code class="prett
         <h5 class="phpdocumentor-argument-list__heading">Parameters</h5>
     <dl class="phpdocumentor-argument-list">
                     <dt class="phpdocumentor-argument-list__entry">
-                <span class="phpdocumentor-signature__argument__name">$asset</span>
-                : <span class="phpdocumentor-signature__argument__return-type"><a href="classes/Cecil-Asset.html"><abbr title="\Cecil\Asset">Asset</abbr></a></span>
-                            </dt>
-            <dd class="phpdocumentor-argument-list__definition">
-                
-            </dd>
-                    <dt class="phpdocumentor-argument-list__entry">
-                <span class="phpdocumentor-signature__argument__name">$width</span>
-                : <span class="phpdocumentor-signature__argument__return-type">int</span>
-                            </dt>
-            <dd class="phpdocumentor-argument-list__definition">
-                
-            </dd>
-                    <dt class="phpdocumentor-argument-list__entry">
-                <span class="phpdocumentor-signature__argument__name">$height</span>
-                : <span class="phpdocumentor-signature__argument__return-type">int</span>
-                            </dt>
-            <dd class="phpdocumentor-argument-list__definition">
-                
-            </dd>
-                    <dt class="phpdocumentor-argument-list__entry">
-                <span class="phpdocumentor-signature__argument__name">$quality</span>
-                : <span class="phpdocumentor-signature__argument__return-type">int</span>
+                <span class="phpdocumentor-argument-list__argument__name">$asset</span>
+                : <span class="phpdocumentor-argument-list__argument__type"><a href="classes/Cecil-Asset.html"><abbr title="\Cecil\Asset">Asset</abbr></a></span>
                             </dt>
             <dd class="phpdocumentor-argument-list__definition">
                 
@@ -544,7 +684,7 @@ If $notEmpty is true, the source image is always added to the <code class="prett
     
     <h5 class="phpdocumentor-tag-list__heading" id="tags">
         Tags
-        <a href="classes/Cecil-Asset-Image.html#method_cover#tags" class="headerlink"><i class="fas fa-link"></i></a>
+        <a href="classes/Cecil-Asset-Image.html#method_getBackgroundColor#tags" class="headerlink"><i class="fas fa-link"></i></a>
 
     </h5>
     <dl class="phpdocumentor-tag-list">
@@ -558,8 +698,8 @@ If $notEmpty is true, the source image is always added to the <code class="prett
                                     </dd>
                                             </dl>
 
+        
     
-
             <section>
         <h5 class="phpdocumentor-return-value__heading">Return values</h5>
         <span class="phpdocumentor-signature__response_type">string</span>
@@ -580,7 +720,7 @@ If $notEmpty is true, the source image is always added to the <code class="prett
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Asset/Image.php"><a href="files/src-asset-image.html"><abbr title="src/Asset/Image.php">Image.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">194</span>
+    <span class="phpdocumentor-element-found-in__line">176</span>
 
     </aside>
 
@@ -588,7 +728,7 @@ If $notEmpty is true, the source image is always added to the <code class="prett
 
     <code class="phpdocumentor-code phpdocumentor-signature ">
     <span class="phpdocumentor-signature__visibility">public</span>
-            <span class="phpdocumentor-signature__static">static</span>        <span class="phpdocumentor-signature__name">getDataUrl</span><span>(</span><span class="phpdocumentor-signature__argument"><span class="phpdocumentor-signature__argument__return-type"><a href="classes/Cecil-Asset.html"><abbr title="\Cecil\Asset">Asset</abbr></a>&nbsp;</span><span class="phpdocumentor-signature__argument__name">$asset</span></span><span class="phpdocumentor-signature__argument"><span>, </span><span class="phpdocumentor-signature__argument__return-type">int&nbsp;</span><span class="phpdocumentor-signature__argument__name">$quality</span></span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">string</span></code>
+            <span class="phpdocumentor-signature__static">static</span>        <span class="phpdocumentor-signature__name">getDataUrl</span><span>(</span><span class="phpdocumentor-signature__argument"><span class="phpdocumentor-signature__argument__type"><a href="classes/Cecil-Asset.html"><abbr title="\Cecil\Asset">Asset</abbr></a>&nbsp;</span><span class="phpdocumentor-signature__argument__name">$asset</span></span><span class="phpdocumentor-signature__argument"><span>, </span><span class="phpdocumentor-signature__argument__type">int&nbsp;</span><span class="phpdocumentor-signature__argument__name">$quality</span></span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">string</span></code>
 
     <div class="phpdocumentor-label-line">
         </div>
@@ -597,15 +737,15 @@ If $notEmpty is true, the source image is always added to the <code class="prett
         <h5 class="phpdocumentor-argument-list__heading">Parameters</h5>
     <dl class="phpdocumentor-argument-list">
                     <dt class="phpdocumentor-argument-list__entry">
-                <span class="phpdocumentor-signature__argument__name">$asset</span>
-                : <span class="phpdocumentor-signature__argument__return-type"><a href="classes/Cecil-Asset.html"><abbr title="\Cecil\Asset">Asset</abbr></a></span>
+                <span class="phpdocumentor-argument-list__argument__name">$asset</span>
+                : <span class="phpdocumentor-argument-list__argument__type"><a href="classes/Cecil-Asset.html"><abbr title="\Cecil\Asset">Asset</abbr></a></span>
                             </dt>
             <dd class="phpdocumentor-argument-list__definition">
                 
             </dd>
                     <dt class="phpdocumentor-argument-list__entry">
-                <span class="phpdocumentor-signature__argument__name">$quality</span>
-                : <span class="phpdocumentor-signature__argument__return-type">int</span>
+                <span class="phpdocumentor-argument-list__argument__name">$quality</span>
+                : <span class="phpdocumentor-argument-list__argument__type">int</span>
                             </dt>
             <dd class="phpdocumentor-argument-list__definition">
                 
@@ -629,8 +769,8 @@ If $notEmpty is true, the source image is always added to the <code class="prett
                                     </dd>
                                             </dl>
 
+        
     
-
             <section>
         <h5 class="phpdocumentor-return-value__heading">Return values</h5>
         <span class="phpdocumentor-signature__response_type">string</span>
@@ -651,7 +791,7 @@ If $notEmpty is true, the source image is always added to the <code class="prett
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Asset/Image.php"><a href="files/src-asset-image.html"><abbr title="src/Asset/Image.php">Image.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">210</span>
+    <span class="phpdocumentor-element-found-in__line">192</span>
 
     </aside>
 
@@ -659,7 +799,7 @@ If $notEmpty is true, the source image is always added to the <code class="prett
 
     <code class="phpdocumentor-code phpdocumentor-signature ">
     <span class="phpdocumentor-signature__visibility">public</span>
-            <span class="phpdocumentor-signature__static">static</span>        <span class="phpdocumentor-signature__name">getDominantColor</span><span>(</span><span class="phpdocumentor-signature__argument"><span class="phpdocumentor-signature__argument__return-type"><a href="classes/Cecil-Asset.html"><abbr title="\Cecil\Asset">Asset</abbr></a>&nbsp;</span><span class="phpdocumentor-signature__argument__name">$asset</span></span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">string</span></code>
+            <span class="phpdocumentor-signature__static">static</span>        <span class="phpdocumentor-signature__name">getDominantColor</span><span>(</span><span class="phpdocumentor-signature__argument"><span class="phpdocumentor-signature__argument__type"><a href="classes/Cecil-Asset.html"><abbr title="\Cecil\Asset">Asset</abbr></a>&nbsp;</span><span class="phpdocumentor-signature__argument__name">$asset</span></span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">string</span></code>
 
     <div class="phpdocumentor-label-line">
         </div>
@@ -668,8 +808,8 @@ If $notEmpty is true, the source image is always added to the <code class="prett
         <h5 class="phpdocumentor-argument-list__heading">Parameters</h5>
     <dl class="phpdocumentor-argument-list">
                     <dt class="phpdocumentor-argument-list__entry">
-                <span class="phpdocumentor-signature__argument__name">$asset</span>
-                : <span class="phpdocumentor-signature__argument__return-type"><a href="classes/Cecil-Asset.html"><abbr title="\Cecil\Asset">Asset</abbr></a></span>
+                <span class="phpdocumentor-argument-list__argument__name">$asset</span>
+                : <span class="phpdocumentor-argument-list__argument__type"><a href="classes/Cecil-Asset.html"><abbr title="\Cecil\Asset">Asset</abbr></a></span>
                             </dt>
             <dd class="phpdocumentor-argument-list__definition">
                 
@@ -693,8 +833,8 @@ If $notEmpty is true, the source image is always added to the <code class="prett
                                     </dd>
                                             </dl>
 
+        
     
-
             <section>
         <h5 class="phpdocumentor-return-value__heading">Return values</h5>
         <span class="phpdocumentor-signature__response_type">string</span>
@@ -715,7 +855,7 @@ If $notEmpty is true, the source image is always added to the <code class="prett
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Asset/Image.php"><a href="files/src-asset-image.html"><abbr title="src/Asset/Image.php">Image.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">275</span>
+    <span class="phpdocumentor-element-found-in__line">316</span>
 
     </aside>
 
@@ -723,7 +863,7 @@ If $notEmpty is true, the source image is always added to the <code class="prett
 
     <code class="phpdocumentor-code phpdocumentor-signature ">
     <span class="phpdocumentor-signature__visibility">public</span>
-            <span class="phpdocumentor-signature__static">static</span>        <span class="phpdocumentor-signature__name">getHtmlSizes</span><span>(</span><span class="phpdocumentor-signature__argument"><span class="phpdocumentor-signature__argument__return-type">string&nbsp;</span><span class="phpdocumentor-signature__argument__name">$class</span></span><span class="phpdocumentor-signature__argument"><span>[</span><span>, </span><span class="phpdocumentor-signature__argument__return-type">array&lt;string|int, mixed&gt;&nbsp;</span><span class="phpdocumentor-signature__argument__name">$sizes</span><span> = </span><span class="phpdocumentor-signature__argument__default-value">[]</span><span> ]</span></span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">string</span></code>
+            <span class="phpdocumentor-signature__static">static</span>        <span class="phpdocumentor-signature__name">getHtmlSizes</span><span>(</span><span class="phpdocumentor-signature__argument"><span class="phpdocumentor-signature__argument__type">string&nbsp;</span><span class="phpdocumentor-signature__argument__name">$class</span></span><span class="phpdocumentor-signature__argument"><span>[</span><span>, </span><span class="phpdocumentor-signature__argument__type">array&lt;string|int, mixed&gt;&nbsp;</span><span class="phpdocumentor-signature__argument__name">$sizes</span><span> = </span><span class="phpdocumentor-signature__argument__default-value">[]</span><span> ]</span></span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">string</span></code>
 
     <div class="phpdocumentor-label-line">
         </div>
@@ -732,16 +872,16 @@ If $notEmpty is true, the source image is always added to the <code class="prett
         <h5 class="phpdocumentor-argument-list__heading">Parameters</h5>
     <dl class="phpdocumentor-argument-list">
                     <dt class="phpdocumentor-argument-list__entry">
-                <span class="phpdocumentor-signature__argument__name">$class</span>
-                : <span class="phpdocumentor-signature__argument__return-type">string</span>
+                <span class="phpdocumentor-argument-list__argument__name">$class</span>
+                : <span class="phpdocumentor-argument-list__argument__type">string</span>
                             </dt>
             <dd class="phpdocumentor-argument-list__definition">
                 
             </dd>
                     <dt class="phpdocumentor-argument-list__entry">
-                <span class="phpdocumentor-signature__argument__name">$sizes</span>
-                : <span class="phpdocumentor-signature__argument__return-type">array&lt;string|int, mixed&gt;</span>
-                 = <span class="phpdocumentor-signature__argument__default-value">[]</span>            </dt>
+                <span class="phpdocumentor-argument-list__argument__name">$sizes</span>
+                : <span class="phpdocumentor-argument-list__argument__type">array&lt;string|int, mixed&gt;</span>
+                 = <span class="phpdocumentor-argument-list__argument__default-value">[]</span>            </dt>
             <dd class="phpdocumentor-argument-list__definition">
                 
             </dd>
@@ -749,8 +889,8 @@ If $notEmpty is true, the source image is always added to the <code class="prett
 
     
 
+        
     
-
             <section>
         <h5 class="phpdocumentor-return-value__heading">Return values</h5>
         <span class="phpdocumentor-signature__response_type">string</span>
@@ -771,7 +911,7 @@ If $notEmpty is true, the source image is always added to the <code class="prett
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Asset/Image.php"><a href="files/src-asset-image.html"><abbr title="src/Asset/Image.php">Image.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">226</span>
+    <span class="phpdocumentor-element-found-in__line">224</span>
 
     </aside>
 
@@ -779,7 +919,7 @@ If $notEmpty is true, the source image is always added to the <code class="prett
 
     <code class="phpdocumentor-code phpdocumentor-signature ">
     <span class="phpdocumentor-signature__visibility">public</span>
-            <span class="phpdocumentor-signature__static">static</span>        <span class="phpdocumentor-signature__name">getLqip</span><span>(</span><span class="phpdocumentor-signature__argument"><span class="phpdocumentor-signature__argument__return-type"><a href="classes/Cecil-Asset.html"><abbr title="\Cecil\Asset">Asset</abbr></a>&nbsp;</span><span class="phpdocumentor-signature__argument__name">$asset</span></span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">string</span></code>
+            <span class="phpdocumentor-signature__static">static</span>        <span class="phpdocumentor-signature__name">getLqip</span><span>(</span><span class="phpdocumentor-signature__argument"><span class="phpdocumentor-signature__argument__type"><a href="classes/Cecil-Asset.html"><abbr title="\Cecil\Asset">Asset</abbr></a>&nbsp;</span><span class="phpdocumentor-signature__argument__name">$asset</span></span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">string</span></code>
 
     <div class="phpdocumentor-label-line">
         </div>
@@ -788,8 +928,8 @@ If $notEmpty is true, the source image is always added to the <code class="prett
         <h5 class="phpdocumentor-argument-list__heading">Parameters</h5>
     <dl class="phpdocumentor-argument-list">
                     <dt class="phpdocumentor-argument-list__entry">
-                <span class="phpdocumentor-signature__argument__name">$asset</span>
-                : <span class="phpdocumentor-signature__argument__return-type"><a href="classes/Cecil-Asset.html"><abbr title="\Cecil\Asset">Asset</abbr></a></span>
+                <span class="phpdocumentor-argument-list__argument__name">$asset</span>
+                : <span class="phpdocumentor-argument-list__argument__type"><a href="classes/Cecil-Asset.html"><abbr title="\Cecil\Asset">Asset</abbr></a></span>
                             </dt>
             <dd class="phpdocumentor-argument-list__definition">
                 
@@ -813,8 +953,8 @@ If $notEmpty is true, the source image is always added to the <code class="prett
                                     </dd>
                                             </dl>
 
+        
     
-
             <section>
         <h5 class="phpdocumentor-return-value__heading">Return values</h5>
         <span class="phpdocumentor-signature__response_type">string</span>
@@ -835,7 +975,7 @@ If $notEmpty is true, the source image is always added to the <code class="prett
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Asset/Image.php"><a href="files/src-asset-image.html"><abbr title="src/Asset/Image.php">Image.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">338</span>
+    <span class="phpdocumentor-element-found-in__line">379</span>
 
     </aside>
 
@@ -843,7 +983,7 @@ If $notEmpty is true, the source image is always added to the <code class="prett
 
     <code class="phpdocumentor-code phpdocumentor-signature ">
     <span class="phpdocumentor-signature__visibility">public</span>
-            <span class="phpdocumentor-signature__static">static</span>        <span class="phpdocumentor-signature__name">getSvgAttributes</span><span>(</span><span class="phpdocumentor-signature__argument"><span class="phpdocumentor-signature__argument__return-type"><a href="classes/Cecil-Asset.html"><abbr title="\Cecil\Asset">Asset</abbr></a>&nbsp;</span><span class="phpdocumentor-signature__argument__name">$asset</span></span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type"><abbr title="\SimpleXMLElement">SimpleXMLElement</abbr>|false</span></code>
+            <span class="phpdocumentor-signature__static">static</span>        <span class="phpdocumentor-signature__name">getSvgAttributes</span><span>(</span><span class="phpdocumentor-signature__argument"><span class="phpdocumentor-signature__argument__type"><a href="classes/Cecil-Asset.html"><abbr title="\Cecil\Asset">Asset</abbr></a>&nbsp;</span><span class="phpdocumentor-signature__argument__name">$asset</span></span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type"><abbr title="\SimpleXMLElement">SimpleXMLElement</abbr>|false</span></code>
 
     <div class="phpdocumentor-label-line">
         </div>
@@ -852,8 +992,8 @@ If $notEmpty is true, the source image is always added to the <code class="prett
         <h5 class="phpdocumentor-argument-list__heading">Parameters</h5>
     <dl class="phpdocumentor-argument-list">
                     <dt class="phpdocumentor-argument-list__entry">
-                <span class="phpdocumentor-signature__argument__name">$asset</span>
-                : <span class="phpdocumentor-signature__argument__return-type"><a href="classes/Cecil-Asset.html"><abbr title="\Cecil\Asset">Asset</abbr></a></span>
+                <span class="phpdocumentor-argument-list__argument__name">$asset</span>
+                : <span class="phpdocumentor-argument-list__argument__type"><a href="classes/Cecil-Asset.html"><abbr title="\Cecil\Asset">Asset</abbr></a></span>
                             </dt>
             <dd class="phpdocumentor-argument-list__definition">
                 
@@ -862,8 +1002,8 @@ If $notEmpty is true, the source image is always added to the <code class="prett
 
     
 
+        
     
-
             <section>
         <h5 class="phpdocumentor-return-value__heading">Return values</h5>
         <span class="phpdocumentor-signature__response_type"><abbr title="\SimpleXMLElement">SimpleXMLElement</abbr>|false</span>
@@ -884,7 +1024,7 @@ If $notEmpty is true, the source image is always added to the <code class="prett
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Asset/Image.php"><a href="files/src-asset-image.html"><abbr title="src/Asset/Image.php">Image.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">294</span>
+    <span class="phpdocumentor-element-found-in__line">335</span>
 
     </aside>
 
@@ -892,7 +1032,7 @@ If $notEmpty is true, the source image is always added to the <code class="prett
 
     <code class="phpdocumentor-code phpdocumentor-signature ">
     <span class="phpdocumentor-signature__visibility">public</span>
-            <span class="phpdocumentor-signature__static">static</span>        <span class="phpdocumentor-signature__name">isAnimatedGif</span><span>(</span><span class="phpdocumentor-signature__argument"><span class="phpdocumentor-signature__argument__return-type"><a href="classes/Cecil-Asset.html"><abbr title="\Cecil\Asset">Asset</abbr></a>&nbsp;</span><span class="phpdocumentor-signature__argument__name">$asset</span></span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">bool</span></code>
+            <span class="phpdocumentor-signature__static">static</span>        <span class="phpdocumentor-signature__name">isAnimatedGif</span><span>(</span><span class="phpdocumentor-signature__argument"><span class="phpdocumentor-signature__argument__type"><a href="classes/Cecil-Asset.html"><abbr title="\Cecil\Asset">Asset</abbr></a>&nbsp;</span><span class="phpdocumentor-signature__argument__name">$asset</span></span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">bool</span></code>
 
     <div class="phpdocumentor-label-line">
         </div>
@@ -901,8 +1041,8 @@ If $notEmpty is true, the source image is always added to the <code class="prett
         <h5 class="phpdocumentor-argument-list__heading">Parameters</h5>
     <dl class="phpdocumentor-argument-list">
                     <dt class="phpdocumentor-argument-list__entry">
-                <span class="phpdocumentor-signature__argument__name">$asset</span>
-                : <span class="phpdocumentor-signature__argument__return-type"><a href="classes/Cecil-Asset.html"><abbr title="\Cecil\Asset">Asset</abbr></a></span>
+                <span class="phpdocumentor-argument-list__argument__name">$asset</span>
+                : <span class="phpdocumentor-argument-list__argument__type"><a href="classes/Cecil-Asset.html"><abbr title="\Cecil\Asset">Asset</abbr></a></span>
                             </dt>
             <dd class="phpdocumentor-argument-list__definition">
                 
@@ -911,8 +1051,8 @@ If $notEmpty is true, the source image is always added to the <code class="prett
 
     
 
+        
     
-
             <section>
         <h5 class="phpdocumentor-return-value__heading">Return values</h5>
         <span class="phpdocumentor-signature__response_type">bool</span>
@@ -933,7 +1073,7 @@ If $notEmpty is true, the source image is always added to the <code class="prett
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Asset/Image.php"><a href="files/src-asset-image.html"><abbr title="src/Asset/Image.php">Image.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">316</span>
+    <span class="phpdocumentor-element-found-in__line">357</span>
 
     </aside>
 
@@ -941,7 +1081,7 @@ If $notEmpty is true, the source image is always added to the <code class="prett
 
     <code class="phpdocumentor-code phpdocumentor-signature ">
     <span class="phpdocumentor-signature__visibility">public</span>
-            <span class="phpdocumentor-signature__static">static</span>        <span class="phpdocumentor-signature__name">isIco</span><span>(</span><span class="phpdocumentor-signature__argument"><span class="phpdocumentor-signature__argument__return-type"><a href="classes/Cecil-Asset.html"><abbr title="\Cecil\Asset">Asset</abbr></a>&nbsp;</span><span class="phpdocumentor-signature__argument__name">$asset</span></span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">bool</span></code>
+            <span class="phpdocumentor-signature__static">static</span>        <span class="phpdocumentor-signature__name">isIco</span><span>(</span><span class="phpdocumentor-signature__argument"><span class="phpdocumentor-signature__argument__type"><a href="classes/Cecil-Asset.html"><abbr title="\Cecil\Asset">Asset</abbr></a>&nbsp;</span><span class="phpdocumentor-signature__argument__name">$asset</span></span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">bool</span></code>
 
     <div class="phpdocumentor-label-line">
         </div>
@@ -950,8 +1090,8 @@ If $notEmpty is true, the source image is always added to the <code class="prett
         <h5 class="phpdocumentor-argument-list__heading">Parameters</h5>
     <dl class="phpdocumentor-argument-list">
                     <dt class="phpdocumentor-argument-list__entry">
-                <span class="phpdocumentor-signature__argument__name">$asset</span>
-                : <span class="phpdocumentor-signature__argument__return-type"><a href="classes/Cecil-Asset.html"><abbr title="\Cecil\Asset">Asset</abbr></a></span>
+                <span class="phpdocumentor-argument-list__argument__name">$asset</span>
+                : <span class="phpdocumentor-argument-list__argument__type"><a href="classes/Cecil-Asset.html"><abbr title="\Cecil\Asset">Asset</abbr></a></span>
                             </dt>
             <dd class="phpdocumentor-argument-list__definition">
                 
@@ -960,8 +1100,8 @@ If $notEmpty is true, the source image is always added to the <code class="prett
 
     
 
+        
     
-
             <section>
         <h5 class="phpdocumentor-return-value__heading">Return values</h5>
         <span class="phpdocumentor-signature__response_type">bool</span>
@@ -982,7 +1122,7 @@ If $notEmpty is true, the source image is always added to the <code class="prett
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Asset/Image.php"><a href="files/src-asset-image.html"><abbr title="src/Asset/Image.php">Image.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">324</span>
+    <span class="phpdocumentor-element-found-in__line">365</span>
 
     </aside>
 
@@ -990,7 +1130,7 @@ If $notEmpty is true, the source image is always added to the <code class="prett
 
     <code class="phpdocumentor-code phpdocumentor-signature ">
     <span class="phpdocumentor-signature__visibility">public</span>
-            <span class="phpdocumentor-signature__static">static</span>        <span class="phpdocumentor-signature__name">isImage</span><span>(</span><span class="phpdocumentor-signature__argument"><span class="phpdocumentor-signature__argument__return-type"><a href="classes/Cecil-Asset.html"><abbr title="\Cecil\Asset">Asset</abbr></a>&nbsp;</span><span class="phpdocumentor-signature__argument__name">$asset</span></span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">bool</span></code>
+            <span class="phpdocumentor-signature__static">static</span>        <span class="phpdocumentor-signature__name">isImage</span><span>(</span><span class="phpdocumentor-signature__argument"><span class="phpdocumentor-signature__argument__type"><a href="classes/Cecil-Asset.html"><abbr title="\Cecil\Asset">Asset</abbr></a>&nbsp;</span><span class="phpdocumentor-signature__argument__name">$asset</span></span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">bool</span></code>
 
     <div class="phpdocumentor-label-line">
         </div>
@@ -999,8 +1139,8 @@ If $notEmpty is true, the source image is always added to the <code class="prett
         <h5 class="phpdocumentor-argument-list__heading">Parameters</h5>
     <dl class="phpdocumentor-argument-list">
                     <dt class="phpdocumentor-argument-list__entry">
-                <span class="phpdocumentor-signature__argument__name">$asset</span>
-                : <span class="phpdocumentor-signature__argument__return-type"><a href="classes/Cecil-Asset.html"><abbr title="\Cecil\Asset">Asset</abbr></a></span>
+                <span class="phpdocumentor-argument-list__argument__name">$asset</span>
+                : <span class="phpdocumentor-argument-list__argument__type"><a href="classes/Cecil-Asset.html"><abbr title="\Cecil\Asset">Asset</abbr></a></span>
                             </dt>
             <dd class="phpdocumentor-argument-list__definition">
                 
@@ -1009,8 +1149,8 @@ If $notEmpty is true, the source image is always added to the <code class="prett
 
     
 
+        
     
-
             <section>
         <h5 class="phpdocumentor-return-value__heading">Return values</h5>
         <span class="phpdocumentor-signature__response_type">bool</span>
@@ -1031,7 +1171,7 @@ If $notEmpty is true, the source image is always added to the <code class="prett
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Asset/Image.php"><a href="files/src-asset-image.html"><abbr title="src/Asset/Image.php">Image.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">308</span>
+    <span class="phpdocumentor-element-found-in__line">349</span>
 
     </aside>
 
@@ -1039,7 +1179,7 @@ If $notEmpty is true, the source image is always added to the <code class="prett
 
     <code class="phpdocumentor-code phpdocumentor-signature ">
     <span class="phpdocumentor-signature__visibility">public</span>
-            <span class="phpdocumentor-signature__static">static</span>        <span class="phpdocumentor-signature__name">isSVG</span><span>(</span><span class="phpdocumentor-signature__argument"><span class="phpdocumentor-signature__argument__return-type"><a href="classes/Cecil-Asset.html"><abbr title="\Cecil\Asset">Asset</abbr></a>&nbsp;</span><span class="phpdocumentor-signature__argument__name">$asset</span></span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">bool</span></code>
+            <span class="phpdocumentor-signature__static">static</span>        <span class="phpdocumentor-signature__name">isSVG</span><span>(</span><span class="phpdocumentor-signature__argument"><span class="phpdocumentor-signature__argument__type"><a href="classes/Cecil-Asset.html"><abbr title="\Cecil\Asset">Asset</abbr></a>&nbsp;</span><span class="phpdocumentor-signature__argument__name">$asset</span></span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">bool</span></code>
 
     <div class="phpdocumentor-label-line">
         </div>
@@ -1048,8 +1188,8 @@ If $notEmpty is true, the source image is always added to the <code class="prett
         <h5 class="phpdocumentor-argument-list__heading">Parameters</h5>
     <dl class="phpdocumentor-argument-list">
                     <dt class="phpdocumentor-argument-list__entry">
-                <span class="phpdocumentor-signature__argument__name">$asset</span>
-                : <span class="phpdocumentor-signature__argument__return-type"><a href="classes/Cecil-Asset.html"><abbr title="\Cecil\Asset">Asset</abbr></a></span>
+                <span class="phpdocumentor-argument-list__argument__name">$asset</span>
+                : <span class="phpdocumentor-argument-list__argument__type"><a href="classes/Cecil-Asset.html"><abbr title="\Cecil\Asset">Asset</abbr></a></span>
                             </dt>
             <dd class="phpdocumentor-argument-list__definition">
                 
@@ -1058,8 +1198,8 @@ If $notEmpty is true, the source image is always added to the <code class="prett
 
     
 
+        
     
-
             <section>
         <h5 class="phpdocumentor-return-value__heading">Return values</h5>
         <span class="phpdocumentor-signature__response_type">bool</span>
@@ -1080,7 +1220,7 @@ If $notEmpty is true, the source image is always added to the <code class="prett
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Asset/Image.php"><a href="files/src-asset-image.html"><abbr title="src/Asset/Image.php">Image.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">130</span>
+    <span class="phpdocumentor-element-found-in__line">115</span>
 
     </aside>
 
@@ -1088,7 +1228,7 @@ If $notEmpty is true, the source image is always added to the <code class="prett
 
     <code class="phpdocumentor-code phpdocumentor-signature ">
     <span class="phpdocumentor-signature__visibility">public</span>
-            <span class="phpdocumentor-signature__static">static</span>        <span class="phpdocumentor-signature__name">maskable</span><span>(</span><span class="phpdocumentor-signature__argument"><span class="phpdocumentor-signature__argument__return-type"><a href="classes/Cecil-Asset.html"><abbr title="\Cecil\Asset">Asset</abbr></a>&nbsp;</span><span class="phpdocumentor-signature__argument__name">$asset</span></span><span class="phpdocumentor-signature__argument"><span>, </span><span class="phpdocumentor-signature__argument__return-type">int&nbsp;</span><span class="phpdocumentor-signature__argument__name">$quality</span></span><span class="phpdocumentor-signature__argument"><span>, </span><span class="phpdocumentor-signature__argument__return-type">int&nbsp;</span><span class="phpdocumentor-signature__argument__name">$padding</span></span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">string</span></code>
+            <span class="phpdocumentor-signature__static">static</span>        <span class="phpdocumentor-signature__name">maskable</span><span>(</span><span class="phpdocumentor-signature__argument"><span class="phpdocumentor-signature__argument__type"><a href="classes/Cecil-Asset.html"><abbr title="\Cecil\Asset">Asset</abbr></a>&nbsp;</span><span class="phpdocumentor-signature__argument__name">$asset</span></span><span class="phpdocumentor-signature__argument"><span>, </span><span class="phpdocumentor-signature__argument__type">int&nbsp;</span><span class="phpdocumentor-signature__argument__name">$quality</span></span><span class="phpdocumentor-signature__argument"><span>, </span><span class="phpdocumentor-signature__argument__type">int&nbsp;</span><span class="phpdocumentor-signature__argument__name">$padding</span></span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">string</span></code>
 
     <div class="phpdocumentor-label-line">
         </div>
@@ -1097,22 +1237,22 @@ If $notEmpty is true, the source image is always added to the <code class="prett
         <h5 class="phpdocumentor-argument-list__heading">Parameters</h5>
     <dl class="phpdocumentor-argument-list">
                     <dt class="phpdocumentor-argument-list__entry">
-                <span class="phpdocumentor-signature__argument__name">$asset</span>
-                : <span class="phpdocumentor-signature__argument__return-type"><a href="classes/Cecil-Asset.html"><abbr title="\Cecil\Asset">Asset</abbr></a></span>
+                <span class="phpdocumentor-argument-list__argument__name">$asset</span>
+                : <span class="phpdocumentor-argument-list__argument__type"><a href="classes/Cecil-Asset.html"><abbr title="\Cecil\Asset">Asset</abbr></a></span>
                             </dt>
             <dd class="phpdocumentor-argument-list__definition">
                 
             </dd>
                     <dt class="phpdocumentor-argument-list__entry">
-                <span class="phpdocumentor-signature__argument__name">$quality</span>
-                : <span class="phpdocumentor-signature__argument__return-type">int</span>
+                <span class="phpdocumentor-argument-list__argument__name">$quality</span>
+                : <span class="phpdocumentor-argument-list__argument__type">int</span>
                             </dt>
             <dd class="phpdocumentor-argument-list__definition">
                 
             </dd>
                     <dt class="phpdocumentor-argument-list__entry">
-                <span class="phpdocumentor-signature__argument__name">$padding</span>
-                : <span class="phpdocumentor-signature__argument__return-type">int</span>
+                <span class="phpdocumentor-argument-list__argument__name">$padding</span>
+                : <span class="phpdocumentor-argument-list__argument__type">int</span>
                             </dt>
             <dd class="phpdocumentor-argument-list__definition">
                 
@@ -1136,8 +1276,8 @@ If $notEmpty is true, the source image is always added to the <code class="prett
                                     </dd>
                                             </dl>
 
+        
     
-
             <section>
         <h5 class="phpdocumentor-return-value__heading">Return values</h5>
         <span class="phpdocumentor-signature__response_type">string</span>
@@ -1158,40 +1298,58 @@ If $notEmpty is true, the source image is always added to the <code class="prett
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Asset/Image.php"><a href="files/src-asset-image.html"><abbr title="src/Asset/Image.php">Image.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">70</span>
+    <span class="phpdocumentor-element-found-in__line">74</span>
 
     </aside>
 
-        <p class="phpdocumentor-summary">Scales down an image Asset to the given width, keeping the aspect ratio.</p>
+        <p class="phpdocumentor-summary">Resizes an image Asset to the given width or/and height.</p>
 
     <code class="phpdocumentor-code phpdocumentor-signature ">
     <span class="phpdocumentor-signature__visibility">public</span>
-            <span class="phpdocumentor-signature__static">static</span>        <span class="phpdocumentor-signature__name">resize</span><span>(</span><span class="phpdocumentor-signature__argument"><span class="phpdocumentor-signature__argument__return-type"><a href="classes/Cecil-Asset.html"><abbr title="\Cecil\Asset">Asset</abbr></a>&nbsp;</span><span class="phpdocumentor-signature__argument__name">$asset</span></span><span class="phpdocumentor-signature__argument"><span>, </span><span class="phpdocumentor-signature__argument__return-type">int&nbsp;</span><span class="phpdocumentor-signature__argument__name">$width</span></span><span class="phpdocumentor-signature__argument"><span>, </span><span class="phpdocumentor-signature__argument__return-type">int&nbsp;</span><span class="phpdocumentor-signature__argument__name">$quality</span></span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">string</span></code>
+            <span class="phpdocumentor-signature__static">static</span>        <span class="phpdocumentor-signature__name">resize</span><span>(</span><span class="phpdocumentor-signature__argument"><span class="phpdocumentor-signature__argument__type"><a href="classes/Cecil-Asset.html"><abbr title="\Cecil\Asset">Asset</abbr></a>&nbsp;</span><span class="phpdocumentor-signature__argument__name">$asset</span></span><span class="phpdocumentor-signature__argument"><span>[</span><span>, </span><span class="phpdocumentor-signature__argument__type">int|null&nbsp;</span><span class="phpdocumentor-signature__argument__name">$width</span><span> = </span><span class="phpdocumentor-signature__argument__default-value">null</span><span> ]</span></span><span class="phpdocumentor-signature__argument"><span>[</span><span>, </span><span class="phpdocumentor-signature__argument__type">int|null&nbsp;</span><span class="phpdocumentor-signature__argument__name">$height</span><span> = </span><span class="phpdocumentor-signature__argument__default-value">null</span><span> ]</span></span><span class="phpdocumentor-signature__argument"><span>[</span><span>, </span><span class="phpdocumentor-signature__argument__type">int&nbsp;</span><span class="phpdocumentor-signature__argument__name">$quality</span><span> = </span><span class="phpdocumentor-signature__argument__default-value">75</span><span> ]</span></span><span class="phpdocumentor-signature__argument"><span>[</span><span>, </span><span class="phpdocumentor-signature__argument__type">bool&nbsp;</span><span class="phpdocumentor-signature__argument__name">$rmAnimation</span><span> = </span><span class="phpdocumentor-signature__argument__default-value">false</span><span> ]</span></span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">string</span></code>
 
     <div class="phpdocumentor-label-line">
         </div>
     
-    
+        <section class="phpdocumentor-description"><p>If both width and height are provided, the image is cropped to fit the dimensions.
+If only one dimension is provided, the image is scaled proportionally.
+The $rmAnimation parameter can be set to true to remove animations from animated images (e.g., GIFs).</p>
+</section>
+
         <h5 class="phpdocumentor-argument-list__heading">Parameters</h5>
     <dl class="phpdocumentor-argument-list">
                     <dt class="phpdocumentor-argument-list__entry">
-                <span class="phpdocumentor-signature__argument__name">$asset</span>
-                : <span class="phpdocumentor-signature__argument__return-type"><a href="classes/Cecil-Asset.html"><abbr title="\Cecil\Asset">Asset</abbr></a></span>
+                <span class="phpdocumentor-argument-list__argument__name">$asset</span>
+                : <span class="phpdocumentor-argument-list__argument__type"><a href="classes/Cecil-Asset.html"><abbr title="\Cecil\Asset">Asset</abbr></a></span>
                             </dt>
             <dd class="phpdocumentor-argument-list__definition">
                 
             </dd>
                     <dt class="phpdocumentor-argument-list__entry">
-                <span class="phpdocumentor-signature__argument__name">$width</span>
-                : <span class="phpdocumentor-signature__argument__return-type">int</span>
-                            </dt>
+                <span class="phpdocumentor-argument-list__argument__name">$width</span>
+                : <span class="phpdocumentor-argument-list__argument__type">int|null</span>
+                 = <span class="phpdocumentor-argument-list__argument__default-value">null</span>            </dt>
             <dd class="phpdocumentor-argument-list__definition">
                 
             </dd>
                     <dt class="phpdocumentor-argument-list__entry">
-                <span class="phpdocumentor-signature__argument__name">$quality</span>
-                : <span class="phpdocumentor-signature__argument__return-type">int</span>
-                            </dt>
+                <span class="phpdocumentor-argument-list__argument__name">$height</span>
+                : <span class="phpdocumentor-argument-list__argument__type">int|null</span>
+                 = <span class="phpdocumentor-argument-list__argument__default-value">null</span>            </dt>
+            <dd class="phpdocumentor-argument-list__definition">
+                
+            </dd>
+                    <dt class="phpdocumentor-argument-list__entry">
+                <span class="phpdocumentor-argument-list__argument__name">$quality</span>
+                : <span class="phpdocumentor-argument-list__argument__type">int</span>
+                 = <span class="phpdocumentor-argument-list__argument__default-value">75</span>            </dt>
+            <dd class="phpdocumentor-argument-list__definition">
+                
+            </dd>
+                    <dt class="phpdocumentor-argument-list__entry">
+                <span class="phpdocumentor-argument-list__argument__name">$rmAnimation</span>
+                : <span class="phpdocumentor-argument-list__argument__type">bool</span>
+                 = <span class="phpdocumentor-argument-list__argument__default-value">false</span>            </dt>
             <dd class="phpdocumentor-argument-list__definition">
                 
             </dd>
@@ -1214,8 +1372,8 @@ If $notEmpty is true, the source image is always added to the <code class="prett
                                     </dd>
                                             </dl>
 
+        
     
-
             <section>
         <h5 class="phpdocumentor-return-value__heading">Return values</h5>
         <span class="phpdocumentor-signature__response_type">string</span>
@@ -1253,8 +1411,8 @@ If $notEmpty is true, the source image is always added to the <code class="prett
     
     
 
+        
     
-
             <section>
         <h5 class="phpdocumentor-return-value__heading">Return values</h5>
         <span class="phpdocumentor-signature__response_type"><abbr title="\Intervention\Image\ImageManager">ImageManager</abbr></span>
@@ -1377,8 +1535,10 @@ If $notEmpty is true, the source image is always added to the <code class="prett
             <li>
                 <ul class="phpdocumentor-list -clean">
                                             <li class=""><a href="classes/Cecil-Asset-Image.html#method_buildHtmlSrcset">buildHtmlSrcset()</a></li>
+                                            <li class=""><a href="classes/Cecil-Asset-Image.html#method_buildHtmlSrcsetW">buildHtmlSrcsetW()</a></li>
+                                            <li class=""><a href="classes/Cecil-Asset-Image.html#method_buildHtmlSrcsetX">buildHtmlSrcsetX()</a></li>
                                             <li class=""><a href="classes/Cecil-Asset-Image.html#method_convert">convert()</a></li>
-                                            <li class=""><a href="classes/Cecil-Asset-Image.html#method_cover">cover()</a></li>
+                                            <li class=""><a href="classes/Cecil-Asset-Image.html#method_getBackgroundColor">getBackgroundColor()</a></li>
                                             <li class=""><a href="classes/Cecil-Asset-Image.html#method_getDataUrl">getDataUrl()</a></li>
                                             <li class=""><a href="classes/Cecil-Asset-Image.html#method_getDominantColor">getDominantColor()</a></li>
                                             <li class=""><a href="classes/Cecil-Asset-Image.html#method_getHtmlSizes">getHtmlSizes()</a></li>

@@ -142,48 +142,42 @@
                                 <section>
                                         <ul class="phpdocumentor-breadcrumbs">
             <li class="phpdocumentor-breadcrumb"><a href="namespaces/cecil.html">Cecil</a></li>
-            <li class="phpdocumentor-breadcrumb"><a href="namespaces/cecil-command.html">Command</a></li>
+            <li class="phpdocumentor-breadcrumb"><a href="namespaces/cecil-collection.html">Collection</a></li>
+            <li class="phpdocumentor-breadcrumb"><a href="namespaces/cecil-collection-page.html">Page</a></li>
     </ul>
 
     <article class="phpdocumentor-element -class">
         <h2 class="phpdocumentor-content__title">
-    ListCommand
+    Status
 
-        <span class="phpdocumentor-element__extends">
-        extends <abbr title="\Symfony\Component\Console\Command\ListCommand">ListCommand</abbr>
+            <span class="phpdocumentor-element__extends">
+        : string
     </span>
     
     
     
     </h2>
 
-<div class="phpdocumentor-label-line">
-
-
-</div>
-
         <aside class="phpdocumentor-element-found-in">
-    <abbr class="phpdocumentor-element-found-in__file" title="src/Command/ListCommand.php"><a href="files/src-command-listcommand.html"><abbr title="src/Command/ListCommand.php">ListCommand.php</abbr></a></abbr>
+    <abbr class="phpdocumentor-element-found-in__file" title="src/Collection/Page/Status.php"><a href="files/src-collection-page-status.html"><abbr title="src/Collection/Page/Status.php">Status.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">23</span>
+    <span class="phpdocumentor-element-found-in__line">21</span>
 
     </aside>
 
-            <p class="phpdocumentor-summary">ListCommand class.</p>
+            <p class="phpdocumentor-summary">Enum Status.</p>
 
-
-    <section class="phpdocumentor-description"><p>This command is a hidden version of the Symfony Console ListCommand.
-It is used to provide a list of commands without displaying it in the help output.
-This can be useful for internal purposes or when you want to keep the command list hidden from the user.</p>
+        
+            <section class="phpdocumentor-description"><p>Defines the different statuses a page can have.</p>
 </section>
 
+        
 
 
-    
-    
+        
 <h3 id="toc">
     Table of Contents
-    <a href="classes/Cecil-Command-ListCommand.html#toc" class="headerlink"><i class="fas fa-link"></i></a>
+    <a href="classes/Cecil-Collection-Page-Status.html#toc" class="headerlink"><i class="fas fa-link"></i></a>
 
 </h3>
 
@@ -194,77 +188,192 @@ This can be useful for internal purposes or when you want to keep the command li
 
 
 
-
-
-<h4 id="toc-methods">
-    Methods
-    <a href="classes/Cecil-Command-ListCommand.html#toc-methods" class="headerlink"><i class="fas fa-link"></i></a>
+<h4 id="toc-cases">
+    Cases
+    <a href="classes/Cecil-Collection-Page-Status.html#toc-cases" class="headerlink"><i class="fas fa-link"></i></a>
 
 </h4>
 <dl class="phpdocumentor-table-of-contents">
-            <dt class="phpdocumentor-table-of-contents__entry -method -protected">
-    <a class="" href="classes/Cecil-Command-ListCommand.html#method_configure">configure()</a>
+            <dt class="phpdocumentor-table-of-contents__entry -case -">
+    <a class="" href="classes/Cecil-Collection-Page-Status.html#enumcase_DRAFT">DRAFT</a>
     <span>
-                                &nbsp;: void    </span>
+                &nbsp;= &#039;draft&#039;                    </span>
 </dt>
-<dd>{@inheritdoc}</dd>
+
+            <dt class="phpdocumentor-table-of-contents__entry -case -">
+    <a class="" href="classes/Cecil-Collection-Page-Status.html#enumcase_EXPIRED">EXPIRED</a>
+    <span>
+                &nbsp;= &#039;expired&#039;                    </span>
+</dt>
+
+            <dt class="phpdocumentor-table-of-contents__entry -case -">
+    <a class="" href="classes/Cecil-Collection-Page-Status.html#enumcase_PUBLISHED">PUBLISHED</a>
+    <span>
+                &nbsp;= &#039;published&#039;                    </span>
+</dt>
+
+            <dt class="phpdocumentor-table-of-contents__entry -case -">
+    <a class="" href="classes/Cecil-Collection-Page-Status.html#enumcase_SCHEDULED">SCHEDULED</a>
+    <span>
+                &nbsp;= &#039;scheduled&#039;                    </span>
+</dt>
+
+            <dt class="phpdocumentor-table-of-contents__entry -case -">
+    <a class="" href="classes/Cecil-Collection-Page-Status.html#enumcase_UNPUBLISHED">UNPUBLISHED</a>
+    <span>
+                &nbsp;= &#039;unpublished&#039;                    </span>
+</dt>
 
     </dl>
 
 
 
-        
 
-        
 
-            <section class="phpdocumentor-methods">
-        <h3 class="phpdocumentor-elements__header" id="methods">
-            Methods
-            <a href="classes/Cecil-Command-ListCommand.html#methods" class="headerlink"><i class="fas fa-link"></i></a>
+            <section class="phpdocumentor-cases">
+        <h3 class="phpdocumentor-elements__header" id="cases">
+            Cases
+            <a href="classes/Cecil-Collection-Page-Status.html#cases" class="headerlink"><i class="fas fa-link"></i></a>
 
         </h3>
                     <article
-        class="phpdocumentor-element
-            -method
-            -protected
-                                                        "
+        class="
+            phpdocumentor-element
+            -enum-case
+        "
 >
-    <h4 class="phpdocumentor-element__name" id="method_configure">
-        configure()
-        <a href="classes/Cecil-Command-ListCommand.html#method_configure" class="headerlink"><i class="fas fa-link"></i></a>
+    <h4 class="phpdocumentor-element__name" id="enumcase_DRAFT">
+        DRAFT
+        <a href="classes/Cecil-Collection-Page-Status.html#enumcase_DRAFT" class="headerlink"><i class="fas fa-link"></i></a>
 
     </h4>
     <aside class="phpdocumentor-element-found-in">
-    <abbr class="phpdocumentor-element-found-in__file" title="src/Command/ListCommand.php"><a href="files/src-command-listcommand.html"><abbr title="src/Command/ListCommand.php">ListCommand.php</abbr></a></abbr>
+    <abbr class="phpdocumentor-element-found-in__file" title="src/Collection/Page/Status.php"><a href="files/src-collection-page-status.html"><abbr title="src/Collection/Page/Status.php">Status.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">28</span>
+    <span class="phpdocumentor-element-found-in__line">23</span>
 
     </aside>
 
-        <p class="phpdocumentor-summary">{@inheritdoc}</p>
-
-    <code class="phpdocumentor-code phpdocumentor-signature ">
-    <span class="phpdocumentor-signature__visibility">protected</span>
-                    <span class="phpdocumentor-signature__name">configure</span><span>(</span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">void</span></code>
-
-    <div class="phpdocumentor-label-line">
-        </div>
+    
     
     
     
     
 
         
+    </article>
+                    <article
+        class="
+            phpdocumentor-element
+            -enum-case
+        "
+>
+    <h4 class="phpdocumentor-element__name" id="enumcase_PUBLISHED">
+        PUBLISHED
+        <a href="classes/Cecil-Collection-Page-Status.html#enumcase_PUBLISHED" class="headerlink"><i class="fas fa-link"></i></a>
+
+    </h4>
+    <aside class="phpdocumentor-element-found-in">
+    <abbr class="phpdocumentor-element-found-in__file" title="src/Collection/Page/Status.php"><a href="files/src-collection-page-status.html"><abbr title="src/Collection/Page/Status.php">Status.php</abbr></a></abbr>
+    :
+    <span class="phpdocumentor-element-found-in__line">24</span>
+
+    </aside>
+
     
     
-</article>
+    
+    
+    
+
+        
+    </article>
+                    <article
+        class="
+            phpdocumentor-element
+            -enum-case
+        "
+>
+    <h4 class="phpdocumentor-element__name" id="enumcase_UNPUBLISHED">
+        UNPUBLISHED
+        <a href="classes/Cecil-Collection-Page-Status.html#enumcase_UNPUBLISHED" class="headerlink"><i class="fas fa-link"></i></a>
+
+    </h4>
+    <aside class="phpdocumentor-element-found-in">
+    <abbr class="phpdocumentor-element-found-in__file" title="src/Collection/Page/Status.php"><a href="files/src-collection-page-status.html"><abbr title="src/Collection/Page/Status.php">Status.php</abbr></a></abbr>
+    :
+    <span class="phpdocumentor-element-found-in__line">25</span>
+
+    </aside>
+
+    
+    
+    
+    
+    
+
+        
+    </article>
+                    <article
+        class="
+            phpdocumentor-element
+            -enum-case
+        "
+>
+    <h4 class="phpdocumentor-element__name" id="enumcase_SCHEDULED">
+        SCHEDULED
+        <a href="classes/Cecil-Collection-Page-Status.html#enumcase_SCHEDULED" class="headerlink"><i class="fas fa-link"></i></a>
+
+    </h4>
+    <aside class="phpdocumentor-element-found-in">
+    <abbr class="phpdocumentor-element-found-in__file" title="src/Collection/Page/Status.php"><a href="files/src-collection-page-status.html"><abbr title="src/Collection/Page/Status.php">Status.php</abbr></a></abbr>
+    :
+    <span class="phpdocumentor-element-found-in__line">26</span>
+
+    </aside>
+
+    
+    
+    
+    
+    
+
+        
+    </article>
+                    <article
+        class="
+            phpdocumentor-element
+            -enum-case
+        "
+>
+    <h4 class="phpdocumentor-element__name" id="enumcase_EXPIRED">
+        EXPIRED
+        <a href="classes/Cecil-Collection-Page-Status.html#enumcase_EXPIRED" class="headerlink"><i class="fas fa-link"></i></a>
+
+    </h4>
+    <aside class="phpdocumentor-element-found-in">
+    <abbr class="phpdocumentor-element-found-in__file" title="src/Collection/Page/Status.php"><a href="files/src-collection-page-status.html"><abbr title="src/Collection/Page/Status.php">Status.php</abbr></a></abbr>
+    :
+    <span class="phpdocumentor-element-found-in__line">27</span>
+
+    </aside>
+
+    
+    
+    
+    
+    
+
+        
+    </article>
             </section>
 
+        
         <div class="phpdocumentor-modal" id="source-view">
     <div class="phpdocumentor-modal-bg" data-exit-button></div>
     <div class="phpdocumentor-modal-container">
         <div class="phpdocumentor-modal-content">
-            <pre style="max-height: 500px; overflow-y: scroll" data-src="files/src/Command/ListCommand.php.txt" class="language-php line-numbers linkable-line-numbers"></pre>
+            <pre style="max-height: 500px; overflow-y: scroll" data-src="files/src/Collection/Page/Status.php.txt" class="language-php line-numbers linkable-line-numbers"></pre>
         </div>
         <button data-exit-button class="phpdocumentor-modal__close">&times;</button>
     </div>
@@ -357,7 +466,7 @@ This can be useful for internal purposes or when you want to keep the command li
     </article>
                                 </section>
                 <section class="phpdocumentor-on-this-page__sidebar">
-                                
+                            
     <section class="phpdocumentor-on-this-page__content">
         <strong class="phpdocumentor-on-this-page__title">On this page</strong>
 
@@ -365,17 +474,20 @@ This can be useful for internal purposes or when you want to keep the command li
             <li class="phpdocumentor-on-this-page-section__title">Table Of Contents</li>
             <li>
                 <ul class="phpdocumentor-list -clean">
-                                                                                <li><a href="classes/Cecil-Command-ListCommand.html#toc-methods">Methods</a></li>
-                                    </ul>
+                                            <li><a href="classes/Cecil-Collection-Page-Status.html#toc-cases">Cases</a></li>
+                                                        </ul>
             </li>
+                            <li class="phpdocumentor-on-this-page-section__title">Cases</li>
+                <li>
+                    <ul class="phpdocumentor-list -clean">
+                                                    <li class=""><a href="classes/Cecil-Collection-Page-Status.html#enumcase_DRAFT">DRAFT</a></li>
+                                                    <li class=""><a href="classes/Cecil-Collection-Page-Status.html#enumcase_PUBLISHED">PUBLISHED</a></li>
+                                                    <li class=""><a href="classes/Cecil-Collection-Page-Status.html#enumcase_UNPUBLISHED">UNPUBLISHED</a></li>
+                                                    <li class=""><a href="classes/Cecil-Collection-Page-Status.html#enumcase_SCHEDULED">SCHEDULED</a></li>
+                                                    <li class=""><a href="classes/Cecil-Collection-Page-Status.html#enumcase_EXPIRED">EXPIRED</a></li>
+                                            </ul>
+                </li>
             
-            
-                        <li class="phpdocumentor-on-this-page-section__title">Methods</li>
-            <li>
-                <ul class="phpdocumentor-list -clean">
-                                            <li class=""><a href="classes/Cecil-Command-ListCommand.html#method_configure">configure()</a></li>
-                                    </ul>
-            </li>
                     </ul>
     </section>
 
@@ -393,7 +505,7 @@ This can be useful for internal purposes or when you want to keep the command li
     </section>
 </section>
         </div>
-        <a href="classes/Cecil-Command-ListCommand.html#top" class="phpdocumentor-back-to-top"><i class="fas fa-chevron-circle-up"></i></a>
+        <a href="classes/Cecil-Collection-Page-Status.html#top" class="phpdocumentor-back-to-top"><i class="fas fa-chevron-circle-up"></i></a>
 
     </main>
 
