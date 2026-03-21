@@ -159,7 +159,7 @@ The automated workflow also will publish the release to the [website](https://ce
 
 ## License
 
-Cecil is a free software distributed under the terms of the MIT license.
+Cecil is a free software licensed under the [EUPL-1.2](https://interoperable-europe.ec.europa.eu/collection/eupl/eupl-text-eupl-12) license.
 
 Cecil © [Arnaud Ligny](https://arnaudligny.fr)  
 Logo © [Cécile Ricordeau](https://www.cecillie.fr)
