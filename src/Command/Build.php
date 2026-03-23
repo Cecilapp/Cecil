@@ -161,11 +161,45 @@ EOF
 
         // show build steps metrics
         if ($input->getOption('metrics')) {
+            $metrics = $builder->getMetrics();
+            $metricsFile = Util::joinFile($this->getPath(), Builder::TMP_DIR, 'metrics.json');
+
+            // load previous metrics
+            $previousMetrics = [];
+            if (file_exists($metricsFile)) {
+                $previousMetrics = json_decode((string) file_get_contents($metricsFile), true) ?: [];
+            }
+
+            // prepare rows with diff
+            $rows = [];
+            $currentMetricsToSave = ['steps' => [], 'total' => $metrics['total']['duration_raw']];
+            foreach ($metrics['steps'] as $step) {
+                $durationDisplay = $step['duration'];
+                // compute and display diff with previous run
+                if (isset($previousMetrics['steps'][$step['name']])) {
+                    $diff = $step['duration_raw'] - $previousMetrics['steps'][$step['name']];
+                    if (abs($diff) >= 1) {
+                        $diffAbs = abs($diff);
+                        $diffStr = $diffAbs < 1000
+                            ? \sprintf('%s ms', round($diffAbs, 0))
+                            : \sprintf('%s s', round($diffAbs / 1000, 2));
+                        $sign = $diff > 0 ? '+' : '-';
+                        $color = $diff > 0 ? 'red' : 'green';
+                        $durationDisplay .= \sprintf(' (<fg=%s>%s%s</>)', $color, $sign, $diffStr);
+                    }
+                }
+                $rows[] = [$step['name'], $durationDisplay, $step['memory']];
+                $currentMetricsToSave['steps'][$step['name']] = $step['duration_raw'];
+            }
+
+            // save current metrics for next comparison
+            Util\File::getFS()->dumpFile($metricsFile, (string) json_encode($currentMetricsToSave, JSON_PRETTY_PRINT));
+
             $table = new Table($output);
             $table
                 ->setHeaderTitle('Build steps metrics')
                 ->setHeaders(['Step', 'Duration', 'Memory'])
-                ->setRows($builder->getMetrics()['steps'])
+                ->setRows($rows)
             ;
             $table->setStyle('box')->render();
         }
