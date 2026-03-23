@@ -106,16 +106,23 @@ class Util
     }
 
     /**
+     * Converts a duration (in seconds) to a human-readable string.
+     */
+    public static function convertDuration(float $duration): string
+    {
+        if ($duration < 1) {
+            return \sprintf('%s ms', round($duration * 1000, 0));
+        }
+
+        return \sprintf('%s s', round($duration, 2));
+    }
+
+    /**
      * Converts microtime interval for human.
      */
     public static function convertMicrotime(float $start): string
     {
-        $time = microtime(true) - $start;
-        if ($time < 1) {
-            return \sprintf('%s ms', round($time * 1000, 0));
-        }
-
-        return \sprintf('%s s', round($time, 2));
+        return self::convertDuration(microtime(true) - $start);
     }
 
     /**
