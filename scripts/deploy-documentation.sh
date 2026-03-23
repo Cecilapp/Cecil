@@ -19,7 +19,7 @@ TARGET_API_DIR="static/documentation/library/api"
 HOME="${GITHUB_WORKSPACE}/HOME"
 
 # prepare files
-mkdir $HOME
+mkdir -p $HOME
 cp -R $SOURCE_DOCS_DIR $HOME/$SOURCE_DOCS_DIR
 cp -R $SOURCE_API_DIR $HOME/$SOURCE_API_DIR
 

@@ -26,7 +26,7 @@ SCOOP_FILE_JSON_PREVIEW="scoop/cecil-preview.json"
 USER_NAME=$GITHUB_ACTOR
 
 echo "Starting deploy Scoop file..."
-mkdir $HOME
+mkdir -p $HOME
 
 # clone target repo
 cd $HOME

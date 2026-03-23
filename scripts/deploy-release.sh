@@ -30,7 +30,7 @@ USER_EMAIL="${GITHUB_ACTOR}@cecil.app"
 HOME="${GITHUB_WORKSPACE}/HOME"
 
 echo "Starting deploy release files..."
-mkdir $HOME
+mkdir -p $HOME
 
 # copy dist file
 cp dist/$PHAR_FILE $HOME/$PHAR_FILE
