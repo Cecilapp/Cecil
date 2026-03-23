@@ -228,7 +228,7 @@ jobs:
         if: "github.event.release.prerelease"
         run: echo "FORMULA_NAME=cecil-preview" >> $GITHUB_ENV
       - name: Bump Formula
-        uses: mislav/bump-homebrew-formula-action@v3
+        uses: mislav/bump-homebrew-formula-action@v4
         env:
           COMMITTER_TOKEN: ${{ secrets.REPOS_TOKEN }}
         with:
