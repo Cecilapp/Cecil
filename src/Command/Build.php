@@ -167,7 +167,10 @@ EOF
             // load previous metrics
             $previousMetrics = [];
             if (file_exists($metricsFile)) {
-                $previousMetrics = json_decode((string) file_get_contents($metricsFile), true) ?: [];
+                $metricsContent = Util\File::fileGetContents($metricsFile);
+                if ($metricsContent !== false) {
+                    $previousMetrics = json_decode($metricsContent, true) ?: [];
+                }
             }
 
             // prepare rows with diff
