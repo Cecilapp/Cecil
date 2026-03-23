@@ -97,7 +97,7 @@ jobs:
           echo "sha256=$(shasum -a 256 ./dist/cecil.phar | awk '{printf $1}')" >> $GITHUB_OUTPUT
       - name: Import GPG key # to sign `cecil.phar`
         if: env.GPG_SIGNATURE == 'true' && github.event_name != 'pull_request'
-        uses: crazy-max/ghaction-import-gpg@v6
+        uses: crazy-max/ghaction-import-gpg@v7
         with:
           gpg_private_key: ${{ secrets.GPG_PRIVATE_KEY }}
           passphrase: ${{ secrets.GPG_PASSPHRASE }}
