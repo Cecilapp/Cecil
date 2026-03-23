@@ -286,9 +286,7 @@ class Builder implements LoggerAwareInterface
             // step duration and memory usage
             $stepDuration = microtime(true) - $stepStartTime;
             $this->metrics['steps'][$stepNumber]['name'] = $step->getName();
-            $this->metrics['steps'][$stepNumber]['duration'] = $stepDuration < 1
-                ? \sprintf('%s ms', round($stepDuration * 1000, 0))
-                : \sprintf('%s s', round($stepDuration, 2));
+            $this->metrics['steps'][$stepNumber]['duration'] = Util::convertDuration($stepDuration);
             $this->metrics['steps'][$stepNumber]['duration_raw'] = round($stepDuration * 1000, 2);
             $this->metrics['steps'][$stepNumber]['memory']   = Util::convertMemory(memory_get_usage() - $stepStartMemory);
             $this->getLogger()->info(\sprintf(
@@ -300,9 +298,7 @@ class Builder implements LoggerAwareInterface
         }
         // build duration and memory usage
         $totalDuration = microtime(true) - $startTime;
-        $this->metrics['total']['duration'] = $totalDuration < 1
-            ? \sprintf('%s ms', round($totalDuration * 1000, 0))
-            : \sprintf('%s s', round($totalDuration, 2));
+        $this->metrics['total']['duration'] = Util::convertDuration($totalDuration);
         $this->metrics['total']['duration_raw'] = round($totalDuration * 1000, 2);
         $this->metrics['total']['memory']   = Util::convertMemory(memory_get_usage() - $startMemory);
         $this->getLogger()->notice(\sprintf('Built in %s (%s)', $this->metrics['total']['duration'], $this->metrics['total']['memory']));
