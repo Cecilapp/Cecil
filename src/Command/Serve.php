@@ -373,7 +373,7 @@ EOF
     }
 
     /**
-     * Removes temporary directory.
+     * Removes server's files.
      *
      * @throws RuntimeException
      */
@@ -383,7 +383,7 @@ EOF
         $this->output->writeln('<info>Server stopped</info>');
 
         try {
-            Util\File::getFS()->remove(Util::joinFile($this->getPath(), Builder::TMP_DIR));
+            Util\File::getFS()->remove(Util::joinFile($this->getPath(), self::SERVE_OUTPUT));
         } catch (IOExceptionInterface $e) {
             throw new RuntimeException($e->getMessage());
         }
