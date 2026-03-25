@@ -1,7 +1,7 @@
 <!--
 description: "Working with layouts, templates and components."
 date: 2021-05-07
-updated: 2026-02-25
+updated: 2026-03-26
 alias: documentation/layouts
 -->
 # Templates
@@ -745,7 +745,7 @@ _Examples:_
 Builds the HTML img element from a website URL by extracting the image from meta tags.
 
 ```twig
-image_from_website('<url>')
+{{ image_from_website('url') }}
 ```
 
 _Examples:_
@@ -768,6 +768,22 @@ _Example:_
 {{ readtime(page.content) }} min
 ```
 
+### hash
+
+Calculates the hash of a string.
+
+```twig
+{{ hash(value, algorithm) }}
+```
+
+`algorithm` can be any algorithm supported by PHP's `hash()` function (e.g.: `md5`, `sha256`, etc.). Default is `xxh128`.
+
+_Example:_
+
+```twig
+{{ hash('my string', 'sha256') }}
+```
+
 ### getenv
 
 Gets the value of an environment variable from its key.
@@ -784,7 +800,7 @@ _Example:_
 
 ### dump
 
-> The `dump` function dumps information about a template variable. This is mostly useful to debug a template that does not behave as expected by introspecting its variables:
+The `dump` function dumps information about a template variable. This is mostly useful to debug a template that does not behave as expected by introspecting its variables:
 
 ```twig
 {{ dump(user) }}
@@ -818,7 +834,7 @@ Sorting collections (of pages, menus or taxonomies).
 Sorts a collection by title (with [natural sort](https://en.wikipedia.org/wiki/Natural_sort_order)).
 
 ```twig
-{{ <collection>|sort_by_title }}
+{{ collection|sort_by_title }}
 ```
 
 _Example:_
@@ -832,7 +848,7 @@ _Example:_
 Sorts a collection by date (most recent first).
 
 ```twig
-{{ <collection>|sort_by_date(variable='date', desc_title=false) }}
+{{ collection|sort_by_date(variable='date', desc_title=false) }}
 ```
 
 _Example:_
@@ -853,7 +869,7 @@ _Example:_
 Sorts a collection by weight (lighter first).
 
 ```twig
-{{ <collection>|sort_by_weight }}
+{{ collection|sort_by_weight }}
 ```
 
 _Example:_
@@ -874,7 +890,7 @@ _Example:_
 
 ## Filters
 
-> Variables can be modified by [filters](https://twig.symfony.com/doc/filters/index.html). Filters are separated from the variable by a pipe symbol (`|`). Multiple filters can be chained. The output of one filter is applied to the next.
+Variables can be modified by [filters](https://twig.symfony.com/doc/filters/index.html). Filters are separated from the variable by a pipe symbol (`|`). Multiple filters can be chained. The output of one filter is applied to the next.
 
 ```twig
 {{ page.title|truncate(25)|capitalize }}
@@ -885,7 +901,7 @@ _Example:_
 Filters a pages collection by variable name/value.
 
 ```twig
-{{ <collection>|filter_by(variable, value) }}
+{{ collection|filter_by(variable, value) }}
 ```
 
 _Example:_

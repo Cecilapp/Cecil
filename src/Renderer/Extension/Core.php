@@ -85,13 +85,13 @@ class Core extends SlugifyExtension
             new \Twig\TwigFunction('url', [$this, 'url'], ['needs_context' => true]),
             // assets
             new \Twig\TwigFunction('asset', [$this, 'asset']),
+            new \Twig\TwigFunction('integrity', [$this, 'integrity']),
             new \Twig\TwigFunction('html', [$this, 'html'], ['needs_context' => true]),
             new \Twig\TwigFunction('css', [$this, 'htmlCss'], ['needs_context' => true]),
             new \Twig\TwigFunction('js', [$this, 'htmlJs'], ['needs_context' => true]),
             new \Twig\TwigFunction('image', [$this, 'htmlImage'], ['needs_context' => true]),
             new \Twig\TwigFunction('audio', [$this, 'htmlAudio'], ['needs_context' => true]),
             new \Twig\TwigFunction('video', [$this, 'htmlVideo'], ['needs_context' => true]),
-            new \Twig\TwigFunction('integrity', [$this, 'integrity']),
             new \Twig\TwigFunction('image_srcset', [$this, 'imageSrcset']),
             new \Twig\TwigFunction('image_sizes', [$this, 'imageSizes']),
             new \Twig\TwigFunction('image_from_website', [$this, 'htmlImageFromWebsite'], ['needs_context' => true]),
@@ -129,8 +129,8 @@ class Core extends SlugifyExtension
             new \Twig\TwigFilter('url', [$this, 'url'], ['needs_context' => true]),
             // collections
             new \Twig\TwigFilter('sort_by_title', [$this, 'sortByTitle']),
-            new \Twig\TwigFilter('sort_by_weight', [$this, 'sortByWeight']),
             new \Twig\TwigFilter('sort_by_date', [$this, 'sortByDate']),
+            new \Twig\TwigFilter('sort_by_weight', [$this, 'sortByWeight']),
             new \Twig\TwigFilter('filter_by', [$this, 'filterBy']),
             // assets
             new \Twig\TwigFilter('inline', [$this, 'inline']),
@@ -1170,7 +1170,7 @@ class Core extends SlugifyExtension
     {
         switch (\gettype($data)) {
             case 'object':
-                return spl_object_hash($data);
+                return hash($algo, $data::class . spl_object_id($data));
             case 'array':
                 return hash($algo, serialize($data));
         }
