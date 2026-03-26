@@ -1,7 +1,8 @@
 <!--
+title: "Templates"
 description: "Travailler avec les layouts, les templates et les composants."
-date: 2021-05-07
-updated: 2026-03-26
+date: 2026-03-27
+slug: templates
 -->
 # Templates
 

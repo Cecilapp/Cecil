@@ -1,7 +1,8 @@
 ﻿<!--
+title: "Commandes"
 description: "Liste des commandes disponibles."
-date: 2020-12-19
-updated: 2025-11-23
+date: 2026-03-27
+slug: commandes
 -->
 # Commandes
 

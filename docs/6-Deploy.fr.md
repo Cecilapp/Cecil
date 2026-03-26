@@ -1,8 +1,9 @@
 ﻿<!--
+title: "Déployer"
 description: "Déployer (publier) votre site web."
-date: 2020-12-19
-updated: 2026-01-14
-alias: documentation/publish
+date: 2026-03-27
+slug: deployer
+alias: documentation/publier
 -->
 # Déployer
 

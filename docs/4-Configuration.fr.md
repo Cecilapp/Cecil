@@ -1,7 +1,8 @@
 <!--
+title: "Configuration"
 description: "Configurez votre site web."
-date: 2021-05-07
-updated: 2025-12-09
+date: 2026-03-27
+slug: configuration
 -->
 # Configuration
 

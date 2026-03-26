@@ -1,7 +1,8 @@
 ﻿<!--
+title: "Étendre"
 description: "Étendre Cecil."
-date: 2023-04-17
-updated: 2025-03-27
+date: 2026-03-27
+slug: etendre
 -->
 # Étendre
 

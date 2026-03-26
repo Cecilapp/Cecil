@@ -1,7 +1,8 @@
 ﻿<!--
+title: "Bibliothèque"
 description: "Utilisez Cecil comme bibliothèque PHP."
-date: 2023-12-13
-updated: 2025-06-20
+date: 2026-03-27
+slug: bibliotheque
 -->
 # Bibliothèque
 

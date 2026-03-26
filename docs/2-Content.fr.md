@@ -1,7 +1,8 @@
 ﻿<!--
+title: "Contenu"
 description: "Créer du contenu et l’organiser."
-date: 2021-05-07
-updated: 2026-02-04
+date: 2026-03-27
+slug: contenu
 -->
 # Contenu
 
