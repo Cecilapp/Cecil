@@ -98,6 +98,7 @@ class Core extends SlugifyExtension
             // content
             new \Twig\TwigFunction('readtime', [$this, 'readtime']),
             new \Twig\TwigFunction('hash', [$this, 'hash']),
+            new \Twig\TwigFunction('cache_key', [$this, 'cacheKey'], ['needs_context' => true]),
             // others
             new \Twig\TwigFunction('getenv', [$this, 'getEnv']),
             new \Twig\TwigFunction('d', [$this, 'varDump'], ['needs_context' => true, 'needs_environment' => true]),
@@ -1176,6 +1177,22 @@ class Core extends SlugifyExtension
         }
 
         return hash($algo, $data);
+    }
+
+    /**
+     * Builds a cache key from a variable.
+     * The cache key is built from the name of the variable, its hash, the site language and build.
+     *
+     * @param array                    $context Twig context, used to get the site language and build.
+     * @param string                   $name    Name of the variable to build the cache key from.
+     * @param object|array|string|null $value   The variable to build the cache key from.
+     */
+    public function cacheKey(array $context, string $name, object|array|string|null $value = null): string
+    {
+        $key = $name . ($value ? '-' . $this->hash($value) : '');
+        $key = $key . '-' . $context['site']['language'] . '-' . $context['site']['build'];
+
+        return preg_replace('/[{}()\/\\\@:]/', '-', $key); // replace any of the reserved characters
     }
 
     /**

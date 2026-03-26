@@ -784,6 +784,16 @@ _Example:_
 {{ hash('my string', 'sha256') }}
 ```
 
+### cache_key
+
+Calculates a cache key for the Twig cache tags (`{% cache %}`) based on a name (and an optional value).
+
+```twig
+{% cache cache_key(name, value) %}
+  {# cacheable content #}
+{% endcache %}
+```
+
 ### getenv
 
 Gets the value of an environment variable from its key.

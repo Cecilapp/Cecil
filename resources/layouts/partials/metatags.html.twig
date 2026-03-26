@@ -146,7 +146,7 @@
   {#- template: favicon ~#}
   {%- block metatags_favicon ~%}
     {%- if page.metatags.favicon ?? site.metatags.favicon ?? true ~%}
-      {%- cache 'metatags-favicon;' ~ site.build ~%}
+      {%- cache cache_key('metatags-favicon') ~%}
       {#- favicon.ico ~#}
       {%- set favicon_ico = asset('favicon.ico', {ignore_missing: true}) -%}
       {%- if not favicon_ico.missing ~%}
