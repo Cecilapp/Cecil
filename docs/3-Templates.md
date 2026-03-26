@@ -794,6 +794,8 @@ Calculates a cache key for [_fragments_ cache](#fragments-cache) based on a name
 {% endcache %}
 ```
 
+The function adds a hash of the value (could be a string, an array or an object) to the name (and the current language and build ID to be sure the generated cache key is unique) so if the value is changed the cache key is changed too and the cache is automatically cleared.
+
 ### getenv
 
 Gets the value of an environment variable from its key.
