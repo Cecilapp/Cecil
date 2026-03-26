@@ -770,7 +770,7 @@ _Example:_
 
 ### hash
 
-Calculates the hash of a string.
+Calculates the hash of an object, an array or a string with a given algorithm.
 
 ```twig
 {{ hash(value, algorithm) }}
