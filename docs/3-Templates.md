@@ -786,7 +786,7 @@ _Example:_
 
 ### cache_key
 
-Calculates a cache key for the Twig cache tags (`{% cache %}`) based on a name (and an optional value).
+Calculates a cache key for [_fragments_ cache](#fragments-cache) based on a name and an optional value.
 
 ```twig
 {% cache cache_key(name, value) %}
@@ -1601,23 +1601,23 @@ In practice you don't need to clear the cache manually, Cecil does it for you wh
 
 Cecil provides a way to cache parts of templates rendering to avoid re-rendering the same partial content multiple times.
 
-To use _fragments_ cache, you must wrap the content you want to cache with the `cache` tag.
+To use _fragments_ cache, you must wrap the content you want to cache with the [`cache` tag](https://twig.symfony.com/doc/tags/cache.html).
 
 ```twig
-{% cache 'unique-key;' ~ site.build %}
-{# content #}
+{% cache 'unique-key' %}
+  {# cacheable content #}
 {% endcache %}
 ```
 
-:::info
-More details on the official [_Twig cache extension_ documentation](https://twig.symfony.com/doc/tags/cache.html).
+:::tip
+You should use the [`cache_key` function](#cache-key) to be sure to have a unique cache key for each content you want to cache.
 :::
 
-:::important
-Fragments cache is persistent, so if the cache key is too generic, you may end up with wrong content displayed.
+:::warning
+_Fragments_ cache is persistent, so if the cache key is too generic, you may end up with wrong content displayed.
 :::
 
-To clear fragments cache only:
+To clear fragments cache only, you can use the following command:
 
 ```bash
 php cecil.phar cache:clear:templates --fragments
