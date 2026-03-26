@@ -2,6 +2,12 @@
 
 All notable changes to this project will be documented in this file. Dates are displayed in UTC.
 
+#### [8.87.2](https://github.com/Cecilapp/Cecil/compare/8.87.1...8.87.2)
+
+> 24 March 2026
+
+- fix: remove serve output files instead of tmp dir [`6e99209`](https://github.com/Cecilapp/Cecil/commit/6e992099cca9d486d043e4af770247fe1cde8cbf)
+
 #### [8.87.1](https://github.com/Cecilapp/Cecil/compare/8.87.0...8.87.1)
 
 > 23 March 2026
