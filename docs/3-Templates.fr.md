@@ -1,5 +1,5 @@
 <!--
-title: "Templates"
+title: Templates
 description: "Travailler avec les layouts, les templates et les composants."
 date: 2026-03-27
 slug: templates

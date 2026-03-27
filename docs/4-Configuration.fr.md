@@ -1,5 +1,5 @@
 <!--
-title: "Configuration"
+title: Configuration
 description: "Configurez votre site web."
 date: 2026-03-27
 slug: configuration

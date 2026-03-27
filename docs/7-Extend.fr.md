@@ -1,5 +1,5 @@
-﻿<!--
-title: "Étendre"
+<!--
+title: Étendre
 description: "Étendre Cecil."
 date: 2026-03-27
 slug: etendre
