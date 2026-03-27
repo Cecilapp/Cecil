@@ -8,7 +8,7 @@ slug: templates
 
 Cecil est alimenté par le moteur de templates [Twig](https://twig.symfony.com), veuillez donc vous référer à la **[documentation officielle](https://twig.symfony.com/doc/templates.html)** pour savoir comment l'utiliser.
 
-## Example
+## Exemple
 
 ```twig
 {# template d'exemple #}
@@ -442,11 +442,11 @@ _Exemple:_
 {% endif %}
 ```
 
-#### Taxonomy
+#### Taxonomie
 
 Variables disponibles dans les templates _vocabulary_ et _term_.
 
-##### Vocabulary
+##### Vocabulaire
 
 | Variables | Descriptif |
 | --------------- | --------------------------------- |
@@ -454,7 +454,7 @@ Variables disponibles dans les templates _vocabulary_ et _term_.
 | `page.singular` | Nom de vocabulaire au singulier. |
 | `page.terms` | Liste de termes (_Collection_).     |
 
-##### Term
+##### Terme
 
 | Variables | Descriptif |
 | ------------ | ------------------------------------------ |
@@ -466,12 +466,12 @@ Variables disponibles dans les templates _vocabulary_ et _term_.
 | Variables | Descriptif |
 | ----------------- | ---------------------------------------------------- |
 | `cecil.url` | URL du site Cecil.                            |
-| `cecil.version` | Cécile version actuelle.                               |
+| `cecil.version` | Version actuelle de Cecil.                               |
 | `cecil.poweredby` | Imprimez `Cecil v%s`, avec `%s` est la version actuelle. |
 
-## Functions
+## Fonctions
 
-> [Functions](https://twig.symfony.com/doc/functions/index.html) peut être appelée pour générer du contenu. Les fonctions sont appelées par leur nom suivi de parenthèses (`()`) et peuvent avoir des arguments.
+> [Fonctions](https://twig.symfony.com/doc/functions/index.html) peut être appelée pour générer du contenu. Les fonctions sont appelées par leur nom suivi de parenthèses (`()`) et peuvent avoir des arguments.
 
 ### url
 
@@ -837,7 +837,7 @@ La fonction `d()` est la version HTML de [`dump()`](#dump) et utilise le [Symfon
 Le [_debug mode_](4-Configuration.md#debug) doit être activé.
 :::
 
-## Sorts
+## Tri
 
 Tri des collections (de pages, menus ou taxonomies).
 
@@ -900,9 +900,9 @@ _Exemple:_
 {% set files = site.static|sort((a, b) => a.date|date('U') < b.date|date('U')) %}
 ```
 
-## Filters
+## Filtres
 
-Les variables peuvent être modifiées par [filters](https://twig.symfony.com/doc/filters/index.html). Les filtres sont séparés de la variable par un symbole de barre verticale (`|`). Plusieurs filtres peuvent être chaînés. La sortie d’un filtre est appliquée au suivant.
+Les variables peuvent être modifiées par [filtres](https://twig.symfony.com/doc/filters/index.html). Les filtres sont séparés de la variable par un symbole de barre verticale (`|`). Plusieurs filtres peuvent être chaînés. La sortie d’un filtre est appliquée au suivant.
 
 ```twig
 {{ page.title|truncate(25)|capitalize }}
@@ -1437,11 +1437,11 @@ Convertit une couleur hexadécimale en RVB.
 {{ color|hex_to_rgb }}
 ```
 
-## Localization
+## Localisation
 
-Cecil prend en charge [traduction du texte](#text-translation) et [localisation de la date](#date-localization).
+Cecil prend en charge [traduction du texte](#traduction-de-texte) et [localisation de la date](#localisation-de-la-date).
 
-### Text translation
+### Traduction de texte
 
 Utilise le `trans` _tag_ ou _filter_ pour traduire des textes dans des templates.
 
@@ -1453,7 +1453,7 @@ Utilise le `trans` _tag_ ou _filter_ pour traduire des textes dans des templates
 {{ message|trans(variables = []) }}
 ```
 
-#### Examples
+#### Exemples
 
 ```twig
 {% trans %}Hello World!{% endtrans %}
@@ -1485,7 +1485,7 @@ Pluraliser :
 {% trans with {'%count%': 42}%}{0}I don't have apples|{1}I have one apple|]1,Inf[I have %count% apples{% endtrans %}
 ```
 
-### Translation files
+### Fichiers de traduction
 
 Les fichiers de traduction doivent être nommés `messages.<locale>.<format>` et stockés dans le répertoire [`translations`](4-Configuration.md#layouts).
 Cecil prend en charge les fichiers `yaml` et `mo` (Gettext) [formats par défaut](4-Configuration.md#layouts).
@@ -1525,7 +1525,7 @@ php cecil.phar cache:clear:translations`
 
 :::
 
-### Date localization
+### Localisation de la date
 
 Utilise le filtre Twig [`format_date`](https://twig.symfony.com/doc/3.x/filters/format_date.html) pour localiser une date dans les templates.
 
@@ -1540,7 +1540,7 @@ Les valeurs prises en charge sont : `short`, `medium`, `long` et `full`.
 Si vous souhaitez utiliser le filtre `format_date` **avec des paramètres régionaux autres que "en"**, vous devez [installer l'extension PHP internationale](https://php.net/intl.setup).
 :::
 
-## Components
+## Composants
 
 Cecil fournit une logique de composants pour vous donner le pouvoir de créer des "unités" de templates réutilisables.
 
@@ -1548,7 +1548,7 @@ Cecil fournit une logique de composants pour vous donner le pouvoir de créer de
 La fonctionnalité des composants est fournie par l'[_extension de composants Twig_](https://github.com/giorgiopogliani/twig-components) créée par Giorgio Pogliani.
 :::
 
-### Components syntax
+### Syntaxe des composants
 
 Les composants ne sont que des templates Twig stockés dans le sous-répertoire `components/` et peuvent être utilisés n'importe où dans vos templates :
 
@@ -1582,9 +1582,9 @@ Il rendra :
 
 Cecil utilise un système de cache pour accélérer le processus de génération, il peut être désactivé ou effacé.
 
-Il existe trois types de cache dans le cas du rendu des templates : les templates eux-mêmes, [assets](#asset) et [translations](#translation-files).
+Il existe trois types de cache dans le cas du rendu des templates : les templates eux-mêmes, [assets](#asset) et [translations](#fichiers-de-traduction).
 
-### Clear cache
+### Vider le cache
 
 Vous pouvez vider le cache avec les commandes suivantes :
 
@@ -1599,11 +1599,11 @@ php cecil.phar cache:clear:translations  # clear translations cache
 En pratique, vous n'avez pas besoin de vider le cache manuellement, Cecil le fait pour vous en cas de besoin (par exemple lorsque des fichiers changent).
 :::
 
-### Fragments cache
+### Fragments de cache
 
 Cecil fournit un moyen de mettre en cache des parties du rendu des templates pour éviter de restituer plusieurs fois le même contenu partiel.
 
-Pour utiliser le cache _fragments_, vous devez envelopper le contenu que vous souhaitez mettre en cache avec la balise [`cache`](https://twig.symfony.com/doc/tags/cache.html).
+Pour utiliser les _fragments_ de cache, vous devez envelopper le contenu que vous souhaitez mettre en cache avec la balise [`cache`](https://twig.symfony.com/doc/tags/cache.html).
 
 ```twig
 {% cache 'unique-key' %}
@@ -1616,7 +1616,7 @@ Vous devez utiliser la fonction [`cache_key`](#cache-key) pour être sûr d'avoi
 :::
 
 :::warning
-Le cache _Fragments_ est persistant, donc si la clé de cache est trop générique, vous risquez de vous retrouver avec un mauvais contenu affiché.
+Les _fragments_ de cache sont persistants, donc si la clé de cache est trop générique, vous risquez de vous retrouver avec un mauvais contenu affiché.
 :::
 
 Pour vider uniquement le cache des fragments, vous pouvez utiliser la commande suivante :
@@ -1625,7 +1625,7 @@ Pour vider uniquement le cache des fragments, vous pouvez utiliser la commande s
 php cecil.phar cache:clear:templates --fragments
 ```
 
-### Disable cache
+### Désactiver le cache
 
 Vous pouvez désactiver le cache avec la [configuration](4-Configuration.md#cache).
 
@@ -1647,13 +1647,13 @@ php cecil.phar serve --clear-cache=css  # clear cache for all CSS files
 
 :::
 
-## Extend
+## Étendre
 
-### Functions and filters
+### Fonctions et filtres
 
 Vous pouvez ajouter des [fonctions](3-Templates.md#functions) et des [filtres](3-Templates.md#filters) personnalisés avec une [**_extension Twig_**](7-Extend.md#twig-extension).
 
-### Theme
+### Thème
 
 C'est simple de construire un thème, il suffit de créer un dossier `<theme>` avec la structure suivante (comme un site web mais sans pages) :
 

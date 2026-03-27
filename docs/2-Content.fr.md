@@ -114,7 +114,7 @@ customvar: "Value of customvar"
 Vous pouvez aussi utiliser `<!-- -->` ou `+++` comme séparateur.
 :::
 
-### Body
+### Corps (body)
 
 Le _body_ est le contenu principal d’une page ; il peut être écrit en [Markdown](#markdown) ou en texte brut.
 
@@ -148,13 +148,13 @@ Cecil prend en charge le format [Markdown](http://daringfireball.net/projects/ma
 
 Cecil fournit aussi des **fonctionnalités supplémentaires** pour enrichir votre contenu, voir ci-dessous.
 
-### Attributes
+### Attributs
 
 Avec [Markdown Extra](https://michelf.ca/projects/php-markdown/extra/), vous pouvez définir un id, une classe et des attributs personnalisés sur certains éléments à l’aide d’un bloc d’attributs.  
 Par exemple, placez le(s) attribut(s) souhaité(s) après un en-tête, un bloc de code délimité, un lien ou une image en fin de ligne, entre accolades, comme ceci :
 
 ```markdown
-## Header {#id .class attribute=value}
+## En-tête {#id .class attribute=value}
 ```
 
 :::warning
@@ -288,7 +288,7 @@ Est converti en :
 Vous pouvez désactiver ce comportement avec l’attribut `{decoding=auto}` ou avec l’[option `decoding`](4-Configuration.md#pages-body-images).
 :::
 
-#### Resize
+#### Redimensionnement
 
 Chaque image du _body_ peut être redimensionnée automatiquement en définissant une largeur inférieure à celle d’origine, avec l’attribut additionnel `{width=X}`.
 
@@ -635,7 +635,7 @@ tags: ["Tag 1", "Tag 2"]
 ---
 ```
 
-### Schedule
+### Planification
 
 Planifie la publication des pages.
 
@@ -716,7 +716,7 @@ external: "https://raw.githubusercontent.com/Cecilapp/Cecil/master/README.md"
 ---
 ```
 
-### File prefix
+### Préfixe de fichier
 
 Le nom de fichier peut contenir un préfixe pour définir les variables `date` ou `weight` de la page (utilisé par [`sortby`](3-Templates.md#sort-by-date)).
 
@@ -825,13 +825,13 @@ circular: true
 ---
 ```
 
-### Home page
+### Page d'accueil
 
-Comme une autre section, la _Home page_ prend en charge la configuration `sortby` et `pagination`.
+Comme une autre section, la _Page d'accueil_ prend en charge la configuration `sortby` et `pagination`.
 
 #### pagesfrom
 
-Définissez un nom de _Section_ valide dans `pagesfrom` pour utiliser la collection de pages de cette _Section_ dans la _Home page_.
+Définissez un nom de _Section_ valide dans `pagesfrom` pour utiliser la collection de pages de cette _Section_ dans la _Page d'accueil_.
 
 _Exemple :_
 
