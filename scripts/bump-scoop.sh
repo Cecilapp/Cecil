@@ -24,14 +24,17 @@ SCOOP_FILE_JSON_PREVIEW="scoop/cecil-preview.json"
 
 # GitHub
 USER_NAME=$GITHUB_ACTOR
+USER_NAME="cecil-bot" # override for better commit history
+USER_EMAIL="${GITHUB_ACTOR_ID}+${USER_NAME}@users.noreply.github.com"
+HOME="${GITHUB_WORKSPACE}/HOME"
 
 echo "Starting deploy Scoop file..."
 mkdir -p $HOME
 
 # clone target repo
 cd $HOME
-git config --global user.name "${GITHUB_ACTOR}"
-git config --global user.email "${GITHUB_ACTOR_ID}+${GITHUB_ACTOR}@users.noreply.github.com"
+git config --global user.name "${USER_NAME}"
+git config --global user.email "${USER_EMAIL}"
 git clone --depth=1 --quiet --branch=$TARGET_BRANCH https://${GITHUB_TOKEN}@github.com/${TARGET_REPO}.git ${TARGET_REPO} > /dev/null
 cd $TARGET_REPO
 
