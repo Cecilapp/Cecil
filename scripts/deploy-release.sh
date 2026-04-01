@@ -87,7 +87,7 @@ fi
 # commit and push
 if [[ -n $(git status -s) ]]; then
   git add -Af .
-  git commit -m "Build $GITHUB_RUN_NUMBER: deploy release ${VERSION}. on-behalf-of: @cecilapp contact@cecil.app"
+  git commit -m "Build $GITHUB_RUN_NUMBER: deploy release ${VERSION}."
   git push -fq origin $TARGET_BRANCH > /dev/null
 else
   echo "Nothing to update"

@@ -59,7 +59,7 @@ cp -Rf $HOME/$SOURCE_API_DIR/* $TARGET_API_DIR
 # commit and push
 if [[ -n $(git status -s) ]]; then
   git add -Af .
-  git commit -m "Build $GITHUB_RUN_NUMBER: update documentation. on-behalf-of: @cecilapp contact@cecil.app"
+  git commit -m "Build $GITHUB_RUN_NUMBER: update documentation."
   git push -fq origin $TARGET_BRANCH > /dev/null
 else
   echo "Nothing to update"
