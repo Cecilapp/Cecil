@@ -2,6 +2,17 @@
 
 All notable changes to this project will be documented in this file. Dates are displayed in UTC.
 
+#### [8.88.0](https://github.com/Cecilapp/Cecil/compare/8.87.2...8.88.0)
+
+> 26 March 2026
+
+- chore(deps): bump DavidAnson/markdownlint-cli2-action from 22 to 23 [`#2336`](https://github.com/Cecilapp/Cecil/pull/2336)
+- chore(deps-dev): bump phpstan/phpstan from 2.1.42 to 2.1.43 [`#2335`](https://github.com/Cecilapp/Cecil/pull/2335)
+- docs: add hash docs and fix object hashing [`71ac3b0`](https://github.com/Cecilapp/Cecil/commit/71ac3b0c770c477c11a9c07243948f67f243499a)
+- feat: add cache_key Twig helper [`8342252`](https://github.com/Cecilapp/Cecil/commit/8342252fb6d6999de14583b6b87eb278615e9f35)
+- chore: update deps [`369b709`](https://github.com/Cecilapp/Cecil/commit/369b7096955658fe68e3b6b7768b412863da3f8d)
+- docs: clarify hash docs: support objects, arrays [`860911a`](https://github.com/Cecilapp/Cecil/commit/860911a6553b59bdefadafa6fe8270f2f0a3fb19)
+
 #### [8.87.2](https://github.com/Cecilapp/Cecil/compare/8.87.1...8.87.2)
 
 > 24 March 2026
