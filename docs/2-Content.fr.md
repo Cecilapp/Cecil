@@ -17,7 +17,7 @@ Il existe différents types de contenu dans Cecil :
 : Les assets sont des fichiers transformés (c.-à-d. : images redimensionnées, Sass compilé, scripts minifiés, etc.) avec la fonction de template [`asset()`](3-Templates.md#asset).
 
 **Static files**
-: Les fichiers statiques sont copiés tels quels dans le site généré (ex. : `static/file.pdf` -> `file.pdf`).
+: Les fichiers statiques sont copiés tels quels dans le site généré (ex. : `static/fichier.pdf` -> `fichier.pdf`).
 
 **Data files**
 : Les fichiers de données sont des collections de variables personnalisées, exposées dans les [templates](3-Templates.md) via [`site.data`](3-Templates.md#site-data).
@@ -32,18 +32,18 @@ Organisation des fichiers du projet.
 <monsiteweb>
 ├─ pages
 |  ├─ blog            <- Section
-|  |  ├─ post-1.md    <- Page dans Section
-|  |  └─ post-2.md
-|  ├─ projects
-|  |  └─ project-a.md
+|  |  ├─ billet-1.md  <- Page dans Section
+|  |  └─ billet-2.md
+|  ├─ projets
+|  |  └─ projet-a.md
 |  └─ about.md        <- Page racine
 ├─ assets
 |  ├─ styles.scss     <- Fichier d'asset
 |  └─ logo.png
 ├─ static
-|  └─ file.pdf        <- Fichier statique
+|  └─ fichier.pdf     <- Fichier statique
 └─ data
-   └─ authors.yml     <- Collection de données
+   └─ auteurs.yml     <- Collection de données
 ```
 
 ### Arborescence du site généré
@@ -56,39 +56,39 @@ Résultat de la génération.
    ├─ index.html               <- Page d'accueil générée
    ├─ blog/
    |  ├─ index.html            <- Liste des articles générée
-   |  ├─ post-1/index.html     <- Article de blog
-   |  └─ post-2/index.html
-   ├─ projects/
+   |  ├─ billet-1/index.html   <- Article de blog
+   |  └─ billet-2/index.html
+   ├─ projets/
    |  ├─ index.html            <- Liste des projets générée
-   |  └─ project-a/index.html  <- Projet individuel
+   |  └─ projet-a/index.html   <- Projet individuel
    ├─ about/index.html         <- Page "À propos"
    ├─ styles.css
    ├─ logo.png
-   └─ file.pdf
+   └─ fichier.pdf
 ```
 
 :::info
-Par défaut, chaque page est générée sous la forme `slugified-filename/index.html` pour obtenir une « belle » URL comme `https://mywebsite.tld/section/slugified-filename/`.
+Par défaut, chaque page est générée sous la forme `nomdufichier-sluglifié/index.html` pour obtenir une « belle » URL comme `https://monsiteweb.tld/section/nomdufichier-sluglifié/`.
 
 Pour obtenir une URL « ugly » (comme `404.html` au lieu de `404/`), définissez `uglyurl: true` dans le [front matter](#front-matter) de la page.
 :::
 
 ### Routage basé sur les fichiers
 
-Les fichiers Markdown du répertoire `pages` activent un routage basé sur les fichiers. Cela signifie que l’ajout, par exemple, de `pages/my-projects/project-a.md` le rendra accessible à l’URL `/project-a` dans votre navigateur.
+Les fichiers Markdown du répertoire `pages` activent un routage basé sur les fichiers. Cela signifie que l’ajout, par exemple, de `pages/mon-projet/projet-a.md` le rendra accessible à l’URL `/projet-a` dans votre navigateur.
 
 ```plaintext
 Fichier :
-                   pages/my-projects/project-a.md
+                   pages/mon-projet/projet-a.md
                         └───── filepath ──────┘
 URL :
     ┌───── baseurl ─────┬─────── path ────────┐
-     https://example.com/my-projects/project-a/index.html
+     https://exemple.com/mon-projet/projet-a/index.html
                         └─ section ─┴─ slug ──┘
 ```
 
 :::important
-Deux types de préfixes peuvent modifier l’URL, voir la section [File prefix](#file-prefix) ci-dessous.
+Deux types de préfixes peuvent modifier l’URL, voir la section [Préfixe de fichier](#préfixe-de-fichier) ci-dessous.
 :::
 
 ## Pages
