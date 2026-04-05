@@ -45,7 +45,7 @@ class Section extends AbstractGenerator implements GeneratorInterface
         // which are only enabled when `pages.sections.nested` is set to true
         // in the configuration.
         $nestedSectionPaths = [];
-        if ((bool) $this->config->get('pages.sections.nested', false) === true) {
+        if ((bool) $this->config->get('pages.sections.nested') === true) {
             // Returns a map of slugified-folder-path => page-id.
             $nestedSectionPaths = $this->detectNestedSectionPaths();
         }
