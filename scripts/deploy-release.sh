@@ -26,11 +26,12 @@ PHAR_FILE_SHA1="${PHAR_FILE}.sha1"
 
 # GitHub
 USER_NAME=$GITHUB_ACTOR
-USER_EMAIL="${GITHUB_ACTOR}@cecil.app"
+USER_NAME="cecil-bot" # override for better commit history
+USER_EMAIL="${GITHUB_ACTOR_ID}+${USER_NAME}@users.noreply.github.com"
 HOME="${GITHUB_WORKSPACE}/HOME"
 
 echo "Starting deploy release files..."
-mkdir $HOME
+mkdir -p $HOME
 
 # copy dist file
 cp dist/$PHAR_FILE $HOME/$PHAR_FILE
@@ -86,7 +87,7 @@ fi
 # commit and push
 if [[ -n $(git status -s) ]]; then
   git add -Af .
-  git commit -m "Build $GITHUB_RUN_NUMBER: deploy release ${VERSION}"
+  git commit -m "Build $GITHUB_RUN_NUMBER: deploy release ${VERSION}."
   git push -fq origin $TARGET_BRANCH > /dev/null
 else
   echo "Nothing to update"

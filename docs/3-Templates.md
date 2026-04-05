@@ -1,7 +1,7 @@
 <!--
 description: "Working with layouts, templates and components."
 date: 2021-05-07
-updated: 2026-02-25
+updated: 2026-03-26
 alias: documentation/layouts
 -->
 # Templates
@@ -760,7 +760,7 @@ _Examples:_
 Builds the HTML img element from a website URL by extracting the image from meta tags.
 
 ```twig
-image_from_website('<url>')
+{{ image_from_website('url') }}
 ```
 
 _Examples:_
@@ -783,6 +783,34 @@ _Example:_
 {{ readtime(page.content) }} min
 ```
 
+### hash
+
+Calculates the hash of an object, an array or a string with a given algorithm.
+
+```twig
+{{ hash(value, algorithm) }}
+```
+
+`algorithm` can be any algorithm supported by PHP's `hash()` function (e.g.: `md5`, `sha256`, etc.). Default is `xxh128`.
+
+_Example:_
+
+```twig
+{{ hash('my string', 'sha256') }}
+```
+
+### cache_key
+
+Calculates a cache key for [_fragments_ cache](#fragments-cache) based on a name and an optional value.
+
+```twig
+{% cache cache_key(name, value) %}
+  {# cacheable content #}
+{% endcache %}
+```
+
+The function adds a hash of the value (could be a string, an array or an object) to the name (and the current language and build ID to be sure the generated cache key is unique) so if the value is changed the cache key is changed too and the cache is automatically cleared.
+
 ### getenv
 
 Gets the value of an environment variable from its key.
@@ -799,7 +827,7 @@ _Example:_
 
 ### dump
 
-> The `dump` function dumps information about a template variable. This is mostly useful to debug a template that does not behave as expected by introspecting its variables:
+The `dump` function dumps information about a template variable. This is mostly useful to debug a template that does not behave as expected by introspecting its variables:
 
 ```twig
 {{ dump(user) }}
@@ -955,7 +983,7 @@ Sorting collections (of pages, menus or taxonomies).
 Sorts a collection by title (with [natural sort](https://en.wikipedia.org/wiki/Natural_sort_order)).
 
 ```twig
-{{ <collection>|sort_by_title }}
+{{ collection|sort_by_title }}
 ```
 
 _Example:_
@@ -969,7 +997,7 @@ _Example:_
 Sorts a collection by date (most recent first).
 
 ```twig
-{{ <collection>|sort_by_date(variable='date', desc_title=false) }}
+{{ collection|sort_by_date(variable='date', desc_title=false) }}
 ```
 
 _Example:_
@@ -990,7 +1018,7 @@ _Example:_
 Sorts a collection by weight (lighter first).
 
 ```twig
-{{ <collection>|sort_by_weight }}
+{{ collection|sort_by_weight }}
 ```
 
 _Example:_
@@ -1011,7 +1039,7 @@ _Example:_
 
 ## Filters
 
-> Variables can be modified by [filters](https://twig.symfony.com/doc/filters/index.html). Filters are separated from the variable by a pipe symbol (`|`). Multiple filters can be chained. The output of one filter is applied to the next.
+Variables can be modified by [filters](https://twig.symfony.com/doc/filters/index.html). Filters are separated from the variable by a pipe symbol (`|`). Multiple filters can be chained. The output of one filter is applied to the next.
 
 ```twig
 {{ page.title|truncate(25)|capitalize }}
@@ -1022,7 +1050,7 @@ _Example:_
 Filters a pages collection by variable name/value.
 
 ```twig
-{{ <collection>|filter_by(variable, value) }}
+{{ collection|filter_by(variable, value) }}
 ```
 
 _Example:_
@@ -1712,23 +1740,23 @@ In practice you don't need to clear the cache manually, Cecil does it for you wh
 
 Cecil provides a way to cache parts of templates rendering to avoid re-rendering the same partial content multiple times.
 
-To use _fragments_ cache, you must wrap the content you want to cache with the `cache` tag.
+To use _fragments_ cache, you must wrap the content you want to cache with the [`cache` tag](https://twig.symfony.com/doc/tags/cache.html).
 
 ```twig
-{% cache 'unique-key;' ~ site.build %}
-{# content #}
+{% cache 'unique-key' %}
+  {# cacheable content #}
 {% endcache %}
 ```
 
-:::info
-More details on the official [_Twig cache extension_ documentation](https://twig.symfony.com/doc/tags/cache.html).
+:::tip
+You should use the [`cache_key` function](#cache-key) to be sure to have a unique cache key for each content you want to cache.
 :::
 
-:::important
-Fragments cache is persistent, so if the cache key is too generic, you may end up with wrong content displayed.
+:::warning
+_Fragments_ cache is persistent, so if the cache key is too generic, you may end up with wrong content displayed.
 :::
 
-To clear fragments cache only:
+To clear fragments cache only, you can use the following command:
 
 ```bash
 php cecil.phar cache:clear:templates --fragments

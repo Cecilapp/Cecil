@@ -17,11 +17,12 @@ TARGET_API_DIR="static/documentation/library/api"
 
 # GitHub
 USER_NAME=$GITHUB_ACTOR
-USER_EMAIL="${GITHUB_ACTOR}@cecil.app"
+USER_NAME="cecil-bot" # override for better commit history
+USER_EMAIL="${GITHUB_ACTOR_ID}+${USER_NAME}@users.noreply.github.com"
 HOME="${GITHUB_WORKSPACE}/HOME"
 
 # prepare files
-mkdir $HOME
+mkdir -p $HOME
 cp -R $SOURCE_DOCS_DIR $HOME/$SOURCE_DOCS_DIR
 cp -R $SOURCE_API_DIR $HOME/$SOURCE_API_DIR
 
@@ -58,7 +59,7 @@ cp -Rf $HOME/$SOURCE_API_DIR/* $TARGET_API_DIR
 # commit and push
 if [[ -n $(git status -s) ]]; then
   git add -Af .
-  git commit -m "Build $GITHUB_RUN_NUMBER: update documentation"
+  git commit -m "Build $GITHUB_RUN_NUMBER: update documentation."
   git push -fq origin $TARGET_BRANCH > /dev/null
 else
   echo "Nothing to update"

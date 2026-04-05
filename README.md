@@ -118,11 +118,11 @@ export PATH=~/.composer/vendor/bin:$PATH
 
 ```bash
 # Build the PHAR file
-composer build:phar
+composer run build:phar
 # Check the PHAR file
 php dist/cecil.phar about
 # Build the package (with PHP binary included)
-composer build:package
+composer run build:package
 # Check the package
 ./dist/build/<os>/<os>-<arch> about
 ```
@@ -159,7 +159,7 @@ The automated workflow also will publish the release to the [website](https://ce
 
 ## License
 
-Cecil is a free software distributed under the terms of the MIT license.
+Cecil is a free software licensed under the [EUPL-1.2](https://interoperable-europe.ec.europa.eu/collection/eupl/eupl-text-eupl-12) license.
 
 Cecil © [Arnaud Ligny](https://arnaudligny.fr)  
 Logo © [Cécile Ricordeau](https://www.cecillie.fr)
