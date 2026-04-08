@@ -2,6 +2,21 @@
 
 All notable changes to this project will be documented in this file. Dates are displayed in UTC.
 
+#### [8.88.1](https://github.com/Cecilapp/Cecil/compare/8.88.0...8.88.1)
+
+> 1 April 2026
+
+- chore(deps-dev): bump phpstan/phpstan from 2.1.45 to 2.1.46 [`#2341`](https://github.com/Cecilapp/Cecil/pull/2341)
+- chore(deps-dev): bump phpstan/phpstan from 2.1.44 to 2.1.45 [`#2340`](https://github.com/Cecilapp/Cecil/pull/2340)
+- docs: traduction de la documentation en français [`47aa8ff`](https://github.com/Cecilapp/Cecil/commit/47aa8ffd551fd1b924082818db002d01b0f21767)
+- chore: update deps [`8d7eaa4`](https://github.com/Cecilapp/Cecil/commit/8d7eaa405168ae5678651cb2122e5b8fb88a4141)
+- docs: fix [`0d02557`](https://github.com/Cecilapp/Cecil/commit/0d0255750cedec0d2163b61f013b84414aedfc07)
+- docs: fix french [`6bc6445`](https://github.com/Cecilapp/Cecil/commit/6bc6445c83c4948bbffb1ce3e51094ce9c338c78)
+- docs: fix files [`f1af52d`](https://github.com/Cecilapp/Cecil/commit/f1af52d967bab1491e1cac306e41ad31e92c02e7)
+- chore: use cecil-bot Git identity in scripts [`f360bc1`](https://github.com/Cecilapp/Cecil/commit/f360bc1afbd74fb5529b7627602134dae29d375f)
+- docs: clarify fragments cache usage [`94f5bbe`](https://github.com/Cecilapp/Cecil/commit/94f5bbeedf8ff82756f084f6e416ec24b20cd249)
+- docs: clarify fragments cache key hashing [`7f4b9ce`](https://github.com/Cecilapp/Cecil/commit/7f4b9ceb5ef97302df4056d2b353881a771e7026)
+
 #### [8.88.0](https://github.com/Cecilapp/Cecil/compare/8.87.2...8.88.0)
 
 > 26 March 2026
