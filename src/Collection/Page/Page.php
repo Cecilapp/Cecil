@@ -16,8 +16,8 @@ namespace Cecil\Collection\Page;
 use Cecil\Collection\Item;
 use Cecil\Exception\RuntimeException;
 use Cecil\Util;
-use Cocur\Slugify\Slugify;
 use Symfony\Component\Finder\SplFileInfo;
+use Symfony\Component\String\Slugger\AsciiSlugger;
 
 /**
  * Page class.
@@ -74,7 +74,7 @@ class Page extends Item
     /** @var \Cecil\Collection\Taxonomy\Vocabulary Terms of a vocabulary. */
     protected $terms;
 
-    /** @var Slugify */
+    /** @var AsciiSlugger */
     private static $slugifier;
 
     public function __construct(mixed $id)
@@ -105,9 +105,6 @@ class Page extends Item
         parent::__construct($id);
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function setId(string $id): self
     {
         return parent::setId($id);
@@ -128,18 +125,51 @@ class Page extends Item
      */
     public static function slugify(string $path): string
     {
-        if (!self::$slugifier instanceof Slugify) {
-            self::$slugifier = Slugify::create([
-                'regexp' => self::SLUGIFY_PATTERN,
-            ]);
+        if (!self::$slugifier instanceof AsciiSlugger) {
+            self::$slugifier = new AsciiSlugger();
         }
 
-        // Use the Chinese ruleset only when the path contains Chinese (Han) characters.
-        $options = [];
-        if (preg_match('/\p{Han}/u', $path)) {
-            $options['ruleset'] = 'chinese';
+        $placeholders = self::createSlugifyPlaceholders($path);
+        $path = strtr($path, $placeholders);
+
+        $path = preg_replace_callback('/[^\x00-\x7F]+/u', static function (array $matches): string {
+            $locale = preg_match('/\p{Han}/u', $matches[0]) ? 'zh' : null;
+
+            return self::$slugifier->slug($matches[0], '', $locale)->lower()->toString();
+        }, $path);
+        if ($path === null) {
+            throw new RuntimeException('Unable to slugify path.');
         }
-        return self::$slugifier->slugify($path, $options);
+
+        $path = preg_replace(self::SLUGIFY_PATTERN, '-', strtolower($path));
+        if ($path === null) {
+            throw new RuntimeException('Unable to slugify path.');
+        }
+
+        return ltrim(trim(strtr($path, array_flip($placeholders)), '-'), '/');
+    }
+
+    private static function createSlugifyPlaceholders(string $path): array
+    {
+        $placeholders = [];
+
+        foreach (['.' => 'dot', '_' => 'underscore', '/' => 'slash'] as $character => $name) {
+            $placeholders[$character] = self::createSlugifyPlaceholder($path, $name);
+        }
+
+        return $placeholders;
+    }
+
+    private static function createSlugifyPlaceholder(string $path, string $name): string
+    {
+        $index = 0;
+
+        do {
+            $placeholder = \sprintf('cecil%s%s', $name, substr(hash('sha256', $path . $name . $index), 0, 16));
+            ++$index;
+        } while (str_contains($path, $placeholder));
+
+        return $placeholder;
     }
 
     /**
