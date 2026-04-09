@@ -135,7 +135,7 @@ class Page extends Item
         $path = preg_replace_callback('/[^\x00-\x7F]+/u', static function (array $matches): string {
             $locale = preg_match('/\p{Han}/u', $matches[0]) ? 'zh' : null;
 
-            return self::$slugifier->slug($matches[0], '', $locale)->lower()->toString();
+            return self::$slugifier->slug($matches[0], '-', $locale)->lower()->toString();
         }, $path);
         if ($path === null) {
             throw new RuntimeException('Unable to slugify path.');
