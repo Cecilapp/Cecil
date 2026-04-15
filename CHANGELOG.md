@@ -2,6 +2,15 @@
 
 All notable changes to this project will be documented in this file. Dates are displayed in UTC.
 
+#### [8.90.0](https://github.com/Cecilapp/Cecil/compare/8.89.0...8.90.0)
+
+> 15 April 2026
+
+- Add support for `name` property in front matter menu definitions [`#2349`](https://github.com/Cecilapp/Cecil/pull/2349)
+- chore(deps-dev): bump ergebnis/composer-normalize from 2.50.0 to 2.51.0 [`#2350`](https://github.com/Cecilapp/Cecil/pull/2350)
+- chore(deps): bump symfony/polyfill-intl-icu from 1.34.0 to 1.35.0 [`#2346`](https://github.com/Cecilapp/Cecil/pull/2346)
+- docs: clarify vocabularies and examples [`0bdef51`](https://github.com/Cecilapp/Cecil/commit/0bdef518598a167bdf281932631ebb851829f144)
+
 #### [8.89.0](https://github.com/Cecilapp/Cecil/compare/8.88.1...8.89.0)
 
 > 13 April 2026
