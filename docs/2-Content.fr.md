@@ -2,6 +2,7 @@
 title: Contenu
 description: "Créer du contenu et l’organiser."
 date: 2026-03-27
+updated: 2026-04-15
 slug: contenu
 -->
 # Contenu
@@ -625,13 +626,17 @@ Dans Cecil, ces termes sont regroupés dans des vocabulaires.
 
 Les vocabulaires sont déclarés dans la [_Configuration_](4-Configuration.md#taxonomies).
 
-Une page peut contenir plusieurs vocabulaires (ex. : `tags`) et termes (ex. : `Tag 1`).
+Vocabulaire
+: Une catégorisation du contenu (ex. : `tags`, `categories`, etc.).
+
+Terme
+: Un terme est un élément d’un vocabulaire (ex. : `Développement`, `PHP`, etc.).
 
 _Exemple :_
 
 ```yaml
 ---
-tags: ["Tag 1", "Tag 2"]
+tags: ["Développement", "PHP"]
 ---
 ```
 

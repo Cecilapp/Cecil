@@ -1,7 +1,7 @@
 <!--
 description: "Create content and organize it."
 date: 2021-05-07
-updated: 2026-02-04
+updated: 2026-04-15
 -->
 # Content
 
@@ -624,13 +624,17 @@ In Cecil, these terms are gathered within vocabularies.
 
 Vocabularies are declared in the [_Configuration_](4-Configuration.md#taxonomies).
 
-A page can contain several vocabularies (e.g.: `tags`) and terms (e.g.: `Tag 1`).
+Vocabulary
+: A categorization of content (e.g.: `tags`, `categories`, etc.).
+
+Term
+: A term is an item of a vocabulary (e.g.: `Development`, `PHP`, etc.).
 
 _Example:_
 
 ```yaml
 ---
-tags: ["Tag 1", "Tag 2"]
+tags: ["Development", "PHP"]
 ---
 ```
 

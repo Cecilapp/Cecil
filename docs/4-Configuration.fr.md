@@ -2,6 +2,7 @@
 title: Configuration
 description: "Configurez votre site web."
 date: 2026-03-27
+updated: 2026-04-15
 slug: configuration
 -->
 # Configuration
@@ -160,8 +161,10 @@ taxonomies:
   tags: tag
 ```
 
+Vous pouvez ensuite utiliser ces vocabulaires dans le [front matter](2-Content.md#taxonomie) de votre contenu.
+
 :::warning
-Depuis la ++version 8.37.0++, les vocabulaires par défaut `category` et `tag` ont été supprimés.
+Depuis la ++version 8.37.0++, les vocabulaires par défaut `category` et `tag` ont été supprimés. Vous devez les définir dans le fichier de configuration si vous souhaitez les utiliser.
 :::
 
 :::tip

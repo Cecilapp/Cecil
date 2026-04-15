@@ -1,7 +1,7 @@
 <!--
 description: "Configure your website."
 date: 2021-05-07
-updated: 2025-12-09
+updated: 2026-04-15
 -->
 # Configuration
 
@@ -159,8 +159,10 @@ taxonomies:
   tags: tag
 ```
 
+Then you can use those vocabularies in your content’s [front matter](2-Content.md#taxonomy).
+
 :::warning
-Since ++version 8.37.0++, default vocabularies `category` and `tag` have been removed.
+Since ++version 8.37.0++, default vocabularies `category` and `tag` have been removed. You must define them in the configuration file if you want to use them.
 :::
 
 :::tip
