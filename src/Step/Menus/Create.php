@@ -185,6 +185,9 @@ class Create extends AbstractStep
                     $item = (new Entry($page->getIdWithoutLang()))
                         ->setName($page->getVariable('title'))
                         ->setUrl((new PageRenderer($this->builder, $page))->getPath());
+                    if (isset($properties['name'])) {
+                        $item->setName((string) $properties['name']);
+                    }
                     if (isset($properties['weight'])) {
                         $item->setWeight((int) $properties['weight']);
                     }

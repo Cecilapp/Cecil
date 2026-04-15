@@ -593,7 +593,7 @@ Une page peut être ajoutée à un [menu](4-Configuration.md#menus).
 
 Le nom de l’entrée est le `title` de la page et l’URL est le `path` de la page.
 
-Une même page peut être ajoutée à plusieurs menus, et la position de chaque entrée peut être définie avec la clé `weight` (la plus faible en premier).
+La même page peut être ajoutée à plusieurs menus, et la position de chaque entrée peut être définie avec la clé `weight` (la plus faible en premier). La clé `name` peut être utilisée pour personnaliser le nom de l’entrée par menu.
 
 _Exemples :_
 
@@ -616,6 +616,18 @@ menu:
     weight: 10
   navigation:
     weight: 20
+---
+```
+
+```yaml
+---
+title: 'Notre expertise'
+menu:
+  main:
+    weight: 15
+  footer:
+    weight: 15
+    name: "Expertise" # personnalise le nom de l'entrée dans ce menu
 ---
 ```
 
