@@ -40,7 +40,7 @@ if [ -z "$(git ls-remote --heads https://${GITHUB_ACTOR}:${GITHUB_TOKEN}@github.
   git add README.md
   git commit -a -m "Create '$TARGET_BRANCH' branch"
   git push origin $TARGET_BRANCH
-  cd ..
+  cd $HOME
 else
   echo "Clone branch '${TARGET_BRANCH}'"
   git clone --depth=1 --quiet --branch=$TARGET_BRANCH https://${GITHUB_ACTOR}:${GITHUB_TOKEN}@github.com/${TARGET_REPO}.git $TARGET_BRANCH > /dev/null
