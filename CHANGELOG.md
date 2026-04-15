@@ -2,6 +2,20 @@
 
 All notable changes to this project will be documented in this file. Dates are displayed in UTC.
 
+#### [8.89.0](https://github.com/Cecilapp/Cecil/compare/8.88.1...8.89.0)
+
+> 13 April 2026
+
+- Replace cocur/slugify with Symfony String [`#2342`](https://github.com/Cecilapp/Cecil/pull/2342)
+- chore(deps): bump softprops/action-gh-release from 2 to 3 [`#2345`](https://github.com/Cecilapp/Cecil/pull/2345)
+- chore(deps-dev): bump friendsofphp/php-cs-fixer from 3.94.2 to 3.95.1 [`#2344`](https://github.com/Cecilapp/Cecil/pull/2344)
+- chore(deps): bump symfony/polyfill-intl-icu from 1.33.0 to 1.34.0 [`#2343`](https://github.com/Cecilapp/Cecil/pull/2343)
+- chore(deps): bump dependabot/fetch-metadata from 2.5.0 to 3.0.0 [`#2338`](https://github.com/Cecilapp/Cecil/pull/2338)
+- chore: update deps [`1c181bc`](https://github.com/Cecilapp/Cecil/commit/1c181bc811ad4135ef59901f5dfa965dd386710e)
+- chore: update deps [`f29c273`](https://github.com/Cecilapp/Cecil/commit/f29c27360e730f22de5c17a5762a12626b785a6e)
+- docs: some fix [`939d731`](https://github.com/Cecilapp/Cecil/commit/939d731e9ed6b1665962fa629c3eda6a1ffe86d9)
+- ci: remove contact info from CI commit messages [`96f5c5e`](https://github.com/Cecilapp/Cecil/commit/96f5c5e0403b3874f6e038d3a1492b50d410dc27)
+
 #### [8.88.1](https://github.com/Cecilapp/Cecil/compare/8.88.0...8.88.1)
 
 > 1 April 2026
