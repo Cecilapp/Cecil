@@ -591,7 +591,7 @@ A page can be added to a [menu](4-Configuration.md#menus).
 
 The entry name is the page `title` and the URL is the page `path`.
 
-A same page could be added to severals menus, and the position of each entry can be defined with the `weight` key (the lightest first). The `name` key can be used to override the default entry name per menu.
+The same page can be added to multiple menus, and each entry's position can be set with the `weight` key (lowest first). The `name` key can be used to override the default entry name per menu.
 
 _Examples:_
 
