@@ -66,6 +66,5 @@ class IntegrationTests extends \PHPUnit\Framework\TestCase
         self::assertNotFalse($htmlFr);
         self::assertStringContainsString('/images/cecil-logo.png', $htmlEn);
         self::assertStringContainsString('/images/cecil-logo.fr.png', $htmlFr);
-        self::assertTrue(true);
     }
 }

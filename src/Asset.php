@@ -1000,7 +1000,8 @@ class Asset implements \ArrayAccess
             return null;
         }
 
-        if (Util\Str::endsWith($pathInfo['filename'], ".$language")) {
+        $filenameParts = \explode('.', $pathInfo['filename']);
+        if (\end($filenameParts) === $language) {
             return null;
         }
 
