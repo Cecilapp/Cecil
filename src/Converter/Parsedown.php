@@ -56,6 +56,9 @@ class Parsedown extends \ParsedownToc
     /** @var Highlighter */
     protected $highlighter;
 
+    /** @var string|null */
+    protected $language;
+
     public function __construct(Builder $builder, ?array $options = null)
     {
         $this->builder = $builder;
@@ -76,7 +79,12 @@ class Parsedown extends \ParsedownToc
         $this->highlighter = new Highlighter();
 
         // options
-        $options = array_merge(['selectors' => (array) $this->config->get('pages.body.toc')], $options ?? []);
+        $options = array_merge([
+            'selectors' => (array) $this->config->get('pages.body.toc'),
+            'language'  => null,
+        ], $options ?? []);
+        $this->language = empty($options['language']) ? null : (string) $options['language'];
+        unset($options['language']);
 
         parent::__construct();
         parent::setOptions($options);
@@ -257,6 +265,7 @@ class Parsedown extends \ParsedownToc
         if ($this->config->isEnabled('pages.body.images.remote.fallback')) {
             $assetOptions += ['fallback' => (string) $this->config->get('pages.body.images.remote.fallback')];
         }
+        $assetOptions += ['language' => $this->language];
         $asset = new Asset($this->builder, $InlineImage['element']['attributes']['src'], $assetOptions);
         $InlineImage['element']['attributes']['src'] = new Url($this->builder, $asset);
         $width = $asset['width'];

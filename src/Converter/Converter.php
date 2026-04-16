@@ -55,9 +55,9 @@ class Converter implements ConverterInterface
     /**
      * {@inheritdoc}
      */
-    public function convertBody(string $string): string
+    public function convertBody(string $string, ?string $language = null): string
     {
-        $parsedown = new Parsedown($this->builder);
+        $parsedown = new Parsedown($this->builder, ['language' => $language]);
 
         return $parsedown->text($string);
     }

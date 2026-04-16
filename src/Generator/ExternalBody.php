@@ -45,7 +45,7 @@ class ExternalBody extends AbstractGenerator implements GeneratorInterface
                 if ($pageContent === false) {
                     throw new RuntimeException(\sprintf('Unable to get external contents from "%s".', $page->getVariable('external')));
                 }
-                $html = (new Converter($this->builder))->convertBody($pageContent);
+                $html = (new Converter($this->builder))->convertBody($pageContent, $page->getVariable('language'));
                 $page->setBodyHtml($html);
 
                 $this->generatedPages->add($page);
