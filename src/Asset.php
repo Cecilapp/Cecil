@@ -145,7 +145,9 @@ class Asset implements \ArrayAccess
                         $paths[$i],
                         $options['fallback'],
                         $options['useragent'],
-                        empty($options['language']) ? null : (string) $options['language']
+                        ($options['language'] === null || $options['language'] === '')
+                            ? null
+                            : (string) $options['language']
                     );
                     $file = $locate['file'];
                     $path = $locate['path'];
@@ -989,7 +991,7 @@ class Asset implements \ArrayAccess
 
     private static function buildLocalizedPath(string $path, ?string $language = null): ?string
     {
-        if (empty($language)) {
+        if ($language === null || $language === '') {
             return null;
         }
 
