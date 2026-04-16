@@ -1003,7 +1003,7 @@ class Asset implements \ArrayAccess
         }
 
         $localizedFilename = \sprintf('%s.%s.%s', $pathInfo['filename'], $language, $pathInfo['extension']);
-        if (empty($pathInfo['dirname']) || $pathInfo['dirname'] == '.') {
+        if (empty($pathInfo['dirname']) || $pathInfo['dirname'] === '.') {
             return $localizedFilename;
         }
 
