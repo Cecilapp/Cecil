@@ -124,13 +124,18 @@ class Asset implements \ArrayAccess
             ],
             \is_array($options) ? $options : []
         );
+        $language = null;
+        if (isset($options['language']) && \is_scalar($options['language'])) {
+            $language = (string) $options['language'];
+            $language = $language === '' ? null : $language;
+        }
 
         // cache for "locate file(s)"
         $cache = new Cache($this->builder, 'assets');
         $locateCacheKey = \sprintf(
             '%s_locate__%s__%s__%s',
             $options['filename'] ?: implode('_', $paths),
-            $options['language'] ?? '',
+            $language ?? '',
             Builder::getBuildId(),
             Builder::getVersion()
         );
@@ -145,9 +150,7 @@ class Asset implements \ArrayAccess
                         $paths[$i],
                         $options['fallback'],
                         $options['useragent'],
-                        ($options['language'] === null || $options['language'] === '')
-                            ? null
-                            : (string) $options['language']
+                        $language
                     );
                     $file = $locate['file'];
                     $path = $locate['path'];
