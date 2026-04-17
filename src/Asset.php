@@ -129,6 +129,7 @@ class Asset implements \ArrayAccess
             $language = (string) $options['language'];
             $language = $language === '' ? null : $language;
         }
+        unset($options['language']);
 
         // cache for "locate file(s)"
         $cache = new Cache($this->builder, 'assets');
