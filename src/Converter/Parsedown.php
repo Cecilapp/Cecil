@@ -83,9 +83,13 @@ class Parsedown extends \ParsedownToc
             'selectors' => (array) $this->config->get('pages.body.toc'),
             'language'  => null,
         ], $options ?? []);
-        $this->language = ($options['language'] === null || $options['language'] === '')
-            ? null
-            : (string) $options['language'];
+        $language = $options['language'];
+        if (\is_scalar($language)) {
+            $language = (string) $language;
+            $this->language = $language === '' ? null : $language;
+        } else {
+            $this->language = null;
+        }
         unset($options['language']);
 
         parent::__construct();
