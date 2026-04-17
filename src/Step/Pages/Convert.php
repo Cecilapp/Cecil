@@ -129,7 +129,7 @@ class Convert extends AbstractStep
         if ($page->getVariable('published') || $this->options['drafts']) {
             try {
                 $language = $page->getVariable('language');
-                $isDefault = $language === $builder->getConfig()->get('language');
+                $isDefault = $language === $builder->getConfig()->getLanguageDefault();
                 $effectiveLanguage = $isDefault ? null : $language;
                 $html = $converter->convertBody($page->getBody(), $effectiveLanguage);
             } catch (RuntimeException $e) {
