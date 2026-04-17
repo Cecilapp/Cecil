@@ -410,6 +410,18 @@ Est converti en :
 La légende prend en charge le contenu Markdown.
 :::
 
+#### Asset d’image localisé (multilingue)
+
+Pour les pages traduites, Cecil recherche d’abord un fichier suffixé par la langue lors de la résolution des chemins d’image Markdown.
+
+_Exemple :_
+
+```markdown
+![](/images/cecil-logo.png)
+```
+
+Avec une page française (`fr`), Cecil essaie d’abord `/images/cecil-logo.fr.png`, puis revient à `/images/cecil-logo.png`.
+
 #### Placeholder
 
 Comme les images sont généralement des ressources plus lourdes et plus lentes, et qu’elles ne bloquent pas le rendu, il est préférable de donner aux utilisateurs quelque chose à voir pendant qu’ils attendent leur chargement.

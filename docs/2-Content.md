@@ -408,6 +408,18 @@ Is converted to:
 Caption supports Markdown content.
 :::
 
+#### Localized image asset (multilingual)
+
+For translated pages, Cecil first looks for a language-suffixed file when resolving Markdown image paths.
+
+_Example:_
+
+```markdown
+![](/images/cecil-logo.png)
+```
+
+With a French page (`fr`), Cecil tries `/images/cecil-logo.fr.png` first, then falls back to `/images/cecil-logo.png`.
+
 #### Placeholder
 
 As images are typically heavier and slower resources, and they don’t block rendering, we should attempt to give users something to look at while they wait for the image to arrive.
