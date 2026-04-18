@@ -310,7 +310,7 @@ Le ratio est conservé (l’attribut `height` est calculé automatiquement), le 
 :::
 
 :::important
-Cette fonctionnalité nécessite l’[extension GD](https://www.php.net/manual/book.image.php) (sinon elle ajoute seulement un attribut HTML `width` à la balise `img`).
+Cette fonctionnalité nécessite [GD](https://www.php.net/manual/book.image.php), [Imagick](https://www.php.net/manual/book.imagick.php) ou [libvips](https://www.libvips.org/) (sinon elle ajoute seulement un attribut HTML `width` à la balise `img`).
 :::
 
 #### Formats

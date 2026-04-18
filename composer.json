@@ -74,7 +74,8 @@
     "psr/simple-cache-implementation": "3.0"
   },
   "suggest": {
-    "ext-intl": "Intl locales support."
+    "ext-intl": "Intl locales support.",
+    "intervention/image-driver-vips": "libvips driver support for Intervention Image (requires jcupitt/vips)"
   },
   "config": {
     "allow-plugins": {
