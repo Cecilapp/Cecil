@@ -62,7 +62,7 @@ class Image
             );
         }
 
-        throw new RuntimeException('PHP GD, Imagick or libvips extension is required.');
+        throw new RuntimeException('PHP GD or Imagick extension is required, or Vips support via ext-vips/jcupitt-vips and intervention/image-driver-vips.');
     }
 
     /**
