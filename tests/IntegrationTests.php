@@ -64,10 +64,15 @@ class IntegrationTests extends \PHPUnit\Framework\TestCase
         self::assertTrue(true);
     }
 
-    public function testPrefixSeparatorForNumericTitles()
+    /**
+     * Dash-separated numeric prefixes are preserved in slugs,
+     * underscore-separated numeric prefixes are treated as weight prefixes.
+     */
+    public function testPrefixSeparatorBehavior()
     {
         self::assertFalse(PrefixSuffix::hasPrefix('1-number-test'));
         self::assertSame('1-number-test', PrefixSuffix::subPrefix('1-number-test'));
+        self::assertSame('1-number-test', PrefixSuffix::sub('1-number-test'));
         self::assertSame('number-test', PrefixSuffix::sub('1_number-test'));
 
         self::assertTrue(PrefixSuffix::hasPrefix('1_number-test'));
@@ -76,5 +81,7 @@ class IntegrationTests extends \PHPUnit\Framework\TestCase
 
         self::assertTrue(PrefixSuffix::hasPrefix('2017-10-19-post-with-date-prefix'));
         self::assertSame('2017-10-19', PrefixSuffix::getPrefix('2017-10-19-post-with-date-prefix'));
+        self::assertSame('post-with-date-prefix', PrefixSuffix::subPrefix('2017-10-19-post-with-date-prefix'));
+        self::assertSame('post-with-date-prefix', PrefixSuffix::sub('2017-10-19-post-with-date-prefix'));
     }
 }

@@ -23,6 +23,15 @@ use Cecil\Config;
  */
 class PrefixSuffix
 {
+    // Match index of the prefix value (number/date) from PREFIX_PATTERN.
+    private const PREFIX_PART = 2;
+    // Match index of the date year part from PREFIX_PATTERN (empty for numeric prefix).
+    private const PREFIX_DATE_YEAR_PART = 3;
+    // Match index of the separator ("-" or "_") from PREFIX_PATTERN.
+    private const PREFIX_SEPARATOR_PART = 6;
+    // Match index of the string without prefix from PREFIX_PATTERN.
+    private const PREFIX_SUFFIX_PART = 7;
+
     // https://regex101.com/r/tJWUrd/6
     // ie: "blog/2017-10-19_post-1.md" prefix is "2017-10-19"
     // ie: "projet/1-projet-a.md" prefix is "1"
@@ -46,13 +55,11 @@ class PrefixSuffix
      */
     public static function hasPrefix(string $string): bool
     {
-        if (!self::has($string, 'prefix')) {
+        if (!self::matchPrefix($string, $matches)) {
             return false;
         }
 
-        preg_match('/^' . self::getPattern('prefix') . '$/', $string, $matches);
-
-        return !(is_numeric($matches[2]) && $matches[6] === '-');
+        return !self::isDashSeparatedNumericPrefix($matches);
     }
 
     /**
@@ -86,13 +93,11 @@ class PrefixSuffix
      */
     public static function getPrefix(string $string): ?string
     {
-        if (!self::hasPrefix($string)) {
+        if (!self::matchPrefix($string, $matches) || self::isDashSeparatedNumericPrefix($matches)) {
             return null;
         }
 
-        preg_match('/^' . self::getPattern('prefix') . '$/', $string, $matches);
-
-        return $matches[2];
+        return $matches[self::PREFIX_PART];
     }
 
     /**
@@ -109,9 +114,8 @@ class PrefixSuffix
     public static function sub(string $string): string
     {
         if (self::hasPrefix($string)) {
-            preg_match('/^' . self::getPattern('prefix') . '$/', $string, $matches);
-
-            $string = $matches[1] . $matches[7];
+            self::matchPrefix($string, $matches);
+            $string = $matches[1] . $matches[self::PREFIX_SUFFIX_PART];
         }
         if (self::hasSuffix($string)) {
             preg_match('/^' . self::getPattern('suffix') . '$/', $string, $matches);
@@ -128,9 +132,9 @@ class PrefixSuffix
     public static function subPrefix(string $string): string
     {
         if (self::hasPrefix($string)) {
-            preg_match('/^' . self::getPattern('prefix') . '$/', $string, $matches);
+            self::matchPrefix($string, $matches);
 
-            return $matches[1] . $matches[7];
+            return $matches[1] . $matches[self::PREFIX_SUFFIX_PART];
         }
 
         return $string;
@@ -151,5 +155,28 @@ class PrefixSuffix
             default:
                 throw new \InvalidArgumentException('Argument must be "prefix" or "suffix".');
         }
+    }
+
+    /**
+     * Matches string with prefix pattern.
+     *
+     * @param string     $string  String to test
+     * @param array|null $matches Output parameter populated with preg_match() matches
+     *
+     * @return bool True when the string matches PREFIX_PATTERN
+     */
+    private static function matchPrefix(string $string, ?array &$matches = null): bool
+    {
+        return (bool) preg_match('/^' . self::getPattern('prefix') . '$/', $string, $matches);
+    }
+
+    /**
+     * Returns true when the string starts with a numeric prefix separated by "-".
+     *
+     * @param array $matches Matches found by matchPrefix()
+     */
+    private static function isDashSeparatedNumericPrefix(array $matches): bool
+    {
+        return $matches[self::PREFIX_SEPARATOR_PART] === '-' && $matches[self::PREFIX_DATE_YEAR_PART] === '' && ctype_digit($matches[self::PREFIX_PART]);
     }
 }
