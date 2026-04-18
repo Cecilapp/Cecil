@@ -308,7 +308,7 @@ Ratio is preserved (`height` attribute is calculated automatically), the origina
 :::
 
 :::important
-This feature requires [GD](https://www.php.net/manual/book.image.php), [Imagick](https://www.php.net/manual/book.imagick.php) or [libvips](https://www.libvips.org/) (otherwise it only adds a `width` HTML attribute to the `img` tag).
+This feature requires [GD](https://www.php.net/manual/book.image.php). [Imagick](https://www.php.net/manual/book.imagick.php) and [libvips](https://www.libvips.org/) can also be used as optional backends when available; otherwise it only adds a `width` HTML attribute to the `img` tag.
 :::
 
 #### Formats
