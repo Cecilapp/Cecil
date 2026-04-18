@@ -75,8 +75,8 @@
   },
   "suggest": {
     "ext-intl": "Intl locales support.",
-    "ext-vips": "PHP vips extension support (requires system libvips).",
-    "intervention/image-driver-vips": "libvips driver support for Intervention Image (requires ext-vips and system libvips)."
+    "ext-vips": "Optional PHP vips extension support for image processing features (requires system libvips; GD is still required for installation).",
+    "intervention/image-driver-vips": "Optional libvips driver support for Intervention Image (requires ext-vips and system libvips; GD is still required for installation)."
   },
   "config": {
     "allow-plugins": {
