@@ -37,6 +37,7 @@ class Image
      */
     private static function manager(): ImageManager
     {
+        $driver = null;
         // Use GD first to keep driver capabilities aligned with GD-based format checks in convert().
         if (\extension_loaded('gd') && \function_exists('gd_info')) {
             $driver = GdDriver::class;
@@ -46,8 +47,6 @@ class Image
         } elseif (\extension_loaded('vips') && class_exists('Jcupitt\Vips\Config') && class_exists(VipsDriver::class)) {
             // libvips fallback.
             $driver = VipsDriver::class;
-        } else {
-            $driver = null;
         }
 
         if ($driver) {
