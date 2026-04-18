@@ -74,9 +74,9 @@
     "psr/simple-cache-implementation": "3.0"
   },
   "suggest": {
-    "ext-intl": "Intl locales support.",
-    "ext-vips": "Optional PHP vips extension support for image processing features (requires system libvips; GD is still required for installation).",
-    "intervention/image-driver-vips": "Optional libvips driver support for Intervention Image (requires ext-vips and system libvips; GD is still required for installation)."
+    "ext-intl": "Native Intl extension for improved performance; ICU support is already provided by symfony/polyfill-intl-icu.",
+    "ext-vips": "PHP vips extension support for image processing features (requires system libvips).",
+    "intervention/image-driver-vips": "libvips driver support for Intervention Image (requires ext-vips and system libvips)."
   },
   "config": {
     "allow-plugins": {
