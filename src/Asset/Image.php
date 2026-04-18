@@ -17,6 +17,7 @@ use Cecil\Asset;
 use Cecil\Exception\RuntimeException;
 use Intervention\Image\Drivers\Gd\Driver as GdDriver;
 use Intervention\Image\Drivers\Imagick\Driver as ImagickDriver;
+use Intervention\Image\Drivers\Vips\Driver as VipsDriver;
 use Intervention\Image\Encoders\AutoEncoder;
 use Intervention\Image\ImageManager;
 
@@ -27,7 +28,7 @@ use Intervention\Image\ImageManager;
  * and generating data URLs.
  *
  * This class uses the Intervention Image library to handle image processing.
- * It supports both GD and Imagick drivers, depending on the available PHP extensions.
+ * It supports GD, Imagick and libvips drivers, depending on available extensions.
  */
 class Image
 {
@@ -37,14 +38,15 @@ class Image
     private static function manager(): ImageManager
     {
         $driver = null;
-
-        // ImageMagick is available? (for a future quality option)
-        if (\extension_loaded('imagick') && class_exists('Imagick')) {
-            $driver = ImagickDriver::class;
-        }
-        // Use GD, because it's the faster driver
+        // Use GD first to keep driver capabilities aligned with GD-based format checks in convert().
         if (\extension_loaded('gd') && \function_exists('gd_info')) {
             $driver = GdDriver::class;
+        } elseif (\extension_loaded('imagick') && class_exists('Imagick')) {
+            // ImageMagick fallback.
+            $driver = ImagickDriver::class;
+        } elseif (\extension_loaded('vips') && class_exists('Jcupitt\Vips\Config') && class_exists(VipsDriver::class)) {
+            // libvips fallback.
+            $driver = VipsDriver::class;
         }
 
         if ($driver) {
@@ -59,7 +61,7 @@ class Image
             );
         }
 
-        throw new RuntimeException('PHP GD (or Imagick) extension is required.');
+        throw new RuntimeException('PHP GD or Imagick extension is required, or Vips support via ext-vips/jcupitt-vips and intervention/image-driver-vips.');
     }
 
     /**
