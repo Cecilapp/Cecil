@@ -46,7 +46,13 @@ class PrefixSuffix
      */
     public static function hasPrefix(string $string): bool
     {
-        return self::has($string, 'prefix');
+        if (!self::has($string, 'prefix')) {
+            return false;
+        }
+
+        preg_match('/^' . self::getPattern('prefix') . '$/', $string, $matches);
+
+        return !(is_numeric($matches[2]) && $matches[6] === '-');
     }
 
     /**
@@ -80,7 +86,13 @@ class PrefixSuffix
      */
     public static function getPrefix(string $string): ?string
     {
-        return self::get($string, 'prefix');
+        if (!self::hasPrefix($string)) {
+            return null;
+        }
+
+        preg_match('/^' . self::getPattern('prefix') . '$/', $string, $matches);
+
+        return $matches[2];
     }
 
     /**

@@ -12,6 +12,7 @@
 namespace Cecil\Test;
 
 use Cecil\Builder;
+use Cecil\Collection\Page\PrefixSuffix;
 use Cecil\Config;
 use Cecil\Logger\PrintLogger;
 use Cecil\Util;
@@ -61,5 +62,19 @@ class IntegrationTests extends \PHPUnit\Framework\TestCase
                 'dry-run' => false,
             ]);
         self::assertTrue(true);
+    }
+
+    public function testPrefixSeparatorForNumericTitles()
+    {
+        self::assertFalse(PrefixSuffix::hasPrefix('1-number-test'));
+        self::assertSame('1-number-test', PrefixSuffix::subPrefix('1-number-test'));
+        self::assertSame('number-test', PrefixSuffix::sub('1_number-test'));
+
+        self::assertTrue(PrefixSuffix::hasPrefix('1_number-test'));
+        self::assertSame('1', PrefixSuffix::getPrefix('1_number-test'));
+        self::assertSame('number-test', PrefixSuffix::subPrefix('1_number-test'));
+
+        self::assertTrue(PrefixSuffix::hasPrefix('2017-10-19-post-with-date-prefix'));
+        self::assertSame('2017-10-19', PrefixSuffix::getPrefix('2017-10-19-post-with-date-prefix'));
     }
 }
