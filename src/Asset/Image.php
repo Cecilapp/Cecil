@@ -40,10 +40,10 @@ class Image
         // Use GD first to keep driver capabilities aligned with GD-based format checks in convert().
         if (\extension_loaded('gd') && \function_exists('gd_info')) {
             $driver = GdDriver::class;
-        } elseif (\extension_loaded('imagick') && \class_exists('Imagick')) {
+        } elseif (\extension_loaded('imagick') && class_exists('Imagick')) {
             // ImageMagick fallback.
             $driver = ImagickDriver::class;
-        } elseif (\extension_loaded('vips') && \class_exists('Jcupitt\Vips\Config') && \class_exists(VipsDriver::class)) {
+        } elseif (\extension_loaded('vips') && class_exists('Jcupitt\Vips\Config') && class_exists(VipsDriver::class)) {
             // libvips fallback.
             $driver = VipsDriver::class;
         } else {
