@@ -37,14 +37,14 @@ class Image
      */
     private static function manager(): ImageManager
     {
-        // libvips is available? (recommended when intervention/image-driver-vips is installed)
+        // Use libvips first when available (high performance/low memory footprint).
         if (\extension_loaded('vips') && \class_exists('Jcupitt\Vips\Config') && \class_exists(VipsDriver::class)) {
             $driver = VipsDriver::class;
         } elseif (\extension_loaded('gd') && \function_exists('gd_info')) {
-            // Use GD as default fallback
+            // Use GD as default fallback (fast and widely available).
             $driver = GdDriver::class;
         } elseif (\extension_loaded('imagick') && \class_exists('Imagick')) {
-            // ImageMagick fallback
+            // ImageMagick fallback.
             $driver = ImagickDriver::class;
         } else {
             $driver = null;
