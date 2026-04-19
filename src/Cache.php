@@ -329,9 +329,23 @@ class Cache implements CacheInterface
             // if 2 or more parts (with hash), remove all files with the same first part
             // pattern: `name__hash__version`
             if (!empty($keyAsArray[0]) && \count($keyAsArray) >= 2) {
-                $pattern = Util::joinFile($this->cacheDir, $keyAsArray[0]) . '*';
-                foreach (glob($pattern) ?: [] as $filename) {
-                    Util\File::getFS()->remove($filename);
+                $prefix = $keyAsArray[0];
+                $iterator = new \RecursiveIteratorIterator(
+                    new \RecursiveDirectoryIterator($this->cacheDir, \FilesystemIterator::SKIP_DOTS),
+                    \RecursiveIteratorIterator::SELF_FIRST
+                );
+
+                foreach ($iterator as $file) {
+                    if (!$file->isFile()) {
+                        continue;
+                    }
+
+                    $relativePath = trim(Util\File::getFS()->makePathRelative($file->getPathname(), $this->cacheDir), '/\\');
+                    $normalizedPath = str_replace(['\\', '/'], '-', $relativePath);
+
+                    if (\str_starts_with($normalizedPath, $prefix)) {
+                        Util\File::getFS()->remove($file->getPathname());
+                    }
                 }
             }
         } catch (\Exception $e) {
