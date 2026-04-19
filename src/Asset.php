@@ -134,9 +134,9 @@ class Asset implements \ArrayAccess
         // cache for "locate file(s)"
         $cache = new Cache($this->builder, 'assets');
         $locateCacheKey = \sprintf(
-            '%s_locate__%s__%s__%s',
+            '%s_locate%s__%s__%s',
             $options['filename'] ?: implode('_', $paths),
-            $language ?? '',
+            $language ? '_' . $language : '',
             Builder::getBuildId(),
             Builder::getVersion()
         );
