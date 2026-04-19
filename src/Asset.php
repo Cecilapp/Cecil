@@ -62,6 +62,7 @@ class Asset implements \ArrayAccess
      *     'optimize' => <bool>,
      *     'fallback' => <string>,
      *     'useragent' => <string>,
+     *     'language' => <string|null>,
      * ]
      *
      * @param Builder      $builder
@@ -119,13 +120,26 @@ class Asset implements \ArrayAccess
                 'optimize'       => $this->config->isEnabled('assets.images.optimize'),
                 'fallback'       => '',
                 'useragent'      => (string) $this->config->get('assets.remote.useragent.default'),
+                'language'       => null,
             ],
             \is_array($options) ? $options : []
         );
+        $language = null;
+        if (isset($options['language']) && \is_scalar($options['language'])) {
+            $language = (string) $options['language'];
+            $language = $language === '' ? null : $language;
+        }
+        unset($options['language']);
 
         // cache for "locate file(s)"
         $cache = new Cache($this->builder, 'assets');
-        $locateCacheKey = \sprintf('%s_locate__%s__%s', $options['filename'] ?: implode('_', $paths), Builder::getBuildId(), Builder::getVersion());
+        $locateCacheKey = \sprintf(
+            '%s_locate%s__%s__%s',
+            $options['filename'] ?: implode('_', $paths),
+            $language ? '_' . $language : '',
+            Builder::getBuildId(),
+            Builder::getVersion()
+        );
 
         // locate file(s) and get content
         if (!$cache->has($locateCacheKey)) {
@@ -133,7 +147,12 @@ class Asset implements \ArrayAccess
             for ($i = 0; $i < $pathsCount; $i++) {
                 try {
                     $this->data['missing'] = false;
-                    $locate = $this->locateFile($paths[$i], $options['fallback'], $options['useragent']);
+                    $locate = $this->locateFile(
+                        $paths[$i],
+                        $options['fallback'],
+                        $options['useragent'],
+                        $language
+                    );
                     $file = $locate['file'];
                     $path = $locate['path'];
                     $type = Util\File::getMediaType($file)[0];
@@ -863,7 +882,7 @@ class Asset implements \ArrayAccess
      *
      * @throws RuntimeException
      */
-    private function locateFile(string $path, ?string $fallback = null, ?string $userAgent = null): array
+    private function locateFile(string $path, ?string $fallback = null, ?string $userAgent = null, ?string $language = null): array
     {
         // remote file
         if (Util\File::isRemote($path)) {
@@ -893,7 +912,18 @@ class Asset implements \ArrayAccess
             }
         }
 
+        $localizedPath = self::buildLocalizedPath($path, $language);
+
         // checks in assets/
+        if ($localizedPath !== null) {
+            $file = Util::joinFile($this->config->getAssetsPath(), $localizedPath);
+            if (Util\File::getFS()->exists($file)) {
+                return [
+                    'file' => $file,
+                    'path' => $localizedPath,
+                ];
+            }
+        }
         $file = Util::joinFile($this->config->getAssetsPath(), $path);
         if (Util\File::getFS()->exists($file)) {
             return [
@@ -904,6 +934,15 @@ class Asset implements \ArrayAccess
 
         // checks in each themes/<theme>/assets/
         foreach ($this->config->getTheme() ?? [] as $theme) {
+            if ($localizedPath !== null) {
+                $file = Util::joinFile($this->config->getThemeDirPath($theme, 'assets'), $localizedPath);
+                if (Util\File::getFS()->exists($file)) {
+                    return [
+                        'file' => $file,
+                        'path' => $localizedPath,
+                    ];
+                }
+            }
             $file = Util::joinFile($this->config->getThemeDirPath($theme, 'assets'), $path);
             if (Util\File::getFS()->exists($file)) {
                 return [
@@ -914,6 +953,15 @@ class Asset implements \ArrayAccess
         }
 
         // checks in static/
+        if ($localizedPath !== null) {
+            $file = Util::joinFile($this->config->getStaticPath(), $localizedPath);
+            if (Util\File::getFS()->exists($file)) {
+                return [
+                    'file' => $file,
+                    'path' => $localizedPath,
+                ];
+            }
+        }
         $file = Util::joinFile($this->config->getStaticPath(), $path);
         if (Util\File::getFS()->exists($file)) {
             return [
@@ -924,6 +972,15 @@ class Asset implements \ArrayAccess
 
         // checks in each themes/<theme>/static/
         foreach ($this->config->getTheme() ?? [] as $theme) {
+            if ($localizedPath !== null) {
+                $file = Util::joinFile($this->config->getThemeDirPath($theme, 'static'), $localizedPath);
+                if (Util\File::getFS()->exists($file)) {
+                    return [
+                        'file' => $file,
+                        'path' => $localizedPath,
+                    ];
+                }
+            }
             $file = Util::joinFile($this->config->getThemeDirPath($theme, 'static'), $path);
             if (Util\File::getFS()->exists($file)) {
                 return [
@@ -934,6 +991,30 @@ class Asset implements \ArrayAccess
         }
 
         throw new RuntimeException(\sprintf('Unable to locate file "%s".', $path));
+    }
+
+    private static function buildLocalizedPath(string $path, ?string $language = null): ?string
+    {
+        if ($language === null || $language === '') {
+            return null;
+        }
+
+        $pathInfo = pathinfo($path);
+        if (empty($pathInfo['extension']) || empty($pathInfo['filename'])) {
+            return null;
+        }
+
+        $filenameParts = explode('.', $pathInfo['filename']);
+        if (end($filenameParts) === $language) {
+            return null;
+        }
+
+        $localizedFilename = \sprintf('%s.%s.%s', $pathInfo['filename'], $language, $pathInfo['extension']);
+        if (empty($pathInfo['dirname']) || $pathInfo['dirname'] === '.') {
+            return $localizedFilename;
+        }
+
+        return Util::joinPath($pathInfo['dirname'], $localizedFilename);
     }
 
     /**

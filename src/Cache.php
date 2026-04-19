@@ -28,6 +28,7 @@ class Cache implements CacheInterface
 {
     /** Reserved characters that cannot be used in a key */
     public const RESERVED_CHARACTERS = '{}()/\@:';
+    private const SHARD_DELIMITER = '-';
 
     /** @var Builder */
     protected $builder;
@@ -292,11 +293,9 @@ class Cache implements CacheInterface
      */
     private function getFile(string $key): string
     {
-        if (\count(explode('-', explode('__', $key)[0])) >= 2) {
-            return Util::joinFile($this->cacheDir, explode('-', $key, 2)[0], explode('-', $key, 2)[1]) . '.ser';
-        }
+        [$targetDir, $fileName] = $this->resolveShard($key);
 
-        return Util::joinFile($this->cacheDir, "$key.ser");
+        return Util::joinFile($targetDir, "$fileName.ser");
     }
 
     /**
@@ -329,9 +328,22 @@ class Cache implements CacheInterface
             // if 2 or more parts (with hash), remove all files with the same first part
             // pattern: `name__hash__version`
             if (!empty($keyAsArray[0]) && \count($keyAsArray) >= 2) {
-                $pattern = Util::joinFile($this->cacheDir, $keyAsArray[0]) . '*';
-                foreach (glob($pattern) ?: [] as $filename) {
-                    Util\File::getFS()->remove($filename);
+                $prefix = $keyAsArray[0];
+                [$targetDir, $filenamePrefix] = $this->resolveShard(\sprintf('%s__', $prefix));
+
+                if (!Util\File::getFS()->exists($targetDir)) {
+                    return true;
+                }
+
+                $iterator = new \DirectoryIterator($targetDir);
+                foreach ($iterator as $file) {
+                    if (!$file->isFile()) {
+                        continue;
+                    }
+                    $fileNameWithoutExtension = pathinfo($file->getFilename(), PATHINFO_FILENAME);
+                    if (str_starts_with($fileNameWithoutExtension, $filenamePrefix)) {
+                        Util\File::getFS()->remove($file->getPathname());
+                    }
                 }
             }
         } catch (\Exception $e) {
@@ -341,6 +353,24 @@ class Cache implements CacheInterface
         }
 
         return true;
+    }
+
+    /**
+     * Returns target cache directory and filename/key suffix according to sharding rules.
+     */
+    private function resolveShard(string $key): array
+    {
+        // Keep shard detection aligned with getFile historical behavior:
+        // detect a shard from the part before "__", then split the full key at the first delimiter.
+        $prefixBeforeHashSegments = explode(self::SHARD_DELIMITER, explode('__', $key)[0], 2);
+        $fullKeyShardSegments = explode(self::SHARD_DELIMITER, $key, 2);
+        $hasShardPrefix = \count($prefixBeforeHashSegments) === 2;
+        $hasFullKeyShard = \count($fullKeyShardSegments) === 2 && !empty($fullKeyShardSegments[1]);
+        if ($hasShardPrefix && $hasFullKeyShard) {
+            return [Util::joinFile($this->cacheDir, $fullKeyShardSegments[0]), $fullKeyShardSegments[1]];
+        }
+
+        return [$this->cacheDir, $key];
     }
 
     /**

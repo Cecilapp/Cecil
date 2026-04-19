@@ -60,6 +60,11 @@ class IntegrationTests extends \PHPUnit\Framework\TestCase
                 'drafts'  => true,
                 'dry-run' => false,
             ]);
-        self::assertTrue(true);
+        $htmlEn = Util\File::fileGetContents(Util::joinFile($this->destination, '_site/markdown/localized-assets/index.html'));
+        $htmlFr = Util\File::fileGetContents(Util::joinFile($this->destination, '_site/fr/markdown/localized-assets/index.html'));
+        self::assertNotFalse($htmlEn);
+        self::assertNotFalse($htmlFr);
+        self::assertStringContainsString('/images/cecil-logo.png', $htmlEn);
+        self::assertStringContainsString('/images/cecil-logo.fr.png', $htmlFr);
     }
 }
