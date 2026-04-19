@@ -2,7 +2,7 @@
 title: Contenu
 description: "Créer du contenu et l’organiser."
 date: 2026-03-27
-updated: 2026-04-15
+updated: 2026-04-20
 slug: contenu
 -->
 # Contenu
@@ -410,7 +410,7 @@ Est converti en :
 La légende prend en charge le contenu Markdown.
 :::
 
-#### Asset d’image localisé (multilingue)
+#### Image localisée
 
 Pour les pages traduites, Cecil recherche d’abord un fichier suffixé par la langue lors de la résolution des chemins d’image Markdown.
 

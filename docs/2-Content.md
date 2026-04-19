@@ -1,7 +1,7 @@
 <!--
 description: "Create content and organize it."
 date: 2021-05-07
-updated: 2026-04-15
+updated: 2026-04-20
 -->
 # Content
 
@@ -408,7 +408,7 @@ Is converted to:
 Caption supports Markdown content.
 :::
 
-#### Localized image asset (multilingual)
+#### Localized image
 
 For translated pages, Cecil first looks for a language-suffixed file when resolving Markdown image paths.
 
