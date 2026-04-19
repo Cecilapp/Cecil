@@ -28,6 +28,7 @@ class Cache implements CacheInterface
 {
     /** Reserved characters that cannot be used in a key */
     public const RESERVED_CHARACTERS = '{}()/\@:';
+    private const SHARD_DELIMITER = '-';
 
     /** @var Builder */
     protected $builder;
@@ -330,20 +331,25 @@ class Cache implements CacheInterface
             // pattern: `name__hash__version`
             if (!empty($keyAsArray[0]) && \count($keyAsArray) >= 2) {
                 $prefix = $keyAsArray[0];
-                $iterator = new \RecursiveIteratorIterator(
-                    new \RecursiveDirectoryIterator($this->cacheDir, \FilesystemIterator::SKIP_DOTS),
-                    \RecursiveIteratorIterator::SELF_FIRST
-                );
+                $targetDir = $this->cacheDir;
+                $filenamePrefix = $prefix;
+                $prefixSegments = explode(self::SHARD_DELIMITER, $prefix, 2);
+                if (\count($prefixSegments) === 2 && !empty($prefixSegments[0]) && !empty($prefixSegments[1])) {
+                    $targetDir = Util::joinFile($this->cacheDir, $prefixSegments[0]);
+                    $filenamePrefix = $prefixSegments[1];
+                }
 
+                if (!Util\File::getFS()->exists($targetDir)) {
+                    return true;
+                }
+
+                $iterator = new \DirectoryIterator($targetDir);
                 foreach ($iterator as $file) {
                     if (!$file->isFile()) {
                         continue;
                     }
-
-                    $relativePath = trim(Util\File::getFS()->makePathRelative($file->getPathname(), $this->cacheDir), '/\\');
-                    $normalizedPath = str_replace(['\\', '/'], '-', $relativePath);
-
-                    if (str_starts_with($normalizedPath, $prefix)) {
+                    $fileNameWithoutExtension = pathinfo($file->getFilename(), PATHINFO_FILENAME);
+                    if (str_starts_with($fileNameWithoutExtension, $filenamePrefix)) {
                         Util\File::getFS()->remove($file->getPathname());
                     }
                 }
