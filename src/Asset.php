@@ -999,13 +999,13 @@ class Asset implements \ArrayAccess
             return null;
         }
 
-        $pathInfo = \pathinfo($path);
+        $pathInfo = pathinfo($path);
         if (empty($pathInfo['extension']) || empty($pathInfo['filename'])) {
             return null;
         }
 
-        $filenameParts = \explode('.', $pathInfo['filename']);
-        if (\end($filenameParts) === $language) {
+        $filenameParts = explode('.', $pathInfo['filename']);
+        if (end($filenameParts) === $language) {
             return null;
         }
 

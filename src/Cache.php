@@ -343,7 +343,7 @@ class Cache implements CacheInterface
                     $relativePath = trim(Util\File::getFS()->makePathRelative($file->getPathname(), $this->cacheDir), '/\\');
                     $normalizedPath = str_replace(['\\', '/'], '-', $relativePath);
 
-                    if (\str_starts_with($normalizedPath, $prefix)) {
+                    if (str_starts_with($normalizedPath, $prefix)) {
                         Util\File::getFS()->remove($file->getPathname());
                     }
                 }
