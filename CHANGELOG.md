@@ -2,6 +2,21 @@
 
 All notable changes to this project will be documented in this file. Dates are displayed in UTC.
 
+#### [8.92.0](https://github.com/Cecilapp/Cecil/compare/8.91.0...8.92.0)
+
+> 20 April 2026
+
+- Localize Markdown image assets for translated pages, document behavior, and harden cache pruning shard mapping [`#2353`](https://github.com/Cecilapp/Cecil/pull/2353)
+
+#### [8.91.0](https://github.com/Cecilapp/Cecil/compare/8.90.0...8.91.0)
+
+> 20 April 2026
+
+- Add libvips support to image processing driver selection [`#2356`](https://github.com/Cecilapp/Cecil/pull/2356)
+- chore(deps-dev): bump phpstan/phpstan from 2.1.47 to 2.1.49 [`#2354`](https://github.com/Cecilapp/Cecil/pull/2354)
+- chore(deps): bump symfony/polyfill-intl-icu from 1.35.0 to 1.36.0 [`#2351`](https://github.com/Cecilapp/Cecil/pull/2351)
+- chore: update deps [`fb0ecd3`](https://github.com/Cecilapp/Cecil/commit/fb0ecd3e01538aa777e54c63c4ec6f191db2078e)
+
 #### [8.90.0](https://github.com/Cecilapp/Cecil/compare/8.89.0...8.90.0)
 
 > 15 April 2026
