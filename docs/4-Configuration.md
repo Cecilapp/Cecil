@@ -1,7 +1,7 @@
 <!--
 description: "Configure your website."
 date: 2021-05-07
-updated: 2026-04-15
+updated: 2026-04-20
 -->
 # Configuration
 
@@ -443,6 +443,16 @@ Directories, paths and files name to exclude (accepts globs, strings and regexes
 ```yaml
 pages:
   exclude: ['vendor', 'node_modules', '*.scss', '/\.bck$/']
+```
+
+### pages.prefix.separator
+
+List of characters used as separator between a filename prefix (`date` or `weight`) and the slug.
+
+```yaml
+pages:
+  prefix:
+    separator: ['-', '_']
 ```
 
 ### pages.sortby

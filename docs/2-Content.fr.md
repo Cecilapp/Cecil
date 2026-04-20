@@ -750,7 +750,9 @@ external: "https://raw.githubusercontent.com/Cecilapp/Cecil/master/README.md"
 Le nom de fichier peut contenir un préfixe pour définir les variables `date` ou `weight` de la page (utilisé par [`sortby`](3-Templates.md#sort-by-date)).
 
 :::info
-Les séparateurs de préfixe disponibles sont `_` et `-`.
+Séparateurs de préfixe par défaut : `_` et `-`.
+
+Vous pouvez les personnaliser avec l’option [`pages.prefix.separator`](4-Configuration.fr.md#pages-prefix-separator).
 :::
 
 #### date
