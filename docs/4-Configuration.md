@@ -445,6 +445,16 @@ pages:
   exclude: ['vendor', 'node_modules', '*.scss', '/\.bck$/']
 ```
 
+### pages.prefix.separator
+
+List of characters used as separator between a filename prefix (`date` or `weight`) and the slug.
+
+```yaml
+pages:
+  prefix:
+    separator: ['-', '_']
+```
+
 ### pages.sortby
 
 Default collections sort method.

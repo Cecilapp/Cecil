@@ -68,6 +68,9 @@ return [
     'pages' => [ // Markdown content management
         'dir' => 'pages', // pages files directory
         'ext' => ['md', 'markdown', 'mdown', 'mkdn', 'mkd', 'text', 'txt'], // supported files formats, by extension
+        'prefix' => [
+            'separator' => ['-', '_'], // characters used as separator between prefix (date or weight) and slug
+        ],
         'exclude' => ['vendor', 'node_modules'], // directories, paths and files name to exclude (accepts globs, strings and regexes)
         'sortby' => 'date', // collections sort method
         //'sortby' => [ // advanced sort options

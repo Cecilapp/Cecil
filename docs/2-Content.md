@@ -736,10 +736,10 @@ external: "https://raw.githubusercontent.com/Cecilapp/Cecil/master/README.md"
 The filename can contain a prefix to define `date` or `weight` variables of the page (used by [`sortby`](3-Templates.md#sort-by-date)).
 
 :::info
-Available prefix separators:
+Default prefix separators: `_` and `-`.
 
-- date prefix: `_` and `-`
-- weight prefix: `_` only
+You can customize them with the [`pages.prefix.separator`](4-Configuration.md#pagesprefixseparator) option.
+
 :::
 
 #### date
