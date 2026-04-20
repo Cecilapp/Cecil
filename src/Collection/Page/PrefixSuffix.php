@@ -49,7 +49,7 @@ class PrefixSuffix
      */
     private static function buildPrefixPattern(array $separators): string
     {
-        $sepGroup = '(' . \implode('|', \array_map(fn (string $s): string => \preg_quote($s, '/'), $separators)) . ')';
+        $sepGroup = '(' . implode('|', array_map(fn (string $s): string => preg_quote($s, '/'), $separators)) . ')';
 
         return self::PREFIX_BASE . $sepGroup . self::PREFIX_TAIL;
     }
@@ -61,7 +61,7 @@ class PrefixSuffix
      */
     protected static function has(string $string, string $type, array $separators = self::DEFAULT_SEPARATORS): bool
     {
-        return (bool) \preg_match('/^' . self::getPattern($type, $separators) . '$/', $string);
+        return (bool) preg_match('/^' . self::getPattern($type, $separators) . '$/', $string);
     }
 
     /**
@@ -71,7 +71,7 @@ class PrefixSuffix
      */
     public static function hasPrefix(string $string, array $separators = self::DEFAULT_SEPARATORS): bool
     {
-        return self::matchPrefix($string, $matches, $separators);
+        return self::has($string, 'prefix', $separators);
     }
 
     /**
@@ -89,17 +89,11 @@ class PrefixSuffix
      */
     protected static function get(string $string, string $type, array $separators = self::DEFAULT_SEPARATORS): ?string
     {
-        if (self::has($string, $type, $separators)) {
-            \preg_match('/^' . self::getPattern($type, $separators) . '$/', $string, $matches);
-            switch ($type) {
-                case 'prefix':
-                    return $matches[2];
-                case 'suffix':
-                    return $matches[2];
-            }
+        if (!preg_match('/^' . self::getPattern($type, $separators) . '$/', $string, $matches)) {
+            return null;
         }
 
-        return null;
+        return $matches[2] ?? null;
     }
 
     /**
@@ -131,13 +125,11 @@ class PrefixSuffix
      */
     public static function sub(string $string, array $separators = self::DEFAULT_SEPARATORS): string
     {
-        if (self::hasPrefix($string, $separators)) {
-            self::matchPrefix($string, $matches, $separators);
+        if (self::matchPrefix($string, $matches, $separators)) {
             $string = $matches[1] . $matches[self::PREFIX_SUFFIX_PART];
         }
-        if (self::hasSuffix($string)) {
-            \preg_match('/^' . self::getPattern('suffix') . '$/', $string, $matches);
 
+        if (preg_match('/^' . self::getPattern('suffix') . '$/', $string, $matches)) {
             $string = $matches[1];
         }
 
@@ -151,9 +143,7 @@ class PrefixSuffix
      */
     public static function subPrefix(string $string, array $separators = self::DEFAULT_SEPARATORS): string
     {
-        if (self::hasPrefix($string, $separators)) {
-            self::matchPrefix($string, $matches, $separators);
-
+        if (self::matchPrefix($string, $matches, $separators)) {
             return $matches[1] . $matches[self::PREFIX_SUFFIX_PART];
         }
 
@@ -190,6 +180,6 @@ class PrefixSuffix
      */
     private static function matchPrefix(string $string, ?array &$matches = null, array $separators = self::DEFAULT_SEPARATORS): bool
     {
-        return (bool) \preg_match('/^' . self::buildPrefixPattern($separators) . '$/', $string, $matches);
+        return (bool) preg_match('/^' . self::buildPrefixPattern($separators) . '$/', $string, $matches);
     }
 }
