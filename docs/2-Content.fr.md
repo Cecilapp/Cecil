@@ -2,7 +2,7 @@
 title: Contenu
 description: "Créer du contenu et l’organiser."
 date: 2026-03-27
-updated: 2026-04-15
+updated: 2026-04-20
 slug: contenu
 -->
 # Contenu
@@ -740,7 +740,7 @@ Le nom de fichier peut contenir un préfixe pour définir les variables `date` o
 :::info
 Séparateurs de préfixe par défaut : `_` et `-`.
 
-Vous pouvez les personnaliser avec l’option [`pages.prefix.separator`](4-Configuration.fr.md#pagesprefixseparator).
+Vous pouvez les personnaliser avec l’option [`pages.prefix.separator`](4-Configuration.fr.md#pages-prefix-separator).
 :::
 
 #### date

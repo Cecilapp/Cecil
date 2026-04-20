@@ -2,7 +2,7 @@
 title: Configuration
 description: "Configurez votre site web."
 date: 2026-03-27
-updated: 2026-04-15
+updated: 2026-04-20
 slug: configuration
 -->
 # Configuration

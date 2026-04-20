@@ -1,7 +1,7 @@
 <!--
 description: "Create content and organize it."
 date: 2021-05-07
-updated: 2026-04-15
+updated: 2026-04-20
 -->
 # Content
 
@@ -738,7 +738,7 @@ The filename can contain a prefix to define `date` or `weight` variables of the 
 :::info
 Default prefix separators: `_` and `-`.
 
-You can customize them with the [`pages.prefix.separator`](4-Configuration.md#pagesprefixseparator) option.
+You can customize them with the [`pages.prefix.separator`](4-Configuration.md#pages-prefix-separator) option.
 
 :::
 
