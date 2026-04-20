@@ -91,4 +91,53 @@ class Html
 
         return null;
     }
+
+    /*public function createVideoIframe() {
+        return [
+            'extent' => $link['extent'],
+            'element' => [
+                'name' => 'div',
+                'handler' => 'elements',
+                'text' => [
+                    $iframe['element'],
+                ],
+
+                'attributes' => [
+                    'title' => $link['element']['attributes']['title'],
+                    'style' => 'position:relative;padding-bottom:56.25%;height:0;overflow:hidden;',
+                ],
+            ],
+        ];
+
+        <div style="position:relative;padding-bottom:56.25%;height:0;overflow:hidden;" title="TITLE">
+
+        'name' => 'iframe',
+        'text' => $link['element']['text'],
+        'attributes' => [
+            'src' => $url,
+            'loading' => 'lazy',
+            'width' => '640',
+            'height' => '360',
+            'title' => $link['element']['text'],
+            'frameborder' => '0',
+            'allow' => 'accelerometer;autoplay;encrypted-media;gyroscope;picture-in-picture;fullscreen;web-share;',
+            'allowfullscreen' => '',
+            'style' => 'position:absolute;top:0;left:0;width:100%;height:100%;border:0;background-color:#d8d8d8;',
+        ],
+
+        <iframe
+            width="640"
+            height="360"
+            title="TITLE"
+            src="URL"
+            frameborder="0"
+            allow="accelerometer;autoplay;encrypted-media;gyroscope;picture-in-picture;fullscreen;web-share;"
+            allowfullscreen
+            style="position:absolute;top:0;left:0;width:100%;height:100%;border:0;background-color:#d8d8d8;"
+            >
+            TEXT
+        </iframe>
+
+        <div>
+    }*/
 }
