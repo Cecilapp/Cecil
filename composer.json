@@ -24,7 +24,6 @@
     "ext-mbstring": "*",
     "benjaminhoegh/parsedown-toc": "^1.5",
     "cecil/resource-watcher": "^4.1",
-    "cocur/slugify": "^4.7",
     "dflydev/dot-access-data": "^3.0",
     "erusev/parsedown-extra": "^0.9",
     "intervention/image": "^3.11",
@@ -44,26 +43,27 @@
     "symfony/filesystem": "^7.4",
     "symfony/finder": "^7.4",
     "symfony/mime": "^7.4",
-    "symfony/polyfill-intl-icu": "^1.33",
+    "symfony/polyfill-intl-icu": "^1.34",
     "symfony/process": "^7.4",
     "symfony/property-access": "^7.4",
     "symfony/serializer": "^7.4",
+    "symfony/string": "^7.4",
     "symfony/translation": "^7.4",
     "symfony/twig-bridge": "^7.4",
     "symfony/validator": "^7.4",
     "symfony/var-dumper": "^7.4",
     "symfony/yaml": "^7.4",
-    "twig/cache-extra": "^3.22",
-    "twig/intl-extra": "^3.22",
-    "twig/string-extra": "^3.22",
-    "twig/twig": "^3.22",
+    "twig/cache-extra": "^3.24",
+    "twig/intl-extra": "^3.24",
+    "twig/string-extra": "^3.24",
+    "twig/twig": "^3.24",
     "voku/html-min": "^4.5",
     "wapmorgan/mp3info": "^0.1",
     "yosymfony/toml": "^1.0"
   },
   "require-dev": {
-    "ergebnis/composer-normalize": "^2.48",
-    "friendsofphp/php-cs-fixer": "^3.92",
+    "ergebnis/composer-normalize": "^2.50",
+    "friendsofphp/php-cs-fixer": "^3.95",
     "phpmd/phpmd": "^2.15",
     "phpstan/phpstan": "^2.1",
     "phpunit/phpunit": "^11.5",
@@ -74,7 +74,9 @@
     "psr/simple-cache-implementation": "3.0"
   },
   "suggest": {
-    "ext-intl": "Intl locales support."
+    "ext-intl": "Native Intl extension for improved performance; ICU support is already provided by symfony/polyfill-intl-icu.",
+    "ext-vips": "PHP vips extension support for image processing features (requires system libvips).",
+    "intervention/image-driver-vips": "libvips driver support for Intervention Image (requires ext-vips and system libvips)."
   },
   "config": {
     "allow-plugins": {

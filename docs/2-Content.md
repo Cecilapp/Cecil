@@ -1,7 +1,7 @@
 <!--
 description: "Create content and organize it."
 date: 2021-05-07
-updated: 2026-02-25
+updated: 2026-04-20
 -->
 # Content
 
@@ -321,7 +321,7 @@ Ratio is preserved (`height` attribute is calculated automatically), the origina
 :::
 
 :::important
-This feature requires [GD extension](https://www.php.net/manual/book.image.php) (otherwise it only add a `width` HTML attribute to the `img` tag).
+This feature requires [GD](https://www.php.net/manual/book.image.php). [Imagick](https://www.php.net/manual/book.imagick.php) and [libvips](https://www.libvips.org/) can also be used as optional backends when available; otherwise it only adds a `width` HTML attribute to the `img` tag.
 :::
 
 #### Formats
@@ -420,6 +420,18 @@ Is converted to:
 :::info
 Caption supports Markdown content.
 :::
+
+#### Localized image
+
+For translated pages, Cecil first looks for a language-suffixed file when resolving Markdown image paths.
+
+_Example:_
+
+```markdown
+![](/images/cecil-logo.png)
+```
+
+With a French page (`fr`), Cecil tries `/images/cecil-logo.fr.png` first, then falls back to `/images/cecil-logo.png`.
 
 #### Placeholder
 
@@ -604,7 +616,7 @@ A page can be added to a [menu](4-Configuration.md#menus).
 
 The entry name is the page `title` and the URL is the page `path`.
 
-A same page could be added to severals menus, and the position of each entry can be defined with the `weight` key (the lightest first).
+The same page can be added to multiple menus, and each entry's position can be set with the `weight` key (lowest first). The `name` key can be used to override the default entry name per menu.
 
 _Examples:_
 
@@ -630,6 +642,18 @@ menu:
 ---
 ```
 
+```yaml
+---
+title: 'Our Expertise'
+menu:
+  main:
+    weight: 15
+  footer:
+    weight: 15
+    name: "Expertise" # override the entry name in this menu
+---
+```
+
 ### Taxonomy
 
 Taxonomy allows you to connect, relate and classify your website’s content.  
@@ -637,13 +661,17 @@ In Cecil, these terms are gathered within vocabularies.
 
 Vocabularies are declared in the [_Configuration_](4-Configuration.md#taxonomies).
 
-A page can contain several vocabularies (e.g.: `tags`) and terms (e.g.: `Tag 1`).
+Vocabulary
+: A categorization of content (e.g.: `tags`, `categories`, etc.).
+
+Term
+: A term is an item of a vocabulary (e.g.: `Development`, `PHP`, etc.).
 
 _Example:_
 
 ```yaml
 ---
-tags: ["Tag 1", "Tag 2"]
+tags: ["Development", "PHP"]
 ---
 ```
 
@@ -733,7 +761,10 @@ external: "https://raw.githubusercontent.com/Cecilapp/Cecil/master/README.md"
 The filename can contain a prefix to define `date` or `weight` variables of the page (used by [`sortby`](3-Templates.md#sort-by-date)).
 
 :::info
-Available prefix separator are `_` and `-`.
+Default prefix separators: `_` and `-`.
+
+You can customize them with the [`pages.prefix.separator`](4-Configuration.md#pages-prefix-separator) option.
+
 :::
 
 #### date

@@ -27,8 +27,6 @@ use Cecil\Exception\ConfigException;
 use Cecil\Exception\RuntimeException;
 use Cecil\Url;
 use Cecil\Util;
-use Cocur\Slugify\Bridge\Twig\SlugifyExtension;
-use Cocur\Slugify\Slugify;
 use Highlight\Highlighter;
 use MatthiasMullie\Minify;
 use ScssPhp\ScssPhp\Compiler;
@@ -38,6 +36,7 @@ use Symfony\Component\VarDumper\Dumper\HtmlDumper;
 use Symfony\Component\Yaml\Exception\ParseException;
 use Symfony\Component\Yaml\Yaml;
 use Twig\DeprecatedCallableInfo;
+use Twig\Extension\AbstractExtension;
 
 /**
  * Core Twig extension.
@@ -45,7 +44,7 @@ use Twig\DeprecatedCallableInfo;
  * This extension provides various utility functions and filters for use in Twig templates,
  * including URL generation, asset management, content processing, and more.
  */
-class Core extends SlugifyExtension
+class Core extends AbstractExtension
 {
     /** @var Builder */
     protected $builder;
@@ -53,32 +52,12 @@ class Core extends SlugifyExtension
     /** @var Config */
     protected $config;
 
-    /** @var Slugify */
-    private static $slugifier;
-
     public function __construct(Builder $builder)
     {
-        if (!self::$slugifier instanceof Slugify) {
-            self::$slugifier = Slugify::create(['regexp' => Page::SLUGIFY_PATTERN]);
-        }
-
-        parent::__construct(self::$slugifier);
-
         $this->builder = $builder;
         $this->config = $builder->getConfig();
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function getName(): string
-    {
-        return 'CoreExtension';
-    }
-
-    /**
-     * {@inheritdoc}
-     */
     public function getFunctions()
     {
         return [
@@ -127,9 +106,6 @@ class Core extends SlugifyExtension
         ];
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function getFilters(): array
     {
         return [
@@ -192,9 +168,6 @@ class Core extends SlugifyExtension
         ];
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function getTests()
     {
         return [
@@ -209,6 +182,11 @@ class Core extends SlugifyExtension
                 return $page->hasSubSections();
             }),
         ];
+    }
+
+    public function slugifyFilter(string $string): string
+    {
+        return Page::slugify($string);
     }
 
     /**

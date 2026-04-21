@@ -128,7 +128,10 @@ class Convert extends AbstractStep
         // converts body (only if page is published or drafts option is enabled)
         if ($page->getVariable('published') || $this->options['drafts']) {
             try {
-                $html = $converter->convertBody($page->getBody());
+                $language = $page->getVariable('language');
+                $isDefault = $language === $builder->getConfig()->getLanguageDefault();
+                $effectiveLanguage = $isDefault ? null : $language;
+                $html = $converter->convertBody($page->getBody(), $effectiveLanguage);
             } catch (RuntimeException $e) {
                 throw new RuntimeException($e->getMessage(), file: $page->getFilePath(), line: $e->getLine());
             }

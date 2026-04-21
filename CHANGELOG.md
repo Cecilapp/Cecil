@@ -2,6 +2,59 @@
 
 All notable changes to this project will be documented in this file. Dates are displayed in UTC.
 
+#### [8.92.0](https://github.com/Cecilapp/Cecil/compare/8.91.0...8.92.0)
+
+> 20 April 2026
+
+- Localize Markdown image assets for translated pages, document behavior, and harden cache pruning shard mapping [`#2353`](https://github.com/Cecilapp/Cecil/pull/2353)
+
+#### [8.91.0](https://github.com/Cecilapp/Cecil/compare/8.90.0...8.91.0)
+
+> 20 April 2026
+
+- Add libvips support to image processing driver selection [`#2356`](https://github.com/Cecilapp/Cecil/pull/2356)
+- chore(deps-dev): bump phpstan/phpstan from 2.1.47 to 2.1.49 [`#2354`](https://github.com/Cecilapp/Cecil/pull/2354)
+- chore(deps): bump symfony/polyfill-intl-icu from 1.35.0 to 1.36.0 [`#2351`](https://github.com/Cecilapp/Cecil/pull/2351)
+- chore: update deps [`fb0ecd3`](https://github.com/Cecilapp/Cecil/commit/fb0ecd3e01538aa777e54c63c4ec6f191db2078e)
+
+#### [8.90.0](https://github.com/Cecilapp/Cecil/compare/8.89.0...8.90.0)
+
+> 15 April 2026
+
+- Add support for `name` property in front matter menu definitions [`#2349`](https://github.com/Cecilapp/Cecil/pull/2349)
+- chore(deps-dev): bump ergebnis/composer-normalize from 2.50.0 to 2.51.0 [`#2350`](https://github.com/Cecilapp/Cecil/pull/2350)
+- chore(deps): bump symfony/polyfill-intl-icu from 1.34.0 to 1.35.0 [`#2346`](https://github.com/Cecilapp/Cecil/pull/2346)
+- docs: clarify vocabularies and examples [`0bdef51`](https://github.com/Cecilapp/Cecil/commit/0bdef518598a167bdf281932631ebb851829f144)
+
+#### [8.89.0](https://github.com/Cecilapp/Cecil/compare/8.88.1...8.89.0)
+
+> 13 April 2026
+
+- Replace cocur/slugify with Symfony String [`#2342`](https://github.com/Cecilapp/Cecil/pull/2342)
+- chore(deps): bump softprops/action-gh-release from 2 to 3 [`#2345`](https://github.com/Cecilapp/Cecil/pull/2345)
+- chore(deps-dev): bump friendsofphp/php-cs-fixer from 3.94.2 to 3.95.1 [`#2344`](https://github.com/Cecilapp/Cecil/pull/2344)
+- chore(deps): bump symfony/polyfill-intl-icu from 1.33.0 to 1.34.0 [`#2343`](https://github.com/Cecilapp/Cecil/pull/2343)
+- chore(deps): bump dependabot/fetch-metadata from 2.5.0 to 3.0.0 [`#2338`](https://github.com/Cecilapp/Cecil/pull/2338)
+- chore: update deps [`1c181bc`](https://github.com/Cecilapp/Cecil/commit/1c181bc811ad4135ef59901f5dfa965dd386710e)
+- chore: update deps [`f29c273`](https://github.com/Cecilapp/Cecil/commit/f29c27360e730f22de5c17a5762a12626b785a6e)
+- docs: some fix [`939d731`](https://github.com/Cecilapp/Cecil/commit/939d731e9ed6b1665962fa629c3eda6a1ffe86d9)
+- ci: remove contact info from CI commit messages [`96f5c5e`](https://github.com/Cecilapp/Cecil/commit/96f5c5e0403b3874f6e038d3a1492b50d410dc27)
+
+#### [8.88.1](https://github.com/Cecilapp/Cecil/compare/8.88.0...8.88.1)
+
+> 1 April 2026
+
+- chore(deps-dev): bump phpstan/phpstan from 2.1.45 to 2.1.46 [`#2341`](https://github.com/Cecilapp/Cecil/pull/2341)
+- chore(deps-dev): bump phpstan/phpstan from 2.1.44 to 2.1.45 [`#2340`](https://github.com/Cecilapp/Cecil/pull/2340)
+- docs: traduction de la documentation en français [`47aa8ff`](https://github.com/Cecilapp/Cecil/commit/47aa8ffd551fd1b924082818db002d01b0f21767)
+- chore: update deps [`8d7eaa4`](https://github.com/Cecilapp/Cecil/commit/8d7eaa405168ae5678651cb2122e5b8fb88a4141)
+- docs: fix [`0d02557`](https://github.com/Cecilapp/Cecil/commit/0d0255750cedec0d2163b61f013b84414aedfc07)
+- docs: fix french [`6bc6445`](https://github.com/Cecilapp/Cecil/commit/6bc6445c83c4948bbffb1ce3e51094ce9c338c78)
+- docs: fix files [`f1af52d`](https://github.com/Cecilapp/Cecil/commit/f1af52d967bab1491e1cac306e41ad31e92c02e7)
+- chore: use cecil-bot Git identity in scripts [`f360bc1`](https://github.com/Cecilapp/Cecil/commit/f360bc1afbd74fb5529b7627602134dae29d375f)
+- docs: clarify fragments cache usage [`94f5bbe`](https://github.com/Cecilapp/Cecil/commit/94f5bbeedf8ff82756f084f6e416ec24b20cd249)
+- docs: clarify fragments cache key hashing [`7f4b9ce`](https://github.com/Cecilapp/Cecil/commit/7f4b9ceb5ef97302df4056d2b353881a771e7026)
+
 #### [8.88.0](https://github.com/Cecilapp/Cecil/compare/8.87.2...8.88.0)
 
 > 26 March 2026

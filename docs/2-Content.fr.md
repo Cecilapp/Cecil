@@ -2,6 +2,7 @@
 title: Contenu
 description: "Créer du contenu et l’organiser."
 date: 2026-03-27
+updated: 2026-04-20
 slug: contenu
 -->
 # Contenu
@@ -309,7 +310,7 @@ Le ratio est conservé (l’attribut `height` est calculé automatiquement), le 
 :::
 
 :::important
-Cette fonctionnalité nécessite l’[extension GD](https://www.php.net/manual/book.image.php) (sinon elle ajoute seulement un attribut HTML `width` à la balise `img`).
+Cette fonctionnalité nécessite [GD](https://www.php.net/manual/book.image.php). [Imagick](https://www.php.net/manual/book.imagick.php) et [libvips](https://www.libvips.org/) peuvent être utilisés en complément s’ils sont disponibles ; sinon, elle ajoute seulement un attribut HTML `width` à la balise `img`.
 :::
 
 #### Formats
@@ -408,6 +409,18 @@ Est converti en :
 :::info
 La légende prend en charge le contenu Markdown.
 :::
+
+#### Image localisée
+
+Pour les pages traduites, Cecil recherche d’abord un fichier suffixé par la langue lors de la résolution des chemins d’image Markdown.
+
+_Exemple :_
+
+```markdown
+![](/images/cecil-logo.png)
+```
+
+Avec une page française (`fr`), Cecil essaie d’abord `/images/cecil-logo.fr.png`, puis revient à `/images/cecil-logo.png`.
 
 #### Placeholder
 
@@ -592,7 +605,7 @@ Une page peut être ajoutée à un [menu](4-Configuration.md#menus).
 
 Le nom de l’entrée est le `title` de la page et l’URL est le `path` de la page.
 
-Une même page peut être ajoutée à plusieurs menus, et la position de chaque entrée peut être définie avec la clé `weight` (la plus faible en premier).
+La même page peut être ajoutée à plusieurs menus, et la position de chaque entrée peut être définie avec la clé `weight` (la plus faible en premier). La clé `name` peut être utilisée pour personnaliser le nom de l’entrée par menu.
 
 _Exemples :_
 
@@ -618,6 +631,18 @@ menu:
 ---
 ```
 
+```yaml
+---
+title: 'Notre expertise'
+menu:
+  main:
+    weight: 15
+  footer:
+    weight: 15
+    name: "Expertise" # personnalise le nom de l'entrée dans ce menu
+---
+```
+
 ### Taxonomie
 
 La taxonomie permet de connecter, relier et classer le contenu de votre site Web.  
@@ -625,13 +650,17 @@ Dans Cecil, ces termes sont regroupés dans des vocabulaires.
 
 Les vocabulaires sont déclarés dans la [_Configuration_](4-Configuration.md#taxonomies).
 
-Une page peut contenir plusieurs vocabulaires (ex. : `tags`) et termes (ex. : `Tag 1`).
+Vocabulaire
+: Une catégorisation du contenu (ex. : `tags`, `categories`, etc.).
+
+Terme
+: Un terme est un élément d’un vocabulaire (ex. : `Développement`, `PHP`, etc.).
 
 _Exemple :_
 
 ```yaml
 ---
-tags: ["Tag 1", "Tag 2"]
+tags: ["Développement", "PHP"]
 ---
 ```
 
@@ -721,7 +750,9 @@ external: "https://raw.githubusercontent.com/Cecilapp/Cecil/master/README.md"
 Le nom de fichier peut contenir un préfixe pour définir les variables `date` ou `weight` de la page (utilisé par [`sortby`](3-Templates.md#sort-by-date)).
 
 :::info
-Les séparateurs de préfixe disponibles sont `_` et `-`.
+Séparateurs de préfixe par défaut : `_` et `-`.
+
+Vous pouvez les personnaliser avec l’option [`pages.prefix.separator`](4-Configuration.fr.md#pages-prefix-separator).
 :::
 
 #### date

@@ -12,6 +12,7 @@
 namespace Cecil\Test;
 
 use Cecil\Builder;
+use Cecil\Collection\Page\PrefixSuffix;
 use Cecil\Config;
 use Cecil\Logger\PrintLogger;
 use Cecil\Util;
@@ -60,6 +61,43 @@ class IntegrationTests extends \PHPUnit\Framework\TestCase
                 'drafts'  => true,
                 'dry-run' => false,
             ]);
-        self::assertTrue(true);
+        $htmlEn = Util\File::fileGetContents(Util::joinFile($this->destination, '_site/markdown/localized-assets/index.html'));
+        $htmlFr = Util\File::fileGetContents(Util::joinFile($this->destination, '_site/fr/markdown/localized-assets/index.html'));
+        self::assertNotFalse($htmlEn);
+        self::assertNotFalse($htmlFr);
+        self::assertStringContainsString('/images/cecil-logo.png', $htmlEn);
+        self::assertStringContainsString('/images/cecil-logo.fr.png', $htmlFr);
+    }
+
+    /**
+     * Prefix separators are configurable.
+     *
+     * By default, both '-' and '_' are accepted.
+     * With custom separators, only the configured characters are treated as prefix separators.
+     */
+    public function testPrefixSeparatorBehavior()
+    {
+        // Default behavior: '-' and '_' are accepted.
+        self::assertTrue(PrefixSuffix::hasPrefix('1-number-test'));
+        self::assertSame('number-test', PrefixSuffix::subPrefix('1-number-test'));
+        self::assertSame('number-test', PrefixSuffix::sub('1-number-test'));
+        self::assertSame('number-test', PrefixSuffix::sub('1_number-test'));
+
+        self::assertTrue(PrefixSuffix::hasPrefix('1_number-test'));
+        self::assertSame('1', PrefixSuffix::getPrefix('1_number-test'));
+        self::assertSame('number-test', PrefixSuffix::subPrefix('1_number-test'));
+
+        self::assertTrue(PrefixSuffix::hasPrefix('2017-10-19-post-with-date-prefix'));
+        self::assertSame('2017-10-19', PrefixSuffix::getPrefix('2017-10-19-post-with-date-prefix'));
+        self::assertSame('post-with-date-prefix', PrefixSuffix::subPrefix('2017-10-19-post-with-date-prefix'));
+        self::assertSame('post-with-date-prefix', PrefixSuffix::sub('2017-10-19-post-with-date-prefix'));
+
+        // Custom behavior: keep dash-separated numeric filenames untouched.
+        self::assertFalse(PrefixSuffix::hasPrefix('1-number-test', ['_']));
+        self::assertSame('1-number-test', PrefixSuffix::subPrefix('1-number-test', ['_']));
+        self::assertSame('1-number-test', PrefixSuffix::sub('1-number-test', ['_']));
+        self::assertTrue(PrefixSuffix::hasPrefix('1_number-test', ['_']));
+        self::assertSame('1', PrefixSuffix::getPrefix('1_number-test', ['_']));
+        self::assertSame('number-test', PrefixSuffix::subPrefix('1_number-test', ['_']));
     }
 }

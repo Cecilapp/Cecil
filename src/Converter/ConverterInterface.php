@@ -26,5 +26,5 @@ interface ConverterInterface
     /**
      * Converts body.
      */
-    public function convertBody(string $string): string;
+    public function convertBody(string $string, ?string $language = null): string;
 }

@@ -2,6 +2,7 @@
 title: Configuration
 description: "Configurez votre site web."
 date: 2026-03-27
+updated: 2026-04-20
 slug: configuration
 -->
 # Configuration
@@ -160,8 +161,10 @@ taxonomies:
   tags: tag
 ```
 
+Vous pouvez ensuite utiliser ces vocabulaires dans le [front matter](2-Content.md#taxonomie) de votre contenu.
+
 :::warning
-Depuis la ++version 8.37.0++, les vocabulaires par défaut `category` et `tag` ont été supprimés.
+Depuis la ++version 8.37.0++, les vocabulaires par défaut `category` et `tag` ont été supprimés. Vous devez les définir dans le fichier de configuration si vous souhaitez les utiliser.
 :::
 
 :::tip
@@ -294,6 +297,16 @@ languages:
 Dans les [templates](3-Templates.md), vous pouvez accéder à une option avec `{{ site.<option> }}`, par exemple `{{ site.title }}`.  
 Si une option n’est pas disponible dans la langue actuelle (ex. : `fr`), elle revient à la valeur globale (ex. : `en`).
 :::
+
+### pages.prefix.separator
+
+Liste des caractères utilisés comme séparateur entre un préfixe de nom de fichier (`date` ou `weight`) et le slug.
+
+```yaml
+pages:
+  prefix:
+    separator: ['-', '_']
+```
 
 ### metatags
 

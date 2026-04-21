@@ -16,8 +16,8 @@ namespace Cecil\Collection\Page;
 use Cecil\Collection\Item;
 use Cecil\Exception\RuntimeException;
 use Cecil\Util;
-use Cocur\Slugify\Slugify;
 use Symfony\Component\Finder\SplFileInfo;
+use Symfony\Component\String\Slugger\AsciiSlugger;
 
 /**
  * Page class.
@@ -80,14 +80,19 @@ class Page extends Item
     /** @var \Cecil\Collection\Taxonomy\Vocabulary Terms of a vocabulary. */
     protected $terms;
 
-    /** @var Slugify */
+    /** @var AsciiSlugger */
     private static $slugifier;
 
-    public function __construct(mixed $id)
+    /**
+     * @param string[]|null $prefixSeparators Allowed prefix separator characters (from config `pages.prefix.separator`)
+     */
+    public function __construct(mixed $id, ?array $prefixSeparators = null)
     {
         if (!\is_string($id) && !$id instanceof SplFileInfo) {
             throw new RuntimeException('Create a page with a string ID or a SplFileInfo.');
         }
+
+        $separators = $prefixSeparators ?? PrefixSuffix::DEFAULT_SEPARATORS;
 
         // default properties
         $this->setVirtual(true);
@@ -104,16 +109,13 @@ class Page extends Item
 
         if ($id instanceof SplFileInfo) {
             $file = $id;
-            $this->setFile($file);
-            $id = self::createIdFromFile($file);
+            $this->setFile($file, $separators);
+            $id = self::createIdFromFile($file, $separators);
         }
 
         parent::__construct($id);
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function setId(string $id): self
     {
         return parent::setId($id);
@@ -134,18 +136,51 @@ class Page extends Item
      */
     public static function slugify(string $path): string
     {
-        if (!self::$slugifier instanceof Slugify) {
-            self::$slugifier = Slugify::create([
-                'regexp' => self::SLUGIFY_PATTERN,
-            ]);
+        if (!self::$slugifier instanceof AsciiSlugger) {
+            self::$slugifier = new AsciiSlugger();
         }
 
-        // Use the Chinese ruleset only when the path contains Chinese (Han) characters.
-        $options = [];
-        if (preg_match('/\p{Han}/u', $path)) {
-            $options['ruleset'] = 'chinese';
+        $placeholders = self::createSlugifyPlaceholders($path);
+        $path = strtr($path, $placeholders);
+
+        $path = preg_replace_callback('/[^\x00-\x7F]+/u', static function (array $matches): string {
+            $locale = preg_match('/\p{Han}/u', $matches[0]) ? 'zh' : null;
+
+            return self::$slugifier->slug($matches[0], '-', $locale)->lower()->toString();
+        }, $path);
+        if ($path === null) {
+            throw new RuntimeException('Unable to slugify path.');
         }
-        return self::$slugifier->slugify($path, $options);
+
+        $path = preg_replace(self::SLUGIFY_PATTERN, '-', strtolower($path));
+        if ($path === null) {
+            throw new RuntimeException('Unable to slugify path.');
+        }
+
+        return ltrim(trim(strtr($path, array_flip($placeholders)), '-'), '/');
+    }
+
+    private static function createSlugifyPlaceholders(string $path): array
+    {
+        $placeholders = [];
+
+        foreach (['.' => 'dot', '_' => 'underscore', '/' => 'slash'] as $character => $name) {
+            $placeholders[$character] = self::createSlugifyPlaceholder($path, $name);
+        }
+
+        return $placeholders;
+    }
+
+    private static function createSlugifyPlaceholder(string $path, string $name): string
+    {
+        $index = 0;
+
+        do {
+            $placeholder = \sprintf('cecil%s%s', $name, substr(hash('sha256', $path . $name . $index), 0, 16));
+            ++$index;
+        } while (str_contains($path, $placeholder));
+
+        return $placeholder;
     }
 
     /**
@@ -163,8 +198,10 @@ class Page extends Item
 
     /**
      * Set file.
+     *
+     * @param string[] $separators Allowed prefix separator characters
      */
-    public function setFile(SplFileInfo $file): self
+    public function setFile(SplFileInfo $file, array $separators = PrefixSuffix::DEFAULT_SEPARATORS): self
     {
         $this->file = $file;
         $this->setVirtual(false);
@@ -178,7 +215,7 @@ class Page extends Item
         // renames "README" to "index"
         $fileName = strtolower($fileName) == 'readme' ? 'index' : $fileName;
         // case of "index" = home page
-        if (empty($this->file->getRelativePath()) && PrefixSuffix::sub($fileName) == 'index') {
+        if (empty($this->file->getRelativePath()) && PrefixSuffix::sub($fileName, $separators) == 'index') {
             $this->setType(Type::HOMEPAGE->value);
         }
         /*
@@ -188,7 +225,7 @@ class Page extends Item
         $this->setSlug($fileName);
         $this->setPath($this->getFolder() . '/' . $this->getSlug());
         $this->setVariables([
-            'title'    => PrefixSuffix::sub($fileName),
+            'title'    => PrefixSuffix::sub($fileName, $separators),
             'date'     => (new \DateTime())->setTimestamp($this->file->getMTime()),
             'filepath' => $this->file->getRelativePathname(),
         ]);
@@ -196,8 +233,8 @@ class Page extends Item
          * Set specific variables
          */
         // is file has a prefix?
-        if (PrefixSuffix::hasPrefix($fileName)) {
-            $prefix = PrefixSuffix::getPrefix($fileName);
+        if (PrefixSuffix::hasPrefix($fileName, $separators)) {
+            $prefix = PrefixSuffix::getPrefix($fileName, $separators);
             if ($prefix !== null) {
                 // prefix is an integer: used for sorting
                 if (is_numeric($prefix)) {
@@ -837,14 +874,17 @@ class Page extends Item
     /**
      * Creates a page ID from a file (based on path).
      */
-    private static function createIdFromFile(SplFileInfo $file): string
+    /**
+     * @param string[] $separators Allowed prefix separator characters
+     */
+    private static function createIdFromFile(SplFileInfo $file, array $separators = PrefixSuffix::DEFAULT_SEPARATORS): string
     {
         $relativePath = self::slugify(str_replace(DIRECTORY_SEPARATOR, '/', $file->getRelativePath()));
-        $basename = self::slugify(PrefixSuffix::subPrefix($file->getBasename('.' . $file->getExtension())));
+        $basename = self::slugify(PrefixSuffix::subPrefix($file->getBasename('.' . $file->getExtension()), $separators));
         // if file is "README.md", ID is "index"
         $basename = strtolower($basename) == 'readme' ? 'index' : $basename;
         // if file is section's index: "section/index.md", ID is "section"
-        if (!empty($relativePath) && PrefixSuffix::sub($basename) == 'index') {
+        if (!empty($relativePath) && PrefixSuffix::sub($basename, $separators) == 'index') {
             // case of a localized section's index: "section/index.fr.md", ID is "fr/section"
             if (PrefixSuffix::hasSuffix($basename)) {
                 return PrefixSuffix::getSuffix($basename) . '/' . $relativePath;
@@ -854,7 +894,7 @@ class Page extends Item
         }
         // localized page
         if (PrefixSuffix::hasSuffix($basename)) {
-            return trim(Util::joinPath(/** @scrutinizer ignore-type */ PrefixSuffix::getSuffix($basename), $relativePath, PrefixSuffix::sub($basename)), '/');
+            return trim(Util::joinPath(/** @scrutinizer ignore-type */ PrefixSuffix::getSuffix($basename), $relativePath, PrefixSuffix::sub($basename, $separators)), '/');
         }
 
         return trim(Util::joinPath($relativePath, $basename), '/');
