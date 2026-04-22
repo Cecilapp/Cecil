@@ -85,6 +85,8 @@ pages:
       path: rss
       published: false
   body:
+    h1:
+      id: false
     images:
       formats:
         - webp

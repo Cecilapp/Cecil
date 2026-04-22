@@ -92,6 +92,9 @@ return [
         'frontmatter' => 'yaml', // front matter format: `yaml`, `ini`, `toml` or `json`
         'body' => [
             'toc' => ['h2', 'h3'], // headers used to build the table of contents
+            'h1' => [
+                'id' => true, // adds automatic `id` attribute to H1 headings
+            ],
             'highlight' => false, // enables code syntax highlighting
             'images' => [
                 'formats' => [], // creates and adds formats images as `source` (e.g.: ['avif', 'webp'])

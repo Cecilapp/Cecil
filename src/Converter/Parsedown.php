@@ -532,6 +532,27 @@ class Parsedown extends \ParsedownToc
     }
 
     /**
+     * {@inheritdoc}
+     */
+    protected function blockHeader($Line)
+    {
+        $block = parent::blockHeader($Line); // @phpstan-ignore staticMethod.notFound
+
+        if (!isset($block)) {
+            return;
+        }
+        if (
+            !$this->config->isEnabled('pages.body.h1.id')
+            && isset($block['element']['name'])
+            && $block['element']['name'] === 'h1'
+        ) {
+            unset($block['element']['attributes']['id']);
+        }
+
+        return $block;
+    }
+
+    /**
      * Apply Highlight to code blocks.
      */
     protected function blockFencedCodeComplete($block)

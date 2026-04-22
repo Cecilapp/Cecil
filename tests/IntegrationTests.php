@@ -67,6 +67,10 @@ class IntegrationTests extends \PHPUnit\Framework\TestCase
         self::assertNotFalse($htmlFr);
         self::assertStringContainsString('/images/cecil-logo.png', $htmlEn);
         self::assertStringContainsString('/images/cecil-logo.fr.png', $htmlFr);
+        $htmlHeaders = Util\File::fileGetContents(Util::joinFile($this->destination, '_site/markdown/images/index.html'));
+        self::assertNotFalse($htmlHeaders);
+        self::assertStringContainsString('<h1>Images in Markdown</h1>', $htmlHeaders);
+        self::assertStringContainsString('<h2 id="local-image">Local image</h2>', $htmlHeaders);
     }
 
     /**
