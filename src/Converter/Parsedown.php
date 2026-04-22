@@ -547,6 +547,9 @@ class Parsedown extends \ParsedownToc
             && $block['element']['name'] === 'h1'
         ) {
             unset($block['element']['attributes']['id']);
+            if (empty($block['element']['attributes'])) {
+                unset($block['element']['attributes']);
+            }
         }
 
         return $block;
