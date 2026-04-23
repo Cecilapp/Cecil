@@ -2,6 +2,15 @@
 
 All notable changes to this project will be documented in this file. Dates are displayed in UTC.
 
+#### [8.93.0](https://github.com/Cecilapp/Cecil/compare/8.92.0...8.93.0)
+
+> 21 April 2026
+
+- Preserve dash-separated numeric filenames in page URLs [`#2355`](https://github.com/Cecilapp/Cecil/pull/2355)
+- chore(deps): bump dependabot/fetch-metadata from 3.0.0 to 3.1.0 [`#2358`](https://github.com/Cecilapp/Cecil/pull/2358)
+- chore(deps-dev): bump phpstan/phpstan from 2.1.49 to 2.1.50 [`#2357`](https://github.com/Cecilapp/Cecil/pull/2357)
+- docs: simplify localized image headings in docs [`d4a9f4a`](https://github.com/Cecilapp/Cecil/commit/d4a9f4a4bd5dd5db658dc808bacae329513d7ba5)
+
 #### [8.92.0](https://github.com/Cecilapp/Cecil/compare/8.91.0...8.92.0)
 
 > 20 April 2026
