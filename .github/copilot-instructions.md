@@ -9,6 +9,12 @@ Cecil is a PHP static site generator (SSG) built on Symfony components and Twig 
 - **Entry point:** `Builder::create($config)->build()`
 - **CLI:** Symfony Console (`src/Application.php`)
 
+## Documentation
+
+- **README.md:** project overview, installation, usage, contribution guidelines
+- **docs/**: detailed documentation on configuration, content model, architecture, and development guidelines
+- **Code comments:** DocBlocks for all classes, methods, and properties
+
 ## Architecture
 
 ### Build Pipeline
@@ -65,16 +71,16 @@ Hierarchical PHP/YAML config with dot notation access (`src/Config.php`):
 
 ## Commands
 
-| Task | Command |
-|------|---------|
-| Run all quality checks | `composer code` |
-| Static analysis (PHPStan level 2) | `composer code:analyse` |
-| Mess detector | `composer code:md` |
-| Code style fix (php-cs-fixer) | `composer code:fix` |
-| Code sniffer (PSR-12) | `composer code:style` |
-| Integration tests | `composer test` |
-| CLI tests | `composer test:cli` |
-| Build PHAR | `composer build` |
+| Task                              | Command                  |
+| --------------------------------- | ------------------------ |
+| Run all quality checks            | `composer code`          |
+| Static analysis (PHPStan level 2) | `composer code:analyse`  |
+| Mess detector                     | `composer code:md`       |
+| Code style fix (php-cs-fixer)     | `composer code:fix`      |
+| Code sniffer (PSR-12)             | `composer code:style`    |
+| Integration tests                 | `composer test`          |
+| CLI tests                         | `composer test:cli`      |
+| Build PHAR                        | `composer build`         |
 
 ## Key Conventions
 
@@ -85,3 +91,4 @@ Hierarchical PHP/YAML config with dot notation access (`src/Config.php`):
 - Exceptions extend `Cecil\Exception\ExceptionInterface`
 - Templates are Twig files in `resources/layouts/`
 - Translations use Symfony Translation component (`resources/translations/`)
+- Update documentation in `docs/` when adding features or changing architecture
