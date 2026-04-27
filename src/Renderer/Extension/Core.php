@@ -902,7 +902,7 @@ class Core extends AbstractExtension
         $selectors = $selectors ?? (array) $this->config->get('pages.body.toc');
 
         try {
-            $parsedown = new Parsedown($this->builder, ['selectors' => $selectors, 'url' => $url]);
+            $parsedown = new Parsedown($this->builder, ['selectors' => $selectors, 'base_url' => $url]);
             $parsedown->body($markdown);
             $return = $parsedown->contentsList($format);
         } catch (\Exception) {
