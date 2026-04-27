@@ -22,7 +22,7 @@
     "ext-fileinfo": "*",
     "ext-gd": "*",
     "ext-mbstring": "*",
-    "benjaminhoegh/parsedown-toc": "1.6",
+    "benjaminhoegh/parsedown-toc": "^1.6",
     "cecil/resource-watcher": "^4.1",
     "dflydev/dot-access-data": "^3.0",
     "erusev/parsedown-extra": "^0.9",
