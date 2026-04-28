@@ -22,7 +22,7 @@
     "ext-fileinfo": "*",
     "ext-gd": "*",
     "ext-mbstring": "*",
-    "benjaminhoegh/parsedown-toc": "^1.5",
+    "benjaminhoegh/parsedown-toc": "^1.6",
     "cecil/resource-watcher": "^4.1",
     "dflydev/dot-access-data": "^3.0",
     "erusev/parsedown-extra": "^0.9",
@@ -43,7 +43,7 @@
     "symfony/filesystem": "^7.4",
     "symfony/finder": "^7.4",
     "symfony/mime": "^7.4",
-    "symfony/polyfill-intl-icu": "^1.34",
+    "symfony/polyfill-intl-icu": "^1.36",
     "symfony/process": "^7.4",
     "symfony/property-access": "^7.4",
     "symfony/serializer": "^7.4",
@@ -62,7 +62,7 @@
     "yosymfony/toml": "^1.0"
   },
   "require-dev": {
-    "ergebnis/composer-normalize": "^2.50",
+    "ergebnis/composer-normalize": "^2.51",
     "friendsofphp/php-cs-fixer": "^3.95",
     "phpmd/phpmd": "^2.15",
     "phpstan/phpstan": "^2.1",
