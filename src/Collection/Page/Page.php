@@ -71,6 +71,12 @@ class Page extends Item
     /** @var array */
     protected $paginator = [];
 
+    /** @var Page|null Parent section (for sub-sections). */
+    protected $parentSection;
+
+    /** @var Collection|null Child sub-sections collection. */
+    protected $subSections;
+
     /** @var \Cecil\Collection\Taxonomy\Vocabulary Terms of a vocabulary. */
     protected $terms;
 
@@ -552,6 +558,154 @@ class Page extends Item
     public function getPagination(): array
     {
         return $this->getPaginator();
+    }
+
+    /**
+     * Set the parent section (for sub-sections).
+     */
+    public function setParentSection(?Page $parent): self
+    {
+        $this->parentSection = $parent;
+
+        return $this;
+    }
+
+    /**
+     * Get the parent section (for sub-sections).
+     */
+    public function getParentSection(): ?Page
+    {
+        return $this->parentSection;
+    }
+
+    /**
+     * Does this section have a parent section?
+     */
+    public function hasParentSection(): bool
+    {
+        return $this->parentSection !== null;
+    }
+
+    /**
+     * Get child sub-sections collection.
+     */
+    public function getSubSections(): ?Collection
+    {
+        return $this->subSections;
+    }
+
+    /**
+     * Set child sub-sections collection.
+     */
+    public function setSubSections(Collection $subSections): self
+    {
+        $this->subSections = $subSections;
+
+        return $this;
+    }
+
+    /**
+     * Add a child sub-section.
+     */
+    public function addSubSection(Page $child): self
+    {
+        if ($this->subSections === null) {
+            $this->subSections = new Collection(\sprintf('%s-subsections', $this->getId()));
+        }
+
+        try {
+            $this->subSections->add($child);
+        } catch (\DomainException) {
+            $this->subSections->replace($child->getId(), $child);
+        }
+
+        return $this;
+    }
+
+    /**
+     * Does this section have child sub-sections?
+     */
+    public function hasSubSections(): bool
+    {
+        return $this->subSections !== null && \count($this->subSections) > 0;
+    }
+
+    /**
+     * Is this a sub-section (has a parent section)?
+     */
+    public function isSubSection(): bool
+    {
+        return $this->type === Type::SECTION && $this->parentSection !== null;
+    }
+
+    /**
+     * Get depth level in the section tree (0 = root section).
+     * Uses the parent section chain rather than path slashes for robustness
+     * when custom path patterns are configured.
+     */
+    public function getSectionDepth(): int
+    {
+        $depth = 0;
+        $current = $this;
+
+        while ($current->hasParentSection()) {
+            $depth++;
+            $current = $current->getParentSection();
+        }
+
+        return $depth;
+    }
+
+    /**
+     * Returns the breadcrumb from root section to this section.
+     *
+     * @return Page[]
+     */
+    public function getSectionBreadcrumb(): array
+    {
+        $breadcrumb = [$this];
+        $current = $this;
+
+        while ($current->hasParentSection()) {
+            $current = $current->getParentSection();
+            array_unshift($breadcrumb, $current);
+        }
+
+        return $breadcrumb;
+    }
+
+    /**
+     * Get all pages recursively, including pages from sub-sections.
+     */
+    public function getAllPagesRecursive(): Collection
+    {
+        $allPages = new Collection(\sprintf('%s-all-pages', $this->getId()));
+
+        // Add direct pages
+        if ($this->getPages() !== null) {
+            foreach ($this->getPages() as $page) {
+                try {
+                    $allPages->add($page);
+                } catch (\DomainException) {
+                    // skip duplicates
+                }
+            }
+        }
+
+        // Add pages from sub-sections recursively
+        if ($this->hasSubSections()) {
+            foreach ($this->getSubSections() as $subSection) {
+                foreach ($subSection->getAllPagesRecursive() as $page) {
+                    try {
+                        $allPages->add($page);
+                    } catch (\DomainException) {
+                        // skip duplicates
+                    }
+                }
+            }
+        }
+
+        return $allPages;
     }
 
     /**

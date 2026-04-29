@@ -27,6 +27,9 @@
     <testsuite name="IntegrationCliTests">
       <file>./tests/IntegrationCliTests.php</file>
     </testsuite>
+    <testsuite name="SubSectionTests">
+      <file>./tests/SubSectionTests.php</file>
+    </testsuite>
   </testsuites>
   <coverage includeUncoveredFiles="false"></coverage>
 </phpunit>

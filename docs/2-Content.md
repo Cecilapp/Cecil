@@ -30,19 +30,26 @@ Project files organization.
 ```plaintext
 <mywebsite>
 ├─ pages
-|  ├─ blog            <- Section
-|  |  ├─ post-1.md    <- Page in Section
-|  |  └─ post-2.md
+|  ├─ blog               # Section
+|  |  ├─ index.md        # Section's index (optional)
+|  |  ├─ post-1.md       # Page in Section
+|  |  ├─ post-2.md
+|  |  └─ tutorials       # Sub-section
+|  |     ├─ index.md     # Sub-section's index (required)
+|  |     ├─ tuto-1.md    # Page in Sub-section
+|  |     └─ advanced     # Nested Sub-section
+|  |        ├─ index.md
+|  |        └─ tuto-2.md
 |  ├─ projects
 |  |  └─ project-a.md
-|  └─ about.md        <- Root page
+|  └─ about.md           # Root page
 ├─ assets
-|  ├─ styles.scss     <- Asset file
+|  ├─ styles.scss        # Asset file
 |  └─ logo.png
 ├─ static
-|  └─ file.pdf        <- Static file
+|  └─ file.pdf           # Static file
 └─ data
-   └─ authors.yml     <- Data collection
+   └─ authors.yml        # Data collection
 ```
 
 ### Built website tree
@@ -52,11 +59,17 @@ Result of the build.
 ```plaintext
 <mywebsite>
 └─ _site
-   ├─ index.html               <- Generated home page
+   ├─ index.html                   # Generated home page
    ├─ blog/
-   |  ├─ index.html            <- Generated list of posts
-   |  ├─ post-1/index.html     <- A blog post
-   |  └─ post-2/index.html
+   |  ├─ index.html                # Generated list of posts
+   |  ├─ post-1/index.html         # A blog post
+   |  ├─ post-2/index.html
+   |  └─ tutorials/
+   |     ├─ index.html             # Sub-section list
+   |     ├─ tuto-1/index.html
+   |     └─ advanced/
+   |        ├─ index.html          # Nested sub-section list
+   |        └─ tuto-2/index.html
    ├─ projects/
    |  ├─ index.html
    |  └─ project-a/index.html
@@ -571,7 +584,7 @@ It must be the first thing in the file and must be a valid [YAML](https://en.wik
 | `title`     | Title             | File name without extension.                       | `Post 1`      |
 | `layout`    | Template          | See [_Lookup rules_](3-Templates.md#lookup-rules). | `404`         |
 | `date`      | Creation date     | File creation date (PHP _DateTime_ object).        | `2019/04/15`  |
-| `section`   | Section           | Page's _Section_.                                  | `blog`        |
+| `section`   | Section           | Page's _Section_ (or _Sub-section_).               | `blog`        |
 | `path`      | Path              | Page's _path_.                                     | `blog/post-1` |
 | `slug`      | Slug              | Page's _slug_.                                     | `post-1`      |
 | `published` | Published or not  | `true`.                                            | `false`       |
@@ -780,7 +793,7 @@ In « 1_The first project.md »:
 
 ### Section
 
-Some dedicated variables can be used in a custom _Section_ (i.e.: `<section>/index.md`).
+Some dedicated variables can be used in a custom _Section_ (i.e.: `<section>/index.md`) or _Sub-section_ (i.e.: `<section>/<sub-section>/index.md`).
 
 #### sortby
 
@@ -854,6 +867,41 @@ _Example:_
 circular: true
 ---
 ```
+
+### Sub-sections
+
+A _Sub-section_ is created when a subfolder inside a _Section_ (or another _Sub-section_) contains an `index.md` file. This enables a hierarchical tree of sections.
+
+:::important
+The `index.md` file is **required** to turn a subfolder into a _Sub-section_. Without it, the subfolder's pages belong to the nearest parent section.
+:::
+
+#### Structure example
+
+```plaintext
+pages/
+└─ blog/
+   ├─ index.md           <- "blog" Section
+   ├─ post-1.md
+   └─ tutorials/
+      ├─ index.md        <- "blog/tutorials" Sub-section
+      ├─ tutorial-1.md
+      └─ advanced/
+         ├─ index.md     <- "blog/tutorials/advanced" Sub-section
+         └─ tutorial-2.md
+```
+
+In this example:
+
+- `blog` is the root _Section_, containing `post-1`.
+- `blog/tutorials` is a _Sub-section_ of `blog`, containing `tutorial-1`.
+- `blog/tutorials/advanced` is a _Sub-section_ of `blog/tutorials`, containing `tutorial-2`.
+
+Each sub-section has its own pages collection and supports the same variables as a section (`sortby`, `pagination`, `cascade`, `circular`).
+
+#### Accessing sub-sections in templates
+
+See the [Sub-sections template variables](3-Templates.md#sub-sections) for details on how to use sub-sections in Twig templates.
 
 ### Home page
 
