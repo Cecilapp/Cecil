@@ -30,7 +30,7 @@ Builder → Steps → Generators → Renderer → Output
 - **Pages** (`src/Collection/Page/`): content with frontmatter, organized into sections and taxonomies
 - **Page type** is stored as `Type` enum internally; `setType()` accepts strings, `getType()` returns `enum->value` string
 - **Section assignment** uses original `filepath` variable (not the transformed page path)
-- **Sub-sections** are created when a subfolder contains an `index.md` file
+- **Sub-sections** are created when a folder within the `pages/` directory contains an `index.md` file
 
 ### Configuration
 
@@ -40,14 +40,21 @@ Hierarchical PHP/YAML config with dot notation access (`src/Config.php`):
 
 ## Coding Standards
 
-### PHP Style
+| Category                      | Rule                                               |
+| ----------------------------- | -------------------------------------------------- |
+| **PHP — style**               | PSR-12 (enforced by php-cs-fixer and phpcs)        |
+| **PHP — indentation**         | 4 spaces                                           |
+| **PHP — strict types**        | `declare(strict_types=1);` in every file           |
+| **PHP — native functions**    | Prefix with `\` (e.g., `\count()`, `\array_map()`) |
+| **PHP — nullable params**     | Use `?Type` for parameters with default `null`     |
+| **Other files — indentation** | 2 spaces (YAML, Twig, JS, etc.)                    |
+| **Other files — encoding**    | LF line endings, UTF-8                             |
+| **Twig**                      | No final newline                                   |
+| **Markdown**                  | Preserve trailing whitespace                       |
 
-- **PSR-12** coding standard (enforced by php-cs-fixer and phpcs)
-- **4-space indentation** for PHP files
-- **`declare(strict_types=1);`** in all PHP files
-- **Native function invocation** — prefix native PHP functions with `\` (e.g., `\count()`, `\array_map()`)
-- **Nullable type declarations** for parameters with default `null`
-- **Required file header** on all PHP files:
+### Required PHP File Header
+
+All PHP files must start with:
 
 ```php
 <?php
@@ -61,13 +68,6 @@ Hierarchical PHP/YAML config with dot notation access (`src/Config.php`):
  * file that was distributed with this source code.
  */
 ```
-
-### Other Files
-
-- **2-space indentation** for non-PHP files (YAML, Twig, JS, etc.)
-- **LF line endings**, UTF-8 charset
-- Twig templates: no final newline
-- Markdown: preserve trailing whitespace
 
 ## Commands
 

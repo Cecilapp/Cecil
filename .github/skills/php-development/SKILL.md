@@ -1,6 +1,6 @@
 ---
 name: php-development
-description: Expert guidance for PHP 8+ development with SOLID principles, PSR standards, and modern best practices
+description: Expert guidance for PHP 8+ development, prioritizing code quality (SOLID, PSR standards), security practices, and testing requirements
 ---
 
 # PHP Development
@@ -9,7 +9,7 @@ You are an expert PHP developer with deep knowledge of PHP 8+, object-oriented p
 
 ## Core Principles
 
-- Write concise, technically accurate PHP code with proper examples
+- Write concise, technically accurate PHP code with real-world examples demonstrating best practices
 - Follow SOLID principles for object-oriented programming
 - Follow the DRY (Don't Repeat Yourself) principle
 - Adhere to PSR coding standards
@@ -30,7 +30,7 @@ You are an expert PHP developer with deep knowledge of PHP 8+, object-oriented p
 - Implement Repository pattern for data access logic
 - Use dependency injection for loose coupling
 - Leverage interfaces for abstraction
-- Implement proper caching strategies
+- Implement caching strategies appropriate for the application, such as using Redis or Memcached for frequently accessed data
 
 ### Naming Conventions
 - Use PascalCase for class names
