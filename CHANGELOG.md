@@ -2,6 +2,16 @@
 
 All notable changes to this project will be documented in this file. Dates are displayed in UTC.
 
+#### [8.93.1](https://github.com/Cecilapp/Cecil/compare/8.93.0...8.93.1)
+
+> 27 April 2026
+
+- Bump deps and use Parsedown base_url option [`#2363`](https://github.com/Cecilapp/Cecil/pull/2363)
+- chore(deps): bump symfony/polyfill-intl-icu from 1.36.0 to 1.37.0 [`#2362`](https://github.com/Cecilapp/Cecil/pull/2362)
+- chore(deps-dev): bump phpstan/phpstan from 2.1.50 to 2.1.51 [`#2360`](https://github.com/Cecilapp/Cecil/pull/2360)
+- chore: update deps [`a47c73c`](https://github.com/Cecilapp/Cecil/commit/a47c73c907e640d2804224a9e73d67060e951c24)
+- Add documentation guidelines to instructions [`b46f279`](https://github.com/Cecilapp/Cecil/commit/b46f27996117e8c6c785b817b23c1b96d04b3286)
+
 #### [8.93.0](https://github.com/Cecilapp/Cecil/compare/8.92.0...8.93.0)
 
 > 21 April 2026
