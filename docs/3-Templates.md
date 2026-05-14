@@ -31,11 +31,11 @@ Cecil is powered by the [Twig](https://twig.symfony.com) template engine, so ple
 
 ### Kinds of templates
 
-There is three kinds of templates, **_layouts_**, **_components_** and **_others templates_**: _layouts_ are used to render [pages](2-Content.md#pages), and each of them can [include templates](https://twig.symfony.com/doc/templates.html#including-other-templates) and [components](#components).
+There are three kinds of templates: **_layouts_**, **_components_**, and **_other templates_**. _Layouts_ are used to render [pages](2-Content.md#pages), and each layout can [include templates](https://twig.symfony.com/doc/templates.html#including-other-templates) and [components](#components).
 
 ### Naming convention
 
-Templates files are stored in the `layouts/` directory and must be named according to the following convention:
+Template files are stored in the `layouts/` directory and must be named according to the following convention:
 
 ```plaintext
 layouts/(<section>/)<type>|<layout>.<format>(.<language>).twig
@@ -262,7 +262,7 @@ _Example:_
 :::
 
 :::warning
-In some case you can encounter conflicts between configuration and built-in variables (e.g.: `pages.default` configuration), so you can use `config.<variable>` (with `<variable>` is the name/path of the variable) to access directly to the raw configuration.
+In some cases, you can encounter conflicts between configuration and built-in variables (e.g. `pages.default` configuration). In that case, you can use `config.<variable>` (where `<variable>` is the variable name/path) to access the raw configuration directly.
 
 Example:
 
@@ -296,13 +296,13 @@ _Example:_
 
 #### site.language
 
-Informations about the current language.
+Information about the current language.
 
 | Variable               | Description                                                  |
 | ---------------------- | ------------------------------------------------------------ |
 | `site.language`        | Language code (e.g.: `en`).                                  |
 | `site.language.name`   | Language name (e.g.: `English`).                             |
-| `site.language.locale` | Language [locale code](configuration/locale-codes.md) (e.g.: `en_EN`). |
+| `site.language.locale` | Language [locale code](configuration/locale-codes.md) (e.g.: `en_US`). |
 | `site.language.weight` | Language position in the `languages` list.                   |
 
 :::tip
@@ -372,7 +372,7 @@ _Example:_
 
 #### page.<prev/next>
 
-Navigation between pages in a same _Section_.
+Navigation between pages within the same _section_.
 
 | Variable              | Description                                            | Example                    |
 | --------------------- | ------------------------------------------------------ | -------------------------- |
@@ -387,7 +387,7 @@ _Example:_
 
 #### page.paginator
 
-_Paginator_ help you to build a navigation for list's pages: homepage, sections, and taxonomies.
+_Paginator_ helps you build navigation for list pages: homepage, sections, and taxonomies.
 
 | Variable                     | Description                         |
 | ---------------------------- | ----------------------------------- |
@@ -1582,7 +1582,7 @@ It will render:
 
 Cecil uses a cache system to speed up the generation process, it can be disabled or cleared.
 
-There is three types of cache in the case of templates rendering: templates themselves, [assets](#asset) and [translations](#translation-files).
+There are three cache types involved in template rendering: templates, [assets](#asset), and [translations](#translation-files).
 
 ### Clear cache
 

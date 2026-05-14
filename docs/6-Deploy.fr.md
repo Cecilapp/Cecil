@@ -181,7 +181,7 @@ jobs:
         uses: actions/deploy-pages@v4
 ```
 
-[Documentation officielle](https://about.gitlab.com/stages-devops-lifecycle/pages/)
+[Documentation officielle](https://docs.github.com/en/pages)
 
 ### GitLab CI
 

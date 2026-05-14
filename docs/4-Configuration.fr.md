@@ -264,7 +264,7 @@ language: en
 languages:
   - code: en
     name: English
-    locale: en_EN
+    locale: en_US
   - code: fr
     name: Français
     locale: fr_FR
