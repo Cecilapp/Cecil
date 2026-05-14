@@ -261,6 +261,11 @@ Search.appendIndex(
             "summary": "Returns\u0020local\u0020file\u0020path\u0020and\u0020updated\u0020path,\u0020or\u0020throw\u0020an\u0020exception.",
             "url": "classes/Cecil-Asset.html#method_locateFile"
         },                {
+            "fqsen": "\\Cecil\\Asset\u003A\u003AbuildLocalizedPath\u0028\u0029",
+            "name": "buildLocalizedPath",
+            "summary": "",
+            "url": "classes/Cecil-Asset.html#method_buildLocalizedPath"
+        },                {
             "fqsen": "\\Cecil\\Asset\u003A\u003AgetRemoteFileContent\u0028\u0029",
             "name": "getRemoteFileContent",
             "summary": "Try\u0020to\u0020get\u0020remote\u0020file\u0020content.",
@@ -681,6 +686,11 @@ Search.appendIndex(
             "summary": "Removes\u0020previous\u0020cache\u0020files.",
             "url": "classes/Cecil-Cache.html#method_prune"
         },                {
+            "fqsen": "\\Cecil\\Cache\u003A\u003AresolveShard\u0028\u0029",
+            "name": "resolveShard",
+            "summary": "Returns\u0020target\u0020cache\u0020directory\u0020and\u0020filename\/key\u0020suffix\u0020according\u0020to\u0020sharding\u0020rules.",
+            "url": "classes/Cecil-Cache.html#method_resolveShard"
+        },                {
             "fqsen": "\\Cecil\\Cache\u003A\u003Aduration\u0028\u0029",
             "name": "duration",
             "summary": "Convert\u0020the\u0020various\u0020expressions\u0020of\u0020a\u0020TTL\u0020value\u0020into\u0020duration\u0020in\u0020seconds.",
@@ -695,6 +705,11 @@ Search.appendIndex(
             "name": "RESERVED_CHARACTERS",
             "summary": "Reserved\u0020characters\u0020that\u0020cannot\u0020be\u0020used\u0020in\u0020a\u0020key",
             "url": "classes/Cecil-Cache.html#constant_RESERVED_CHARACTERS"
+        },                {
+            "fqsen": "\\Cecil\\Cache\u003A\u003ASHARD_DELIMITER",
+            "name": "SHARD_DELIMITER",
+            "summary": "",
+            "url": "classes/Cecil-Cache.html#constant_SHARD_DELIMITER"
         },                {
             "fqsen": "\\Cecil\\Cache\u003A\u003A\u0024builder",
             "name": "builder",
@@ -1186,6 +1201,16 @@ Search.appendIndex(
             "summary": "Turns\u0020a\u0020path\u0020\u0028string\u0029\u0020into\u0020a\u0020slug\u0020\u0028URI\u0029.",
             "url": "classes/Cecil-Collection-Page-Page.html#method_slugify"
         },                {
+            "fqsen": "\\Cecil\\Collection\\Page\\Page\u003A\u003AcreateSlugifyPlaceholders\u0028\u0029",
+            "name": "createSlugifyPlaceholders",
+            "summary": "",
+            "url": "classes/Cecil-Collection-Page-Page.html#method_createSlugifyPlaceholders"
+        },                {
+            "fqsen": "\\Cecil\\Collection\\Page\\Page\u003A\u003AcreateSlugifyPlaceholder\u0028\u0029",
+            "name": "createSlugifyPlaceholder",
+            "summary": "",
+            "url": "classes/Cecil-Collection-Page-Page.html#method_createSlugifyPlaceholder"
+        },                {
             "fqsen": "\\Cecil\\Collection\\Page\\Page\u003A\u003AgetIdWithoutLang\u0028\u0029",
             "name": "getIdWithoutLang",
             "summary": "Returns\u0020the\u0020ID\u0020of\u0020a\u0020page\u0020without\u0020language.",
@@ -1393,7 +1418,7 @@ Search.appendIndex(
         },                {
             "fqsen": "\\Cecil\\Collection\\Page\\Page\u003A\u003AcreateIdFromFile\u0028\u0029",
             "name": "createIdFromFile",
-            "summary": "Creates\u0020a\u0020page\u0020ID\u0020from\u0020a\u0020file\u0020\u0028based\u0020on\u0020path\u0029.",
+            "summary": "",
             "url": "classes/Cecil-Collection-Page-Page.html#method_createIdFromFile"
         },                {
             "fqsen": "\\Cecil\\Collection\\Page\\Page\u003A\u003AfilterBool\u0028\u0029",
@@ -1536,6 +1561,11 @@ Search.appendIndex(
             "summary": "PrefixSuffix\u0020class.",
             "url": "classes/Cecil-Collection-Page-PrefixSuffix.html"
         },                {
+            "fqsen": "\\Cecil\\Collection\\Page\\PrefixSuffix\u003A\u003AbuildPrefixPattern\u0028\u0029",
+            "name": "buildPrefixPattern",
+            "summary": "Builds\u0020the\u0020prefix\u0020regex\u0020pattern\u0020from\u0020configured\u0020separators.",
+            "url": "classes/Cecil-Collection-Page-PrefixSuffix.html#method_buildPrefixPattern"
+        },                {
             "fqsen": "\\Cecil\\Collection\\Page\\PrefixSuffix\u003A\u003Ahas\u0028\u0029",
             "name": "has",
             "summary": "Returns\u0020true\u0020if\u0020the\u0020string\u0020contains\u0020a\u0020prefix\u0020or\u0020a\u0020suffix.",
@@ -1581,10 +1611,35 @@ Search.appendIndex(
             "summary": "Returns\u0020expreg\u0020pattern\u0020by\u0020\u0024type.",
             "url": "classes/Cecil-Collection-Page-PrefixSuffix.html#method_getPattern"
         },                {
-            "fqsen": "\\Cecil\\Collection\\Page\\PrefixSuffix\u003A\u003APREFIX_PATTERN",
-            "name": "PREFIX_PATTERN",
+            "fqsen": "\\Cecil\\Collection\\Page\\PrefixSuffix\u003A\u003AmatchPrefix\u0028\u0029",
+            "name": "matchPrefix",
+            "summary": "Matches\u0020string\u0020with\u0020prefix\u0020pattern.",
+            "url": "classes/Cecil-Collection-Page-PrefixSuffix.html#method_matchPrefix"
+        },                {
+            "fqsen": "\\Cecil\\Collection\\Page\\PrefixSuffix\u003A\u003APREFIX_BASE",
+            "name": "PREFIX_BASE",
             "summary": "",
-            "url": "classes/Cecil-Collection-Page-PrefixSuffix.html#constant_PREFIX_PATTERN"
+            "url": "classes/Cecil-Collection-Page-PrefixSuffix.html#constant_PREFIX_BASE"
+        },                {
+            "fqsen": "\\Cecil\\Collection\\Page\\PrefixSuffix\u003A\u003APREFIX_TAIL",
+            "name": "PREFIX_TAIL",
+            "summary": "",
+            "url": "classes/Cecil-Collection-Page-PrefixSuffix.html#constant_PREFIX_TAIL"
+        },                {
+            "fqsen": "\\Cecil\\Collection\\Page\\PrefixSuffix\u003A\u003ADEFAULT_SEPARATORS",
+            "name": "DEFAULT_SEPARATORS",
+            "summary": "",
+            "url": "classes/Cecil-Collection-Page-PrefixSuffix.html#constant_DEFAULT_SEPARATORS"
+        },                {
+            "fqsen": "\\Cecil\\Collection\\Page\\PrefixSuffix\u003A\u003APREFIX_PART",
+            "name": "PREFIX_PART",
+            "summary": "",
+            "url": "classes/Cecil-Collection-Page-PrefixSuffix.html#constant_PREFIX_PART"
+        },                {
+            "fqsen": "\\Cecil\\Collection\\Page\\PrefixSuffix\u003A\u003APREFIX_SUFFIX_PART",
+            "name": "PREFIX_SUFFIX_PART",
+            "summary": "",
+            "url": "classes/Cecil-Collection-Page-PrefixSuffix.html#constant_PREFIX_SUFFIX_PART"
         },                {
             "fqsen": "\\Cecil\\Collection\\Page\\PrefixSuffix\u003A\u003ASUFFIX_PATTERN",
             "name": "SUFFIX_PATTERN",
@@ -2038,7 +2093,7 @@ Search.appendIndex(
         },                {
             "fqsen": "\\Cecil\\Command\\Serve\u003A\u003AtearDownServer\u0028\u0029",
             "name": "tearDownServer",
-            "summary": "Removes\u0020temporary\u0020directory.",
+            "summary": "Removes\u0020server\u0027s\u0020files.",
             "url": "classes/Cecil-Command-Serve.html#method_tearDownServer"
         },                {
             "fqsen": "\\Cecil\\Command\\Serve\u003A\u003A\u0024watcherEnabled",
@@ -2661,6 +2716,11 @@ Search.appendIndex(
             "summary": "",
             "url": "classes/Cecil-Converter-Parsedown.html#property_highlighter"
         },                {
+            "fqsen": "\\Cecil\\Converter\\Parsedown\u003A\u003A\u0024language",
+            "name": "language",
+            "summary": "",
+            "url": "classes/Cecil-Converter-Parsedown.html#property_language"
+        },                {
             "fqsen": "\\Cecil\\Exception\\ConfigException",
             "name": "ConfigException",
             "summary": "ConfigException\u0020class.",
@@ -3026,25 +3086,25 @@ Search.appendIndex(
             "summary": "",
             "url": "classes/Cecil-Renderer-Extension-Core.html#method___construct"
         },                {
-            "fqsen": "\\Cecil\\Renderer\\Extension\\Core\u003A\u003AgetName\u0028\u0029",
-            "name": "getName",
-            "summary": "\u007B\u0040inheritdoc\u007D",
-            "url": "classes/Cecil-Renderer-Extension-Core.html#method_getName"
-        },                {
             "fqsen": "\\Cecil\\Renderer\\Extension\\Core\u003A\u003AgetFunctions\u0028\u0029",
             "name": "getFunctions",
-            "summary": "\u007B\u0040inheritdoc\u007D",
+            "summary": "",
             "url": "classes/Cecil-Renderer-Extension-Core.html#method_getFunctions"
         },                {
             "fqsen": "\\Cecil\\Renderer\\Extension\\Core\u003A\u003AgetFilters\u0028\u0029",
             "name": "getFilters",
-            "summary": "\u007B\u0040inheritdoc\u007D",
+            "summary": "",
             "url": "classes/Cecil-Renderer-Extension-Core.html#method_getFilters"
         },                {
             "fqsen": "\\Cecil\\Renderer\\Extension\\Core\u003A\u003AgetTests\u0028\u0029",
             "name": "getTests",
-            "summary": "\u007B\u0040inheritdoc\u007D",
+            "summary": "",
             "url": "classes/Cecil-Renderer-Extension-Core.html#method_getTests"
+        },                {
+            "fqsen": "\\Cecil\\Renderer\\Extension\\Core\u003A\u003AslugifyFilter\u0028\u0029",
+            "name": "slugifyFilter",
+            "summary": "",
+            "url": "classes/Cecil-Renderer-Extension-Core.html#method_slugifyFilter"
         },                {
             "fqsen": "\\Cecil\\Renderer\\Extension\\Core\u003A\u003AfilterBySection\u0028\u0029",
             "name": "filterBySection",
@@ -3291,6 +3351,11 @@ Search.appendIndex(
             "summary": "Hashing\u0020an\u0020object,\u0020an\u0020array\u0020or\u0020a\u0020string\u0020\u0028with\u0020algo,\u0020xxh128\u0020by\u0020default\u0029.",
             "url": "classes/Cecil-Renderer-Extension-Core.html#method_hash"
         },                {
+            "fqsen": "\\Cecil\\Renderer\\Extension\\Core\u003A\u003AcacheKey\u0028\u0029",
+            "name": "cacheKey",
+            "summary": "Builds\u0020a\u0020cache\u0020key\u0020from\u0020a\u0020variable.",
+            "url": "classes/Cecil-Renderer-Extension-Core.html#method_cacheKey"
+        },                {
             "fqsen": "\\Cecil\\Renderer\\Extension\\Core\u003A\u003Aiterable\u0028\u0029",
             "name": "iterable",
             "summary": "Converts\u0020a\u0020variable\u0020to\u0020an\u0020iterable\u0020\u0028array\u0029.",
@@ -3325,11 +3390,6 @@ Search.appendIndex(
             "name": "config",
             "summary": "",
             "url": "classes/Cecil-Renderer-Extension-Core.html#property_config"
-        },                {
-            "fqsen": "\\Cecil\\Renderer\\Extension\\Core\u003A\u003A\u0024slugifier",
-            "name": "slugifier",
-            "summary": "",
-            "url": "classes/Cecil-Renderer-Extension-Core.html#property_slugifier"
         },                {
             "fqsen": "\\Cecil\\Renderer\\Language",
             "name": "Language",
@@ -4500,6 +4560,11 @@ Search.appendIndex(
             "name": "convertMemory",
             "summary": "Converts\u0020memory\u0020size\u0020for\u0020human.",
             "url": "classes/Cecil-Util.html#method_convertMemory"
+        },                {
+            "fqsen": "\\Cecil\\Util\u003A\u003AconvertDuration\u0028\u0029",
+            "name": "convertDuration",
+            "summary": "Converts\u0020a\u0020duration\u0020\u0028in\u0020seconds\u0029\u0020to\u0020a\u0020human\u002Dreadable\u0020string.",
+            "url": "classes/Cecil-Util.html#method_convertDuration"
         },                {
             "fqsen": "\\Cecil\\Util\u003A\u003AconvertMicrotime\u0028\u0029",
             "name": "convertMicrotime",
