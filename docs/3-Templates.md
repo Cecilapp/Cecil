@@ -41,23 +41,20 @@ Template files are stored in the `layouts/` directory and must be named accordin
 layouts/(<section>/)<type>|<layout>.<format>(.<language>).twig
 ```
 
-`<section>` (optional)
+`<section>` (_optional_)
 :  The section of the page (e.g.: `blog`).
 
 `<type>`
 :  The page type: `home` (or `index`) for _homepage_, `list` for _list_, `page` for _page_, etc. (See [_Lookup rules_](#lookup-rules) for details).
 
-`<layout>` (optional)
+`<layout>` (_optional_)
 :  The custom layout name defined in the [front matter](2-Content.md#front-matter) of the page (e.g.: `layout: my-layout`).
-
-`<language>` (optional)
-:  The language of the page (e.g.: `fr`).
 
 `<format>`
 :  The [output format](4-Configuration.md#output-formats) of the rendered page (e.g.: `html`, `rss`, `json`, `xml`, etc.).
 
-`.twig`
-:  The mandatory Twig file extension.
+`<language>` (_optional_)
+:  The language of the page (e.g.: `fr`).
 
 _Examples:_
 
@@ -71,26 +68,19 @@ layouts/blog/list.rss.twig   # `section` is "blog" and `format` is "rss"
 ```
 
 ```plaintext
-<mywebsite>
+<my-site>
 ├─ ...
-├─ layouts                  <- Layouts and templates
+├─ layouts
+|  ├─ index.html.twig      # Used by type "homepage"
+|  ├─ list.html.twig       # Used by types "homepage", "section" and "term"
+|  ├─ list.rss.twig        # Used by types "homepage", "section" and "term", for RSS output format
+|  ├─ page.html.twig       # Used by type "page"
 |  ├─ my-layout.html.twig
-|  ├─ index.html.twig       <- Used by type "homepage"
-|  ├─ list.html.twig        <- Used by types "homepage", "section" and "term"
-|  ├─ list.rss.twig         <- Used by types "homepage", "section" and "term", for RSS output format
-|  ├─ page.html.twig        <- Used by type "page"
 |  ├─ ...
-|  ├─ _default              <- Default layouts, that can be easily extended
-|  |  ├─ list.html.twig
-|  |  ├─ page.html.twig
-|  |  └─ ...
-|  └─ partials
-|     ├─ footer.html.twig   <- Included template
+|  └─ partials             # Included templates
+|     ├─ footer.html.twig
 |     └─ ...
-└─ themes
-   └─ <theme>
-      └─ layouts            <- Theme layouts and templates
-         └─ ...
+└─ themes                  # Themes layouts and templates
 ```
 
 ### Built-in templates
