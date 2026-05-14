@@ -80,7 +80,7 @@ description: "<description>"
 
 Menus are used to create [navigation links in templates](3-Templates.md#site-menus).
 
-A menu is made up of a unique ID and entry’s properties (name, URL, weight).
+A menu is made up of a unique ID and entry properties (name, URL, weight).
 
 ```yaml
 menus:
@@ -262,14 +262,14 @@ language: en
 languages:
   - code: en
     name: English
-    locale: en_EN
+    locale: en_US
   - code: fr
     name: Français
     locale: fr_FR
 ```
 
 :::info
-There is a [locales code list](configuration/locale-codes.md) if needed.
+A [locale code list](configuration/locale-codes.md) is available if needed.
 :::
 
 #### Localize
@@ -336,7 +336,7 @@ This template adds the following meta tags:
 
 #### metatags options
 
-Cecil uses page’s front matter to feed meta tags, and fallbacks to site options if needed.
+Cecil uses page front matter to feed meta tags, and falls back to site options when needed.
 
 ```yaml
 title: "Page/Site title"              # used by title meta
@@ -409,7 +409,7 @@ Enables the _debug mode_, used to display debug information like very verbose lo
 debug: true
 ```
 
-There is 2 others way to enable the _debug mode_:
+There are two other ways to enable _debug mode_:
 
 1. Run a command with the `-vvv` option
 2. Set the `CECIL_DEBUG` environment variable to `true`
@@ -529,7 +529,7 @@ languages:
 
 ### pages.frontmatter
 
-Pages’ front matter format (`yaml` by default, also accepts `ini`, `toml` and `json`).
+Page front matter format (`yaml` by default, also accepts `ini`, `toml` and `json`).
 
 ```yaml
 pages:
@@ -538,7 +538,7 @@ pages:
 
 ### pages.body
 
-Pages’ body options.
+Page body options.
 
 :::info
 To know how those options impacts your content see _[Content > Markdown](2-Content.md#markdown)_ documentation.
@@ -574,12 +574,12 @@ pages:
     images:
       formats: []       # adds alternative image formats as `source` (e.g. `[avif, webp]`, empty array by default)
       resize: 0         # resizes all images to <width> (in pixels, `0` to disable)
-      responsive: false # adds responsives images them to the `srcset` attribute (`false` by default)
+      responsive: false # adds responsive image variants to the `srcset` attribute (`false` by default)
       lazy: true        # adds `loading="lazy"` attribute (`true` by default)
       decoding: true    # adds `decoding="async"` attribute (`true` by default)
       caption: false    # puts the image in a <figure> element and adds a <figcaption> containing the title (`false` by default)
-      placeholder: ''   # fill <img> background before loading ('color' or 'lqip', empty by default)
-      class: ''         # put default class to each image (empty by default)
+      placeholder: ''   # fills the <img> background before loading ('color' or 'lqip', empty by default)
+      class: ''         # sets a default class on each image (empty by default)
       remote:           # remote image handling (set to `false` to disable)
         fallback:         # path to the fallback image, stored in assets dir (empty by default)
 ```
@@ -1073,7 +1073,7 @@ output:
       exclude: [<variable>]   # don’t apply this format to pages identified by listed variables, e.g.: `[redirect, paginated]` (optional)
 ```
 
-Those formats are used in the [`output.pagetypeformats`](#output-pagetypeformats) configuration and in the [`output` page’s variable](2-Content.md#output).
+Those formats are used in the [`output.pagetypeformats`](#output-pagetypeformats) configuration and in the [`output` page variable](2-Content.md#output).
 
 #### Default formats
 

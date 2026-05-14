@@ -5,7 +5,7 @@ updated: 2025-06-20
 -->
 # Library
 
-You can use the Cecil as a [PHP](https://www.php.net) library.
+You can use Cecil as a [PHP](https://www.php.net) library.
 
 ## Installation
 
