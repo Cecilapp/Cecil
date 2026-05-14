@@ -1,4 +1,6 @@
-# Cecil - Copilot Instructions
+# Cecil - Copilot Instructions - Agents.md
+
+This file provides guidance to AI coding agents working on the Cecil codebase. It describes the project structure, coding standards, and conventions to ensure consistent and high-quality contributions.
 
 ## Project Overview
 
