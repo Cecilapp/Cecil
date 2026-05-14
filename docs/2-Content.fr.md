@@ -139,7 +139,7 @@ Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliqu
 ## Sub-Header 3
 
 :::tip
-This is an advice.
+This is advice.
 :::
 ```
 
@@ -207,7 +207,7 @@ Vous pouvez modifier ce comportement avec les [options `pages.body.links.externa
 Vous pouvez laisser Cecil essayer de transformer un lien en contenu embarqué en utilisant l’attribut `{embed}` ou en activant l’option de configuration globale `pages.body.links.embed.enabled` à `true`.
 
 :::important
-Seuls les liens **YouTube**, **Vimeo**, **Dailymotion** et **GitHub Gits** sont pris en charge.
+Seuls les liens **YouTube**, **Vimeo**, **Dailymotion** et **GitHub Gists** sont pris en charge.
 :::
 
 _Exemple :_
@@ -480,7 +480,7 @@ _Exemple :_
 
 ```markdown
 :::tip
-**Tip:** This is an advice.
+**Tip:** This is advice.
 :::
 ```
 
@@ -489,13 +489,13 @@ Est converti en :
 ```html
 <aside class="note note-tip">
   <p>
-    <strong>Tip:</strong> This is an advice.
+    <strong>Tip:</strong> This is advice.
   </p>
 </aside>
 ```
 
 :::tip
-**Tip:** This is an advice.
+**Tip:** This is advice.
 :::
 
 _Autres exemples :_

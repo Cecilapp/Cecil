@@ -302,7 +302,7 @@ Informations sur la langue actuelle.
 | ---------------------- | ------------------------------------------------------------ |
 | `site.language` | Code de langue (ex. : `en`).                                  |
 | `site.language.name` | Nom de la langue (par exemple : `English`).                             |
-| `site.language.locale` | Langue [code local](configuration/locale-codes.md) (par exemple : `en_EN`). |
+| `site.language.locale` | Langue [code local](configuration/locale-codes.md) (par exemple : `en_US`). |
 | `site.language.weight` | Position de la langue dans la liste `languages`.                   |
 
 :::tip
