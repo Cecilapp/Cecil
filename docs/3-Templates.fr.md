@@ -101,8 +101,6 @@ php cecil.phar util:templates:extract
 
 Dans la plupart des cas **vous n'avez pas besoin de préciser la layout** : Cecil sélectionne la layout la plus appropriée, en fonction du **type de la page**.
 
-### Recherche de template pour la page d'accueil
-
 Par exemple, la sortie HTML de **home page** (`index.md`) sera rendue :
 
 1. avec `my-layout.html.twig` si la variable `layout` est définie sur "my-layout" (dans le préambule)
