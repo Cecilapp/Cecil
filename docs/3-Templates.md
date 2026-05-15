@@ -1,7 +1,7 @@
 <!--
 description: "Working with layouts, templates and components."
 date: 2021-05-07
-updated: 2026-03-26
+updated: 2026-05-16
 alias: documentation/layouts
 -->
 # Templates
@@ -75,12 +75,13 @@ layouts/blog/list.rss.twig   # `section` is "blog" and `format` is "rss"
 |  ├─ list.html.twig       # Used by types "homepage", "section" and "term"
 |  ├─ list.rss.twig        # Used by types "homepage", "section" and "term", for RSS output format
 |  ├─ page.html.twig       # Used by type "page"
-|  ├─ my-layout.html.twig
+|  ├─ my-layout.html.twig  # Used by pages with `layout: my-layout` in the front matter
 |  ├─ ...
 |  └─ partials             # Included templates
 |     ├─ footer.html.twig
 |     └─ ...
 └─ themes                  # Themes layouts and templates
+   └─ ...
 ```
 
 ### Built-in templates
@@ -96,62 +97,16 @@ php cecil.phar util:templates:extract
 
 :::
 
-#### Default templates
-
-[`_default/page.html.twig`](https://github.com/Cecilapp/Cecil/blob/master/resources/layouts/_default/page.html.twig)
-:   A simple main template with a clean CSS.
-
-[`_default/list.html.twig`](https://github.com/Cecilapp/Cecil/blob/master/resources/layouts/_default/list.html.twig)
-:   A pages list with (an optional) pagination.
-
-[`_default/list.atom.twig`](https://github.com/Cecilapp/Cecil/blob/master/resources/layouts/_default/list.atom.twig)
-:   An Atom feed.
-
-[`_default/list.rss.twig`](https://github.com/Cecilapp/Cecil/blob/master/resources/layouts/_default/list.rss.twig)
-:   A RSS feed.
-
-[`_default/vocabulary.html.twig`](https://github.com/Cecilapp/Cecil/blob/master/resources/layouts/_default/vocabulary.html.twig)
-:   A simple list of all terms of a vocabulary.
-
-[`_default/404.html.twig`](https://github.com/Cecilapp/Cecil/blob/master/resources/layouts/_default/404.html.twig)
-:   A basic error 404 ("Page not found") template.
-
-[`_default/sitemap.xml.twig`](https://github.com/Cecilapp/Cecil/blob/master/resources/layouts/_default/sitemap.xml.twig)
-:   The [`sitemap.xml`](https://www.sitemaps.org) template: list of all pages sorted by date.
-
-[`_default/robots.txt.twig`](https://github.com/Cecilapp/Cecil/blob/master/resources/layouts/_default/robots.txt.twig)
-:   The [`robots.txt`](https://en.wikipedia.org/wiki/Robots.txt) template: allow all pages except 404, and add a reference to the sitemap.
-
-[`_default/redirect.html.twig`](https://github.com/Cecilapp/Cecil/blob/master/resources/layouts/_default/redirect.html.twig)
-:   The redirect template.
-
-#### Partial templates
-
-[`partials/navigation.html.twig`](https://github.com/Cecilapp/Cecil/blob/master/resources/layouts/partials/navigation.html.twig)
-:   A main menu navigation.
-
-[`partials/paginator.html.twig`](https://github.com/Cecilapp/Cecil/blob/master/resources/layouts/partials/paginator.html.twig)
-:   A simple paginated navigation for list templates with "Previous" and "Next" links.
-
-[`partials/metatags.html.twig`](https://github.com/Cecilapp/Cecil/blob/master/resources/layouts/partials/metatags.html.twig)
-:   All metatags in one template: title, description, canonical, open-graph, twitter card, etc. See [_metatags_ configuration](4-Configuration.md#metatags).
-
-[`partials/languages.html.twig`](https://github.com/Cecilapp/Cecil/blob/master/resources/layouts/partials/languages.html.twig)
-:   A basic [languages](4-Configuration.md#languages) switcher.
-
 ## Lookup rules
 
-In most of cases **you don’t need to specify the layout**: Cecil selects the most appropriate layout, according to the page _type_.
+In most of cases **you don’t need to specify the layout**: Cecil selects the most appropriate layout, according to the **page type**.
 
-### Homepage template lookup
-
-For example, the HTML output of _home page_ (`index.md`) will be rendered:
+For example, the HTML output of **home page** (`index.md`) will be rendered:
 
 1. with `my-layout.html.twig` if the `layout` variable is set to "my-layout" (in the front matter)
-2. if not, with `home.html.twig` if the file exists
-3. if not, with `index.html.twig` if the file exists
+2. if not, with `index.html.twig` if the file exists
+3. if not, with `home.html.twig` if the file exists
 4. if not, with `list.html.twig` if the file exists
-5. etc.
 
 All rules are detailed below, for each page type, in the priority order.
 
@@ -201,7 +156,7 @@ All rules are detailed below, for each page type, in the priority order.
 5. `_default/list.<format>.twig`
 
 :::info
-Most of those layouts are available by default, see [built-in templates](#built-in-templates).
+Most of those layouts are available by default, see [built-in templates](https://github.com/Cecilapp/Cecil/tree/master/resources/layouts).
 :::
 
 ## Variables

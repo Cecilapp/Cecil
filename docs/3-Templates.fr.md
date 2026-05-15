@@ -1,7 +1,7 @@
 <!--
 title: Templates
 description: "Travailler avec les layouts, les templates et les composants."
-date: 2026-03-27
+date: 2026-05-16
 slug: templates
 -->
 # Templates
@@ -75,12 +75,13 @@ layouts/blog/list.rss.twig   # `section` est "blog" et `format` est "rss"
 |  ├─ list.html.twig       # Utilisé par les types "homepage", "section" et "term"
 |  ├─ list.rss.twig        # Utilisé par les types "homepage", "section" et "term", pour le format de sortie RSS
 |  ├─ page.html.twig       # Utilisé par le type "page"
-|  ├─ my-layout.html.twig
+|  ├─ my-layout.html.twig  # Utilisé par les pages avec `layout: my-layout` dans le front-matter
 |  ├─ ...
 |  └─ partials
 |     ├─ footer.html.twig  # Template inclus
 |     └─ ...
 └─ themes                  # Layouts et templates des thèmes
+   └─ ...
 ```
 
 ### Templates intégrés
@@ -96,62 +97,18 @@ php cecil.phar util:templates:extract
 
 :::
 
-#### Templates par défaut
-
-[`_default/page.html.twig`](https://github.com/Cecilapp/Cecil/blob/master/resources/layouts/_default/page.html.twig)
-:   Un modèle principal simple avec un CSS propre.
-
-[`_default/list.html.twig`](https://github.com/Cecilapp/Cecil/blob/master/resources/layouts/_default/list.html.twig)
-:   Une liste de pages avec une pagination (facultative).
-
-[`_default/list.atom.twig`](https://github.com/Cecilapp/Cecil/blob/master/resources/layouts/_default/list.atom.twig)
-:   Un flux Atom.
-
-[`_default/list.rss.twig`](https://github.com/Cecilapp/Cecil/blob/master/resources/layouts/_default/list.rss.twig)
-:   Un flux RSS.
-
-[`_default/vocabulary.html.twig`](https://github.com/Cecilapp/Cecil/blob/master/resources/layouts/_default/vocabulary.html.twig)
-:   Une simple liste de tous les termes d'un vocabulaire.
-
-[`_default/404.html.twig`](https://github.com/Cecilapp/Cecil/blob/master/resources/layouts/_default/404.html.twig)
-:   Un modèle d'erreur de base 404 (« Page non trouvée »).
-
-[`_default/sitemap.xml.twig`](https://github.com/Cecilapp/Cecil/blob/master/resources/layouts/_default/sitemap.xml.twig)
-:   Le modèle [`sitemap.xml`](https://www.sitemaps.org) : liste de toutes les pages triées par date.
-
-[`_default/robots.txt.twig`](https://github.com/Cecilapp/Cecil/blob/master/resources/layouts/_default/robots.txt.twig)
-:   Le modèle [`robots.txt`](https://en.wikipedia.org/wiki/Robots.txt) : autorise toutes les pages sauf 404 et ajoute une référence au plan du site.
-
-[`_default/redirect.html.twig`](https://github.com/Cecilapp/Cecil/blob/master/resources/layouts/_default/redirect.html.twig)
-:   Le modèle de redirection.
-
-#### Templates partiels
-
-[`partials/navigation.html.twig`](https://github.com/Cecilapp/Cecil/blob/master/resources/layouts/partials/navigation.html.twig)
-:   Une navigation dans le menu principal.
-
-[`partials/paginator.html.twig`](https://github.com/Cecilapp/Cecil/blob/master/resources/layouts/partials/paginator.html.twig)
-:   Une navigation paginée simple pour les templates de liste avec des liens "Précédent" et "Suivant".
-
-[`partials/metatags.html.twig`](https://github.com/Cecilapp/Cecil/blob/master/resources/layouts/partials/metatags.html.twig)
-:   Toutes les balises méta dans un seul modèle : titre, description, canonique, graphique ouvert, carte Twitter, etc. Voir [_metatags_ configuration](4-Configuration.md#metatags).
-
-[`partials/languages.html.twig`](https://github.com/Cecilapp/Cecil/blob/master/resources/layouts/partials/languages.html.twig)
-:   Un sélecteur [langues](4-Configuration.md#languages) de base.
-
 ## Règles de recherche
 
-Dans la plupart des cas **vous n'avez pas besoin de préciser la layout** : Cecil sélectionne la layout la plus appropriée, en fonction du _type_ de la page.
+Dans la plupart des cas **vous n'avez pas besoin de préciser la layout** : Cecil sélectionne la layout la plus appropriée, en fonction du **type de la page**.
 
 ### Recherche de template pour la page d'accueil
 
-Par exemple, la sortie HTML de _home page_ (`index.md`) sera rendue :
+Par exemple, la sortie HTML de **home page** (`index.md`) sera rendue :
 
 1. avec `my-layout.html.twig` si la variable `layout` est définie sur "my-layout" (dans le préambule)
-2. sinon, avec `home.html.twig` si le fichier existe
-3. sinon, avec `index.html.twig` si le fichier existe
+2. sinon, avec `index.html.twig` si le fichier existe
+3. sinon, avec `home.html.twig` si le fichier existe
 4. sinon, avec `list.html.twig` si le fichier existe
-5. etc.
 
 Toutes les règles sont détaillées ci-dessous, pour chaque type de page, par ordre de priorité.
 
