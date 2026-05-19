@@ -84,9 +84,9 @@ EOF
             }
             // setup questions
             $title = $this->io->ask('Give a title to your website', 'New website');
-            $baseline = $this->io->ask('Give a baseline to your website', '');
+            $baseline = $this->io->ask('Give a baseline to your website', 'A new Cecil website');
             $baseurl = $this->io->ask('Base URL?', '/', [$this, 'validateUrl']);
-            $description = $this->io->ask('Write a full description of your site', 'Website created with Cecil.');
+            $description = $this->io->ask('Write a full description of your site', 'A website created with Cecil static site generator.');
             $demo = ($demo !== false) ?: $this->io->confirm('Add demo content?', false);
             // override skeleton default config
             $config = Yaml::parseFile(Util::joinPath($this->rootPath, 'resources/skeleton', self::CONFIG_FILE[0]), Yaml::PARSE_DATETIME);
