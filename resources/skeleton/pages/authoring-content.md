@@ -2,7 +2,7 @@
 title: Authoring Content
 menu:
   main:
-    weight: 300
+    weight: 200
 ---
 # Authoring Content in Markdown
 
