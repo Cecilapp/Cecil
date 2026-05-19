@@ -2,6 +2,33 @@
 
 All notable changes to this project will be documented in this file. Dates are displayed in UTC.
 
+#### [8.94.0](https://github.com/Cecilapp/Cecil/compare/8.93.1...8.94.0)
+
+> 19 May 2026
+
+- Replace new.css by Pico CSS [`#2372`](https://github.com/Cecilapp/Cecil/pull/2372)
+- chore(deps-dev): bump phpstan/phpstan from 2.1.54 to 2.1.55 [`#2371`](https://github.com/Cecilapp/Cecil/pull/2371)
+- chore(deps): bump twig/twig from 3.24.0 to 3.25.0 [`#2369`](https://github.com/Cecilapp/Cecil/pull/2369)
+- chore(deps-dev): bump friendsofphp/php-cs-fixer from 3.95.1 to 3.95.2 [`#2368`](https://github.com/Cecilapp/Cecil/pull/2368)
+- Harmonize EN documentation quality and align FR counterparts [`#2367`](https://github.com/Cecilapp/Cecil/pull/2367)
+- chore(deps-dev): bump phpstan/phpstan from 2.1.53 to 2.1.54 [`#2365`](https://github.com/Cecilapp/Cecil/pull/2365)
+- chore(deps-dev): bump phpstan/phpstan from 2.1.51 to 2.1.53 [`#2364`](https://github.com/Cecilapp/Cecil/pull/2364)
+- Regenerate API docs [`5d61780`](https://github.com/Cecilapp/Cecil/commit/5d617803ccfbac662f6102b200bc85798c4b6e8f)
+- Add SKILL.md: Cecil site builder docs [`207e7d4`](https://github.com/Cecilapp/Cecil/commit/207e7d4843eb52819b65c19f1a03dc69c778d9b5)
+- chore: update deps [`59fbe2a`](https://github.com/Cecilapp/Cecil/commit/59fbe2ac17cf182cfdd53bbc4bd230bde97a57f1)
+- Add French docs: CDN providers and locale codes [`bf123c6`](https://github.com/Cecilapp/Cecil/commit/bf123c64424e0a4761a62cb8e1e08621723ff6d3)
+- docs: Add layouts README and update templates docs [`535380e`](https://github.com/Cecilapp/Cecil/commit/535380e651f28b35f4c4e0715684a705316a948c)
+- docs: Reformat layouts README list entries [`2031caa`](https://github.com/Cecilapp/Cecil/commit/2031caaa4816f446919ca6054a148194d17b16ce)
+- Add README files for resources folders [`f1aac2b`](https://github.com/Cecilapp/Cecil/commit/f1aac2bd15318d083d6b6107ee09f612f7e348dd)
+- Polish templates docs and example layout tree [`c855b12`](https://github.com/Cecilapp/Cecil/commit/c855b1277e7ae091fb40ad20a9cc531e516e5415)
+- Bump Symfony deps and add intl Twig fixture [`3533f59`](https://github.com/Cecilapp/Cecil/commit/3533f59ff1a97f52338d0601c1385114f1d29caf)
+- docs: Update Copilot instructions and PHP development guidelines for clarity and detail [`5d1b1f4`](https://github.com/Cecilapp/Cecil/commit/5d1b1f40f7379e681658e7aeec6f5220032eec0a)
+- chore: update deps [`656ae33`](https://github.com/Cecilapp/Cecil/commit/656ae336095ce31faab19a1da58fa0bd9c65f2b3)
+- Enhance Copilot instructions with agents intro [`006b823`](https://github.com/Cecilapp/Cecil/commit/006b823c333f550b62862ea709090c690b1c38a6)
+- docs: Remove redundant heading from Templates (FR) [`53574bd`](https://github.com/Cecilapp/Cecil/commit/53574bd67cf3d46178d7b2115687b975e1c0f775)
+- ci: Use joutvhu/get-release in workflow [`bd67d9d`](https://github.com/Cecilapp/Cecil/commit/bd67d9dec5e15ecf3373088d35e86011cb3ad122)
+- Add AGENTS.md symlink to Copilot instructions [`445af5c`](https://github.com/Cecilapp/Cecil/commit/445af5cc4d8bd7529740ed3bae38e5dba30f4380)
+
 #### [8.93.1](https://github.com/Cecilapp/Cecil/compare/8.93.0...8.93.1)
 
 > 27 April 2026
