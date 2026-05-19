@@ -13,6 +13,9 @@
     <style>{% apply minify_css ~%}
       {{- include('partials/pico.css.twig') }}
       /* Custom styles */
+      body > header, body > main, body > footer {
+        max-width: 700px;
+      }
       .site-title {
         --pico-font-weight: 700;
         --pico-font-size: 2rem;
