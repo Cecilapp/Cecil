@@ -2,6 +2,14 @@
 
 All notable changes to this project will be documented in this file. Dates are displayed in UTC.
 
+#### [8.94.2](https://github.com/Cecilapp/Cecil/compare/8.94.1...8.94.2)
+
+> 20 May 2026
+
+- chore(deps): bump twig/intl-extra from 3.24.0 to 3.26.0 [`#2374`](https://github.com/Cecilapp/Cecil/pull/2374)
+- chore(deps): bump twig/twig from 3.25.0 to 3.26.0 [`#2373`](https://github.com/Cecilapp/Cecil/pull/2373)
+- fix: Add bottom margin for images in page layout [`7e7741f`](https://github.com/Cecilapp/Cecil/commit/7e7741f4b5b1859a3c170dbd5aaedd636af90eb6)
+
 #### [8.94.1](https://github.com/Cecilapp/Cecil/compare/8.94.0...8.94.1)
 
 > 20 May 2026
