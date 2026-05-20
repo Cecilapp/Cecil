@@ -2,6 +2,12 @@
 
 All notable changes to this project will be documented in this file. Dates are displayed in UTC.
 
+#### [8.94.1](https://github.com/Cecilapp/Cecil/compare/8.94.0...8.94.1)
+
+> 20 May 2026
+
+- Constrain page content width to 700px [`58c2c3a`](https://github.com/Cecilapp/Cecil/commit/58c2c3a0a48c5b044ec1f0f5805183fa77784450)
+
 #### [8.94.0](https://github.com/Cecilapp/Cecil/compare/8.93.1...8.94.0)
 
 > 19 May 2026
