@@ -12,9 +12,14 @@
     {%- block head_css ~%}
     <style>{% apply minify_css ~%}
       {{- include('partials/pico.css.twig') }}
-      /* Custom styles */
-      body > header, body > main, body > footer {
+      /* Pico CSS overrides */
+      body > header,
+      body > main,
+      body > footer {
         max-width: 700px;
+      }
+      img {
+        margin-bottom: calc(var(--pico-spacing) / 2);
       }
       .site-title {
         --pico-font-weight: 700;
