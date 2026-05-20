@@ -346,13 +346,15 @@ EOF
     private function setUpServer(): void
     {
         try {
-            // copying router
+            // creates temporary server directory
+            Util\File::getFS()->mkdir(Util::joinFile($this->getPath(), Builder::TMP_DIR));
+            // copying router file to temporary server directory
             Util\File::getFS()->copy(
                 $this->rootPath . 'resources/server/router.php',
                 Util::joinFile($this->getPath(), Builder::TMP_DIR, 'router.php'),
                 true
             );
-            // copying livereload JS for watcher
+            // copying livereload JS (for watcher) to temporary server directory
             $livereloadJs = Util::joinFile($this->getPath(), Builder::TMP_DIR, 'livereload.js');
             if (is_file($livereloadJs)) {
                 Util\File::getFS()->remove($livereloadJs);
@@ -365,7 +367,7 @@ EOF
                 );
             }
         } catch (IOExceptionInterface $e) {
-            throw new RuntimeException(\sprintf('An error occurred while copying server\'s files to "%s".', $e->getPath()));
+            throw new RuntimeException(\sprintf('An error occurred while copying server\'s files: "%s".', $e->getMessage()));
         }
         if (!is_file(Util::joinFile($this->getPath(), Builder::TMP_DIR, 'router.php'))) {
             throw new RuntimeException(\sprintf('Router not found: "%s".', Util::joinFile(Builder::TMP_DIR, 'router.php')));
