@@ -2,6 +2,12 @@
 
 All notable changes to this project will be documented in this file. Dates are displayed in UTC.
 
+#### [8.94.3](https://github.com/Cecilapp/Cecil/compare/8.94.2...8.94.3)
+
+> 21 May 2026
+
+- fix: Create tmp server dir and improve error msg [`8c7ed11`](https://github.com/Cecilapp/Cecil/commit/8c7ed119ffbad61a2d02849fcf86f5840fac82d4)
+
 #### [8.94.2](https://github.com/Cecilapp/Cecil/compare/8.94.1...8.94.2)
 
 > 20 May 2026
