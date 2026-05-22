@@ -9,6 +9,7 @@
     {%- endblock head_metatags ~%}
     <meta name="theme-color" media="(prefers-color-scheme: light)" content="white">
     <meta name="theme-color" media="(prefers-color-scheme: dark)" content="black">
+    {%- endblock head ~%}
     {%- block head_css ~%}
     <style>{% apply minify_css ~%}
       {{- include('partials/pico.css.twig') }}
@@ -90,7 +91,6 @@
       }
     {% endapply %}</style>
     {%- endblock head_css ~%}
-    {%- endblock head ~%}
   </head>
   <body>
     <header>
