@@ -97,10 +97,11 @@ EOF
                 'description' => $description
             ]);
             $configYaml = Yaml::dump($config, 2, 2);
-            Util\File::getFS()->dumpFile(Util::joinPath($this->getPath(), $this->locateConfigFile($this->getPath())['name'] ?: self::CONFIG_FILE[0]), $configYaml);
             // create path dir
             Util\File::getFS()->mkdir($this->getPath(false));
-            // creates sub dir
+            // create config file
+            Util\File::getFS()->dumpFile(Util::joinPath($this->getPath(), $this->locateConfigFile($this->getPath())['name'] ?: self::CONFIG_FILE[0]), $configYaml);
+            // create sub dir
             foreach (
                 [
                     (string) $this->getBuilder()->getConfig()->get('assets.dir'),
@@ -123,6 +124,7 @@ EOF
                     Util::joinPath($this->rootPath, 'resources/skeleton', $value),
                     Util::joinPath($this->getPath(), $value)
                 );
+                Util\File::getFS()->chmod(Util::joinPath($this->getPath(), $value), 0777 & ~umask()); // make it writable for demo content
             }
             // demo: copy all files
             if ($demo) {
