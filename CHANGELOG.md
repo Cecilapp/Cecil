@@ -2,6 +2,15 @@
 
 All notable changes to this project will be documented in this file. Dates are displayed in UTC.
 
+#### [8.94.4](https://github.com/Cecilapp/Cecil/compare/8.94.3...8.94.4)
+
+> 23 May 2026
+
+- Add VSCode tasks for common composer commands [`7f7281b`](https://github.com/Cecilapp/Cecil/commit/7f7281bcef86904c200dda76ca37d379bdc0eb92)
+- refactor: Reorder and update .gitignore entries [`db1a177`](https://github.com/Cecilapp/Cecil/commit/db1a1772cf7be881ee3e2ced129d1a9a2c742de4)
+- Fix misplaced endblock for head in page template [`f604dcc`](https://github.com/Cecilapp/Cecil/commit/f604dccba73e83af1d2639fa6ac3a7f6cab4118f)
+- Move SKILL.md to skills/cecil [`31c1e5f`](https://github.com/Cecilapp/Cecil/commit/31c1e5fd2eb5f716d10920fb5c4202f06b7bebbb)
+
 #### [8.94.3](https://github.com/Cecilapp/Cecil/compare/8.94.2...8.94.3)
 
 > 21 May 2026
