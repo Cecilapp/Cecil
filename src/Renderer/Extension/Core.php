@@ -731,91 +731,29 @@ class Core extends AbstractExtension
     private function buildDarkSourceHtml(Asset $asset, array $formats, mixed $responsive, array $attributes): string
     {
         $darkSuffix = (string) $this->config->get('layouts.images.dark_suffix');
-        if (empty($darkSuffix)) {
-            return '';
+        $sizes = null;
+        if ($responsive === true || $responsive === 'width') {
+            $sizes = Image::getHtmlSizes($attributes['class'] ?? '', $this->config->getAssetsImagesSizes());
         }
-        $pathInfo = pathinfo($asset['path']);
-        $dirname = $pathInfo['dirname'] === '.' ? '' : rtrim($pathInfo['dirname'], '/');
-        $extension = empty($pathInfo['extension']) ? '' : '.' . $pathInfo['extension'];
-        $darkAssetPath = ($dirname !== '' ? $dirname . '/' : '') . $pathInfo['filename'] . $darkSuffix . $extension;
-        $assetDark = new Asset($this->builder, $darkAssetPath, ['ignore_missing' => true]);
-        if ($assetDark->isMissing()) {
-            $this->builder->getLogger()->debug(\sprintf(
-                'Dark variant "%s" not found for image "%s".',
-                $darkAssetPath,
-                $asset['path']
-            ));
-
+        $darkSourceAttributes = Image::buildDarkSourceAttributes(
+            $this->builder,
+            $asset,
+            $darkSuffix,
+            $formats,
+            [
+                'responsive' => $responsive,
+                'widths' => $this->config->getAssetsImagesWidths(),
+                'densities' => $this->config->getAssetsImagesDensities(),
+                'sizes' => $sizes,
+                'width1x' => isset($attributes['width']) && $attributes['width'] > 0 ? (int) $attributes['width'] : null,
+            ]
+        );
+        if (empty($darkSourceAttributes)) {
             return '';
         }
         $darkSource = '';
-        foreach ($formats as $format) {
-            try {
-                $assetDarkConverted = $assetDark->convert($format);
-                if ($responsive === true || $responsive == 'width') {
-                    $darkSrcset = Image::buildHtmlSrcsetW($assetDarkConverted, $this->config->getAssetsImagesWidths());
-                    if (empty($darkSrcset)) {
-                        $darkSource .= \sprintf(
-                            "\n  <source media=\"(prefers-color-scheme: dark)\" type=\"image/%s\" srcset=\"%s\">",
-                            $format,
-                            (string) $assetDarkConverted
-                        );
-                        continue;
-                    }
-                    $darkSource .= \sprintf(
-                        "\n  <source media=\"(prefers-color-scheme: dark)\" type=\"image/%s\" srcset=\"%s\" sizes=\"%s\">",
-                        $format,
-                        $darkSrcset,
-                        Image::getHtmlSizes($attributes['class'] ?? '', $this->config->getAssetsImagesSizes())
-                    );
-                    continue;
-                }
-                if ($responsive == 'density') {
-                    $width1x = isset($attributes['width']) && $attributes['width'] > 0 ? (int) $attributes['width'] : $assetDark['width'];
-                    $darkSrcset = Image::buildHtmlSrcsetX($assetDarkConverted, $width1x, $this->config->getAssetsImagesDensities());
-                    $darkSource .= \sprintf(
-                        "\n  <source media=\"(prefers-color-scheme: dark)\" type=\"image/%s\" srcset=\"%s\">",
-                        $format,
-                        empty($darkSrcset) ? (string) $assetDarkConverted : $darkSrcset
-                    );
-                    continue;
-                }
-                $darkSource .= \sprintf(
-                    "\n  <source media=\"(prefers-color-scheme: dark)\" type=\"image/%s\" srcset=\"%s\">",
-                    $format,
-                    (string) $assetDarkConverted
-                );
-            } catch (\Exception $e) {
-                $this->builder->getLogger()->warning($e->getMessage());
-            }
-        }
-        if ($responsive === true || $responsive == 'width') {
-            try {
-                $darkFallbackSrcset = Image::buildHtmlSrcsetW($assetDark, $this->config->getAssetsImagesWidths());
-                if (!empty($darkFallbackSrcset)) {
-                    $darkSource .= \sprintf(
-                        "\n  <source media=\"(prefers-color-scheme: dark)\" srcset=\"%s\" sizes=\"%s\">",
-                        $darkFallbackSrcset,
-                        Image::getHtmlSizes($attributes['class'] ?? '', $this->config->getAssetsImagesSizes())
-                    );
-                } else {
-                    $darkSource .= \sprintf(
-                        "\n  <source media=\"(prefers-color-scheme: dark)\" srcset=\"%s\">",
-                        (string) $assetDark
-                    );
-                }
-            } catch (\Exception $e) {
-                $this->builder->getLogger()->warning($e->getMessage());
-                $darkSource .= \sprintf(
-                    "\n  <source media=\"(prefers-color-scheme: dark)\" srcset=\"%s\">",
-                    (string) $assetDark
-                );
-            }
-        } else {
-            $darkSource .= \sprintf(
-                "\n  <source media=\"(prefers-color-scheme: dark)\" srcset=\"%s\">",
-                (string) $assetDark
-            );
+        foreach ($darkSourceAttributes as $sourceAttributes) {
+            $darkSource .= \sprintf("\n  <source%s>", self::htmlAttributes($sourceAttributes));
         }
 
         return $darkSource;
