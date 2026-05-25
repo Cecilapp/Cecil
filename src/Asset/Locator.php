@@ -118,10 +118,10 @@ class Locator
      */
     public static function buildPathFromUrl(string $url): string
     {
-        $host = \parse_url($url, PHP_URL_HOST);
-        $path = \is_string($path = \parse_url($url, PHP_URL_PATH)) && $path !== '/' ? $path : '-index.html';
-        $query = \parse_url($url, PHP_URL_QUERY);
-        $ext = \pathinfo($path, \PATHINFO_EXTENSION);
+        $host = parse_url($url, PHP_URL_HOST);
+        $path = \is_string($path = parse_url($url, PHP_URL_PATH)) && $path !== '/' ? $path : '-index.html';
+        $query = parse_url($url, PHP_URL_QUERY);
+        $ext = pathinfo($path, \PATHINFO_EXTENSION);
         // Google Fonts hack
         if (Util\Str::endsWith($path, '/css') || Util\Str::endsWith($path, '/css2')) {
             $ext = 'css';
@@ -135,7 +135,7 @@ class Locator
      */
     public static function sanitize(string $string): string
     {
-        return \str_replace(['<', '>', ':', '"', '\\', '|', '?', '*'], '_', $string);
+        return str_replace(['<', '>', ':', '"', '\\', '|', '?', '*'], '_', $string);
     }
 
     /**
@@ -169,13 +169,13 @@ class Locator
             return null;
         }
 
-        $pathInfo = \pathinfo($path);
+        $pathInfo = pathinfo($path);
         if (empty($pathInfo['extension']) || empty($pathInfo['filename'])) {
             return null;
         }
 
-        $filenameParts = \explode('.', $pathInfo['filename']);
-        if (\end($filenameParts) === $language) {
+        $filenameParts = explode('.', $pathInfo['filename']);
+        if (end($filenameParts) === $language) {
             return null;
         }
 

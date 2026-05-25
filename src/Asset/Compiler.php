@@ -71,20 +71,20 @@ class Compiler
             }
         }
         $scssPhp->setQuietDeps(true);
-        $scssPhp->setImportPaths(\array_unique($importDir));
+        $scssPhp->setImportPaths(array_unique($importDir));
 
         // adds source map
         if ($this->builder->isDebug() && $this->config->isEnabled('assets.compile.sourcemap')) {
             $importDir = [];
             $assetDir = (string) $this->config->get('assets.dir');
-            $assetDirPos = \strrpos($data['file'], DIRECTORY_SEPARATOR . $assetDir . DIRECTORY_SEPARATOR);
-            $fileRelPath = \substr($data['file'], $assetDirPos + 8);
+            $assetDirPos = strrpos($data['file'], DIRECTORY_SEPARATOR . $assetDir . DIRECTORY_SEPARATOR);
+            $fileRelPath = substr($data['file'], $assetDirPos + 8);
             $filePath = Util::joinFile($this->config->getOutputPath(), $fileRelPath);
             $importDir[] = \dirname($filePath);
             foreach ($scssDir as $dir) {
                 $importDir[] = Util::joinFile($this->config->getOutputPath(), $dir);
             }
-            $scssPhp->setImportPaths(\array_unique($importDir));
+            $scssPhp->setImportPaths(array_unique($importDir));
             $scssPhp->setSourceMap(ScssCompiler::SOURCE_MAP_INLINE);
             $scssPhp->setSourceMapOptions([
                 'sourceMapBasepath' => Util::joinPath($this->config->getOutputPath()),
@@ -94,27 +94,27 @@ class Compiler
 
         // defines output style
         $outputStyles = ['expanded', 'compressed'];
-        $outputStyle = \strtolower((string) $this->config->get('assets.compile.style'));
+        $outputStyle = strtolower((string) $this->config->get('assets.compile.style'));
         if (!\in_array($outputStyle, $outputStyles)) {
-            throw new ConfigException(\sprintf('"%s" value must be "%s".', 'assets.compile.style', \implode('" or "', $outputStyles)));
+            throw new ConfigException(\sprintf('"%s" value must be "%s".', 'assets.compile.style', implode('" or "', $outputStyles)));
         }
         $scssPhp->setOutputStyle($outputStyle === 'compressed' ? OutputStyle::COMPRESSED : OutputStyle::EXPANDED);
 
         // set variables
         $variables = $this->config->get('assets.compile.variables');
         if (!empty($variables)) {
-            $variables = \array_map('ScssPhp\ScssPhp\ValueConverter::parseValue', $variables);
+            $variables = array_map('ScssPhp\ScssPhp\ValueConverter::parseValue', $variables);
             $scssPhp->replaceVariables($variables);
         }
 
         // debug
         if ($this->builder->isDebug()) {
             $scssPhp->setQuietDeps(false);
-            $this->builder->getLogger()->debug(\sprintf("SCSS compiler imported paths:\n%s", Util\Str::arrayToList(\array_unique($importDir))));
+            $this->builder->getLogger()->debug(\sprintf("SCSS compiler imported paths:\n%s", Util\Str::arrayToList(array_unique($importDir))));
         }
 
         // update data
-        $data['path'] = \preg_replace('/sass|scss/m', 'css', $data['path']);
+        $data['path'] = preg_replace('/sass|scss/m', 'css', $data['path']);
         $data['ext'] = 'css';
         $data['type'] = 'text';
         $data['subtype'] = 'text/css';

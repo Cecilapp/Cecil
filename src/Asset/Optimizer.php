@@ -49,7 +49,7 @@ class Optimizer
     public function minify(array $data): array
     {
         // abort if already minified
-        if (\substr($data['path'], -8) === '.min.css' || \substr($data['path'], -7) === '.min.js') {
+        if (substr($data['path'], -8) === '.min.css' || substr($data['path'], -7) === '.min.js') {
             return $data;
         }
         // abort if not a CSS or JS file
@@ -86,11 +86,11 @@ class Optimizer
     public function optimizeImage(string $filepath, string $path, int $quality): int
     {
         $message = \sprintf('Asset not optimized: "%s"', $path);
-        $sizeBefore = \filesize($filepath);
+        $sizeBefore = filesize($filepath);
         ImageOptimizer::create($quality)->optimize($filepath);
-        $sizeAfter = \filesize($filepath);
+        $sizeAfter = filesize($filepath);
         if ($sizeAfter < $sizeBefore) {
-            $message = \sprintf('Asset optimized: "%s" (%s Ko -> %s Ko)', $path, \ceil($sizeBefore / 1000), \ceil($sizeAfter / 1000));
+            $message = \sprintf('Asset optimized: "%s" (%s Ko -> %s Ko)', $path, ceil($sizeBefore / 1000), ceil($sizeAfter / 1000));
         }
         $this->builder->getLogger()->debug($message);
 
