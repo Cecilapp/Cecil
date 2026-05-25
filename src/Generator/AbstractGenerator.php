@@ -14,7 +14,6 @@ declare(strict_types=1);
 namespace Cecil\Generator;
 
 use Cecil\BuildContextInterface;
-use Cecil\Builder;
 use Cecil\Collection\Page\Collection as PagesCollection;
 use Cecil\Util;
 
@@ -35,7 +34,7 @@ abstract class AbstractGenerator implements GeneratorInterface
     /**
      * {@inheritdoc}
      */
-    public function __construct(Builder $builder)
+    public function __construct(BuildContextInterface $builder)
     {
         $this->builder = $builder;
         $this->config = $builder->getConfig();
