@@ -70,7 +70,7 @@ class IntegrationTests extends \PHPUnit\Framework\TestCase
         self::assertStringContainsString('/images/cecil-logo.png', $htmlEn);
         self::assertStringContainsString('/images/cecil-logo.fr.png', $htmlFr);
         self::assertStringContainsString('media="(prefers-color-scheme: dark)"', $htmlImages);
-        self::assertStringContainsString('/images/cecil-logo.dark.png', $htmlImages);
+        self::assertStringNotContainsString('/images/cecil-logo.dark.png', $htmlImages);
     }
 
     /**

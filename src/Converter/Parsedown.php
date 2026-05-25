@@ -462,7 +462,8 @@ class Parsedown extends \ParsedownToc
         $darkSuffix = (string) $this->config->get('pages.body.images.dark_suffix');
         if (!empty($darkSuffix)) {
             $pathInfo = pathinfo($asset['path']);
-            $darkAssetPath = rtrim($pathInfo['dirname'], '/') . '/' . $pathInfo['filename'] . $darkSuffix . '.' . ($pathInfo['extension'] ?? '');
+            $darkAssetExtension = !empty($pathInfo['extension']) ? '.' . $pathInfo['extension'] : '';
+            $darkAssetPath = rtrim($pathInfo['dirname'], '/') . '/' . $pathInfo['filename'] . $darkSuffix . $darkAssetExtension;
             $assetDark = new Asset($this->builder, $darkAssetPath, ['ignore_missing' => true, 'language' => $this->language]);
             if ($assetDark->isMissing()) {
                 $this->builder->getLogger()->warning(\sprintf(
