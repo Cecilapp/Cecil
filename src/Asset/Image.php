@@ -288,9 +288,9 @@ class Image
         foreach ($formats as $format) {
             try {
                 $assetDarkConverted = $assetDark->convert($format);
-                if ($responsive === true || $responsive == 'width') {
+                if ($responsive === true || $responsive === 'width') {
                     $darkSrcset = !empty($widths) ? self::buildHtmlSrcsetW($assetDarkConverted, $widths) : '';
-                } elseif ($responsive == 'density') {
+                } elseif ($responsive === 'density') {
                     $darkSrcset = !empty($densities)
                         ? self::buildHtmlSrcsetX($assetDarkConverted, $width1x ?? $assetDark['width'], $densities)
                         : '';
@@ -311,7 +311,7 @@ class Image
             }
         }
         $darkFallbackSrcset = $fallbackAsUrl ? (string) new Url($builder, $assetDark) : (string) $assetDark;
-        if (($responsive === true || $responsive == 'width') && !empty($widths)) {
+        if (($responsive === true || $responsive === 'width') && !empty($widths)) {
             try {
                 $darkResponsiveSrcset = self::buildHtmlSrcsetW($assetDark, $widths);
                 if (!empty($darkResponsiveSrcset)) {

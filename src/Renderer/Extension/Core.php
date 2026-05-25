@@ -732,7 +732,7 @@ class Core extends AbstractExtension
     {
         $darkSuffix = (string) $this->config->get('layouts.images.dark_suffix');
         $sizes = null;
-        if ($responsive === true || $responsive == 'width') {
+        if ($responsive === true || $responsive === 'width') {
             $sizes = Image::getHtmlSizes($attributes['class'] ?? '', $this->config->getAssetsImagesSizes());
         }
         $darkSourceAttributes = Image::buildDarkSourceAttributes(
