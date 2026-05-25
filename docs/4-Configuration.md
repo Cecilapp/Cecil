@@ -580,6 +580,7 @@ pages:
       caption: false    # puts the image in a <figure> element and adds a <figcaption> containing the title (`false` by default)
       placeholder: ''   # fills the <img> background before loading ('color' or 'lqip', empty by default)
       class: ''         # sets a default class on each image (empty by default)
+      dark_suffix: ''   # suffix of the dark variant image (e.g. `.dark`), disabled by default
       remote:           # remote image handling (set to `false` to disable)
         fallback:         # path to the fallback image, stored in assets dir (empty by default)
 ```
@@ -594,6 +595,10 @@ Global options, like responsives images widths and sizes, are configurable in th
 
 :::info
 Remote images are downloaded and converted into _Assets_ to be manipulated. You can disable this behavior by setting the option `pages.body.images.remote.enabled` to `false`.
+:::
+
+:::tip
+When `dark_suffix` is set (e.g. `dark_suffix: .dark`), Cecil automatically looks for a dark variant of each image (e.g. `photo.dark.jpg` alongside `photo.jpg`). If found, the image is wrapped in a `<picture>` element with a `<source media="(prefers-color-scheme: dark)">` for automatic light/dark theme switching. Works in combination with `formats` and `responsive`.
 :::
 
 #### pages.body.links
@@ -1019,6 +1024,7 @@ layouts:
   images:
     formats: []       # used by `html` function: adds alternatives image formats as `source` (e.g. `[avif, webp]`, empty array by default)
     responsive: false # used by `html` function: adds responsive images ('width' or 'density', `false` by default)
+    dark_suffix: ''   # suffix of the dark variant image (e.g. `.dark`), disabled by default
 ```
 
 ### layouts.translations

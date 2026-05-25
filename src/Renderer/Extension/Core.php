@@ -620,7 +620,7 @@ class Core extends AbstractExtension
     public function htmlImage(array $context, Asset $asset, array $attributes = [], array $options = []): string
     {
         $responsive = $options['responsive'] ?? $this->config->get('layouts.images.responsive');
-
+        $source = '';
         // build responsive attributes
         try {
             if ($responsive === true || $responsive == 'width') {
@@ -645,10 +645,10 @@ class Core extends AbstractExtension
         }
 
         // create alternative formats (`<source>`)
+        $formats = [];
         try {
             $formats = $options['formats'] ?? (array) $this->config->get('layouts.images.formats');
             if (\count($formats) > 0) {
-                $source = '';
                 foreach ($formats as $format) {
                     try {
                         $assetConverted = $asset->convert($format);
@@ -697,9 +697,13 @@ class Core extends AbstractExtension
         }
         $img = \sprintf('<img src="%s"%s>', $this->url($context, $asset, $options), self::htmlAttributes($attributes));
 
+
+        // dark color-scheme variant: auto-detect `{filename}{suffix}.{ext}` alongside the source image
+        $darkSource = $this->buildDarkSourceHtml($asset, $formats, $responsive, $attributes);
+
         // put `<source>` elements in `<picture>` if exists
-        if (!empty($source)) {
-            return \sprintf("<picture>%s\n  %s\n</picture>", $source, $img);
+        if (!empty($darkSource) || !empty($source)) {
+            return \sprintf("<picture>%s%s\n  %s\n</picture>", $darkSource, $source, $img);
         }
 
         return $img;
@@ -715,6 +719,104 @@ class Core extends AbstractExtension
         }
 
         return \sprintf('<audio%s src="%s" type="%s"></audio>', self::htmlAttributes($attributes), $this->url($context, $asset, $options), $asset['subtype']);
+    }
+
+    /**
+     * Builds HTML dark "source" elements for the dark color-scheme variant of an image Asset.
+     *
+     * @param array $formats    Alternative formats (e.g. ['avif', 'webp'])
+     * @param mixed $responsive Responsive mode (true, 'width', 'density' or false)
+     * @param array $attributes Image attributes
+     */
+    private function buildDarkSourceHtml(Asset $asset, array $formats, mixed $responsive, array $attributes): string
+    {
+        $darkSuffix = (string) $this->config->get('layouts.images.dark_suffix');
+        if (empty($darkSuffix)) {
+            return '';
+        }
+        $pathInfo = pathinfo($asset['path']);
+        $darkAssetPath = rtrim($pathInfo['dirname'], '/') . '/' . $pathInfo['filename'] . $darkSuffix . '.' . ($pathInfo['extension'] ?? '');
+        $assetDark = new Asset($this->builder, $darkAssetPath, ['ignore_missing' => true]);
+        if ($assetDark->isMissing()) {
+            $this->builder->getLogger()->warning(\sprintf(
+                'Dark variant "%s" not found for image "%s".',
+                $darkAssetPath,
+                $asset['path']
+            ));
+
+            return '';
+        }
+        $darkSource = '';
+        foreach ($formats as $format) {
+            try {
+                $assetDarkConverted = $assetDark->convert($format);
+                if ($responsive === true || $responsive == 'width') {
+                    $darkSrcset = Image::buildHtmlSrcsetW($assetDarkConverted, $this->config->getAssetsImagesWidths());
+                    if (empty($darkSrcset)) {
+                        $darkSource .= \sprintf(
+                            "\n  <source media=\"(prefers-color-scheme: dark)\" type=\"image/%s\" srcset=\"%s\">",
+                            $format,
+                            (string) $assetDarkConverted
+                        );
+                        continue;
+                    }
+                    $darkSource .= \sprintf(
+                        "\n  <source media=\"(prefers-color-scheme: dark)\" type=\"image/%s\" srcset=\"%s\" sizes=\"%s\">",
+                        $format,
+                        $darkSrcset,
+                        Image::getHtmlSizes($attributes['class'] ?? '', $this->config->getAssetsImagesSizes())
+                    );
+                    continue;
+                }
+                if ($responsive == 'density') {
+                    $width1x = isset($attributes['width']) && $attributes['width'] > 0 ? (int) $attributes['width'] : $assetDark['width'];
+                    $darkSrcset = Image::buildHtmlSrcsetX($assetDarkConverted, $width1x, $this->config->getAssetsImagesDensities());
+                    $darkSource .= \sprintf(
+                        "\n  <source media=\"(prefers-color-scheme: dark)\" type=\"image/%s\" srcset=\"%s\">",
+                        $format,
+                        empty($darkSrcset) ? (string) $assetDarkConverted : $darkSrcset
+                    );
+                    continue;
+                }
+                $darkSource .= \sprintf(
+                    "\n  <source media=\"(prefers-color-scheme: dark)\" type=\"image/%s\" srcset=\"%s\">",
+                    $format,
+                    (string) $assetDarkConverted
+                );
+            } catch (\Exception $e) {
+                $this->builder->getLogger()->warning($e->getMessage());
+            }
+        }
+        if ($responsive === true || $responsive == 'width') {
+            try {
+                $darkFallbackSrcset = Image::buildHtmlSrcsetW($assetDark, $this->config->getAssetsImagesWidths());
+                if (!empty($darkFallbackSrcset)) {
+                    $darkSource .= \sprintf(
+                        "\n  <source media=\"(prefers-color-scheme: dark)\" srcset=\"%s\" sizes=\"%s\">",
+                        $darkFallbackSrcset,
+                        Image::getHtmlSizes($attributes['class'] ?? '', $this->config->getAssetsImagesSizes())
+                    );
+                } else {
+                    $darkSource .= \sprintf(
+                        "\n  <source media=\"(prefers-color-scheme: dark)\" srcset=\"%s\">",
+                        (string) $assetDark
+                    );
+                }
+            } catch (\Exception $e) {
+                $this->builder->getLogger()->warning($e->getMessage());
+                $darkSource .= \sprintf(
+                    "\n  <source media=\"(prefers-color-scheme: dark)\" srcset=\"%s\">",
+                    (string) $assetDark
+                );
+            }
+        } else {
+            $darkSource .= \sprintf(
+                "\n  <source media=\"(prefers-color-scheme: dark)\" srcset=\"%s\">",
+                (string) $assetDark
+            );
+        }
+
+        return $darkSource;
     }
 
     /**

@@ -458,6 +458,90 @@ class Parsedown extends \ParsedownToc
             }
         }
 
+        // dark color-scheme variant: auto-detect `{filename}{suffix}.{ext}` alongside the source image
+        $darkSuffix = (string) $this->config->get('pages.body.images.dark_suffix');
+        if (!empty($darkSuffix)) {
+            $pathInfo = pathinfo($asset['path']);
+            $darkAssetPath = rtrim($pathInfo['dirname'], '/') . '/' . $pathInfo['filename'] . $darkSuffix . '.' . ($pathInfo['extension'] ?? '');
+            $assetDark = new Asset($this->builder, $darkAssetPath, ['ignore_missing' => true, 'language' => $this->language]);
+            if ($assetDark->isMissing()) {
+                $this->builder->getLogger()->warning(\sprintf(
+                    'Dark variant "%s" not found for image "%s".',
+                    $darkAssetPath,
+                    $asset['path']
+                ));
+            } else {
+                $darkSources = [];
+                // dark format sources (avif, webp, etc.) — prepended before the dark fallback
+                if (
+                    \count($formats) > 0
+                    && \in_array($assetDark['subtype'], ['image/jpeg', 'image/png', 'image/gif'])
+                    && !Image::isAnimatedGif($assetDark)
+                ) {
+                    foreach ($formats as $format) {
+                        try {
+                            $assetDarkConverted = $assetDark->convert($format);
+                            $darkFormatSrcset = '';
+                            if ($this->config->isEnabled('pages.body.images.responsive')) {
+                                $darkFormatSrcset = Image::buildHtmlSrcsetW($assetDarkConverted, $this->config->getAssetsImagesWidths());
+                            }
+                            if (empty($darkFormatSrcset)) {
+                                $darkFormatSrcset = (string) $assetDarkConverted;
+                            }
+                            $darkFormatSourceAttrs = [
+                                'media'  => '(prefers-color-scheme: dark)',
+                                'type'   => "image/$format",
+                                'srcset' => $darkFormatSrcset,
+                            ];
+                            if (!empty($sizes)) {
+                                $darkFormatSourceAttrs['sizes'] = $sizes;
+                            }
+                            $darkSources[] = ['name' => 'source', 'attributes' => $darkFormatSourceAttrs];
+                        } catch (\Exception $e) {
+                            $this->builder->getLogger()->warning($e->getMessage());
+                        }
+                    }
+                }
+                // dark fallback source
+                $darkFallbackSrcset = (string) new Url($this->builder, $assetDark);
+                if ($this->config->isEnabled('pages.body.images.responsive')) {
+                    try {
+                        $darkResponsiveSrcset = Image::buildHtmlSrcsetW($assetDark, $this->config->getAssetsImagesWidths());
+                        if (!empty($darkResponsiveSrcset)) {
+                            $darkFallbackSrcset = $darkResponsiveSrcset;
+                        }
+                    } catch (\Exception $e) {
+                        $this->builder->getLogger()->warning($e->getMessage());
+                    }
+                }
+                $darkFallbackSourceAttrs = ['media' => '(prefers-color-scheme: dark)', 'srcset' => $darkFallbackSrcset];
+                if (!empty($sizes)) {
+                    $darkFallbackSourceAttrs['sizes'] = $sizes;
+                }
+                $darkSources[] = ['name' => 'source', 'attributes' => $darkFallbackSourceAttrs];
+                // prepend dark sources to existing <picture>, or wrap <img> in a new <picture>
+                if ($image['element']['name'] === 'picture') {
+                    array_splice($image['element']['text'], 0, 0, $darkSources);
+                } else {
+                    $imageTitle = $image['element']['attributes']['title'] ?? null;
+                    unset($image['element']['attributes']['title']);
+                    $picture = [
+                        'extent'  => $image['extent'],
+                        'element' => [
+                            'name'       => 'picture',
+                            'handler'    => 'elements',
+                            'attributes' => [],
+                            'text'       => array_merge($darkSources, [$image['element']]),
+                        ],
+                    ];
+                    if ($imageTitle !== null) {
+                        $picture['element']['attributes']['title'] = $imageTitle;
+                    }
+                    $image = $picture;
+                }
+            }
+        }
+
         return $this->createFigure($image);
     }
 

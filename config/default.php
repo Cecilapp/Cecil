@@ -102,6 +102,7 @@ return [
                 'caption' => false, // puts the image in a <figure> element and adds a <figcaption> containing the title
                 'placeholder' => '', // fill <img> background before loading (`color` or `lqip`)
                 'class' => '', // puts default CSS class(es) to each image
+                'dark_suffix' => null, // suffix of the dark variant image file (e.g.: `.dark`), null to disable
                 'remote' => [ // turns remote images into Assets to process them (disable with `false`)
                     'fallback' => '', // path to the fallback image, stored in assets directory (empty by default)
                 ],
@@ -180,6 +181,7 @@ return [
         'images' => [ // how to handle images in templates
             'formats' => [], // used by `html` function: adds alternatives image formats as `source` (e.g.: ['avif', 'webp'])
             'responsive' => false, // used by `html` function: adds responsive images ('width' or 'density') to `srcset` attribute
+            'dark_suffix' => null, // suffix of the dark variant image file (e.g.: `.dark`), null to disable
         ],
         'translations' => [ // i18n
             'dir' => 'translations', // translations files directory
