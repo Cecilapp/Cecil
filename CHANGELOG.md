@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. Dates are displayed in UTC.
 
+#### [8.95.0](https://github.com/Cecilapp/Cecil/compare/8.94.5...8.95.0)
+
+> 25 May 2026
+
+- feat: add dark-mode image variant support [`#2377`](https://github.com/Cecilapp/Cecil/pull/2377)
+- Use flex layout for nav and allow wrapping [`757f0db`](https://github.com/Cecilapp/Cecil/commit/757f0db86a330af0e84e0d83ce5c1db19495a004)
+
 #### [8.94.5](https://github.com/Cecilapp/Cecil/compare/8.94.4...8.94.5)
 
 > 25 May 2026
