@@ -165,6 +165,7 @@ jobs:
         if: ${{ contains(matrix.type, '') || contains(matrix.type, 'experimental') }}
         run: |
           composer run-script test
+          composer run-script test:unit
 
       - name: Run CLI test build
         if: ${{ contains(matrix.type, '') }}
