@@ -739,7 +739,7 @@ class Core extends AbstractExtension
         $darkAssetPath = rtrim($pathInfo['dirname'], '/') . '/' . $pathInfo['filename'] . $darkSuffix . $extension;
         $assetDark = new Asset($this->builder, $darkAssetPath, ['ignore_missing' => true]);
         if ($assetDark->isMissing()) {
-            $this->builder->getLogger()->warning(\sprintf(
+            $this->builder->getLogger()->debug(\sprintf(
                 'Dark variant "%s" not found for image "%s".',
                 $darkAssetPath,
                 $asset['path']
