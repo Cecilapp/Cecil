@@ -354,6 +354,7 @@ EOF
                 Util::joinFile($this->getPath(), Builder::TMP_DIR, 'router.php'),
                 true
             );
+            Util\File::getFS()->chmod(Util::joinFile($this->getPath(), Builder::TMP_DIR, 'router.php'), 0777 & ~umask());
             // copying livereload JS (for watcher) to temporary server directory
             $livereloadJs = Util::joinFile($this->getPath(), Builder::TMP_DIR, 'livereload.js');
             if (is_file($livereloadJs)) {
@@ -366,6 +367,7 @@ EOF
                     true
                 );
             }
+            Util\File::getFS()->chmod(Util::joinFile($this->getPath(), Builder::TMP_DIR, 'livereload.js'), 0777 & ~umask());
         } catch (IOExceptionInterface $e) {
             throw new RuntimeException(\sprintf('An error occurred while copying server\'s files: "%s".', $e->getMessage()));
         }
