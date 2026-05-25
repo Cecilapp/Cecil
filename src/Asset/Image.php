@@ -14,7 +14,9 @@ declare(strict_types=1);
 namespace Cecil\Asset;
 
 use Cecil\Asset;
+use Cecil\Builder;
 use Cecil\Exception\RuntimeException;
+use Cecil\Url;
 use Intervention\Image\Drivers\Gd\Driver as GdDriver;
 use Intervention\Image\Drivers\Imagick\Driver as ImagickDriver;
 use Intervention\Image\Drivers\Vips\Driver as VipsDriver;
@@ -232,6 +234,103 @@ class Image
         } catch (\Exception $e) {
             throw new RuntimeException(\sprintf('Unable to create LQIP of "%s": %s.', $asset['path'], $e->getMessage()));
         }
+    }
+
+    /**
+     * Builds the asset path for a dark color-scheme image variant.
+     */
+    public static function buildDarkAssetPath(string $assetPath, string $darkSuffix): string
+    {
+        $pathInfo = pathinfo($assetPath);
+        $extension = empty($pathInfo['extension']) ? '' : '.' . $pathInfo['extension'];
+
+        return rtrim($pathInfo['dirname'], '/') . '/' . $pathInfo['filename'] . $darkSuffix . $extension;
+    }
+
+    /**
+     * Builds dark color-scheme source attributes for an image.
+     *
+     * @param array<string> $formats
+     * @param array<int>    $widths
+     * @param array<float>  $densities
+     * @param array<mixed>  $assetOptions
+     *
+     * @return array<array<string, string>>
+     */
+    public static function buildDarkSourceAttributes(
+        Builder $builder,
+        Asset $asset,
+        string $darkSuffix,
+        array $formats,
+        mixed $responsive,
+        array $widths = [],
+        array $densities = [],
+        ?string $sizes = null,
+        ?int $width1x = null,
+        array $assetOptions = [],
+        bool $fallbackAsUrl = false
+    ): array {
+        if (empty($darkSuffix)) {
+            return [];
+        }
+        $darkAssetPath = self::buildDarkAssetPath($asset['path'], $darkSuffix);
+        $assetDark = new Asset($builder, $darkAssetPath, array_merge(['ignore_missing' => true], $assetOptions));
+        if ($assetDark->isMissing()) {
+            $builder->getLogger()->warning(\sprintf(
+                'Dark variant "%s" not found for image "%s".',
+                $darkAssetPath,
+                $asset['path']
+            ));
+
+            return [];
+        }
+        $darkSources = [];
+        foreach ($formats as $format) {
+            try {
+                $assetDarkConverted = $assetDark->convert($format);
+                if ($responsive === true || $responsive == 'width') {
+                    $darkSrcset = !empty($widths) ? self::buildHtmlSrcsetW($assetDarkConverted, $widths) : '';
+                } elseif ($responsive == 'density') {
+                    $darkSrcset = !empty($densities)
+                        ? self::buildHtmlSrcsetX($assetDarkConverted, $width1x ?? $assetDark['width'], $densities)
+                        : '';
+                } else {
+                    $darkSrcset = '';
+                }
+                $darkSourceAttributes = [
+                    'media'  => '(prefers-color-scheme: dark)',
+                    'type'   => "image/$format",
+                    'srcset' => empty($darkSrcset) ? (string) $assetDarkConverted : $darkSrcset,
+                ];
+                if (!empty($sizes)) {
+                    $darkSourceAttributes['sizes'] = $sizes;
+                }
+                $darkSources[] = $darkSourceAttributes;
+            } catch (\Exception $e) {
+                $builder->getLogger()->warning($e->getMessage());
+            }
+        }
+        $darkFallbackSrcset = $fallbackAsUrl ? (string) new Url($builder, $assetDark) : (string) $assetDark;
+        if (($responsive === true || $responsive == 'width') && !empty($widths)) {
+            try {
+                $darkResponsiveSrcset = self::buildHtmlSrcsetW($assetDark, $widths);
+                if (!empty($darkResponsiveSrcset)) {
+                    $darkFallbackSrcset = $darkResponsiveSrcset;
+                }
+            } catch (\Exception $e) {
+                $builder->getLogger()->warning($e->getMessage());
+            }
+        }
+        $darkFallbackSourceAttributes = [
+            'media'  => '(prefers-color-scheme: dark)',
+            'srcset' => $darkFallbackSrcset,
+        ];
+        if (!empty($sizes)) {
+            $darkFallbackSourceAttributes['sizes'] = $sizes;
+        }
+        $darkSources[] = $darkFallbackSourceAttributes;
+
+        return $darkSources;
     }
 
     /**
