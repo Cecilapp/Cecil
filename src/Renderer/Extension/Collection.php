@@ -98,7 +98,7 @@ class Collection extends AbstractExtension
                 $a['weight'] = 0;
             }
             if (!isset($b['weight'])) {
-                $a['weight'] = 0;
+                $b['weight'] = 0;
             }
             if ($a['weight'] == $b['weight']) {
                 return 0;
