@@ -145,21 +145,15 @@
                                 <section>
                                         <ul class="phpdocumentor-breadcrumbs">
             <li class="phpdocumentor-breadcrumb"><a href="namespaces/cecil.html">Cecil</a></li>
-            <li class="phpdocumentor-breadcrumb"><a href="namespaces/cecil-generator.html">Generator</a></li>
+            <li class="phpdocumentor-breadcrumb"><a href="namespaces/cecil-asset.html">Asset</a></li>
     </ul>
 
     <article class="phpdocumentor-element -class">
         <h2 class="phpdocumentor-content__title">
-    Redirect
+    Compiler
 
-        <span class="phpdocumentor-element__extends">
-        extends <a href="classes/Cecil-Generator-AbstractGenerator.html"><abbr title="\Cecil\Generator\AbstractGenerator">AbstractGenerator</abbr></a>
-    </span>
     
     
-            <span class="phpdocumentor-element__implements">
-            implements
-                            <a href="classes/Cecil-Generator-GeneratorInterface.html"><abbr title="\Cecil\Generator\GeneratorInterface">GeneratorInterface</abbr></a>                    </span>
     
     </h2>
 
@@ -169,21 +163,15 @@
 </div>
 
         <aside class="phpdocumentor-element-found-in">
-    <abbr class="phpdocumentor-element-found-in__file" title="src/Generator/Redirect.php"><a href="files/src-generator-redirect.html"><abbr title="src/Generator/Redirect.php">Redirect.php</abbr></a></abbr>
+    <abbr class="phpdocumentor-element-found-in__file" title="src/Asset/Compiler.php"><a href="files/src-asset-compiler.html"><abbr title="src/Asset/Compiler.php">Compiler.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">27</span>
+    <span class="phpdocumentor-element-found-in__line">26</span>
 
     </aside>
 
-            <p class="phpdocumentor-summary">Redirect generator class.</p>
+            <p class="phpdocumentor-summary">Compiles SCSS assets to CSS.</p>
 
 
-    <section class="phpdocumentor-description"><p>This class is responsible for generating redirect pages based on the
-'redirect' variable set in the pages. It filters the pages to find those
-that have a 'redirect' variable defined and creates a new page with the
-'layout' set to 'redirect'. The generated pages are then added to the
-collection of generated pages.</p>
-</section>
 
 
 
@@ -191,19 +179,12 @@ collection of generated pages.</p>
     
 <h3 id="toc">
     Table of Contents
-    <a href="classes/Cecil-Generator-Redirect.html#toc" class="headerlink"><i class="fas fa-link"></i></a>
+    <a href="classes/Cecil-Asset-Compiler.html#toc" class="headerlink"><i class="fas fa-link"></i></a>
 
 </h3>
 
 
 
-    <h4 id="toc-interfaces">
-        Interfaces
-        <a href="classes/Cecil-Generator-Redirect.html#toc-interfaces" class="headerlink"><i class="fas fa-link"></i></a>
-
-    </h4>
-    <dl class="phpdocumentor-table-of-contents">
-                    <dt class="phpdocumentor-table-of-contents__entry -interface"><a href="classes/Cecil-Generator-GeneratorInterface.html"><abbr title="\Cecil\Generator\GeneratorInterface">GeneratorInterface</abbr></a></dt><dd>Generator interface.</dd>    </dl>
 
 
 
@@ -212,56 +193,42 @@ collection of generated pages.</p>
 
 <h4 id="toc-properties">
     Properties
-    <a href="classes/Cecil-Generator-Redirect.html#toc-properties" class="headerlink"><i class="fas fa-link"></i></a>
+    <a href="classes/Cecil-Asset-Compiler.html#toc-properties" class="headerlink"><i class="fas fa-link"></i></a>
 
 </h4>
 <dl class="phpdocumentor-table-of-contents">
             <dt class="phpdocumentor-table-of-contents__entry -property -protected">
-    <a class="" href="classes/Cecil-Generator-AbstractGenerator.html#property_builder">$builder</a>
+    <a class="" href="classes/Cecil-Asset-Compiler.html#property_builder">$builder</a>
     <span>
-                        &nbsp;: <a href="classes/Cecil-BuildContextInterface.html"><abbr title="\Cecil\BuildContextInterface">BuildContextInterface</abbr></a>            </span>
+                        &nbsp;: <a href="classes/Cecil-Builder.html"><abbr title="\Cecil\Builder">Builder</abbr></a>            </span>
 </dt>
 
             <dt class="phpdocumentor-table-of-contents__entry -property -protected">
-    <a class="" href="classes/Cecil-Generator-AbstractGenerator.html#property_config">$config</a>
+    <a class="" href="classes/Cecil-Asset-Compiler.html#property_config">$config</a>
     <span>
                         &nbsp;: <a href="classes/Cecil-Config.html"><abbr title="\Cecil\Config">Config</abbr></a>            </span>
-</dt>
-
-            <dt class="phpdocumentor-table-of-contents__entry -property -protected">
-    <a class="" href="classes/Cecil-Generator-AbstractGenerator.html#property_generatedPages">$generatedPages</a>
-    <span>
-                        &nbsp;: <a href="classes/Cecil-Collection-Page-Collection.html"><abbr title="\Cecil\Collection\Page\Collection">Collection</abbr></a>            </span>
 </dt>
 
     </dl>
 
 <h4 id="toc-methods">
     Methods
-    <a href="classes/Cecil-Generator-Redirect.html#toc-methods" class="headerlink"><i class="fas fa-link"></i></a>
+    <a href="classes/Cecil-Asset-Compiler.html#toc-methods" class="headerlink"><i class="fas fa-link"></i></a>
 
 </h4>
 <dl class="phpdocumentor-table-of-contents">
             <dt class="phpdocumentor-table-of-contents__entry -method -public">
-    <a class="" href="classes/Cecil-Generator-AbstractGenerator.html#method___construct">__construct()</a>
+    <a class="" href="classes/Cecil-Asset-Compiler.html#method___construct">__construct()</a>
     <span>
                                 &nbsp;: mixed    </span>
 </dt>
-<dd>Gives the Builder to the object.</dd>
 
             <dt class="phpdocumentor-table-of-contents__entry -method -public">
-    <a class="" href="classes/Cecil-Generator-Redirect.html#method_generate">generate()</a>
+    <a class="" href="classes/Cecil-Asset-Compiler.html#method_compile">compile()</a>
     <span>
-                                &nbsp;: void    </span>
+                                &nbsp;: array&lt;string|int, mixed&gt;    </span>
 </dt>
-<dd>Creates pages and adds it to collection.</dd>
-
-            <dt class="phpdocumentor-table-of-contents__entry -method -public">
-    <a class="" href="classes/Cecil-Generator-AbstractGenerator.html#method_runGenerate">runGenerate()</a>
-    <span>
-                                &nbsp;: <a href="classes/Cecil-Collection-Page-Collection.html"><abbr title="\Cecil\Collection\Page\Collection">Collection</abbr></a>    </span>
-</dt>
-<dd>Run the `generate` method of the generator and returns pages.</dd>
+<dd>Compiles SCSS to CSS.</dd>
 
     </dl>
 
@@ -273,7 +240,7 @@ collection of generated pages.</p>
     <section class="phpdocumentor-properties">
         <h3 class="phpdocumentor-elements__header" id="properties">
             Properties
-            <a href="classes/Cecil-Generator-Redirect.html#properties" class="headerlink"><i class="fas fa-link"></i></a>
+            <a href="classes/Cecil-Asset-Compiler.html#properties" class="headerlink"><i class="fas fa-link"></i></a>
 
         </h3>
                     <article
@@ -285,15 +252,15 @@ collection of generated pages.</p>
 >
     <h4 class="phpdocumentor-element__name" id="property_builder">
         $builder
-        <a href="classes/Cecil-Generator-AbstractGenerator.html#property_builder" class="headerlink"><i class="fas fa-link"></i></a>
+        <a href="classes/Cecil-Asset-Compiler.html#property_builder" class="headerlink"><i class="fas fa-link"></i></a>
 
         <span class="phpdocumentor-element__modifiers">
                                             </span>
     </h4>
     <aside class="phpdocumentor-element-found-in">
-    <abbr class="phpdocumentor-element-found-in__file" title="src/Generator/AbstractGenerator.php"><a href="files/src-generator-abstractgenerator.html"><abbr title="src/Generator/AbstractGenerator.php">AbstractGenerator.php</abbr></a></abbr>
+    <abbr class="phpdocumentor-element-found-in__file" title="src/Asset/Compiler.php"><a href="files/src-asset-compiler.html"><abbr title="src/Asset/Compiler.php">Compiler.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">26</span>
+    <span class="phpdocumentor-element-found-in__line">29</span>
 
     </aside>
 
@@ -301,7 +268,7 @@ collection of generated pages.</p>
     
     <code class="phpdocumentor-code phpdocumentor-signature ">
         <span class="phpdocumentor-signature__visibility">protected</span>
-            <span class="phpdocumentor-signature__type"><a href="classes/Cecil-BuildContextInterface.html"><abbr title="\Cecil\BuildContextInterface">BuildContextInterface</abbr></a></span>
+            <span class="phpdocumentor-signature__type"><a href="classes/Cecil-Builder.html"><abbr title="\Cecil\Builder">Builder</abbr></a></span>
     <span class="phpdocumentor-signature__name">$builder</span>
     </code>
 
@@ -322,15 +289,15 @@ collection of generated pages.</p>
 >
     <h4 class="phpdocumentor-element__name" id="property_config">
         $config
-        <a href="classes/Cecil-Generator-AbstractGenerator.html#property_config" class="headerlink"><i class="fas fa-link"></i></a>
+        <a href="classes/Cecil-Asset-Compiler.html#property_config" class="headerlink"><i class="fas fa-link"></i></a>
 
         <span class="phpdocumentor-element__modifiers">
                                             </span>
     </h4>
     <aside class="phpdocumentor-element-found-in">
-    <abbr class="phpdocumentor-element-found-in__file" title="src/Generator/AbstractGenerator.php"><a href="files/src-generator-abstractgenerator.html"><abbr title="src/Generator/AbstractGenerator.php">AbstractGenerator.php</abbr></a></abbr>
+    <abbr class="phpdocumentor-element-found-in__file" title="src/Asset/Compiler.php"><a href="files/src-asset-compiler.html"><abbr title="src/Asset/Compiler.php">Compiler.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">29</span>
+    <span class="phpdocumentor-element-found-in__line">32</span>
 
     </aside>
 
@@ -350,49 +317,12 @@ collection of generated pages.</p>
         
 
 </article>
-                    <article
-        class="
-            phpdocumentor-element
-            -property
-            -protected
-                                                                    "
->
-    <h4 class="phpdocumentor-element__name" id="property_generatedPages">
-        $generatedPages
-        <a href="classes/Cecil-Generator-AbstractGenerator.html#property_generatedPages" class="headerlink"><i class="fas fa-link"></i></a>
-
-        <span class="phpdocumentor-element__modifiers">
-                                            </span>
-    </h4>
-    <aside class="phpdocumentor-element-found-in">
-    <abbr class="phpdocumentor-element-found-in__file" title="src/Generator/AbstractGenerator.php"><a href="files/src-generator-abstractgenerator.html"><abbr title="src/Generator/AbstractGenerator.php">AbstractGenerator.php</abbr></a></abbr>
-    :
-    <span class="phpdocumentor-element-found-in__line">32</span>
-
-    </aside>
-
-    
-    
-    <code class="phpdocumentor-code phpdocumentor-signature ">
-        <span class="phpdocumentor-signature__visibility">protected</span>
-            <span class="phpdocumentor-signature__type"><a href="classes/Cecil-Collection-Page-Collection.html"><abbr title="\Cecil\Collection\Page\Collection">Collection</abbr></a></span>
-    <span class="phpdocumentor-signature__name">$generatedPages</span>
-    </code>
-
-    
-    
-    
-
-        
-        
-
-</article>
             </section>
 
             <section class="phpdocumentor-methods">
         <h3 class="phpdocumentor-elements__header" id="methods">
             Methods
-            <a href="classes/Cecil-Generator-Redirect.html#methods" class="headerlink"><i class="fas fa-link"></i></a>
+            <a href="classes/Cecil-Asset-Compiler.html#methods" class="headerlink"><i class="fas fa-link"></i></a>
 
         </h3>
                     <article
@@ -403,21 +333,20 @@ collection of generated pages.</p>
 >
     <h4 class="phpdocumentor-element__name" id="method___construct">
         __construct()
-        <a href="classes/Cecil-Generator-AbstractGenerator.html#method___construct" class="headerlink"><i class="fas fa-link"></i></a>
+        <a href="classes/Cecil-Asset-Compiler.html#method___construct" class="headerlink"><i class="fas fa-link"></i></a>
 
     </h4>
     <aside class="phpdocumentor-element-found-in">
-    <abbr class="phpdocumentor-element-found-in__file" title="src/Generator/AbstractGenerator.php"><a href="files/src-generator-abstractgenerator.html"><abbr title="src/Generator/AbstractGenerator.php">AbstractGenerator.php</abbr></a></abbr>
+    <abbr class="phpdocumentor-element-found-in__file" title="src/Asset/Compiler.php"><a href="files/src-asset-compiler.html"><abbr title="src/Asset/Compiler.php">Compiler.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">37</span>
+    <span class="phpdocumentor-element-found-in__line">34</span>
 
     </aside>
 
-        <p class="phpdocumentor-summary">Gives the Builder to the object.</p>
-
+    
     <code class="phpdocumentor-code phpdocumentor-signature ">
     <span class="phpdocumentor-signature__visibility">public</span>
-                    <span class="phpdocumentor-signature__name">__construct</span><span>(</span><span class="phpdocumentor-signature__argument"><span class="phpdocumentor-signature__argument__type"><a href="classes/Cecil-BuildContextInterface.html"><abbr title="\Cecil\BuildContextInterface">BuildContextInterface</abbr></a>&nbsp;</span><span class="phpdocumentor-signature__argument__name">$builder</span></span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">mixed</span></code>
+                    <span class="phpdocumentor-signature__name">__construct</span><span>(</span><span class="phpdocumentor-signature__argument"><span class="phpdocumentor-signature__argument__type"><a href="classes/Cecil-Builder.html"><abbr title="\Cecil\Builder">Builder</abbr></a>&nbsp;</span><span class="phpdocumentor-signature__argument__name">$builder</span></span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">mixed</span></code>
 
     <div class="phpdocumentor-label-line">
         </div>
@@ -427,7 +356,7 @@ collection of generated pages.</p>
     <dl class="phpdocumentor-argument-list">
                     <dt class="phpdocumentor-argument-list__entry">
                 <span class="phpdocumentor-argument-list__argument__name">$builder</span>
-                : <span class="phpdocumentor-argument-list__argument__type"><a href="classes/Cecil-BuildContextInterface.html"><abbr title="\Cecil\BuildContextInterface">BuildContextInterface</abbr></a></span>
+                : <span class="phpdocumentor-argument-list__argument__type"><a href="classes/Cecil-Builder.html"><abbr title="\Cecil\Builder">Builder</abbr></a></span>
                             </dt>
             <dd class="phpdocumentor-argument-list__definition">
                 
@@ -446,71 +375,68 @@ collection of generated pages.</p>
             -public
                                                         "
 >
-    <h4 class="phpdocumentor-element__name" id="method_generate">
-        generate()
-        <a href="classes/Cecil-Generator-Redirect.html#method_generate" class="headerlink"><i class="fas fa-link"></i></a>
+    <h4 class="phpdocumentor-element__name" id="method_compile">
+        compile()
+        <a href="classes/Cecil-Asset-Compiler.html#method_compile" class="headerlink"><i class="fas fa-link"></i></a>
 
     </h4>
     <aside class="phpdocumentor-element-found-in">
-    <abbr class="phpdocumentor-element-found-in__file" title="src/Generator/Redirect.php"><a href="files/src-generator-redirect.html"><abbr title="src/Generator/Redirect.php">Redirect.php</abbr></a></abbr>
+    <abbr class="phpdocumentor-element-found-in__file" title="src/Asset/Compiler.php"><a href="files/src-asset-compiler.html"><abbr title="src/Asset/Compiler.php">Compiler.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">32</span>
+    <span class="phpdocumentor-element-found-in__line">50</span>
 
     </aside>
 
-        <p class="phpdocumentor-summary">Creates pages and adds it to collection.</p>
+        <p class="phpdocumentor-summary">Compiles SCSS to CSS.</p>
 
     <code class="phpdocumentor-code phpdocumentor-signature ">
     <span class="phpdocumentor-signature__visibility">public</span>
-                    <span class="phpdocumentor-signature__name">generate</span><span>(</span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">void</span></code>
+                    <span class="phpdocumentor-signature__name">compile</span><span>(</span><span class="phpdocumentor-signature__argument"><span class="phpdocumentor-signature__argument__type">array&lt;string|int, mixed&gt;&nbsp;</span><span class="phpdocumentor-signature__argument__name">$data</span></span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">array&lt;string|int, mixed&gt;</span></code>
 
     <div class="phpdocumentor-label-line">
         </div>
     
-    
-    
-    
+        <section class="phpdocumentor-description"><p>Returns the updated data array, unchanged if not a SCSS file.</p>
+</section>
 
-        
-    
-    
-</article>
-                    <article
-        class="phpdocumentor-element
-            -method
-            -public
-                                                        "
->
-    <h4 class="phpdocumentor-element__name" id="method_runGenerate">
-        runGenerate()
-        <a href="classes/Cecil-Generator-AbstractGenerator.html#method_runGenerate" class="headerlink"><i class="fas fa-link"></i></a>
+        <h5 class="phpdocumentor-argument-list__heading">Parameters</h5>
+    <dl class="phpdocumentor-argument-list">
+                    <dt class="phpdocumentor-argument-list__entry">
+                <span class="phpdocumentor-argument-list__argument__name">$data</span>
+                : <span class="phpdocumentor-argument-list__argument__type">array&lt;string|int, mixed&gt;</span>
+                            </dt>
+            <dd class="phpdocumentor-argument-list__definition">
+                    <section class="phpdocumentor-description"><p>Asset data array (must contain 'ext', 'path', 'file', 'content')</p>
+</section>
 
-    </h4>
-    <aside class="phpdocumentor-element-found-in">
-    <abbr class="phpdocumentor-element-found-in__file" title="src/Generator/AbstractGenerator.php"><a href="files/src-generator-abstractgenerator.html"><abbr title="src/Generator/AbstractGenerator.php">AbstractGenerator.php</abbr></a></abbr>
-    :
-    <span class="phpdocumentor-element-found-in__line">48</span>
+            </dd>
+            </dl>
 
-    </aside>
+    
+    <h5 class="phpdocumentor-tag-list__heading" id="method_compile_tags">
+        Tags
+        <a href="classes/Cecil-Asset-Compiler.html#method_compile_tags" class="headerlink"><i class="fas fa-link"></i></a>
 
-        <p class="phpdocumentor-summary">Run the `generate` method of the generator and returns pages.</p>
-
-    <code class="phpdocumentor-code phpdocumentor-signature ">
-    <span class="phpdocumentor-signature__visibility">public</span>
-                    <span class="phpdocumentor-signature__name">runGenerate</span><span>(</span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type"><a href="classes/Cecil-Collection-Page-Collection.html"><abbr title="\Cecil\Collection\Page\Collection">Collection</abbr></a></span></code>
-
-    <div class="phpdocumentor-label-line">
-        </div>
-    
-    
-    
-    
+    </h5>
+    <dl class="phpdocumentor-tag-list">
+                    <dt class="phpdocumentor-tag-list__entry">
+                <span class="phpdocumentor-tag__name">throws</span>
+            </dt>
+                            <dd class="phpdocumentor-tag-list__definition">
+                                                                <span class="phpdocumentor-tag-link"><a href="classes/Cecil-Exception-ConfigException.html"><abbr title="\Cecil\Exception\ConfigException">ConfigException</abbr></a></span>
+                                                                                    
+                                    </dd>
+                        </dl>
 
         
     
             <section>
         <h5 class="phpdocumentor-return-value__heading">Return values</h5>
-        <span class="phpdocumentor-signature__response_type"><a href="classes/Cecil-Collection-Page-Collection.html"><abbr title="\Cecil\Collection\Page\Collection">Collection</abbr></a></span>
+        <span class="phpdocumentor-signature__response_type">array&lt;string|int, mixed&gt;</span>
+                    &mdash;
+                <section class="phpdocumentor-description"><p>Updated data array with CSS content</p>
+</section>
+
             </section>
 
 </article>
@@ -528,26 +454,24 @@ collection of generated pages.</p>
             <li class="phpdocumentor-on-this-page-section__title">Table Of Contents</li>
             <li>
                 <ul class="phpdocumentor-list -clean">
-                                                            <li><a href="classes/Cecil-Generator-Redirect.html#toc-properties">Properties</a></li>
-                                                            <li><a href="classes/Cecil-Generator-Redirect.html#toc-methods">Methods</a></li>
+                                                            <li><a href="classes/Cecil-Asset-Compiler.html#toc-properties">Properties</a></li>
+                                                            <li><a href="classes/Cecil-Asset-Compiler.html#toc-methods">Methods</a></li>
                                     </ul>
             </li>
             
                             <li class="phpdocumentor-on-this-page-section__title">Properties</li>
                 <li>
                     <ul class="phpdocumentor-list -clean">
-                                                    <li class=""><a href="classes/Cecil-Generator-AbstractGenerator.html#property_builder">$builder</a></li>
-                                                    <li class=""><a href="classes/Cecil-Generator-AbstractGenerator.html#property_config">$config</a></li>
-                                                    <li class=""><a href="classes/Cecil-Generator-AbstractGenerator.html#property_generatedPages">$generatedPages</a></li>
+                                                    <li class=""><a href="classes/Cecil-Asset-Compiler.html#property_builder">$builder</a></li>
+                                                    <li class=""><a href="classes/Cecil-Asset-Compiler.html#property_config">$config</a></li>
                                             </ul>
                 </li>
             
                         <li class="phpdocumentor-on-this-page-section__title">Methods</li>
             <li>
                 <ul class="phpdocumentor-list -clean">
-                                            <li class=""><a href="classes/Cecil-Generator-AbstractGenerator.html#method___construct">__construct()</a></li>
-                                            <li class=""><a href="classes/Cecil-Generator-Redirect.html#method_generate">generate()</a></li>
-                                            <li class=""><a href="classes/Cecil-Generator-AbstractGenerator.html#method_runGenerate">runGenerate()</a></li>
+                                            <li class=""><a href="classes/Cecil-Asset-Compiler.html#method___construct">__construct()</a></li>
+                                            <li class=""><a href="classes/Cecil-Asset-Compiler.html#method_compile">compile()</a></li>
                                     </ul>
             </li>
                     </ul>
@@ -567,7 +491,7 @@ collection of generated pages.</p>
     </section>
 </section>
         </div>
-        <a href="classes/Cecil-Generator-Redirect.html#top" class="phpdocumentor-back-to-top"><i class="fas fa-chevron-circle-up"></i></a>
+        <a href="classes/Cecil-Asset-Compiler.html#top" class="phpdocumentor-back-to-top"><i class="fas fa-chevron-circle-up"></i></a>
 
     </main>
 
