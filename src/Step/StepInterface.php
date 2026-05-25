@@ -13,6 +13,7 @@ declare(strict_types=1);
 
 namespace Cecil\Step;
 
+use Cecil\BuildContextInterface;
 use Cecil\Builder;
 
 /**
@@ -27,7 +28,7 @@ interface StepInterface
     /**
      * StepInterface constructor.
      */
-    public function __construct(Builder $builder);
+    public function __construct(BuildContextInterface $builder);
 
     /**
      * Returns the step name.
