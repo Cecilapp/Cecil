@@ -13,8 +13,6 @@ declare(strict_types=1);
 
 namespace Cecil\Generator;
 
-use Cecil\BuildContextInterface;
-
 /**
  * Generator interface.
  */
@@ -23,7 +21,7 @@ interface GeneratorInterface
     /**
      * Gives the Builder to the object.
      */
-    public function __construct(BuildContextInterface $builder);
+    public function __construct(\Cecil\Builder $builder);
 
     /**
      * Creates pages and adds it to collection.
