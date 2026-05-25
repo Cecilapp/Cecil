@@ -740,11 +740,13 @@ class Core extends AbstractExtension
             $asset,
             $darkSuffix,
             $formats,
-            $responsive,
-            $this->config->getAssetsImagesWidths(),
-            $this->config->getAssetsImagesDensities(),
-            $sizes,
-            isset($attributes['width']) && $attributes['width'] > 0 ? (int) $attributes['width'] : null
+            [
+                'responsive' => $responsive,
+                'widths' => $this->config->getAssetsImagesWidths(),
+                'densities' => $this->config->getAssetsImagesDensities(),
+                'sizes' => $sizes,
+                'width1x' => isset($attributes['width']) && $attributes['width'] > 0 ? (int) $attributes['width'] : null,
+            ]
         );
         if (empty($darkSourceAttributes)) {
             return '';

@@ -251,9 +251,15 @@ class Image
      * Builds dark color-scheme source attributes for an image.
      *
      * @param array<string> $formats
-     * @param array<int>    $widths
-     * @param array<float>  $densities
-     * @param array<mixed>  $assetOptions
+     * @param array{
+     *   responsive?: mixed,
+     *   widths?: array<int>,
+     *   densities?: array<float|int>,
+     *   sizes?: ?string,
+     *   width1x?: ?int,
+     *   assetOptions?: array<mixed>,
+     *   fallbackAsUrl?: bool
+     * } $options
      *
      * @return array<array<string, string>>
      */
@@ -262,17 +268,20 @@ class Image
         Asset $asset,
         string $darkSuffix,
         array $formats,
-        mixed $responsive,
-        array $widths = [],
-        array $densities = [],
-        ?string $sizes = null,
-        ?int $width1x = null,
-        array $assetOptions = [],
-        bool $fallbackAsUrl = false
+        array $options = []
     ): array {
         if (empty($darkSuffix)) {
             return [];
         }
+
+        $responsive = $options['responsive'] ?? false;
+        $widths = $options['widths'] ?? [];
+        $densities = $options['densities'] ?? [];
+        $sizes = $options['sizes'] ?? null;
+        $width1x = $options['width1x'] ?? null;
+        $assetOptions = $options['assetOptions'] ?? [];
+        $fallbackAsUrl = (bool) ($options['fallbackAsUrl'] ?? false);
+
         $darkAssetPath = self::buildDarkAssetPath($asset['path'], $darkSuffix);
         $assetDark = new Asset($builder, $darkAssetPath, array_merge(['ignore_missing' => true], $assetOptions));
         if ($assetDark->isMissing()) {

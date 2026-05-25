@@ -466,15 +466,17 @@ class Parsedown extends \ParsedownToc
                 $asset,
                 $darkSuffix,
                 $formats,
-                $this->config->isEnabled('pages.body.images.responsive'),
-                $this->config->getAssetsImagesWidths(),
-                $this->config->getAssetsImagesDensities(),
-                !empty($sizes) ? $sizes : null,
-                isset($InlineImage['element']['attributes']['width']) && $InlineImage['element']['attributes']['width'] > 0
-                    ? (int) $InlineImage['element']['attributes']['width']
-                    : null,
-                ['language' => $this->language],
-                true
+                [
+                    'responsive' => $this->config->isEnabled('pages.body.images.responsive'),
+                    'widths' => $this->config->getAssetsImagesWidths(),
+                    'densities' => $this->config->getAssetsImagesDensities(),
+                    'sizes' => !empty($sizes) ? $sizes : null,
+                    'width1x' => isset($InlineImage['element']['attributes']['width']) && $InlineImage['element']['attributes']['width'] > 0
+                        ? (int) $InlineImage['element']['attributes']['width']
+                        : null,
+                    'assetOptions' => ['language' => $this->language],
+                    'fallbackAsUrl' => true,
+                ]
             );
             if (\count($darkSourceAttributes) > 0) {
                 $darkSources = array_map(static fn (array $attributes): array => ['name' => 'source', 'attributes' => $attributes], $darkSourceAttributes);
