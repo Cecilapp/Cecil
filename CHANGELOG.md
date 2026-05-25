@@ -2,6 +2,12 @@
 
 All notable changes to this project will be documented in this file. Dates are displayed in UTC.
 
+#### [8.94.5](https://github.com/Cecilapp/Cecil/compare/8.94.4...8.94.5)
+
+> 25 May 2026
+
+- fix: Write config after mkdir and chmod subdirs [`7a7666e`](https://github.com/Cecilapp/Cecil/commit/7a7666e78a2d424ffdcaf33fc5c455b2f4857578)
+
 #### [8.94.4](https://github.com/Cecilapp/Cecil/compare/8.94.3...8.94.4)
 
 > 23 May 2026
