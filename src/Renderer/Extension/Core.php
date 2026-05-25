@@ -735,8 +735,9 @@ class Core extends AbstractExtension
             return '';
         }
         $pathInfo = pathinfo($asset['path']);
+        $dirname = $pathInfo['dirname'] === '.' ? '' : rtrim($pathInfo['dirname'], '/');
         $extension = empty($pathInfo['extension']) ? '' : '.' . $pathInfo['extension'];
-        $darkAssetPath = rtrim($pathInfo['dirname'], '/') . '/' . $pathInfo['filename'] . $darkSuffix . $extension;
+        $darkAssetPath = ($dirname !== '' ? $dirname . '/' : '') . $pathInfo['filename'] . $darkSuffix . $extension;
         $assetDark = new Asset($this->builder, $darkAssetPath, ['ignore_missing' => true]);
         if ($assetDark->isMissing()) {
             $this->builder->getLogger()->warning(\sprintf(
