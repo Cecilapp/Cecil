@@ -66,6 +66,16 @@ Search.appendIndex(
             "summary": "Returns\u0020a\u0020Low\u0020Quality\u0020Image\u0020Placeholder\u0020\u0028LQIP\u0029\u0020as\u0020data\u0020URL.",
             "url": "classes/Cecil-Asset-Image.html#method_getLqip"
         },                {
+            "fqsen": "\\Cecil\\Asset\\Image\u003A\u003AbuildDarkAssetPath\u0028\u0029",
+            "name": "buildDarkAssetPath",
+            "summary": "Builds\u0020the\u0020asset\u0020path\u0020for\u0020a\u0020dark\u0020color\u002Dscheme\u0020image\u0020variant.",
+            "url": "classes/Cecil-Asset-Image.html#method_buildDarkAssetPath"
+        },                {
+            "fqsen": "\\Cecil\\Asset\\Image\u003A\u003AbuildDarkSourceAttributes\u0028\u0029",
+            "name": "buildDarkSourceAttributes",
+            "summary": "Builds\u0020dark\u0020color\u002Dscheme\u0020source\u0020attributes\u0020for\u0020an\u0020image.",
+            "url": "classes/Cecil-Asset-Image.html#method_buildDarkSourceAttributes"
+        },                {
             "fqsen": "\\Cecil\\Asset\\Image\u003A\u003AbuildHtmlSrcsetW\u0028\u0029",
             "name": "buildHtmlSrcsetW",
             "summary": "Build\u0020the\u0020\u0060srcset\u0060\u0020HTML\u0020attribute\u0020for\u0020responsive\u0020images,\u0020based\u0020on\u0020widths.",
@@ -3215,6 +3225,11 @@ Search.appendIndex(
             "name": "htmlAudio",
             "summary": "Builds\u0020the\u0020HTML\u0020audio\u0020element\u0020of\u0020an\u0020audio\u0020Asset.",
             "url": "classes/Cecil-Renderer-Extension-Core.html#method_htmlAudio"
+        },                {
+            "fqsen": "\\Cecil\\Renderer\\Extension\\Core\u003A\u003AbuildDarkSourceHtml\u0028\u0029",
+            "name": "buildDarkSourceHtml",
+            "summary": "Builds\u0020HTML\u0020dark\u0020\u0022source\u0022\u0020elements\u0020for\u0020the\u0020dark\u0020color\u002Dscheme\u0020variant\u0020of\u0020an\u0020image\u0020Asset.",
+            "url": "classes/Cecil-Renderer-Extension-Core.html#method_buildDarkSourceHtml"
         },                {
             "fqsen": "\\Cecil\\Renderer\\Extension\\Core\u003A\u003AhtmlVideo\u0028\u0029",
             "name": "htmlVideo",

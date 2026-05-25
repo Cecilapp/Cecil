@@ -2,6 +2,7 @@
 coverage/
 phpdoc/
 vendor/
+phpdoc
 .phpdoc/cache/
 .php-cs-fixer.cache
 .phpmd.result-cache.php
