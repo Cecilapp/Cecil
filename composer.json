@@ -146,6 +146,7 @@
     ],
     "test:coverage:upload": "php coveralls.phar -v --coverage_clover=coverage/clover.xml --json_path=coverage/coveralls-upload.json",
     "test:integration": "phpunit -c ./ --testsuite=IntegrationTests",
+    "test:unit": "phpunit -c ./ --testsuite=UnitTests",
     "test:phar": "box compile && cd dist && php cecil.phar --version && rm -rf demo && mkdir demo && php cecil.phar new:site demo --demo -f -n && php cecil.phar new:page demo -f -n && php cecil.phar build demo -v && php cecil.phar show:content demo && rm -rf demo"
   },
   "scripts-descriptions": {
@@ -165,6 +166,7 @@
     "test:coverage:install": "Installs the php-coveralls binary",
     "test:coverage:upload": "Uploads tests coverage results",
     "test:integration": "Runs integration tests suite",
+    "test:unit": "Runs unit tests suite",
     "test:phar": "Builds cecil.phar then create a new demo site"
   },
   "scripts-aliases": {

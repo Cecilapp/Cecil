@@ -205,7 +205,7 @@ Provides methods to manage page properties, variables, and rendering.</p>
             <dt class="phpdocumentor-table-of-contents__entry -constant -public">
     <a class="" href="classes/Cecil-Collection-Page-Page.html#constant_SLUGIFY_PATTERN">SLUGIFY_PATTERN</a>
     <span>
-        &nbsp;: mixed&nbsp;= &#039;/(^\/|[^._a-z0-9\/]|-)+/&#039;                            </span>
+        &nbsp;: mixed&nbsp;= \Cecil\Util\Slugifier::SLUGIFY_PATTERN                            </span>
 </dt>
 
     </dl>
@@ -319,12 +319,6 @@ Provides methods to manage page properties, variables, and rendering.</p>
     <a class="" href="classes/Cecil-Collection-Page-Page.html#property_virtual">$virtual</a>
     <span>
                         &nbsp;: bool            </span>
-</dt>
-
-            <dt class="phpdocumentor-table-of-contents__entry -property -private">
-    <a class="" href="classes/Cecil-Collection-Page-Page.html#property_slugifier">$slugifier</a>
-    <span>
-                        &nbsp;: <abbr title="\Symfony\Component\String\Slugger\AsciiSlugger">AsciiSlugger</abbr>            </span>
 </dt>
 
     </dl>
@@ -662,7 +656,7 @@ Provides methods to manage page properties, variables, and rendering.</p>
 <dd>Set virtual status.</dd>
 
             <dt class="phpdocumentor-table-of-contents__entry -method -public">
-    <a class="" href="classes/Cecil-Collection-Page-Page.html#method_slugify">slugify()</a>
+    <a class="-deprecated" href="classes/Cecil-Collection-Page-Page.html#method_slugify">slugify()</a>
     <span>
                                 &nbsp;: string    </span>
 </dt>
@@ -693,18 +687,6 @@ Provides methods to manage page properties, variables, and rendering.</p>
     <a class="" href="classes/Cecil-Collection-Page-Page.html#method_createIdFromFile">createIdFromFile()</a>
     <span>
                                 &nbsp;: string    </span>
-</dt>
-
-            <dt class="phpdocumentor-table-of-contents__entry -method -private">
-    <a class="" href="classes/Cecil-Collection-Page-Page.html#method_createSlugifyPlaceholder">createSlugifyPlaceholder()</a>
-    <span>
-                                &nbsp;: string    </span>
-</dt>
-
-            <dt class="phpdocumentor-table-of-contents__entry -method -private">
-    <a class="" href="classes/Cecil-Collection-Page-Page.html#method_createSlugifyPlaceholders">createSlugifyPlaceholders()</a>
-    <span>
-                                &nbsp;: array&lt;string|int, mixed&gt;    </span>
 </dt>
 
             <dt class="phpdocumentor-table-of-contents__entry -method -private">
@@ -745,7 +727,7 @@ Provides methods to manage page properties, variables, and rendering.</p>
     <span class="phpdocumentor-signature__visibility">public</span>
         <span class="phpdocumentor-signature__type">mixed</span>
     <span class="phpdocumentor-signature__name">SLUGIFY_PATTERN</span>
-    = <span class="phpdocumentor-signature__default-value">&#039;/(^\/|[^._a-z0-9\/]|-)+/&#039;</span>
+    = <span class="phpdocumentor-signature__default-value">\Cecil\Util\Slugifier::SLUGIFY_PATTERN</span>
 </code>
 
 
@@ -1413,43 +1395,6 @@ Provides methods to manage page properties, variables, and rendering.</p>
         
 
 </article>
-                    <article
-        class="
-            phpdocumentor-element
-            -property
-            -private
-            -static                                                        "
->
-    <h4 class="phpdocumentor-element__name" id="property_slugifier">
-        $slugifier
-        <a href="classes/Cecil-Collection-Page-Page.html#property_slugifier" class="headerlink"><i class="fas fa-link"></i></a>
-
-        <span class="phpdocumentor-element__modifiers">
-                                            </span>
-    </h4>
-    <aside class="phpdocumentor-element-found-in">
-    <abbr class="phpdocumentor-element-found-in__file" title="src/Collection/Page/Page.php"><a href="files/src-collection-page-page.html"><abbr title="src/Collection/Page/Page.php">Page.php</abbr></a></abbr>
-    :
-    <span class="phpdocumentor-element-found-in__line">78</span>
-
-    </aside>
-
-    
-    
-    <code class="phpdocumentor-code phpdocumentor-signature ">
-        <span class="phpdocumentor-signature__visibility">private</span>
-        <span class="phpdocumentor-signature__static">static</span>    <span class="phpdocumentor-signature__type"><abbr title="\Symfony\Component\String\Slugger\AsciiSlugger">AsciiSlugger</abbr></span>
-    <span class="phpdocumentor-signature__name">$slugifier</span>
-    </code>
-
-    
-    
-    
-
-        
-        
-
-</article>
             </section>
 
             <section class="phpdocumentor-methods">
@@ -1472,7 +1417,7 @@ Provides methods to manage page properties, variables, and rendering.</p>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Collection/Page/Page.php"><a href="files/src-collection-page-page.html"><abbr title="src/Collection/Page/Page.php">Page.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">83</span>
+    <span class="phpdocumentor-element-found-in__line">80</span>
 
     </aside>
 
@@ -1525,7 +1470,7 @@ Provides methods to manage page properties, variables, and rendering.</p>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Collection/Page/Page.php"><a href="files/src-collection-page-page.html"><abbr title="src/Collection/Page/Page.php">Page.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">123</span>
+    <span class="phpdocumentor-element-found-in__line">120</span>
 
     </aside>
 
@@ -1564,7 +1509,7 @@ Provides methods to manage page properties, variables, and rendering.</p>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Collection/Page/Page.php"><a href="files/src-collection-page-page.html"><abbr title="src/Collection/Page/Page.php">Page.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">498</span>
+    <span class="phpdocumentor-element-found-in__line">456</span>
 
     </aside>
 
@@ -1613,7 +1558,7 @@ Provides methods to manage page properties, variables, and rendering.</p>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Collection/Page/Page.php"><a href="files/src-collection-page-page.html"><abbr title="src/Collection/Page/Page.php">Page.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">301</span>
+    <span class="phpdocumentor-element-found-in__line">259</span>
 
     </aside>
 
@@ -1652,7 +1597,7 @@ Provides methods to manage page properties, variables, and rendering.</p>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Collection/Page/Page.php"><a href="files/src-collection-page-page.html"><abbr title="src/Collection/Page/Page.php">Page.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">482</span>
+    <span class="phpdocumentor-element-found-in__line">440</span>
 
     </aside>
 
@@ -1691,7 +1636,7 @@ Provides methods to manage page properties, variables, and rendering.</p>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Collection/Page/Page.php"><a href="files/src-collection-page-page.html"><abbr title="src/Collection/Page/Page.php">Page.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">490</span>
+    <span class="phpdocumentor-element-found-in__line">448</span>
 
     </aside>
 
@@ -1743,7 +1688,7 @@ Provides methods to manage page properties, variables, and rendering.</p>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Collection/Page/Page.php"><a href="files/src-collection-page-page.html"><abbr title="src/Collection/Page/Page.php">Page.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">256</span>
+    <span class="phpdocumentor-element-found-in__line">214</span>
 
     </aside>
 
@@ -1782,7 +1727,7 @@ Provides methods to manage page properties, variables, and rendering.</p>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Collection/Page/Page.php"><a href="files/src-collection-page-page.html"><abbr title="src/Collection/Page/Page.php">Page.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">268</span>
+    <span class="phpdocumentor-element-found-in__line">226</span>
 
     </aside>
 
@@ -1821,7 +1766,7 @@ Provides methods to manage page properties, variables, and rendering.</p>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Collection/Page/Page.php"><a href="files/src-collection-page-page.html"><abbr title="src/Collection/Page/Page.php">Page.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">715</span>
+    <span class="phpdocumentor-element-found-in__line">673</span>
 
     </aside>
 
@@ -1860,7 +1805,7 @@ Provides methods to manage page properties, variables, and rendering.</p>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Collection/Page/Page.php"><a href="files/src-collection-page-page.html"><abbr title="src/Collection/Page/Page.php">Page.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">355</span>
+    <span class="phpdocumentor-element-found-in__line">313</span>
 
     </aside>
 
@@ -1899,7 +1844,7 @@ Provides methods to manage page properties, variables, and rendering.</p>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Collection/Page/Page.php"><a href="files/src-collection-page-page.html"><abbr title="src/Collection/Page/Page.php">Page.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">293</span>
+    <span class="phpdocumentor-element-found-in__line">251</span>
 
     </aside>
 
@@ -1977,7 +1922,7 @@ Provides methods to manage page properties, variables, and rendering.</p>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Collection/Page/Page.php"><a href="files/src-collection-page-page.html"><abbr title="src/Collection/Page/Page.php">Page.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">183</span>
+    <span class="phpdocumentor-element-found-in__line">141</span>
 
     </aside>
 
@@ -2016,7 +1961,7 @@ Provides methods to manage page properties, variables, and rendering.</p>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Collection/Page/Page.php"><a href="files/src-collection-page-page.html"><abbr title="src/Collection/Page/Page.php">Page.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">526</span>
+    <span class="phpdocumentor-element-found-in__line">484</span>
 
     </aside>
 
@@ -2055,7 +2000,7 @@ Provides methods to manage page properties, variables, and rendering.</p>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Collection/Page/Page.php"><a href="files/src-collection-page-page.html"><abbr title="src/Collection/Page/Page.php">Page.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">552</span>
+    <span class="phpdocumentor-element-found-in__line">510</span>
 
     </aside>
 
@@ -2094,7 +2039,7 @@ Provides methods to manage page properties, variables, and rendering.</p>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Collection/Page/Page.php"><a href="files/src-collection-page-page.html"><abbr title="src/Collection/Page/Page.php">Page.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">544</span>
+    <span class="phpdocumentor-element-found-in__line">502</span>
 
     </aside>
 
@@ -2133,7 +2078,7 @@ Provides methods to manage page properties, variables, and rendering.</p>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Collection/Page/Page.php"><a href="files/src-collection-page-page.html"><abbr title="src/Collection/Page/Page.php">Page.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">428</span>
+    <span class="phpdocumentor-element-found-in__line">386</span>
 
     </aside>
 
@@ -2172,7 +2117,7 @@ Provides methods to manage page properties, variables, and rendering.</p>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Collection/Page/Page.php"><a href="files/src-collection-page-page.html"><abbr title="src/Collection/Page/Page.php">Page.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">436</span>
+    <span class="phpdocumentor-element-found-in__line">394</span>
 
     </aside>
 
@@ -2224,7 +2169,7 @@ Provides methods to manage page properties, variables, and rendering.</p>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Collection/Page/Page.php"><a href="files/src-collection-page-page.html"><abbr title="src/Collection/Page/Page.php">Page.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">508</span>
+    <span class="phpdocumentor-element-found-in__line">466</span>
 
     </aside>
 
@@ -2263,7 +2208,7 @@ Provides methods to manage page properties, variables, and rendering.</p>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Collection/Page/Page.php"><a href="files/src-collection-page-page.html"><abbr title="src/Collection/Page/Page.php">Page.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">454</span>
+    <span class="phpdocumentor-element-found-in__line">412</span>
 
     </aside>
 
@@ -2302,7 +2247,7 @@ Provides methods to manage page properties, variables, and rendering.</p>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Collection/Page/Page.php"><a href="files/src-collection-page-page.html"><abbr title="src/Collection/Page/Page.php">Page.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">380</span>
+    <span class="phpdocumentor-element-found-in__line">338</span>
 
     </aside>
 
@@ -2341,7 +2286,7 @@ Provides methods to manage page properties, variables, and rendering.</p>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Collection/Page/Page.php"><a href="files/src-collection-page-page.html"><abbr title="src/Collection/Page/Page.php">Page.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">570</span>
+    <span class="phpdocumentor-element-found-in__line">528</span>
 
     </aside>
 
@@ -2380,7 +2325,7 @@ Provides methods to manage page properties, variables, and rendering.</p>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Collection/Page/Page.php"><a href="files/src-collection-page-page.html"><abbr title="src/Collection/Page/Page.php">Page.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">337</span>
+    <span class="phpdocumentor-element-found-in__line">295</span>
 
     </aside>
 
@@ -2419,7 +2364,7 @@ Provides methods to manage page properties, variables, and rendering.</p>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Collection/Page/Page.php"><a href="files/src-collection-page-page.html"><abbr title="src/Collection/Page/Page.php">Page.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">679</span>
+    <span class="phpdocumentor-element-found-in__line">637</span>
 
     </aside>
 
@@ -2479,7 +2424,7 @@ Provides methods to manage page properties, variables, and rendering.</p>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Collection/Page/Page.php"><a href="files/src-collection-page-page.html"><abbr title="src/Collection/Page/Page.php">Page.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">596</span>
+    <span class="phpdocumentor-element-found-in__line">554</span>
 
     </aside>
 
@@ -2518,7 +2463,7 @@ Provides methods to manage page properties, variables, and rendering.</p>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Collection/Page/Page.php"><a href="files/src-collection-page-page.html"><abbr title="src/Collection/Page/Page.php">Page.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">666</span>
+    <span class="phpdocumentor-element-found-in__line">624</span>
 
     </aside>
 
@@ -2569,7 +2514,7 @@ Provides methods to manage page properties, variables, and rendering.</p>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Collection/Page/Page.php"><a href="files/src-collection-page-page.html"><abbr title="src/Collection/Page/Page.php">Page.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">319</span>
+    <span class="phpdocumentor-element-found-in__line">277</span>
 
     </aside>
 
@@ -2847,7 +2792,7 @@ Provides methods to manage page properties, variables, and rendering.</p>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Collection/Page/Page.php"><a href="files/src-collection-page-page.html"><abbr title="src/Collection/Page/Page.php">Page.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">280</span>
+    <span class="phpdocumentor-element-found-in__line">238</span>
 
     </aside>
 
@@ -2886,7 +2831,7 @@ Provides methods to manage page properties, variables, and rendering.</p>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Collection/Page/Page.php"><a href="files/src-collection-page-page.html"><abbr title="src/Collection/Page/Page.php">Page.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">472</span>
+    <span class="phpdocumentor-element-found-in__line">430</span>
 
     </aside>
 
@@ -2935,7 +2880,7 @@ Provides methods to manage page properties, variables, and rendering.</p>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Collection/Page/Page.php"><a href="files/src-collection-page-page.html"><abbr title="src/Collection/Page/Page.php">Page.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">198</span>
+    <span class="phpdocumentor-element-found-in__line">156</span>
 
     </aside>
 
@@ -2993,7 +2938,7 @@ Provides methods to manage page properties, variables, and rendering.</p>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Collection/Page/Page.php"><a href="files/src-collection-page-page.html"><abbr title="src/Collection/Page/Page.php">Page.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">705</span>
+    <span class="phpdocumentor-element-found-in__line">663</span>
 
     </aside>
 
@@ -3042,7 +2987,7 @@ Provides methods to manage page properties, variables, and rendering.</p>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Collection/Page/Page.php"><a href="files/src-collection-page-page.html"><abbr title="src/Collection/Page/Page.php">Page.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">345</span>
+    <span class="phpdocumentor-element-found-in__line">303</span>
 
     </aside>
 
@@ -3091,7 +3036,7 @@ Provides methods to manage page properties, variables, and rendering.</p>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Collection/Page/Page.php"><a href="files/src-collection-page-page.html"><abbr title="src/Collection/Page/Page.php">Page.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">113</span>
+    <span class="phpdocumentor-element-found-in__line">110</span>
 
     </aside>
 
@@ -3140,7 +3085,7 @@ Provides methods to manage page properties, variables, and rendering.</p>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Collection/Page/Page.php"><a href="files/src-collection-page-page.html"><abbr title="src/Collection/Page/Page.php">Page.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">516</span>
+    <span class="phpdocumentor-element-found-in__line">474</span>
 
     </aside>
 
@@ -3189,7 +3134,7 @@ Provides methods to manage page properties, variables, and rendering.</p>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Collection/Page/Page.php"><a href="files/src-collection-page-page.html"><abbr title="src/Collection/Page/Page.php">Page.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">534</span>
+    <span class="phpdocumentor-element-found-in__line">492</span>
 
     </aside>
 
@@ -3238,7 +3183,7 @@ Provides methods to manage page properties, variables, and rendering.</p>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Collection/Page/Page.php"><a href="files/src-collection-page-page.html"><abbr title="src/Collection/Page/Page.php">Page.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">388</span>
+    <span class="phpdocumentor-element-found-in__line">346</span>
 
     </aside>
 
@@ -3287,7 +3232,7 @@ Provides methods to manage page properties, variables, and rendering.</p>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Collection/Page/Page.php"><a href="files/src-collection-page-page.html"><abbr title="src/Collection/Page/Page.php">Page.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">444</span>
+    <span class="phpdocumentor-element-found-in__line">402</span>
 
     </aside>
 
@@ -3336,7 +3281,7 @@ Provides methods to manage page properties, variables, and rendering.</p>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Collection/Page/Page.php"><a href="files/src-collection-page-page.html"><abbr title="src/Collection/Page/Page.php">Page.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">363</span>
+    <span class="phpdocumentor-element-found-in__line">321</span>
 
     </aside>
 
@@ -3385,7 +3330,7 @@ Provides methods to manage page properties, variables, and rendering.</p>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Collection/Page/Page.php"><a href="files/src-collection-page-page.html"><abbr title="src/Collection/Page/Page.php">Page.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">560</span>
+    <span class="phpdocumentor-element-found-in__line">518</span>
 
     </aside>
 
@@ -3434,7 +3379,7 @@ Provides methods to manage page properties, variables, and rendering.</p>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Collection/Page/Page.php"><a href="files/src-collection-page-page.html"><abbr title="src/Collection/Page/Page.php">Page.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">327</span>
+    <span class="phpdocumentor-element-found-in__line">285</span>
 
     </aside>
 
@@ -3483,7 +3428,7 @@ Provides methods to manage page properties, variables, and rendering.</p>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Collection/Page/Page.php"><a href="files/src-collection-page-page.html"><abbr title="src/Collection/Page/Page.php">Page.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">609</span>
+    <span class="phpdocumentor-element-found-in__line">567</span>
 
     </aside>
 
@@ -3557,7 +3502,7 @@ Provides methods to manage page properties, variables, and rendering.</p>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Collection/Page/Page.php"><a href="files/src-collection-page-page.html"><abbr title="src/Collection/Page/Page.php">Page.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">584</span>
+    <span class="phpdocumentor-element-found-in__line">542</span>
 
     </aside>
 
@@ -3620,7 +3565,7 @@ Provides methods to manage page properties, variables, and rendering.</p>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Collection/Page/Page.php"><a href="files/src-collection-page-page.html"><abbr title="src/Collection/Page/Page.php">Page.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">309</span>
+    <span class="phpdocumentor-element-found-in__line">267</span>
 
     </aside>
 
@@ -3659,7 +3604,7 @@ Provides methods to manage page properties, variables, and rendering.</p>
         class="phpdocumentor-element
             -method
             -public
-                                    -static                    "
+            -deprecated                        -static                    "
 >
     <h4 class="phpdocumentor-element__name" id="method_slugify">
         slugify()
@@ -3669,17 +3614,24 @@ Provides methods to manage page properties, variables, and rendering.</p>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Collection/Page/Page.php"><a href="files/src-collection-page-page.html"><abbr title="src/Collection/Page/Page.php">Page.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">131</span>
+    <span class="phpdocumentor-element-found-in__line">133</span>
 
     </aside>
 
         <p class="phpdocumentor-summary">Turns a path (string) into a slug (URI).</p>
 
-    <code class="phpdocumentor-code phpdocumentor-signature ">
+    <code class="phpdocumentor-code phpdocumentor-signature -deprecated">
     <span class="phpdocumentor-signature__visibility">public</span>
             <span class="phpdocumentor-signature__static">static</span>        <span class="phpdocumentor-signature__name">slugify</span><span>(</span><span class="phpdocumentor-signature__argument"><span class="phpdocumentor-signature__argument__type">string&nbsp;</span><span class="phpdocumentor-signature__argument__name">$path</span></span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">string</span></code>
 
     <div class="phpdocumentor-label-line">
+        </div>
+                <div class="phpdocumentor-admonition">
+        <svg class="phpdocumentor-admonition__icon" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"></path></svg>
+            <article>
+                <p>Use Slugifier::slugify() instead.</p>
+
+            </article>
         </div>
     
     
@@ -3757,7 +3709,7 @@ Provides methods to manage page properties, variables, and rendering.</p>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Collection/Page/Page.php"><a href="files/src-collection-page-page.html"><abbr title="src/Collection/Page/Page.php">Page.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">462</span>
+    <span class="phpdocumentor-element-found-in__line">420</span>
 
     </aside>
 
@@ -3796,7 +3748,7 @@ Provides methods to manage page properties, variables, and rendering.</p>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Collection/Page/Page.php"><a href="files/src-collection-page-page.html"><abbr title="src/Collection/Page/Page.php">Page.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">693</span>
+    <span class="phpdocumentor-element-found-in__line">651</span>
 
     </aside>
 
@@ -3847,7 +3799,7 @@ Provides methods to manage page properties, variables, and rendering.</p>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Collection/Page/Page.php"><a href="files/src-collection-page-page.html"><abbr title="src/Collection/Page/Page.php">Page.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">726</span>
+    <span class="phpdocumentor-element-found-in__line">684</span>
 
     </aside>
 
@@ -3894,109 +3846,6 @@ Provides methods to manage page properties, variables, and rendering.</p>
         class="phpdocumentor-element
             -method
             -private
-                                    -static                    "
->
-    <h4 class="phpdocumentor-element__name" id="method_createSlugifyPlaceholder">
-        createSlugifyPlaceholder()
-        <a href="classes/Cecil-Collection-Page-Page.html#method_createSlugifyPlaceholder" class="headerlink"><i class="fas fa-link"></i></a>
-
-    </h4>
-    <aside class="phpdocumentor-element-found-in">
-    <abbr class="phpdocumentor-element-found-in__file" title="src/Collection/Page/Page.php"><a href="files/src-collection-page-page.html"><abbr title="src/Collection/Page/Page.php">Page.php</abbr></a></abbr>
-    :
-    <span class="phpdocumentor-element-found-in__line">168</span>
-
-    </aside>
-
-    
-    <code class="phpdocumentor-code phpdocumentor-signature ">
-    <span class="phpdocumentor-signature__visibility">private</span>
-            <span class="phpdocumentor-signature__static">static</span>        <span class="phpdocumentor-signature__name">createSlugifyPlaceholder</span><span>(</span><span class="phpdocumentor-signature__argument"><span class="phpdocumentor-signature__argument__type">string&nbsp;</span><span class="phpdocumentor-signature__argument__name">$path</span></span><span class="phpdocumentor-signature__argument"><span>, </span><span class="phpdocumentor-signature__argument__type">string&nbsp;</span><span class="phpdocumentor-signature__argument__name">$name</span></span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">string</span></code>
-
-    <div class="phpdocumentor-label-line">
-        </div>
-    
-    
-        <h5 class="phpdocumentor-argument-list__heading">Parameters</h5>
-    <dl class="phpdocumentor-argument-list">
-                    <dt class="phpdocumentor-argument-list__entry">
-                <span class="phpdocumentor-argument-list__argument__name">$path</span>
-                : <span class="phpdocumentor-argument-list__argument__type">string</span>
-                            </dt>
-            <dd class="phpdocumentor-argument-list__definition">
-                
-            </dd>
-                    <dt class="phpdocumentor-argument-list__entry">
-                <span class="phpdocumentor-argument-list__argument__name">$name</span>
-                : <span class="phpdocumentor-argument-list__argument__type">string</span>
-                            </dt>
-            <dd class="phpdocumentor-argument-list__definition">
-                
-            </dd>
-            </dl>
-
-    
-
-        
-    
-            <section>
-        <h5 class="phpdocumentor-return-value__heading">Return values</h5>
-        <span class="phpdocumentor-signature__response_type">string</span>
-            </section>
-
-</article>
-                    <article
-        class="phpdocumentor-element
-            -method
-            -private
-                                    -static                    "
->
-    <h4 class="phpdocumentor-element__name" id="method_createSlugifyPlaceholders">
-        createSlugifyPlaceholders()
-        <a href="classes/Cecil-Collection-Page-Page.html#method_createSlugifyPlaceholders" class="headerlink"><i class="fas fa-link"></i></a>
-
-    </h4>
-    <aside class="phpdocumentor-element-found-in">
-    <abbr class="phpdocumentor-element-found-in__file" title="src/Collection/Page/Page.php"><a href="files/src-collection-page-page.html"><abbr title="src/Collection/Page/Page.php">Page.php</abbr></a></abbr>
-    :
-    <span class="phpdocumentor-element-found-in__line">157</span>
-
-    </aside>
-
-    
-    <code class="phpdocumentor-code phpdocumentor-signature ">
-    <span class="phpdocumentor-signature__visibility">private</span>
-            <span class="phpdocumentor-signature__static">static</span>        <span class="phpdocumentor-signature__name">createSlugifyPlaceholders</span><span>(</span><span class="phpdocumentor-signature__argument"><span class="phpdocumentor-signature__argument__type">string&nbsp;</span><span class="phpdocumentor-signature__argument__name">$path</span></span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">array&lt;string|int, mixed&gt;</span></code>
-
-    <div class="phpdocumentor-label-line">
-        </div>
-    
-    
-        <h5 class="phpdocumentor-argument-list__heading">Parameters</h5>
-    <dl class="phpdocumentor-argument-list">
-                    <dt class="phpdocumentor-argument-list__entry">
-                <span class="phpdocumentor-argument-list__argument__name">$path</span>
-                : <span class="phpdocumentor-argument-list__argument__type">string</span>
-                            </dt>
-            <dd class="phpdocumentor-argument-list__definition">
-                
-            </dd>
-            </dl>
-
-    
-
-        
-    
-            <section>
-        <h5 class="phpdocumentor-return-value__heading">Return values</h5>
-        <span class="phpdocumentor-signature__response_type">array&lt;string|int, mixed&gt;</span>
-            </section>
-
-</article>
-                    <article
-        class="phpdocumentor-element
-            -method
-            -private
                                                         "
 >
     <h4 class="phpdocumentor-element__name" id="method_filterBool">
@@ -4007,7 +3856,7 @@ Provides methods to manage page properties, variables, and rendering.</p>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Collection/Page/Page.php"><a href="files/src-collection-page-page.html"><abbr title="src/Collection/Page/Page.php">Page.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">758</span>
+    <span class="phpdocumentor-element-found-in__line">716</span>
 
     </aside>
 
@@ -4104,7 +3953,6 @@ Provides methods to manage page properties, variables, and rendering.</p>
                                                     <li class=""><a href="classes/Cecil-Collection-Page-Page.html#property_terms">$terms</a></li>
                                                     <li class=""><a href="classes/Cecil-Collection-Page-Page.html#property_type">$type</a></li>
                                                     <li class=""><a href="classes/Cecil-Collection-Page-Page.html#property_virtual">$virtual</a></li>
-                                                    <li class=""><a href="classes/Cecil-Collection-Page-Page.html#property_slugifier">$slugifier</a></li>
                                             </ul>
                 </li>
             
@@ -4158,13 +4006,11 @@ Provides methods to manage page properties, variables, and rendering.</p>
                                             <li class=""><a href="classes/Cecil-Collection-Page-Page.html#method_setVariable">setVariable()</a></li>
                                             <li class=""><a href="classes/Cecil-Collection-Page-Page.html#method_setVariables">setVariables()</a></li>
                                             <li class=""><a href="classes/Cecil-Collection-Page-Page.html#method_setVirtual">setVirtual()</a></li>
-                                            <li class=""><a href="classes/Cecil-Collection-Page-Page.html#method_slugify">slugify()</a></li>
+                                            <li class="-deprecated"><a href="classes/Cecil-Collection-Page-Page.html#method_slugify">slugify()</a></li>
                                             <li class=""><a href="classes/Cecil-Collection-Item.html#method_toArray">toArray()</a></li>
                                             <li class=""><a href="classes/Cecil-Collection-Page-Page.html#method_unSection">unSection()</a></li>
                                             <li class=""><a href="classes/Cecil-Collection-Page-Page.html#method_unVariable">unVariable()</a></li>
                                             <li class=""><a href="classes/Cecil-Collection-Page-Page.html#method_createIdFromFile">createIdFromFile()</a></li>
-                                            <li class=""><a href="classes/Cecil-Collection-Page-Page.html#method_createSlugifyPlaceholder">createSlugifyPlaceholder()</a></li>
-                                            <li class=""><a href="classes/Cecil-Collection-Page-Page.html#method_createSlugifyPlaceholders">createSlugifyPlaceholders()</a></li>
                                             <li class=""><a href="classes/Cecil-Collection-Page-Page.html#method_filterBool">filterBool()</a></li>
                                     </ul>
             </li>

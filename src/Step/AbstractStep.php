@@ -13,6 +13,7 @@ declare(strict_types=1);
 
 namespace Cecil\Step;
 
+use Cecil\BuildContextInterface;
 use Cecil\Builder;
 use Cecil\Config;
 
@@ -22,11 +23,11 @@ use Cecil\Config;
  * This class provides a base implementation for steps in the build process.
  * It implements the StepInterface and provides common functionality such as
  * initialization, checking if the step can be processed, and a constructor
- * that accepts a Builder instance.
+ * that accepts a build context instance.
  */
 abstract class AbstractStep implements StepInterface
 {
-    /** @var Builder */
+    /** @var BuildContextInterface */
     protected $builder;
 
     /** @var Config */
@@ -44,7 +45,7 @@ abstract class AbstractStep implements StepInterface
     /**
      * {@inheritdoc}
      */
-    public function __construct(Builder $builder)
+    public function __construct(BuildContextInterface $builder)
     {
         $this->builder = $builder;
         $this->config = $builder->getConfig();

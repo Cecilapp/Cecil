@@ -15,6 +15,8 @@ namespace Cecil\Renderer;
 
 use Cecil\Builder;
 use Cecil\Exception\RuntimeException;
+use Cecil\Renderer\Extension\Collection as CollectionExtension;
+use Cecil\Renderer\Extension\Content as ContentExtension;
 use Cecil\Renderer\Extension\Core as CoreExtension;
 use Cecil\Util;
 use Performing\TwigComponents\Configuration;
@@ -92,6 +94,10 @@ class Twig implements RendererInterface
          */
         // Cecil core extension
         $this->twig->addExtension(new CoreExtension($this->builder));
+        // Cecil collection extension
+        $this->twig->addExtension(new CollectionExtension($this->builder));
+        // Cecil content extension
+        $this->twig->addExtension(new ContentExtension($this->builder));
         // required by `template_from_string()`
         $this->twig->addExtension(new \Twig\Extension\StringLoaderExtension());
         // the `u` filter (https://github.com/twigphp/string-extra)

@@ -24,7 +24,7 @@ Cecil is a PHP static site generator (SSG) built on Symfony components and Twig 
 Builder → Steps → Generators → Renderer → Output
 
 - **Steps** (`src/Step/`): sequential build phases (Pages, Data, Assets, Taxonomies, Menus, Optimize, StaticFiles)
-- **Generators** (`src/Generator/`): page generators run via `SplPriorityQueue` — lower numeric priority is processed first (DefaultPages=10, VirtualPages=20, ExternalBody=30, Section=40, Taxonomy=50, Homepage=60, Pagination=70, Alias=80, Redirect=90)
+- **Generators** (`src/Generator/`): page generators run via `SplPriorityQueue` (higher numeric values are extracted first). Cecil inverts priorities on insertion so generators execute in this configured order: DefaultPages=10, VirtualPages=20, ExternalBody=30, Section=40, Taxonomy=50, Homepage=60, Pagination=70, Alias=80, Redirect=90.
 - **Renderer** (`src/Renderer/`): Twig-based rendering with custom extensions
 
 ### Content Model
@@ -42,17 +42,24 @@ Hierarchical PHP/YAML config with dot notation access (`src/Config.php`):
 
 ## Coding Standards
 
-| Category                      | Rule                                               |
-| ----------------------------- | -------------------------------------------------- |
-| **PHP — style**               | PSR-12 (enforced by php-cs-fixer and phpcs)        |
-| **PHP — indentation**         | 4 spaces                                           |
-| **PHP — strict types**        | `declare(strict_types=1);` in every file           |
-| **PHP — native functions**    | Prefix with `\` (e.g., `\count()`, `\array_map()`) |
-| **PHP — nullable params**     | Use `?Type` for parameters with default `null`     |
-| **Other files — indentation** | 2 spaces (YAML, Twig, JS, etc.)                    |
-| **Other files — encoding**    | LF line endings, UTF-8                             |
-| **Twig**                      | No final newline                                   |
-| **Markdown**                  | Preserve trailing whitespace                       |
+### PHP Files
+
+| Category                   | Rule                                                |
+| -------------------------- | --------------------------------------------------- |
+| **Style**                  | PSR-12 (enforced by php-cs-fixer and phpcs)         |
+| **Indentation**            | 4 spaces                                            |
+| **Strict types**           | `declare(strict_types=1);` in every file            |
+| **Native functions**       | Prefix with `\` (e.g., `\count()`, `\array_map()`) |
+| **Nullable params**        | Use `?Type` for parameters with default `null`      |
+
+### Non-PHP Files
+
+| Category                   | Rule                                                                                                 |
+| -------------------------- | ---------------------------------------------------------------------------------------------------- |
+| **Indentation**            | 2 spaces (YAML, Twig, JS, etc.)                                                                     |
+| **Encoding**               | LF line endings, UTF-8                                                                               |
+| **Twig**                   | Twig files must not end with a newline character (`\n`) after the last content character. Configure editors to suppress final-newline insertion for `.twig` files. |
+| **Markdown**               | Do not strip trailing whitespace in Markdown files, as it is semantically significant (e.g., two trailing spaces create a line break). |
 
 ### Required PHP File Header
 
