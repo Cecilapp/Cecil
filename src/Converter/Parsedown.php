@@ -477,7 +477,7 @@ class Parsedown extends \ParsedownToc
                 true
             );
             if (\count($darkSourceAttributes) > 0) {
-                $darkSources = array_map(static fn(array $attributes): array => ['name' => 'source', 'attributes' => $attributes], $darkSourceAttributes);
+                $darkSources = array_map(static fn (array $attributes): array => ['name' => 'source', 'attributes' => $attributes], $darkSourceAttributes);
                 // prepend dark sources to existing <picture>, or wrap <img> in a new <picture>
                 if ($image['element']['name'] === 'picture') {
                     array_splice($image['element']['text'], 0, 0, $darkSources);
