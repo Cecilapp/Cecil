@@ -2,6 +2,12 @@
 
 All notable changes to this project will be documented in this file. Dates are displayed in UTC.
 
+#### [8.95.1](https://github.com/Cecilapp/Cecil/compare/8.95.0...8.95.1)
+
+> 25 May 2026
+
+- Set permissions for copied server files [`7f5770e`](https://github.com/Cecilapp/Cecil/commit/7f5770e19a0b24692e926e97efe4ec5dde147f8b)
+
 #### [8.95.0](https://github.com/Cecilapp/Cecil/compare/8.94.5...8.95.0)
 
 > 25 May 2026
