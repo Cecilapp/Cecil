@@ -37,7 +37,7 @@ use Symfony\Component\Finder\Finder;
  * Builder::create($config)->build();
  * ```
  */
-class Builder implements LoggerAwareInterface
+class Builder implements BuildContextInterface, LoggerAwareInterface
 {
     public const VERSION = '8.x-dev';
     public const VERBOSITY_QUIET = -1;

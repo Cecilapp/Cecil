@@ -13,6 +13,7 @@ declare(strict_types=1);
 
 namespace Cecil\Step;
 
+use Cecil\BuildContextInterface;
 use Cecil\Builder;
 use Cecil\Config;
 
@@ -26,7 +27,7 @@ use Cecil\Config;
  */
 abstract class AbstractStep implements StepInterface
 {
-    /** @var Builder */
+    /** @var BuildContextInterface */
     protected $builder;
 
     /** @var Config */

@@ -21,6 +21,9 @@
     <ini name="date.timezone" value="Europe/Paris"/>
   </php>
   <testsuites>
+    <testsuite name="UnitTests">
+      <directory suffix="Test.php">./tests/Unit</directory>
+    </testsuite>
     <testsuite name="IntegrationTests">
       <file>./tests/IntegrationTests.php</file>
     </testsuite>

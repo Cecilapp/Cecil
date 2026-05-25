@@ -13,6 +13,7 @@ declare(strict_types=1);
 
 namespace Cecil\Generator;
 
+use Cecil\BuildContextInterface;
 use Cecil\Builder;
 use Cecil\Collection\Page\Collection as PagesCollection;
 use Cecil\Util;
@@ -22,7 +23,7 @@ use Cecil\Util;
  */
 abstract class AbstractGenerator implements GeneratorInterface
 {
-    /** @var Builder */
+    /** @var BuildContextInterface */
     protected $builder;
 
     /** @var \Cecil\Config */
