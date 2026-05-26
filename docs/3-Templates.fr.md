@@ -1,7 +1,7 @@
 <!--
 title: Templates
 description: "Travailler avec les layouts, les templates et les composants."
-date: 2026-05-16
+date: 2026-05-26
 slug: templates
 -->
 # Templates
@@ -617,6 +617,8 @@ Depuis la version ++8.42.0++, la fonction `html` remplace le filtre `html` obsol
 
 :::tip
 Vous pouvez définir un comportement global par défaut des options d'images (`formats` et `responsive`) via la [configuration des layouts](4-Configuration.md#layouts-images).
+
+Lorsque [`layouts.images.dark_suffix`](4-Configuration.md#layouts-images) est configuré (par exemple `.dark`), Cecil recherche automatiquement une variante sombre de chaque image (par exemple `photo.dark.jpg` aux côtés de `photo.jpg`) et génère un élément `<picture>` avec un `<source media="(prefers-color-scheme: dark)">`.
 :::
 
 _Exemples :_

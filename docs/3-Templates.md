@@ -1,7 +1,7 @@
 <!--
 description: "Working with layouts, templates and components."
 date: 2021-05-07
-updated: 2026-05-16
+updated: 2026-05-26
 alias: documentation/layouts
 -->
 # Templates
@@ -611,16 +611,14 @@ Creates an HTML element from an asset (or an array of assets with custom attribu
 | attributes | Adds `name="value"` couple to the HTML element. | array |
 | options    | `{preload: boolean}`: preloads.<br>For images:<br>`{formats: array}`: adds alternative formats.<br>`{responsive: bool|string}`: adds responsive images (based on `width` or pixels `density`). | array |
 
-:::tip
-When [`layouts.images.dark_suffix`](4-Configuration.md#layouts-images) is configured (e.g. `.dark`), Cecil automatically looks for a dark variant of each image (e.g. `photo.dark.jpg` alongside `photo.jpg`) and generates a `<picture>` element with a `<source media="(prefers-color-scheme: dark)">`.
-:::
-
 :::warning
 Since version ++8.42.0++, the `html` function replace the deprecated `html` filter.
 :::
 
 :::tip
 You can define a global default behavior of images options (`formats` and `responsive`) through the [layouts configuration](4-Configuration.md#layouts-images).
+
+When [`layouts.images.dark_suffix`](4-Configuration.md#layouts-images) is configured (e.g. `.dark`), Cecil automatically looks for a dark variant of each image (e.g. `photo.dark.jpg` alongside `photo.jpg`) and generates a `<picture>` element with a `<source media="(prefers-color-scheme: dark)">`.
 :::
 
 _Examples:_
