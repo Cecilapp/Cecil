@@ -200,7 +200,7 @@ class Image
 
             return $image->reduceColors(1)->pickColor(0, 0)->toString();
         } catch (\Exception $e) {
-            throw new RuntimeException(\sprintf('Unable to get dominant color of "%s": %s.', $asset['path'], $e->getMessage()));
+            throw new RuntimeException(\sprintf('Unable to get dominant color of "%s": %s.', $asset['_path'], $e->getMessage()));
         }
     }
 
@@ -282,13 +282,13 @@ class Image
         $assetOptions = $options['assetOptions'] ?? [];
         $fallbackAsUrl = (bool) ($options['fallbackAsUrl'] ?? false);
 
-        $darkAssetPath = self::buildDarkAssetPath($asset['path'], $darkSuffix);
+        $darkAssetPath = self::buildDarkAssetPath($asset['_path'], $darkSuffix);
         $assetDark = new Asset($builder, $darkAssetPath, array_merge(['ignore_missing' => true], $assetOptions));
         if ($assetDark->isMissing()) {
             $builder->getLogger()->warning(\sprintf(
                 'Dark variant "%s" not found for image "%s".',
                 $darkAssetPath,
-                $asset['path']
+                $asset['_path']
             ));
 
             return [];
