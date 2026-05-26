@@ -2,6 +2,14 @@
 
 All notable changes to this project will be documented in this file. Dates are displayed in UTC.
 
+#### [8.96.0](https://github.com/Cecilapp/Cecil/compare/8.95.1...8.96.0)
+
+> 25 May 2026
+
+- refactor: asset handling and add renderer extensions [`#2383`](https://github.com/Cecilapp/Cecil/pull/2383)
+- chore(deps): bump symfony/polyfill-intl-icu from 1.37.0 to 1.38.0 [`#2384`](https://github.com/Cecilapp/Cecil/pull/2384)
+- docs: update API documentation [`944336a`](https://github.com/Cecilapp/Cecil/commit/944336ac9fa51a47be8ab585829cac4193c6bf3b)
+
 #### [8.95.1](https://github.com/Cecilapp/Cecil/compare/8.95.0...8.95.1)
 
 > 25 May 2026
