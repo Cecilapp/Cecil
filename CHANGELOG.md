@@ -2,6 +2,12 @@
 
 All notable changes to this project will be documented in this file. Dates are displayed in UTC.
 
+#### [8.96.1](https://github.com/Cecilapp/Cecil/compare/8.96.0...8.96.1)
+
+> 26 May 2026
+
+- fix: use _path key for dark asset lookup [`eb4fbfd`](https://github.com/Cecilapp/Cecil/commit/eb4fbfd34c1955529c587f73ff083d748cf942f9)
+
 #### [8.96.0](https://github.com/Cecilapp/Cecil/compare/8.95.1...8.96.0)
 
 > 25 May 2026
