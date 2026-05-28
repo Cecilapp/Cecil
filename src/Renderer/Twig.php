@@ -67,11 +67,26 @@ class Twig implements RendererInterface
         $this->builder = $builder;
         // load layouts
         $loader = new \Twig\Loader\FilesystemLoader($templatesPath);
+        $autoescape = $this->builder->getConfig()->get('layouts.autoescape');
+        if ($autoescape === null) {
+            $autoescape = static function (string $templateName): string|false {
+                // extract the extension before ".twig" (e.g. "template.js.twig" -> "js")
+                $base = \preg_replace('/\.twig$/i', '', $templateName) ?: $templateName;
+                $ext  = \strtolower((string) \pathinfo($base, \PATHINFO_EXTENSION));
+
+                return match ($ext) {
+                    'js'       => 'js',
+                    'css'      => 'css',
+                    'html', '' => 'html',
+                    default    => false,
+                };
+            };
+        }
         // default options
         $loaderOptions = [
             'debug'            => $this->builder->isDebug(),
             'strict_variables' => true,
-            'autoescape'       => false,
+            'autoescape'       => $autoescape,
             'auto_reload'      => true,
             'cache'            => false,
         ];
