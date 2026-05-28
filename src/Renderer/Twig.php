@@ -71,7 +71,10 @@ class Twig implements RendererInterface
         if ($autoescape === null) {
             $autoescape = static function (string $templateName): string|false {
                 // extract the extension before ".twig" (e.g. "template.js.twig" -> "js")
-                $base = preg_replace('/\.twig$/i', '', $templateName) ?: $templateName;
+                $base = preg_replace('/\.twig$/i', '', $templateName);
+                if ($base === null) {
+                    $base = $templateName;
+                }
                 $ext = strtolower((string) pathinfo($base, \PATHINFO_EXTENSION));
 
                 return match ($ext) {
