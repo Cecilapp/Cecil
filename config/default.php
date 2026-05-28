@@ -179,6 +179,7 @@ return [
     ],
     'layouts' => [ // layouts and templates
         'dir' => 'layouts', // Twig templates directory
+        'autoescape' => false, // Twig autoescape option override (null to use extension-based strategy)
         'images' => [ // how to handle images in templates
             'formats' => [], // used by `html` function: adds alternatives image formats as `source` (e.g.: ['avif', 'webp'])
             'responsive' => false, // used by `html` function: adds responsive images ('width' or 'density') to `srcset` attribute

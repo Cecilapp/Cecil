@@ -1027,6 +1027,25 @@ layouts:
   dir: layouts
 ```
 
+### layouts.autoescape
+
+Surcharge l’option Twig `autoescape` (`false` par défaut).
+
+Si la valeur est `null`, Cecil applique une stratégie basée sur l’extension du nom de template :
+
+- `*.js.twig` -> `js`
+- `*.css.twig` -> `css`
+- `*.html.twig` et `*.twig` -> `html`
+- toute autre extension -> `false`
+
+```yaml
+layouts:
+  autoescape: false  # désactive l’échappement automatique (par défaut)
+  #autoescape: null   # utilise la stratégie automatique Cecil selon l’extension du template
+  #autoescape: html
+  #autoescape: js
+```
+
 ### layouts.images
 
 Options de gestion des images.

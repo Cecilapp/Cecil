@@ -1025,6 +1025,25 @@ layouts:
   dir: layouts
 ```
 
+### layouts.autoescape
+
+Overrides Twig `autoescape` option (`false` by default).
+
+If set to `null`, Cecil uses an extension-based strategy:
+
+- `*.js.twig` -> `js`
+- `*.css.twig` -> `css`
+- `*.html.twig` and `*.twig` -> `html`
+- any other extension -> `false`
+
+```yaml
+layouts:
+  autoescape: false  # disables automatic escaping (default) 
+  #autoescape: null   # use Cecil automatic strategy by template filename extension 
+  #autoescape: html
+  #autoescape: js
+```
+
 ### layouts.images
 
 Images handling options.
