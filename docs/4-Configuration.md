@@ -1039,7 +1039,7 @@ If set to `null`, Cecil uses an extension-based strategy:
 ```yaml
 layouts:
   autoescape: false  # disables automatic escaping (default) 
-  #autoescape: null   # use Cecil automatic strategy by template filename extension 
+  #autoescape: null  # use Cecil automatic strategy by template filename extension 
   #autoescape: html
   #autoescape: js
 ```

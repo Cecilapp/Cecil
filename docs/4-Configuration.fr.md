@@ -1041,7 +1041,7 @@ Si la valeur est `null`, Cecil applique une stratégie basée sur l’extension 
 ```yaml
 layouts:
   autoescape: false  # désactive l’échappement automatique (par défaut)
-  #autoescape: null   # utilise la stratégie automatique Cecil selon l’extension du template
+  #autoescape: null  # utilise la stratégie automatique Cecil selon l’extension du template
   #autoescape: html
   #autoescape: js
 ```
