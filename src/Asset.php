@@ -323,11 +323,41 @@ class Asset implements \ArrayAccess
             return;
         }
 
-        if (empty($this->data['path']) || !Util\File::getFS()->exists($this->cache->getContentFile($this->data['path']))) {
-            throw new RuntimeException(\sprintf('Unable to add "%s" to assets list. Please clear cache and retry.', $this->data['path']));
+        if (empty($this->data['path'])) {
+            throw new RuntimeException('Unable to add asset to assets list: missing path.');
+        }
+
+        $contentFile = $this->cache->getContentFile($this->data['path']);
+        if (!Util\File::getFS()->exists($contentFile)) {
+            $this->builder->getLogger()->warning(\sprintf('Asset "%s" not found in cache, trying to rebuild cache file.', $this->data['path']));
+            if (!$this->rebuildContentCacheFile($contentFile)) {
+                $this->builder->getLogger()->warning(\sprintf('Asset "%s" skipped: cache content file is unavailable.', $this->data['path']));
+
+                return;
+            }
         }
 
         $this->builder->addToAssetsList($this->data['path']);
+    }
+
+    /**
+     * Rebuilds a missing cache content file from the in-memory content when possible.
+     */
+    private function rebuildContentCacheFile(string $contentFile): bool
+    {
+        if (empty($this->data['content'])) {
+            return false;
+        }
+
+        try {
+            Util\File::getFS()->dumpFile($contentFile, $this->data['content']);
+        } catch (\Exception $e) {
+            $this->builder->getLogger()->warning(\sprintf('Unable to rebuild cache file for "%s": %s', $this->data['path'], $e->getMessage()));
+
+            return false;
+        }
+
+        return Util\File::getFS()->exists($contentFile);
     }
 
     /**
