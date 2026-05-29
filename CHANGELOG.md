@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. Dates are displayed in UTC.
 
+#### [8.98.0](https://github.com/Cecilapp/Cecil/compare/8.97.0...8.98.0)
+
+> 29 May 2026
+
+- feat: disable translation for inline and fenced code [`#2390`](https://github.com/Cecilapp/Cecil/pull/2390)
+- doc: minor fix [`40be730`](https://github.com/Cecilapp/Cecil/commit/40be730e8eef0ed64b8448c565d14b4f941c23c4)
+
 #### [8.97.0](https://github.com/Cecilapp/Cecil/compare/8.96.1...8.97.0)
 
 > 29 May 2026
