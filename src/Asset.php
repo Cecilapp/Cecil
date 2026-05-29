@@ -348,16 +348,7 @@ class Asset implements \ArrayAccess
      */
     public function fingerprint(): self
     {
-        $this->cacheTags['fingerprint'] = true;
-        $cache = new Cache($this->builder, 'assets');
-        $cacheKey = $cache->createKey($this, tags: $this->cacheTags);
-        if (!$cache->has($cacheKey)) {
-            $this->doFingerprint();
-            $cache->set($cacheKey, $this->data, $this->config->get('cache.assets.ttl'));
-        }
-        $this->data = $cache->get($cacheKey);
-
-        return $this;
+        return $this->cached('fingerprint', fn (): self => $this->doFingerprint());
     }
 
     /**
@@ -367,16 +358,7 @@ class Asset implements \ArrayAccess
      */
     public function compile(): self
     {
-        $this->cacheTags['compile'] = true;
-        $cache = new Cache($this->builder, 'assets');
-        $cacheKey = $cache->createKey($this, tags: $this->cacheTags);
-        if (!$cache->has($cacheKey)) {
-            $this->doCompile();
-            $cache->set($cacheKey, $this->data, $this->config->get('cache.assets.ttl'));
-        }
-        $this->data = $cache->get($cacheKey);
-
-        return $this;
+        return $this->cached('compile', fn (): self => $this->doCompile());
     }
 
     /**
@@ -384,11 +366,19 @@ class Asset implements \ArrayAccess
      */
     public function minify(): self
     {
-        $this->cacheTags['minify'] = true;
+        return $this->cached('minify', fn (): self => $this->doMinify());
+    }
+
+    /**
+     * Runs an asset transformation through the shared cache layer.
+     */
+    private function cached(string $tag, callable $action): self
+    {
+        $this->cacheTags[$tag] = true;
         $cache = new Cache($this->builder, 'assets');
         $cacheKey = $cache->createKey($this, tags: $this->cacheTags);
         if (!$cache->has($cacheKey)) {
-            $this->doMinify();
+            $action();
             $cache->set($cacheKey, $this->data, $this->config->get('cache.assets.ttl'));
         }
         $this->data = $cache->get($cacheKey);
