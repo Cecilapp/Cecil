@@ -280,7 +280,6 @@ class Asset implements \ArrayAccess
     /**
      * Implements \ArrayAccess.
      */
-    #[\ReturnTypeWillChange]
     public function offsetSet($offset, $value): void
     {
         if (!\is_null($offset)) {
@@ -291,7 +290,6 @@ class Asset implements \ArrayAccess
     /**
      * Implements \ArrayAccess.
      */
-    #[\ReturnTypeWillChange]
     public function offsetExists($offset): bool
     {
         return isset($this->data[$offset]);
@@ -300,7 +298,6 @@ class Asset implements \ArrayAccess
     /**
      * Implements \ArrayAccess.
      */
-    #[\ReturnTypeWillChange]
     public function offsetUnset($offset): void
     {
         unset($this->data[$offset]);
@@ -309,8 +306,7 @@ class Asset implements \ArrayAccess
     /**
      * Implements \ArrayAccess.
      */
-    #[\ReturnTypeWillChange]
-    public function offsetGet($offset)
+    public function offsetGet($offset): mixed
     {
         return isset($this->data[$offset]) ? $this->data[$offset] : null;
     }
