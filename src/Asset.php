@@ -42,6 +42,8 @@ class Asset implements \ArrayAccess
     /** @var Config */
     protected $config;
 
+    protected Cache $cache;
+
     /** @var array */
     protected $data = [];
 
@@ -72,6 +74,7 @@ class Asset implements \ArrayAccess
     {
         $this->builder = $builder;
         $this->config = $builder->getConfig();
+        $this->cache = new Cache($this->builder, 'assets');
         $paths = \is_array($paths) ? $paths : [$paths];
         // checks path(s)
         array_walk($paths, function ($path) {
@@ -129,7 +132,6 @@ class Asset implements \ArrayAccess
         unset($options['language']);
 
         // cache for "locate file(s)"
-        $cache = new Cache($this->builder, 'assets');
         $locateCacheKey = \sprintf(
             '%s_locate%s__%s__%s',
             $options['filename'] ?: implode('_', $paths),
@@ -139,7 +141,7 @@ class Asset implements \ArrayAccess
         );
 
         // locate file(s) and get content
-        if (!$cache->has($locateCacheKey)) {
+        if (!$this->cache->has($locateCacheKey)) {
             $pathsCount = \count($paths);
             for ($i = 0; $i < $pathsCount; $i++) {
                 try {
@@ -198,17 +200,15 @@ class Asset implements \ArrayAccess
                     throw new RuntimeException(\sprintf('Unable to handle asset "%s".', $paths[$i]), previous: $e);
                 }
             }
-            $cache->set($locateCacheKey, $this->data);
+            $this->cache->set($locateCacheKey, $this->data);
         }
-        $this->data = $cache->get($locateCacheKey);
+        $this->data = $this->cache->get($locateCacheKey);
 
         // missing
         if ($this->isMissing()) {
             return;
         }
 
-        // cache for "process asset"
-        $cache = new Cache($this->builder, 'assets');
         // create cache tags from options
         $this->cacheTags = $options;
         // remove unnecessary cache tags
@@ -218,13 +218,13 @@ class Asset implements \ArrayAccess
         }
         // optimize image?
         $optimize = false;
+        $quality = (int) $this->config->get('assets.images.quality');
         if ($options['optimize'] && $this->data['type'] == 'image' && !$this->isImageInCdn()) {
             $optimize = true;
-            $quality = (int) $this->config->get('assets.images.quality');
             $this->cacheTags['quality'] = $quality;
         }
-        $cacheKey = $cache->createKey($this, tags: $this->cacheTags);
-        if (!$cache->has($cacheKey)) {
+        $cacheKey = $this->cache->createKey($this, tags: $this->cacheTags);
+        if (!$this->cache->has($cacheKey)) {
             // fingerprinting
             if ($options['fingerprint']) {
                 $this->doFingerprint();
@@ -249,14 +249,14 @@ class Asset implements \ArrayAccess
             if ($this->data['type'] == 'video') {
                 $this->data['duration'] = $this->getVideo()['duration'];
             }
-            $cache->set($cacheKey, $this->data, $this->config->get('cache.assets.ttl'));
+            $this->cache->set($cacheKey, $this->data, $this->config->get('cache.assets.ttl'));
             $this->builder->getLogger()->debug(\sprintf('Asset cached: "%s"', $this->data['path']));
             // optimizing images files (in cache directory)
             if ($optimize) {
-                $this->optimizeImage($cache->getContentFile($this->data['path']), $this->data['path'], $quality);
+                $this->optimizeImage($this->cache->getContentFile($this->data['path']), $this->data['path'], $quality);
             }
         }
-        $this->data = $cache->get($cacheKey);
+        $this->data = $this->cache->get($cacheKey);
     }
 
     /**
@@ -327,8 +327,7 @@ class Asset implements \ArrayAccess
             return;
         }
 
-        $cache = new Cache($this->builder, 'assets');
-        if (empty($this->data['path']) || !Util\File::getFS()->exists($cache->getContentFile($this->data['path']))) {
+        if (empty($this->data['path']) || !Util\File::getFS()->exists($this->cache->getContentFile($this->data['path']))) {
             throw new RuntimeException(\sprintf('Unable to add "%s" to assets list. Please clear cache and retry.', $this->data['path']));
         }
 
@@ -375,13 +374,12 @@ class Asset implements \ArrayAccess
     private function cached(string $tag, callable $action): self
     {
         $this->cacheTags[$tag] = true;
-        $cache = new Cache($this->builder, 'assets');
-        $cacheKey = $cache->createKey($this, tags: $this->cacheTags);
-        if (!$cache->has($cacheKey)) {
+        $cacheKey = $this->cache->createKey($this, tags: $this->cacheTags);
+        if (!$this->cache->has($cacheKey)) {
             $action();
-            $cache->set($cacheKey, $this->data, $this->config->get('cache.assets.ttl'));
+            $this->cache->set($cacheKey, $this->data, $this->config->get('cache.assets.ttl'));
         }
-        $this->data = $cache->get($cacheKey);
+        $this->data = $this->cache->get($cacheKey);
 
         return $this;
     }
@@ -460,12 +458,11 @@ class Asset implements \ArrayAccess
 
         $quality = (int) $this->config->get('assets.images.quality');
 
-        $cache = new Cache($this->builder, 'assets');
         $assetResized->cacheTags['quality'] = $quality;
         $assetResized->cacheTags['width'] = $width;
         $assetResized->cacheTags['height'] = $height;
-        $cacheKey = $cache->createKey($assetResized, tags: $assetResized->cacheTags);
-        if (!$cache->has($cacheKey)) {
+        $cacheKey = $this->cache->createKey($assetResized, tags: $assetResized->cacheTags);
+        if (!$this->cache->has($cacheKey)) {
             $assetResized->data['content'] = Image::resize($assetResized, $width, $height, $quality, $rmAnimation);
             $assetResized->data['path'] = '/' . Util::joinPath(
                 (string) $this->config->get('assets.target'),
@@ -478,10 +475,10 @@ class Asset implements \ArrayAccess
             $assetResized->data['height'] = $assetResized->getHeight();
             $assetResized->data['size'] = \strlen($assetResized->data['content']);
 
-            $cache->set($cacheKey, $assetResized->data, $this->config->get('cache.assets.ttl'));
+            $this->cache->set($cacheKey, $assetResized->data, $this->config->get('cache.assets.ttl'));
             $this->builder->getLogger()->debug(\sprintf('Asset resized: "%s" (%sx%s)', $assetResized->data['path'], $width, $height));
         }
-        $assetResized->data = $cache->get($cacheKey);
+        $assetResized->data = $this->cache->get($cacheKey);
 
         return $assetResized;
     }
@@ -503,10 +500,9 @@ class Asset implements \ArrayAccess
 
         $quality = (int) $this->config->get('assets.images.quality');
 
-        $cache = new Cache($this->builder, 'assets');
         $assetMaskable->cacheTags['maskable'] = true;
-        $cacheKey = $cache->createKey($assetMaskable, tags: $assetMaskable->cacheTags);
-        if (!$cache->has($cacheKey)) {
+        $cacheKey = $this->cache->createKey($assetMaskable, tags: $assetMaskable->cacheTags);
+        if (!$this->cache->has($cacheKey)) {
             $assetMaskable->data['content'] = Image::maskable($assetMaskable, $quality, $padding);
             $assetMaskable->data['path'] = '/' . Util::joinPath(
                 (string) $this->config->get('assets.target'),
@@ -515,10 +511,10 @@ class Asset implements \ArrayAccess
             );
             $assetMaskable->data['size'] = \strlen($assetMaskable->data['content']);
 
-            $cache->set($cacheKey, $assetMaskable->data, $this->config->get('cache.assets.ttl'));
+            $this->cache->set($cacheKey, $assetMaskable->data, $this->config->get('cache.assets.ttl'));
             $this->builder->getLogger()->debug(\sprintf('Asset maskabled: "%s"', $assetMaskable->data['path']));
         }
-        $assetMaskable->data = $cache->get($cacheKey);
+        $assetMaskable->data = $this->cache->get($cacheKey);
 
         return $assetMaskable;
     }
@@ -546,20 +542,19 @@ class Asset implements \ArrayAccess
             return $asset; // returns the asset with the new extension only: CDN do the rest of the job
         }
 
-        $cache = new Cache($this->builder, 'assets');
         $this->cacheTags['quality'] = $quality;
         if ($this->data['width']) {
             $this->cacheTags['width'] = $this->data['width'];
         }
-        $cacheKey = $cache->createKey($asset, tags: $this->cacheTags);
-        if (!$cache->has($cacheKey)) {
+        $cacheKey = $this->cache->createKey($asset, tags: $this->cacheTags);
+        if (!$this->cache->has($cacheKey)) {
             $asset->data['content'] = Image::convert($asset, $format, $quality);
             $asset->data['path'] = preg_replace('/\.' . $this->data['ext'] . '$/m', ".$format", $this->data['path']);
             $asset->data['size'] = \strlen($asset->data['content']);
-            $cache->set($cacheKey, $asset->data, $this->config->get('cache.assets.ttl'));
+            $this->cache->set($cacheKey, $asset->data, $this->config->get('cache.assets.ttl'));
             $this->builder->getLogger()->debug(\sprintf('Asset converted: "%s" (%s -> %s)', $asset->data['path'], $this->data['ext'], $format));
         }
-        $asset->data = $cache->get($cacheKey);
+        $asset->data = $this->cache->get($cacheKey);
 
         return $asset;
     }
