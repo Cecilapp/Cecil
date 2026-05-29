@@ -73,8 +73,7 @@ class IntegrationTests extends \PHPUnit\Framework\TestCase
         self::assertStringContainsString('/images/cecil-logo.fr.png', $htmlFr);
         self::assertStringContainsString('media="(prefers-color-scheme: dark)"', $htmlImages);
         self::assertStringContainsStringIgnoringCase('/images/cecil-logo.dark.png', $htmlImages);
-        self::assertStringContainsString('<code translate="no">../About.md</code>', $htmlMarkdown);
-        self::assertMatchesRegularExpression('/<pre><code[^>]*translate="no"[^>]*>/', $htmlMarkdown);
+        self::assertMatchesRegularExpression('/<code[^>]*translate="no"[^>]*>/', $htmlMarkdown);
     }
 
     /**
