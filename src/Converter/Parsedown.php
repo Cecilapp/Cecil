@@ -231,6 +231,23 @@ class Parsedown extends \ParsedownToc
     /**
      * {@inheritdoc}
      */
+    protected function inlineCode($Excerpt)
+    {
+        $code = parent::inlineCode($Excerpt); // @phpstan-ignore staticMethod.notFound
+
+        if (!isset($code)) {
+            return null;
+        }
+
+        // disable translation of code
+        $code['element']['attributes']['translate'] = 'no';
+
+        return $code;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
     protected function inlineImage($Excerpt)
     {
         $InlineImage = parent::inlineImage($Excerpt); // @phpstan-ignore staticMethod.notFound
@@ -581,10 +598,14 @@ class Parsedown extends \ParsedownToc
      */
     protected function blockFencedCodeComplete($block)
     {
-        if (!$this->config->isEnabled('pages.body.highlight')) {
+        if (!isset($block['element']['element']['attributes'])) {
             return $block;
         }
-        if (!isset($block['element']['element']['attributes'])) {
+
+        // disable translation of code
+        $block['element']['element']['attributes']['translate'] = 'no';
+
+        if (!$this->config->isEnabled('pages.body.highlight')) {
             return $block;
         }
 
