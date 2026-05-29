@@ -240,6 +240,9 @@ class Parsedown extends \ParsedownToc
         }
 
         // disable translation of code
+        if (!isset($code['element']['attributes'])) {
+            $code['element']['attributes'] = [];
+        }
         $code['element']['attributes']['translate'] = 'no';
 
         return $code;
@@ -598,11 +601,10 @@ class Parsedown extends \ParsedownToc
      */
     protected function blockFencedCodeComplete($block)
     {
-        if (!isset($block['element']['element']['attributes'])) {
-            return $block;
-        }
-
         // disable translation of code
+        if (!isset($block['element']['element']['attributes'])) {
+            $block['element']['element']['attributes'] = [];
+        }
         $block['element']['element']['attributes']['translate'] = 'no';
 
         if (!$this->config->isEnabled('pages.body.highlight')) {
