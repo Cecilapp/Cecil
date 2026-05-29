@@ -2,6 +2,20 @@
 
 All notable changes to this project will be documented in this file. Dates are displayed in UTC.
 
+#### [8.97.0](https://github.com/Cecilapp/Cecil/compare/8.96.1...8.97.0)
+
+> 29 May 2026
+
+- feat: add layouts.autoescape option [`#2388`](https://github.com/Cecilapp/Cecil/pull/2388)
+- chore(deps): bump twig/twig from 3.26.0 to 3.27.0 [`#2387`](https://github.com/Cecilapp/Cecil/pull/2387)
+- chore(deps-dev): bump phpstan/phpstan from 2.1.56 to 2.2.0 [`#2386`](https://github.com/Cecilapp/Cecil/pull/2386)
+- chore(deps-dev): bump phpstan/phpstan from 2.1.55 to 2.1.56 [`#2385`](https://github.com/Cecilapp/Cecil/pull/2385)
+- doc: expand configuration docs: pages & assets [`f8eb0b0`](https://github.com/Cecilapp/Cecil/commit/f8eb0b08cc25f2b5ac4d03d8979ea6563223df9c)
+- chore: update deps [`ac90936`](https://github.com/Cecilapp/Cecil/commit/ac90936111ad1be337f78a02cfb464608a9e5cec)
+- doc: add architecture diagram and docs [`8970a08`](https://github.com/Cecilapp/Cecil/commit/8970a08ba38c5b6c93269e796638b3cd64fd04aa)
+- docs: rename and reformat architecture doc [`ae80880`](https://github.com/Cecilapp/Cecil/commit/ae80880b2913a27b2123b8ca1423e19559dcc375)
+- doc: add dark-image variant note and bump dates [`4ba4b8c`](https://github.com/Cecilapp/Cecil/commit/4ba4b8ccb869c6b5692e290d0ffd7a995602425b)
+
 #### [8.96.1](https://github.com/Cecilapp/Cecil/compare/8.96.0...8.96.1)
 
 > 26 May 2026
