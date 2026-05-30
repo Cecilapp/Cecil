@@ -16,10 +16,14 @@ Run fast, focused audits before coding starts, with emphasis on:
 - missing or weak test coverage
 - operational and release risks
 
+Default severity profile: Strict.
+
 ## Review Style
 
 - Findings first, ordered by severity.
 - For each finding, provide file/line evidence and impact.
+- In strict mode, report major issues and also non-blocking but meaningful gaps (style deviations, incomplete validation, missing docs updates, and weak test coverage).
+- In strict mode, prefer reporting uncertain risks as explicit "potential issues" instead of silently dropping them.
 - Keep summaries brief and only after findings.
 - If no findings, state that explicitly and list residual risks/test gaps.
 
@@ -36,4 +40,5 @@ Run fast, focused audits before coding starts, with emphasis on:
 2. Map affected architecture zones (`src/Step`, `src/Generator`, `src/Renderer`, config files).
 3. Check conventions (PSR-12, strict types, Cecil header, native function prefixing where relevant).
 4. Assess tests impacted or missing.
-5. Report findings with actionable recommendations.
+5. Verify documentation impact (`README.md`, `docs/`, `CHANGELOG.md`) for behavior or architecture changes.
+6. Report findings with actionable recommendations.
