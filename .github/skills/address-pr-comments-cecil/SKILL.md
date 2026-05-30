@@ -7,6 +7,8 @@ description: Standard workflow to address pull request review comments in Cecil.
 
 Use this workflow to process review feedback consistently.
 
+Response profile: Standard.
+
 ## Scope
 
 - Applies to PR comments and requested changes.
@@ -34,15 +36,16 @@ Use this workflow to process review feedback consistently.
 - Reference files and key lines.
 - Summarize validation performed and outcomes.
 - Call out risks, assumptions, and follow-ups if any.
+- Keep details concise but sufficient for asynchronous review (what changed, why, and proof of validation).
 
 ## Output Template
 
 Use this structure in your final PR comment response:
 
 - Issue reproduced: yes/no + short evidence
-- Fix applied: concise summary
-- Validation: commands run + result
-- Notes: assumptions, limitations, or next steps
+- Fix applied: concise summary + impacted files/components
+- Validation: commands run + result (passed/failed/skipped)
+- Notes: assumptions, limitations, risks, or next steps
 
 ## Guardrails
 
