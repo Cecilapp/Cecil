@@ -2,6 +2,16 @@
 
 All notable changes to this project will be documented in this file. Dates are displayed in UTC.
 
+#### [8.99.0-beta.1](https://github.com/Cecilapp/Cecil/compare/8.98.0...8.99.0-beta.1)
+
+> 30 May 2026
+
+- chore(deps-dev): bump phpstan/phpstan from 2.2.0 to 2.2.1 [`#2392`](https://github.com/Cecilapp/Cecil/pull/2392)
+- refactor: use single Cache instance in Asset [`d6d8d0a`](https://github.com/Cecilapp/Cecil/commit/d6d8d0aa468622dac88bf3370ac7895af3ab4ffe)
+- refactor: rebuild missing asset cache file [`1718d9e`](https://github.com/Cecilapp/Cecil/commit/1718d9e26701503492a1bb40455a6bef8b93afa9)
+- refactor: consolidate asset cache logic [`bbadfaa`](https://github.com/Cecilapp/Cecil/commit/bbadfaa5524966af303e9e7f4fdd0c5ba041d496)
+- refactor: remove ReturnTypeWillChange attributes [`d57e3a9`](https://github.com/Cecilapp/Cecil/commit/d57e3a94d2aefa446c3762b2fb9a6945b57add3f)
+
 #### [8.98.0](https://github.com/Cecilapp/Cecil/compare/8.97.0...8.98.0)
 
 > 29 May 2026
