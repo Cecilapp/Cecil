@@ -87,6 +87,7 @@ class Render extends AbstractStep
         $this->addGlobals();
 
         $subset = $this->subset;
+        $translationsIndex = $this->buildTranslationsIndex();
 
         /** @var Collection $pages */
         $pages = $this->builder->getPages()
@@ -113,14 +114,14 @@ class Render extends AbstractStep
                 return true;
             })
             // enrichs some variables
-            ->map(function (Page $page) {
+            ->map(function (Page $page) use ($translationsIndex) {
                 $formats = $this->getOutputFormats($page);
                 // output formats
                 $page->setVariable('output', $formats);
                 // alternates formats
                 $page->setVariable('alternates', $this->getAlternates($formats));
                 // translations
-                $page->setVariable('translations', $this->getTranslations($page));
+                $page->setVariable('translations', $this->getTranslations($page, $translationsIndex));
 
                 return $page;
             });
@@ -209,7 +210,11 @@ class Render extends AbstractStep
                             $deprecations[] = $msg;
                         }
                     });
-                    $output = $this->builder->getRenderer()->render($layout['file'], ['page' => $page]);
+                    try {
+                        $output = $this->builder->getRenderer()->render($layout['file'], ['page' => $page]);
+                    } finally {
+                        restore_error_handler();
+                    }
                     foreach ($deprecations as $value) {
                         $this->builder->getLogger()->warning($value);
                     }
@@ -365,19 +370,42 @@ class Render extends AbstractStep
     }
 
     /**
-     * Returns the collection of translated pages for a given page.
+     * Builds translation groups once for the current page set.
+     *
+     * @return array<string, array<Page>>
      */
-    protected function getTranslations(Page $refPage): Collection
+    protected function buildTranslationsIndex(): array
     {
-        $pages = $this->builder->getPages()->filter(function (Page $page) use ($refPage) {
-            return $page->getVariable('langref') == $refPage->getVariable('langref')
-                && $page->getType() == $refPage->getType()
-                && $page->getId() !== $refPage->getId()
-                && !empty($page->getVariable('published'))
-                && !$page->getVariable('paginated')
-            ;
+        $translationsIndex = [];
+
+        /** @var Page $page */
+        foreach ($this->builder->getPages() as $page) {
+            if (empty($page->getVariable('published')) || $page->getVariable('paginated')) {
+                continue;
+            }
+
+            $translationsIndex[$this->getTranslationsIndexKey($page)][] = $page;
+        }
+
+        return $translationsIndex;
+    }
+
+    /**
+     * Returns the collection of translated pages for a given page.
+     *
+     * @param array<string, array<Page>> $translationsIndex
+     */
+    protected function getTranslations(Page $refPage, array $translationsIndex = []): Collection
+    {
+        $pages = \array_filter($translationsIndex[$this->getTranslationsIndexKey($refPage)] ?? [], function (Page $page) use ($refPage) {
+            return $page->getId() !== $refPage->getId();
         });
 
-        return $pages;
+        return new Collection('translations', $pages);
+    }
+
+    protected function getTranslationsIndexKey(Page $page): string
+    {
+        return \sprintf('%s::%s', (string) $page->getVariable('langref'), $page->getType());
     }
 }
