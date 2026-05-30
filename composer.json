@@ -147,6 +147,7 @@
     "test:coverage:upload": "php coveralls.phar -v --coverage_clover=coverage/clover.xml --json_path=coverage/coveralls-upload.json",
     "test:integration": "phpunit -c ./ --testsuite=IntegrationTests",
     "test:unit": "phpunit -c ./ --testsuite=UnitTests",
+    "test:unit:verbose": "phpunit -c ./ --testsuite=UnitTests --testdox",
     "test:phar": "box compile && cd dist && php cecil.phar --version && rm -rf demo && mkdir demo && php cecil.phar new:site demo --demo -f -n && php cecil.phar new:page demo -f -n && php cecil.phar build demo -v && php cecil.phar show:content demo && rm -rf demo"
   },
   "scripts-descriptions": {
