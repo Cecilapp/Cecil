@@ -559,7 +559,7 @@ class Builder implements BuildContextInterface, LoggerAwareInterface
      */
     public static function getVersion(): string
     {
-        if (!isset(self::$version)) {
+        if (empty(self::$version)) {
             try {
                 $filePath = Util\File::getRealPath('VERSION');
                 $version = Util\File::fileGetContents($filePath);
