@@ -17,24 +17,16 @@ use Cecil\Asset;
 use Cecil\Asset\Image;
 use Cecil\Builder;
 use Cecil\Cache;
-use Cecil\Collection\CollectionInterface;
-use Cecil\Collection\Page\Collection as PagesCollection;
-use Cecil\Collection\Page\Page;
-use Cecil\Collection\Page\Type;
 use Cecil\Config;
-use Cecil\Converter\Parsedown;
 use Cecil\Exception\ConfigException;
 use Cecil\Exception\RuntimeException;
 use Cecil\Url;
 use Cecil\Util;
-use Highlight\Highlighter;
 use MatthiasMullie\Minify;
 use ScssPhp\ScssPhp\Compiler;
 use ScssPhp\ScssPhp\OutputStyle;
 use Symfony\Component\VarDumper\Cloner\VarCloner;
 use Symfony\Component\VarDumper\Dumper\HtmlDumper;
-use Symfony\Component\Yaml\Exception\ParseException;
-use Symfony\Component\Yaml\Yaml;
 use Twig\DeprecatedCallableInfo;
 use Twig\Extension\AbstractExtension;
 
@@ -74,8 +66,7 @@ class Core extends AbstractExtension
             new \Twig\TwigFunction('image_srcset', [$this, 'imageSrcset']),
             new \Twig\TwigFunction('image_sizes', [$this, 'imageSizes']),
             new \Twig\TwigFunction('image_from_website', [$this, 'htmlImageFromWebsite'], ['needs_context' => true]),
-            // content
-            new \Twig\TwigFunction('readtime', [$this, 'readtime']),
+            // utilities
             new \Twig\TwigFunction('hash', [$this, 'hash']),
             new \Twig\TwigFunction('cache_key', [$this, 'cacheKey'], ['needs_context' => true]),
             // sub-sections
@@ -110,11 +101,6 @@ class Core extends AbstractExtension
     {
         return [
             new \Twig\TwigFilter('url', [$this, 'url'], ['needs_context' => true]),
-            // collections
-            new \Twig\TwigFilter('sort_by_title', [$this, 'sortByTitle']),
-            new \Twig\TwigFilter('sort_by_date', [$this, 'sortByDate']),
-            new \Twig\TwigFilter('sort_by_weight', [$this, 'sortByWeight']),
-            new \Twig\TwigFilter('filter_by', [$this, 'filterBy']),
             // assets
             new \Twig\TwigFilter('inline', [$this, 'inline']),
             new \Twig\TwigFilter('fingerprint', [$this, 'fingerprint']),
@@ -131,23 +117,6 @@ class Core extends AbstractExtension
             new \Twig\TwigFilter('lqip', [$this, 'lqip']),
             new \Twig\TwigFilter('webp', [$this, 'webp']),
             new \Twig\TwigFilter('avif', [$this, 'avif']),
-            // content
-            new \Twig\TwigFilter('slugify', [$this, 'slugifyFilter']),
-            new \Twig\TwigFilter('excerpt', [$this, 'excerpt']),
-            new \Twig\TwigFilter('excerpt_html', [$this, 'excerptHtml']),
-            new \Twig\TwigFilter('markdown_to_html', [$this, 'markdownToHtml']),
-            new \Twig\TwigFilter('toc', [$this, 'markdownToToc']),
-            new \Twig\TwigFilter('json_decode', [$this, 'jsonDecode']),
-            new \Twig\TwigFilter('yaml_parse', [$this, 'yamlParse']),
-            new \Twig\TwigFilter('preg_split', [$this, 'pregSplit']),
-            new \Twig\TwigFilter('preg_match_all', [$this, 'pregMatchAll']),
-            new \Twig\TwigFilter('hex_to_rgb', [$this, 'hexToRgb']),
-            new \Twig\TwigFilter('splitline', [$this, 'splitLine']),
-            new \Twig\TwigFilter('iterable', [$this, 'iterable']),
-            new \Twig\TwigFilter('highlight', [$this, 'highlight']),
-            new \Twig\TwigFilter('unique', [$this, 'unique']),
-            // date
-            new \Twig\TwigFilter('duration_to_iso8601', ['\Cecil\Util\Date', 'durationToIso8601']),
             // deprecated
             new \Twig\TwigFilter(
                 'html',
@@ -184,191 +153,6 @@ class Core extends AbstractExtension
         ];
     }
 
-    public function slugifyFilter(string $string): string
-    {
-        return Page::slugify($string);
-    }
-
-    /**
-     * Filters by Section.
-     */
-    public function filterBySection(PagesCollection $pages, string $section): CollectionInterface
-    {
-        return $this->filterBy($pages, 'section', $section);
-    }
-
-    /**
-     * Returns child sub-sections of a section page.
-     *
-     * @return Page[]|PagesCollection|null
-     */
-    public function getSubSections(Page $page): ?\Cecil\Collection\Page\Collection
-    {
-        if ($page->getType() !== Type::SECTION->value) {
-            return null;
-        }
-
-        return $page->getSubSections();
-    }
-
-    /**
-     * Returns parent section of a sub-section.
-     */
-    public function getParentSectionFunc(Page $page): ?Page
-    {
-        return $page->getParentSection();
-    }
-
-    /**
-     * Returns breadcrumb from root section to the given section.
-     *
-     * @return Page[]
-     */
-    public function getSectionBreadcrumb(Page $page): array
-    {
-        return $page->getSectionBreadcrumb();
-    }
-
-    /**
-     * Returns all pages recursively, including pages from sub-sections.
-     */
-    public function getAllPagesRecursive(Page $page): ?\Cecil\Collection\Page\Collection
-    {
-        if ($page->getType() !== Type::SECTION->value) {
-            return null;
-        }
-
-        return $page->getAllPagesRecursive();
-    }
-
-    /**
-     * Returns the full section tree (root sections with nested children).
-     *
-     * @return array<string, array{page: Page, children: array}>
-     */
-    public function getSectionTree(): array
-    {
-        $tree = [];
-        $pages = $this->builder->getPages();
-        if ($pages === null) {
-            return $tree;
-        }
-
-        /** @var Page $page */
-        foreach ($pages as $page) {
-            if ($page->getType() === Type::SECTION->value && !$page->hasParentSection()) {
-                $tree[$page->getId()] = $this->buildTreeNode($page);
-            }
-        }
-
-        return $tree;
-    }
-
-    /**
-     * Recursively builds a tree node for section_tree().
-     */
-    private function buildTreeNode(Page $page): array
-    {
-        $node = [
-            'page'     => $page,
-            'children' => [],
-        ];
-
-        if ($page->hasSubSections()) {
-            foreach ($page->getSubSections() as $child) {
-                $node['children'][$child->getId()] = $this->buildTreeNode($child);
-            }
-        }
-
-        return $node;
-    }
-
-    /**
-     * Filters a pages collection by variable's name/value.
-     */
-    public function filterBy(PagesCollection $pages, string $variable, string $value): CollectionInterface
-    {
-        $filteredPages = $pages->filter(function (Page $page) use ($variable, $value) {
-            // is a dedicated getter exists?
-            $method = 'get' . ucfirst($variable);
-            if (method_exists($page, $method) && $page->$method() == $value) {
-                return $page->getType() == Type::PAGE->value && !$page->isVirtual() && true;
-            }
-            // or a classic variable
-            if ($page->getVariable($variable) == $value) {
-                return $page->getType() == Type::PAGE->value && !$page->isVirtual() && true;
-            }
-        });
-
-        return $filteredPages;
-    }
-
-    /**
-     * Sorts a collection by title.
-     */
-    public function sortByTitle(\Traversable $collection): array
-    {
-        $sort = \SORT_ASC;
-
-        $collection = iterator_to_array($collection);
-        array_multisort(array_keys(/** @scrutinizer ignore-type */ $collection), $sort, \SORT_NATURAL | \SORT_FLAG_CASE, $collection);
-
-        return $collection;
-    }
-
-    /**
-     * Sorts a collection by weight.
-     *
-     * @param \Traversable|array $collection
-     */
-    public function sortByWeight($collection): array
-    {
-        $callback = function ($a, $b) {
-            if (!isset($a['weight'])) {
-                $a['weight'] = 0;
-            }
-            if (!isset($b['weight'])) {
-                $a['weight'] = 0;
-            }
-            if ($a['weight'] == $b['weight']) {
-                return 0;
-            }
-
-            return $a['weight'] < $b['weight'] ? -1 : 1;
-        };
-
-        if (!\is_array($collection)) {
-            $collection = iterator_to_array($collection);
-        }
-        usort(/** @scrutinizer ignore-type */ $collection, $callback);
-
-        return $collection;
-    }
-
-    /**
-     * Sorts by creation date (or 'updated' date): the most recent first.
-     */
-    public function sortByDate(\Traversable $collection, string $variable = 'date', bool $descTitle = false): array
-    {
-        $callback = function ($a, $b) use ($variable, $descTitle) {
-            if ($a[$variable] == $b[$variable]) {
-                // if dates are equal and "descTitle" is true
-                if ($descTitle && (isset($a['title']) && isset($b['title']))) {
-                    return strnatcmp($b['title'], $a['title']);
-                }
-
-                return 0;
-            }
-
-            return $a[$variable] > $b[$variable] ? -1 : 1;
-        };
-
-        $collection = iterator_to_array($collection);
-        usort(/** @scrutinizer ignore-type */ $collection, $callback);
-
-        return $collection;
-    }
-
     /**
      * Creates an URL.
      *
@@ -378,9 +162,9 @@ class Core extends AbstractExtension
      *     'language'  => null,
      * ];
      *
-     * @param array                  $context
-     * @param Page|Asset|string|null $value
-     * @param array|null             $options
+     * @param array                                      $context
+     * @param \Cecil\Collection\Page\Page|Asset|string|null $value
+     * @param array|null                                 $options
      */
     public function url(array $context, $value = null, ?array $options = null): string
     {
@@ -719,7 +503,7 @@ class Core extends AbstractExtension
     public function htmlImage(array $context, Asset $asset, array $attributes = [], array $options = []): string
     {
         $responsive = $options['responsive'] ?? $this->config->get('layouts.images.responsive');
-
+        $source = '';
         // build responsive attributes
         try {
             if ($responsive === true || $responsive == 'width') {
@@ -744,10 +528,10 @@ class Core extends AbstractExtension
         }
 
         // create alternative formats (`<source>`)
+        $formats = [];
         try {
             $formats = $options['formats'] ?? (array) $this->config->get('layouts.images.formats');
             if (\count($formats) > 0) {
-                $source = '';
                 foreach ($formats as $format) {
                     try {
                         $assetConverted = $asset->convert($format);
@@ -796,9 +580,13 @@ class Core extends AbstractExtension
         }
         $img = \sprintf('<img src="%s"%s>', $this->url($context, $asset, $options), self::htmlAttributes($attributes));
 
+
+        // dark color-scheme variant: auto-detect `{filename}{suffix}.{ext}` alongside the source image
+        $darkSource = $this->buildDarkSourceHtml($asset, $formats, $responsive, $attributes);
+
         // put `<source>` elements in `<picture>` if exists
-        if (!empty($source)) {
-            return \sprintf("<picture>%s\n  %s\n</picture>", $source, $img);
+        if (!empty($darkSource) || !empty($source)) {
+            return \sprintf("<picture>%s%s\n  %s\n</picture>", $darkSource, $source, $img);
         }
 
         return $img;
@@ -814,6 +602,44 @@ class Core extends AbstractExtension
         }
 
         return \sprintf('<audio%s src="%s" type="%s"></audio>', self::htmlAttributes($attributes), $this->url($context, $asset, $options), $asset['subtype']);
+    }
+
+    /**
+     * Builds HTML dark "source" elements for the dark color-scheme variant of an image Asset.
+     *
+     * @param array $formats    Alternative formats (e.g. ['avif', 'webp'])
+     * @param mixed $responsive Responsive mode (true, 'width', 'density' or false)
+     * @param array $attributes Image attributes
+     */
+    private function buildDarkSourceHtml(Asset $asset, array $formats, mixed $responsive, array $attributes): string
+    {
+        $darkSuffix = (string) $this->config->get('layouts.images.dark_suffix');
+        $sizes = null;
+        if ($responsive === true || $responsive === 'width') {
+            $sizes = Image::getHtmlSizes($attributes['class'] ?? '', $this->config->getAssetsImagesSizes());
+        }
+        $darkSourceAttributes = Image::buildDarkSourceAttributes(
+            $this->builder,
+            $asset,
+            $darkSuffix,
+            $formats,
+            [
+                'responsive' => $responsive,
+                'widths' => $this->config->getAssetsImagesWidths(),
+                'densities' => $this->config->getAssetsImagesDensities(),
+                'sizes' => $sizes,
+                'width1x' => isset($attributes['width']) && $attributes['width'] > 0 ? (int) $attributes['width'] : null,
+            ]
+        );
+        if (empty($darkSourceAttributes)) {
+            return '';
+        }
+        $darkSource = '';
+        foreach ($darkSourceAttributes as $sourceAttributes) {
+            $darkSource .= \sprintf("\n  <source%s>", self::htmlAttributes($sourceAttributes));
+        }
+
+        return $darkSource;
     }
 
     /**
@@ -920,198 +746,6 @@ class Core extends AbstractExtension
     }
 
     /**
-     * Reads $length first characters of a string and adds a suffix.
-     */
-    public function excerpt(?string $string, int $length = 450, string $suffix = ' …'): string
-    {
-        $string = $string ?? '';
-
-        $string = str_replace('</p>', '<br><br>', $string);
-        $string = trim(strip_tags($string, '<br>'));
-        if (mb_strlen($string) > $length) {
-            $string = mb_substr($string, 0, $length);
-            $string .= $suffix;
-        }
-
-        return $string;
-    }
-
-    /**
-     * Reads characters before or after '<!-- separator -->'.
-     * Options:
-     *  - separator: string to use as separator (`excerpt|break` by default)
-     *  - capture: part to capture, `before` or `after` the separator (`before` by default).
-     */
-    public function excerptHtml(?string $string, array $options = []): string
-    {
-        $string = $string ?? '';
-
-        $separator = (string) $this->config->get('pages.body.excerpt.separator');
-        $capture = (string) $this->config->get('pages.body.excerpt.capture');
-        extract($options, EXTR_IF_EXISTS);
-
-        // https://regex101.com/r/n9TWHF/1
-        $pattern = '(.*)<!--[[:blank:]]?(' . $separator . ')[[:blank:]]?-->(.*)';
-        preg_match('/' . $pattern . '/is', $string, $matches);
-
-        if (empty($matches)) {
-            return $string;
-        }
-        $result = trim($matches[1]);
-        if ($capture == 'after') {
-            $result = trim($matches[3]);
-        }
-        // removes footnotes and returns result
-        return preg_replace('/<sup[^>]*>[^u]*<\/sup>/', '', $result);
-    }
-
-    /**
-     * Converts a Markdown string to HTML.
-     *
-     * @throws RuntimeException
-     */
-    public function markdownToHtml(?string $markdown): ?string
-    {
-        $markdown = $markdown ?? '';
-
-        try {
-            $parsedown = new Parsedown($this->builder);
-            $html = $parsedown->text($markdown);
-        } catch (\Exception $e) {
-            throw new RuntimeException(
-                '"markdown_to_html" filter can not convert supplied Markdown.',
-                previous: $e
-            );
-        }
-
-        return $html;
-    }
-
-    /**
-     * Extracts only headings matching the given `selectors` (h2, h3, etc.),
-     * or those defined in config `pages.body.toc` if not specified.
-     * The `format` parameter defines the output format: `html` or `json`.
-     * The `url` parameter is used to build links to headings.
-     *
-     * @throws RuntimeException
-     */
-    public function markdownToToc(?string $markdown, $format = 'html', ?array $selectors = null, string $url = ''): ?string
-    {
-        $markdown = $markdown ?? '';
-        $selectors = $selectors ?? (array) $this->config->get('pages.body.toc');
-
-        try {
-            $parsedown = new Parsedown($this->builder, ['selectors' => $selectors, 'base_url' => $url]);
-            $parsedown->body($markdown);
-            $return = $parsedown->contentsList($format);
-        } catch (\Exception) {
-            throw new RuntimeException('"toc" filter can not convert supplied Markdown.');
-        }
-
-        return $return;
-    }
-
-    /**
-     * Converts a JSON string to an array.
-     *
-     * @throws RuntimeException
-     */
-    public function jsonDecode(?string $json): ?array
-    {
-        $json = $json ?? '';
-
-        try {
-            $array = json_decode($json, true);
-            if ($array === null && json_last_error() !== JSON_ERROR_NONE) {
-                throw new \Exception('JSON error.');
-            }
-        } catch (\Exception) {
-            throw new RuntimeException('"json_decode" filter can not parse supplied JSON.');
-        }
-
-        return $array;
-    }
-
-    /**
-     * Converts a YAML string to an array.
-     *
-     * @throws RuntimeException
-     */
-    public function yamlParse(?string $yaml): ?array
-    {
-        $yaml = $yaml ?? '';
-
-        try {
-            $array = Yaml::parse($yaml, Yaml::PARSE_DATETIME);
-            if (!\is_array($array)) {
-                throw new ParseException('YAML error.');
-            }
-        } catch (ParseException $e) {
-            throw new RuntimeException(\sprintf('"yaml_parse" filter can not parse supplied YAML: %s', $e->getMessage()));
-        }
-
-        return $array;
-    }
-
-    /**
-     * Split a string into an array using a regular expression.
-     *
-     * @throws RuntimeException
-     */
-    public function pregSplit(?string $value, string $pattern, int $limit = 0): ?array
-    {
-        $value = $value ?? '';
-
-        try {
-            $array = preg_split($pattern, $value, $limit);
-            if ($array === false) {
-                throw new RuntimeException('PREG split error.');
-            }
-        } catch (\Exception) {
-            throw new RuntimeException('"preg_split" filter can not split supplied string.');
-        }
-
-        return $array;
-    }
-
-    /**
-     * Perform a regular expression match and return the group for all matches.
-     *
-     * @throws RuntimeException
-     */
-    public function pregMatchAll(?string $value, string $pattern, int $group = 0): ?array
-    {
-        $value = $value ?? '';
-
-        try {
-            $array = preg_match_all($pattern, $value, $matches, PREG_PATTERN_ORDER);
-            if ($array === false) {
-                throw new RuntimeException('PREG match all error.');
-            }
-        } catch (\Exception) {
-            throw new RuntimeException('"preg_match_all" filter can not match in supplied string.');
-        }
-
-        return $matches[$group];
-    }
-
-    /**
-     * Calculates estimated time to read a text.
-     */
-    public function readtime(?string $text): string
-    {
-        $text = $text ?? '';
-
-        $words = str_word_count(strip_tags($text));
-        $min = floor($words / 200);
-        if ($min === 0) {
-            return '1';
-        }
-
-        return (string) $min;
-    }
-
-    /**
      * Gets the value of an environment variable.
      */
     public function getEnv(?string $var): ?string
@@ -1207,41 +841,6 @@ class Core extends AbstractExtension
     }
 
     /**
-     * Converts an hexadecimal color to RGB.
-     *
-     * @throws RuntimeException
-     */
-    public function hexToRgb(?string $variable): array
-    {
-        $variable = $variable ?? '';
-
-        if (!self::isHex($variable)) {
-            throw new RuntimeException(\sprintf('"%s" is not a valid hexadecimal value.', $variable));
-        }
-        $hex = ltrim($variable, '#');
-        if (\strlen($hex) == 3) {
-            $hex = $hex[0] . $hex[0] . $hex[1] . $hex[1] . $hex[2] . $hex[2];
-        }
-        $c = hexdec($hex);
-
-        return [
-            'red'   => $c >> 16 & 0xFF,
-            'green' => $c >> 8 & 0xFF,
-            'blue'  => $c & 0xFF,
-        ];
-    }
-
-    /**
-     * Split a string in multiple lines.
-     */
-    public function splitLine(?string $variable, int $max = 18): array
-    {
-        $variable = $variable ?? '';
-
-        return preg_split("/.{0,{$max}}\K(\s+|$)/", $variable, 0, PREG_SPLIT_NO_EMPTY);
-    }
-
-    /**
      * Hashing an object, an array or a string (with algo, xxh128 by default).
      */
     public function hash(object|array|string $data, $algo = 'xxh128'): string
@@ -1270,62 +869,6 @@ class Core extends AbstractExtension
         $key = $key . '-' . $context['site']['language'] . '-' . $context['site']['build'];
 
         return preg_replace('/[{}()\/\\\@:]/', '-', $key); // replace any of the reserved characters
-    }
-
-    /**
-     * Converts a variable to an iterable (array).
-     */
-    public function iterable($value): array
-    {
-        if (\is_array($value)) {
-            return $value;
-        }
-        if (\is_string($value)) {
-            return [$value];
-        }
-        if ($value instanceof \Traversable) {
-            return iterator_to_array($value);
-        }
-        if ($value instanceof \stdClass) {
-            return (array) $value;
-        }
-        if (\is_object($value)) {
-            return [$value];
-        }
-        if (\is_int($value) || \is_float($value)) {
-            return [$value];
-        }
-        return [$value];
-    }
-
-    /**
-     * Highlights a code snippet.
-     */
-    public function highlight(string $code, string $language): string
-    {
-        return (new Highlighter())->highlight($language, $code)->value;
-    }
-
-    /**
-     * Returns an array with unique values.
-     */
-    public function unique(array $array): array
-    {
-        return array_intersect_key($array, array_unique(array_map('strtolower', $array), SORT_STRING));
-    }
-
-    /**
-     * Is a hexadecimal color is valid?
-     */
-    private static function isHex(string $hex): bool
-    {
-        $valid = \is_string($hex);
-        $hex = ltrim($hex, '#');
-        $length = \strlen($hex);
-        $valid = $valid && ($length === 3 || $length === 6);
-        $valid = $valid && ctype_xdigit($hex);
-
-        return $valid;
     }
 
     /**

@@ -1,7 +1,7 @@
 <!--
 description: "Working with layouts, templates and components."
 date: 2021-05-07
-updated: 2026-03-26
+updated: 2026-05-26
 alias: documentation/layouts
 -->
 # Templates
@@ -31,33 +31,30 @@ Cecil is powered by the [Twig](https://twig.symfony.com) template engine, so ple
 
 ### Kinds of templates
 
-There is three kinds of templates, **_layouts_**, **_components_** and **_others templates_**: _layouts_ are used to render [pages](2-Content.md#pages), and each of them can [include templates](https://twig.symfony.com/doc/templates.html#including-other-templates) and [components](#components).
+There are three kinds of templates: **_layouts_**, **_components_**, and **_other templates_**. _Layouts_ are used to render [pages](2-Content.md#pages), and each layout can [include templates](https://twig.symfony.com/doc/templates.html#including-other-templates) and [components](#components).
 
 ### Naming convention
 
-Templates files are stored in the `layouts/` directory and must be named according to the following convention:
+Template files are stored in the `layouts/` directory and must be named according to the following convention:
 
 ```plaintext
 layouts/(<section>/)<type>|<layout>.<format>(.<language>).twig
 ```
 
-`<section>` (optional)
+`<section>` (_optional_)
 :  The section of the page (e.g.: `blog`).
 
 `<type>`
 :  The page type: `home` (or `index`) for _homepage_, `list` for _list_, `page` for _page_, etc. (See [_Lookup rules_](#lookup-rules) for details).
 
-`<layout>` (optional)
+`<layout>` (_optional_)
 :  The custom layout name defined in the [front matter](2-Content.md#front-matter) of the page (e.g.: `layout: my-layout`).
-
-`<language>` (optional)
-:  The language of the page (e.g.: `fr`).
 
 `<format>`
 :  The [output format](4-Configuration.md#output-formats) of the rendered page (e.g.: `html`, `rss`, `json`, `xml`, etc.).
 
-`.twig`
-:  The mandatory Twig file extension.
+`<language>` (_optional_)
+:  The language of the page (e.g.: `fr`).
 
 _Examples:_
 
@@ -71,26 +68,20 @@ layouts/blog/list.rss.twig   # `section` is "blog" and `format` is "rss"
 ```
 
 ```plaintext
-<mywebsite>
+<my-site>
 ├─ ...
-├─ layouts                  <- Layouts and templates
-|  ├─ my-layout.html.twig
-|  ├─ index.html.twig       <- Used by type "homepage"
-|  ├─ list.html.twig        <- Used by types "homepage", "section" and "term"
-|  ├─ list.rss.twig         <- Used by types "homepage", "section" and "term", for RSS output format
-|  ├─ page.html.twig        <- Used by type "page"
+├─ layouts
+|  ├─ index.html.twig      # Used by type "homepage"
+|  ├─ list.html.twig       # Used by types "homepage", "section" and "term"
+|  ├─ list.rss.twig        # Used by types "homepage", "section" and "term", for RSS output format
+|  ├─ page.html.twig       # Used by type "page"
+|  ├─ my-layout.html.twig  # Used by pages with `layout: my-layout` in the front matter
 |  ├─ ...
-|  ├─ _default              <- Default layouts, that can be easily extended
-|  |  ├─ list.html.twig
-|  |  ├─ page.html.twig
-|  |  └─ ...
-|  └─ partials
-|     ├─ footer.html.twig   <- Included template
+|  └─ partials             # Included templates
+|     ├─ footer.html.twig
 |     └─ ...
-└─ themes
-   └─ <theme>
-      └─ layouts            <- Theme layouts and templates
-         └─ ...
+└─ themes                  # Themes layouts and templates
+   └─ ...
 ```
 
 ### Built-in templates
@@ -106,62 +97,16 @@ php cecil.phar util:templates:extract
 
 :::
 
-#### Default templates
-
-[`_default/page.html.twig`](https://github.com/Cecilapp/Cecil/blob/master/resources/layouts/_default/page.html.twig)
-:   A simple main template with a clean CSS.
-
-[`_default/list.html.twig`](https://github.com/Cecilapp/Cecil/blob/master/resources/layouts/_default/list.html.twig)
-:   A pages list with (an optional) pagination.
-
-[`_default/list.atom.twig`](https://github.com/Cecilapp/Cecil/blob/master/resources/layouts/_default/list.atom.twig)
-:   An Atom feed.
-
-[`_default/list.rss.twig`](https://github.com/Cecilapp/Cecil/blob/master/resources/layouts/_default/list.rss.twig)
-:   A RSS feed.
-
-[`_default/vocabulary.html.twig`](https://github.com/Cecilapp/Cecil/blob/master/resources/layouts/_default/vocabulary.html.twig)
-:   A simple list of all terms of a vocabulary.
-
-[`_default/404.html.twig`](https://github.com/Cecilapp/Cecil/blob/master/resources/layouts/_default/404.html.twig)
-:   A basic error 404 ("Page not found") template.
-
-[`_default/sitemap.xml.twig`](https://github.com/Cecilapp/Cecil/blob/master/resources/layouts/_default/sitemap.xml.twig)
-:   The [`sitemap.xml`](https://www.sitemaps.org) template: list of all pages sorted by date.
-
-[`_default/robots.txt.twig`](https://github.com/Cecilapp/Cecil/blob/master/resources/layouts/_default/robots.txt.twig)
-:   The [`robots.txt`](https://en.wikipedia.org/wiki/Robots.txt) template: allow all pages except 404, and add a reference to the sitemap.
-
-[`_default/redirect.html.twig`](https://github.com/Cecilapp/Cecil/blob/master/resources/layouts/_default/redirect.html.twig)
-:   The redirect template.
-
-#### Partial templates
-
-[`partials/navigation.html.twig`](https://github.com/Cecilapp/Cecil/blob/master/resources/layouts/partials/navigation.html.twig)
-:   A main menu navigation.
-
-[`partials/paginator.html.twig`](https://github.com/Cecilapp/Cecil/blob/master/resources/layouts/partials/paginator.html.twig)
-:   A simple paginated navigation for list templates with "Previous" and "Next" links.
-
-[`partials/metatags.html.twig`](https://github.com/Cecilapp/Cecil/blob/master/resources/layouts/partials/metatags.html.twig)
-:   All metatags in one template: title, description, canonical, open-graph, twitter card, etc. See [_metatags_ configuration](4-Configuration.md#metatags).
-
-[`partials/languages.html.twig`](https://github.com/Cecilapp/Cecil/blob/master/resources/layouts/partials/languages.html.twig)
-:   A basic [languages](4-Configuration.md#languages) switcher.
-
 ## Lookup rules
 
-In most of cases **you don’t need to specify the layout**: Cecil selects the most appropriate layout, according to the page _type_.
+In most of cases **you don’t need to specify the layout**: Cecil selects the most appropriate layout, according to the **page type**.
 
-### Homepage template lookup
-
-For example, the HTML output of _home page_ (`index.md`) will be rendered:
+For example, the HTML output of **home page** (`index.md`) will be rendered:
 
 1. with `my-layout.html.twig` if the `layout` variable is set to "my-layout" (in the front matter)
-2. if not, with `home.html.twig` if the file exists
-3. if not, with `index.html.twig` if the file exists
+2. if not, with `index.html.twig` if the file exists
+3. if not, with `home.html.twig` if the file exists
 4. if not, with `list.html.twig` if the file exists
-5. etc.
 
 All rules are detailed below, for each page type, in the priority order.
 
@@ -224,7 +169,7 @@ For a sub-section (e.g. `blog/tutorials`), the layout lookup also includes the p
 5. `_default/list.<format>.twig`
 
 :::info
-Most of those layouts are available by default, see [built-in templates](#built-in-templates).
+Most of those layouts are available by default, see [built-in templates](https://github.com/Cecilapp/Cecil/tree/master/resources/layouts).
 :::
 
 ## Variables
@@ -275,7 +220,7 @@ _Example:_
 :::
 
 :::warning
-In some case you can encounter conflicts between configuration and built-in variables (e.g.: `pages.default` configuration), so you can use `config.<variable>` (with `<variable>` is the name/path of the variable) to access directly to the raw configuration.
+In some cases, you can encounter conflicts between configuration and built-in variables (e.g. `pages.default` configuration). In that case, you can use `config.<variable>` (where `<variable>` is the variable name/path) to access the raw configuration directly.
 
 Example:
 
@@ -309,13 +254,13 @@ _Example:_
 
 #### site.language
 
-Informations about the current language.
+Information about the current language.
 
 | Variable               | Description                                                  |
 | ---------------------- | ------------------------------------------------------------ |
 | `site.language`        | Language code (e.g.: `en`).                                  |
 | `site.language.name`   | Language name (e.g.: `English`).                             |
-| `site.language.locale` | Language [locale code](configuration/locale-codes.md) (e.g.: `en_EN`). |
+| `site.language.locale` | Language [locale code](configuration/locale-codes.md) (e.g.: `en_US`). |
 | `site.language.weight` | Language position in the `languages` list.                   |
 
 :::tip
@@ -387,7 +332,7 @@ _Example:_
 
 #### page.<prev/next>
 
-Navigation between pages in a same _Section_.
+Navigation between pages within the same _section_.
 
 | Variable              | Description                                            | Example                    |
 | --------------------- | ------------------------------------------------------ | -------------------------- |
@@ -402,7 +347,7 @@ _Example:_
 
 #### page.paginator
 
-_Paginator_ help you to build a navigation for list's pages: homepage, sections, and taxonomies.
+_Paginator_ helps you build navigation for list pages: homepage, sections, and taxonomies.
 
 | Variable                     | Description                         |
 | ---------------------------- | ----------------------------------- |
@@ -687,6 +632,8 @@ Since version ++8.42.0++, the `html` function replace the deprecated `html` filt
 
 :::tip
 You can define a global default behavior of images options (`formats` and `responsive`) through the [layouts configuration](4-Configuration.md#layouts-images).
+
+When [`layouts.images.dark_suffix`](4-Configuration.md#layouts-images) is configured (e.g. `.dark`), Cecil automatically looks for a dark variant of each image (e.g. `photo.dark.jpg` alongside `photo.jpg`) and generates a `<picture>` element with a `<source media="(prefers-color-scheme: dark)">`.
 :::
 
 _Examples:_
@@ -1719,7 +1666,7 @@ It will render:
 
 Cecil uses a cache system to speed up the generation process, it can be disabled or cleared.
 
-There is three types of cache in the case of templates rendering: templates themselves, [assets](#asset) and [translations](#translation-files).
+There are three cache types involved in template rendering: templates, [assets](#asset), and [translations](#translation-files).
 
 ### Clear cache
 

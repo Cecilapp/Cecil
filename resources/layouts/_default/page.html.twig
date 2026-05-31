@@ -9,95 +9,36 @@
     {%- endblock head_metatags ~%}
     <meta name="theme-color" media="(prefers-color-scheme: light)" content="white">
     <meta name="theme-color" media="(prefers-color-scheme: dark)" content="black">
+    {%- endblock head ~%}
     {%- block head_css ~%}
-    <style>{% apply minify_css %}
-      {{- include('partials/new.css.twig') }}
-      /* new.css enhancements */
-      :root body > header {
-        --nc-lk-1: #006be9;
-      }
-      @media (prefers-color-scheme: dark) {
-        :root body > header {
-          --nc-lk-1: var(--nc-d-lk-1);
-        }
-      }
-      body {
-        overflow-y: scroll;
-      }
-      body > header .title {
-        line-height: 1;
-        color: var(--nc-tx-1);
-        padding-top: 0;
-        padding-bottom: 0;
-        margin-bottom: 8px;
-        border-bottom: 0;
-        font-size: 2.25rem;
-        font-weight: bold;
-      }
-      body > header .title > a {
-        color: var(--nc-tx-1);
-        text-decoration: none;
-      }
-      body > header .title > a:hover {
-        color: var(--nc-tx-1);
-      }
-      nav ol:not(main), nav ul:not(main) {
-        padding: 0;
-        margin: 0;
-      }
-      nav li:not(main) {
-        display: inline-block;
-        margin: 0 .5rem .5rem 0;
-      }
-      nav a:not(main) {
-        text-decoration: none;
-      }
-      nav a:hover:not(main) {
-        text-decoration: underline;
-      }
-      main header {
-        background: unset;
-        border-bottom: unset;
-        padding: unset;
-        margin: unset;
-        padding-left: unset;
-        padding-right: unset;
-      }
-      main header h1,
-      main header h2,
-      main header h3 {
-        padding-bottom: unset;
-        border-bottom: unset;
-      }
-      main header > *:first-child {
-        margin-top: unset;
-        padding-top: unset;
-      }
-      main header > *:last-child {
-        margin-bottom: unset;
-      }
-      main img {
-        height: auto;
-      }
-      main h2 a {
-        text-decoration: none;
-      }
-      article header {
-        margin-bottom: 1rem;
-      }
+    <style>{% apply minify_css ~%}
+      {{- include('partials/pico.css.twig') }}
+      /* Pico CSS overrides */
+      body > header,
+      body > main,
       body > footer {
-        border-top: 1px solid var(--nc-bg-3);
-        padding-top: 1rem;
-        margin-top: 2rem;
+        max-width: 700px;
       }
-      pre {
-        padding: 0;
+      nav, nav ul {
+        display: flex;
+        flex-wrap: wrap;
       }
-      pre code.hljs {
-        margin: 0 !important;
-        padding: 0 !important;
-        line-height: 1.25;
-        background-color: transparent;
+      img {
+        margin-bottom: calc(var(--pico-spacing) / 2);
+      }
+      .site-title {
+        --pico-font-weight: 700;
+        --pico-font-size: 2rem;
+        --pico-line-height: 1.125;
+        --pico-typography-spacing-top: 3rem;
+        --pico-color: var(--pico-h1-color);
+        margin-top: 0;
+        margin-bottom: 0;
+        color: var(--pico-color);
+        font-weight: var(--pico-font-weight);
+        font-size: var(--pico-font-size);
+        line-height: var(--pico-line-height);
+        font-family: var(--pico-font-family);
       }
       /* Cecil features */
       .page-nav {
@@ -126,7 +67,7 @@
         padding: 1rem;
         margin-bottom: 1rem;
         border-radius: 0.25rem;
-        border: 1px solid var(--nc-bg-3);
+        border: 1px solid var(--pico-color);
         border-left-width: 4px;
       }
       main .note > p {
@@ -154,18 +95,18 @@
       }
     {% endapply %}</style>
     {%- endblock head_css ~%}
-    {%- endblock head ~%}
   </head>
   <body>
     <header>
       {%- block header ~%}
-      {%- if page.type == 'homepage' ~%}
-      <h1>{{ site.title }}</h1>
-      {%- else ~%}
-      <div class="title">
-        <a href="{{ url(site.home) }}">{{ site.title }}</a>
-      </div>
-      {%- endif ~%}
+      <hgroup>
+        {%- if page.type == 'homepage' ~%}
+        <h1>{{ site.title }}</h1>
+        {%- else ~%}
+        <div class="site-title">{{ site.title }}</div>
+        {%- endif ~%}
+        <p>{{ site.baseline }}</p>
+      </hgroup>
       {{- include('partials/navigation.html.twig', {menu: site.menus.main}, with_context = false) ~}}
       {%- endblock header ~%}
     </header>
@@ -178,7 +119,7 @@
     <footer>
       {%- block footer ~%}
       {%- set powered_by -%}
-      <a href="{{ cecil.url }}">Cecil</a> &amp; <a href="https://newcss.net">new.css</a>
+      <a href="{{ cecil.url }}">Cecil</a> &amp; <a href="https://picocss.com">Pico CSS</a>
       {%- endset ~%}
       <small>{% trans %}Powered by %powered_by%{% endtrans %}</small>
       {%- endblock footer ~%}

@@ -14,7 +14,9 @@ declare(strict_types=1);
 namespace Cecil\Asset;
 
 use Cecil\Asset;
+use Cecil\Builder;
 use Cecil\Exception\RuntimeException;
+use Cecil\Url;
 use Intervention\Image\Drivers\Gd\Driver as GdDriver;
 use Intervention\Image\Drivers\Imagick\Driver as ImagickDriver;
 use Intervention\Image\Drivers\Vips\Driver as VipsDriver;
@@ -198,7 +200,7 @@ class Image
 
             return $image->reduceColors(1)->pickColor(0, 0)->toString();
         } catch (\Exception $e) {
-            throw new RuntimeException(\sprintf('Unable to get dominant color of "%s": %s.', $asset['path'], $e->getMessage()));
+            throw new RuntimeException(\sprintf('Unable to get dominant color of "%s": %s.', $asset['_path'], $e->getMessage()));
         }
     }
 
@@ -232,6 +234,112 @@ class Image
         } catch (\Exception $e) {
             throw new RuntimeException(\sprintf('Unable to create LQIP of "%s": %s.', $asset['path'], $e->getMessage()));
         }
+    }
+
+    /**
+     * Builds the asset path for a dark color-scheme image variant.
+     */
+    public static function buildDarkAssetPath(string $assetPath, string $darkSuffix): string
+    {
+        $pathInfo = pathinfo($assetPath);
+        $extension = empty($pathInfo['extension']) ? '' : '.' . $pathInfo['extension'];
+
+        return rtrim($pathInfo['dirname'], '/') . '/' . $pathInfo['filename'] . $darkSuffix . $extension;
+    }
+
+    /**
+     * Builds dark color-scheme source attributes for an image.
+     *
+     * @param array<string> $formats
+     * @param array{
+     *   responsive?: mixed,
+     *   widths?: array<int>,
+     *   densities?: array<float|int>,
+     *   sizes?: ?string,
+     *   width1x?: ?int,
+     *   assetOptions?: array<mixed>,
+     *   fallbackAsUrl?: bool
+     * } $options
+     *
+     * @return array<array<string, string>>
+     */
+    public static function buildDarkSourceAttributes(
+        Builder $builder,
+        Asset $asset,
+        string $darkSuffix,
+        array $formats,
+        array $options = []
+    ): array {
+        if (empty($darkSuffix)) {
+            return [];
+        }
+
+        $responsive = $options['responsive'] ?? false;
+        $widths = $options['widths'] ?? [];
+        $densities = $options['densities'] ?? [];
+        $sizes = $options['sizes'] ?? null;
+        $width1x = $options['width1x'] ?? null;
+        $assetOptions = $options['assetOptions'] ?? [];
+        $fallbackAsUrl = (bool) ($options['fallbackAsUrl'] ?? false);
+
+        $darkAssetPath = self::buildDarkAssetPath($asset['_path'], $darkSuffix);
+        $assetDark = new Asset($builder, $darkAssetPath, array_merge(['ignore_missing' => true], $assetOptions));
+        if ($assetDark->isMissing()) {
+            $builder->getLogger()->warning(\sprintf(
+                'Dark variant "%s" not found for image "%s".',
+                $darkAssetPath,
+                $asset['_path']
+            ));
+
+            return [];
+        }
+        $darkSources = [];
+        foreach ($formats as $format) {
+            try {
+                $assetDarkConverted = $assetDark->convert($format);
+                if ($responsive === true || $responsive === 'width') {
+                    $darkSrcset = !empty($widths) ? self::buildHtmlSrcsetW($assetDarkConverted, $widths) : '';
+                } elseif ($responsive === 'density') {
+                    $darkSrcset = !empty($densities)
+                        ? self::buildHtmlSrcsetX($assetDarkConverted, $width1x ?? $assetDark['width'], $densities)
+                        : '';
+                } else {
+                    $darkSrcset = '';
+                }
+                $darkSourceAttributes = [
+                    'media'  => '(prefers-color-scheme: dark)',
+                    'type'   => "image/$format",
+                    'srcset' => empty($darkSrcset) ? (string) $assetDarkConverted : $darkSrcset,
+                ];
+                if (!empty($sizes)) {
+                    $darkSourceAttributes['sizes'] = $sizes;
+                }
+                $darkSources[] = $darkSourceAttributes;
+            } catch (\Exception $e) {
+                $builder->getLogger()->warning($e->getMessage());
+            }
+        }
+        $darkFallbackSrcset = $fallbackAsUrl ? (string) new Url($builder, $assetDark) : (string) $assetDark;
+        if (($responsive === true || $responsive === 'width') && !empty($widths)) {
+            try {
+                $darkResponsiveSrcset = self::buildHtmlSrcsetW($assetDark, $widths);
+                if (!empty($darkResponsiveSrcset)) {
+                    $darkFallbackSrcset = $darkResponsiveSrcset;
+                }
+            } catch (\Exception $e) {
+                $builder->getLogger()->warning($e->getMessage());
+            }
+        }
+        $darkFallbackSourceAttributes = [
+            'media'  => '(prefers-color-scheme: dark)',
+            'srcset' => $darkFallbackSrcset,
+        ];
+        if (!empty($sizes)) {
+            $darkFallbackSourceAttributes['sizes'] = $sizes;
+        }
+        $darkSources[] = $darkFallbackSourceAttributes;
+
+        return $darkSources;
     }
 
     /**

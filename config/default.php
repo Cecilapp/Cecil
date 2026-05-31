@@ -105,6 +105,7 @@ return [
                 'caption' => false, // puts the image in a <figure> element and adds a <figcaption> containing the title
                 'placeholder' => '', // fill <img> background before loading (`color` or `lqip`)
                 'class' => '', // puts default CSS class(es) to each image
+                'dark_suffix' => null, // suffix of the dark variant image file (e.g.: `.dark`), null to disable
                 'remote' => [ // turns remote images into Assets to process them (disable with `false`)
                     'fallback' => '', // path to the fallback image, stored in assets directory (empty by default)
                 ],
@@ -153,6 +154,7 @@ return [
                 'googlefonts' => 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/51.0.2704.47 Safari/537.36',
                 'modern' => 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_6) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/14.0.3 Safari/605.1.15',
             ],
+            'timeout' => 30, // HTTP timeout in seconds for remote asset downloads
         ],
         'images' => [
             'optimize' => false, // enables images optimization with JpegOptim, Optipng, Pngquant 2, SVGO 1, Gifsicle, cwebp, avifenc
@@ -180,9 +182,11 @@ return [
     ],
     'layouts' => [ // layouts and templates
         'dir' => 'layouts', // Twig templates directory
+        'autoescape' => false, // Twig autoescape option override (null to use extension-based strategy)
         'images' => [ // how to handle images in templates
             'formats' => [], // used by `html` function: adds alternatives image formats as `source` (e.g.: ['avif', 'webp'])
             'responsive' => false, // used by `html` function: adds responsive images ('width' or 'density') to `srcset` attribute
+            'dark_suffix' => null, // suffix of the dark variant image file (e.g.: `.dark`), null to disable
         ],
         'translations' => [ // i18n
             'dir' => 'translations', // translations files directory

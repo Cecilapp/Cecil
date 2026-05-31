@@ -102,7 +102,7 @@ Options:
 
 Help:
   The new:page command creates a new page file.
-  If your run this command without any options, it will ask you for the page name and others options.
+  If you run this command without any options, it will ask you for the page name and other options.
   
     cecil.phar new:page
     cecil.phar new:page --name=path/to/a-page.md
@@ -131,7 +131,7 @@ You can define your own models for your new pages in the `models` directory:
 Two dynamic variables are available:
 
 1. `%title%`: the file’s name
-2. `%date%`: the curent date
+2. `%date%`: the current date
 
 ### Open with your editor
 

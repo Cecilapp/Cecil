@@ -44,7 +44,7 @@ class File
     /**
      * file_get_contents() function with error handler.
      */
-    public static function fileGetContents(string $filename, ?string $userAgent = null): string|false
+    public static function fileGetContents(string $filename, ?string $userAgent = null, int $timeout = 30): string|false
     {
         if (empty($filename)) {
             return false;
@@ -61,6 +61,7 @@ class File
                 'http' => [
                     'method'          => 'GET',
                     'follow_location' => true,
+                    'timeout'         => $timeout,
                 ],
             ];
             if (!empty($userAgent)) {

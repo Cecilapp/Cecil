@@ -1,0 +1,78 @@
+{
+  "version": "2.0.0",
+  "tasks": [
+    {
+      "label": "Install dependencies",
+      "type": "shell",
+      "command": "composer install",
+      "inAgents": true,
+      "runOptions": { "runOn": "worktreeCreated" },
+      "group": "build",
+      "presentation": { "reveal": "always" }
+    },
+    {
+      "label": "Run all quality checks",
+      "type": "shell",
+      "command": "composer code",
+      "inAgents": true,
+      "group": "test",
+      "presentation": { "reveal": "always" }
+    },
+    {
+      "label": "Run static analysis",
+      "type": "shell",
+      "command": "composer code:analyse",
+      "inAgents": true,
+      "group": "test",
+      "presentation": { "reveal": "always" }
+    },
+    {
+      "label": "Run mess detector",
+      "type": "shell",
+      "command": "composer code:md",
+      "inAgents": true,
+      "group": "test",
+      "presentation": { "reveal": "always" }
+    },
+    {
+      "label": "Run code style checks",
+      "type": "shell",
+      "command": "composer code:style",
+      "inAgents": true,
+      "group": "test",
+      "presentation": { "reveal": "always" }
+    },
+    {
+      "label": "Run integration tests",
+      "type": "shell",
+      "command": "composer test",
+      "inAgents": true,
+      "group": "test",
+      "presentation": { "reveal": "always" }
+    },
+    {
+      "label": "Run CLI tests",
+      "type": "shell",
+      "command": "composer test:cli",
+      "inAgents": true,
+      "group": "test",
+      "presentation": { "reveal": "always" }
+    },
+    {
+      "label": "Fix code style",
+      "type": "shell",
+      "command": "composer code:fix",
+      "inAgents": true,
+      "group": "build",
+      "presentation": { "reveal": "always" }
+    },
+    {
+      "label": "Build PHAR",
+      "type": "shell",
+      "command": "composer build",
+      "inAgents": true,
+      "group": "build",
+      "presentation": { "reveal": "always" }
+    }
+  ]
+}

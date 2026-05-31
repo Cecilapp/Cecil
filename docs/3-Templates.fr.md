@@ -1,7 +1,7 @@
 <!--
 title: Templates
 description: "Travailler avec les layouts, les templates et les composants."
-date: 2026-03-27
+date: 2026-05-26
 slug: templates
 -->
 # Templates
@@ -41,56 +41,47 @@ Les fichiers templates sont stockés dans le répertoire `layouts/` et doivent �
 layouts/(<section>/)<type>|<layout>.<format>(.<language>).twig
 ```
 
-`<section>` (facultatif)
+`<section>` (_facultatif_)
 :  La section de la page (ex. : `blog`).
 
 `<type>`
 :  Le type de page : `home` (ou `index`) pour _homepage_, `list` pour _list_, `page` pour _page_, etc. (Voir [_Règles de recherche_](#lookup-rules) pour plus de détails).
 
-`<layout>` (facultatif)
+`<layout>` (_facultatif_)
 :  Le nom de la layout personnalisée défini dans le [front-matter](2-Content.md#front-matter) de la page (par exemple : `layout: my-layout`).
-
-`<language>` (facultatif)
-:  La langue de la page (ex. : `fr`).
 
 `<format>`
 :  Le [format de sortie](4-Configuration.md#output-formats) de la page rendue (par exemple : `html`, `rss`, `json`, `xml`, etc.).
 
-`.twig`
-:  L'extension de fichier Twig obligatoire.
+`<language>` (_facultatif_)
+:  La langue de la page (ex. : `fr`).
 
 _Exemples :_
 
 ```plaintext
-layouts/home.html.twig       # `type` is "homepage"
-layouts/page.html.twig       # `type` is "page"
-layouts/page.html.fr.twig    # `type` is "page" and `language` is "fr"
-layouts/my-layout.html.twig  # `layout` is "my-layout"
-layouts/blog/list.html.twig  # `section` is "blog"
-layouts/blog/list.rss.twig   # `section` is "blog" and `format` is "rss"
+layouts/home.html.twig       # `type` est "homepage"
+layouts/page.html.twig       # `type` est "page"
+layouts/page.html.fr.twig    # `type` est "page" et `language` est "fr"
+layouts/my-layout.html.twig  # `layout` est "my-layout"
+layouts/blog/list.html.twig  # `section` est "blog"
+layouts/blog/list.rss.twig   # `section` est "blog" et `format` est "rss"
 ```
 
 ```plaintext
-<mywebsite>
+<mon-site>
 ├─ ...
-├─ layouts                  <- Layouts and templates
-|  ├─ my-layout.html.twig
-|  ├─ index.html.twig       <- Used by type "homepage"
-|  ├─ list.html.twig        <- Used by types "homepage", "section" and "term"
-|  ├─ list.rss.twig         <- Used by types "homepage", "section" and "term", for RSS output format
-|  ├─ page.html.twig        <- Used by type "page"
+├─ layouts
+|  ├─ index.html.twig      # Utilisé par le type "homepage"
+|  ├─ list.html.twig       # Utilisé par les types "homepage", "section" et "term"
+|  ├─ list.rss.twig        # Utilisé par les types "homepage", "section" et "term", pour le format de sortie RSS
+|  ├─ page.html.twig       # Utilisé par le type "page"
+|  ├─ my-layout.html.twig  # Utilisé par les pages avec `layout: my-layout` dans le front-matter
 |  ├─ ...
-|  ├─ _default              <- Default layouts, that can be easily extended
-|  |  ├─ list.html.twig
-|  |  ├─ page.html.twig
-|  |  └─ ...
 |  └─ partials
-|     ├─ footer.html.twig   <- Included template
+|     ├─ footer.html.twig  # Template inclus
 |     └─ ...
-└─ themes
-   └─ <theme>
-      └─ layouts            <- Theme layouts and templates
-         └─ ...
+└─ themes                  # Layouts et templates des thèmes
+   └─ ...
 ```
 
 ### Templates intégrés
@@ -106,62 +97,16 @@ php cecil.phar util:templates:extract
 
 :::
 
-#### Templates par défaut
-
-[`_default/page.html.twig`](https://github.com/Cecilapp/Cecil/blob/master/resources/layouts/_default/page.html.twig)
-:   Un modèle principal simple avec un CSS propre.
-
-[`_default/list.html.twig`](https://github.com/Cecilapp/Cecil/blob/master/resources/layouts/_default/list.html.twig)
-:   Une liste de pages avec une pagination (facultative).
-
-[`_default/list.atom.twig`](https://github.com/Cecilapp/Cecil/blob/master/resources/layouts/_default/list.atom.twig)
-:   Un flux Atom.
-
-[`_default/list.rss.twig`](https://github.com/Cecilapp/Cecil/blob/master/resources/layouts/_default/list.rss.twig)
-:   Un flux RSS.
-
-[`_default/vocabulary.html.twig`](https://github.com/Cecilapp/Cecil/blob/master/resources/layouts/_default/vocabulary.html.twig)
-:   Une simple liste de tous les termes d'un vocabulaire.
-
-[`_default/404.html.twig`](https://github.com/Cecilapp/Cecil/blob/master/resources/layouts/_default/404.html.twig)
-:   Un modèle d'erreur de base 404 (« Page non trouvée »).
-
-[`_default/sitemap.xml.twig`](https://github.com/Cecilapp/Cecil/blob/master/resources/layouts/_default/sitemap.xml.twig)
-:   Le modèle [`sitemap.xml`](https://www.sitemaps.org) : liste de toutes les pages triées par date.
-
-[`_default/robots.txt.twig`](https://github.com/Cecilapp/Cecil/blob/master/resources/layouts/_default/robots.txt.twig)
-:   Le modèle [`robots.txt`](https://en.wikipedia.org/wiki/Robots.txt) : autorise toutes les pages sauf 404 et ajoute une référence au plan du site.
-
-[`_default/redirect.html.twig`](https://github.com/Cecilapp/Cecil/blob/master/resources/layouts/_default/redirect.html.twig)
-:   Le modèle de redirection.
-
-#### Templates partiels
-
-[`partials/navigation.html.twig`](https://github.com/Cecilapp/Cecil/blob/master/resources/layouts/partials/navigation.html.twig)
-:   Une navigation dans le menu principal.
-
-[`partials/paginator.html.twig`](https://github.com/Cecilapp/Cecil/blob/master/resources/layouts/partials/paginator.html.twig)
-:   Une navigation paginée simple pour les templates de liste avec des liens "Précédent" et "Suivant".
-
-[`partials/metatags.html.twig`](https://github.com/Cecilapp/Cecil/blob/master/resources/layouts/partials/metatags.html.twig)
-:   Toutes les balises méta dans un seul modèle : titre, description, canonique, graphique ouvert, carte Twitter, etc. Voir [_metatags_ configuration](4-Configuration.md#metatags).
-
-[`partials/languages.html.twig`](https://github.com/Cecilapp/Cecil/blob/master/resources/layouts/partials/languages.html.twig)
-:   Un sélecteur [langues](4-Configuration.md#languages) de base.
-
 ## Règles de recherche
 
-Dans la plupart des cas **vous n'avez pas besoin de préciser la layout** : Cecil sélectionne la layout la plus appropriée, en fonction du _type_ de la page.
+Dans la plupart des cas **vous n'avez pas besoin de préciser la layout** : Cecil sélectionne la layout la plus appropriée, en fonction du **type de la page**.
 
-### Recherche de template pour la page d'accueil
-
-Par exemple, la sortie HTML de _home page_ (`index.md`) sera rendue :
+Par exemple, la sortie HTML de **home page** (`index.md`) sera rendue :
 
 1. avec `my-layout.html.twig` si la variable `layout` est définie sur "my-layout" (dans le préambule)
-2. sinon, avec `home.html.twig` si le fichier existe
-3. sinon, avec `index.html.twig` si le fichier existe
+2. sinon, avec `index.html.twig` si le fichier existe
+3. sinon, avec `home.html.twig` si le fichier existe
 4. sinon, avec `list.html.twig` si le fichier existe
-5. etc.
 
 Toutes les règles sont détaillées ci-dessous, pour chaque type de page, par ordre de priorité.
 
@@ -302,7 +247,7 @@ Informations sur la langue actuelle.
 | ---------------------- | ------------------------------------------------------------ |
 | `site.language` | Code de langue (ex. : `en`).                                  |
 | `site.language.name` | Nom de la langue (par exemple : `English`).                             |
-| `site.language.locale` | Langue [code local](configuration/locale-codes.md) (par exemple : `en_EN`). |
+| `site.language.locale` | Langue [code local](configuration/locale-codes.md) (par exemple : `en_US`). |
 | `site.language.weight` | Position de la langue dans la liste `languages`.                   |
 
 :::tip
@@ -672,6 +617,8 @@ Depuis la version ++8.42.0++, la fonction `html` remplace le filtre `html` obsol
 
 :::tip
 Vous pouvez définir un comportement global par défaut des options d'images (`formats` et `responsive`) via la [configuration des layouts](4-Configuration.md#layouts-images).
+
+Lorsque [`layouts.images.dark_suffix`](4-Configuration.md#layouts-images) est configuré (par exemple `.dark`), Cecil recherche automatiquement une variante sombre de chaque image (par exemple `photo.dark.jpg` aux côtés de `photo.jpg`) et génère un élément `<picture>` avec un `<source media="(prefers-color-scheme: dark)">`.
 :::
 
 _Exemples :_

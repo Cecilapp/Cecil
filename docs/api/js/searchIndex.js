@@ -21,6 +21,31 @@ Search.appendIndex(
             "summary": "Banner\u0020of\u0020the\u0020application.",
             "url": "classes/Cecil-Application.html#property_banner"
         },                {
+            "fqsen": "\\Cecil\\Asset\\Compiler",
+            "name": "Compiler",
+            "summary": "Compiles\u0020SCSS\u0020assets\u0020to\u0020CSS.",
+            "url": "classes/Cecil-Asset-Compiler.html"
+        },                {
+            "fqsen": "\\Cecil\\Asset\\Compiler\u003A\u003A__construct\u0028\u0029",
+            "name": "__construct",
+            "summary": "",
+            "url": "classes/Cecil-Asset-Compiler.html#method___construct"
+        },                {
+            "fqsen": "\\Cecil\\Asset\\Compiler\u003A\u003Acompile\u0028\u0029",
+            "name": "compile",
+            "summary": "Compiles\u0020SCSS\u0020to\u0020CSS.",
+            "url": "classes/Cecil-Asset-Compiler.html#method_compile"
+        },                {
+            "fqsen": "\\Cecil\\Asset\\Compiler\u003A\u003A\u0024builder",
+            "name": "builder",
+            "summary": "",
+            "url": "classes/Cecil-Asset-Compiler.html#property_builder"
+        },                {
+            "fqsen": "\\Cecil\\Asset\\Compiler\u003A\u003A\u0024config",
+            "name": "config",
+            "summary": "",
+            "url": "classes/Cecil-Asset-Compiler.html#property_config"
+        },                {
             "fqsen": "\\Cecil\\Asset\\Image",
             "name": "Image",
             "summary": "Image\u0020Asset\u0020class.",
@@ -66,6 +91,16 @@ Search.appendIndex(
             "summary": "Returns\u0020a\u0020Low\u0020Quality\u0020Image\u0020Placeholder\u0020\u0028LQIP\u0029\u0020as\u0020data\u0020URL.",
             "url": "classes/Cecil-Asset-Image.html#method_getLqip"
         },                {
+            "fqsen": "\\Cecil\\Asset\\Image\u003A\u003AbuildDarkAssetPath\u0028\u0029",
+            "name": "buildDarkAssetPath",
+            "summary": "Builds\u0020the\u0020asset\u0020path\u0020for\u0020a\u0020dark\u0020color\u002Dscheme\u0020image\u0020variant.",
+            "url": "classes/Cecil-Asset-Image.html#method_buildDarkAssetPath"
+        },                {
+            "fqsen": "\\Cecil\\Asset\\Image\u003A\u003AbuildDarkSourceAttributes\u0028\u0029",
+            "name": "buildDarkSourceAttributes",
+            "summary": "Builds\u0020dark\u0020color\u002Dscheme\u0020source\u0020attributes\u0020for\u0020an\u0020image.",
+            "url": "classes/Cecil-Asset-Image.html#method_buildDarkSourceAttributes"
+        },                {
             "fqsen": "\\Cecil\\Asset\\Image\u003A\u003AbuildHtmlSrcsetW\u0028\u0029",
             "name": "buildHtmlSrcsetW",
             "summary": "Build\u0020the\u0020\u0060srcset\u0060\u0020HTML\u0020attribute\u0020for\u0020responsive\u0020images,\u0020based\u0020on\u0020widths.",
@@ -110,6 +145,86 @@ Search.appendIndex(
             "name": "getSvgAttributes",
             "summary": "Returns\u0020SVG\u0020attributes.",
             "url": "classes/Cecil-Asset-Image.html#method_getSvgAttributes"
+        },                {
+            "fqsen": "\\Cecil\\Asset\\Locator",
+            "name": "Locator",
+            "summary": "Locates\u0020asset\u0020files\u0020in\u0020the\u0020project\u0020directory\u0020tree.",
+            "url": "classes/Cecil-Asset-Locator.html"
+        },                {
+            "fqsen": "\\Cecil\\Asset\\Locator\u003A\u003A__construct\u0028\u0029",
+            "name": "__construct",
+            "summary": "",
+            "url": "classes/Cecil-Asset-Locator.html#method___construct"
+        },                {
+            "fqsen": "\\Cecil\\Asset\\Locator\u003A\u003Alocate\u0028\u0029",
+            "name": "locate",
+            "summary": "Returns\u0020local\u0020file\u0020path\u0020and\u0020updated\u0020path,\u0020or\u0020throw\u0020an\u0020exception.",
+            "url": "classes/Cecil-Asset-Locator.html#method_locate"
+        },                {
+            "fqsen": "\\Cecil\\Asset\\Locator\u003A\u003AbuildPathFromUrl\u0028\u0029",
+            "name": "buildPathFromUrl",
+            "summary": "Builds\u0020a\u0020relative\u0020path\u0020from\u0020a\u0020URL.",
+            "url": "classes/Cecil-Asset-Locator.html#method_buildPathFromUrl"
+        },                {
+            "fqsen": "\\Cecil\\Asset\\Locator\u003A\u003Asanitize\u0028\u0029",
+            "name": "sanitize",
+            "summary": "Replaces\u0020some\u0020characters\u0020by\u0020\u0027_\u0027.",
+            "url": "classes/Cecil-Asset-Locator.html#method_sanitize"
+        },                {
+            "fqsen": "\\Cecil\\Asset\\Locator\u003A\u003AsearchInDirectory\u0028\u0029",
+            "name": "searchInDirectory",
+            "summary": "Searches\u0020for\u0020a\u0020file\u0020\u0028with\u0020optional\u0020localized\u0020variant\u0029\u0020in\u0020a\u0020directory.",
+            "url": "classes/Cecil-Asset-Locator.html#method_searchInDirectory"
+        },                {
+            "fqsen": "\\Cecil\\Asset\\Locator\u003A\u003AbuildLocalizedPath\u0028\u0029",
+            "name": "buildLocalizedPath",
+            "summary": "Builds\u0020a\u0020localized\u0020variant\u0020of\u0020a\u0020path\u0020\u0028e.g.\u0020\u0022style.css\u0022\u0020\u2192\u0020\u0022style.fr.css\u0022\u0029.",
+            "url": "classes/Cecil-Asset-Locator.html#method_buildLocalizedPath"
+        },                {
+            "fqsen": "\\Cecil\\Asset\\Locator\u003A\u003AgetRemoteFileContent\u0028\u0029",
+            "name": "getRemoteFileContent",
+            "summary": "Try\u0020to\u0020get\u0020remote\u0020file\u0020content.",
+            "url": "classes/Cecil-Asset-Locator.html#method_getRemoteFileContent"
+        },                {
+            "fqsen": "\\Cecil\\Asset\\Locator\u003A\u003A\u0024builder",
+            "name": "builder",
+            "summary": "",
+            "url": "classes/Cecil-Asset-Locator.html#property_builder"
+        },                {
+            "fqsen": "\\Cecil\\Asset\\Locator\u003A\u003A\u0024config",
+            "name": "config",
+            "summary": "",
+            "url": "classes/Cecil-Asset-Locator.html#property_config"
+        },                {
+            "fqsen": "\\Cecil\\Asset\\Optimizer",
+            "name": "Optimizer",
+            "summary": "Minifies\u0020CSS\/JS\u0020assets\u0020and\u0020optimizes\u0020image\u0020files.",
+            "url": "classes/Cecil-Asset-Optimizer.html"
+        },                {
+            "fqsen": "\\Cecil\\Asset\\Optimizer\u003A\u003A__construct\u0028\u0029",
+            "name": "__construct",
+            "summary": "",
+            "url": "classes/Cecil-Asset-Optimizer.html#method___construct"
+        },                {
+            "fqsen": "\\Cecil\\Asset\\Optimizer\u003A\u003Aminify\u0028\u0029",
+            "name": "minify",
+            "summary": "Minifies\u0020CSS\u0020or\u0020JS\u0020content\u0020in\u0020the\u0020given\u0020data\u0020array.",
+            "url": "classes/Cecil-Asset-Optimizer.html#method_minify"
+        },                {
+            "fqsen": "\\Cecil\\Asset\\Optimizer\u003A\u003AoptimizeImage\u0028\u0029",
+            "name": "optimizeImage",
+            "summary": "Optimizes\u0020an\u0020image\u0020file\u0020in\u002Dplace.",
+            "url": "classes/Cecil-Asset-Optimizer.html#method_optimizeImage"
+        },                {
+            "fqsen": "\\Cecil\\Asset\\Optimizer\u003A\u003A\u0024builder",
+            "name": "builder",
+            "summary": "",
+            "url": "classes/Cecil-Asset-Optimizer.html#property_builder"
+        },                {
+            "fqsen": "\\Cecil\\Asset\\Optimizer\u003A\u003A\u0024config",
+            "name": "config",
+            "summary": "",
+            "url": "classes/Cecil-Asset-Optimizer.html#property_config"
         },                {
             "fqsen": "\\Cecil\\Asset",
             "name": "Asset",
@@ -248,27 +363,17 @@ Search.appendIndex(
         },                {
             "fqsen": "\\Cecil\\Asset\u003A\u003AdoCompile\u0028\u0029",
             "name": "doCompile",
-            "summary": "Compiles\u0020a\u0020SCSS.",
+            "summary": "Compiles\u0020SCSS\u0020to\u0020CSS.",
             "url": "classes/Cecil-Asset.html#method_doCompile"
         },                {
             "fqsen": "\\Cecil\\Asset\u003A\u003AdoMinify\u0028\u0029",
             "name": "doMinify",
-            "summary": "Minifying\u0020a\u0020CSS\u0020or\u0020a\u0020JS\u0020\u002B\u0020cache.",
+            "summary": "Minifies\u0020a\u0020CSS\u0020or\u0020JS\u0020asset.",
             "url": "classes/Cecil-Asset.html#method_doMinify"
-        },                {
-            "fqsen": "\\Cecil\\Asset\u003A\u003AlocateFile\u0028\u0029",
-            "name": "locateFile",
-            "summary": "Returns\u0020local\u0020file\u0020path\u0020and\u0020updated\u0020path,\u0020or\u0020throw\u0020an\u0020exception.",
-            "url": "classes/Cecil-Asset.html#method_locateFile"
-        },                {
-            "fqsen": "\\Cecil\\Asset\u003A\u003AgetRemoteFileContent\u0028\u0029",
-            "name": "getRemoteFileContent",
-            "summary": "Try\u0020to\u0020get\u0020remote\u0020file\u0020content.",
-            "url": "classes/Cecil-Asset.html#method_getRemoteFileContent"
         },                {
             "fqsen": "\\Cecil\\Asset\u003A\u003AoptimizeImage\u0028\u0029",
             "name": "optimizeImage",
-            "summary": "Optimizing\u0020\u0024filepath\u0020image.",
+            "summary": "Optimizes\u0020an\u0020image\u0020file\u0020in\u002Dplace.",
             "url": "classes/Cecil-Asset.html#method_optimizeImage"
         },                {
             "fqsen": "\\Cecil\\Asset\u003A\u003AgetImageSize\u0028\u0029",
@@ -315,6 +420,96 @@ Search.appendIndex(
             "name": "cacheTags",
             "summary": "",
             "url": "classes/Cecil-Asset.html#property_cacheTags"
+        },                {
+            "fqsen": "\\Cecil\\BuildContextInterface",
+            "name": "BuildContextInterface",
+            "summary": "Exposes\u0020the\u0020minimal\u0020surface\u0020of\u0020Builder\u0020needed\u0020by\u0020Steps\u0020and\u0020Generators.",
+            "url": "classes/Cecil-BuildContextInterface.html"
+        },                {
+            "fqsen": "\\Cecil\\BuildContextInterface\u003A\u003AgetConfig\u0028\u0029",
+            "name": "getConfig",
+            "summary": "Returns\u0020configuration.",
+            "url": "classes/Cecil-BuildContextInterface.html#method_getConfig"
+        },                {
+            "fqsen": "\\Cecil\\BuildContextInterface\u003A\u003AgetLogger\u0028\u0029",
+            "name": "getLogger",
+            "summary": "Returns\u0020the\u0020logger\u0020instance.",
+            "url": "classes/Cecil-BuildContextInterface.html#method_getLogger"
+        },                {
+            "fqsen": "\\Cecil\\BuildContextInterface\u003A\u003AisDebug\u0028\u0029",
+            "name": "isDebug",
+            "summary": "Returns\u0020debug\u0020mode\u0020state.",
+            "url": "classes/Cecil-BuildContextInterface.html#method_isDebug"
+        },                {
+            "fqsen": "\\Cecil\\BuildContextInterface\u003A\u003AgetBuildOptions\u0028\u0029",
+            "name": "getBuildOptions",
+            "summary": "Returns\u0020build\u0020options.",
+            "url": "classes/Cecil-BuildContextInterface.html#method_getBuildOptions"
+        },                {
+            "fqsen": "\\Cecil\\BuildContextInterface\u003A\u003AsetPagesFiles\u0028\u0029",
+            "name": "setPagesFiles",
+            "summary": "Set\u0020collected\u0020pages\u0020files.",
+            "url": "classes/Cecil-BuildContextInterface.html#method_setPagesFiles"
+        },                {
+            "fqsen": "\\Cecil\\BuildContextInterface\u003A\u003AgetPagesFiles\u0028\u0029",
+            "name": "getPagesFiles",
+            "summary": "Returns\u0020pages\u0020files.",
+            "url": "classes/Cecil-BuildContextInterface.html#method_getPagesFiles"
+        },                {
+            "fqsen": "\\Cecil\\BuildContextInterface\u003A\u003AsetData\u0028\u0029",
+            "name": "setData",
+            "summary": "Set\u0020collected\u0020data.",
+            "url": "classes/Cecil-BuildContextInterface.html#method_setData"
+        },                {
+            "fqsen": "\\Cecil\\BuildContextInterface\u003A\u003AgetData\u0028\u0029",
+            "name": "getData",
+            "summary": "Returns\u0020data\u0020collection.",
+            "url": "classes/Cecil-BuildContextInterface.html#method_getData"
+        },                {
+            "fqsen": "\\Cecil\\BuildContextInterface\u003A\u003AsetStatic\u0028\u0029",
+            "name": "setStatic",
+            "summary": "Set\u0020collected\u0020static\u0020files.",
+            "url": "classes/Cecil-BuildContextInterface.html#method_setStatic"
+        },                {
+            "fqsen": "\\Cecil\\BuildContextInterface\u003A\u003AsetPages\u0028\u0029",
+            "name": "setPages",
+            "summary": "Set\/update\u0020Pages\u0020collection.",
+            "url": "classes/Cecil-BuildContextInterface.html#method_setPages"
+        },                {
+            "fqsen": "\\Cecil\\BuildContextInterface\u003A\u003AgetPages\u0028\u0029",
+            "name": "getPages",
+            "summary": "Returns\u0020pages\u0020collection.",
+            "url": "classes/Cecil-BuildContextInterface.html#method_getPages"
+        },                {
+            "fqsen": "\\Cecil\\BuildContextInterface\u003A\u003AgetAssetsList\u0028\u0029",
+            "name": "getAssetsList",
+            "summary": "Returns\u0020list\u0020of\u0020assets\u0020path.",
+            "url": "classes/Cecil-BuildContextInterface.html#method_getAssetsList"
+        },                {
+            "fqsen": "\\Cecil\\BuildContextInterface\u003A\u003AsetMenus\u0028\u0029",
+            "name": "setMenus",
+            "summary": "Set\u0020menus\u0020collection.",
+            "url": "classes/Cecil-BuildContextInterface.html#method_setMenus"
+        },                {
+            "fqsen": "\\Cecil\\BuildContextInterface\u003A\u003AsetTaxonomies\u0028\u0029",
+            "name": "setTaxonomies",
+            "summary": "Set\u0020taxonomies\u0020collection.",
+            "url": "classes/Cecil-BuildContextInterface.html#method_setTaxonomies"
+        },                {
+            "fqsen": "\\Cecil\\BuildContextInterface\u003A\u003AgetTaxonomies\u0028\u0029",
+            "name": "getTaxonomies",
+            "summary": "Returns\u0020taxonomies\u0020collection,\u0020for\u0020a\u0020language.",
+            "url": "classes/Cecil-BuildContextInterface.html#method_getTaxonomies"
+        },                {
+            "fqsen": "\\Cecil\\BuildContextInterface\u003A\u003AsetRenderer\u0028\u0029",
+            "name": "setRenderer",
+            "summary": "Set\u0020renderer\u0020object.",
+            "url": "classes/Cecil-BuildContextInterface.html#method_setRenderer"
+        },                {
+            "fqsen": "\\Cecil\\BuildContextInterface\u003A\u003AgetRenderer\u0028\u0029",
+            "name": "getRenderer",
+            "summary": "Returns\u0020Renderer\u0020object.",
+            "url": "classes/Cecil-BuildContextInterface.html#method_getRenderer"
         },                {
             "fqsen": "\\Cecil\\Builder",
             "name": "Builder",
@@ -681,6 +876,11 @@ Search.appendIndex(
             "summary": "Removes\u0020previous\u0020cache\u0020files.",
             "url": "classes/Cecil-Cache.html#method_prune"
         },                {
+            "fqsen": "\\Cecil\\Cache\u003A\u003AresolveShard\u0028\u0029",
+            "name": "resolveShard",
+            "summary": "Returns\u0020target\u0020cache\u0020directory\u0020and\u0020filename\/key\u0020suffix\u0020according\u0020to\u0020sharding\u0020rules.",
+            "url": "classes/Cecil-Cache.html#method_resolveShard"
+        },                {
             "fqsen": "\\Cecil\\Cache\u003A\u003Aduration\u0028\u0029",
             "name": "duration",
             "summary": "Convert\u0020the\u0020various\u0020expressions\u0020of\u0020a\u0020TTL\u0020value\u0020into\u0020duration\u0020in\u0020seconds.",
@@ -695,6 +895,11 @@ Search.appendIndex(
             "name": "RESERVED_CHARACTERS",
             "summary": "Reserved\u0020characters\u0020that\u0020cannot\u0020be\u0020used\u0020in\u0020a\u0020key",
             "url": "classes/Cecil-Cache.html#constant_RESERVED_CHARACTERS"
+        },                {
+            "fqsen": "\\Cecil\\Cache\u003A\u003ASHARD_DELIMITER",
+            "name": "SHARD_DELIMITER",
+            "summary": "",
+            "url": "classes/Cecil-Cache.html#constant_SHARD_DELIMITER"
         },                {
             "fqsen": "\\Cecil\\Cache\u003A\u003A\u0024builder",
             "name": "builder",
@@ -1393,7 +1598,7 @@ Search.appendIndex(
         },                {
             "fqsen": "\\Cecil\\Collection\\Page\\Page\u003A\u003AcreateIdFromFile\u0028\u0029",
             "name": "createIdFromFile",
-            "summary": "Creates\u0020a\u0020page\u0020ID\u0020from\u0020a\u0020file\u0020\u0028based\u0020on\u0020path\u0029.",
+            "summary": "",
             "url": "classes/Cecil-Collection-Page-Page.html#method_createIdFromFile"
         },                {
             "fqsen": "\\Cecil\\Collection\\Page\\Page\u003A\u003AfilterBool\u0028\u0029",
@@ -1481,11 +1686,6 @@ Search.appendIndex(
             "summary": "",
             "url": "classes/Cecil-Collection-Page-Page.html#property_terms"
         },                {
-            "fqsen": "\\Cecil\\Collection\\Page\\Page\u003A\u003A\u0024slugifier",
-            "name": "slugifier",
-            "summary": "",
-            "url": "classes/Cecil-Collection-Page-Page.html#property_slugifier"
-        },                {
             "fqsen": "\\Cecil\\Collection\\Page\\Parser",
             "name": "Parser",
             "summary": "Parser\u0020class.",
@@ -1536,6 +1736,11 @@ Search.appendIndex(
             "summary": "PrefixSuffix\u0020class.",
             "url": "classes/Cecil-Collection-Page-PrefixSuffix.html"
         },                {
+            "fqsen": "\\Cecil\\Collection\\Page\\PrefixSuffix\u003A\u003AbuildPrefixPattern\u0028\u0029",
+            "name": "buildPrefixPattern",
+            "summary": "Builds\u0020the\u0020prefix\u0020regex\u0020pattern\u0020from\u0020configured\u0020separators.",
+            "url": "classes/Cecil-Collection-Page-PrefixSuffix.html#method_buildPrefixPattern"
+        },                {
             "fqsen": "\\Cecil\\Collection\\Page\\PrefixSuffix\u003A\u003Ahas\u0028\u0029",
             "name": "has",
             "summary": "Returns\u0020true\u0020if\u0020the\u0020string\u0020contains\u0020a\u0020prefix\u0020or\u0020a\u0020suffix.",
@@ -1581,10 +1786,35 @@ Search.appendIndex(
             "summary": "Returns\u0020expreg\u0020pattern\u0020by\u0020\u0024type.",
             "url": "classes/Cecil-Collection-Page-PrefixSuffix.html#method_getPattern"
         },                {
-            "fqsen": "\\Cecil\\Collection\\Page\\PrefixSuffix\u003A\u003APREFIX_PATTERN",
-            "name": "PREFIX_PATTERN",
+            "fqsen": "\\Cecil\\Collection\\Page\\PrefixSuffix\u003A\u003AmatchPrefix\u0028\u0029",
+            "name": "matchPrefix",
+            "summary": "Matches\u0020string\u0020with\u0020prefix\u0020pattern.",
+            "url": "classes/Cecil-Collection-Page-PrefixSuffix.html#method_matchPrefix"
+        },                {
+            "fqsen": "\\Cecil\\Collection\\Page\\PrefixSuffix\u003A\u003APREFIX_BASE",
+            "name": "PREFIX_BASE",
             "summary": "",
-            "url": "classes/Cecil-Collection-Page-PrefixSuffix.html#constant_PREFIX_PATTERN"
+            "url": "classes/Cecil-Collection-Page-PrefixSuffix.html#constant_PREFIX_BASE"
+        },                {
+            "fqsen": "\\Cecil\\Collection\\Page\\PrefixSuffix\u003A\u003APREFIX_TAIL",
+            "name": "PREFIX_TAIL",
+            "summary": "",
+            "url": "classes/Cecil-Collection-Page-PrefixSuffix.html#constant_PREFIX_TAIL"
+        },                {
+            "fqsen": "\\Cecil\\Collection\\Page\\PrefixSuffix\u003A\u003ADEFAULT_SEPARATORS",
+            "name": "DEFAULT_SEPARATORS",
+            "summary": "",
+            "url": "classes/Cecil-Collection-Page-PrefixSuffix.html#constant_DEFAULT_SEPARATORS"
+        },                {
+            "fqsen": "\\Cecil\\Collection\\Page\\PrefixSuffix\u003A\u003APREFIX_PART",
+            "name": "PREFIX_PART",
+            "summary": "",
+            "url": "classes/Cecil-Collection-Page-PrefixSuffix.html#constant_PREFIX_PART"
+        },                {
+            "fqsen": "\\Cecil\\Collection\\Page\\PrefixSuffix\u003A\u003APREFIX_SUFFIX_PART",
+            "name": "PREFIX_SUFFIX_PART",
+            "summary": "",
+            "url": "classes/Cecil-Collection-Page-PrefixSuffix.html#constant_PREFIX_SUFFIX_PART"
         },                {
             "fqsen": "\\Cecil\\Collection\\Page\\PrefixSuffix\u003A\u003ASUFFIX_PATTERN",
             "name": "SUFFIX_PATTERN",
@@ -2038,7 +2268,7 @@ Search.appendIndex(
         },                {
             "fqsen": "\\Cecil\\Command\\Serve\u003A\u003AtearDownServer\u0028\u0029",
             "name": "tearDownServer",
-            "summary": "Removes\u0020temporary\u0020directory.",
+            "summary": "Removes\u0020server\u0027s\u0020files.",
             "url": "classes/Cecil-Command-Serve.html#method_tearDownServer"
         },                {
             "fqsen": "\\Cecil\\Command\\Serve\u003A\u003A\u0024watcherEnabled",
@@ -2661,6 +2891,11 @@ Search.appendIndex(
             "summary": "",
             "url": "classes/Cecil-Converter-Parsedown.html#property_highlighter"
         },                {
+            "fqsen": "\\Cecil\\Converter\\Parsedown\u003A\u003A\u0024language",
+            "name": "language",
+            "summary": "",
+            "url": "classes/Cecil-Converter-Parsedown.html#property_language"
+        },                {
             "fqsen": "\\Cecil\\Exception\\ConfigException",
             "name": "ConfigException",
             "summary": "ConfigException\u0020class.",
@@ -3016,6 +3251,161 @@ Search.appendIndex(
             "summary": "Current\u0020language\u0020code.",
             "url": "classes/Cecil-Renderer-Config.html#property_language"
         },                {
+            "fqsen": "\\Cecil\\Renderer\\Extension\\Collection",
+            "name": "Collection",
+            "summary": "Collection\u0020Twig\u0020extension.",
+            "url": "classes/Cecil-Renderer-Extension-Collection.html"
+        },                {
+            "fqsen": "\\Cecil\\Renderer\\Extension\\Collection\u003A\u003A__construct\u0028\u0029",
+            "name": "__construct",
+            "summary": "",
+            "url": "classes/Cecil-Renderer-Extension-Collection.html#method___construct"
+        },                {
+            "fqsen": "\\Cecil\\Renderer\\Extension\\Collection\u003A\u003AgetFilters\u0028\u0029",
+            "name": "getFilters",
+            "summary": "",
+            "url": "classes/Cecil-Renderer-Extension-Collection.html#method_getFilters"
+        },                {
+            "fqsen": "\\Cecil\\Renderer\\Extension\\Collection\u003A\u003AfilterBySection\u0028\u0029",
+            "name": "filterBySection",
+            "summary": "Filters\u0020by\u0020Section.",
+            "url": "classes/Cecil-Renderer-Extension-Collection.html#method_filterBySection"
+        },                {
+            "fqsen": "\\Cecil\\Renderer\\Extension\\Collection\u003A\u003AfilterBy\u0028\u0029",
+            "name": "filterBy",
+            "summary": "Filters\u0020a\u0020pages\u0020collection\u0020by\u0020variable\u0027s\u0020name\/value.",
+            "url": "classes/Cecil-Renderer-Extension-Collection.html#method_filterBy"
+        },                {
+            "fqsen": "\\Cecil\\Renderer\\Extension\\Collection\u003A\u003AsortByTitle\u0028\u0029",
+            "name": "sortByTitle",
+            "summary": "Sorts\u0020a\u0020collection\u0020by\u0020title.",
+            "url": "classes/Cecil-Renderer-Extension-Collection.html#method_sortByTitle"
+        },                {
+            "fqsen": "\\Cecil\\Renderer\\Extension\\Collection\u003A\u003AsortByWeight\u0028\u0029",
+            "name": "sortByWeight",
+            "summary": "Sorts\u0020a\u0020collection\u0020by\u0020weight.",
+            "url": "classes/Cecil-Renderer-Extension-Collection.html#method_sortByWeight"
+        },                {
+            "fqsen": "\\Cecil\\Renderer\\Extension\\Collection\u003A\u003AsortByDate\u0028\u0029",
+            "name": "sortByDate",
+            "summary": "Sorts\u0020by\u0020creation\u0020date\u0020\u0028or\u0020\u0027updated\u0027\u0020date\u0029\u003A\u0020the\u0020most\u0020recent\u0020first.",
+            "url": "classes/Cecil-Renderer-Extension-Collection.html#method_sortByDate"
+        },                {
+            "fqsen": "\\Cecil\\Renderer\\Extension\\Collection\u003A\u003A\u0024builder",
+            "name": "builder",
+            "summary": "",
+            "url": "classes/Cecil-Renderer-Extension-Collection.html#property_builder"
+        },                {
+            "fqsen": "\\Cecil\\Renderer\\Extension\\Content",
+            "name": "Content",
+            "summary": "Content\u0020Twig\u0020extension.",
+            "url": "classes/Cecil-Renderer-Extension-Content.html"
+        },                {
+            "fqsen": "\\Cecil\\Renderer\\Extension\\Content\u003A\u003A__construct\u0028\u0029",
+            "name": "__construct",
+            "summary": "",
+            "url": "classes/Cecil-Renderer-Extension-Content.html#method___construct"
+        },                {
+            "fqsen": "\\Cecil\\Renderer\\Extension\\Content\u003A\u003AgetFunctions\u0028\u0029",
+            "name": "getFunctions",
+            "summary": "",
+            "url": "classes/Cecil-Renderer-Extension-Content.html#method_getFunctions"
+        },                {
+            "fqsen": "\\Cecil\\Renderer\\Extension\\Content\u003A\u003AgetFilters\u0028\u0029",
+            "name": "getFilters",
+            "summary": "",
+            "url": "classes/Cecil-Renderer-Extension-Content.html#method_getFilters"
+        },                {
+            "fqsen": "\\Cecil\\Renderer\\Extension\\Content\u003A\u003AslugifyFilter\u0028\u0029",
+            "name": "slugifyFilter",
+            "summary": "Slugifies\u0020a\u0020string.",
+            "url": "classes/Cecil-Renderer-Extension-Content.html#method_slugifyFilter"
+        },                {
+            "fqsen": "\\Cecil\\Renderer\\Extension\\Content\u003A\u003Aexcerpt\u0028\u0029",
+            "name": "excerpt",
+            "summary": "Reads\u0020\u0024length\u0020first\u0020characters\u0020of\u0020a\u0020string\u0020and\u0020adds\u0020a\u0020suffix.",
+            "url": "classes/Cecil-Renderer-Extension-Content.html#method_excerpt"
+        },                {
+            "fqsen": "\\Cecil\\Renderer\\Extension\\Content\u003A\u003AexcerptHtml\u0028\u0029",
+            "name": "excerptHtml",
+            "summary": "Reads\u0020characters\u0020before\u0020or\u0020after\u0020\u0027\u003C\u0021\u002D\u002D\u0020separator\u0020\u002D\u002D\u003E\u0027.",
+            "url": "classes/Cecil-Renderer-Extension-Content.html#method_excerptHtml"
+        },                {
+            "fqsen": "\\Cecil\\Renderer\\Extension\\Content\u003A\u003AmarkdownToHtml\u0028\u0029",
+            "name": "markdownToHtml",
+            "summary": "Converts\u0020a\u0020Markdown\u0020string\u0020to\u0020HTML.",
+            "url": "classes/Cecil-Renderer-Extension-Content.html#method_markdownToHtml"
+        },                {
+            "fqsen": "\\Cecil\\Renderer\\Extension\\Content\u003A\u003AmarkdownToToc\u0028\u0029",
+            "name": "markdownToToc",
+            "summary": "Extracts\u0020only\u0020headings\u0020matching\u0020the\u0020given\u0020\u0060selectors\u0060\u0020\u0028h2,\u0020h3,\u0020etc.\u0029,\nor\u0020those\u0020defined\u0020in\u0020config\u0020\u0060pages.body.toc\u0060\u0020if\u0020not\u0020specified.",
+            "url": "classes/Cecil-Renderer-Extension-Content.html#method_markdownToToc"
+        },                {
+            "fqsen": "\\Cecil\\Renderer\\Extension\\Content\u003A\u003AjsonDecode\u0028\u0029",
+            "name": "jsonDecode",
+            "summary": "Converts\u0020a\u0020JSON\u0020string\u0020to\u0020an\u0020array.",
+            "url": "classes/Cecil-Renderer-Extension-Content.html#method_jsonDecode"
+        },                {
+            "fqsen": "\\Cecil\\Renderer\\Extension\\Content\u003A\u003AyamlParse\u0028\u0029",
+            "name": "yamlParse",
+            "summary": "Converts\u0020a\u0020YAML\u0020string\u0020to\u0020an\u0020array.",
+            "url": "classes/Cecil-Renderer-Extension-Content.html#method_yamlParse"
+        },                {
+            "fqsen": "\\Cecil\\Renderer\\Extension\\Content\u003A\u003ApregSplit\u0028\u0029",
+            "name": "pregSplit",
+            "summary": "Split\u0020a\u0020string\u0020into\u0020an\u0020array\u0020using\u0020a\u0020regular\u0020expression.",
+            "url": "classes/Cecil-Renderer-Extension-Content.html#method_pregSplit"
+        },                {
+            "fqsen": "\\Cecil\\Renderer\\Extension\\Content\u003A\u003ApregMatchAll\u0028\u0029",
+            "name": "pregMatchAll",
+            "summary": "Perform\u0020a\u0020regular\u0020expression\u0020match\u0020and\u0020return\u0020the\u0020group\u0020for\u0020all\u0020matches.",
+            "url": "classes/Cecil-Renderer-Extension-Content.html#method_pregMatchAll"
+        },                {
+            "fqsen": "\\Cecil\\Renderer\\Extension\\Content\u003A\u003Areadtime\u0028\u0029",
+            "name": "readtime",
+            "summary": "Calculates\u0020estimated\u0020time\u0020to\u0020read\u0020a\u0020text.",
+            "url": "classes/Cecil-Renderer-Extension-Content.html#method_readtime"
+        },                {
+            "fqsen": "\\Cecil\\Renderer\\Extension\\Content\u003A\u003AhexToRgb\u0028\u0029",
+            "name": "hexToRgb",
+            "summary": "Converts\u0020an\u0020hexadecimal\u0020color\u0020to\u0020RGB.",
+            "url": "classes/Cecil-Renderer-Extension-Content.html#method_hexToRgb"
+        },                {
+            "fqsen": "\\Cecil\\Renderer\\Extension\\Content\u003A\u003AsplitLine\u0028\u0029",
+            "name": "splitLine",
+            "summary": "Split\u0020a\u0020string\u0020in\u0020multiple\u0020lines.",
+            "url": "classes/Cecil-Renderer-Extension-Content.html#method_splitLine"
+        },                {
+            "fqsen": "\\Cecil\\Renderer\\Extension\\Content\u003A\u003Aiterable\u0028\u0029",
+            "name": "iterable",
+            "summary": "Converts\u0020a\u0020variable\u0020to\u0020an\u0020iterable\u0020\u0028array\u0029.",
+            "url": "classes/Cecil-Renderer-Extension-Content.html#method_iterable"
+        },                {
+            "fqsen": "\\Cecil\\Renderer\\Extension\\Content\u003A\u003Ahighlight\u0028\u0029",
+            "name": "highlight",
+            "summary": "Highlights\u0020a\u0020code\u0020snippet.",
+            "url": "classes/Cecil-Renderer-Extension-Content.html#method_highlight"
+        },                {
+            "fqsen": "\\Cecil\\Renderer\\Extension\\Content\u003A\u003Aunique\u0028\u0029",
+            "name": "unique",
+            "summary": "Returns\u0020an\u0020array\u0020with\u0020unique\u0020values.",
+            "url": "classes/Cecil-Renderer-Extension-Content.html#method_unique"
+        },                {
+            "fqsen": "\\Cecil\\Renderer\\Extension\\Content\u003A\u003AisHex\u0028\u0029",
+            "name": "isHex",
+            "summary": "Is\u0020a\u0020hexadecimal\u0020color\u0020is\u0020valid\u003F",
+            "url": "classes/Cecil-Renderer-Extension-Content.html#method_isHex"
+        },                {
+            "fqsen": "\\Cecil\\Renderer\\Extension\\Content\u003A\u003A\u0024builder",
+            "name": "builder",
+            "summary": "",
+            "url": "classes/Cecil-Renderer-Extension-Content.html#property_builder"
+        },                {
+            "fqsen": "\\Cecil\\Renderer\\Extension\\Content\u003A\u003A\u0024config",
+            "name": "config",
+            "summary": "",
+            "url": "classes/Cecil-Renderer-Extension-Content.html#property_config"
+        },                {
             "fqsen": "\\Cecil\\Renderer\\Extension\\Core",
             "name": "Core",
             "summary": "Core\u0020Twig\u0020extension.",
@@ -3026,50 +3416,20 @@ Search.appendIndex(
             "summary": "",
             "url": "classes/Cecil-Renderer-Extension-Core.html#method___construct"
         },                {
-            "fqsen": "\\Cecil\\Renderer\\Extension\\Core\u003A\u003AgetName\u0028\u0029",
-            "name": "getName",
-            "summary": "\u007B\u0040inheritdoc\u007D",
-            "url": "classes/Cecil-Renderer-Extension-Core.html#method_getName"
-        },                {
             "fqsen": "\\Cecil\\Renderer\\Extension\\Core\u003A\u003AgetFunctions\u0028\u0029",
             "name": "getFunctions",
-            "summary": "\u007B\u0040inheritdoc\u007D",
+            "summary": "",
             "url": "classes/Cecil-Renderer-Extension-Core.html#method_getFunctions"
         },                {
             "fqsen": "\\Cecil\\Renderer\\Extension\\Core\u003A\u003AgetFilters\u0028\u0029",
             "name": "getFilters",
-            "summary": "\u007B\u0040inheritdoc\u007D",
+            "summary": "",
             "url": "classes/Cecil-Renderer-Extension-Core.html#method_getFilters"
         },                {
             "fqsen": "\\Cecil\\Renderer\\Extension\\Core\u003A\u003AgetTests\u0028\u0029",
             "name": "getTests",
-            "summary": "\u007B\u0040inheritdoc\u007D",
+            "summary": "",
             "url": "classes/Cecil-Renderer-Extension-Core.html#method_getTests"
-        },                {
-            "fqsen": "\\Cecil\\Renderer\\Extension\\Core\u003A\u003AfilterBySection\u0028\u0029",
-            "name": "filterBySection",
-            "summary": "Filters\u0020by\u0020Section.",
-            "url": "classes/Cecil-Renderer-Extension-Core.html#method_filterBySection"
-        },                {
-            "fqsen": "\\Cecil\\Renderer\\Extension\\Core\u003A\u003AfilterBy\u0028\u0029",
-            "name": "filterBy",
-            "summary": "Filters\u0020a\u0020pages\u0020collection\u0020by\u0020variable\u0027s\u0020name\/value.",
-            "url": "classes/Cecil-Renderer-Extension-Core.html#method_filterBy"
-        },                {
-            "fqsen": "\\Cecil\\Renderer\\Extension\\Core\u003A\u003AsortByTitle\u0028\u0029",
-            "name": "sortByTitle",
-            "summary": "Sorts\u0020a\u0020collection\u0020by\u0020title.",
-            "url": "classes/Cecil-Renderer-Extension-Core.html#method_sortByTitle"
-        },                {
-            "fqsen": "\\Cecil\\Renderer\\Extension\\Core\u003A\u003AsortByWeight\u0028\u0029",
-            "name": "sortByWeight",
-            "summary": "Sorts\u0020a\u0020collection\u0020by\u0020weight.",
-            "url": "classes/Cecil-Renderer-Extension-Core.html#method_sortByWeight"
-        },                {
-            "fqsen": "\\Cecil\\Renderer\\Extension\\Core\u003A\u003AsortByDate\u0028\u0029",
-            "name": "sortByDate",
-            "summary": "Sorts\u0020by\u0020creation\u0020date\u0020\u0028or\u0020\u0027updated\u0027\u0020date\u0029\u003A\u0020the\u0020most\u0020recent\u0020first.",
-            "url": "classes/Cecil-Renderer-Extension-Core.html#method_sortByDate"
         },                {
             "fqsen": "\\Cecil\\Renderer\\Extension\\Core\u003A\u003Aurl\u0028\u0029",
             "name": "url",
@@ -3156,6 +3516,11 @@ Search.appendIndex(
             "summary": "Builds\u0020the\u0020HTML\u0020audio\u0020element\u0020of\u0020an\u0020audio\u0020Asset.",
             "url": "classes/Cecil-Renderer-Extension-Core.html#method_htmlAudio"
         },                {
+            "fqsen": "\\Cecil\\Renderer\\Extension\\Core\u003A\u003AbuildDarkSourceHtml\u0028\u0029",
+            "name": "buildDarkSourceHtml",
+            "summary": "Builds\u0020HTML\u0020dark\u0020\u0022source\u0022\u0020elements\u0020for\u0020the\u0020dark\u0020color\u002Dscheme\u0020variant\u0020of\u0020an\u0020image\u0020Asset.",
+            "url": "classes/Cecil-Renderer-Extension-Core.html#method_buildDarkSourceHtml"
+        },                {
             "fqsen": "\\Cecil\\Renderer\\Extension\\Core\u003A\u003AhtmlVideo\u0028\u0029",
             "name": "htmlVideo",
             "summary": "Builds\u0020the\u0020HTML\u0020video\u0020element\u0020of\u0020a\u0020video\u0020Asset.",
@@ -3196,51 +3561,6 @@ Search.appendIndex(
             "summary": "Returns\u0020the\u0020content\u0020of\u0020an\u0020asset.",
             "url": "classes/Cecil-Renderer-Extension-Core.html#method_inline"
         },                {
-            "fqsen": "\\Cecil\\Renderer\\Extension\\Core\u003A\u003Aexcerpt\u0028\u0029",
-            "name": "excerpt",
-            "summary": "Reads\u0020\u0024length\u0020first\u0020characters\u0020of\u0020a\u0020string\u0020and\u0020adds\u0020a\u0020suffix.",
-            "url": "classes/Cecil-Renderer-Extension-Core.html#method_excerpt"
-        },                {
-            "fqsen": "\\Cecil\\Renderer\\Extension\\Core\u003A\u003AexcerptHtml\u0028\u0029",
-            "name": "excerptHtml",
-            "summary": "Reads\u0020characters\u0020before\u0020or\u0020after\u0020\u0027\u003C\u0021\u002D\u002D\u0020separator\u0020\u002D\u002D\u003E\u0027.",
-            "url": "classes/Cecil-Renderer-Extension-Core.html#method_excerptHtml"
-        },                {
-            "fqsen": "\\Cecil\\Renderer\\Extension\\Core\u003A\u003AmarkdownToHtml\u0028\u0029",
-            "name": "markdownToHtml",
-            "summary": "Converts\u0020a\u0020Markdown\u0020string\u0020to\u0020HTML.",
-            "url": "classes/Cecil-Renderer-Extension-Core.html#method_markdownToHtml"
-        },                {
-            "fqsen": "\\Cecil\\Renderer\\Extension\\Core\u003A\u003AmarkdownToToc\u0028\u0029",
-            "name": "markdownToToc",
-            "summary": "Extracts\u0020only\u0020headings\u0020matching\u0020the\u0020given\u0020\u0060selectors\u0060\u0020\u0028h2,\u0020h3,\u0020etc.\u0029,\nor\u0020those\u0020defined\u0020in\u0020config\u0020\u0060pages.body.toc\u0060\u0020if\u0020not\u0020specified.",
-            "url": "classes/Cecil-Renderer-Extension-Core.html#method_markdownToToc"
-        },                {
-            "fqsen": "\\Cecil\\Renderer\\Extension\\Core\u003A\u003AjsonDecode\u0028\u0029",
-            "name": "jsonDecode",
-            "summary": "Converts\u0020a\u0020JSON\u0020string\u0020to\u0020an\u0020array.",
-            "url": "classes/Cecil-Renderer-Extension-Core.html#method_jsonDecode"
-        },                {
-            "fqsen": "\\Cecil\\Renderer\\Extension\\Core\u003A\u003AyamlParse\u0028\u0029",
-            "name": "yamlParse",
-            "summary": "Converts\u0020a\u0020YAML\u0020string\u0020to\u0020an\u0020array.",
-            "url": "classes/Cecil-Renderer-Extension-Core.html#method_yamlParse"
-        },                {
-            "fqsen": "\\Cecil\\Renderer\\Extension\\Core\u003A\u003ApregSplit\u0028\u0029",
-            "name": "pregSplit",
-            "summary": "Split\u0020a\u0020string\u0020into\u0020an\u0020array\u0020using\u0020a\u0020regular\u0020expression.",
-            "url": "classes/Cecil-Renderer-Extension-Core.html#method_pregSplit"
-        },                {
-            "fqsen": "\\Cecil\\Renderer\\Extension\\Core\u003A\u003ApregMatchAll\u0028\u0029",
-            "name": "pregMatchAll",
-            "summary": "Perform\u0020a\u0020regular\u0020expression\u0020match\u0020and\u0020return\u0020the\u0020group\u0020for\u0020all\u0020matches.",
-            "url": "classes/Cecil-Renderer-Extension-Core.html#method_pregMatchAll"
-        },                {
-            "fqsen": "\\Cecil\\Renderer\\Extension\\Core\u003A\u003Areadtime\u0028\u0029",
-            "name": "readtime",
-            "summary": "Calculates\u0020estimated\u0020time\u0020to\u0020read\u0020a\u0020text.",
-            "url": "classes/Cecil-Renderer-Extension-Core.html#method_readtime"
-        },                {
             "fqsen": "\\Cecil\\Renderer\\Extension\\Core\u003A\u003AgetEnv\u0028\u0029",
             "name": "getEnv",
             "summary": "Gets\u0020the\u0020value\u0020of\u0020an\u0020environment\u0020variable.",
@@ -3276,40 +3596,15 @@ Search.appendIndex(
             "summary": "Returns\u0020a\u0020Low\u0020Quality\u0020Image\u0020Placeholder\u0020\u0028LQIP\u0029\u0020as\u0020data\u0020URL.",
             "url": "classes/Cecil-Renderer-Extension-Core.html#method_lqip"
         },                {
-            "fqsen": "\\Cecil\\Renderer\\Extension\\Core\u003A\u003AhexToRgb\u0028\u0029",
-            "name": "hexToRgb",
-            "summary": "Converts\u0020an\u0020hexadecimal\u0020color\u0020to\u0020RGB.",
-            "url": "classes/Cecil-Renderer-Extension-Core.html#method_hexToRgb"
-        },                {
-            "fqsen": "\\Cecil\\Renderer\\Extension\\Core\u003A\u003AsplitLine\u0028\u0029",
-            "name": "splitLine",
-            "summary": "Split\u0020a\u0020string\u0020in\u0020multiple\u0020lines.",
-            "url": "classes/Cecil-Renderer-Extension-Core.html#method_splitLine"
-        },                {
             "fqsen": "\\Cecil\\Renderer\\Extension\\Core\u003A\u003Ahash\u0028\u0029",
             "name": "hash",
             "summary": "Hashing\u0020an\u0020object,\u0020an\u0020array\u0020or\u0020a\u0020string\u0020\u0028with\u0020algo,\u0020xxh128\u0020by\u0020default\u0029.",
             "url": "classes/Cecil-Renderer-Extension-Core.html#method_hash"
         },                {
-            "fqsen": "\\Cecil\\Renderer\\Extension\\Core\u003A\u003Aiterable\u0028\u0029",
-            "name": "iterable",
-            "summary": "Converts\u0020a\u0020variable\u0020to\u0020an\u0020iterable\u0020\u0028array\u0029.",
-            "url": "classes/Cecil-Renderer-Extension-Core.html#method_iterable"
-        },                {
-            "fqsen": "\\Cecil\\Renderer\\Extension\\Core\u003A\u003Ahighlight\u0028\u0029",
-            "name": "highlight",
-            "summary": "Highlights\u0020a\u0020code\u0020snippet.",
-            "url": "classes/Cecil-Renderer-Extension-Core.html#method_highlight"
-        },                {
-            "fqsen": "\\Cecil\\Renderer\\Extension\\Core\u003A\u003Aunique\u0028\u0029",
-            "name": "unique",
-            "summary": "Returns\u0020an\u0020array\u0020with\u0020unique\u0020values.",
-            "url": "classes/Cecil-Renderer-Extension-Core.html#method_unique"
-        },                {
-            "fqsen": "\\Cecil\\Renderer\\Extension\\Core\u003A\u003AisHex\u0028\u0029",
-            "name": "isHex",
-            "summary": "Is\u0020a\u0020hexadecimal\u0020color\u0020is\u0020valid\u003F",
-            "url": "classes/Cecil-Renderer-Extension-Core.html#method_isHex"
+            "fqsen": "\\Cecil\\Renderer\\Extension\\Core\u003A\u003AcacheKey\u0028\u0029",
+            "name": "cacheKey",
+            "summary": "Builds\u0020a\u0020cache\u0020key\u0020from\u0020a\u0020variable.",
+            "url": "classes/Cecil-Renderer-Extension-Core.html#method_cacheKey"
         },                {
             "fqsen": "\\Cecil\\Renderer\\Extension\\Core\u003A\u003AhtmlAttributes\u0028\u0029",
             "name": "htmlAttributes",
@@ -3325,11 +3620,6 @@ Search.appendIndex(
             "name": "config",
             "summary": "",
             "url": "classes/Cecil-Renderer-Extension-Core.html#property_config"
-        },                {
-            "fqsen": "\\Cecil\\Renderer\\Extension\\Core\u003A\u003A\u0024slugifier",
-            "name": "slugifier",
-            "summary": "",
-            "url": "classes/Cecil-Renderer-Extension-Core.html#property_slugifier"
         },                {
             "fqsen": "\\Cecil\\Renderer\\Language",
             "name": "Language",
@@ -4441,6 +4731,36 @@ Search.appendIndex(
             "summary": "",
             "url": "classes/Cecil-Util-Platform.html#property_pharPath"
         },                {
+            "fqsen": "\\Cecil\\Util\\Slugifier",
+            "name": "Slugifier",
+            "summary": "Converts\u0020arbitrary\u0020paths\/strings\u0020into\u0020URI\u002Dsafe\u0020slugs.",
+            "url": "classes/Cecil-Util-Slugifier.html"
+        },                {
+            "fqsen": "\\Cecil\\Util\\Slugifier\u003A\u003Aslugify\u0028\u0029",
+            "name": "slugify",
+            "summary": "Turns\u0020a\u0020path\u0020\u0028string\u0029\u0020into\u0020a\u0020slug\u0020\u0028URI\u0029.",
+            "url": "classes/Cecil-Util-Slugifier.html#method_slugify"
+        },                {
+            "fqsen": "\\Cecil\\Util\\Slugifier\u003A\u003AcreateSlugifyPlaceholders\u0028\u0029",
+            "name": "createSlugifyPlaceholders",
+            "summary": "",
+            "url": "classes/Cecil-Util-Slugifier.html#method_createSlugifyPlaceholders"
+        },                {
+            "fqsen": "\\Cecil\\Util\\Slugifier\u003A\u003AcreateSlugifyPlaceholder\u0028\u0029",
+            "name": "createSlugifyPlaceholder",
+            "summary": "",
+            "url": "classes/Cecil-Util-Slugifier.html#method_createSlugifyPlaceholder"
+        },                {
+            "fqsen": "\\Cecil\\Util\\Slugifier\u003A\u003ASLUGIFY_PATTERN",
+            "name": "SLUGIFY_PATTERN",
+            "summary": "",
+            "url": "classes/Cecil-Util-Slugifier.html#constant_SLUGIFY_PATTERN"
+        },                {
+            "fqsen": "\\Cecil\\Util\\Slugifier\u003A\u003A\u0024slugifier",
+            "name": "slugifier",
+            "summary": "",
+            "url": "classes/Cecil-Util-Slugifier.html#property_slugifier"
+        },                {
             "fqsen": "\\Cecil\\Util\\Str",
             "name": "Str",
             "summary": "String\u0020utility\u0020class.",
@@ -4500,6 +4820,11 @@ Search.appendIndex(
             "name": "convertMemory",
             "summary": "Converts\u0020memory\u0020size\u0020for\u0020human.",
             "url": "classes/Cecil-Util.html#method_convertMemory"
+        },                {
+            "fqsen": "\\Cecil\\Util\u003A\u003AconvertDuration\u0028\u0029",
+            "name": "convertDuration",
+            "summary": "Converts\u0020a\u0020duration\u0020\u0028in\u0020seconds\u0029\u0020to\u0020a\u0020human\u002Dreadable\u0020string.",
+            "url": "classes/Cecil-Util.html#method_convertDuration"
         },                {
             "fqsen": "\\Cecil\\Util\u003A\u003AconvertMicrotime\u0028\u0029",
             "name": "convertMicrotime",

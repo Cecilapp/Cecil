@@ -231,6 +231,26 @@ class Parsedown extends \ParsedownToc
     /**
      * {@inheritdoc}
      */
+    protected function inlineCode($Excerpt)
+    {
+        $code = parent::inlineCode($Excerpt); // @phpstan-ignore staticMethod.notFound
+
+        if (!isset($code)) {
+            return null;
+        }
+
+        // disable translation of code
+        if (!isset($code['element']['attributes'])) {
+            $code['element']['attributes'] = [];
+        }
+        $code['element']['attributes']['translate'] = 'no';
+
+        return $code;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
     protected function inlineImage($Excerpt)
     {
         $InlineImage = parent::inlineImage($Excerpt); // @phpstan-ignore staticMethod.notFound
@@ -458,6 +478,51 @@ class Parsedown extends \ParsedownToc
             }
         }
 
+        // dark color-scheme variant: auto-detect `{filename}{suffix}.{ext}` alongside the source image
+        $darkSuffix = (string) $this->config->get('pages.body.images.dark_suffix');
+        if (!empty($darkSuffix)) {
+            $darkSourceAttributes = Image::buildDarkSourceAttributes(
+                $this->builder,
+                $asset,
+                $darkSuffix,
+                $formats,
+                [
+                    'responsive' => $this->config->isEnabled('pages.body.images.responsive'),
+                    'widths' => $this->config->getAssetsImagesWidths(),
+                    'densities' => $this->config->getAssetsImagesDensities(),
+                    'sizes' => !empty($sizes) ? $sizes : null,
+                    'width1x' => isset($InlineImage['element']['attributes']['width']) && $InlineImage['element']['attributes']['width'] > 0
+                        ? (int) $InlineImage['element']['attributes']['width']
+                        : null,
+                    'assetOptions' => ['language' => $this->language],
+                    'fallbackAsUrl' => true,
+                ]
+            );
+            if (\count($darkSourceAttributes) > 0) {
+                $darkSources = array_map(static fn (array $attributes): array => ['name' => 'source', 'attributes' => $attributes], $darkSourceAttributes);
+                // prepend dark sources to existing <picture>, or wrap <img> in a new <picture>
+                if ($image['element']['name'] === 'picture') {
+                    array_splice($image['element']['text'], 0, 0, $darkSources);
+                } else {
+                    $imageTitle = $image['element']['attributes']['title'] ?? null;
+                    unset($image['element']['attributes']['title']);
+                    $picture = [
+                        'extent'  => $image['extent'],
+                        'element' => [
+                            'name'       => 'picture',
+                            'handler'    => 'elements',
+                            'attributes' => [],
+                            'text'       => array_merge($darkSources, [$image['element']]),
+                        ],
+                    ];
+                    if ($imageTitle !== null) {
+                        $picture['element']['attributes']['title'] = $imageTitle;
+                    }
+                    $image = $picture;
+                }
+            }
+        }
+
         return $this->createFigure($image);
     }
 
@@ -536,10 +601,13 @@ class Parsedown extends \ParsedownToc
      */
     protected function blockFencedCodeComplete($block)
     {
-        if (!$this->config->isEnabled('pages.body.highlight')) {
-            return $block;
-        }
+        // disable translation of code
         if (!isset($block['element']['element']['attributes'])) {
+            $block['element']['element']['attributes'] = [];
+        }
+        $block['element']['element']['attributes']['translate'] = 'no';
+
+        if (!$this->config->isEnabled('pages.body.highlight')) {
             return $block;
         }
 

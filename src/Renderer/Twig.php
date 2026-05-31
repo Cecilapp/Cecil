@@ -15,6 +15,8 @@ namespace Cecil\Renderer;
 
 use Cecil\Builder;
 use Cecil\Exception\RuntimeException;
+use Cecil\Renderer\Extension\Collection as CollectionExtension;
+use Cecil\Renderer\Extension\Content as ContentExtension;
 use Cecil\Renderer\Extension\Core as CoreExtension;
 use Cecil\Util;
 use Performing\TwigComponents\Configuration;
@@ -65,11 +67,29 @@ class Twig implements RendererInterface
         $this->builder = $builder;
         // load layouts
         $loader = new \Twig\Loader\FilesystemLoader($templatesPath);
+        $autoescape = $this->builder->getConfig()->get('layouts.autoescape');
+        if ($autoescape === null) {
+            $autoescape = static function (string $templateName): string|false {
+                // extract the extension before ".twig" (e.g. "template.js.twig" -> "js")
+                $base = preg_replace('/\.twig$/i', '', $templateName);
+                if ($base === null) {
+                    $base = $templateName;
+                }
+                $ext = strtolower((string) pathinfo($base, \PATHINFO_EXTENSION));
+
+                return match ($ext) {
+                    'js'       => 'js',
+                    'css'      => 'css',
+                    'html', '' => 'html',
+                    default    => false,
+                };
+            };
+        }
         // default options
         $loaderOptions = [
             'debug'            => $this->builder->isDebug(),
             'strict_variables' => true,
-            'autoescape'       => false,
+            'autoescape'       => $autoescape,
             'auto_reload'      => true,
             'cache'            => false,
         ];
@@ -92,6 +112,10 @@ class Twig implements RendererInterface
          */
         // Cecil core extension
         $this->twig->addExtension(new CoreExtension($this->builder));
+        // Cecil collection extension
+        $this->twig->addExtension(new CollectionExtension($this->builder));
+        // Cecil content extension
+        $this->twig->addExtension(new ContentExtension($this->builder));
         // required by `template_from_string()`
         $this->twig->addExtension(new \Twig\Extension\StringLoaderExtension());
         // the `u` filter (https://github.com/twigphp/string-extra)

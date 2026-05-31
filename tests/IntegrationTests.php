@@ -63,10 +63,17 @@ class IntegrationTests extends \PHPUnit\Framework\TestCase
             ]);
         $htmlEn = Util\File::fileGetContents(Util::joinFile($this->destination, '_site/markdown/localized-assets/index.html'));
         $htmlFr = Util\File::fileGetContents(Util::joinFile($this->destination, '_site/fr/markdown/localized-assets/index.html'));
+        $htmlImages = Util\File::fileGetContents(Util::joinFile($this->destination, '_site/markdown/images/index.html'));
+        $htmlMarkdown = Util\File::fileGetContents(Util::joinFile($this->destination, '_site/markdown/markdown/index.html'));
         self::assertNotFalse($htmlEn);
         self::assertNotFalse($htmlFr);
+        self::assertNotFalse($htmlImages);
+        self::assertNotFalse($htmlMarkdown);
         self::assertStringContainsString('/images/cecil-logo.png', $htmlEn);
         self::assertStringContainsString('/images/cecil-logo.fr.png', $htmlFr);
+        self::assertStringContainsString('media="(prefers-color-scheme: dark)"', $htmlImages);
+        self::assertStringContainsStringIgnoringCase('/images/cecil-logo.dark.png', $htmlImages);
+        self::assertMatchesRegularExpression('/<code[^>]*translate="no"[^>]*>/', $htmlMarkdown);
     }
 
     /**

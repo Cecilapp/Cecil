@@ -1,4 +1,4 @@
-# https://docs.github.com/code-security/dependabot/dependabot-security-updates/configuring-dependabot-security-updates
+# https://docs.github.com/en/code-security/reference/supply-chain-security/dependabot-options-reference
 version: 2
 updates:
   # PHP dependencies
@@ -12,13 +12,9 @@ updates:
     labels:
       - "dependencies"
     rebase-strategy: "auto"
-    #assignees:
-    #  - "ArnaudLigny"
-    reviewers:
-      - "ArnaudLigny"
     versioning-strategy: lockfile-only
   # GitHub Actions
   - package-ecosystem: "github-actions"
     directory: "/"
     schedule:
-      interval: "daily"
+      interval: "weekly"

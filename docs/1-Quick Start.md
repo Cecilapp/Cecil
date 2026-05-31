@@ -6,7 +6,7 @@ menu: home
 -->
 # Quick Start
 
-Cecil is a CLI application, powered by [PHP](https://www.php.net), that merge plain text files (written in [Markdown](https://daringfireball.net/projects/markdown/)), images and [Twig](https://twig.symfony.com/) templates to generate a [static website](https://en.wikipedia.org/wiki/Static_web_page).
+Cecil is a CLI application, powered by [PHP](https://www.php.net), that merges plain text files (written in [Markdown](https://daringfireball.net/projects/markdown/)), images and [Twig](https://twig.symfony.com/) templates to generate a [static website](https://en.wikipedia.org/wiki/Static_web_page).
 
 ## Create a website
 
@@ -72,7 +72,7 @@ php cecil.phar serve
 Then navigate to `http://localhost:8000`.
 
 :::info
-The `serve` command run a local HTTP server and a watcher: if a file (a page, a template or the config) is modified, the browser’s current page is automatically reloaded.
+The `serve` command runs a local HTTP server and a watcher: if a file (a page, a template or the config) is modified, the browser’s current page is automatically reloaded.
 :::
 
 ### 5. Build and deploy

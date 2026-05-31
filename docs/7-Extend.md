@@ -11,7 +11,7 @@ Because Cecil is powered by PHP it's easy to extend its capabilities.
 
 ## Pages Generator
 
-A Generator help you to create pages without Markdown files (with data from an API or a database for example) or alter existing pages.
+A generator helps you create pages without Markdown files (for example, with data from an API or a database) or alter existing pages.
 
 Just create a new PHP class in the `Cecil\Generator` namespace and add the class name to the [`pages.generators`](4-Configuration.md#pages-generators) list.
 

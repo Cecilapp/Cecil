@@ -86,6 +86,7 @@ pages:
       published: false
   body:
     images:
+      dark_suffix: .dark
       formats:
         - webp
         - avif
@@ -169,6 +170,7 @@ assets:
     class: class_img
 layouts:
   images:
+    dark_suffix: .dark
     formats:
       - webp
       - avif

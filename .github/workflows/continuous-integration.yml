@@ -161,28 +161,25 @@ jobs:
         run: |
           composer run-script code:style
 
-      - name: Run test build
+      - name: Run tests
         if: ${{ contains(matrix.type, '') || contains(matrix.type, 'experimental') }}
         run: |
-          composer run-script test
+          echo "::group::Integration tests"
+          composer run-script test:integration
+          echo "::endgroup::"
 
-      - name: Run CLI test build
-        if: ${{ contains(matrix.type, '') }}
-        run: |
+          echo "::group::CLI tests"
           composer run-script test:cli
+          echo "::endgroup::"
 
-      - name: Run test build for code coverage
+          echo "::group::Unit tests"
+          composer run-script test:unit
+          echo "::endgroup::"
+
+      - name: Run integration tests for code coverage
         if: ${{ contains(matrix.type, 'coverage') }}
         run: |
           composer run-script test:coverage
-
-      - name: Run test build for code profiling
-        if: ${{ contains(matrix.type, 'profiling') }}
-        continue-on-error: true
-        env:
-          APP_ENV: prod
-          APP_DEBUG: 0
-        run: blackfire run php vendor/bin/phpunit -c ./ --testsuite=IntegrationTests
 
       - name: Upload code coverage results to Coveralls
         if: ${{ contains(matrix.type, 'coverage') }}
@@ -190,8 +187,21 @@ jobs:
         env:
           COVERALLS_REPO_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
+          echo "::group::Install code coverage uploader"
           composer run-script test:coverage:install
+          echo "::endgroup::"
+
+          echo "::group::Upload code coverage results to Coveralls"
           composer run-script test:coverage:upload
+          echo "::endgroup::"
+
+      - name: Run integration tests for code profiling
+        if: ${{ contains(matrix.type, 'profiling') }}
+        continue-on-error: true
+        env:
+          APP_ENV: prod
+          APP_DEBUG: 0
+        run: blackfire run php vendor/bin/phpunit -c ./ --testsuite=IntegrationTests
 
       - name: Build a skeleton site from `cecil.phar` binary
         if: ${{ matrix.os == 'ubuntu-latest' && matrix.php >= 8.2 && (contains(matrix.type, '') || contains(matrix.type, 'experimental')) }}

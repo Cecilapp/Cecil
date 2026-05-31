@@ -84,9 +84,9 @@ EOF
             }
             // setup questions
             $title = $this->io->ask('Give a title to your website', 'New website');
-            $baseline = $this->io->ask('Give a baseline to your website', '');
+            $baseline = $this->io->ask('Give a baseline to your website', 'A new Cecil website');
             $baseurl = $this->io->ask('Base URL?', '/', [$this, 'validateUrl']);
-            $description = $this->io->ask('Write a full description of your site', 'Website created with Cecil.');
+            $description = $this->io->ask('Write a full description of your site', 'A website created with Cecil static site generator.');
             $demo = ($demo !== false) ?: $this->io->confirm('Add demo content?', false);
             // override skeleton default config
             $config = Yaml::parseFile(Util::joinPath($this->rootPath, 'resources/skeleton', self::CONFIG_FILE[0]), Yaml::PARSE_DATETIME);
@@ -97,10 +97,11 @@ EOF
                 'description' => $description
             ]);
             $configYaml = Yaml::dump($config, 2, 2);
-            Util\File::getFS()->dumpFile(Util::joinPath($this->getPath(), $this->locateConfigFile($this->getPath())['name'] ?: self::CONFIG_FILE[0]), $configYaml);
             // create path dir
             Util\File::getFS()->mkdir($this->getPath(false));
-            // creates sub dir
+            // create config file
+            Util\File::getFS()->dumpFile(Util::joinPath($this->getPath(), $this->locateConfigFile($this->getPath())['name'] ?: self::CONFIG_FILE[0]), $configYaml);
+            // create sub dir
             foreach (
                 [
                     (string) $this->getBuilder()->getConfig()->get('assets.dir'),
@@ -123,6 +124,7 @@ EOF
                     Util::joinPath($this->rootPath, 'resources/skeleton', $value),
                     Util::joinPath($this->getPath(), $value)
                 );
+                Util\File::getFS()->chmod(Util::joinPath($this->getPath(), $value), 0777 & ~umask()); // make it writable for demo content
             }
             // demo: copy all files
             if ($demo) {

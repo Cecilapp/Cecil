@@ -36,22 +36,34 @@ Create and deploy a blog site:
 - [Download one file](https://github.com/Cecilapp/Cecil/releases/latest/download/cecil.phar) and run it
 - Easy to deploy
 
+## Requirements
+
+- [PHP](https://www.php.net) 8.2+
+
 ## Installation
 
-[Download `cecil.phar`](https://github.com/Cecilapp/Cecil/releases/latest/download/cecil.phar) from your browser or from your terminal:
+Download `cecil.phar` from your terminal:
 
 ```bash
 curl -LO https://github.com/Cecilapp/Cecil/releases/latest/download/cecil.phar
 ```
 
-> [!IMPORTANT]
-> [PHP](https://www.php.net) 8.2+ is required.
+Other installation methods:
+
+- [Homebrew](https://brew.sh): `brew install cecilapp/tap/cecil`
+- [Scoop](https://scoop.sh): `scoop install https://cecil.app/scoop/cecil.json`
+- Manual download page: [cecil.app/download](https://cecil.app/download/)
 
 ## Usage
 
-- Get help: `php cecil.phar help`
-- Create a new website: `php cecil.phar new:site`
-- Preview your website: `php cecil.phar serve`
+Common commands:
+
+```bash
+php cecil.phar help      # Get help
+php cecil.phar new:site  # Create a new website
+php cecil.phar build     # Build your website
+php cecil.phar serve     # Preview your website locally
+```
 
 ## Contributing
 
@@ -104,27 +116,39 @@ npx all-contributors generate
 
 ## Development
 
+Install dependencies:
+
+```bash
+composer install
+```
+
+Run all quality checks:
+
+```bash
+composer code
+```
+
+Run individual checks:
+
+```bash
+composer code:analyse
+composer code:style
+composer test
+composer test:cli
+```
+
 ### Build binaries
 
 Build binaries with [Box](https://github.com/box-project/box/) and [phpacker](https://github.com/phpacker/phpacker):
 
 ```bash
-# Install globally
+# Install Box and phpacker globally
 composer global require humbug/box
 composer global require phpacker/phpacker
-# Add to your PATH
 export PATH=~/.composer/vendor/bin:$PATH
-```
-
-```bash
-# Build the PHAR file
+# Build the PHAR file and the package
 composer run build:phar
-# Check the PHAR file
-php dist/cecil.phar about
-# Build the package (with PHP binary included)
 composer run build:package
-# Check the package
-./dist/build/<os>/<os>-<arch> about
 ```
 
 ### Build API documentation
@@ -132,13 +156,13 @@ composer run build:package
 Build the API documentation with [phpDocumentor](https://www.phpdoc.org):
 
 ```bash
-# Install phpDocumentor globally
+# Download phpDocumentor PHAR
 curl -Lo phpdoc https://phpdoc.org/phpDocumentor.phar
 # Build the API documentation
 php phpdoc
 ```
 
-## Release
+### Release
 
 To release a new version, create a new Git tag with the version number (e.g. `1.0.0`), push it to GitHub and the release will be automatically published by GitHub Actions.
 
@@ -154,8 +178,8 @@ The automated workflow also will publish the release to the [website](https://ce
 
 ## Sponsors
 
-<!--[![Aperture Lab](https://avatars.githubusercontent.com/u/10225022?s=100)](https://aperturelab.fr)&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;-->
-[![studio cecillie](https://raw.githubusercontent.com/Cecilapp/website/master/static/images/logos/cecillie.png)](https://studio.cecillie.fr#gh-light-mode-only)[![studio cecillie](https://raw.githubusercontent.com/Cecilapp/website/master/static/images/logos/cecillie-dark.png)](https://studio.cecillie.fr#gh-dark-mode-only)&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[![Netlify](https://raw.githubusercontent.com/Cecilapp/website/master/static/images/logos/netlify.png)](https://www.netlify.com#gh-light-mode-only)[![Netlify](https://raw.githubusercontent.com/Cecilapp/website/master/static/images/logos/netlify-dark.png)](https://www.netlify.com#gh-dark-mode-only)&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<!--[![Vercel](https://raw.githubusercontent.com/Cecilapp/website/master/static/images/logos/vercel.png)](https://vercel.com/?utm_source=cecil&utm_campaign=oss#gh-light-mode-only)[![ Vercel](https://raw.githubusercontent.com/Cecilapp/website/master/static/images/logos/vercel-dark.png)](https://vercel.com/?utm_source=cecil&utm_campaign=oss#gh-dark-mode-only)-->
+[![Aperture Lab](https://avatars.githubusercontent.com/u/10225022?s=100)](https://aperturelab.fr "Aperture Lab")&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+[![studio cecillie](https://raw.githubusercontent.com/Cecilapp/website/master/static/images/logos/cecillie.png)](https://studio.cecillie.fr#gh-light-mode-only "studio cecillie")[![studio cecillie](https://raw.githubusercontent.com/Cecilapp/website/master/static/images/logos/cecillie-dark.png)](https://studio.cecillie.fr#gh-dark-mode-only "studio cecillie")&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[![Netlify](https://raw.githubusercontent.com/Cecilapp/website/master/static/images/logos/netlify.png)](https://www.netlify.com#gh-light-mode-only "Netlify")[![Netlify](https://raw.githubusercontent.com/Cecilapp/website/master/static/images/logos/netlify-dark.png)](https://www.netlify.com#gh-dark-mode-only "Netlify")
 
 ## License
 

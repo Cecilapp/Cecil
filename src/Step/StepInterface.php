@@ -13,8 +13,6 @@ declare(strict_types=1);
 
 namespace Cecil\Step;
 
-use Cecil\Builder;
-
 /**
  * Step interface.
  *
@@ -27,7 +25,7 @@ interface StepInterface
     /**
      * StepInterface constructor.
      */
-    public function __construct(Builder $builder);
+    public function __construct(\Cecil\Builder $builder);
 
     /**
      * Returns the step name.
@@ -37,7 +35,7 @@ interface StepInterface
     /**
      * This method is called before the step is processed to initialize
      * the step with necessary options and to determine if it can be executed.
-     * @param Builder::OPTIONS $options
+     * @param \Cecil\Builder::OPTIONS $options
      */
     public function init(array $options): void;
 
