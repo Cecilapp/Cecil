@@ -715,7 +715,7 @@ class Config
                 throw new ConfigException(\sprintf('Output format #%d must be an array.', $position));
             }
 
-            foreach (['name', 'extension', 'mediatype'] as $property) {
+            foreach (['name', 'mediatype'] as $property) {
                 if (!isset($format[$property]) || !\is_string($format[$property]) || trim($format[$property]) === '') {
                     $label = $format['name'] ?? \sprintf('#%d', $position);
 
