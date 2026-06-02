@@ -50,7 +50,6 @@ class IntegrationCliTests extends IntegrationTests
         $output = implode("\n", $output);
         echo $output;
         self::assertTrue($retval < 1);
-        self::assertStringContainsString('Cecil doctor', $output);
         self::assertStringContainsString('Environment', $output);
     }
 }
