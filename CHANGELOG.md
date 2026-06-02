@@ -2,14 +2,24 @@
 
 All notable changes to this project will be documented in this file. Dates are displayed in UTC.
 
-#### [8.99.0-beta.1](https://github.com/Cecilapp/Cecil/compare/8.98.0...8.99.0-beta.1)
+#### [8.99.0](https://github.com/Cecilapp/Cecil/compare/8.98.0...8.99.0)
 
-> 30 May 2026
+> 31 May 2026
 
+- perf: Build translations index [`#2395`](https://github.com/Cecilapp/Cecil/pull/2395)
+- chore(deps-dev): bump friendsofphp/php-cs-fixer from 3.95.2 to 3.95.3 [`#2394`](https://github.com/Cecilapp/Cecil/pull/2394)
 - chore(deps-dev): bump phpstan/phpstan from 2.2.0 to 2.2.1 [`#2392`](https://github.com/Cecilapp/Cecil/pull/2392)
+- Add Cecil review agent, PHP rules & PR workflow [`f6800fd`](https://github.com/Cecilapp/Cecil/commit/f6800fd1dfd9fdbdfc221785f0b53254333d2d77)
+- test: add Collection tests; bump scripts [`cbe5a71`](https://github.com/Cecilapp/Cecil/commit/cbe5a71557483812ccd14139b8620e8b05edf9c6)
 - refactor: use single Cache instance in Asset [`d6d8d0a`](https://github.com/Cecilapp/Cecil/commit/d6d8d0aa468622dac88bf3370ac7895af3ab4ffe)
+- Create AGENTS.md [`45ad28d`](https://github.com/Cecilapp/Cecil/commit/45ad28d2763c01c69aee1c277197c48211e9050c)
+- Delete AGENTS.md [`7ba7c7a`](https://github.com/Cecilapp/Cecil/commit/7ba7c7adb41044bd9d1b33d0468d12face2efc29)
 - refactor: rebuild missing asset cache file [`1718d9e`](https://github.com/Cecilapp/Cecil/commit/1718d9e26701503492a1bb40455a6bef8b93afa9)
 - refactor: consolidate asset cache logic [`bbadfaa`](https://github.com/Cecilapp/Cecil/commit/bbadfaa5524966af303e9e7f4fdd0c5ba041d496)
+- chore: update deps [`2ca01f8`](https://github.com/Cecilapp/Cecil/commit/2ca01f8b27868d3357c7e6a7d8394d86842af334)
+- Enhance PR response skill template [`0f2110c`](https://github.com/Cecilapp/Cecil/commit/0f2110c6de4250605397002fb2c8dc982df945c3)
+- Set review agent to strict mode and expand checks [`6473689`](https://github.com/Cecilapp/Cecil/commit/6473689978c96d1e85ca8b07222bc45b2b6b5f43)
+- Refactor release section and update sponsor links [`77f872c`](https://github.com/Cecilapp/Cecil/commit/77f872c8f2019aaa6ca7d781b7900b3c6581dca4)
 - refactor: remove ReturnTypeWillChange attributes [`d57e3a9`](https://github.com/Cecilapp/Cecil/commit/d57e3a94d2aefa446c3762b2fb9a6945b57add3f)
 
 #### [8.98.0](https://github.com/Cecilapp/Cecil/compare/8.97.0...8.98.0)
