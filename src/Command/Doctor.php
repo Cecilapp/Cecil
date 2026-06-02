@@ -17,6 +17,7 @@ use Cecil\Builder;
 use Cecil\Config;
 use Cecil\Util;
 use Symfony\Component\Console\Command\Command;
+use Symfony\Component\Console\Helper\Table;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
@@ -65,22 +66,24 @@ EOF
         $builder = $this->getBuilder();
         $config = $builder->getConfig();
 
-        $this->io->title('Cecil doctor');
-        $this->io->section('Environment');
-        $this->io->table(
-            ['Check', 'Value'],
-            [
+        $table = new Table($output);
+        $table
+            ->setHeaderTitle('Environment')
+            ->setHeaders(['Check', 'Value'])
+            ->setRows([
                 ['Cecil version', Builder::getVersion()],
                 ['PHP version', PHP_VERSION],
                 ['OS', PHP_OS_FAMILY],
                 ['Working directory', $this->getPath()],
-            ]
-        );
+            ])
+        ;
+        $table->setStyle('box')->render();
 
-        $this->io->section('Paths');
-        $this->io->table(
-            ['Item', 'Value'],
-            [
+        $table = new Table($output);
+        $table
+            ->setHeaderTitle('Paths')
+            ->setHeaders(['Item', 'Value'])
+            ->setRows([
                 ['Source', $config->getSourceDir()],
                 ['Destination', $config->getDestinationDir()],
                 ['Pages', $config->getPagesPath()],
@@ -89,8 +92,9 @@ EOF
                 ['Static', $config->getStaticPath()],
                 ['Cache', $this->getCachePathDisplay($config)],
                 ['Config files', $this->formatConfigFiles()],
-            ]
-        );
+            ])
+        ;
+        $table->setStyle('box')->render();
 
         $checks = [];
         $warnings = 0;
@@ -119,8 +123,13 @@ EOF
         $this->addCheck($checks, 'Translations cache', $config->isEnabled('cache.translations'), 'Enabled', 'Disabled', 'warning', $warnings, $errors);
         $this->addCheck($checks, 'Theme(s)', $themeStatus, $themeDetails, $themeDetails, 'error', $warnings, $errors);
 
-        $this->io->section('Checks');
-        $this->io->table(['Check', 'Status', 'Details'], $checks);
+        $table = new Table($output);
+        $table
+            ->setHeaderTitle('Checks')
+            ->setHeaders(['Check', 'Status', 'Details'])
+            ->setRows($checks)
+        ;
+        $table->setStyle('box')->render();
 
         if ($errors > 0) {
             $this->io->error(\sprintf('%d error(s) found.', $errors));
