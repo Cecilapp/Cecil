@@ -416,7 +416,7 @@ class Cache implements CacheInterface
      */
     private function getStoredCacheValue(string $path): mixed
     {
-        if (\pathinfo($path, \PATHINFO_EXTENSION) !== 'ser') {
+        if (pathinfo($path, \PATHINFO_EXTENSION) !== 'ser') {
             return null;
         }
 

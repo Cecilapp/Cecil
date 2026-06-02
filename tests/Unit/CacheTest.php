@@ -32,7 +32,7 @@ class CacheTest extends TestCase
     protected function setUp(): void
     {
         $this->filesystem = new Filesystem();
-        $this->root = \sys_get_temp_dir() . DIRECTORY_SEPARATOR . 'cecil-cache-test-' . \uniqid('', true);
+        $this->root = sys_get_temp_dir() . DIRECTORY_SEPARATOR . 'cecil-cache-test-' . uniqid('', true);
         $this->sourceDir = $this->root . DIRECTORY_SEPARATOR . 'source';
         $this->destinationDir = $this->root . DIRECTORY_SEPARATOR . 'destination';
 
