@@ -692,7 +692,7 @@ class Config
      */
     private function validateCacheConfiguration(): void
     {
-        if ($this->isEnabled('cache') && \trim((string) $this->get('cache.dir')) === '') {
+        if ($this->isEnabled('cache') && trim((string) $this->get('cache.dir')) === '') {
             throw new ConfigException('The cache directory (`cache.dir`) must not be empty when cache is enabled.');
         }
     }
