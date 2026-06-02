@@ -22,7 +22,7 @@ class ConfigTest extends TestCase
     public function testEmptyCacheDirectoryIsRejectedWhenCacheIsEnabled(): void
     {
         $this->expectException(ConfigException::class);
-        $this->expectExceptionMessage('cache directory (`cache.dir`) must not be empty when cache is enabled');
+        $this->expectExceptionMessage('The cache directory (`cache.dir`) must not be empty when cache is enabled.');
 
         new Config([
             'cache' => [
