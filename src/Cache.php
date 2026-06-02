@@ -337,7 +337,7 @@ class Cache implements CacheInterface
                     }
                     $fileNameWithoutExtension = pathinfo($file->getFilename(), PATHINFO_FILENAME);
                     if (str_starts_with($fileNameWithoutExtension, $filenamePrefix)) {
-                        Util\File::getFS()->remove($file->getPathname());
+                        $this->removeCacheEntry($file->getPathname());
                     }
                 }
             }
