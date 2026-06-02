@@ -60,6 +60,7 @@ class Application extends BaseApplication
             new Command\CacheClearAssets(),
             new Command\CacheClearTemplates(),
             new Command\CacheClearTranslations(),
+            new Command\Doctor(),
             new Command\ShowContent(),
             new Command\ShowConfig(),
             new Command\ListCommand(),
