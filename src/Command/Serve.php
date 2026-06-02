@@ -64,7 +64,7 @@ class Serve extends AbstractCommand
                 new InputOption('no-ignore-vcs', null, InputOption::VALUE_NONE, 'Changes watcher must not ignore VCS directories'),
                 new InputOption('metrics', 'm', InputOption::VALUE_NONE, 'Show build metrics (duration and memory) of each step'),
                 new InputOption('timeout', null, InputOption::VALUE_REQUIRED, 'Sets the process timeout (max. runtime) in seconds', 7200), // default is 2 hours
-                new InputOption('notif', null, InputOption::VALUE_NONE, 'Send desktop notification on server start'),
+                new InputOption('notify', null, InputOption::VALUE_NONE, 'Send desktop notification on server start'),
             ])
             ->setHelp(
                 <<<'EOF'
@@ -95,7 +95,7 @@ To define the process <comment>timeout</comment> (in seconds), run:
 
 Send a desktop <comment>notification</comment> on server start, run:
 
-  <info>%command.full_name% --notif</>
+  <info>%command.full_name% --notify</>
 EOF
             );
     }
@@ -118,7 +118,7 @@ EOF
         $metrics = $input->getOption('metrics');
         $timeout = $input->getOption('timeout');
         $verbose = $input->getOption('verbose');
-        $notif = $input->getOption('notif');
+        $notify = $input->getOption('notify');
 
         $resourceWatcher = null;
         $this->watcherEnabled = $input->getOption('watch');
@@ -231,7 +231,7 @@ EOF
                     }
                 });
                 // notification
-                if ($notif) {
+                if ($notify) {
                     $this->notification('Starting server 🚀', \sprintf('http://%s:%s', $host, $port));
                 }
                 // open web browser
@@ -251,7 +251,7 @@ EOF
                         if ($watcher->hasChanges()) {
                             $output->writeln('<comment>Changes detected</comment>');
                             // notification
-                            if ($notif) {
+                            if ($notify) {
                                 $this->notification('Changes detected, building website...');
                             }
                             // prints deleted/new/updated files in debug mode
@@ -281,7 +281,7 @@ EOF
                             }
                             $output->writeln('<info>Server is running...</info>');
                             // notification
-                            if ($notif) {
+                            if ($notify) {
                                 $this->notification('Server is running...');
                             }
                         }

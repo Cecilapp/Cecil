@@ -52,7 +52,7 @@ class Build extends AbstractCommand
                 new InputOption('render-subset', null, InputOption::VALUE_REQUIRED, 'Render a subset of pages'),
                 new InputOption('show-pages', null, InputOption::VALUE_NONE, 'Show list of built pages in a table'),
                 new InputOption('metrics', 'm', InputOption::VALUE_NONE, 'Show build metrics (duration and memory) of each step'),
-                new InputOption('notif', null, InputOption::VALUE_NONE, 'Send desktop notification on build completion'),
+                new InputOption('notify', null, InputOption::VALUE_NONE, 'Send desktop notification on build completion'),
             ])
             ->setHelp(
                 <<<'EOF'
@@ -85,7 +85,7 @@ To show build steps <comment>metrics</comment>, run:
 
 Send a desktop <comment>notification</comment> on build completion, run:
 
-  <info>%command.full_name% --notif</>
+  <info>%command.full_name% --notify</>
 EOF
             );
     }
@@ -155,7 +155,7 @@ EOF
         $output->writeln('<info>Build done.</info>');
 
         // notification
-        if ($input->getOption('notif')) {
+        if ($input->getOption('notify')) {
             $this->notification('Build done 🎉');
         }
 
