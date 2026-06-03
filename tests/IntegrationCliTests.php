@@ -40,6 +40,17 @@ class IntegrationCliTests extends IntegrationTests
         self::assertTrue($retval < 1);
     }
 
+    public function testBuildDefaultVerbosity()
+    {
+        echo "\n";
+        exec('php ./bin/cecil new:site tests/demo --demo -n -f', $output, $retval);
+        self::assertTrue($retval < 1);
+        $output = [];
+        exec('php ./bin/cecil build tests/demo', $output, $retval);
+        echo implode("\n", $output);
+        self::assertTrue($retval < 1);
+    }
+
     public function testDoctor(): void
     {
         echo "\n";
