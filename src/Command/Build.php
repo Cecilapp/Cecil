@@ -14,8 +14,11 @@ declare(strict_types=1);
 namespace Cecil\Command;
 
 use Cecil\Builder;
+use Cecil\Logger\ConsoleLogger;
+use Cecil\Logger\ProgressConsoleLogger;
 use Cecil\Util;
 use Symfony\Component\Console\Command\Command;
+use Symfony\Component\Console\Helper\ProgressBar;
 use Symfony\Component\Console\Helper\Table;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
@@ -140,7 +143,24 @@ EOF
             }
         }
 
+        // start build
         $output->writeln(\sprintf('Building website%s...', $messageOpt));
+        $progressBar = null;
+        if ($output->getVerbosity() === OutputInterface::VERBOSITY_NORMAL) {
+            $progressBar = new ProgressBar($output);
+            $progressBar->setFormat("%current%/%max% %bar% %message%");
+            $progressBar->setEmptyBarCharacter('░');
+            $progressBar->setBarCharacter('<fg=green>▓</>');
+            $progressBar->setProgressCharacter('<fg=green>▓</>');
+            $progressBar->setMessage('Starting build');
+            $progressBar->start();
+
+            $builder->setLogger(new ProgressConsoleLogger($output, $progressBar));
+        } else {
+            $builder->setLogger(new ConsoleLogger($output));
+        }
+
+        // show build configuration in very verbose mode
         $output->writeln(\sprintf('<comment>Path:   %s</comment>', $this->getPath()), OutputInterface::VERBOSITY_VERY_VERBOSE);
         if (!empty($this->getConfigFiles())) {
             $output->writeln(\sprintf('<comment>Config: %s</comment>', implode(', ', $this->getConfigFiles())), OutputInterface::VERBOSITY_VERY_VERBOSE);
@@ -152,6 +172,13 @@ EOF
 
         // build
         $builder->build($options);
+
+        // end build
+        if ($progressBar !== null) {
+            $progressBar->setMessage('');
+            $progressBar->finish();
+            $output->writeln('');
+        }
         $output->writeln('<info>Build done.</info>');
 
         // notification
