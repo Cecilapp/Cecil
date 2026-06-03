@@ -16,7 +16,9 @@ namespace Cecil\Command;
 use Cecil\Builder;
 use Cecil\Util;
 use Symfony\Component\Console\Command\Command;
+use Symfony\Component\Console\Helper\ProgressBar;
 use Symfony\Component\Console\Helper\Table;
+use Symfony\Component\Console\Helper\TableSeparator;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
@@ -194,6 +196,26 @@ EOF
                 $rows[] = [$step['name'], $durationDisplay, $step['memory']];
                 $currentMetricsToSave['steps'][$step['name']] = $step['duration_raw'];
             }
+
+            // add total row with optional diff against previous run
+            $totalDuration = (float) $metrics['total']['duration_raw'];
+            $totalDurationDisplay = $totalDuration < 1000
+                ? \sprintf('%s ms', round($totalDuration, 0))
+                : \sprintf('%s s', round($totalDuration / 1000, 2));
+            if (isset($previousMetrics['total'])) {
+                $totalDiff = $totalDuration - (float) $previousMetrics['total'];
+                if (abs($totalDiff) >= 1) {
+                    $totalDiffAbs = abs($totalDiff);
+                    $totalDiffStr = $totalDiffAbs < 1000
+                        ? \sprintf('%s ms', round($totalDiffAbs, 0))
+                        : \sprintf('%s s', round($totalDiffAbs / 1000, 2));
+                    $sign = $totalDiff > 0 ? '+' : '-';
+                    $color = $totalDiff > 0 ? 'red' : 'green';
+                    $totalDurationDisplay .= \sprintf(' (<fg=%s>%s%s</>)', $color, $sign, $totalDiffStr);
+                }
+            }
+            $rows[] = new TableSeparator();
+            $rows[] = ['Total', $totalDurationDisplay, $metrics['total']['memory']];
 
             // save current metrics for next comparison
             Util\File::getFS()->dumpFile($metricsFile, (string) json_encode($currentMetricsToSave, JSON_PRETTY_PRINT));
