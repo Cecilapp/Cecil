@@ -39,4 +39,17 @@ class IntegrationCliTests extends IntegrationTests
         echo implode("\n", $output);
         self::assertTrue($retval < 1);
     }
+
+    public function testDoctor(): void
+    {
+        echo "\n";
+        exec('php ./bin/cecil new:site tests/demo --demo -n -f', $output, $retval);
+        self::assertTrue($retval < 1);
+        $output = [];
+        exec('php ./bin/cecil doctor tests/demo', $output, $retval);
+        $output = implode("\n", $output);
+        echo $output;
+        self::assertTrue($retval < 1);
+        self::assertStringContainsString('Environment', $output);
+    }
 }

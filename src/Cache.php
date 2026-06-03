@@ -126,13 +126,8 @@ class Cache implements CacheInterface
     {
         try {
             $key = self::sanitizeKey($key);
-            Util\File::getFS()->remove($this->getFile($key));
+            $this->removeCacheEntry($this->getFile($key));
             $this->prune($key);
-            // remove content dedicated file
-            $value = $this->get($key);
-            if (!empty($value['path'])) {
-                $this->deleteContentFile($value['path']);
-            }
         } catch (\Exception $e) {
             $this->builder->getLogger()->error($e->getMessage());
 
@@ -261,9 +256,9 @@ class Cache implements CacheInterface
                 \RecursiveIteratorIterator::SELF_FIRST
             );
             foreach ($iterator as $file) {
-                if ($file->isFile()) {
+                if ($file->isFile() && $file->getExtension() === 'ser') {
                     if (preg_match('/' . $pattern . '/i', $file->getPathname())) {
-                        Util\File::getFS()->remove($file->getPathname());
+                        $this->removeCacheEntry($file->getPathname());
                         $fileCount++;
                         $this->builder->getLogger()->debug(\sprintf('Cache removed: "%s"', trim(Util\File::getFS()->makePathRelative($file->getPathname(), $this->builder->getConfig()->getCachePath()), '/')));
                     }
@@ -342,7 +337,7 @@ class Cache implements CacheInterface
                     }
                     $fileNameWithoutExtension = pathinfo($file->getFilename(), PATHINFO_FILENAME);
                     if (str_starts_with($fileNameWithoutExtension, $filenamePrefix)) {
-                        Util\File::getFS()->remove($file->getPathname());
+                        $this->removeCacheEntry($file->getPathname());
                     }
                 }
             }
@@ -402,5 +397,39 @@ class Cache implements CacheInterface
         }
 
         return true;
+    }
+
+    /**
+     * Removes a cache metadata file and its dedicated content file if any.
+     */
+    private function removeCacheEntry(string $path): void
+    {
+        $value = $this->getStoredCacheValue($path);
+        Util\File::getFS()->remove($path);
+        if (\is_array($value) && !empty($value['path'])) {
+            $this->deleteContentFile((string) $value['path']);
+        }
+    }
+
+    /**
+     * Extracts the stored cache value from a metadata file.
+     */
+    private function getStoredCacheValue(string $path): mixed
+    {
+        if (pathinfo($path, \PATHINFO_EXTENSION) !== 'ser') {
+            return null;
+        }
+
+        $content = Util\File::fileGetContents($path);
+        if ($content === false) {
+            return null;
+        }
+
+        $data = unserialize($content);
+        if (!\is_array($data)) {
+            return null;
+        }
+
+        return $data['value'] ?? null;
     }
 }

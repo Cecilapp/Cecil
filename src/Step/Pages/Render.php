@@ -397,7 +397,7 @@ class Render extends AbstractStep
      */
     protected function getTranslations(Page $refPage, array $translationsIndex = []): Collection
     {
-        $pages = \array_filter($translationsIndex[$this->getTranslationsIndexKey($refPage)] ?? [], function (Page $page) use ($refPage) {
+        $pages = array_filter($translationsIndex[$this->getTranslationsIndexKey($refPage)] ?? [], function (Page $page) use ($refPage) {
             return $page->getId() !== $refPage->getId();
         });
 

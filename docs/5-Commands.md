@@ -1,7 +1,7 @@
 <!--
 description: "List of available commands."
 date: 2020-12-19
-updated: 2025-11-23
+updated: 2026-06-03
 -->
 # Commands
 
@@ -12,6 +12,7 @@ Available commands:
   about                      Shows a short description about Cecil
   build                      Builds the website
   clear                      Removes all generated files
+  doctor                     Diagnoses the site configuration
   edit                       [open] Open pages directory with the editor
   help                       Display help for a command
   self-update                [selfupdate] Updates Cecil to the latest version
@@ -163,7 +164,7 @@ Options:
       --render-subset=RENDER-SUBSET  Render a subset of pages
       --show-pages                   Show list of built pages in a table
   -m, --metrics                      Show build metrics (duration and memory) of each step
-      --notif                        Send desktop notification on build completion
+      --notify                       Send desktop notification on build completion
   -h, --help                         Display help for the given command. When no command is given display help for the list command
   -q, --quiet                        Do not output any message
   -V, --version                      Display this application version
@@ -200,6 +201,40 @@ Help:
     cecil.phar build --metrics
 ```
 
+## doctor
+
+Diagnoses the current site and Cecil environment.
+
+```plaintext
+Description:
+  Diagnoses the site configuration
+
+Usage:
+  doctor [options] [--] [<path>]
+
+Arguments:
+  path                       Use the given path as working directory
+
+Options:
+  -c, --config=CONFIG        Set the path to an extra configuration file
+  -h, --help                 Display help for the given command. When no command is given display help for the list command
+  -q, --quiet                Do not output any message
+  -V, --version              Display this application version
+      --ansi|--no-ansi       Force (or disable --no-ansi) ANSI output
+  -n, --no-interaction       Do not ask any interactive question
+  -v|vv|vvv, --verbose       Increase the verbosity of messages: 1 for normal output, 2 for more verbose output and 3 for debug
+
+Help:
+  The doctor command diagnoses the current site and Cecil environment.
+
+    cecil.phar doctor
+    cecil.phar doctor path/to/the/working/directory
+
+  To inspect a site with an extra configuration file, run:
+
+    cecil.phar doctor --config=config.yml
+```
+
 ## serve
 
 Builds and serves the site locally.
@@ -231,7 +266,7 @@ Options:
       --no-ignore-vcs              Changes watcher must not ignore VCS directories
   -m, --metrics                    Show build metrics (duration and memory) of each step
       --timeout=TIMEOUT            Sets the process timeout (max. runtime) in seconds [default: 7200]
-      --notif                      Send desktop notification on server start
+      --notify                     Send desktop notification on server start
   -h, --help                       Display help for the given command. When no command is given display help for the list command
   -q, --quiet                      Do not output any message
   -V, --version                    Display this application version

@@ -661,6 +661,9 @@ class Config
             }
         }
 
+        $this->validateCacheConfiguration();
+        $this->validateOutputFormats();
+
         // check for deprecated options
         $deprecatedConfigFile = Util\File::getRealPath('../config/deprecated.php');
         $deprecatedConfig = require $deprecatedConfigFile;
@@ -680,5 +683,45 @@ class Config
                 throw new ConfigException("Option `$from` must be moved to:\n```\n$formatedPath\n```");
             }
         });
+    }
+
+    /**
+     * Validate cache-related options.
+     *
+     * @throws ConfigException
+     */
+    private function validateCacheConfiguration(): void
+    {
+        if ($this->isEnabled('cache') && trim((string) $this->get('cache.dir')) === '') {
+            throw new ConfigException('The cache directory (`cache.dir`) must not be empty when cache is enabled.');
+        }
+    }
+
+    /**
+     * Validate output format configuration.
+     *
+     * @throws ConfigException
+     */
+    private function validateOutputFormats(): void
+    {
+        $formats = $this->get('output.formats');
+        if (!\is_array($formats)) {
+            throw new ConfigException('The "output.formats" configuration must be an array.');
+        }
+
+        foreach ($formats as $index => $format) {
+            $position = $index + 1;
+            if (!\is_array($format)) {
+                throw new ConfigException(\sprintf('Output format #%d must be an array.', $position));
+            }
+
+            foreach (['name', 'mediatype'] as $property) {
+                if (!isset($format[$property]) || !\is_string($format[$property]) || trim($format[$property]) === '') {
+                    $label = $format['name'] ?? \sprintf('#%d', $position);
+
+                    throw new ConfigException(\sprintf('Output format "%s" is missing "%s".', $label, $property));
+                }
+            }
+        }
     }
 }
