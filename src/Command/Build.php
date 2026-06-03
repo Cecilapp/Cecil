@@ -16,7 +16,6 @@ namespace Cecil\Command;
 use Cecil\Builder;
 use Cecil\Util;
 use Symfony\Component\Console\Command\Command;
-use Symfony\Component\Console\Helper\ProgressBar;
 use Symfony\Component\Console\Helper\Table;
 use Symfony\Component\Console\Helper\TableSeparator;
 use Symfony\Component\Console\Input\InputArgument;
