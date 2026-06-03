@@ -49,15 +49,15 @@ class ProgressConsoleLogger extends ConsoleLogger
             }
         }
 
-$shouldWrite = isset($this->verbosityLevelMap[$level]) && $this->verbosityLevelMap[$level] <= $this->output->getVerbosity();
-if ($shouldWrite) {
-    $this->progressBar->clear();
-}
+        $shouldWrite = isset($this->verbosityLevelMap[$level]) && $this->verbosityLevelMap[$level] <= $this->output->getVerbosity();
+        if ($shouldWrite) {
+            $this->progressBar->clear();
+        }
 
-parent::log($level, $message, $context);
+        parent::log($level, $message, $context);
 
-if ($shouldWrite) {
-    $this->progressBar->display();
-}
+        if ($shouldWrite) {
+            $this->progressBar->display();
+        }
     }
 }
