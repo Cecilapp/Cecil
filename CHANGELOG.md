@@ -2,6 +2,14 @@
 
 All notable changes to this project will be documented in this file. Dates are displayed in UTC.
 
+#### [8.100.0](https://github.com/Cecilapp/Cecil/compare/8.99.0...8.100.0)
+
+> 3 June 2026
+
+- Doctor, improve cache cleanup and config validation [`#2396`](https://github.com/Cecilapp/Cecil/pull/2396)
+- feat: add commit message generation instructions for Copilot [`4b45f1f`](https://github.com/Cecilapp/Cecil/commit/4b45f1fb1c98a4fab675ec2fc4b5052acebf6ec0)
+- doc: Update demo media assets [`c3c0717`](https://github.com/Cecilapp/Cecil/commit/c3c0717b6e508f482ea11bb2101e994056d2bacc)
+
 #### [8.99.0](https://github.com/Cecilapp/Cecil/compare/8.98.0...8.99.0)
 
 > 31 May 2026
