@@ -195,13 +195,26 @@ EOF
         $buildProcess->setTty(Process::isTtySupported());
         $buildProcess->setPty(Process::isPtySupported());
         $buildProcess->setTimeout((float) $timeout);
-        $processOutputCallback = function ($type, $buffer) use ($output) {
+        $buildOutputEndsWithLineFeed = true;
+        $processOutputCallback = function ($type, $buffer) use ($output, &$buildOutputEndsWithLineFeed) {
+            $buildOutputEndsWithLineFeed = str_ends_with($buffer, "\n");
+            // Progress bars use carriage returns; normalize them in non-decorated output.
+            if (!$output->isDecorated()) {
+                $buffer = str_replace("\r", "\n", $buffer);
+            }
             $output->write($buffer, false, OutputInterface::OUTPUT_RAW);
+        };
+        $flushBuildOutput = function () use ($output, &$buildOutputEndsWithLineFeed): void {
+            if (!$buildOutputEndsWithLineFeed) {
+                $output->writeln('');
+                $buildOutputEndsWithLineFeed = true;
+            }
         };
 
         // builds before serve
         $output->writeln(\sprintf('<comment>Build process: %s</comment>', implode(' ', $buildProcessArguments)), OutputInterface::VERBOSITY_DEBUG);
         $buildProcess->run($processOutputCallback);
+        $flushBuildOutput();
         if ($buildProcess->isSuccessful()) {
             $this->buildSuccessActions($output);
         }
@@ -280,6 +293,7 @@ EOF
                             $output->writeln('');
                             // re-builds
                             $buildProcess->run($processOutputCallback);
+                            $flushBuildOutput();
                             if ($buildProcess->isSuccessful()) {
                                 $this->buildSuccessActions($output);
                             }
