@@ -119,6 +119,7 @@ EOF
         $timeout = $input->getOption('timeout');
         $verbose = $input->getOption('verbose');
         $notify = $input->getOption('notify');
+        $noansi = $input->getOption('no-ansi');
 
         $resourceWatcher = null;
         $this->watcherEnabled = $input->getOption('watch');
@@ -178,6 +179,9 @@ EOF
         }
         if ($metrics) {
             $buildProcessArguments[] = '--metrics';
+        }
+        if ($noansi) {
+            $buildProcessArguments[] = '--no-ansi';
         }
         $buildProcessArguments[] = '--baseurl';
         $buildProcessArguments[] = "http://$host:$port/";
