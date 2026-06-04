@@ -2,6 +2,15 @@
 
 All notable changes to this project will be documented in this file. Dates are displayed in UTC.
 
+#### [8.102.0](https://github.com/Cecilapp/Cecil/compare/8.101.0...8.102.0)
+
+> 4 June 2026
+
+- refactor: extract metrics and pages display [`69c0e88`](https://github.com/Cecilapp/Cecil/commit/69c0e88fd89034aa8a2ab6bd15451c2421cfd8a8)
+- fix: restore original logger and guard progress bar [`a915848`](https://github.com/Cecilapp/Cecil/commit/a9158488865e5fe314c40142fe436ca8ec8d47b9)
+- fix: normalize build output and clear progress bar [`fd886dc`](https://github.com/Cecilapp/Cecil/commit/fd886dc7690cedd4051c9c357b54a2cebf51e5f1)
+- fix: support --no-ansi in Serve command [`5d8a1d9`](https://github.com/Cecilapp/Cecil/commit/5d8a1d95e7f1abb064818ec5db1221852d69d005)
+
 #### [8.101.0](https://github.com/Cecilapp/Cecil/compare/8.100.0...8.101.0)
 
 > 4 June 2026
