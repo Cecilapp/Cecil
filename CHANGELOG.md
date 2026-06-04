@@ -2,6 +2,14 @@
 
 All notable changes to this project will be documented in this file. Dates are displayed in UTC.
 
+#### [8.101.0](https://github.com/Cecilapp/Cecil/compare/8.100.0...8.101.0)
+
+> 4 June 2026
+
+- feat: add total duration row with diff to metrics [`#2397`](https://github.com/Cecilapp/Cecil/pull/2397)
+- feat: show progress bar during build [`#2398`](https://github.com/Cecilapp/Cecil/pull/2398)
+- chore: update deps [`6f3d130`](https://github.com/Cecilapp/Cecil/commit/6f3d130e79cc7b85267dcd0ca9b6a9791ad9bf2e)
+
 #### [8.100.0](https://github.com/Cecilapp/Cecil/compare/8.99.0...8.100.0)
 
 > 3 June 2026
