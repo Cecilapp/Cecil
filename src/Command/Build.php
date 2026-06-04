@@ -17,6 +17,7 @@ use Cecil\Builder;
 use Cecil\Logger\ConsoleLogger;
 use Cecil\Logger\ProgressConsoleLogger;
 use Cecil\Util;
+use Psr\Log\LoggerInterface;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Helper\ProgressBar;
 use Symfony\Component\Console\Helper\Table;
@@ -147,7 +148,10 @@ EOF
         // start build
         $output->writeln(\sprintf('Building website%s...', $messageOpt));
         $progressBar = null;
-        if ($output->getVerbosity() === OutputInterface::VERBOSITY_NORMAL) {
+        /** @var LoggerInterface $originalLogger */
+        $originalLogger = $builder->getLogger();
+        $useProgressBar = $output->getVerbosity() === OutputInterface::VERBOSITY_NORMAL && $output->isDecorated();
+        if ($useProgressBar) {
             $progressBar = new ProgressBar($output);
             $progressBar->setFormat("%current%/%max% %bar% %message%");
             $progressBar->setEmptyBarCharacter('░');
@@ -155,10 +159,7 @@ EOF
             $progressBar->setProgressCharacter('<fg=green>▓</>');
             $progressBar->setMessage('Starting build');
             $progressBar->start();
-
             $builder->setLogger(new ProgressConsoleLogger($output, $progressBar));
-        } else {
-            $builder->setLogger(new ConsoleLogger($output));
         }
 
         // show build configuration in very verbose mode
@@ -171,14 +172,18 @@ EOF
             $output->writeln(\sprintf('<comment>Cache:  %s</comment>', $builder->getConfig()->getCachePath()), OutputInterface::VERBOSITY_VERY_VERBOSE);
         }
 
-        // build
-        $builder->build($options);
-
-        // end build
-        if ($progressBar !== null) {
-            $progressBar->setMessage('');
-            $progressBar->finish();
-            $output->writeln('');
+        try {
+            // build
+            $builder->build($options);
+        } finally {
+            // end build
+            if ($progressBar !== null) {
+                $progressBar->setMessage('');
+                $progressBar->finish();
+                $output->writeln('');
+            }
+            // restore logger to avoid affecting messages outside of build execution
+            $builder->setLogger($originalLogger);
         }
         $output->writeln('<info>Build done.</info>');
 
