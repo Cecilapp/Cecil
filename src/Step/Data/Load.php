@@ -99,6 +99,7 @@ class Load extends AbstractStep
             $data = $file->getContents();
             restore_error_handler();
 
+            $dataAsArray = [];
             switch ($file->getExtension()) {
                 case 'yml':
                 case 'yaml':
@@ -114,7 +115,17 @@ class Load extends AbstractStep
                     $dataAsArray = $serializerXml->decode($data, 'xml');
                     break;
                 default:
-                    return;
+                    $message = \sprintf('File "%s" has an unsupported extension', $file->getRelativePathname());
+                    $this->builder->getLogger()->warning($message, ['progress' => [$count, $total]]);
+                    continue 2;
+            }
+
+            // If the file is empty or contains invalid data, skip it and log a warning
+            if (!\is_array($dataAsArray)) {
+                $message = \sprintf('File "%s" is empty or contains invalid data', $file->getRelativePathname());
+                $this->builder->getLogger()->warning($message, ['progress' => [$count, $total]]);
+
+                continue;
             }
 
             $lang = $this->config->getLanguageDefault();
