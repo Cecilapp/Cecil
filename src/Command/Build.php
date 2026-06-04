@@ -189,100 +189,117 @@ EOF
 
         // show build steps metrics
         if ($input->getOption('metrics')) {
-            $metrics = $builder->getMetrics();
-            $metricsFile = Util::joinFile($this->getPath(), Builder::TMP_DIR, 'metrics.json');
-
-            // load previous metrics
-            $previousMetrics = [];
-            if (file_exists($metricsFile)) {
-                $metricsContent = Util\File::fileGetContents($metricsFile);
-                if ($metricsContent !== false) {
-                    $previousMetrics = json_decode($metricsContent, true) ?: [];
-                }
-            }
-
-            // prepare rows with diff
-            $rows = [];
-            $currentMetricsToSave = ['steps' => [], 'total' => $metrics['total']['duration_raw']];
-            foreach ($metrics['steps'] as $step) {
-                $durationDisplay = $step['duration'];
-                // compute and display diff with previous run
-                if (isset($previousMetrics['steps'][$step['name']])) {
-                    $diff = $step['duration_raw'] - $previousMetrics['steps'][$step['name']];
-                    if (abs($diff) >= 1) {
-                        $diffAbs = abs($diff);
-                        $diffStr = $diffAbs < 1000
-                            ? \sprintf('%s ms', round($diffAbs, 0))
-                            : \sprintf('%s s', round($diffAbs / 1000, 2));
-                        $sign = $diff > 0 ? '+' : '-';
-                        $color = $diff > 0 ? 'red' : 'green';
-                        $durationDisplay .= \sprintf(' (<fg=%s>%s%s</>)', $color, $sign, $diffStr);
-                    }
-                }
-                $rows[] = [$step['name'], $durationDisplay, $step['memory']];
-                $currentMetricsToSave['steps'][$step['name']] = $step['duration_raw'];
-            }
-
-            // add total row with optional diff against previous run
-            $totalDuration = (float) $metrics['total']['duration_raw'];
-            $totalDurationDisplay = $totalDuration < 1000
-                ? \sprintf('%s ms', round($totalDuration, 0))
-                : \sprintf('%s s', round($totalDuration / 1000, 2));
-            if (isset($previousMetrics['total'])) {
-                $totalDiff = $totalDuration - (float) $previousMetrics['total'];
-                if (abs($totalDiff) >= 1) {
-                    $totalDiffAbs = abs($totalDiff);
-                    $totalDiffStr = $totalDiffAbs < 1000
-                        ? \sprintf('%s ms', round($totalDiffAbs, 0))
-                        : \sprintf('%s s', round($totalDiffAbs / 1000, 2));
-                    $sign = $totalDiff > 0 ? '+' : '-';
-                    $color = $totalDiff > 0 ? 'red' : 'green';
-                    $totalDurationDisplay .= \sprintf(' (<fg=%s>%s%s</>)', $color, $sign, $totalDiffStr);
-                }
-            }
-            $rows[] = new TableSeparator();
-            $rows[] = ['Total', $totalDurationDisplay, $metrics['total']['memory']];
-
-            // save current metrics for next comparison
-            Util\File::getFS()->dumpFile($metricsFile, (string) json_encode($currentMetricsToSave, JSON_PRETTY_PRINT));
-
-            $table = new Table($output);
-            $table
-                ->setHeaderTitle('Build steps metrics')
-                ->setHeaders(['Step', 'Duration', 'Memory'])
-                ->setRows($rows)
-            ;
-            $table->setStyle('box')->render();
+            $this->showBuildMetrics($builder, $output);
         }
 
         // show built pages as table
         if ($input->getOption('show-pages')) {
-            $pagesAsArray = [];
-            foreach (
-                $this->getBuilder()->getPages()->filter(function (\Cecil\Collection\Page\Page $page) {
-                    return $page->getVariable('published');
-                })->usort(function (\Cecil\Collection\Page\Page $pageA, \Cecil\Collection\Page\Page $pageB) {
-                    return strnatcmp((string) $pageA['language'], (string) $pageB['language']);
-                }) as $page
-            ) {
-                /** @var \Cecil\Collection\Page\Page $page */
-                $pagesAsArray[] = [
-                    $page->getId(),
-                    $page->getVariable('language'),
-                    \sprintf("%s %s", $page->getType(), $page->getType() !== \Cecil\Collection\Page\Type::PAGE->value ? "(" . \count($page->getPages() ?: []) . ")" : ''),
-                    $page->getSection(),
-                    $page->isVirtual() ? 'true' : 'false',
-                ];
-            }
-            $table = new Table($output);
-            $table
-                ->setHeaderTitle(\sprintf("Built pages (%s)", \count($pagesAsArray)))
-                ->setHeaders(['ID', 'Lang', 'Type', 'Section', 'Virtual'])
-                ->setRows($pagesAsArray)
-            ;
-            $table->setStyle('box')->render();
+            $this->showBuiltPages($builder, $output);
         }
 
         return Command::SUCCESS;
+    }
+
+    /**
+     * Renders build metrics, compares them to previous run, and saves current values.
+     */
+    private function showBuildMetrics(Builder $builder, OutputInterface $output): void
+    {
+        $metrics = $builder->getMetrics();
+        $metricsFile = Util::joinFile($this->getPath(), Builder::TMP_DIR, 'metrics.json');
+
+        // load previous metrics
+        $previousMetrics = [];
+        if (file_exists($metricsFile)) {
+            $metricsContent = Util\File::fileGetContents($metricsFile);
+            if ($metricsContent !== false) {
+                $previousMetrics = json_decode($metricsContent, true) ?: [];
+            }
+        }
+
+        // prepare rows with diff
+        $rows = [];
+        $currentMetricsToSave = ['steps' => [], 'total' => $metrics['total']['duration_raw']];
+        foreach ($metrics['steps'] as $step) {
+            $durationDisplay = $step['duration'];
+            // compute and display diff with previous run
+            if (\array_key_exists($step['name'], $previousMetrics['steps'] ?? [])) {
+                $diff = $step['duration_raw'] - $previousMetrics['steps'][$step['name']];
+                if (abs($diff) >= 1) {
+                    $diffAbs = abs($diff);
+                    $diffStr = $diffAbs < 1000
+                        ? \sprintf('%s ms', round($diffAbs, 0))
+                        : \sprintf('%s s', round($diffAbs / 1000, 2));
+                    $sign = $diff > 0 ? '+' : '-';
+                    $color = $diff > 0 ? 'red' : 'green';
+                    $durationDisplay .= \sprintf(' (<fg=%s>%s%s</>)', $color, $sign, $diffStr);
+                }
+            }
+            $rows[] = [$step['name'], $durationDisplay, $step['memory']];
+            $currentMetricsToSave['steps'][$step['name']] = $step['duration_raw'];
+        }
+
+        // add total row with optional diff against previous run
+        $totalDuration = (float) $metrics['total']['duration_raw'];
+        $totalDurationDisplay = $totalDuration < 1000
+            ? \sprintf('%s ms', round($totalDuration, 0))
+            : \sprintf('%s s', round($totalDuration / 1000, 2));
+        if (\array_key_exists('total', $previousMetrics)) {
+            $totalDiff = $totalDuration - (float) $previousMetrics['total'];
+            if (abs($totalDiff) >= 1) {
+                $totalDiffAbs = abs($totalDiff);
+                $totalDiffStr = $totalDiffAbs < 1000
+                    ? \sprintf('%s ms', round($totalDiffAbs, 0))
+                    : \sprintf('%s s', round($totalDiffAbs / 1000, 2));
+                $sign = $totalDiff > 0 ? '+' : '-';
+                $color = $totalDiff > 0 ? 'red' : 'green';
+                $totalDurationDisplay .= \sprintf(' (<fg=%s>%s%s</>)', $color, $sign, $totalDiffStr);
+            }
+        }
+        $rows[] = new TableSeparator();
+        $rows[] = ['Total', $totalDurationDisplay, $metrics['total']['memory']];
+
+        // save current metrics for next comparison
+        Util\File::getFS()->dumpFile($metricsFile, (string) json_encode($currentMetricsToSave, JSON_PRETTY_PRINT));
+
+        $table = new Table($output);
+        $table
+            ->setHeaderTitle('Build steps metrics')
+            ->setHeaders(['Step', 'Duration', 'Memory'])
+            ->setRows($rows)
+        ;
+        $table->setStyle('box')->render();
+    }
+
+    /**
+     * Renders built pages as a table.
+     */
+    private function showBuiltPages(Builder $builder, OutputInterface $output): void
+    {
+        $pagesAsArray = [];
+        foreach (
+            $builder->getPages()->filter(function (\Cecil\Collection\Page\Page $page) {
+                return $page->getVariable('published');
+            })->usort(function (\Cecil\Collection\Page\Page $pageA, \Cecil\Collection\Page\Page $pageB) {
+                return \strnatcmp((string) $pageA['language'], (string) $pageB['language']);
+            }) as $page
+        ) {
+            /** @var \Cecil\Collection\Page\Page $page */
+            $pagesAsArray[] = [
+                $page->getId(),
+                $page->getVariable('language'),
+                \sprintf("%s %s", $page->getType(), $page->getType() !== \Cecil\Collection\Page\Type::PAGE->value ? "(" . \count($page->getPages() ?: []) . ")" : ''),
+                $page->getSection(),
+                $page->isVirtual() ? 'true' : 'false',
+            ];
+        }
+
+        $table = new Table($output);
+        $table
+            ->setHeaderTitle(\sprintf('Built pages (%s)', \count($pagesAsArray)))
+            ->setHeaders(['ID', 'Lang', 'Type', 'Section', 'Virtual'])
+            ->setRows($pagesAsArray)
+        ;
+        $table->setStyle('box')->render();
     }
 }
