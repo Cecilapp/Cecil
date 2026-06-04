@@ -221,7 +221,7 @@ jobs:
 
   bump_homebrew_formula:
     name: Bump Homebrew Formulae
-    runs-on: macos-latest
+    runs-on: macos-15
     needs: [build, deploy_to_website, update_github_release]
     steps:
       - name: Change Formula name if preview

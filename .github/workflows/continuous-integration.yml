@@ -31,7 +31,7 @@ jobs:
       fail-fast: false
       matrix:
         php: ['8.2', '8.3', '8.4', '8.5']
-        os: [ubuntu-latest, macos-latest, windows-latest]
+        os: [ubuntu-latest, macos-15, windows-2025-vs2026]
         type: ['']
         exclude:
           - php: '8.2'
@@ -60,7 +60,7 @@ jobs:
           sudo npm install -g svgo
 
       - name: Install image files optimizers (macOS)
-        if: ${{ matrix.os == 'macos-latest' && join(matrix.type) == '' }}
+        if: ${{ matrix.os == 'macos-15' && join(matrix.type) == '' }}
         run: |
           brew update || brew update
           brew install jpegoptim
@@ -72,7 +72,7 @@ jobs:
           npm install -g svgo
 
       - name: Install image files optimizers (Windows)
-        if: ${{ matrix.os == 'windows-latest' && join(matrix.type) == '' }}
+        if: ${{ matrix.os == 'windows-2025-vs2026' && join(matrix.type) == '' }}
         uses: MinoruSekine/setup-scoop@v4.0.2
         with:
           apps: jpegoptim optipng libwebp libavif
