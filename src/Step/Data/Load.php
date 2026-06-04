@@ -117,7 +117,7 @@ class Load extends AbstractStep
                 default:
                     $message = \sprintf('File "%s" has an unsupported extension', $file->getRelativePathname());
                     $this->builder->getLogger()->warning($message, ['progress' => [$count, $total]]);
-                    continue;
+                    continue 2;
             }
 
             // If the file is empty or contains invalid data, skip it and log a warning
