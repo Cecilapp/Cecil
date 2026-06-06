@@ -261,18 +261,18 @@ EOF
             return [false, 'Directory path is empty'];
         }
 
-        if (\file_exists($directory) && !\is_dir($directory)) {
+        if (file_exists($directory) && !is_dir($directory)) {
             return [false, 'Path exists and is not a directory'];
         }
 
-        if (\is_dir($directory)) {
-            $writable = \is_writable($directory);
+        if (is_dir($directory)) {
+            $writable = is_writable($directory);
 
             return [$writable, $writable ? 'Writable' : 'Not writable'];
         }
 
         $parent = $directory;
-        while (!\is_dir($parent)) {
+        while (!is_dir($parent)) {
             $nextParent = \dirname($parent);
             if ($nextParent === $parent) {
                 return [false, 'Cannot determine parent directory'];
@@ -280,9 +280,10 @@ EOF
             $parent = $nextParent;
         }
 
-        $parentWritable = \is_writable($parent);
+        $parentWritable = is_writable($parent);
 
         return [$parentWritable, $parentWritable ? 'Creatable (parent writable)' : 'Not creatable (parent not writable)'];
+    }
 
     /**
      * Checks that page type formats reference existing output formats.
