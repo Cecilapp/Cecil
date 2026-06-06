@@ -2,6 +2,12 @@
 
 All notable changes to this project will be documented in this file. Dates are displayed in UTC.
 
+#### [8.102.1](https://github.com/Cecilapp/Cecil/compare/8.102.0...8.102.1)
+
+> 4 June 2026
+
+- fix: log and skip unsupported/empty data files [`#2400`](https://github.com/Cecilapp/Cecil/pull/2400)
+
 #### [8.102.0](https://github.com/Cecilapp/Cecil/compare/8.101.0...8.102.0)
 
 > 4 June 2026
