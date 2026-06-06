@@ -142,8 +142,13 @@ EOF
         $this->addCheck($checks, 'Output directory', $outputWritable, $outputDetails, $outputDetails, 'error', $warnings, $errors);
 
         if ($config->isEnabled('cache')) {
-            [$cacheWritable, $cacheDetails] = $this->checkDirectoryWritable($this->getCachePathDisplay($config));
-            $this->addCheck($checks, 'Cache directory', $cacheWritable, $cacheDetails, $cacheDetails, 'error', $warnings, $errors);
+            $cachePath = $this->getCachePathDisplay($config);
+            if ($cachePath === 'Undefined') {
+                $this->addCheck($checks, 'Cache directory', false, 'Configured', 'The cache directory (`cache.dir`) is not defined.', 'error', $warnings, $errors);
+            } else {
+                [$cacheWritable, $cacheDetails] = $this->checkDirectoryWritable($cachePath);
+                $this->addCheck($checks, 'Cache directory', $cacheWritable, $cacheDetails, $cacheDetails, 'error', $warnings, $errors);
+            }
         } else {
             $this->addCheck($checks, 'Cache directory', true, 'Not required (cache is disabled)', 'Not required (cache is disabled)', 'warning', $warnings, $errors);
         }
