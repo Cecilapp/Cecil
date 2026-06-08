@@ -336,10 +336,12 @@ class AbstractCommand extends Command
         $placeholders = [
             '%command.name%',
             '%command.full_name%',
+            '%bin_name%',
         ];
         $replacements = [
             $name,
             $this->binName() . ' ' . $name,
+            $this->binName(),
         ];
 
         return str_replace($placeholders, $replacements, $this->getHelp() ?: $this->getDescription());

@@ -105,7 +105,7 @@ To run the server in the <comment>background</comment>, run:
 
 Then stop it with:
 
-  <info>%command.full_name:stop</>
+  <info>%bin_name% stop</>
 EOF
             );
     }
