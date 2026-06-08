@@ -256,7 +256,7 @@ EOF
                 );
                 $psCommand = \sprintf(
                     'powershell -NoProfile -Command "(Start-Process -PassThru -WindowStyle Hidden -FilePath \'%s\' -ArgumentList \'%s\').Id"',
-                    $phpWin,
+                    \str_replace("'", "''", $phpWin),
                     \str_replace("'", "''", $serverArgs)
                 );
                 \exec($psCommand, $pidOutput);
