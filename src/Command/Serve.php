@@ -143,15 +143,22 @@ EOF
         }
         // setup server
         $this->setUpServer();
-        $command = \sprintf(
-            '"%s" -S %s:%d -t "%s" "%s"',
+        $command = \implode(' ', [
             $php,
-            $host,
-            $port,
+            '-S',
+            $host . ':' . (int) $port,
+            '-t',
             Util::joinFile($this->getPath(), self::SERVE_OUTPUT),
-            Util::joinFile($this->getPath(), Builder::TMP_DIR, 'router.php')
-        );
-        $process = Process::fromShellCommandline($command);
+            Util::joinFile($this->getPath(), Builder::TMP_DIR, 'router.php'),
+        ]);
+        $process = new Process([
+            $php,
+            '-S',
+            $host . ':' . (int) $port,
+            '-t',
+            Util::joinFile($this->getPath(), self::SERVE_OUTPUT),
+            Util::joinFile($this->getPath(), Builder::TMP_DIR, 'router.php'),
+        ]);
 
         // setup build process
         $buildProcessArguments = [
@@ -257,7 +264,14 @@ EOF
                 );
                 \exec($psCommand, $pidOutput);
             } else {
-                \exec(\sprintf('nohup %s > %s 2>&1 & echo $!', $command, \escapeshellarg($logFile)), $pidOutput);
+                \exec(\sprintf(
+                    'nohup %s -S %s -t %s %s > %s 2>&1 & echo $!',
+                    \escapeshellarg((string) $php),
+                    \escapeshellarg($host . ':' . (int) $port),
+                    \escapeshellarg(Util::joinFile($this->getPath(), self::SERVE_OUTPUT)),
+                    \escapeshellarg(Util::joinFile($this->getPath(), Builder::TMP_DIR, 'router.php')),
+                    \escapeshellarg($logFile)
+                ), $pidOutput);
             }
             $pid = (int)($pidOutput[0] ?? 0);
             if ($pid <= 0) {
