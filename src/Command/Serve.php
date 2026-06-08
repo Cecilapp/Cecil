@@ -254,7 +254,14 @@ EOF
                 );
                 \exec($psCommand, $pidOutput);
             } else {
-                \exec(\sprintf('nohup %s > %s 2>&1 & echo $!', $command, \escapeshellarg($logFile)), $pidOutput);
+                \exec(\sprintf(
+                    'nohup %s -S %s -t %s %s > %s 2>&1 & echo $!',
+                    \escapeshellarg((string) $php),
+                    \escapeshellarg($host . ':' . $port),
+                    \escapeshellarg(Util::joinFile($this->getPath(), self::SERVE_OUTPUT)),
+                    \escapeshellarg(Util::joinFile($this->getPath(), Builder::TMP_DIR, 'router.php')),
+                    \escapeshellarg($logFile)
+                ), $pidOutput);
             }
             $pid = (int)($pidOutput[0] ?? 0);
             if ($pid <= 0) {
