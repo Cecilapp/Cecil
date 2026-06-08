@@ -22,8 +22,16 @@ class IntegrationCliTests extends IntegrationTests
      */
     public const DEBUG = false;
 
+    /** @var int|null PID of any background server process started during a test */
+    private ?int $backgroundPid = null;
+
     public function tearDown(): void
     {
+        // ensure any background server process is killed even if the test fails
+        if ($this->backgroundPid !== null) {
+            exec(sprintf('kill %d 2>/dev/null', $this->backgroundPid));
+            $this->backgroundPid = null;
+        }
         $fs = new Filesystem();
         if (!self::DEBUG) {
             $fs->remove(Util::joinFile(__DIR__, 'demo'));
@@ -83,8 +91,7 @@ class IntegrationCliTests extends IntegrationTests
         self::assertFileExists($pidFile, 'PID file should be written by serve --background');
         $pid = (int) file_get_contents($pidFile);
         self::assertGreaterThan(0, $pid, 'PID file should contain a valid PID');
-        // clean up: kill the background server process
-        exec(sprintf('kill %d 2>/dev/null', $pid));
+        $this->backgroundPid = $pid;
     }
 
     /**
@@ -103,6 +110,7 @@ class IntegrationCliTests extends IntegrationTests
         self::assertSame(0, $retval, 'serve --background should exit with code 0');
         $pidFile = Util::joinFile(__DIR__, 'demo', '.cecil', 'server.pid');
         self::assertFileExists($pidFile, 'PID file should exist before stop');
+        $this->backgroundPid = (int) file_get_contents($pidFile);
         $output = [];
         exec('php ./bin/cecil stop tests/demo 2>&1', $output, $retval);
         echo implode("\n", $output);
