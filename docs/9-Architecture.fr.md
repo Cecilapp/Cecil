@@ -1,6 +1,7 @@
 <!--
 description: "Architecture de Cecil."
 date: 2026-05-27
+updated: 2026-06-08
 -->
 # Architecture
 
@@ -8,70 +9,70 @@ date: 2026-05-27
 
 ```mermaid
 graph TD
-    %% Entry
-    CLI["bin/cecil\n(CLI Entry)"]
+    %% Entrée
+    CLI["bin/cecil\n(Point d'entrée CLI)"]
     APP["Application\n(Symfony Console)"]
-    CMD["Commands\nbuild / serve / new:site\nnew:page / clear / show:content"]
+    CMD["Commandes\nbuild / serve / new:site\nnew:page / clear / show:content"]
 
     CLI --> APP --> CMD
 
-    %% Builder
+    %% Orchestrateur
     BUILDER["Builder\n(Orchestrateur)"]
-    CONFIG["Config\n(config.yml + default.php\n+ thèmes)"]
+    CONFIG["Configuration\n(config.yml + default.php\n+ thèmes)"]
     CMD --> BUILDER
     CONFIG --> BUILDER
 
     %% Pipeline
-    subgraph PIPELINE["Pipeline de Build (Steps)"]
-        S1["1. Pages/Load\n(Finder → fichiers MD)"]
+    subgraph PIPELINE["Pipeline de génération (étapes)"]
+        S1["1. Pages/Load\n(Finder → fichiers Markdown)"]
         S2["2. Data/Load\n(fichiers YAML)"]
-        S3["3. StaticFiles/Load"]
-        S4["4. Pages/Create\n(objets Page)"]
+        S3["3. StaticFiles/Load\n(chargement des fichiers statiques)"]
+        S4["4. Pages/Create\n(création des objets Page)"]
         S5["5. Pages/Convert\n(Markdown → HTML\nfront matter)"]
-        S6["6. Taxonomies/Create"]
+        S6["6. Taxonomies/Create\n(création des taxonomies)"]
         S7["7. Pages/Generate\n(générateurs)"]
-        S8["8. Menus/Create"]
-        S9["9. StaticFiles/Copy"]
-        S10["10. Pages/Render\n(Twig)"]
-        S11["11. Pages/Save"]
-        S12["12. Assets/Save"]
-        S13["13. Optimize/*\n(HTML/CSS/JS/Images)"]
+        S8["8. Menus/Create\n(création des menus)"]
+        S9["9. StaticFiles/Copy\n(copie des fichiers statiques)"]
+        S10["10. Pages/Render\n(rendu Twig)"]
+        S11["11. Pages/Save\n(sauvegarde des pages)"]
+        S12["12. Assets/Save\n(sauvegarde des assets)"]
+        S13["13. Optimize/*\n(optimisation HTML/CSS/JS/Images)"]
 
         S1 --> S2 --> S3 --> S4 --> S5 --> S6 --> S7 --> S8 --> S9 --> S10 --> S11 --> S12 --> S13
     end
 
     BUILDER --> PIPELINE
 
-    %% Subsystems
+    %% Sous-systèmes
     subgraph COLLECTIONS["Collections"]
-        PC["PagesCollection\n(Page objects)"]
-        TC["TaxonomiesCollection\n(Vocabulary/Terms)"]
+        PC["PagesCollection\n(objets Page)"]
+        TC["TaxonomiesCollection\n(vocabulaires/termes)"]
         MC["MenusCollection"]
     end
 
     subgraph GENERATORS["Générateurs (virtuels)"]
         GP["Pagination"]
-        GT["Taxonomy"]
+        GT["Taxonomie"]
         GS["Section"]
-        GR["Redirect"]
-        GD["DefaultPages (home, 404)"]
+        GR["Redirection"]
+        GD["DefaultPages (accueil, 404)"]
     end
 
     subgraph RENDERER["Rendu Twig"]
-        TW["Twig Engine"]
+        TW["Moteur Twig"]
         EXT["Extensions\n(Core, Content, Collection)"]
-        PP["PostProcessors\n(metadata, excerpts, links)"]
-        TH["Themes / Layouts"]
+        PP["PostProcessors\n(métadonnées, extraits, liens)"]
+        TH["Thèmes / Layouts"]
         TW --> EXT
         TW --> PP
         TH --> TW
     end
 
     subgraph ASSETS["Assets"]
-        AL["Asset Locator"]
-        AC["Compiler\n(SCSS → CSS)"]
-        AI["Image Processor\n(responsive, WebP, AVIF)"]
-        AO["Optimizer\n(minify CSS/JS)"]
+        AL["Localisateur d'assets"]
+        AC["Compilateur\n(SCSS → CSS)"]
+        AI["Processeur d'images\n(responsive, WebP, AVIF)"]
+        AO["Optimiseur\n(minification CSS/JS)"]
     end
 
     subgraph OUTPUT["Sortie (_site/)"]
@@ -99,12 +100,12 @@ graph TD
     S12 --> IMG
     S9 --> SF
 
-    %% Input
+    %% Entrées
     subgraph INPUT["Sources"]
         MD["content/\n(Markdown + front matter)"]
         DATA["data/\n(YAML)"]
         STATIC["static/"]
-        LAYOUTS["layouts/\n(templates Twig)"]
+        LAYOUTS["layouts/\n(modèles Twig)"]
     end
 
     MD --> S1
@@ -117,10 +118,10 @@ graph TD
 
 | Composant           | Rôle                                                                                 |
 |---------------------|--------------------------------------------------------------------------------------|
-| **Builder**         | Orchestrateur central, exécute les steps en séquence                                 |
-| **Config**          | Fusion config défaut + thème + projet + CLI                                          |
+| **Builder**         | Orchestrateur central, exécute les étapes en séquence                                |
+| **Config**          | Fusion de la configuration par défaut + thème + projet + CLI                         |
 | **Steps**           | Pipeline modulaire (13 étapes), chacune avec `init()` / `canProcess()` / `process()` |
 | **Collections**     | Pages, Taxonomies, Menus — structures de données centrales                           |
 | **Generators**      | Créent des pages virtuelles (pagination, tags, redirections…)                        |
-| **Renderer (Twig)** | Applique les templates + extensions + post-processors                                |
+| **Renderer (Twig)** | Applique les modèles + extensions + post-traitements                                |
 | **Assets**          | Compile SCSS, optimise images, fingerprinte les fichiers                             |
