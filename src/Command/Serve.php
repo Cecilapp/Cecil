@@ -251,7 +251,7 @@ EOF
                 $psCommand = \sprintf(
                     'powershell -NoProfile -Command "(Start-Process -PassThru -WindowStyle Hidden -FilePath \'%s\' -ArgumentList \'%s\' -RedirectStandardOutput \'%s\' -RedirectStandardError \'%s\').Id"',
                     $phpWin,
-                    \str_replace("'", "''", $serverArgs),
+                    \str_replace('"', '""', \str_replace("'", "''", $serverArgs)),
                     \str_replace("'", "''", $logFileWin),
                     \str_replace("'", "''", $logFileWin)
                 );
