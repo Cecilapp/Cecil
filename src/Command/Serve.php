@@ -257,7 +257,7 @@ EOF
                 \exec(\sprintf(
                     'nohup %s -S %s -t %s %s > %s 2>&1 & echo $!',
                     \escapeshellarg((string) $php),
-                    \escapeshellarg($host . ':' . $port),
+                    \escapeshellarg($host . ':' . (int) $port),
                     \escapeshellarg(Util::joinFile($this->getPath(), self::SERVE_OUTPUT)),
                     \escapeshellarg(Util::joinFile($this->getPath(), Builder::TMP_DIR, 'router.php')),
                     \escapeshellarg($logFile)
