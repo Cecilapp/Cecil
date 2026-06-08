@@ -65,6 +65,7 @@ class Serve extends AbstractCommand
                 new InputOption('metrics', 'm', InputOption::VALUE_NONE, 'Show build metrics (duration and memory) of each step'),
                 new InputOption('timeout', null, InputOption::VALUE_REQUIRED, 'Sets the process timeout (max. runtime) in seconds', 7200), // default is 2 hours
                 new InputOption('notify', null, InputOption::VALUE_NONE, 'Send desktop notification on server start'),
+                new InputOption('background', 'b', InputOption::VALUE_NONE, 'Run the server in the background'),
             ])
             ->setHelp(
                 <<<'EOF'
@@ -96,6 +97,15 @@ To define the process <comment>timeout</comment> (in seconds), run:
 Send a desktop <comment>notification</comment> on server start, run:
 
   <info>%command.full_name% --notify</>
+
+To run the server in the <comment>background</comment>, run:
+
+  <info>%command.full_name% --background</>
+  <info>%command.full_name% -b</>
+
+Then stop it with:
+
+  <info>%command.full_name:stop</>
 EOF
             );
     }
@@ -120,9 +130,10 @@ EOF
         $verbose = $input->getOption('verbose');
         $notify = $input->getOption('notify');
         $noansi = $input->getOption('no-ansi');
+        $background = $input->getOption('background');
 
         $resourceWatcher = null;
-        $this->watcherEnabled = $input->getOption('watch');
+        $this->watcherEnabled = $background ? false : $input->getOption('watch');
 
         // checks if PHP executable is available
         $phpFinder = new PhpExecutableFinder();
@@ -130,7 +141,6 @@ EOF
         if ($php === false) {
             throw new RuntimeException('Unable to find a local PHP executable.');
         }
-
         // setup server
         $this->setUpServer();
         $command = \sprintf(
@@ -222,6 +232,48 @@ EOF
             $this->tearDownServer();
 
             return Command::FAILURE;
+        }
+
+        // background mode: start server as a detached process and exit
+        if ($background) {
+            $logFile = Util::joinFile($this->getPath(), Builder::TMP_DIR, 'server.log');
+            if (Util\Platform::isWindows()) {
+                // Use PowerShell Start-Process to launch detached hidden process
+                $phpWin = \str_replace('/', '\\', (string) $php);
+                $serverArgs = \sprintf(
+                    '-S %s:%d -t "%s" "%s"',
+                    $host,
+                    $port,
+                    \str_replace('/', '\\', Util::joinFile($this->getPath(), self::SERVE_OUTPUT)),
+                    \str_replace('/', '\\', Util::joinFile($this->getPath(), Builder::TMP_DIR, 'router.php'))
+                );
+                $psCommand = \sprintf(
+                    'powershell -NoProfile -Command "(Start-Process -PassThru -WindowStyle Hidden -FilePath \'%s\' -ArgumentList \'%s\').Id"',
+                    $phpWin,
+                    \str_replace("'", "''", $serverArgs)
+                );
+                \exec($psCommand, $pidOutput);
+            } else {
+                \exec(\sprintf('nohup %s > %s 2>&1 & echo $!', $command, \escapeshellarg($logFile)), $pidOutput);
+            }
+            $pid = (int)($pidOutput[0] ?? 0);
+            if ($pid <= 0) {
+                $this->tearDownServer();
+                throw new RuntimeException('Unable to start the server in the background.');
+            }
+            Util\File::getFS()->dumpFile(Util::joinFile($this->getPath(), self::PID_FILE), (string) $pid);
+            $output->writeln(\sprintf('<info>Starting server in the background (PID: %d)</info>', $pid));
+            $output->writeln(\sprintf('Server running at <href=http://%s:%d>http://%s:%d</>', $host, $port, $host, $port));
+            $output->writeln(\sprintf('To stop the server, run: <info>%s stop</info>', $this->binName()));
+            if ($notify) {
+                $this->notification('Starting server in background 🚀', \sprintf('http://%s:%s', $host, $port));
+            }
+            if ($open) {
+                $output->writeln('Opening web browser...');
+                Util\Platform::openBrowser(\sprintf('http://%s:%s', $host, $port));
+            }
+
+            return Command::SUCCESS;
         }
 
         // handles serve process
@@ -384,8 +436,8 @@ EOF
                     $livereloadJs,
                     true
                 );
+                Util\File::getFS()->chmod($livereloadJs, 0777 & ~umask());
             }
-            Util\File::getFS()->chmod(Util::joinFile($this->getPath(), Builder::TMP_DIR, 'livereload.js'), 0777 & ~umask());
         } catch (IOExceptionInterface $e) {
             throw new RuntimeException(\sprintf('An error occurred while copying server\'s files: "%s".', $e->getMessage()));
         }

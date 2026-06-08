@@ -55,6 +55,7 @@ class Application extends BaseApplication
             new Command\Edit(),
             new Command\Build(),
             new Command\Serve(),
+            new Command\Stop(),
             new Command\Clear(),
             new Command\CacheClear(),
             new Command\CacheClearAssets(),
