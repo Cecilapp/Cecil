@@ -67,7 +67,11 @@ EOF
         $pid = (int) \file_get_contents($pidFile);
         if ($pid <= 0) {
             $output->writeln('<error>Invalid PID file.</error>');
-            Util\File::getFS()->remove($pidFile);
+            try {
+                Util\File::getFS()->remove($pidFile);
+            } catch (IOExceptionInterface $e) {
+                throw new RuntimeException($e->getMessage());
+            }
 
             return Command::FAILURE;
         }
