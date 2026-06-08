@@ -8,6 +8,7 @@ Short, actionable instructions for coding agents working in this repository.
 - Contribution process: [CONTRIBUTING.md](CONTRIBUTING.md)
 - Command reference: [docs/5-Commands.md](docs/5-Commands.md)
 - Architecture: [docs/9-Architecture.fr.md](docs/9-Architecture.fr.md)
+- If any of the linked reference files are missing or unreadable, stop and notify the user before proceeding, as the missing document may contain requirements critical to the task.
 
 ## Critical Commands
 
@@ -27,6 +28,7 @@ Short, actionable instructions for coding agents working in this repository.
 - Pipeline steps live in `src/Step/`
 - Page generators live in `src/Generator/` (priority-based execution)
 - Rendering stack lives in `src/Renderer/`
+- When adding a new Generator, Step, or Command, add a corresponding integration test under the relevant test directory and verify it passes with `composer test`. CLI-facing behavior must also be covered by `composer test:cli`.
 
 ## Coding Conventions
 
@@ -34,8 +36,8 @@ Short, actionable instructions for coding agents working in this repository.
 - Use 4 spaces in PHP files
 - Prefix PHP native functions with `\` (example: `\count()`)
 - Twig/YAML/JS use 2 spaces
-- Twig files must not end with a trailing newline
-- Markdown trailing spaces can be semantically meaningful; do not trim automatically
+- All Twig template files (*.twig) anywhere in the repository must not end with a trailing newline. Remove any trailing newline when creating or editing these files.
+- Markdown trailing spaces are semantically meaningful (they produce line breaks). Never remove trailing spaces from Markdown files, even when reformatting or cleaning up content, unless the user explicitly confirms the spaces are unintentional.
 
 ## Framework Conventions
 
@@ -51,3 +53,5 @@ Short, actionable instructions for coding agents working in this repository.
 - Generator ordering is priority-sensitive. Keep configured generator priorities coherent with expected extraction order.
 - Page section assignment relies on original `filepath`, not transformed page path.
 - Keep docs updated when behavior or architecture changes, especially in [docs/](docs/) and [README.md](README.md).
+- When updating documentation in [docs/](docs/), always keep both English and French versions aligned (for example, `.md` and `.fr.md` counterparts).
+- When editing a documentation file with frontmatter, always update the `updated` date to reflect the change.
