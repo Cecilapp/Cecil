@@ -301,9 +301,7 @@ EOF
         bool $notify,
         bool $open
     ): int {
-        $logFile = Util::joinFile($this->getPath(), Builder::TMP_DIR, 'server.log');
-        $errorLogFile = Util::joinFile($this->getPath(), Builder::TMP_DIR, 'errors.log');
-        $pid = $this->startDetachedServerProcess($php, $host, $port, $logFile, $errorLogFile);
+        $pid = $this->startDetachedServerProcess($php, $host, $port);
 
         if ($pid <= 0) {
             $this->tearDownServer();
@@ -326,15 +324,13 @@ EOF
         return Command::SUCCESS;
     }
 
-    private function startDetachedServerProcess(string $php, string $host, int $port, string $logFile, string $errorLogFile): int
+    private function startDetachedServerProcess(string $php, string $host, int $port): int
     {
         $pidOutput = [];
 
         if (Util\Platform::isWindows()) {
             // Use PowerShell Start-Process to launch detached hidden process
             $phpWin = str_replace('/', '\\', $php);
-            $logFileWin = str_replace('/', '\\', $logFile);
-            $errorLogFileWin = str_replace('/', '\\', $errorLogFile);
             $serverArgs = \sprintf(
                 '-S %s:%d -t "%s" "%s"',
                 $host,
@@ -343,11 +339,9 @@ EOF
                 str_replace('/', '\\', Util::joinFile($this->getPath(), Builder::TMP_DIR, 'router.php'))
             );
             $psCommand = \sprintf(
-                'powershell -NoProfile -Command "(Start-Process -PassThru -WindowStyle Hidden -FilePath \'%s\' -ArgumentList \'%s\' -RedirectStandardOutput \'%s\' -RedirectStandardError \'%s\').Id"',
+                'powershell -NoProfile -Command "(Start-Process -PassThru -WindowStyle Hidden -FilePath \'%s\' -ArgumentList \'%s\').Id"',
                 $phpWin,
-                str_replace('"', '""', str_replace("'", "''", $serverArgs)),
-                str_replace("'", "''", $logFileWin),
-                str_replace("'", "''", $errorLogFileWin)
+                str_replace("'", "''", $serverArgs)
             );
             exec($psCommand, $pidOutput);
         } else {
@@ -356,9 +350,7 @@ EOF
                 escapeshellarg($php),
                 escapeshellarg($host . ':' . $port),
                 escapeshellarg(Util::joinFile($this->getPath(), self::SERVE_OUTPUT)),
-                escapeshellarg(Util::joinFile($this->getPath(), Builder::TMP_DIR, 'router.php')),
-                escapeshellarg($logFile),
-                escapeshellarg($errorLogFile)
+                escapeshellarg(Util::joinFile($this->getPath(), Builder::TMP_DIR, 'router.php'))
             ), $pidOutput);
         }
 
