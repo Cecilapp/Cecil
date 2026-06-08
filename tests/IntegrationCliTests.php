@@ -22,8 +22,20 @@ class IntegrationCliTests extends IntegrationTests
      */
     public const DEBUG = false;
 
+    /** @var int|null PID of any background server process started during a test */
+    private ?int $backgroundPid = null;
+
     public function tearDown(): void
     {
+        // ensure any background server process is killed even if the test fails
+        if ($this->backgroundPid !== null) {
+            $pidFile = Util::joinFile(__DIR__, 'demo', '.cecil', 'server.pid');
+            if (is_file($pidFile) && (int) file_get_contents($pidFile) === $this->backgroundPid) {
+                exec(\sprintf('kill %d 2>/dev/null', $this->backgroundPid));
+            }
+            $this->backgroundPid = null;
+        }
+        $fs = new Filesystem();
         $fs = new Filesystem();
         if (!self::DEBUG) {
             $fs->remove(Util::joinFile(__DIR__, 'demo'));
@@ -62,5 +74,52 @@ class IntegrationCliTests extends IntegrationTests
         echo $output;
         self::assertTrue($retval < 1);
         self::assertStringContainsString('Environment', $output);
+    }
+
+    /**
+     * @requires OS Linux|Darwin
+     */
+    public function testServeBackgroundWritesPidFile(): void
+    {
+        echo "\n";
+        exec('php ./bin/cecil new:site tests/demo --demo -n -f', $output, $retval);
+        self::assertTrue($retval < 1);
+        $output = [];
+        exec('php ./bin/cecil build tests/demo -v', $output, $retval);
+        self::assertTrue($retval < 1);
+        $output = [];
+        exec('php ./bin/cecil serve tests/demo --background --no-watch 2>&1', $output, $retval);
+        echo implode("\n", $output);
+        self::assertSame(0, $retval, 'serve --background should exit with code 0');
+        $pidFile = Util::joinFile(__DIR__, 'demo', '.cecil', 'server.pid');
+        self::assertFileExists($pidFile, 'PID file should be written by serve --background');
+        $pid = (int) file_get_contents($pidFile);
+        self::assertGreaterThan(0, $pid, 'PID file should contain a valid PID');
+        $this->backgroundPid = $pid;
+    }
+
+    /**
+     * @requires OS Linux|Darwin
+     */
+    public function testStopRemovesPidFile(): void
+    {
+        echo "\n";
+        exec('php ./bin/cecil new:site tests/demo --demo -n -f', $output, $retval);
+        self::assertTrue($retval < 1);
+        $output = [];
+        exec('php ./bin/cecil build tests/demo -v', $output, $retval);
+        self::assertTrue($retval < 1);
+        $output = [];
+        exec('php ./bin/cecil serve tests/demo --background --no-watch 2>&1', $output, $retval);
+        self::assertSame(0, $retval, 'serve --background should exit with code 0');
+        $pidFile = Util::joinFile(__DIR__, 'demo', '.cecil', 'server.pid');
+        self::assertFileExists($pidFile, 'PID file should exist before stop');
+        $this->backgroundPid = (int) file_get_contents($pidFile);
+        $output = [];
+        exec('php ./bin/cecil stop tests/demo 2>&1', $output, $retval);
+        echo implode("\n", $output);
+        self::assertSame(0, $retval, 'stop should exit with code 0');
+        self::assertFileDoesNotExist($pidFile, 'PID file should be removed by stop');
+        $this->backgroundPid = null;
     }
 }

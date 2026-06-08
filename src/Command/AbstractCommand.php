@@ -37,8 +37,9 @@ use Symfony\Component\Validator\Validation;
 class AbstractCommand extends Command
 {
     public const CONFIG_FILE = ['cecil.yml', 'config.yml'];
-    public const EXCLUDED_CMD = ['about', 'new:site', 'self-update'];
+    public const EXCLUDED_CMD = ['about', 'new:site', 'self-update', 'stop'];
     public const SERVE_OUTPUT = Builder::TMP_DIR . '/preview';
+    public const PID_FILE = Builder::TMP_DIR . '/server.pid';
 
     /** @var InputInterface */
     protected $input;
@@ -335,10 +336,12 @@ class AbstractCommand extends Command
         $placeholders = [
             '%command.name%',
             '%command.full_name%',
+            '%bin_name%',
         ];
         $replacements = [
             $name,
             $this->binName() . ' ' . $name,
+            $this->binName(),
         ];
 
         return str_replace($placeholders, $replacements, $this->getHelp() ?: $this->getDescription());
