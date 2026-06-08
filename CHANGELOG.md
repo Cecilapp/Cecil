@@ -2,6 +2,14 @@
 
 All notable changes to this project will be documented in this file. Dates are displayed in UTC.
 
+#### [8.103.0](https://github.com/Cecilapp/Cecil/compare/8.102.1...8.103.0)
+
+> 6 June 2026
+
+- feat: enhance Doctor checks and diagnostics [`#2402`](https://github.com/Cecilapp/Cecil/pull/2402)
+- chore(deps-dev): bump phpstan/phpstan from 2.2.1 to 2.2.2 [`#2401`](https://github.com/Cecilapp/Cecil/pull/2401)
+- ci: Pin CI runners to specific OS versions [`9911bd9`](https://github.com/Cecilapp/Cecil/commit/9911bd9b97a879b8cf28a9c8b36edd13c222bd6e)
+
 #### [8.102.1](https://github.com/Cecilapp/Cecil/compare/8.102.0...8.102.1)
 
 > 4 June 2026
