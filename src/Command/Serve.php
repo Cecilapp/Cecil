@@ -346,7 +346,7 @@ EOF
             exec($psCommand, $pidOutput);
         } else {
             exec(\sprintf(
-                'nohup %s -S %s -t %s %s > %s 2> %s & echo $!',
+                'nohup %s -S %s -t %s %s & echo $!',
                 escapeshellarg($php),
                 escapeshellarg($host . ':' . $port),
                 escapeshellarg(Util::joinFile($this->getPath(), self::SERVE_OUTPUT)),
