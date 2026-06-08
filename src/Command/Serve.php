@@ -247,6 +247,7 @@ EOF
             if (Util\Platform::isWindows()) {
                 // Use PowerShell Start-Process to launch detached hidden process
                 $phpWin = \str_replace('/', '\\', (string) $php);
+                $logFileWin = \str_replace('/', '\\', $logFile);
                 $serverArgs = \sprintf(
                     '-S %s:%d -t "%s" "%s"',
                     $host,
@@ -255,9 +256,11 @@ EOF
                     \str_replace('/', '\\', Util::joinFile($this->getPath(), Builder::TMP_DIR, 'router.php'))
                 );
                 $psCommand = \sprintf(
-                    'powershell -NoProfile -Command "(Start-Process -PassThru -WindowStyle Hidden -FilePath \'%s\' -ArgumentList \'%s\').Id"',
-                    \str_replace("'", "''", $phpWin),
-                    \str_replace("'", "''", $serverArgs)
+                    'powershell -NoProfile -Command "(Start-Process -PassThru -WindowStyle Hidden -FilePath \'%s\' -ArgumentList \'%s\' -RedirectStandardOutput \'%s\' -RedirectStandardError \'%s\').Id"',
+                    $phpWin,
+                    \str_replace('"', '""', \str_replace("'", "''", $serverArgs)),
+                    \str_replace("'", "''", $logFileWin),
+                    \str_replace("'", "''", $logFileWin)
                 );
                 \exec($psCommand, $pidOutput);
             } else {
