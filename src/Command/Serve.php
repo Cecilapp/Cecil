@@ -208,8 +208,10 @@ EOF
             (int) $port,
             $command,
             $output,
-            (bool) $notify,
-            (bool) $open,
+            [
+                'notify' => (bool) $notify,
+                'open' => (bool) $open,
+            ],
             $buildProcess,
             $processOutputCallback,
             $flushBuildOutput
@@ -370,12 +372,13 @@ EOF
         int $port,
         string $command,
         OutputInterface $output,
-        bool $notify,
-        bool $open,
+        array $options,
         Process $buildProcess,
         callable $processOutputCallback,
         callable $flushBuildOutput
     ): int {
+        $notify = (bool) ($options['notify'] ?? false);
+        $open = (bool) ($options['open'] ?? false);
         $resourceWatcher = null;
 
         if ($process->isStarted()) {
