@@ -2,6 +2,7 @@
 title: Commandes
 description: "Liste des commandes disponibles."
 date: 2026-03-27
+updated: 2026-06-08
 slug: commandes
 -->
 # Commandes
@@ -17,6 +18,7 @@ Available commands:
   help                       Display help for a command
   self-update                [selfupdate] Updates Cecil to the latest version
   serve                      Starts the built-in server
+  stop                       Stops the background server
  cache
   cache:clear                Removes all cache files
   cache:clear:assets         Removes assets cache
@@ -233,6 +235,7 @@ Options:
   -m, --metrics                    Show build metrics (duration and memory) of each step
       --timeout=TIMEOUT            Sets the process timeout (max. runtime) in seconds [default: 7200]
       --notify                     Send desktop notification on server start
+  -b, --background                 Run the server in the background
   -h, --help                       Display help for the given command. When no command is given display help for the list command
   -q, --quiet                      Do not output any message
   -V, --version                    Display this application version
@@ -265,4 +268,44 @@ Help:
   To define the process timeout (in seconds), run:
 
     cecil.phar serve --timeout=7200
+
+  To run the server in the background, run:
+
+    cecil.phar serve --background
+    cecil.phar serve -b
+
+  Then stop it with:
+
+    cecil.phar stop
+
+  In background mode, file changes are not watched automatically.
+```
+
+## stop
+
+Arrête un serveur en arrière-plan lancé avec `serve --background`.
+
+```plaintext
+Description:
+  Stops the background server
+
+Usage:
+  stop [options] [--] [<path>]
+
+Arguments:
+  path                  Use the given path as working directory
+
+Options:
+  -h, --help            Display help for the given command. When no command is given display help for the list command
+  -q, --quiet           Do not output any message
+  -V, --version         Display this application version
+      --ansi|--no-ansi  Force (or disable --no-ansi) ANSI output
+  -n, --no-interaction  Do not ask any interactive question
+  -v|vv|vvv, --verbose  Increase the verbosity of messages: 1 for normal output, 2 for more verbose output and 3 for debug
+
+Help:
+  The stop command stops a background server previously started with serve --background.
+
+    cecil.phar stop
+    cecil.phar stop path/to/the/working/directory
 ```
