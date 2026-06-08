@@ -132,7 +132,6 @@ EOF
         $noansi = $input->getOption('no-ansi');
         $background = $input->getOption('background');
 
-        $resourceWatcher = null;
         $this->watcherEnabled = $background ? false : $input->getOption('watch');
 
         // checks if PHP executable is available
@@ -143,67 +142,29 @@ EOF
         }
         // setup server
         $this->setUpServer();
-        $command = \implode(' ', [
+        $cmd = [
             $php,
             '-S',
             $host . ':' . (int) $port,
             '-t',
             Util::joinFile($this->getPath(), self::SERVE_OUTPUT),
             Util::joinFile($this->getPath(), Builder::TMP_DIR, 'router.php'),
-        ]);
-        $process = new Process([
-            $php,
-            '-S',
-            $host . ':' . (int) $port,
-            '-t',
-            Util::joinFile($this->getPath(), self::SERVE_OUTPUT),
-            Util::joinFile($this->getPath(), Builder::TMP_DIR, 'router.php'),
-        ]);
+        ];
+        $command = implode(' ', $cmd);
+        $process = new Process($cmd);
 
         // setup build process
-        $buildProcessArguments = [
-            $php,
-            $_SERVER['argv'][0],
-        ];
-        $buildProcessArguments[] = 'build';
-        $buildProcessArguments[] = $this->getPath();
-        if (!empty($this->getConfigFiles())) {
-            $buildProcessArguments[] = '--config';
-            $buildProcessArguments[] = implode(',', $this->getConfigFiles());
-        }
-        if ($drafts) {
-            $buildProcessArguments[] = '--drafts';
-        }
-        if ($optimize === true) {
-            $buildProcessArguments[] = '--optimize';
-        }
-        if ($optimize === false) {
-            $buildProcessArguments[] = '--no-optimize';
-        }
-        if ($clearcache === null) {
-            $buildProcessArguments[] = '--clear-cache';
-        }
-        if (!empty($clearcache)) {
-            $buildProcessArguments[] = '--clear-cache';
-            $buildProcessArguments[] = $clearcache;
-        }
-        if ($verbose) {
-            $buildProcessArguments[] = '-' . str_repeat('v', $_SERVER['SHELL_VERBOSITY']);
-        }
-        if (!empty($page)) {
-            $buildProcessArguments[] = '--page';
-            $buildProcessArguments[] = $page;
-        }
-        if ($metrics) {
-            $buildProcessArguments[] = '--metrics';
-        }
-        if ($noansi) {
-            $buildProcessArguments[] = '--no-ansi';
-        }
-        $buildProcessArguments[] = '--baseurl';
-        $buildProcessArguments[] = "http://$host:$port/";
-        $buildProcessArguments[] = '--output';
-        $buildProcessArguments[] = self::SERVE_OUTPUT;
+        $buildProcessArguments = $this->createBuildProcessArguments($php, [
+            'drafts' => $drafts,
+            'optimize' => $optimize,
+            'clearcache' => $clearcache,
+            'verbose' => $verbose,
+            'page' => $page,
+            'metrics' => $metrics,
+            'noansi' => $noansi,
+            'host' => $host,
+            'port' => $port,
+        ]);
         $buildProcess = new Process(
             $buildProcessArguments,
             null,
@@ -229,13 +190,7 @@ EOF
         };
 
         // builds before serve
-        $output->writeln(\sprintf('<comment>Build process: %s</comment>', implode(' ', $buildProcessArguments)), OutputInterface::VERBOSITY_DEBUG);
-        $buildProcess->run($processOutputCallback);
-        $flushBuildOutput();
-        if ($buildProcess->isSuccessful()) {
-            $this->buildSuccessActions($output);
-        }
-        if ($buildProcess->getExitCode() !== 0) {
+        if (!$this->runInitialBuild($buildProcess, $processOutputCallback, $flushBuildOutput, $output, $buildProcessArguments)) {
             $this->tearDownServer();
 
             return Command::FAILURE;
@@ -243,145 +198,274 @@ EOF
 
         // background mode: start server as a detached process and exit
         if ($background) {
-            $logFile = Util::joinFile($this->getPath(), Builder::TMP_DIR, 'server.log');
-            if (Util\Platform::isWindows()) {
-                // Use PowerShell Start-Process to launch detached hidden process
-                $phpWin = \str_replace('/', '\\', (string) $php);
-                $logFileWin = \str_replace('/', '\\', $logFile);
-                $serverArgs = \sprintf(
-                    '-S %s:%d -t "%s" "%s"',
-                    $host,
-                    $port,
-                    \str_replace('/', '\\', Util::joinFile($this->getPath(), self::SERVE_OUTPUT)),
-                    \str_replace('/', '\\', Util::joinFile($this->getPath(), Builder::TMP_DIR, 'router.php'))
-                );
-                $psCommand = \sprintf(
-                    'powershell -NoProfile -Command "(Start-Process -PassThru -WindowStyle Hidden -FilePath \'%s\' -ArgumentList \'%s\' -RedirectStandardOutput \'%s\' -RedirectStandardError \'%s\').Id"',
-                    $phpWin,
-                    \str_replace('"', '""', \str_replace("'", "''", $serverArgs)),
-                    \str_replace("'", "''", $logFileWin),
-                    \str_replace("'", "''", $logFileWin)
-                );
-                \exec($psCommand, $pidOutput);
-            } else {
-                \exec(\sprintf(
-                    'nohup %s -S %s -t %s %s > %s 2>&1 & echo $!',
-                    \escapeshellarg((string) $php),
-                    \escapeshellarg($host . ':' . (int) $port),
-                    \escapeshellarg(Util::joinFile($this->getPath(), self::SERVE_OUTPUT)),
-                    \escapeshellarg(Util::joinFile($this->getPath(), Builder::TMP_DIR, 'router.php')),
-                    \escapeshellarg($logFile)
-                ), $pidOutput);
+            return $this->startServerInBackground($php, (string) $host, (int) $port, $output, (bool) $notify, (bool) $open);
+        }
+
+        return $this->runForegroundServer(
+            $process,
+            (bool) $noignorevcs,
+            (string) $host,
+            (int) $port,
+            $command,
+            $output,
+            (bool) $notify,
+            (bool) $open,
+            $buildProcess,
+            $processOutputCallback,
+            $flushBuildOutput
+        );
+    }
+
+    /**
+     * @param array<string, mixed> $options
+     * @return array<int, string>
+     */
+    private function createBuildProcessArguments(string $php, array $options): array
+    {
+        $buildProcessArguments = [
+            $php,
+            $_SERVER['argv'][0],
+            'build',
+            $this->getPath(),
+        ];
+
+        if (!empty($this->getConfigFiles())) {
+            $buildProcessArguments[] = '--config';
+            $buildProcessArguments[] = implode(',', $this->getConfigFiles());
+        }
+        if ($options['drafts']) {
+            $buildProcessArguments[] = '--drafts';
+        }
+        if ($options['optimize'] === true) {
+            $buildProcessArguments[] = '--optimize';
+        }
+        if ($options['optimize'] === false) {
+            $buildProcessArguments[] = '--no-optimize';
+        }
+        if ($options['clearcache'] === null) {
+            $buildProcessArguments[] = '--clear-cache';
+        }
+        if (!empty($options['clearcache'])) {
+            $buildProcessArguments[] = '--clear-cache';
+            $buildProcessArguments[] = (string) $options['clearcache'];
+        }
+        if ($options['verbose']) {
+            $buildProcessArguments[] = '-' . str_repeat('v', (int) $_SERVER['SHELL_VERBOSITY']);
+        }
+        if (!empty($options['page'])) {
+            $buildProcessArguments[] = '--page';
+            $buildProcessArguments[] = (string) $options['page'];
+        }
+        if ($options['metrics']) {
+            $buildProcessArguments[] = '--metrics';
+        }
+        if ($options['noansi']) {
+            $buildProcessArguments[] = '--no-ansi';
+        }
+        $buildProcessArguments[] = '--baseurl';
+        $buildProcessArguments[] = \sprintf('http://%s:%s/', (string) $options['host'], (string) $options['port']);
+        $buildProcessArguments[] = '--output';
+        $buildProcessArguments[] = self::SERVE_OUTPUT;
+
+        return $buildProcessArguments;
+    }
+
+    /**
+     * @param array<int, string> $buildProcessArguments
+     */
+    private function runInitialBuild(
+        Process $buildProcess,
+        callable $processOutputCallback,
+        callable $flushBuildOutput,
+        OutputInterface $output,
+        array $buildProcessArguments
+    ): bool {
+        $output->writeln(\sprintf('<comment>Build process: %s</comment>', implode(' ', $buildProcessArguments)), OutputInterface::VERBOSITY_DEBUG);
+        $buildProcess->run($processOutputCallback);
+        $flushBuildOutput();
+
+        if ($buildProcess->isSuccessful()) {
+            $this->buildSuccessActions($output);
+        }
+
+        return $buildProcess->getExitCode() === 0;
+    }
+
+    private function startServerInBackground(
+        string $php,
+        string $host,
+        int $port,
+        OutputInterface $output,
+        bool $notify,
+        bool $open
+    ): int {
+        $logFile = Util::joinFile($this->getPath(), Builder::TMP_DIR, 'server.log');
+        $errorLogFile = Util::joinFile($this->getPath(), Builder::TMP_DIR, 'errors.log');
+        $pid = $this->startDetachedServerProcess($php, $host, $port, $logFile, $errorLogFile);
+
+        if ($pid <= 0) {
+            $this->tearDownServer();
+            throw new RuntimeException('Unable to start the server in the background.');
+        }
+
+        Util\File::getFS()->dumpFile(Util::joinFile($this->getPath(), self::PID_FILE), (string) $pid);
+        $output->writeln(\sprintf('<info>Starting server in the background (PID: %d)</info>', $pid));
+        $output->writeln(\sprintf('Server running at <href=http://%s:%d>http://%s:%d</>', $host, $port, $host, $port));
+        $output->writeln(\sprintf('To stop the server, run: <info>%s stop</info>', $this->binName()));
+
+        if ($notify) {
+            $this->notification('Starting server in background 🚀', \sprintf('http://%s:%s', $host, $port));
+        }
+        if ($open) {
+            $output->writeln('Opening web browser...');
+            Util\Platform::openBrowser(\sprintf('http://%s:%s', $host, $port));
+        }
+
+        return Command::SUCCESS;
+    }
+
+    private function startDetachedServerProcess(string $php, string $host, int $port, string $logFile, string $errorLogFile): int
+    {
+        $pidOutput = [];
+
+        if (Util\Platform::isWindows()) {
+            // Use PowerShell Start-Process to launch detached hidden process
+            $phpWin = str_replace('/', '\\', $php);
+            $logFileWin = str_replace('/', '\\', $logFile);
+            $errorLogFileWin = str_replace('/', '\\', $errorLogFile);
+            $serverArgs = \sprintf(
+                '-S %s:%d -t "%s" "%s"',
+                $host,
+                $port,
+                str_replace('/', '\\', Util::joinFile($this->getPath(), self::SERVE_OUTPUT)),
+                str_replace('/', '\\', Util::joinFile($this->getPath(), Builder::TMP_DIR, 'router.php'))
+            );
+            $psCommand = \sprintf(
+                'powershell -NoProfile -Command "(Start-Process -PassThru -WindowStyle Hidden -FilePath \'%s\' -ArgumentList \'%s\' -RedirectStandardOutput \'%s\' -RedirectStandardError \'%s\').Id"',
+                $phpWin,
+                str_replace('"', '""', str_replace("'", "''", $serverArgs)),
+                str_replace("'", "''", $logFileWin),
+                str_replace("'", "''", $errorLogFileWin)
+            );
+            exec($psCommand, $pidOutput);
+        } else {
+            exec(\sprintf(
+                'nohup %s -S %s -t %s %s > %s 2> %s & echo $!',
+                escapeshellarg($php),
+                escapeshellarg($host . ':' . $port),
+                escapeshellarg(Util::joinFile($this->getPath(), self::SERVE_OUTPUT)),
+                escapeshellarg(Util::joinFile($this->getPath(), Builder::TMP_DIR, 'router.php')),
+                escapeshellarg($logFile),
+                escapeshellarg($errorLogFile)
+            ), $pidOutput);
+        }
+
+        return (int) ($pidOutput[0] ?? 0);
+    }
+
+    private function runForegroundServer(
+        Process $process,
+        bool $noignorevcs,
+        string $host,
+        int $port,
+        string $command,
+        OutputInterface $output,
+        bool $notify,
+        bool $open,
+        Process $buildProcess,
+        callable $processOutputCallback,
+        callable $flushBuildOutput
+    ): int {
+        $resourceWatcher = null;
+
+        if ($process->isStarted()) {
+            return Command::SUCCESS;
+        }
+
+        $messageSuffix = '';
+        if ($this->watcherEnabled) {
+            $resourceWatcher = $this->setupWatcher($noignorevcs);
+            $resourceWatcher->initialize();
+            $messageSuffix = ' with changes watcher';
+        }
+
+        try {
+            if (\function_exists('\pcntl_signal')) {
+                pcntl_async_signals(true);
+                pcntl_signal(SIGINT, [$this, 'tearDownServer']);
+                pcntl_signal(SIGTERM, [$this, 'tearDownServer']);
             }
-            $pid = (int)($pidOutput[0] ?? 0);
-            if ($pid <= 0) {
-                $this->tearDownServer();
-                throw new RuntimeException('Unable to start the server in the background.');
-            }
-            Util\File::getFS()->dumpFile(Util::joinFile($this->getPath(), self::PID_FILE), (string) $pid);
-            $output->writeln(\sprintf('<info>Starting server in the background (PID: %d)</info>', $pid));
-            $output->writeln(\sprintf('Server running at <href=http://%s:%d>http://%s:%d</>', $host, $port, $host, $port));
-            $output->writeln(\sprintf('To stop the server, run: <info>%s stop</info>', $this->binName()));
+
+            $output->writeln(\sprintf('<comment>Server process: %s</comment>', $command), OutputInterface::VERBOSITY_DEBUG);
+            $output->writeln(\sprintf('Starting server%s (<href=http://%s:%d>http://%s:%d</>)', $messageSuffix, $host, $port, $host, $port));
+            $process->start(function ($type, $buffer) {
+                if ($type === Process::ERR) {
+                    error_log($buffer, 3, Util::joinFile($this->getPath(), Builder::TMP_DIR, 'errors.log'));
+                }
+            });
+
             if ($notify) {
-                $this->notification('Starting server in background 🚀', \sprintf('http://%s:%s', $host, $port));
+                $this->notification('Starting server 🚀', \sprintf('http://%s:%s', $host, $port));
             }
             if ($open) {
                 $output->writeln('Opening web browser...');
                 Util\Platform::openBrowser(\sprintf('http://%s:%s', $host, $port));
             }
 
-            return Command::SUCCESS;
-        }
+            while ($process->isRunning()) {
+                sleep(1); // wait for server is ready
+                if (!fsockopen($host, $port)) {
+                    $output->writeln('<info>Server is not ready</info>');
 
-        // handles serve process
-        if (!$process->isStarted()) {
-            $messageSuffix = '';
-            // setup resource watcher
-            if ($this->watcherEnabled) {
-                $resourceWatcher = $this->setupWatcher($noignorevcs);
-                $resourceWatcher->initialize();
-                $messageSuffix = ' with changes watcher';
-            }
-            // starts server
-            try {
-                if (\function_exists('\pcntl_signal')) {
-                    pcntl_async_signals(true);
-                    pcntl_signal(SIGINT, [$this, 'tearDownServer']);
-                    pcntl_signal(SIGTERM, [$this, 'tearDownServer']);
+                    return Command::FAILURE;
                 }
-                $output->writeln(\sprintf('<comment>Server process: %s</comment>', $command), OutputInterface::VERBOSITY_DEBUG);
-                $output->writeln(\sprintf('Starting server%s (<href=http://%s:%d>http://%s:%d</>)', $messageSuffix, $host, $port, $host, $port));
-                $process->start(function ($type, $buffer) {
-                    if ($type === Process::ERR) {
-                        error_log($buffer, 3, Util::joinFile($this->getPath(), Builder::TMP_DIR, 'errors.log'));
-                    }
-                });
-                // notification
-                if ($notify) {
-                    $this->notification('Starting server 🚀', \sprintf('http://%s:%s', $host, $port));
-                }
-                // open web browser
-                if ($open) {
-                    $output->writeln('Opening web browser...');
-                    Util\Platform::openBrowser(\sprintf('http://%s:%s', $host, $port));
-                }
-                while ($process->isRunning()) {
-                    sleep(1); // wait for server is ready
-                    if (!fsockopen($host, (int) $port)) {
-                        $output->writeln('<info>Server is not ready</info>');
+                if ($this->watcherEnabled && $resourceWatcher instanceof ResourceWatcher) {
+                    $watcher = $resourceWatcher->findChanges();
+                    if ($watcher->hasChanges()) {
+                        $output->writeln('<comment>Changes detected</comment>');
+                        if ($notify) {
+                            $this->notification('Changes detected, building website...');
+                        }
+                        if (\count($watcher->getDeletedFiles()) > 0) {
+                            $output->writeln('<comment>Deleted files:</comment>', OutputInterface::VERBOSITY_DEBUG);
+                            foreach ($watcher->getDeletedFiles() as $file) {
+                                $output->writeln("<comment>- $file</comment>", OutputInterface::VERBOSITY_DEBUG);
+                            }
+                        }
+                        if (\count($watcher->getNewFiles()) > 0) {
+                            $output->writeln('<comment>New files:</comment>', OutputInterface::VERBOSITY_DEBUG);
+                            foreach ($watcher->getNewFiles() as $file) {
+                                $output->writeln("<comment>- $file</comment>", OutputInterface::VERBOSITY_DEBUG);
+                            }
+                        }
+                        if (\count($watcher->getUpdatedFiles()) > 0) {
+                            $output->writeln('<comment>Updated files:</comment>', OutputInterface::VERBOSITY_DEBUG);
+                            foreach ($watcher->getUpdatedFiles() as $file) {
+                                $output->writeln("<comment>- $file</comment>", OutputInterface::VERBOSITY_DEBUG);
+                            }
+                        }
+                        $output->writeln('');
 
-                        return Command::FAILURE;
-                    }
-                    if ($this->watcherEnabled && $resourceWatcher instanceof ResourceWatcher) {
-                        $watcher = $resourceWatcher->findChanges();
-                        if ($watcher->hasChanges()) {
-                            $output->writeln('<comment>Changes detected</comment>');
-                            // notification
-                            if ($notify) {
-                                $this->notification('Changes detected, building website...');
-                            }
-                            // prints deleted/new/updated files in debug mode
-                            if (\count($watcher->getDeletedFiles()) > 0) {
-                                $output->writeln('<comment>Deleted files:</comment>', OutputInterface::VERBOSITY_DEBUG);
-                                foreach ($watcher->getDeletedFiles() as $file) {
-                                    $output->writeln("<comment>- $file</comment>", OutputInterface::VERBOSITY_DEBUG);
-                                }
-                            }
-                            if (\count($watcher->getNewFiles()) > 0) {
-                                $output->writeln('<comment>New files:</comment>', OutputInterface::VERBOSITY_DEBUG);
-                                foreach ($watcher->getNewFiles() as $file) {
-                                    $output->writeln("<comment>- $file</comment>", OutputInterface::VERBOSITY_DEBUG);
-                                }
-                            }
-                            if (\count($watcher->getUpdatedFiles()) > 0) {
-                                $output->writeln('<comment>Updated files:</comment>', OutputInterface::VERBOSITY_DEBUG);
-                                foreach ($watcher->getUpdatedFiles() as $file) {
-                                    $output->writeln("<comment>- $file</comment>", OutputInterface::VERBOSITY_DEBUG);
-                                }
-                            }
-                            $output->writeln('');
-                            // re-builds
-                            $buildProcess->run($processOutputCallback);
-                            $flushBuildOutput();
-                            if ($buildProcess->isSuccessful()) {
-                                $this->buildSuccessActions($output);
-                            }
-                            $output->writeln('<info>Server is running...</info>');
-                            // notification
-                            if ($notify) {
-                                $this->notification('Server is running...');
-                            }
+                        $buildProcess->run($processOutputCallback);
+                        $flushBuildOutput();
+                        if ($buildProcess->isSuccessful()) {
+                            $this->buildSuccessActions($output);
+                        }
+                        $output->writeln('<info>Server is running...</info>');
+                        if ($notify) {
+                            $this->notification('Server is running...');
                         }
                     }
                 }
-                if ($process->getExitCode() > 0) {
-                    $output->writeln(\sprintf('<comment>%s</comment>', trim($process->getErrorOutput())));
-                }
-            } catch (ProcessFailedException $e) {
-                $this->tearDownServer();
-
-                throw new RuntimeException(\sprintf($e->getMessage()));
             }
+
+            if ($process->getExitCode() > 0) {
+                $output->writeln(\sprintf('<comment>%s</comment>', trim($process->getErrorOutput())));
+            }
+        } catch (ProcessFailedException $e) {
+            $this->tearDownServer();
+
+            throw new RuntimeException(\sprintf($e->getMessage()));
         }
 
         return Command::SUCCESS;

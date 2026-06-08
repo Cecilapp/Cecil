@@ -58,13 +58,13 @@ EOF
     {
         $pidFile = Util::joinFile($this->getPath(), self::PID_FILE);
 
-        if (!\is_file($pidFile)) {
+        if (!is_file($pidFile)) {
             $output->writeln('<error>No background server found (PID file missing).</error>');
 
             return Command::FAILURE;
         }
 
-        $pid = (int) \file_get_contents($pidFile);
+        $pid = (int) file_get_contents($pidFile);
         if ($pid <= 0) {
             $output->writeln('<error>Invalid PID file.</error>');
             try {
@@ -78,9 +78,9 @@ EOF
 
         // kill the server process
         if (Util\Platform::isWindows()) {
-            \exec(\sprintf('taskkill /F /PID %d 2>NUL', $pid));
+            exec(\sprintf('taskkill /F /PID %d 2>NUL', $pid));
         } else {
-            \exec(\sprintf('kill %d 2>/dev/null', $pid));
+            exec(\sprintf('kill %d 2>/dev/null', $pid));
         }
 
         // clean up PID file
