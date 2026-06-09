@@ -2,7 +2,7 @@
 title: Configuration
 description: "Configurez votre site web."
 date: 2026-03-27
-updated: 2026-05-26
+updated: 2026-06-10
 slug: configuration
 -->
 # Configuration
@@ -310,23 +310,9 @@ pages:
 
 ### metatags
 
-Les _metatags_ sont des aides SEO et réseaux sociaux qui peuvent être injectées automatiquement dans le `<head>`, via le template _partial_ [`metatags.html.twig`](https://github.com/Cecilapp/Cecil/blob/master/resources/layouts/partials/metatags.html.twig).
+Les _metatags_ sont des aides SEO et réseaux sociaux qui peuvent être injectées automatiquement dans le `<head>`, via le template [`partials/metatags.html.twig`](https://github.com/Cecilapp/Cecil/blob/master/resources/layouts/partials/metatags.html.twig).
 
 *[SEO]: Optimisation pour les moteurs de recherche
-
-_Exemple :_
-
-```twig
-<html lang="{{ site.language }}">
-  <head>
-    <meta charset="utf-8">
-    {{ include('partials/metatags.html.twig') }}
-  </head>
-  <body>
-    ...
-  </body>
-</html>
-```
 
 Ce template ajoute les balises meta suivantes :
 

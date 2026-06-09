@@ -1,7 +1,7 @@
 <!--
 description: "Configure your website."
 date: 2021-05-07
-updated: 2026-05-26
+updated: 2026-06-10
 -->
 # Configuration
 
@@ -308,23 +308,9 @@ pages:
 
 ### metatags
 
-_metatags_ are SEO and social helpers that can be automatically  injected in the `<head>`, with the _partial_ template [`metatags.html.twig`](https://github.com/Cecilapp/Cecil/blob/master/resources/layouts/partials/metatags.html.twig).
+_metatags_ are SEO and social helpers that can be automatically injected in the `<head>`, with the template [`partials/metatags.html.twig`](https://github.com/Cecilapp/Cecil/blob/master/resources/layouts/partials/metatags.html.twig).
 
 *[SEO]: Search Engine Optimization
-
-_Example:_
-
-```twig
-<html lang="{{ site.language }}">
-  <head>
-    <meta charset="utf-8">
-    {{ include('partials/metatags.html.twig') }}
-  </head>
-  <body>
-    ...
-  </body>
-</html>
-```
 
 This template adds the following meta tags:
 
