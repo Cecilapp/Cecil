@@ -2,7 +2,7 @@
 title: Commandes
 description: "Liste des commandes disponibles."
 date: 2026-03-27
-updated: 2026-06-08
+updated: 2026-06-09
 slug: commandes
 -->
 # Commandes
@@ -14,6 +14,7 @@ Available commands:
   about                      Shows a short description about Cecil
   build                      Builds the website
   clear                      Removes all generated files
+  doctor                     Diagnoses the site configuration
   edit                       [open] Open pages directory with the editor
   help                       Display help for a command
   self-update                [selfupdate] Updates Cecil to the latest version
@@ -140,69 +141,6 @@ Deux variables dynamiques sont disponibles :
 
 Avec l’option `--open`, l’éditeur s’ouvrira automatiquement. Utilisez donc la clé `editor` dans votre fichier de configuration pour définir l’éditeur par défaut (par exemple : `editor: typora`).
 
-## build
-
-Construit le site.
-
-```plaintext
-Description:
-  Builds the website
-
-Usage:
-  build [options] [--] [<path>]
-
-Arguments:
-  path                               Use the given path as working directory
-
-Options:
-  -d, --drafts                       Include drafts
-  -u, --baseurl=BASEURL              Set the base URL
-  -o, --output=OUTPUT                Set the output directory
-      --optimize|--no-optimize       Enable (or disable --no-optimize) optimization of generated files
-      --dry-run                      Build without saving
-  -c, --config=CONFIG                Set the path to extra config files (comma-separated)
-      --clear-cache[=CLEAR-CACHE]    Clear cache before build (optional cache key as regular expression) [default: false]
-  -p, --page=PAGE                    Build a specific page
-      --render-subset=RENDER-SUBSET  Render a subset of pages
-      --show-pages                   Show list of built pages in a table
-  -m, --metrics                      Show build metrics (duration and memory) of each step
-      --notify                       Send desktop notification on build completion
-  -h, --help                         Display help for the given command. When no command is given display help for the list command
-  -q, --quiet                        Do not output any message
-  -V, --version                      Display this application version
-      --ansi|--no-ansi               Force (or disable --no-ansi) ANSI output
-  -n, --no-interaction               Do not ask any interactive question
-  -v|vv|vvv, --verbose               Increase the verbosity of messages: 1 for normal output, 2 for more verbose output and 3 for debug
-
-Help:
-  The build command generates the website in the output directory.
-
-    cecil.phar build
-    cecil.phar build path/to/the/working/directory
-    cecil.phar build --baseurl=https://example.com/
-    cecil.phar build --output=_site
-
-  To build the website with optimization of generated files, you can use the --optimize option.
-  This is useful to reduce the size of the generated files and improve performance:
-
-    cecil.phar build --optimize
-    cecil.phar build --no-optimize
-
-  To build the website without overwriting files in the output directory, you can use the --dry-run option.
-  This is useful to check what would be built without actually writing files:
-
-    cecil.phar build --dry-run
-
-  To build the website with a specific subset of rendered pages, you can use the --render-subset option.
-  This is useful to build only a part of the website, for example, only "hot" pages or a specific section:
-
-    cecil.phar build --render-subset=subset
-
-  To show build steps metrics, run:
-
-    cecil.phar build --metrics
-```
-
 ## serve
 
 Construit et sert le site en local.
@@ -281,31 +219,99 @@ Help:
   In background mode, file changes are not watched automatically.
 ```
 
-## stop
+## build
 
-Arrête un serveur en arrière-plan lancé avec `serve --background`.
+Construit le site.
 
 ```plaintext
 Description:
-  Stops the background server
+  Builds the website
 
 Usage:
-  stop [options] [--] [<path>]
+  build [options] [--] [<path>]
 
 Arguments:
-  path                  Use the given path as working directory
+  path                               Use the given path as working directory
 
 Options:
-  -h, --help            Display help for the given command. When no command is given display help for the list command
-  -q, --quiet           Do not output any message
-  -V, --version         Display this application version
-      --ansi|--no-ansi  Force (or disable --no-ansi) ANSI output
-  -n, --no-interaction  Do not ask any interactive question
-  -v|vv|vvv, --verbose  Increase the verbosity of messages: 1 for normal output, 2 for more verbose output and 3 for debug
+  -d, --drafts                       Include drafts
+  -u, --baseurl=BASEURL              Set the base URL
+  -o, --output=OUTPUT                Set the output directory
+      --optimize|--no-optimize       Enable (or disable --no-optimize) optimization of generated files
+      --dry-run                      Build without saving
+  -c, --config=CONFIG                Set the path to extra config files (comma-separated)
+      --clear-cache[=CLEAR-CACHE]    Clear cache before build (optional cache key as regular expression) [default: false]
+  -p, --page=PAGE                    Build a specific page
+      --render-subset=RENDER-SUBSET  Render a subset of pages
+      --show-pages                   Show list of built pages in a table
+  -m, --metrics                      Show build metrics (duration and memory) of each step
+      --notify                       Send desktop notification on build completion
+  -h, --help                         Display help for the given command. When no command is given display help for the list command
+  -q, --quiet                        Do not output any message
+  -V, --version                      Display this application version
+      --ansi|--no-ansi               Force (or disable --no-ansi) ANSI output
+  -n, --no-interaction               Do not ask any interactive question
+  -v|vv|vvv, --verbose               Increase the verbosity of messages: 1 for normal output, 2 for more verbose output and 3 for debug
 
 Help:
-  The stop command stops a background server previously started with serve --background.
+  The build command generates the website in the output directory.
 
-    cecil.phar stop
-    cecil.phar stop path/to/the/working/directory
+    cecil.phar build
+    cecil.phar build path/to/the/working/directory
+    cecil.phar build --baseurl=https://example.com/
+    cecil.phar build --output=_site
+
+  To build the website with optimization of generated files, you can use the --optimize option.
+  This is useful to reduce the size of the generated files and improve performance:
+
+    cecil.phar build --optimize
+    cecil.phar build --no-optimize
+
+  To build the website without overwriting files in the output directory, you can use the --dry-run option.
+  This is useful to check what would be built without actually writing files:
+
+    cecil.phar build --dry-run
+
+  To build the website with a specific subset of rendered pages, you can use the --render-subset option.
+  This is useful to build only a part of the website, for example, only "hot" pages or a specific section:
+
+    cecil.phar build --render-subset=subset
+
+  To show build steps metrics, run:
+
+    cecil.phar build --metrics
+```
+
+## doctor
+
+Diagnostique le site courant et l'environnement Cecil.
+
+```plaintext
+Description:
+  Diagnoses the site configuration
+
+Usage:
+  doctor [options] [--] [<path>]
+
+Arguments:
+  path                       Use the given path as working directory
+
+Options:
+  -c, --config=CONFIG        Set the path to an extra configuration file
+  -h, --help                 Display help for the given command. When no command is given display help for the list command
+  -q, --quiet                Do not output any message
+  -V, --version              Display this application version
+      --ansi|--no-ansi       Force (or disable --no-ansi) ANSI output
+  -n, --no-interaction       Do not ask any interactive question
+  -v|vv|vvv, --verbose       Increase the verbosity of messages: 1 for normal output, 2 for more verbose output and 3 for debug
+
+Help:
+  The doctor command diagnoses the current site and Cecil environment.
+
+    cecil.phar doctor
+    cecil.phar doctor path/to/the/working/directory
+
+  To inspect a site with an extra configuration file, run:
+
+    cecil.phar doctor --config=config.yml
 ```
