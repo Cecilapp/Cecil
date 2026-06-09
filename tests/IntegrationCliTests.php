@@ -31,18 +31,21 @@ class IntegrationCliTests extends IntegrationTests
         if ($this->backgroundPid !== null) {
             $pidFile = Util::joinFile(__DIR__, 'demo', '.cecil', 'server.pid');
             if (is_file($pidFile) && (int) file_get_contents($pidFile) === $this->backgroundPid) {
-                exec(\sprintf('kill %d 2>/dev/null', $this->backgroundPid));
+                if (DIRECTORY_SEPARATOR === '\\') {
+                    exec(\sprintf('taskkill /F /PID %d 2>NUL', $this->backgroundPid));
+                } else {
+                    exec(\sprintf('kill %d 2>/dev/null', $this->backgroundPid));
+                }
             }
             $this->backgroundPid = null;
         }
-        $fs = new Filesystem();
         $fs = new Filesystem();
         if (!self::DEBUG) {
             $fs->remove(Util::joinFile(__DIR__, 'demo'));
         }
     }
 
-    public function testBuild()
+    public function testBuild(): void
     {
         echo "\n";
         exec('php ./bin/cecil new:site tests/demo --demo -n -f', $output, $retval);
@@ -52,7 +55,7 @@ class IntegrationCliTests extends IntegrationTests
         self::assertTrue($retval < 1);
     }
 
-    public function testBuildDefaultVerbosity()
+    public function testBuildDefaultVerbosity(): void
     {
         echo "\n";
         exec('php ./bin/cecil new:site tests/demo --demo -n -f', $output, $retval);
@@ -76,9 +79,6 @@ class IntegrationCliTests extends IntegrationTests
         self::assertStringContainsString('Environment', $output);
     }
 
-    /**
-     * @requires OS Linux|Darwin
-     */
     public function testServeBackgroundWritesPidFile(): void
     {
         echo "\n";
@@ -98,9 +98,6 @@ class IntegrationCliTests extends IntegrationTests
         $this->backgroundPid = $pid;
     }
 
-    /**
-     * @requires OS Linux|Darwin
-     */
     public function testStopRemovesPidFile(): void
     {
         echo "\n";
