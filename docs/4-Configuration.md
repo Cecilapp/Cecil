@@ -296,16 +296,6 @@ In [templates](3-Templates.md) you can access to an option with `{{ site.<option
 If an option is not available in the current language (e.g.: `fr`) it fallback to the global one (e.g.: `en`).
 :::
 
-### pages.prefix.separator
-
-List of characters used as separator between a filename prefix (`date` or `weight`) and the slug.
-
-```yaml
-pages:
-  prefix:
-    separator: ['-', '_']
-```
-
 ### metatags
 
 _metatags_ are SEO and social helpers that can be automatically injected in the `<head>`, with the template [`partials/metatags.html.twig`](https://github.com/Cecilapp/Cecil/blob/master/resources/layouts/partials/metatags.html.twig).
