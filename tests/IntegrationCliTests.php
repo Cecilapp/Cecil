@@ -47,28 +47,35 @@ class IntegrationCliTests extends IntegrationTests
 
     public function testBuild(): void
     {
-        echo "\n";
-        exec('php ./bin/cecil new:site tests/demo --demo -n -f', $output, $retval);
-        self::assertTrue($retval < 1);
-        exec('php ./bin/cecil build tests/demo -v', $output, $retval);
-        echo implode("\n", $output);
-        self::assertTrue($retval < 1);
-    }
-
-    public function testBuildDefaultVerbosity(): void
-    {
-        echo "\n";
+        echo "\n################\n";
+        echo "# Test build\n";
+        echo "################\n";
         exec('php ./bin/cecil new:site tests/demo --demo -n -f', $output, $retval);
         self::assertTrue($retval < 1);
         $output = [];
         exec('php ./bin/cecil build tests/demo', $output, $retval);
+        //echo implode("\n", $output);
+        self::assertTrue($retval < 1);
+    }
+
+    public function testBuildVerbose(): void
+    {
+        echo "\n################\n";
+        echo "# Test build verbose\n";
+        echo "################\n";
+        exec('php ./bin/cecil new:site tests/demo --demo -n -f', $output, $retval);
+        self::assertTrue($retval < 1);
+        $output = [];
+        exec('php ./bin/cecil build tests/demo -v', $output, $retval);
         echo implode("\n", $output);
         self::assertTrue($retval < 1);
     }
 
     public function testDoctor(): void
     {
-        echo "\n";
+        echo "\n################\n";
+        echo "# Test doctor\n";
+        echo "################\n";
         exec('php ./bin/cecil new:site tests/demo --demo -n -f', $output, $retval);
         self::assertTrue($retval < 1);
         $output = [];
@@ -79,32 +86,12 @@ class IntegrationCliTests extends IntegrationTests
         self::assertStringContainsString('Environment', $output);
     }
 
-    public function testServeBackgroundWritesPidFile(): void
+    public function testServeBackgroundWithPidFile(): void
     {
-        echo "\n";
+        echo "\n################\n";
+        echo "# Test serve background with PID file\n";
+        echo "################\n";
         exec('php ./bin/cecil new:site tests/demo --demo -n -f', $output, $retval);
-        self::assertTrue($retval < 1);
-        $output = [];
-        exec('php ./bin/cecil build tests/demo -v', $output, $retval);
-        self::assertTrue($retval < 1);
-        $output = [];
-        exec('php ./bin/cecil serve tests/demo --background --no-watch 2>&1', $output, $retval);
-        echo implode("\n", $output);
-        self::assertSame(0, $retval, 'serve --background should exit with code 0');
-        $pidFile = Util::joinFile(__DIR__, 'demo', '.cecil', 'server.pid');
-        self::assertFileExists($pidFile, 'PID file should be written by serve --background');
-        $pid = (int) file_get_contents($pidFile);
-        self::assertGreaterThan(0, $pid, 'PID file should contain a valid PID');
-        $this->backgroundPid = $pid;
-    }
-
-    public function testStopRemovesPidFile(): void
-    {
-        echo "\n";
-        exec('php ./bin/cecil new:site tests/demo --demo -n -f', $output, $retval);
-        self::assertTrue($retval < 1);
-        $output = [];
-        exec('php ./bin/cecil build tests/demo -v', $output, $retval);
         self::assertTrue($retval < 1);
         $output = [];
         exec('php ./bin/cecil serve tests/demo --background --no-watch 2>&1', $output, $retval);
