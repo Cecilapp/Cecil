@@ -2,6 +2,26 @@
 
 All notable changes to this project will be documented in this file. Dates are displayed in UTC.
 
+#### [8.104.1](https://github.com/Cecilapp/Cecil/compare/8.104.0...8.104.1)
+
+> 9 June 2026
+
+- doc: add English architecture doc; update French doc [`fa1c352`](https://github.com/Cecilapp/Cecil/commit/fa1c3522bdc3c446d263fdde3802f1d1b3acd0ef)
+- doc: document 'stop' command and background option [`228ca49`](https://github.com/Cecilapp/Cecil/commit/228ca49dc5208b4fce9cb1038aef68c2a25495ed)
+- test: refactor CLI tests logging and names [`3c504fe`](https://github.com/Cecilapp/Cecil/commit/3c504fe9327653ed8fe6ecb46ecc57b78f316502)
+- chore: update deps [`72ac2c3`](https://github.com/Cecilapp/Cecil/commit/72ac2c37e8cda4d493f0f30171ae819b1de35f98)
+- refactor: remove log file redirection from detached server start [`fa2ea99`](https://github.com/Cecilapp/Cecil/commit/fa2ea99ab6071897f767acf4dc2ed5f9659cda7c)
+- test: Make CLI tests Windows-compatible [`c4e9aaf`](https://github.com/Cecilapp/Cecil/commit/c4e9aafdc800a834115700ec3df71fc646b93c0a)
+- chore: update deps [`37281bb`](https://github.com/Cecilapp/Cecil/commit/37281bb3e6194b831916d305a7664b832d3c3105)
+- fix: remove explicit nohup output redirection [`1ce3c49`](https://github.com/Cecilapp/Cecil/commit/1ce3c4995f05f0e06823e74cd1d744d2c0401eb6)
+- test: skip flaky serve background test in CI [`a3358d5`](https://github.com/Cecilapp/Cecil/commit/a3358d5f5cf3fcdd2fadcbb788ba28d76e7d6ea3)
+
+#### [8.104.0](https://github.com/Cecilapp/Cecil/compare/8.103.0...8.104.0)
+
+> 9 June 2026
+
+- feat: add background serve mode and stop command [`#2403`](https://github.com/Cecilapp/Cecil/pull/2403)
+
 #### [8.103.0](https://github.com/Cecilapp/Cecil/compare/8.102.1...8.103.0)
 
 > 6 June 2026
