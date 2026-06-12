@@ -86,6 +86,54 @@ class IntegrationCliTests extends IntegrationTests
         self::assertStringContainsString('Environment', $output);
     }
 
+    public function testDoctorSeo(): void
+    {
+        echo "\n################\n";
+        echo "# Test doctor:seo\n";
+        echo "################\n";
+        exec('php ./bin/cecil new:site tests/demo --demo -n -f 2>&1', $output, $retval);
+        self::assertTrue($retval < 1);
+        $output = [];
+        exec('php ./bin/cecil doctor:seo tests/demo 2>&1', $output, $retval);
+        $output = implode("\n", $output);
+        echo $output;
+        self::assertTrue($retval < 1);
+        self::assertStringContainsString('SEO audit summary', $output);
+    }
+
+    public function testDoctorSeoJson(): void
+    {
+        echo "\n################\n";
+        echo "# Test doctor:seo --format=json\n";
+        echo "################\n";
+        exec('php ./bin/cecil new:site tests/demo --demo -n -f 2>&1', $output, $retval);
+        self::assertTrue($retval < 1);
+        $output = [];
+        exec('php ./bin/cecil doctor:seo tests/demo --format=json', $output, $retval);
+        $output = implode("\n", $output);
+        echo $output;
+        self::assertTrue($retval < 1);
+        $json = json_decode($output, true, 512, \JSON_THROW_ON_ERROR);
+        self::assertIsArray($json);
+        self::assertArrayHasKey('summary', $json);
+        self::assertArrayHasKey('findings', $json);
+    }
+
+    public function testDoctorSeoIncludeVirtual(): void
+    {
+        echo "\n################\n";
+        echo "# Test doctor:seo --include-virtual\n";
+        echo "################\n";
+        exec('php ./bin/cecil new:site tests/demo --demo -n -f 2>&1', $output, $retval);
+        self::assertTrue($retval < 1);
+        $output = [];
+        exec('php ./bin/cecil doctor:seo tests/demo --include-virtual 2>&1', $output, $retval);
+        $output = implode("\n", $output);
+        echo $output;
+        self::assertTrue($retval < 1);
+        self::assertStringContainsString('SEO audit summary', $output);
+    }
+
     public function testServeBackgroundWithPidFile(): void
     {
         $this->markTestSkipped('Skipping serve background test because it is not reliable in CI environments');

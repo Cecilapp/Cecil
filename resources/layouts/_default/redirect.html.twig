@@ -1,9 +1,10 @@
 <!DOCTYPE html>
-<html>
-  <head lang="{{ site.language }}">
+<html lang="{{ site.language }}">
+  <head>
     <meta charset="utf-8">
     <title>{% trans %}Redirecting…{% endtrans %}</title>
     <link rel="canonical" href="{{ url(page.redirect, {canonical: true}) }}">
+    <meta name="description" content="{{ page.description|default(site.description) }}">
     <meta name="robots" content="noindex">
     <meta http-equiv="content-type" content="text/html; charset=utf-8">
     <meta http-equiv="refresh" content="0;url={{ url(page.redirect, {canonical: true}) }}">

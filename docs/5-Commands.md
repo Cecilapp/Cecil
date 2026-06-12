@@ -13,6 +13,7 @@ Available commands:
   build                      Builds the website
   clear                      Removes all generated files
   doctor                     Diagnoses the site configuration
+  doctor:seo                 Audits rendered HTML pages for common SEO issues
   edit                       [open] Open pages directory with the editor
   help                       Display help for a command
   self-update                [selfupdate] Updates Cecil to the latest version
@@ -61,16 +62,16 @@ Options:
 Help:
   The new:site command creates a new website in the current directory, or in <path> if provided.
   If you run this command without any options, it will ask you for the website title, baseline, base URL, description, etc.
-  
+
     cecil.phar new:site
     cecil.phar new:site path/to/the/working/directory
-  
+
   To create a new website with demo content, run:
-  
+
     cecil.phar new:site --demo
-  
+
   To override an existing website, run:
-  
+
     cecil.phar new:site --force
 ```
 
@@ -105,21 +106,21 @@ Options:
 Help:
   The new:page command creates a new page file.
   If you run this command without any options, it will ask you for the page name and other options.
-  
+
     cecil.phar new:page
     cecil.phar new:page --name=path/to/a-page.md
     cecil.phar new:page --name=path/to/A Page.md --slugify
-  
+
   To create a new page with a date prefix (i.e: `YYYY-MM-DD`), run:
-  
+
     cecil.phar new:page --prefix
-  
+
   To create a new page and open it with an editor, run:
-  
+
     cecil.phar new:page --open --editor=editor
-  
+
   To override an existing page, run:
-  
+
     cecil.phar new:page --force
 ```
 
@@ -312,4 +313,52 @@ Help:
   To inspect a site with an extra configuration file, run:
 
     cecil.phar doctor --config=config.yml
+```
+
+## doctor:seo
+
+Audits rendered HTML pages for common SEO issues.
+
+```plaintext
+Description:
+  Audits rendered HTML pages for common SEO issues
+
+Usage:
+  doctor:seo [options] [--] [<path>]
+
+Arguments:
+  path                  Use the given path as working directory
+
+Options:
+  -c, --config=CONFIG   Set the path to an extra configuration file
+  -p, --page=PAGE       Audit a single page relative to the pages directory
+      --format=FORMAT   Output format: text (default) or json
+      --include-virtual Include virtual pages (paginated, taxonomies) in audit
+```
+
+The command builds the site in dry-run mode, then audits the rendered HTML output for a focused set of checks: title tag, meta description, canonical URL, heading structure, Open Graph tags, image alt attributes and estimated content length.
+
+By default, virtual pages (paginated, taxonomy pages) are excluded from the audit. Use `--include-virtual` to include them.
+
+Output results as JSON for CI integration using `--format=json`.
+
+### Configuration
+
+Customize audit thresholds and enabled checks in your configuration file:
+
+```yaml
+doctor:
+  seo:
+    title: { min: 30, max: 60 }
+    description: { min: 120, max: 160 }
+    content: { min_words: 300 }
+    checks:
+      title: true
+      description: true
+      canonical: true
+      h1: true
+      og_tags: true
+      img_alt: true
+      content_length: true
+      lang_attribute: true
 ```
