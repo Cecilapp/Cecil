@@ -20,7 +20,7 @@ Available commands:
   help                       Display help for a command
   self-update                [selfupdate] Updates Cecil to the latest version
   serve                      Starts the built-in server
-  stop                       Stops the background server
+  serve:stop                 Stops the background server
  cache
   cache:clear                Removes all cache files
   cache:clear:assets         Removes assets cache
@@ -215,7 +215,7 @@ Help:
 
   Then stop it with:
 
-    cecil.phar stop
+    cecil.phar serve:stop
 
   In background mode, file changes are not watched automatically.
 ```

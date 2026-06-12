@@ -105,7 +105,7 @@ To run the server in the <comment>background</comment>, run:
 
 Then stop it with:
 
-  <info>%bin_name% stop</>
+  <info>%bin_name% serve:stop</>
 EOF
             );
     }
@@ -311,7 +311,7 @@ EOF
         Util\File::getFS()->dumpFile(Util::joinFile($this->getPath(), self::PID_FILE), (string) $pid);
         $output->writeln(\sprintf('<info>Starting server in the background (PID: %d)</info>', $pid));
         $output->writeln(\sprintf('Server running at <href=http://%s:%d>http://%s:%d</>', $host, $port, $host, $port));
-        $output->writeln(\sprintf('To stop the server, run: <info>%s stop</info>', $this->binName()));
+        $output->writeln(\sprintf('To stop the server, run: <info>%s serve:stop</info>', $this->binName()));
 
         if ($notify) {
             $this->notification('Starting server in background 🚀', \sprintf('http://%s:%s', $host, $port));
