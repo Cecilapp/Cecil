@@ -190,13 +190,7 @@ EOF
             $this->outputText($output, $findings, $counts, $healthyPages);
         }
 
-        // Return exit code based on findings
-        if ($counts['bad'] > 0) {
-            return Command::SUCCESS;
-        }
-
         return Command::SUCCESS;
-    }
 
     /**
      * Load audit configuration from Cecil config.
