@@ -191,6 +191,7 @@ EOF
         }
 
         return Command::SUCCESS;
+    }
 
     /**
      * Load audit configuration from Cecil config.
