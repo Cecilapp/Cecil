@@ -35,6 +35,7 @@ class Stop extends AbstractCommand
     {
         $this
             ->setName('serve:stop')
+            ->setAliases(['stop'])
             ->setDescription('Stops the background server')
             ->setDefinition([
                 new InputArgument('path', InputArgument::OPTIONAL, 'Use the given path as working directory'),
