@@ -113,7 +113,7 @@ class IntegrationCliTests extends IntegrationTests
         $output = implode("\n", $output);
         echo $output;
         self::assertTrue($retval < 1);
-        $json = \json_decode($output, true, 512, \JSON_THROW_ON_ERROR);
+        $json = json_decode($output, true, 512, \JSON_THROW_ON_ERROR);
         self::assertIsArray($json);
         self::assertArrayHasKey('summary', $json);
         self::assertArrayHasKey('findings', $json);
