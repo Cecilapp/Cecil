@@ -37,59 +37,6 @@ Available commands:
   util:translations:extract  Extracts translations from templates
 ```
 
-## doctor:seo
-
-Audite les pages HTML rendues pour détecter les problèmes SEO courants.
-
-```plaintext
-Description:
-  Audits rendered HTML pages for common SEO issues
-
-Usage:
-  doctor:seo [options] [--] [<path>]
-
-Arguments:
-  path                  Use the given path as working directory
-
-Options:
-  -c, --config=CONFIG   Set the path to an extra configuration file
-  -p, --page=PAGE       Audit a single page relative to the pages directory
-      --format=FORMAT   Output format: text (default) or json
-      --include-virtual Include virtual pages (paginated, taxonomies) in audit
-```
-
-La commande construit le site en mode dry-run, puis audite le HTML rendu avec un jeu de contrôles ciblés : balise title, meta description, URL canonique, structure des titres, balises Open Graph, attributs alt des images et longueur estimée du contenu.
-
-Par défaut, les pages virtuelles (paginées, pages de taxonomie) sont exclues de l'audit. Utilisez `--include-virtual` pour les inclure.
-
-Exportez les résultats en JSON pour l'intégration CI en utilisant `--format=json`.
-
-### Configuration
-
-Personnalisez les seuils d'audit et les contrôles activés dans votre fichier de configuration :
-
-```yaml
-doctor:
-  seo:
-    title:
-      min: 30
-      max: 60
-    description:
-      min: 120
-      max: 160
-    content:
-      min_words: 300
-    checks:
-      title: true
-      description: true
-      canonical: true
-      h1: true
-      og_tags: true
-      img_alt: true
-      content_length: true
-      lang_attribute: true
-```
-
 ## new:site
 
 Crée un nouveau site.
@@ -368,4 +315,52 @@ Help:
   To inspect a site with an extra configuration file, run:
 
     cecil.phar doctor --config=config.yml
+```
+
+## doctor:seo
+
+Audite les pages HTML rendues pour détecter les problèmes SEO courants.
+
+```plaintext
+Description:
+  Audits rendered HTML pages for common SEO issues
+
+Usage:
+  doctor:seo [options] [--] [<path>]
+
+Arguments:
+  path                  Use the given path as working directory
+
+Options:
+  -c, --config=CONFIG   Set the path to an extra configuration file
+  -p, --page=PAGE       Audit a single page relative to the pages directory
+      --format=FORMAT   Output format: text (default) or json
+      --include-virtual Include virtual pages (paginated, taxonomies) in audit
+```
+
+La commande construit le site en mode dry-run, puis audite le HTML rendu avec un jeu de contrôles ciblés : balise title, meta description, URL canonique, structure des titres, balises Open Graph, attributs alt des images et longueur estimée du contenu.
+
+Par défaut, les pages virtuelles (paginées, pages de taxonomie) sont exclues de l'audit. Utilisez `--include-virtual` pour les inclure.
+
+Exportez les résultats en JSON pour l'intégration CI en utilisant `--format=json`.
+
+### Configuration
+
+Personnalisez les seuils d'audit et les contrôles activés dans votre fichier de configuration :
+
+```yaml
+doctor:
+  seo:
+    title: { min: 30, max: 60 }
+    description: { min: 120, max: 160 }
+    content: { min_words: 300 }
+    checks:
+      title: true
+      description: true
+      canonical: true
+      h1: true
+      og_tags: true
+      img_alt: true
+      content_length: true
+      lang_attribute: true
 ```

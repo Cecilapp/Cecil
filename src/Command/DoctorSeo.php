@@ -34,17 +34,9 @@ class DoctorSeo extends AbstractCommand
 {
     /** Default configuration thresholds */
     private const DEFAULT_CONFIG = [
-        'title' => [
-            'min' => 30,
-            'max' => 60,
-        ],
-        'description' => [
-            'min' => 120,
-            'max' => 160,
-        ],
-        'content' => [
-            'min_words' => 300,
-        ],
+        'title' => ['min' => 30, 'max' => 60 ],
+        'description' => ['min' => 120, 'max' => 160 ],
+        'content' => ['min_words' => 300 ],
         'checks' => [
             'title' => true,
             'description' => true,
@@ -105,14 +97,9 @@ Configure audit thresholds and checks in your configuration:
 
   doctor:
     seo:
-      title:
-        min: 30
-        max: 60
-      description:
-        min: 120
-        max: 160
-      content:
-        min_words: 300
+      title: { min: 30, max: 60 }
+      description: { min: 120, max: 160 }
+      content: { min_words: 300 }
       checks:
         title: true
         description: true
