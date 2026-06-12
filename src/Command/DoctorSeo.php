@@ -238,12 +238,17 @@ EOF
      */
     private function outputText(OutputInterface $output, array $findings, array $counts, int $healthyPages): void
     {
+        $pagesWithFindings = [];
+        foreach ($findings as $finding) {
+            $pagesWithFindings[$finding['page']] = true;
+        }
+
         $summary = new Table($output);
         $summary
             ->setHeaderTitle('SEO audit summary')
             ->setHeaders(['Metric', 'Value'])
             ->setRows([
-                ['Pages audited', (string) $counts['bad'] + $counts['ok'] + $counts['feedback'] + $healthyPages],
+                ['Pages audited', (string) ($healthyPages + \count($pagesWithFindings))],
                 ['Pages without findings', (string) $healthyPages],
                 ['Bad', (string) $counts['bad']],
                 ['OK', (string) $counts['ok']],
