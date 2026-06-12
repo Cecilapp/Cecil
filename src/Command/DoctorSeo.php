@@ -34,13 +34,14 @@ class DoctorSeo extends AbstractCommand
     /** Default configuration thresholds */
     private const DEFAULT_CONFIG = [
         //'title.min' => 30,
-        'title.min' => 10,
+        'title.min' => 8,
         //'title.max' => 60,
         'title.max' => 100,
         //'description.min' => 120,
-        'description.min' => 10,
+        'description.min' => 8,
         'description.max' => 160,
-        'content.min_words' => 300,
+        //'content.min_words' => 300,
+        'content.min_words' => 8,
         'checks' => [
             'title' => true,
             'description' => true,
@@ -133,6 +134,7 @@ EOF
         // Load thresholds from configuration
         $this->loadConfiguration($config);
 
+        $output->writeln('Building site in dry-run mode for SEO audit...');
         $builder->build([
             'dry-run' => true,
             'page' => (string) ($input->getOption('page') ?? ''),
