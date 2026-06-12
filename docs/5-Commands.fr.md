@@ -2,7 +2,7 @@
 title: Commandes
 description: "Liste des commandes disponibles."
 date: 2026-03-27
-updated: 2026-06-09
+updated: 2026-06-12
 slug: commandes
 -->
 # Commandes
@@ -19,7 +19,7 @@ Available commands:
   help                       Display help for a command
   self-update                [selfupdate] Updates Cecil to the latest version
   serve                      Starts the built-in server
-  stop                       Stops the background server
+  serve:stop                 Stops the background server
  cache
   cache:clear                Removes all cache files
   cache:clear:assets         Removes assets cache
@@ -214,7 +214,7 @@ Help:
 
   Then stop it with:
 
-    cecil.phar stop
+    cecil.phar serve:stop
 
   In background mode, file changes are not watched automatically.
 ```

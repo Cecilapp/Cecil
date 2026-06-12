@@ -37,7 +37,7 @@ use Symfony\Component\Validator\Validation;
 class AbstractCommand extends Command
 {
     public const CONFIG_FILE = ['cecil.yml', 'config.yml'];
-    public const EXCLUDED_CMD = ['about', 'new:site', 'self-update', 'stop'];
+    public const EXCLUDED_CMD = ['about', 'new:site', 'self-update', 'serve:stop'];
     public const SERVE_OUTPUT = Builder::TMP_DIR . '/preview';
     public const PID_FILE = Builder::TMP_DIR . '/server.pid';
 
