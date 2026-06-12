@@ -100,22 +100,22 @@ To inspect a site with an extra configuration file, run:
 
 Configure audit thresholds and checks in your configuration:
 
-  doctor.seo:
-    title.min: 30
-    title.max: 60
-    description.min: 120
-    description.max: 160
-    content.min_words: 300
-    checks:
-      title: true
-      description: true
-      canonical: true
-      h1: true
-      og_tags: true
-      img_alt: true
-      content_length: true
-      lang_attribute: true
-EOF
+  doctor:
+    seo:
+      title.min: 30
+      title.max: 60
+      description.min: 120
+      description.max: 160
+      content.min_words: 300
+      checks:
+        title: true
+        description: true
+        canonical: true
+        h1: true
+        og_tags: true
+        img_alt: true
+        content_length: true
+        lang_attribute: true
             )
         ;
     }
