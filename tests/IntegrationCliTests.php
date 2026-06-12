@@ -101,10 +101,10 @@ class IntegrationCliTests extends IntegrationTests
         self::assertFileExists($pidFile, 'PID file should exist before stop');
         $this->backgroundPid = (int) file_get_contents($pidFile);
         $output = [];
-        exec('php ./bin/cecil stop tests/demo 2>&1', $output, $retval);
+        exec('php ./bin/cecil serve:stop tests/demo 2>&1', $output, $retval);
         echo implode("\n", $output);
-        self::assertSame(0, $retval, 'stop should exit with code 0');
-        self::assertFileDoesNotExist($pidFile, 'PID file should be removed by stop');
+        self::assertSame(0, $retval, 'serve:stop should exit with code 0');
+        self::assertFileDoesNotExist($pidFile, 'PID file should be removed by serve:stop');
         $this->backgroundPid = null;
     }
 }
