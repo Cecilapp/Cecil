@@ -116,6 +116,7 @@ Configure audit thresholds and checks in your configuration:
         img_alt: true
         content_length: true
         lang_attribute: true
+EOF
             )
         ;
     }
