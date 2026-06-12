@@ -135,7 +135,9 @@ EOF
         // Load thresholds from configuration
         $this->loadConfiguration($config);
 
-        $output->writeln('Building site in dry-run mode for SEO audit...');
+        if ($this->format !== 'json') {
+            $output->writeln('Building site in dry-run mode for SEO audit...');
+        }
         $builder->build([
             'dry-run' => true,
             'page' => (string) ($input->getOption('page') ?? ''),
