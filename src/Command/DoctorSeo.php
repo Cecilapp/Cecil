@@ -21,6 +21,7 @@ use Symfony\Component\Console\Helper\Table;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
+use Symfony\Component\Console\Output\ConsoleOutputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
 /**
@@ -128,6 +129,11 @@ EOF
     {
         $this->format = (string) ($input->getOption('format') ?? 'text');
         $this->includeVirtual = (bool) $input->getOption('include-virtual');
+
+        // In JSON mode, redirect build logs to stderr to keep stdout clean for JSON output
+        if ($this->format === 'json' && $output instanceof ConsoleOutputInterface) {
+            $this->output = $output->getErrorOutput();
+        }
 
         $builder = $this->getBuilder();
         $config = $builder->getConfig();
