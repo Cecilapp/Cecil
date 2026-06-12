@@ -2,6 +2,17 @@
 
 All notable changes to this project will be documented in this file. Dates are displayed in UTC.
 
+#### [8.104.2](https://github.com/Cecilapp/Cecil/compare/8.104.1...8.104.2)
+
+> 12 June 2026
+
+- refactor: rename stop command to serve:stop [`#2409`](https://github.com/Cecilapp/Cecil/pull/2409)
+- chore(deps-dev): bump friendsofphp/php-cs-fixer from 3.95.4 to 3.95.5 [`#2407`](https://github.com/Cecilapp/Cecil/pull/2407)
+- docs: add doctor command and reorganize commands [`943bd25`](https://github.com/Cecilapp/Cecil/commit/943bd25f757c2fa66c94f76b29cad9989d1bd576)
+- docs: tweak metatags section and bump date [`b123b1a`](https://github.com/Cecilapp/Cecil/commit/b123b1a445733aec110b727cd0c068f3d97687bc)
+- Remove pages.prefix.separator from config docs [`924a223`](https://github.com/Cecilapp/Cecil/commit/924a2239e1ff863b4a86bab0ae1aa39ba713d59b)
+- Add workflow_dispatch trigger to changelog workflow [`41eb9ca`](https://github.com/Cecilapp/Cecil/commit/41eb9ca389a91b0930cdaeec8994e8ebb10d3a46)
+
 #### [8.104.1](https://github.com/Cecilapp/Cecil/compare/8.104.0...8.104.1)
 
 > 9 June 2026
