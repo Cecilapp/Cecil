@@ -69,11 +69,14 @@ Customize audit thresholds and enabled checks in your configuration file:
 ```yaml
 doctor:
   seo:
-    title.min: 30
-    title.max: 60
-    description.min: 120
-    description.max: 160
-    content.min_words: 300
+    title:
+      min: 30
+      max: 60
+    description:
+      min: 120
+      max: 160
+    content:
+      min_words: 300
     checks:
       title: true
       description: true

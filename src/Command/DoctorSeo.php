@@ -34,11 +34,17 @@ class DoctorSeo extends AbstractCommand
 {
     /** Default configuration thresholds */
     private const DEFAULT_CONFIG = [
-        'title.min' => 30,
-        'title.max' => 60,
-        'description.min' => 120,
-        'description.max' => 160,
-        'content.min_words' => 300,
+        'title' => [
+            'min' => 30,
+            'max' => 60,
+        ],
+        'description' => [
+            'min' => 120,
+            'max' => 160,
+        ],
+        'content' => [
+            'min_words' => 300,
+        ],
         'checks' => [
             'title' => true,
             'description' => true,
@@ -99,11 +105,14 @@ Configure audit thresholds and checks in your configuration:
 
   doctor:
     seo:
-      title.min: 30
-      title.max: 60
-      description.min: 120
-      description.max: 160
-      content.min_words: 300
+      title:
+        min: 30
+        max: 60
+      description:
+        min: 120
+        max: 160
+      content:
+        min_words: 300
       checks:
         title: true
         description: true
@@ -209,11 +218,11 @@ EOF
 
         // Merge with defaults
         $this->thresholds = [
-            'title_min' => $seoConfig['title.min'] ?? self::DEFAULT_CONFIG['title.min'],
-            'title_max' => $seoConfig['title.max'] ?? self::DEFAULT_CONFIG['title.max'],
-            'description_min' => $seoConfig['description.min'] ?? self::DEFAULT_CONFIG['description.min'],
-            'description_max' => $seoConfig['description.max'] ?? self::DEFAULT_CONFIG['description.max'],
-            'min_word_count' => $seoConfig['content.min_words'] ?? self::DEFAULT_CONFIG['content.min_words'],
+            'title_min' => $seoConfig['title']['min'] ?? self::DEFAULT_CONFIG['title']['min'],
+            'title_max' => $seoConfig['title']['max'] ?? self::DEFAULT_CONFIG['title']['max'],
+            'description_min' => $seoConfig['description']['min'] ?? self::DEFAULT_CONFIG['description']['min'],
+            'description_max' => $seoConfig['description']['max'] ?? self::DEFAULT_CONFIG['description']['max'],
+            'min_word_count' => $seoConfig['content']['min_words'] ?? self::DEFAULT_CONFIG['content']['min_words'],
         ];
 
         $this->checks = array_merge(
