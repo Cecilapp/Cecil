@@ -45,6 +45,13 @@ class IntegrationCliTests extends IntegrationTests
         }
     }
 
+    public function testAbout(): void
+    {
+        exec('php ./bin/cecil about', $output, $retval);
+        echo implode("\n", $output);
+        self::assertTrue($retval < 1);
+    }
+
     public function testBuild(): void
     {
         exec('php ./bin/cecil new:site tests/demo --demo -n -f', $output, $retval);
