@@ -2,6 +2,14 @@
 
 All notable changes to this project will be documented in this file. Dates are displayed in UTC.
 
+#### [8.106.1](https://github.com/Cecilapp/Cecil/compare/8.106.0...8.106.1)
+
+> 13 June 2026
+
+- doc: document loading of .env at startup [`a635e10`](https://github.com/Cecilapp/Cecil/commit/a635e10956e5930892522213504067a148710013)
+- test: remove debug echo output from CLI tests [`5293525`](https://github.com/Cecilapp/Cecil/commit/5293525b9731f9a146177119aa112c94c534e78a)
+- fix: check for 'path' argument before access [`75ceae4`](https://github.com/Cecilapp/Cecil/commit/75ceae46199e968c2acd4eb7f5dc84bdeb313b9d)
+
 #### [8.106.0](https://github.com/Cecilapp/Cecil/compare/8.105.0...8.106.0)
 
 > 13 June 2026
