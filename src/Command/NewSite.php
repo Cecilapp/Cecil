@@ -77,7 +77,7 @@ EOF
         $this->io->title('Create a new website');
         try {
             // ask to override existing site?
-            if (Util\File::getFS()->exists(Util::joinFile($this->getPath(false), $this->locateConfigFile($this->getPath())['name'] ?: self::CONFIG_FILE[0])) && !$force) {
+            if (Util\File::getFS()->exists(Util::joinFile($this->getPath(false), $this->locateConfigFile($this->getPath(false))['name'] ?: self::CONFIG_FILE[0])) && !$force) {
                 $this->io->warning('Website already exists.');
                 if (!$this->io->confirm('Do you want to override it?', false)) {
                     return Command::SUCCESS;
