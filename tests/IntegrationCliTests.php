@@ -47,9 +47,6 @@ class IntegrationCliTests extends IntegrationTests
 
     public function testBuild(): void
     {
-        echo "\n################\n";
-        echo "# Test build\n";
-        echo "################\n";
         exec('php ./bin/cecil new:site tests/demo --demo -n -f', $output, $retval);
         self::assertTrue($retval < 1);
         $output = [];
@@ -60,9 +57,6 @@ class IntegrationCliTests extends IntegrationTests
 
     public function testBuildVerbose(): void
     {
-        echo "\n################\n";
-        echo "# Test build verbose\n";
-        echo "################\n";
         exec('php ./bin/cecil new:site tests/demo --demo -n -f', $output, $retval);
         self::assertTrue($retval < 1);
         $output = [];
@@ -73,9 +67,6 @@ class IntegrationCliTests extends IntegrationTests
 
     public function testDoctor(): void
     {
-        echo "\n################\n";
-        echo "# Test doctor\n";
-        echo "################\n";
         exec('php ./bin/cecil new:site tests/demo --demo -n -f', $output, $retval);
         self::assertTrue($retval < 1);
         $output = [];
@@ -88,9 +79,6 @@ class IntegrationCliTests extends IntegrationTests
 
     public function testDoctorSeo(): void
     {
-        echo "\n################\n";
-        echo "# Test doctor:seo\n";
-        echo "################\n";
         exec('php ./bin/cecil new:site tests/demo --demo -n -f 2>&1', $output, $retval);
         self::assertTrue($retval < 1);
         $output = [];
@@ -103,9 +91,6 @@ class IntegrationCliTests extends IntegrationTests
 
     public function testDoctorSeoJson(): void
     {
-        echo "\n################\n";
-        echo "# Test doctor:seo --format=json\n";
-        echo "################\n";
         exec('php ./bin/cecil new:site tests/demo --demo -n -f 2>&1', $output, $retval);
         self::assertTrue($retval < 1);
         $output = [];
@@ -121,9 +106,6 @@ class IntegrationCliTests extends IntegrationTests
 
     public function testDoctorSeoIncludeVirtual(): void
     {
-        echo "\n################\n";
-        echo "# Test doctor:seo --include-virtual\n";
-        echo "################\n";
         exec('php ./bin/cecil new:site tests/demo --demo -n -f 2>&1', $output, $retval);
         self::assertTrue($retval < 1);
         $output = [];
@@ -137,9 +119,6 @@ class IntegrationCliTests extends IntegrationTests
     public function testServeBackgroundWithPidFile(): void
     {
         $this->markTestSkipped('Skipping serve background test because it is not reliable in CI environments');
-        echo "\n################\n";
-        echo "# Test serve background with PID file\n";
-        echo "################\n";
         exec('php ./bin/cecil new:site tests/demo --demo -n -f', $output, $retval);
         self::assertTrue($retval < 1);
         $output = [];
