@@ -76,7 +76,7 @@ class AbstractCommand extends Command
         $this->io = new SymfonyStyle($input, $output);
         $this->rootPath = (Util\Platform::isPhar() ? Util\Platform::getPharPath() : realpath(Util::joinFile(__DIR__, '/../../'))) . '/';
 
-        // load .env file from working directory if it exists
+        // load .env file from the current path (working dir or provided <path>) if it exists
         Dotenv::createUnsafeImmutable($this->getPath())->safeLoad();
 
         // prepare configuration files list
