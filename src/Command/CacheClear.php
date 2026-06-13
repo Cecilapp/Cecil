@@ -50,18 +50,18 @@ EOF
      */
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
+        $this->io->title('Removing cache directory');
         if (!Util\File::getFS()->exists($this->getBuilder()->getConfig()->getCachePath())) {
-            $output->writeln('<info>No cache.</info>');
+            $this->io->success('No cache.');
 
             return Command::SUCCESS;
         }
-        $output->writeln('Removing cache directory...');
         $output->writeln(
             \sprintf('<comment>Path: %s</comment>', $this->getBuilder()->getConfig()->getCachePath()),
             OutputInterface::VERBOSITY_VERBOSE
         );
         Util\File::getFS()->remove($this->getBuilder()->getConfig()->getCachePath());
-        $output->writeln('<info>Cache is clear.</info>');
+        $this->io->success('Cache cleared.');
 
         return Command::SUCCESS;
     }

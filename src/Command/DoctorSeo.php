@@ -134,7 +134,7 @@ EOF
         $this->loadConfiguration($config);
 
         if ($this->format !== 'json') {
-            $output->writeln('Building site in dry-run mode for SEO audit...');
+            $this->io->title('Building site in dry-run mode for SEO audit');
         }
         $builder->build([
             'dry-run' => true,

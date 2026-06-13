@@ -60,23 +60,23 @@ EOF
     {
         $cacheTemplatesPath = $this->getBuilder()->getConfig()->getCacheTemplatesPath();
         if (!Util\File::getFS()->exists($cacheTemplatesPath)) {
-            $output->writeln('<info>No templates cache.</info>');
+            $this->io->success('No templates cache.');
 
             return Command::SUCCESS;
         }
         if ($input->getOption('fragments')) {
-            $output->writeln('Removing templates fragments cache directory...');
+            $this->io->title('Removing templates fragments cache directory');
             $cacheFragmentsPath = Util::joinFile($cacheTemplatesPath, '_fragments');
             $output->writeln(\sprintf('<comment>Path: %s</comment>', $cacheFragmentsPath), OutputInterface::VERBOSITY_VERBOSE);
             Util\File::getFS()->remove($cacheFragmentsPath);
-            $output->writeln('<info>Templates fragments cache is clear.</info>');
+            $this->io->success('Templates fragments cache cleared.');
 
             return Command::SUCCESS;
         }
-        $output->writeln('Removing templates cache directory...');
+        $this->io->title('Removing templates cache directory');
         $output->writeln(\sprintf('<comment>Path: %s</comment>', $cacheTemplatesPath), OutputInterface::VERBOSITY_VERBOSE);
         Util\File::getFS()->remove($cacheTemplatesPath);
-        $output->writeln('<info>Templates cache is clear.</info>');
+        $this->io->success('Templates cache cleared.');
 
         return Command::SUCCESS;
     }

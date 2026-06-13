@@ -146,7 +146,7 @@ EOF
         }
 
         // start build
-        $output->writeln(\sprintf('Building website%s...', $messageOpt));
+        $this->io->title(\sprintf('Build website%s', $messageOpt));
         $progressBar = null;
         /** @var LoggerInterface $originalLogger */
         $originalLogger = $builder->getLogger();

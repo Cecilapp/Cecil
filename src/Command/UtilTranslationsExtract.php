@@ -85,6 +85,8 @@ EOF
         $layoutsPath = $config->getLayoutsPath();
         $translationsPath = $config->getTranslationsPath();
 
+        $this->io->title('Extract translations from templates');
+
         $this->initTranslationComponents();
 
         $this->checkOptions($input);
