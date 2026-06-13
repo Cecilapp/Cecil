@@ -40,7 +40,7 @@ class DotenvTest extends TestCase
 
     public function testDotenvLoadsVariablesViaGetenv(): void
     {
-        file_put_contents($this->tmpDir . '/.env', "CECIL_TITLE=\"Hello Dotenv\"\n");
+        file_put_contents($this->tmpDir . DIRECTORY_SEPARATOR . '.env', "CECIL_TITLE=\"Hello Dotenv\"\n");
 
         Dotenv::createUnsafeImmutable($this->tmpDir)->load();
 
