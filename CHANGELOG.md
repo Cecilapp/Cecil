@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. Dates are displayed in UTC.
 
+#### [8.106.2](https://github.com/Cecilapp/Cecil/compare/8.106.1...8.106.2)
+
+> 13 June 2026
+
+- refactor: use SymfonyStyle titles and success messages [`#2412`](https://github.com/Cecilapp/Cecil/pull/2412)
+- test: add CLI 'about' integration test [`eed39cd`](https://github.com/Cecilapp/Cecil/commit/eed39cd6f2c0559ff10430f6b79d8dd22f4ed39a)
+
 #### [8.106.1](https://github.com/Cecilapp/Cecil/compare/8.106.0...8.106.1)
 
 > 13 June 2026
