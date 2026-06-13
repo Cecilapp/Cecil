@@ -179,7 +179,7 @@ class AbstractCommand extends Command
                     throw new \Exception('Unable to get current working directory.');
                 }
                 // ... or path
-                if ($this->input->getArgument('path') !== null) {
+                if ($this->input->hasArgument('path') && $this->input->getArgument('path') !== null) {
                     $this->path = Path::canonicalize($this->input->getArgument('path'));
                 }
                 // try to get canonicalized absolute path
