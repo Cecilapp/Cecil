@@ -14,6 +14,7 @@ declare(strict_types=1);
 namespace Cecil\Command;
 
 use Cecil\Builder;
+use Cecil\Command\Console\CecilStyle;
 use Cecil\Config;
 use Cecil\Exception\RuntimeException;
 use Cecil\Logger\ConsoleLogger;
@@ -24,7 +25,6 @@ use Joli\JoliNotif\Notification;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
-use Symfony\Component\Console\Style\SymfonyStyle;
 use Symfony\Component\Filesystem\Path;
 use Symfony\Component\Process\Process;
 use Symfony\Component\Validator\Constraints\Url;
@@ -48,7 +48,7 @@ class AbstractCommand extends Command
     /** @var OutputInterface */
     protected $output;
 
-    /** @var SymfonyStyle */
+    /** @var CecilStyle */
     protected $io;
 
     /** @var string */
@@ -73,7 +73,7 @@ class AbstractCommand extends Command
     {
         $this->input = $input;
         $this->output = $output;
-        $this->io = new SymfonyStyle($input, $output);
+        $this->io = new CecilStyle($input, $output);
         $this->rootPath = (Util\Platform::isPhar() ? Util\Platform::getPharPath() : realpath(Util::joinFile(__DIR__, '/../../'))) . '/';
 
         // load .env file from the current path (working dir or provided <path>) if it exists
@@ -124,7 +124,7 @@ class AbstractCommand extends Command
             return parent::run($input, $output);
         } catch (\Exception $e) {
             if ($this->io === null) {
-                $this->io = new SymfonyStyle($input, $output);
+                $this->io = new CecilStyle($input, $output);
             }
             $message = '';
             $i = 0;
