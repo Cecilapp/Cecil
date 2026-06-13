@@ -58,7 +58,6 @@ EOF
      */
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
-        $this->io->title('Removing templates cache directory');
         $cacheTemplatesPath = $this->getBuilder()->getConfig()->getCacheTemplatesPath();
         if (!Util\File::getFS()->exists($cacheTemplatesPath)) {
             $this->io->success('No templates cache.');
@@ -74,6 +73,7 @@ EOF
 
             return Command::SUCCESS;
         }
+        $this->io->title('Removing templates cache directory');
         $output->writeln(\sprintf('<comment>Path: %s</comment>', $cacheTemplatesPath), OutputInterface::VERBOSITY_VERBOSE);
         Util\File::getFS()->remove($cacheTemplatesPath);
         $this->io->success('Templates cache cleared.');
