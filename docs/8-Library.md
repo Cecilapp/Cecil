@@ -45,7 +45,7 @@ require_once 'vendor/autoload.php';
 
 use Cecil\Builder;
 
-// Build with the website with the `config.php` configuration file
+// Build the website with the `config.php` configuration file
 Builder::create(require('config.php'))->build();
 
 // Preview locally
