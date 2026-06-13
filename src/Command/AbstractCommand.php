@@ -172,26 +172,24 @@ class AbstractCommand extends Command
      */
     protected function getPath(bool $exist = true): ?string
     {
-        if ($this->path === null) {
-            try {
-                // get working directory by default
-                if (false === $this->path = getcwd()) {
-                    throw new \Exception('Unable to get current working directory.');
-                }
-                // ... or path
-                if ($this->input->hasArgument('path') && $this->input->getArgument('path') !== null) {
-                    $this->path = Path::canonicalize($this->input->getArgument('path'));
-                }
-                // try to get canonicalized absolute path
-                if ($exist) {
-                    if (realpath($this->path) === false) {
-                        throw new \Exception(\sprintf('The given path "%s" is not valid.', $this->path));
-                    }
-                    $this->path = realpath($this->path);
-                }
-            } catch (\Exception $e) {
-                throw new \Exception($e->getMessage());
+        try {
+            // get working directory by default
+            if (false === $this->path = getcwd()) {
+                throw new \Exception('Unable to get current working directory.');
             }
+            // ... or path
+            if ($this->input->hasArgument('path') && $this->input->getArgument('path') !== null) {
+                $this->path = Path::canonicalize($this->input->getArgument('path'));
+            }
+            // try to get canonicalized absolute path
+            if ($exist) {
+                if (false === $realpath = realpath($this->path)) {
+                    throw new \Exception(\sprintf('The given path "%s" is not valid.', $this->path));
+                }
+                $this->path = $realpath;
+            }
+        } catch (\Exception $e) {
+            throw new \Exception($e->getMessage());
         }
 
         return $this->path;
