@@ -2,6 +2,18 @@
 
 All notable changes to this project will be documented in this file. Dates are displayed in UTC.
 
+#### [8.106.3](https://github.com/Cecilapp/Cecil/compare/8.106.2...8.106.3)
+
+> 13 June 2026
+
+- refactor: add Doctor services and refactor commands [`#2414`](https://github.com/Cecilapp/Cecil/pull/2414)
+- refactor: add clear:output and clear:tmp commands [`#2413`](https://github.com/Cecilapp/Cecil/pull/2413)
+- chore: cleaning files [`79da630`](https://github.com/Cecilapp/Cecil/commit/79da6308468a7a3d30bd998b9f3cc009246f8ba0)
+- chore: update deps [`d34825a`](https://github.com/Cecilapp/Cecil/commit/d34825a4814475de69359eeba9e056fb30ae630d)
+- refactor: path resolution and realpath usage [`8efa004`](https://github.com/Cecilapp/Cecil/commit/8efa004f24353c6b6a99fb9475a137c780b50098)
+- fix: path argument in site existence check [`ef130d9`](https://github.com/Cecilapp/Cecil/commit/ef130d9fbb999edb4e58c56442b99b279e2ff358)
+- fix: remove title output from Clear command [`0c84088`](https://github.com/Cecilapp/Cecil/commit/0c8408820cccb82948408549027aa13e1081d063)
+
 #### [8.106.2](https://github.com/Cecilapp/Cecil/compare/8.106.1...8.106.2)
 
 > 13 June 2026
