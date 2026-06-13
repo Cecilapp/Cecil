@@ -101,6 +101,10 @@
                 
             </li>
                     <li>
+                <a href="namespaces/cecil-doctor.html" class="">Doctor</a>
+                
+            </li>
+                    <li>
                 <a href="namespaces/cecil-exception.html" class="">Exception</a>
                 
             </li>
@@ -227,6 +231,12 @@ resizing images, and more.</p>
     <a class="" href="classes/Cecil-Asset.html#property_builder">$builder</a>
     <span>
                         &nbsp;: <a href="classes/Cecil-Builder.html"><abbr title="\Cecil\Builder">Builder</abbr></a>            </span>
+</dt>
+
+            <dt class="phpdocumentor-table-of-contents__entry -property -protected">
+    <a class="" href="classes/Cecil-Asset.html#property_cache">$cache</a>
+    <span>
+                        &nbsp;: <a href="classes/Cecil-Cache.html"><abbr title="\Cecil\Cache">Cache</abbr></a>            </span>
 </dt>
 
             <dt class="phpdocumentor-table-of-contents__entry -property -protected">
@@ -465,6 +475,13 @@ resizing images, and more.</p>
 <dd>Builds CDN image URL.</dd>
 
             <dt class="phpdocumentor-table-of-contents__entry -method -private">
+    <a class="" href="classes/Cecil-Asset.html#method_cached">cached()</a>
+    <span>
+                                &nbsp;: self    </span>
+</dt>
+<dd>Runs an asset transformation through the shared cache layer.</dd>
+
+            <dt class="phpdocumentor-table-of-contents__entry -method -private">
     <a class="" href="classes/Cecil-Asset.html#method_checkImage">checkImage()</a>
     <span>
                                 &nbsp;: void    </span>
@@ -491,6 +508,13 @@ resizing images, and more.</p>
                                 &nbsp;: int    </span>
 </dt>
 <dd>Optimizes an image file in-place.</dd>
+
+            <dt class="phpdocumentor-table-of-contents__entry -method -private">
+    <a class="" href="classes/Cecil-Asset.html#method_rebuildContentCacheFile">rebuildContentCacheFile()</a>
+    <span>
+                                &nbsp;: bool    </span>
+</dt>
+<dd>Rebuilds a missing cache content file from the in-memory content when possible.</dd>
 
     </dl>
 
@@ -586,6 +610,43 @@ resizing images, and more.</p>
             -protected
                                                                     "
 >
+    <h4 class="phpdocumentor-element__name" id="property_cache">
+        $cache
+        <a href="classes/Cecil-Asset.html#property_cache" class="headerlink"><i class="fas fa-link"></i></a>
+
+        <span class="phpdocumentor-element__modifiers">
+                                            </span>
+    </h4>
+    <aside class="phpdocumentor-element-found-in">
+    <abbr class="phpdocumentor-element-found-in__file" title="src/Asset.php"><a href="files/src-asset.html"><abbr title="src/Asset.php">Asset.php</abbr></a></abbr>
+    :
+    <span class="phpdocumentor-element-found-in__line">45</span>
+
+    </aside>
+
+    
+    
+    <code class="phpdocumentor-code phpdocumentor-signature ">
+        <span class="phpdocumentor-signature__visibility">protected</span>
+            <span class="phpdocumentor-signature__type"><a href="classes/Cecil-Cache.html"><abbr title="\Cecil\Cache">Cache</abbr></a></span>
+    <span class="phpdocumentor-signature__name">$cache</span>
+    </code>
+
+    
+    
+    
+
+        
+        
+
+</article>
+                    <article
+        class="
+            phpdocumentor-element
+            -property
+            -protected
+                                                                    "
+>
     <h4 class="phpdocumentor-element__name" id="property_cacheTags">
         $cacheTags
         <a href="classes/Cecil-Asset.html#property_cacheTags" class="headerlink"><i class="fas fa-link"></i></a>
@@ -596,7 +657,7 @@ resizing images, and more.</p>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Asset.php"><a href="files/src-asset.html"><abbr title="src/Asset.php">Asset.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">49</span>
+    <span class="phpdocumentor-element-found-in__line">51</span>
 
     </aside>
 
@@ -672,7 +733,7 @@ resizing images, and more.</p>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Asset.php"><a href="files/src-asset.html"><abbr title="src/Asset.php">Asset.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">46</span>
+    <span class="phpdocumentor-element-found-in__line">48</span>
 
     </aside>
 
@@ -714,7 +775,7 @@ resizing images, and more.</p>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Asset.php"><a href="files/src-asset.html"><abbr title="src/Asset.php">Asset.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">71</span>
+    <span class="phpdocumentor-element-found-in__line">73</span>
 
     </aside>
 
@@ -838,7 +899,7 @@ resizing images, and more.</p>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Asset.php"><a href="files/src-asset.html"><abbr title="src/Asset.php">Asset.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">592</span>
+    <span class="phpdocumentor-element-found-in__line">603</span>
 
     </aside>
 
@@ -901,7 +962,7 @@ resizing images, and more.</p>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Asset.php"><a href="files/src-asset.html"><abbr title="src/Asset.php">Asset.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">714</span>
+    <span class="phpdocumentor-element-found-in__line">725</span>
 
     </aside>
 
@@ -959,7 +1020,7 @@ resizing images, and more.</p>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Asset.php"><a href="files/src-asset.html"><abbr title="src/Asset.php">Asset.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">368</span>
+    <span class="phpdocumentor-element-found-in__line">384</span>
 
     </aside>
 
@@ -1012,7 +1073,7 @@ resizing images, and more.</p>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Asset.php"><a href="files/src-asset.html"><abbr title="src/Asset.php">Asset.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">541</span>
+    <span class="phpdocumentor-element-found-in__line">553</span>
 
     </aside>
 
@@ -1082,7 +1143,7 @@ resizing images, and more.</p>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Asset.php"><a href="files/src-asset.html"><abbr title="src/Asset.php">Asset.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">404</span>
+    <span class="phpdocumentor-element-found-in__line">418</span>
 
     </aside>
 
@@ -1135,7 +1196,7 @@ resizing images, and more.</p>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Asset.php"><a href="files/src-asset.html"><abbr title="src/Asset.php">Asset.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">349</span>
+    <span class="phpdocumentor-element-found-in__line">374</span>
 
     </aside>
 
@@ -1174,7 +1235,7 @@ resizing images, and more.</p>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Asset.php"><a href="files/src-asset.html"><abbr title="src/Asset.php">Asset.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">674</span>
+    <span class="phpdocumentor-element-found-in__line">685</span>
 
     </aside>
 
@@ -1230,7 +1291,7 @@ resizing images, and more.</p>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Asset.php"><a href="files/src-asset.html"><abbr title="src/Asset.php">Asset.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">647</span>
+    <span class="phpdocumentor-element-found-in__line">658</span>
 
     </aside>
 
@@ -1283,7 +1344,7 @@ resizing images, and more.</p>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Asset.php"><a href="files/src-asset.html"><abbr title="src/Asset.php">Asset.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">693</span>
+    <span class="phpdocumentor-element-found-in__line">704</span>
 
     </aside>
 
@@ -1339,7 +1400,7 @@ resizing images, and more.</p>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Asset.php"><a href="files/src-asset.html"><abbr title="src/Asset.php">Asset.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">623</span>
+    <span class="phpdocumentor-element-found-in__line">634</span>
 
     </aside>
 
@@ -1392,7 +1453,7 @@ resizing images, and more.</p>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Asset.php"><a href="files/src-asset.html"><abbr title="src/Asset.php">Asset.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">419</span>
+    <span class="phpdocumentor-element-found-in__line">433</span>
 
     </aside>
 
@@ -1457,7 +1518,7 @@ resizing images, and more.</p>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Asset.php"><a href="files/src-asset.html"><abbr title="src/Asset.php">Asset.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">600</span>
+    <span class="phpdocumentor-element-found-in__line">611</span>
 
     </aside>
 
@@ -1496,7 +1557,7 @@ resizing images, and more.</p>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Asset.php"><a href="files/src-asset.html"><abbr title="src/Asset.php">Asset.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">341</span>
+    <span class="phpdocumentor-element-found-in__line">366</span>
 
     </aside>
 
@@ -1535,7 +1596,7 @@ resizing images, and more.</p>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Asset.php"><a href="files/src-asset.html"><abbr title="src/Asset.php">Asset.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">504</span>
+    <span class="phpdocumentor-element-found-in__line">517</span>
 
     </aside>
 
@@ -1598,7 +1659,7 @@ resizing images, and more.</p>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Asset.php"><a href="files/src-asset.html"><abbr title="src/Asset.php">Asset.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">385</span>
+    <span class="phpdocumentor-element-found-in__line">392</span>
 
     </aside>
 
@@ -1637,7 +1698,7 @@ resizing images, and more.</p>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Asset.php"><a href="files/src-asset.html"><abbr title="src/Asset.php">Asset.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">294</span>
+    <span class="phpdocumentor-element-found-in__line">293</span>
 
     </aside>
 
@@ -1665,17 +1726,6 @@ resizing images, and more.</p>
     
 
         
-            <section class="phpdocumentor-attributes">
-            <h5 class="phpdocumentor-elements__header" id="method_offsetExists_attributes">
-                Attributes <a href="classes/Cecil-Asset.html#method_offsetExists_attributes" class="headerlink"><i class="fas fa-link"></i></a>
-
-            </h5>
-                            <dl class="phpdocumentor-argument-list">
-    <dt class="phpdocumentor-argument-list__entry">
-        #[<abbr title="\ReturnTypeWillChange">ReturnTypeWillChange</abbr>]
-    </dt>
-    </dl>
-                    </section>
     
             <section>
         <h5 class="phpdocumentor-return-value__heading">Return values</h5>
@@ -1697,7 +1747,7 @@ resizing images, and more.</p>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Asset.php"><a href="files/src-asset.html"><abbr title="src/Asset.php">Asset.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">312</span>
+    <span class="phpdocumentor-element-found-in__line">309</span>
 
     </aside>
 
@@ -1725,17 +1775,6 @@ resizing images, and more.</p>
     
 
         
-            <section class="phpdocumentor-attributes">
-            <h5 class="phpdocumentor-elements__header" id="method_offsetGet_attributes">
-                Attributes <a href="classes/Cecil-Asset.html#method_offsetGet_attributes" class="headerlink"><i class="fas fa-link"></i></a>
-
-            </h5>
-                            <dl class="phpdocumentor-argument-list">
-    <dt class="phpdocumentor-argument-list__entry">
-        #[<abbr title="\ReturnTypeWillChange">ReturnTypeWillChange</abbr>]
-    </dt>
-    </dl>
-                    </section>
     
     
 </article>
@@ -1788,17 +1827,6 @@ resizing images, and more.</p>
     
 
         
-            <section class="phpdocumentor-attributes">
-            <h5 class="phpdocumentor-elements__header" id="method_offsetSet_attributes">
-                Attributes <a href="classes/Cecil-Asset.html#method_offsetSet_attributes" class="headerlink"><i class="fas fa-link"></i></a>
-
-            </h5>
-                            <dl class="phpdocumentor-argument-list">
-    <dt class="phpdocumentor-argument-list__entry">
-        #[<abbr title="\ReturnTypeWillChange">ReturnTypeWillChange</abbr>]
-    </dt>
-    </dl>
-                    </section>
     
     
 </article>
@@ -1816,7 +1844,7 @@ resizing images, and more.</p>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Asset.php"><a href="files/src-asset.html"><abbr title="src/Asset.php">Asset.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">303</span>
+    <span class="phpdocumentor-element-found-in__line">301</span>
 
     </aside>
 
@@ -1844,17 +1872,6 @@ resizing images, and more.</p>
     
 
         
-            <section class="phpdocumentor-attributes">
-            <h5 class="phpdocumentor-elements__header" id="method_offsetUnset_attributes">
-                Attributes <a href="classes/Cecil-Asset.html#method_offsetUnset_attributes" class="headerlink"><i class="fas fa-link"></i></a>
-
-            </h5>
-                            <dl class="phpdocumentor-argument-list">
-    <dt class="phpdocumentor-argument-list__entry">
-        #[<abbr title="\ReturnTypeWillChange">ReturnTypeWillChange</abbr>]
-    </dt>
-    </dl>
-                    </section>
     
     
 </article>
@@ -1872,7 +1889,7 @@ resizing images, and more.</p>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Asset.php"><a href="files/src-asset.html"><abbr title="src/Asset.php">Asset.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">434</span>
+    <span class="phpdocumentor-element-found-in__line">448</span>
 
     </aside>
 
@@ -1956,7 +1973,7 @@ resizing images, and more.</p>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Asset.php"><a href="files/src-asset.html"><abbr title="src/Asset.php">Asset.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">724</span>
+    <span class="phpdocumentor-element-found-in__line">735</span>
 
     </aside>
 
@@ -2012,7 +2029,7 @@ resizing images, and more.</p>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Asset.php"><a href="files/src-asset.html"><abbr title="src/Asset.php">Asset.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">324</span>
+    <span class="phpdocumentor-element-found-in__line">320</span>
 
     </aside>
 
@@ -2063,7 +2080,7 @@ resizing images, and more.</p>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Asset.php"><a href="files/src-asset.html"><abbr title="src/Asset.php">Asset.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">582</span>
+    <span class="phpdocumentor-element-found-in__line">593</span>
 
     </aside>
 
@@ -2126,7 +2143,7 @@ resizing images, and more.</p>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Asset.php"><a href="files/src-asset.html"><abbr title="src/Asset.php">Asset.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">748</span>
+    <span class="phpdocumentor-element-found-in__line">759</span>
 
     </aside>
 
@@ -2165,7 +2182,7 @@ resizing images, and more.</p>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Asset.php"><a href="files/src-asset.html"><abbr title="src/Asset.php">Asset.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">732</span>
+    <span class="phpdocumentor-element-found-in__line">743</span>
 
     </aside>
 
@@ -2204,7 +2221,7 @@ resizing images, and more.</p>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Asset.php"><a href="files/src-asset.html"><abbr title="src/Asset.php">Asset.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">758</span>
+    <span class="phpdocumentor-element-found-in__line">769</span>
 
     </aside>
 
@@ -2243,7 +2260,7 @@ resizing images, and more.</p>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Asset.php"><a href="files/src-asset.html"><abbr title="src/Asset.php">Asset.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">805</span>
+    <span class="phpdocumentor-element-found-in__line">816</span>
 
     </aside>
 
@@ -2274,6 +2291,62 @@ resizing images, and more.</p>
             -private
                                                         "
 >
+    <h4 class="phpdocumentor-element__name" id="method_cached">
+        cached()
+        <a href="classes/Cecil-Asset.html#method_cached" class="headerlink"><i class="fas fa-link"></i></a>
+
+    </h4>
+    <aside class="phpdocumentor-element-found-in">
+    <abbr class="phpdocumentor-element-found-in__file" title="src/Asset.php"><a href="files/src-asset.html"><abbr title="src/Asset.php">Asset.php</abbr></a></abbr>
+    :
+    <span class="phpdocumentor-element-found-in__line">400</span>
+
+    </aside>
+
+        <p class="phpdocumentor-summary">Runs an asset transformation through the shared cache layer.</p>
+
+    <code class="phpdocumentor-code phpdocumentor-signature ">
+    <span class="phpdocumentor-signature__visibility">private</span>
+                    <span class="phpdocumentor-signature__name">cached</span><span>(</span><span class="phpdocumentor-signature__argument"><span class="phpdocumentor-signature__argument__type">string&nbsp;</span><span class="phpdocumentor-signature__argument__name">$tag</span></span><span class="phpdocumentor-signature__argument"><span>, </span><span class="phpdocumentor-signature__argument__type">callable&nbsp;</span><span class="phpdocumentor-signature__argument__name">$action</span></span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">self</span></code>
+
+    <div class="phpdocumentor-label-line">
+        </div>
+    
+    
+        <h5 class="phpdocumentor-argument-list__heading">Parameters</h5>
+    <dl class="phpdocumentor-argument-list">
+                    <dt class="phpdocumentor-argument-list__entry">
+                <span class="phpdocumentor-argument-list__argument__name">$tag</span>
+                : <span class="phpdocumentor-argument-list__argument__type">string</span>
+                            </dt>
+            <dd class="phpdocumentor-argument-list__definition">
+                
+            </dd>
+                    <dt class="phpdocumentor-argument-list__entry">
+                <span class="phpdocumentor-argument-list__argument__name">$action</span>
+                : <span class="phpdocumentor-argument-list__argument__type">callable</span>
+                            </dt>
+            <dd class="phpdocumentor-argument-list__definition">
+                
+            </dd>
+            </dl>
+
+    
+
+        
+    
+            <section>
+        <h5 class="phpdocumentor-return-value__heading">Return values</h5>
+        <span class="phpdocumentor-signature__response_type">self</span>
+            </section>
+
+</article>
+                    <article
+        class="phpdocumentor-element
+            -method
+            -private
+                                                        "
+>
     <h4 class="phpdocumentor-element__name" id="method_checkImage">
         checkImage()
         <a href="classes/Cecil-Asset.html#method_checkImage" class="headerlink"><i class="fas fa-link"></i></a>
@@ -2282,7 +2355,7 @@ resizing images, and more.</p>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Asset.php"><a href="files/src-asset.html"><abbr title="src/Asset.php">Asset.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">831</span>
+    <span class="phpdocumentor-element-found-in__line">842</span>
 
     </aside>
 
@@ -2331,7 +2404,7 @@ resizing images, and more.</p>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Asset.php"><a href="files/src-asset.html"><abbr title="src/Asset.php">Asset.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">844</span>
+    <span class="phpdocumentor-element-found-in__line">855</span>
 
     </aside>
 
@@ -2380,7 +2453,7 @@ resizing images, and more.</p>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Asset.php"><a href="files/src-asset.html"><abbr title="src/Asset.php">Asset.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">785</span>
+    <span class="phpdocumentor-element-found-in__line">796</span>
 
     </aside>
 
@@ -2440,7 +2513,7 @@ resizing images, and more.</p>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Asset.php"><a href="files/src-asset.html"><abbr title="src/Asset.php">Asset.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">773</span>
+    <span class="phpdocumentor-element-found-in__line">784</span>
 
     </aside>
 
@@ -2491,6 +2564,55 @@ resizing images, and more.</p>
             </section>
 
 </article>
+                    <article
+        class="phpdocumentor-element
+            -method
+            -private
+                                                        "
+>
+    <h4 class="phpdocumentor-element__name" id="method_rebuildContentCacheFile">
+        rebuildContentCacheFile()
+        <a href="classes/Cecil-Asset.html#method_rebuildContentCacheFile" class="headerlink"><i class="fas fa-link"></i></a>
+
+    </h4>
+    <aside class="phpdocumentor-element-found-in">
+    <abbr class="phpdocumentor-element-found-in__file" title="src/Asset.php"><a href="files/src-asset.html"><abbr title="src/Asset.php">Asset.php</abbr></a></abbr>
+    :
+    <span class="phpdocumentor-element-found-in__line">346</span>
+
+    </aside>
+
+        <p class="phpdocumentor-summary">Rebuilds a missing cache content file from the in-memory content when possible.</p>
+
+    <code class="phpdocumentor-code phpdocumentor-signature ">
+    <span class="phpdocumentor-signature__visibility">private</span>
+                    <span class="phpdocumentor-signature__name">rebuildContentCacheFile</span><span>(</span><span class="phpdocumentor-signature__argument"><span class="phpdocumentor-signature__argument__type">string&nbsp;</span><span class="phpdocumentor-signature__argument__name">$contentFile</span></span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">bool</span></code>
+
+    <div class="phpdocumentor-label-line">
+        </div>
+    
+    
+        <h5 class="phpdocumentor-argument-list__heading">Parameters</h5>
+    <dl class="phpdocumentor-argument-list">
+                    <dt class="phpdocumentor-argument-list__entry">
+                <span class="phpdocumentor-argument-list__argument__name">$contentFile</span>
+                : <span class="phpdocumentor-argument-list__argument__type">string</span>
+                            </dt>
+            <dd class="phpdocumentor-argument-list__definition">
+                
+            </dd>
+            </dl>
+
+    
+
+        
+    
+            <section>
+        <h5 class="phpdocumentor-return-value__heading">Return values</h5>
+        <span class="phpdocumentor-signature__response_type">bool</span>
+            </section>
+
+</article>
             </section>
 
         
@@ -2521,6 +2643,7 @@ resizing images, and more.</p>
                 <li>
                     <ul class="phpdocumentor-list -clean">
                                                     <li class=""><a href="classes/Cecil-Asset.html#property_builder">$builder</a></li>
+                                                    <li class=""><a href="classes/Cecil-Asset.html#property_cache">$cache</a></li>
                                                     <li class=""><a href="classes/Cecil-Asset.html#property_cacheTags">$cacheTags</a></li>
                                                     <li class=""><a href="classes/Cecil-Asset.html#property_config">$config</a></li>
                                                     <li class=""><a href="classes/Cecil-Asset.html#property_data">$data</a></li>
@@ -2559,10 +2682,12 @@ resizing images, and more.</p>
                                             <li class=""><a href="classes/Cecil-Asset.html#method_doFingerprint">doFingerprint()</a></li>
                                             <li class=""><a href="classes/Cecil-Asset.html#method_doMinify">doMinify()</a></li>
                                             <li class=""><a href="classes/Cecil-Asset.html#method_buildImageCdnUrl">buildImageCdnUrl()</a></li>
+                                            <li class=""><a href="classes/Cecil-Asset.html#method_cached">cached()</a></li>
                                             <li class=""><a href="classes/Cecil-Asset.html#method_checkImage">checkImage()</a></li>
                                             <li class=""><a href="classes/Cecil-Asset.html#method_deduplicateThumbPath">deduplicateThumbPath()</a></li>
                                             <li class=""><a href="classes/Cecil-Asset.html#method_getImageSize">getImageSize()</a></li>
                                             <li class=""><a href="classes/Cecil-Asset.html#method_optimizeImage">optimizeImage()</a></li>
+                                            <li class=""><a href="classes/Cecil-Asset.html#method_rebuildContentCacheFile">rebuildContentCacheFile()</a></li>
                                     </ul>
             </li>
                     </ul>
