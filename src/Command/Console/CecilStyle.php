@@ -27,7 +27,7 @@ final class CecilStyle extends SymfonyStyle
 
     private function autoPrependBlock(): void
     {
-        $chars = \substr(\str_replace(\PHP_EOL, "\n", $this->getBufferedOutput()->fetch()), -2);
+        $chars = substr(str_replace(\PHP_EOL, "\n", $this->getBufferedOutput()->fetch()), -2);
 
         if (!isset($chars[0])) {
             $this->newLine();
@@ -35,7 +35,7 @@ final class CecilStyle extends SymfonyStyle
             return;
         }
 
-        $this->newLine(2 - \substr_count($chars, "\n"));
+        $this->newLine(2 - substr_count($chars, "\n"));
     }
 
     private function getBufferedOutput(): object
