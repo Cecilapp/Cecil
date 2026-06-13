@@ -2,6 +2,18 @@
 
 All notable changes to this project will be documented in this file. Dates are displayed in UTC.
 
+#### [8.106.0](https://github.com/Cecilapp/Cecil/compare/8.105.0...8.106.0)
+
+> 13 June 2026
+
+- feat: add dotenv support and load .env [`#2411`](https://github.com/Cecilapp/Cecil/pull/2411)
+
+#### [8.105.0](https://github.com/Cecilapp/Cecil/compare/8.104.2...8.105.0)
+
+> 13 June 2026
+
+- feat: add doctor:seo command with docs and tests [`#2408`](https://github.com/Cecilapp/Cecil/pull/2408)
+
 #### [8.104.2](https://github.com/Cecilapp/Cecil/compare/8.104.1...8.104.2)
 
 > 12 June 2026
