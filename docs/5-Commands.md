@@ -1,7 +1,7 @@
 <!--
 description: "List of available commands."
 date: 2020-12-19
-updated: 2026-06-12
+updated: 2026-06-13
 -->
 # Commands
 
@@ -12,6 +12,8 @@ Available commands:
   about                      Shows a short description about Cecil
   build                      Builds the website
   clear                      Removes all generated files
+  clear:output               Removes output directory
+  clear:tmp                  Removes temporary directory
   doctor                     Diagnoses the site configuration
   doctor:seo                 Audits rendered HTML pages for common SEO issues
   edit                       [open] Open pages directory with the editor
