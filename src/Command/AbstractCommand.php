@@ -18,6 +18,7 @@ use Cecil\Config;
 use Cecil\Exception\RuntimeException;
 use Cecil\Logger\ConsoleLogger;
 use Cecil\Util;
+use Dotenv\Dotenv;
 use Joli\JoliNotif\DefaultNotifier;
 use Joli\JoliNotif\Notification;
 use Symfony\Component\Console\Command\Command;
@@ -74,6 +75,9 @@ class AbstractCommand extends Command
         $this->output = $output;
         $this->io = new SymfonyStyle($input, $output);
         $this->rootPath = (Util\Platform::isPhar() ? Util\Platform::getPharPath() : realpath(Util::joinFile(__DIR__, '/../../'))) . '/';
+
+        // load .env file from the current path (working dir or provided <path>) if it exists
+        Dotenv::createUnsafeImmutable($this->getPath(false))->safeLoad();
 
         // prepare configuration files list
         if (!\in_array($this->getName(), self::EXCLUDED_CMD)) {

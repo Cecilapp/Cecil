@@ -615,9 +615,10 @@ class Config
      */
     private function setFromEnv(): void
     {
-        foreach (getenv() as $key => $value) {
-            if (str_starts_with($key, 'CECIL_')) {
-                $this->data->set(str_replace(['cecil_', '_'], ['', '.'], strtolower($key)), $this->castSetValue($value));
+        $env = array_merge(getenv() ?: [], $_ENV);
+        foreach ($env as $key => $value) {
+            if (str_starts_with((string) $key, 'CECIL_')) {
+                $this->data->set(str_replace(['cecil_', '_'], ['', '.'], strtolower((string) $key)), $this->castSetValue($value));
             }
         }
     }
