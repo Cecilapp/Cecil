@@ -77,7 +77,7 @@ class AbstractCommand extends Command
         $this->rootPath = (Util\Platform::isPhar() ? Util\Platform::getPharPath() : realpath(Util::joinFile(__DIR__, '/../../'))) . '/';
 
         // load .env file from the current path (working dir or provided <path>) if it exists
-        Dotenv::createUnsafeImmutable($this->getPath())->safeLoad();
+        Dotenv::createUnsafeImmutable($this->getPath(false))->safeLoad();
 
         // prepare configuration files list
         if (!\in_array($this->getName(), self::EXCLUDED_CMD)) {
