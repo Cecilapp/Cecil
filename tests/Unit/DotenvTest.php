@@ -49,7 +49,7 @@ class DotenvTest extends TestCase
 
     public function testDotenvVariablesAreInjectedIntoConfig(): void
     {
-        file_put_contents($this->tmpDir . '/.env', "CECIL_TITLE=\"My Dotenv Site\"\nCECIL_BASEURL=https://example.com/\n");
+        file_put_contents($this->tmpDir . DIRECTORY_SEPARATOR . '.env', "CECIL_TITLE=\"My Dotenv Site\"\nCECIL_BASEURL=https://example.com/\n");
 
         Dotenv::createUnsafeImmutable($this->tmpDir)->load();
 
