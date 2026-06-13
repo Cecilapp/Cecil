@@ -13,18 +13,19 @@ declare(strict_types=1);
 
 namespace Cecil\Command;
 
+use Cecil\Builder;
+use Cecil\Util;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
 /**
- * Clear command.
+ * ClearTmp command.
  *
- * This command removes all generated files, including the output directory, temporary directory, and cache files.
- * It is useful for cleaning up the build environment before starting a new build or to free up space.
+ * This command removes the temporary directory.
  */
-class Clear extends AbstractCommand
+class ClearTmp extends AbstractCommand
 {
     /**
      * {@inheritdoc}
@@ -32,14 +33,14 @@ class Clear extends AbstractCommand
     protected function configure()
     {
         $this
-            ->setName('clear')
-            ->setDescription('Removes all generated files')
+            ->setName('clear:tmp')
+            ->setDescription('Removes temporary directory')
             ->setDefinition([
                 new InputArgument('path', InputArgument::OPTIONAL, 'Use the given path as working directory'),
             ])
             ->setHelp(
                 <<<'EOF'
-The <info>%command.name%</> command removes output directory, temporary directory and cache files.
+The <info>%command.name%</> command removes temporary directory.
 EOF
             );
     }
@@ -49,10 +50,18 @@ EOF
      */
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
-        $this->io->title('Removing generated files');
-        $this->getApplication()->find('clear:output')->run($input, $output);
-        $this->getApplication()->find('clear:tmp')->run($input, $output);
-        $this->getApplication()->find('cache:clear')->run($input, $output);
+        $this->io->title('Removing temporary directory');
+        if (!Util\File::getFS()->exists(Util::joinFile($this->getPath(), Builder::TMP_DIR))) {
+            $this->io->success('No temporary directory.');
+
+            return Command::SUCCESS;
+        }
+        $output->writeln(
+            \sprintf('<comment>Path: %s</comment>', Util::joinFile($this->getPath(), Builder::TMP_DIR)),
+            OutputInterface::VERBOSITY_VERBOSE
+        );
+        Util\File::getFS()->remove(Util::joinFile($this->getPath(), Builder::TMP_DIR));
+        $this->io->success('Temporary directory removed.');
 
         return Command::SUCCESS;
     }
