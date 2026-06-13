@@ -132,7 +132,7 @@ EOF
      */
     private function outputJson(OutputInterface $output, array $result): void
     {
-        $output->writeln(\json_encode($result, JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES));
+        $output->writeln(json_encode($result, JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES));
     }
 
     /**

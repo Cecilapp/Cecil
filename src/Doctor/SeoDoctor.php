@@ -136,7 +136,7 @@ class SeoDoctor
             'min_word_count' => (int) ($seoConfig['content']['min_words'] ?? self::DEFAULT_CONFIG['content']['min_words']),
         ];
 
-        $checks = \array_merge(
+        $checks = array_merge(
             self::DEFAULT_CONFIG['checks'],
             (array) ($seoConfig['checks'] ?? [])
         );
@@ -169,7 +169,7 @@ class SeoDoctor
             if ($title === '') {
                 $findings[] = $this->createFinding('bad', 'Title tag', 'Missing <title> element.');
             } else {
-                $titleLength = \mb_strlen($title);
+                $titleLength = mb_strlen($title);
                 if ($titleLength < $thresholds['title_min'] || $titleLength > $thresholds['title_max']) {
                     $findings[] = $this->createFinding(
                         'ok',
@@ -185,7 +185,7 @@ class SeoDoctor
             if ($description === '') {
                 $findings[] = $this->createFinding('bad', 'Meta description', 'Missing meta description.');
             } else {
-                $descriptionLength = \mb_strlen($description);
+                $descriptionLength = mb_strlen($description);
                 if ($descriptionLength < $thresholds['description_min'] || $descriptionLength > $thresholds['description_max']) {
                     $findings[] = $this->createFinding(
                         'ok',
@@ -272,20 +272,20 @@ class SeoDoctor
             return '/';
         }
 
-        return '/' . \ltrim($path, '/');
+        return '/' . ltrim($path, '/');
     }
 
     private function createXPath(string $html): ?\DOMXPath
     {
-        if (\trim($html) === '') {
+        if (trim($html) === '') {
             return null;
         }
 
-        $useInternalErrors = \libxml_use_internal_errors(true);
+        $useInternalErrors = libxml_use_internal_errors(true);
         $document = new \DOMDocument('1.0', 'UTF-8');
         $loaded = $document->loadHTML('<?xml encoding="UTF-8">' . $html, LIBXML_NOERROR | LIBXML_NOWARNING | LIBXML_NONET);
-        \libxml_clear_errors();
-        \libxml_use_internal_errors($useInternalErrors);
+        libxml_clear_errors();
+        libxml_use_internal_errors($useInternalErrors);
         if ($loaded === false) {
             return null;
         }
@@ -320,7 +320,7 @@ class SeoDoctor
             return $body;
         }
 
-        return $this->normalizeText((string) \strip_tags($html));
+        return $this->normalizeText((string) strip_tags($html));
     }
 
     private function countWords(string $text): int
@@ -329,16 +329,16 @@ class SeoDoctor
             return 0;
         }
 
-        \preg_match_all("/[\\p{L}\\p{N}']+/u", $text, $matches);
+        preg_match_all("/[\\p{L}\\p{N}']+/u", $text, $matches);
 
         return \count($matches[0]);
     }
 
     private function normalizeText(string $text): string
     {
-        $text = \html_entity_decode($text, ENT_QUOTES | ENT_HTML5, 'UTF-8');
-        $text = \preg_replace('/\s+/u', ' ', $text);
+        $text = html_entity_decode($text, ENT_QUOTES | ENT_HTML5, 'UTF-8');
+        $text = preg_replace('/\s+/u', ' ', $text);
 
-        return \trim((string) $text);
+        return trim((string) $text);
     }
 }

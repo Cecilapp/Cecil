@@ -43,7 +43,7 @@ class SiteDoctor
         $warnings = 0;
         $errors = 0;
 
-        $baseUrlRaw = \trim((string) $config->get('baseurl'));
+        $baseUrlRaw = trim((string) $config->get('baseurl'));
         $baseUrlValid = false;
         if ($baseUrlRaw === '') {
             $this->addCheck($checks, 'Base URL', false, 'Configured', 'Not set', 'warning', $warnings, $errors);
@@ -59,10 +59,10 @@ class SiteDoctor
 
         $this->addCheck($checks, 'Canonical URL mode', !$config->isEnabled('canonicalurl') || $baseUrlValid, $config->isEnabled('canonicalurl') ? 'Enabled (base URL is valid)' : 'Disabled', 'Enabled but base URL is missing or invalid', 'error', $warnings, $errors);
 
-        $this->addCheck($checks, 'Pages directory', \is_dir($config->getPagesPath()), 'Found', 'Missing', 'warning', $warnings, $errors);
-        $this->addCheck($checks, 'Data directory', \is_dir($config->getDataPath()), 'Found', 'Missing (optional)', 'warning', $warnings, $errors);
-        $this->addCheck($checks, 'Assets directory', \is_dir($config->getAssetsPath()), 'Found', 'Missing (optional)', 'warning', $warnings, $errors);
-        $this->addCheck($checks, 'Static directory', \is_dir($config->getStaticPath()), 'Found', 'Missing (optional)', 'warning', $warnings, $errors);
+        $this->addCheck($checks, 'Pages directory', is_dir($config->getPagesPath()), 'Found', 'Missing', 'warning', $warnings, $errors);
+        $this->addCheck($checks, 'Data directory', is_dir($config->getDataPath()), 'Found', 'Missing (optional)', 'warning', $warnings, $errors);
+        $this->addCheck($checks, 'Assets directory', is_dir($config->getAssetsPath()), 'Found', 'Missing (optional)', 'warning', $warnings, $errors);
+        $this->addCheck($checks, 'Static directory', is_dir($config->getStaticPath()), 'Found', 'Missing (optional)', 'warning', $warnings, $errors);
 
         $themeConfigured = false;
         $themeStatus = true;
@@ -71,7 +71,7 @@ class SiteDoctor
             $themes = $config->getTheme();
             if ($themes !== null) {
                 $themeConfigured = true;
-                $themeDetails = \implode(', ', $themes);
+                $themeDetails = implode(', ', $themes);
                 $config->hasTheme();
             }
         } catch (\Exception $e) {
@@ -79,7 +79,7 @@ class SiteDoctor
             $themeDetails = $e->getMessage();
         }
 
-        $this->addCheck($checks, 'Layouts directory', \is_dir($config->getLayoutsPath()) || ($themeConfigured && $themeStatus), 'Found or provided by a theme', 'Missing and no theme configured', 'error', $warnings, $errors);
+        $this->addCheck($checks, 'Layouts directory', is_dir($config->getLayoutsPath()) || ($themeConfigured && $themeStatus), 'Found or provided by a theme', 'Missing and no theme configured', 'error', $warnings, $errors);
 
         [$outputWritable, $outputDetails] = $this->checkDirectoryWritable($config->getOutputPath());
         $this->addCheck($checks, 'Output directory', $outputWritable, $outputDetails, $outputDetails, 'error', $warnings, $errors);
@@ -181,7 +181,7 @@ class SiteDoctor
             return 'None';
         }
 
-        return \implode(",\n", $configFiles);
+        return implode(",\n", $configFiles);
     }
 
     /**
@@ -212,18 +212,18 @@ class SiteDoctor
             return [false, 'Directory path is empty'];
         }
 
-        if (\file_exists($directory) && !\is_dir($directory)) {
+        if (file_exists($directory) && !is_dir($directory)) {
             return [false, 'Path exists and is not a directory'];
         }
 
-        if (\is_dir($directory)) {
-            $writable = \is_writable($directory);
+        if (is_dir($directory)) {
+            $writable = is_writable($directory);
 
             return [$writable, $writable ? 'Writable' : 'Not writable'];
         }
 
         $parent = $directory;
-        while (!\is_dir($parent)) {
+        while (!is_dir($parent)) {
             $nextParent = \dirname($parent);
             if ($nextParent === $parent) {
                 return [false, 'Cannot determine parent directory'];
@@ -231,7 +231,7 @@ class SiteDoctor
             $parent = $nextParent;
         }
 
-        $parentWritable = \is_writable($parent);
+        $parentWritable = is_writable($parent);
 
         return [$parentWritable, $parentWritable ? 'Creatable (parent writable)' : 'Not creatable (parent not writable)'];
     }
@@ -245,7 +245,7 @@ class SiteDoctor
     {
         $available = [];
         foreach ((array) $config->get('output.formats') as $format) {
-            if (\is_array($format) && isset($format['name']) && \is_string($format['name']) && \trim($format['name']) !== '') {
+            if (\is_array($format) && isset($format['name']) && \is_string($format['name']) && trim($format['name']) !== '') {
                 $available[] = $format['name'];
             }
         }
@@ -254,7 +254,7 @@ class SiteDoctor
             return [false, 'No output format defined'];
         }
 
-        $available = \array_values(\array_unique($available));
+        $available = array_values(array_unique($available));
         $missing = [];
         foreach ((array) $config->get('output.pagetypeformats') as $pageType => $formats) {
             foreach ((array) $formats as $format) {
@@ -265,7 +265,7 @@ class SiteDoctor
         }
 
         if (!empty($missing)) {
-            return [false, \sprintf('Unknown format reference(s): %s', \implode(', ', \array_unique($missing)))];
+            return [false, \sprintf('Unknown format reference(s): %s', implode(', ', array_unique($missing)))];
         }
 
         return [true, \sprintf('%d format(s), mapping is coherent', \count($available))];
@@ -281,9 +281,9 @@ class SiteDoctor
         try {
             $default = $config->getLanguageDefault();
             $languages = $config->getLanguages();
-            $codes = \array_column($languages, 'code');
+            $codes = array_column($languages, 'code');
 
-            if (\count($codes) !== \count(\array_unique($codes))) {
+            if (\count($codes) !== \count(array_unique($codes))) {
                 return [false, 'Duplicate language codes found'];
             }
 
@@ -310,6 +310,6 @@ class SiteDoctor
             }
         }
 
-        return \rtrim($url, '/') . '/';
+        return rtrim($url, '/') . '/';
     }
 }
