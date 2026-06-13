@@ -25,7 +25,7 @@ class DotenvTest extends TestCase
 
     protected function setUp(): void
     {
-        $this->tmpDir = sys_get_temp_dir() . '/cecil_dotenv_test_' . uniqid();
+        $this->tmpDir = sys_get_temp_dir() . DIRECTORY_SEPARATOR . 'cecil-dotenv-test-' . uniqid('', true);
         mkdir($this->tmpDir);
     }
 
