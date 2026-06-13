@@ -24,39 +24,27 @@ composer require cecil/cecil
 Construisez un nouveau site web avec une configuration personnalisée :
 
 ```php
+require_once 'vendor/autoload.php';
+
 use Cecil\Builder;
 
-// Crée un tableau de configuration
 $config = [
     'title'   => "My website",
     'baseurl' => 'https://domain.tld/',
 ];
 
-// Construit avec la configuration personnalisée
 Builder::create($config)->build();
+
+exec('php -S localhost:8000 -t _site'); // prévisualisation locale
 ```
 
 :::info
 Le paramètre principal de la méthode `create` doit être un `array` PHP ou une instance de [`Cecil\Config`](https://github.com/Cecilapp/Cecil/blob/master/src/Config.php).
 :::
 
-### Exemple
+### Diagnostic
 
-```php
-require_once 'vendor/autoload.php';
-
-use Cecil\Builder;
-
-// Construit le site web avec le fichier de configuration `config.php`
-Builder::create(require('config.php'))->build();
-
-// Prévisualise localement
-exec('php -S localhost:8000 -t _site');
-```
-
-### Services de domaine Doctor
-
-Vous pouvez aussi exécuter les diagnostics doctor via des services de domaine dédiés, sans utiliser les commandes CLI.
+Vous pouvez aussi exécuter les vérifications doctor via des services de domaine dédiés, sans utiliser les commandes CLI.
 
 ```php
 <?php
