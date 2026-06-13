@@ -74,6 +74,7 @@ EOF
         $force = $input->getOption('force');
         $demo = $input->getOption('demo');
 
+        $this->io->title('Create a new website');
         try {
             // ask to override existing site?
             if (Util\File::getFS()->exists(Util::joinFile($this->getPath(false), $this->locateConfigFile($this->getPath())['name'] ?: self::CONFIG_FILE[0])) && !$force) {

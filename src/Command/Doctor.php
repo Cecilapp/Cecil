@@ -66,6 +66,8 @@ EOF
         $builder = $this->getBuilder();
         $config = $builder->getConfig();
 
+        $this->io->title('Diagnose site configuration');
+
         $table = new Table($output);
         $table
             ->setHeaderTitle('Environment')

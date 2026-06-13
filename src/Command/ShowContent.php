@@ -70,6 +70,8 @@ EOF
         $count = 0;
         $contentTypes = ['pages', 'data'];
 
+        $this->io->title('Show pages and data content');
+
         // formating output
         $unicodeTreePrefix = function (RecursiveTreeIterator $tree) {
             $prefixParts = [

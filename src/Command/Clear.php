@@ -51,6 +51,7 @@ EOF
      */
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
+        $this->io->title('Clear generated files');
         $this->removeOutputDir($output);
         $this->removeTmpDir($output);
         // deletes all cache files
