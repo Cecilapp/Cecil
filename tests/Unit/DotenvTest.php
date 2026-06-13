@@ -31,7 +31,7 @@ class DotenvTest extends TestCase
 
     protected function tearDown(): void
     {
-        $envFile = $this->tmpDir . '/.env';
+        $envFile = $this->tmpDir . DIRECTORY_SEPARATOR . '.env';
         if (file_exists($envFile)) {
             unlink($envFile);
         }
