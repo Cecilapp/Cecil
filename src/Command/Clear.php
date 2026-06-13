@@ -49,7 +49,6 @@ EOF
      */
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
-        $this->io->title('Removing generated files');
         $this->getApplication()->find('clear:output')->run($input, $output);
         $this->getApplication()->find('clear:tmp')->run($input, $output);
         $this->getApplication()->find('cache:clear')->run($input, $output);
