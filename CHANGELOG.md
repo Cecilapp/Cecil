@@ -2,6 +2,15 @@
 
 All notable changes to this project will be documented in this file. Dates are displayed in UTC.
 
+#### [8.106.4](https://github.com/Cecilapp/Cecil/compare/8.106.3...8.106.4)
+
+> 13 June 2026
+
+- Apply fixes from StyleCI [`#2415`](https://github.com/Cecilapp/Cecil/pull/2415)
+- style: use CecilStyle console helper [`cb48a29`](https://github.com/Cecilapp/Cecil/commit/cb48a29a73d5e6097e3fbe5f02718f5220978b8a)
+- chore: update French translations metadata [`ff5c8ff`](https://github.com/Cecilapp/Cecil/commit/ff5c8ff3c380f12642d4c899c090e60e645fc43c)
+- chore: cleaning code [`fe4f898`](https://github.com/Cecilapp/Cecil/commit/fe4f89843de8559e836f191facfee722dda75a5e)
+
 #### [8.106.3](https://github.com/Cecilapp/Cecil/compare/8.106.2...8.106.3)
 
 > 13 June 2026
