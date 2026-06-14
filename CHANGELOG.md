@@ -2,6 +2,15 @@
 
 All notable changes to this project will be documented in this file. Dates are displayed in UTC.
 
+#### [8.106.5](https://github.com/Cecilapp/Cecil/compare/8.106.4...8.106.5)
+
+> 14 June 2026
+
+- docs: update API docs [`3b1d2cf`](https://github.com/Cecilapp/Cecil/commit/3b1d2cfe1410761761edb57407bc41f951b33e4c)
+- refactor: load PHP requirements from composer.json [`5df9d7d`](https://github.com/Cecilapp/Cecil/commit/5df9d7d4df1d5217ceeae92897392a07367e19cb)
+- fix: adjust PHAR composer path and Box config [`9e0fce5`](https://github.com/Cecilapp/Cecil/commit/9e0fce5b277ec487d761a961edca8f9cc98164aa)
+- docs: minor fix [`b1c57c1`](https://github.com/Cecilapp/Cecil/commit/b1c57c1b082794e99d110631a44a0d39136b9c3f)
+
 #### [8.106.4](https://github.com/Cecilapp/Cecil/compare/8.106.3...8.106.4)
 
 > 13 June 2026
