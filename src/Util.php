@@ -174,7 +174,7 @@ class Util
     private static function resolveComposerFilePath(): string
     {
         if (Platform::isPhar()) {
-            return \sprintf('phar://%s/composer.json', Platform::getPharPath());
+            return \sprintf('%s/composer.json', Platform::getPharPath());
         }
 
         return self::joinFile(__DIR__, '/../composer.json');

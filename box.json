@@ -3,50 +3,57 @@
   "output": "dist/cecil.phar",
   "git-version": "git_version",
   "compression": "GZ",
+  "exclude-composer-files": false,
   "directories": [
     "config",
     "src",
     "resources"
   ],
-  "finder": [
-    {
-      "in": [
-        "."
-      ],
-      "name": [
-        "*.php",
-        "*.twig",
-        "*.yaml",
-        "*.yml",
-        "*.json",
-        "*.txt",
-        "*.xml",
-        "*.xsd",
-        "*.mo",
-        "*.po",
-        "LICENSE*",
-        "License*",
-        "VERSION",
-        "icon.png"
-      ],
-      "notName": [
-        "composer.json",
-        "box.json"
-      ],
-      "exclude": [
-        "phpunit",
-        "Tests",
-        "tests",
-        "php-scoper",
-        "box",
-        "phpmd",
-        "phpstan",
-        "php_codesniffer",
-        "php-cs-fixer",
-        "composer-normalize"
-      ]
-    }
+  "files": [
+    "composer.json",
+    "resources/icon.png"
   ],
+  "finder": [{
+    "in": [
+      "."
+    ],
+    "name": [
+      "*.php",
+      "*.twig",
+      "*.yaml",
+      "*.yml",
+      "*.json",
+      "*.txt",
+      "*.xml",
+      "*.xsd",
+      "*.mo",
+      "*.po",
+      "LICENSE*",
+      "License*",
+      "VERSION",
+      "README.md"
+    ],
+    "notName": [
+      "box.json",
+      "cecil.yml",
+      "phpacker.json",
+      "phpdoc.xml",
+      "composer.json",
+      "composer.lock"
+    ],
+    "exclude": [
+      "phpunit",
+      "Tests",
+      "tests",
+      "php-scoper",
+      "box",
+      "phpmd",
+      "phpstan",
+      "php_codesniffer",
+      "php-cs-fixer",
+      "composer-normalize"
+    ]
+  }],
   "compactors": [
     "KevinGH\\Box\\Compactor\\Json",
     "KevinGH\\Box\\Compactor\\Php"
