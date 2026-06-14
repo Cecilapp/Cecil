@@ -100,9 +100,27 @@ class SiteDoctor
         $this->addCheck($checks, 'Templates cache', $config->isEnabled('cache.templates'), 'Enabled', 'Disabled', 'warning', $warnings, $errors);
         $this->addCheck($checks, 'Translations cache', $config->isEnabled('cache.translations'), 'Enabled', 'Disabled', 'warning', $warnings, $errors);
 
-        $this->addCheck($checks, 'PHP extension: fileinfo', \extension_loaded('fileinfo'), 'Loaded', 'Missing', 'error', $warnings, $errors);
-        $this->addCheck($checks, 'PHP extension: gd', \extension_loaded('gd'), 'Loaded', 'Missing', 'error', $warnings, $errors);
-        $this->addCheck($checks, 'PHP extension: mbstring', \extension_loaded('mbstring'), 'Loaded', 'Missing', 'error', $warnings, $errors);
+        try {
+            $phpRequirements = Util::getPhpRequirements();
+            $phpMinimumVersion = $phpRequirements['minimumVersion'];
+            $phpVersionDetails = \sprintf('Required >= %s (current: %s)', $phpMinimumVersion, PHP_VERSION);
+            $this->addCheck(
+                $checks,
+                'PHP version requirement',
+                version_compare(PHP_VERSION, $phpMinimumVersion, '>='),
+                $phpVersionDetails,
+                $phpVersionDetails,
+                'error',
+                $warnings,
+                $errors
+            );
+
+            foreach ($phpRequirements['requiredExtensions'] as $extension) {
+                $this->addCheck($checks, \sprintf('PHP extension: %s', $extension), \extension_loaded($extension), 'Loaded', 'Missing', 'error', $warnings, $errors);
+            }
+        } catch (\RuntimeException $e) {
+            $this->addCheck($checks, 'PHP requirements (composer.json)', false, 'Loaded', $e->getMessage(), 'warning', $warnings, $errors);
+        }
 
         [$formatsStatus, $formatsDetails] = $this->checkOutputFormatsMapping($config);
         $this->addCheck($checks, 'Output formats mapping', $formatsStatus, $formatsDetails, $formatsDetails, 'error', $warnings, $errors);
