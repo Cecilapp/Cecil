@@ -33,7 +33,8 @@ class ClearTmp extends AbstractCommand
     protected function configure()
     {
         $this
-            ->setName('clear:tmp')
+            ->setName('clear:temporary')
+            ->setAliases(['clear:tmp'])
             ->setDescription('Removes temporary directory')
             ->setDefinition([
                 new InputArgument('path', InputArgument::OPTIONAL, 'Use the given path as working directory'),
