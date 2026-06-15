@@ -33,6 +33,7 @@ class DoctorSeo extends AbstractCommand
     private const PAGE_LABEL_MAX_LENGTH = 60;
 
     private bool $includeVirtual = false;
+    private bool $includeFeedback = false;
     private string $format = 'text';
 
     /**
@@ -49,6 +50,7 @@ class DoctorSeo extends AbstractCommand
                 new InputOption('page', 'p', InputOption::VALUE_REQUIRED, 'Audit a single page relative to the pages directory'),
                 new InputOption('format', null, InputOption::VALUE_REQUIRED, 'Output format: text (default) or json', 'text'),
                 new InputOption('include-virtual', null, InputOption::VALUE_NONE, 'Include virtual pages (paginated, taxonomies) in audit'),
+                new InputOption('feedback', null, InputOption::VALUE_NONE, 'Include findings with feedback level'),
             ])
             ->setHelp(
                 <<<'EOF'
@@ -69,6 +71,10 @@ To output results as JSON for CI integration:
 To include virtual pages (paginated, taxonomy pages):
 
   <info>%command.full_name% --include-virtual</>
+
+To include findings with feedback level:
+
+    <info>%command.full_name% --feedback</>
 
 To inspect a site with an extra configuration file, run:
 
@@ -102,6 +108,7 @@ EOF
     {
         $this->format = (string) ($input->getOption('format') ?? 'text');
         $this->includeVirtual = (bool) $input->getOption('include-virtual');
+        $this->includeFeedback = (bool) $input->getOption('feedback');
 
         // In JSON mode, redirect build logs to stderr to keep stdout clean for JSON output
         if ($this->format === 'json' && $output instanceof ConsoleOutputInterface) {
@@ -118,6 +125,9 @@ EOF
             'page' => (string) ($input->getOption('page') ?? ''),
             'include_virtual' => $this->includeVirtual,
         ]);
+        if (!$this->includeFeedback) {
+            $result = $this->filterResultWithoutLevel($result, 'feedback');
+        }
 
         // Output results based on format
         if ($this->format === 'json') {
@@ -135,6 +145,71 @@ EOF
     private function outputJson(OutputInterface $output, array $result): void
     {
         $output->writeln(json_encode($result, JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES));
+    }
+
+    /**
+     * @param array{
+     *   summary: array{pages_audited: int, pages_without_findings: int, bad_count: int, ok_count: int, feedback_count: int},
+     *   findings: array<int, array{page: string, level: string, check: string, details: string}>
+     * } $result
+     *
+     * @return array{
+     *   summary: array{pages_audited: int, pages_without_findings: int, bad_count: int, ok_count: int, feedback_count: int},
+     *   findings: array<int, array{page: string, level: string, check: string, details: string}>
+     * }
+     */
+    private function filterResultWithoutLevel(array $result, string $level): array
+    {
+        $findings = array_values(array_filter(
+            $result['findings'],
+            static fn (array $finding): bool => ($finding['level'] ?? '') !== $level
+        ));
+
+        return $this->buildFilteredResult($result, $findings);
+    }
+
+    /**
+     * @param array{
+     *   summary: array{pages_audited: int, pages_without_findings: int, bad_count: int, ok_count: int, feedback_count: int},
+     *   findings: array<int, array{page: string, level: string, check: string, details: string}>
+     * } $result
+     * @param array<int, array{page: string, level: string, check: string, details: string}> $findings
+     *
+     * @return array{
+     *   summary: array{pages_audited: int, pages_without_findings: int, bad_count: int, ok_count: int, feedback_count: int},
+     *   findings: array<int, array{page: string, level: string, check: string, details: string}>
+     * }
+     */
+    private function buildFilteredResult(array $result, array $findings): array
+    {
+        $counts = [
+            'bad' => 0,
+            'ok' => 0,
+            'feedback' => 0,
+        ];
+
+        $pagesWithFindings = [];
+        foreach ($findings as $finding) {
+            $pagesWithFindings[$finding['page']] = true;
+            $findingLevel = (string) ($finding['level'] ?? '');
+            if (isset($counts[$findingLevel])) {
+                $counts[$findingLevel]++;
+            }
+        }
+
+        $pagesAudited = (int) ($result['summary']['pages_audited'] ?? 0);
+        $pagesWithoutFindings = $pagesAudited - \count($pagesWithFindings);
+
+        return [
+            'summary' => [
+                'pages_audited' => $pagesAudited,
+                'pages_without_findings' => max(0, $pagesWithoutFindings),
+                'bad_count' => $counts['bad'],
+                'ok_count' => $counts['ok'],
+                'feedback_count' => $counts['feedback'],
+            ],
+            'findings' => $findings,
+        ];
     }
 
     /**

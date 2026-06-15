@@ -363,12 +363,17 @@ Options:
   -c, --config=CONFIG   Set the path to an extra configuration file
   -p, --page=PAGE       Audit a single page relative to the pages directory
       --format=FORMAT   Output format: text (default) or json
+      --feedback        Include findings with feedback level
       --include-virtual Include virtual pages (paginated, taxonomies) in audit
 ```
 
 The command builds the site in dry-run mode, then audits the rendered HTML output for a focused set of checks: title tag, meta description, canonical URL, heading structure, Open Graph tags, image alt attributes and estimated content length.
 
 By default, virtual pages (paginated, taxonomy pages) are excluded from the audit. Use `--include-virtual` to include them.
+
+By default, findings with level `feedback` are not listed.
+
+Use `--feedback` to include findings with level `feedback` in addition to other findings.
 
 Output results as JSON for CI integration using `--format=json`.
 

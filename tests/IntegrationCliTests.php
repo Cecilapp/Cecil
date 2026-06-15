@@ -109,6 +109,11 @@ class IntegrationCliTests extends IntegrationTests
         self::assertIsArray($json);
         self::assertArrayHasKey('summary', $json);
         self::assertArrayHasKey('findings', $json);
+        self::assertSame(0, $json['summary']['feedback_count']);
+
+        foreach ($json['findings'] as $finding) {
+            self::assertNotSame('feedback', $finding['level']);
+        }
     }
 
     public function testDoctorSeoIncludeVirtual(): void
@@ -123,6 +128,40 @@ class IntegrationCliTests extends IntegrationTests
         self::assertStringContainsString('SEO audit summary', $output);
     }
 
+    public function testDoctorSeoIncludeFeedbackJson(): void
+    {
+        exec('php ./bin/cecil new:site tests/demo --demo -n -f 2>&1', $output, $retval);
+        self::assertTrue($retval < 1);
+
+        $output = [];
+        exec('php ./bin/cecil doctor:seo tests/demo --format=json', $output, $retval);
+        self::assertTrue($retval < 1);
+        $allFindings = json_decode(implode("\n", $output), true, 512, \JSON_THROW_ON_ERROR);
+        self::assertIsArray($allFindings);
+
+        $output = [];
+        exec('php ./bin/cecil doctor:seo tests/demo --format=json --feedback', $output, $retval);
+        self::assertTrue($retval < 1);
+        $withFeedback = json_decode(implode("\n", $output), true, 512, \JSON_THROW_ON_ERROR);
+        self::assertIsArray($withFeedback);
+
+        self::assertSame($allFindings['summary']['pages_audited'], $withFeedback['summary']['pages_audited']);
+        self::assertGreaterThanOrEqual($allFindings['summary']['bad_count'], $withFeedback['summary']['bad_count']);
+        self::assertGreaterThanOrEqual($allFindings['summary']['ok_count'], $withFeedback['summary']['ok_count']);
+        self::assertGreaterThanOrEqual($allFindings['summary']['feedback_count'], $withFeedback['summary']['feedback_count']);
+        self::assertGreaterThanOrEqual(\count($allFindings['findings']), \count($withFeedback['findings']));
+
+        $containsFeedback = false;
+        foreach ($withFeedback['findings'] as $finding) {
+            if ($finding['level'] === 'feedback') {
+                $containsFeedback = true;
+                break;
+            }
+        }
+        if ($withFeedback['summary']['feedback_count'] > 0) {
+            self::assertTrue($containsFeedback);
+        }
+    }
 
     public function testDoctorSeoTruncatesLongPageLabelInTable(): void
     {
