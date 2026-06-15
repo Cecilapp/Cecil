@@ -123,6 +123,92 @@ class IntegrationCliTests extends IntegrationTests
         self::assertStringContainsString('SEO audit summary', $output);
     }
 
+    public function testDoctorFrontmatter(): void
+    {
+        exec('php ./bin/cecil new:site tests/demo --demo -n -f 2>&1', $output, $retval);
+        self::assertTrue($retval < 1);
+
+        $invalidPage = Util::joinFile(__DIR__, 'demo', 'pages', 'invalid-frontmatter.md');
+        file_put_contents($invalidPage, "---\ntitle: \"Unclosed\n---\n\nBody\n");
+
+        $output = [];
+        exec('php ./bin/cecil doctor:frontmatter tests/demo 2>&1', $output, $retval);
+        $output = implode("\n", $output);
+        echo $output;
+
+        self::assertTrue($retval < 1);
+        self::assertStringContainsString('Front matter audit summary', $output);
+        self::assertStringContainsString('error(s) found', $output);
+        self::assertStringContainsString('invalid-frontmatter.md', $output);
+        self::assertStringContainsString('File', $output);
+        self::assertStringContainsString('Status', $output);
+        self::assertStringContainsString('Line', $output);
+        self::assertStringContainsString('FAIL', $output);
+        self::assertStringContainsString('Malformed inline YAML string', $output);
+        self::assertStringNotContainsString('tests\\demo\\pages\\invalid-frontmatter.md', $output);
+    }
+
+    public function testDoctorFrontmatterAlias(): void
+    {
+        exec('php ./bin/cecil new:site tests/demo --demo -n -f 2>&1', $output, $retval);
+        self::assertTrue($retval < 1);
+
+        $invalidPage = Util::joinFile(__DIR__, 'demo', 'pages', 'invalid-frontmatter-alias.md');
+        file_put_contents($invalidPage, "---\ntitle: \"Unclosed\n---\n\nBody\n");
+
+        $output = [];
+        exec('php ./bin/cecil doctor:fm tests/demo 2>&1', $output, $retval);
+        $output = implode("\n", $output);
+        echo $output;
+
+        self::assertTrue($retval < 1);
+        self::assertStringContainsString('Front matter audit summary', $output);
+        self::assertStringContainsString('invalid-frontmatter-alias.md', $output);
+        self::assertStringContainsString('error(s) found', $output);
+        self::assertStringContainsString('Status', $output);
+        self::assertStringContainsString('Line', $output);
+    }
+
+    public function testDoctorFrontmatterMultipleErrorsInSingleFile(): void
+    {
+        exec('php ./bin/cecil new:site tests/demo --demo -n -f 2>&1', $output, $retval);
+        self::assertTrue($retval < 1);
+
+        $invalidPage = Util::joinFile(__DIR__, 'demo', 'pages', 'invalid-frontmatter-multiple.md');
+        file_put_contents($invalidPage, "---\ntitle: \"Unclosed\nitems: [a, b\nbad: key: value\n---\n\nBody\n");
+
+        $output = [];
+        exec('php ./bin/cecil doctor:frontmatter tests/demo 2>&1', $output, $retval);
+        $output = implode("\n", $output);
+        echo $output;
+
+        self::assertTrue($retval < 1);
+        self::assertStringContainsString('invalid-frontmatter-multiple.md', $output);
+        self::assertGreaterThanOrEqual(3, substr_count($output, 'invalid-frontmatter-multiple.md'));
+        self::assertStringContainsString('3 error(s) found', $output);
+        self::assertStringContainsString('line 3 (near "bad: key: value")', $output);
+        self::assertStringContainsString('line 2 (near "items: [a, b")', $output);
+        self::assertStringContainsString('line 1 (near "title: "Unclosed")', $output);
+    }
+
+    public function testDoctorFrontmatterNoErrors(): void
+    {
+        exec('php ./bin/cecil new:site tests/demo --demo -n -f 2>&1', $output, $retval);
+        self::assertTrue($retval < 1);
+
+        $output = [];
+        exec('php ./bin/cecil doctor:frontmatter tests/demo 2>&1', $output, $retval);
+        $output = implode("\n", $output);
+        echo $output;
+
+        self::assertTrue($retval < 1);
+        self::assertStringContainsString('Front matter audit summary', $output);
+        self::assertStringContainsString('No front matter errors found.', $output);
+        self::assertStringNotContainsString('FAIL', $output);
+        self::assertStringContainsString('Errors in front matter', $output);
+        self::assertStringContainsString('│ 0', $output);
+    }
+
     public function testServeBackgroundWithPidFile(): void
     {
         $this->markTestSkipped('Skipping serve background test because it is not reliable in CI environments');
