@@ -30,6 +30,8 @@ use Symfony\Component\Console\Output\OutputInterface;
  */
 class DoctorSeo extends AbstractCommand
 {
+    private const PAGE_LABEL_MAX_LENGTH = 60;
+
     private bool $includeVirtual = false;
     private string $format = 'text';
 
@@ -161,7 +163,7 @@ EOF
             $rows = [];
             foreach ($findings as $finding) {
                 $rows[] = [
-                    $finding['page'],
+                    $this->truncatePageLabel((string) $finding['page']),
                     $this->formatLevel($finding['level']),
                     $finding['check'],
                     $finding['details'],
@@ -199,5 +201,19 @@ EOF
             'ok' => '<comment>OK</comment>',
             default => '<info>Feedback</info>',
         };
+    }
+
+    private function truncatePageLabel(string $page): string
+    {
+        if (mb_strlen($page) <= self::PAGE_LABEL_MAX_LENGTH) {
+            return $page;
+        }
+
+        $ellipsis = '...';
+        $keepLength = self::PAGE_LABEL_MAX_LENGTH - \strlen($ellipsis);
+        $startLength = (int) floor($keepLength / 2);
+        $endLength = $keepLength - $startLength;
+
+        return mb_substr($page, 0, $startLength) . $ellipsis . mb_substr($page, -$endLength);
     }
 }

@@ -123,6 +123,29 @@ class IntegrationCliTests extends IntegrationTests
         self::assertStringContainsString('SEO audit summary', $output);
     }
 
+
+    public function testDoctorSeoTruncatesLongPageLabelInTable(): void
+    {
+        exec('php ./bin/cecil new:site tests/demo --demo -n -f 2>&1', $output, $retval);
+        self::assertTrue($retval < 1);
+
+        $longFilename = 'this-is-a-very-very-long-page-filename-for-seo-table-output.md';
+        $longPagePath = Util::joinFile(__DIR__, 'demo', 'pages', $longFilename);
+        file_put_contents($longPagePath, "---\ntitle: Long page\n---\n\nShort content.\n");
+
+        $output = [];
+        exec('php ./bin/cecil doctor:seo tests/demo 2>&1', $output, $retval);
+        $output = implode("\n", $output);
+        echo $output;
+
+        self::assertTrue($retval < 1);
+
+        $pageLabel = '/this-is-a-very-very-long-page-filename-for-seo-table-output/';
+        $expected = mb_substr($pageLabel, 0, 28) . '...' . mb_substr($pageLabel, -29);
+        self::assertStringContainsString($expected, $output);
+        self::assertStringNotContainsString($pageLabel, $output);
+    }
+
     public function testDoctorFrontmatter(): void
     {
         exec('php ./bin/cecil new:site tests/demo --demo -n -f 2>&1', $output, $retval);

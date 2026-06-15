@@ -174,7 +174,7 @@ class SeoDoctor
                     $findings[] = $this->createFinding(
                         'ok',
                         'Title length',
-                        \sprintf('Current length: %d characters. Recommended range: %d-%d.', $titleLength, $thresholds['title_min'], $thresholds['title_max'])
+                        \sprintf('%d characters. Recommended: %d-%d.', $titleLength, $thresholds['title_min'], $thresholds['title_max'])
                     );
                 }
             }
@@ -190,7 +190,7 @@ class SeoDoctor
                     $findings[] = $this->createFinding(
                         'ok',
                         'Meta description length',
-                        \sprintf('Current length: %d characters. Recommended range: %d-%d.', $descriptionLength, $thresholds['description_min'], $thresholds['description_max'])
+                        \sprintf('%d characters. Recommended: %d-%d.', $descriptionLength, $thresholds['description_min'], $thresholds['description_max'])
                     );
                 }
             }
