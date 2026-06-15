@@ -320,6 +320,31 @@ Help:
     cecil.phar doctor --config=config.yml
 ```
 
+### doctor:frontmatter
+
+Validates pages front matter syntax.
+
+```plaintext
+Description:
+  Validates pages front matter syntax
+
+Usage:
+  doctor:frontmatter|doctor:fm [options] [--] [<path>]
+
+Arguments:
+  path                  Use the given path as working directory
+
+Options:
+  -c, --config=CONFIG   Set the path to an extra configuration file
+  -p, --page=PAGE       Validate a single page relative to the pages directory
+      --ansi|--no-ansi  Force (or disable --no-ansi) ANSI output
+  -n, --no-interaction  Do not ask any interactive question
+  -h, --help            Display help for the given command. When no command is given display help for the list command
+  -q, --quiet           Do not output any message
+  -V, --version         Display this application version
+  -v|vv|vvv             Increase the verbosity of messages: 1 for normal output, 2 for more verbose output and 3 for debug
+```
+
 ### doctor:seo
 
 Audits rendered HTML pages for common SEO issues.
@@ -366,29 +391,4 @@ doctor:
       img_alt: true
       content_length: true
       lang_attribute: true
-```
-
-### doctor:frontmatter
-
-Validates pages front matter syntax.
-
-```plaintext
-Description:
-  Validates pages front matter syntax
-
-Usage:
-  doctor:frontmatter|doctor:fm [options] [--] [<path>]
-
-Arguments:
-  path                  Use the given path as working directory
-
-Options:
-  -c, --config=CONFIG   Set the path to an extra configuration file
-  -p, --page=PAGE       Validate a single page relative to the pages directory
-      --ansi|--no-ansi  Force (or disable --no-ansi) ANSI output
-  -n, --no-interaction  Do not ask any interactive question
-  -h, --help            Display help for the given command. When no command is given display help for the list command
-  -q, --quiet           Do not output any message
-  -V, --version         Display this application version
-  -v|vv|vvv             Increase the verbosity of messages: 1 for normal output, 2 for more verbose output and 3 for debug
 ```
