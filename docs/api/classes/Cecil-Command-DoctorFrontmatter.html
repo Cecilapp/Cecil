@@ -154,7 +154,7 @@
 
     <article class="phpdocumentor-element -class">
         <h2 class="phpdocumentor-content__title">
-    ClearTmp
+    DoctorFrontmatter
 
         <span class="phpdocumentor-element__extends">
         extends <a href="classes/Cecil-Command-AbstractCommand.html"><abbr title="\Cecil\Command\AbstractCommand">AbstractCommand</abbr></a>
@@ -170,16 +170,17 @@
 </div>
 
         <aside class="phpdocumentor-element-found-in">
-    <abbr class="phpdocumentor-element-found-in__file" title="src/Command/ClearTmp.php"><a href="files/src-command-cleartmp.html"><abbr title="src/Command/ClearTmp.php">ClearTmp.php</abbr></a></abbr>
+    <abbr class="phpdocumentor-element-found-in__file" title="src/Command/DoctorFrontmatter.php"><a href="files/src-command-doctorfrontmatter.html"><abbr title="src/Command/DoctorFrontmatter.php">DoctorFrontmatter.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">28</span>
+    <span class="phpdocumentor-element-found-in__line">30</span>
 
     </aside>
 
-            <p class="phpdocumentor-summary">ClearTmp command.</p>
+            <p class="phpdocumentor-summary">Front matter doctor command.</p>
 
 
-    <section class="phpdocumentor-description"><p>This command removes the temporary directory.</p>
+    <section class="phpdocumentor-description"><p>This command validates front matter syntax for all pages found in the
+configured pages directory, using the configured front matter format.</p>
 </section>
 
 
@@ -188,7 +189,7 @@
     
 <h3 id="toc">
     Table of Contents
-    <a href="classes/Cecil-Command-ClearTmp.html#toc" class="headerlink"><i class="fas fa-link"></i></a>
+    <a href="classes/Cecil-Command-DoctorFrontmatter.html#toc" class="headerlink"><i class="fas fa-link"></i></a>
 
 </h3>
 
@@ -200,7 +201,7 @@
 
 <h4 id="toc-constants">
     Constants
-    <a href="classes/Cecil-Command-ClearTmp.html#toc-constants" class="headerlink"><i class="fas fa-link"></i></a>
+    <a href="classes/Cecil-Command-DoctorFrontmatter.html#toc-constants" class="headerlink"><i class="fas fa-link"></i></a>
 
 </h4>
 <dl class="phpdocumentor-table-of-contents">
@@ -233,7 +234,7 @@
 
 <h4 id="toc-properties">
     Properties
-    <a href="classes/Cecil-Command-ClearTmp.html#toc-properties" class="headerlink"><i class="fas fa-link"></i></a>
+    <a href="classes/Cecil-Command-DoctorFrontmatter.html#toc-properties" class="headerlink"><i class="fas fa-link"></i></a>
 
 </h4>
 <dl class="phpdocumentor-table-of-contents">
@@ -265,7 +266,7 @@
 
 <h4 id="toc-methods">
     Methods
-    <a href="classes/Cecil-Command-ClearTmp.html#toc-methods" class="headerlink"><i class="fas fa-link"></i></a>
+    <a href="classes/Cecil-Command-DoctorFrontmatter.html#toc-methods" class="headerlink"><i class="fas fa-link"></i></a>
 
 </h4>
 <dl class="phpdocumentor-table-of-contents">
@@ -305,14 +306,14 @@
 <dd>Returns the &quot;binary name&quot; in the console context.</dd>
 
             <dt class="phpdocumentor-table-of-contents__entry -method -protected">
-    <a class="" href="classes/Cecil-Command-ClearTmp.html#method_configure">configure()</a>
+    <a class="" href="classes/Cecil-Command-DoctorFrontmatter.html#method_configure">configure()</a>
     <span>
                                 &nbsp;: mixed    </span>
 </dt>
 <dd>{@inheritdoc}</dd>
 
             <dt class="phpdocumentor-table-of-contents__entry -method -protected">
-    <a class="" href="classes/Cecil-Command-ClearTmp.html#method_execute">execute()</a>
+    <a class="" href="classes/Cecil-Command-DoctorFrontmatter.html#method_execute">execute()</a>
     <span>
                                 &nbsp;: int    </span>
 </dt>
@@ -367,6 +368,27 @@
 </dt>
 <dd>Opens path with editor.</dd>
 
+            <dt class="phpdocumentor-table-of-contents__entry -method -private">
+    <a class="" href="classes/Cecil-Command-DoctorFrontmatter.html#method_formatDetails">formatDetails()</a>
+    <span>
+                                &nbsp;: string    </span>
+</dt>
+<dd>Wraps details lines to keep table width under control.</dd>
+
+            <dt class="phpdocumentor-table-of-contents__entry -method -private">
+    <a class="" href="classes/Cecil-Command-DoctorFrontmatter.html#method_formatFileLink">formatFileLink()</a>
+    <span>
+                                &nbsp;: string    </span>
+</dt>
+<dd>Formats a clickable file label using console hyperlinks.</dd>
+
+            <dt class="phpdocumentor-table-of-contents__entry -method -private">
+    <a class="" href="classes/Cecil-Command-DoctorFrontmatter.html#method_formatStatus">formatStatus()</a>
+    <span>
+                                &nbsp;: string    </span>
+</dt>
+<dd>Formats status for console output.</dd>
+
     </dl>
 
 
@@ -375,7 +397,7 @@
     <section class="phpdocumentor-constants">
         <h3 class="phpdocumentor-elements__header" id="constants">
             Constants
-            <a href="classes/Cecil-Command-ClearTmp.html#constants" class="headerlink"><i class="fas fa-link"></i></a>
+            <a href="classes/Cecil-Command-DoctorFrontmatter.html#constants" class="headerlink"><i class="fas fa-link"></i></a>
 
         </h3>
                     <article class="phpdocumentor-element -constant -public ">
@@ -504,7 +526,7 @@
     <section class="phpdocumentor-properties">
         <h3 class="phpdocumentor-elements__header" id="properties">
             Properties
-            <a href="classes/Cecil-Command-ClearTmp.html#properties" class="headerlink"><i class="fas fa-link"></i></a>
+            <a href="classes/Cecil-Command-DoctorFrontmatter.html#properties" class="headerlink"><i class="fas fa-link"></i></a>
 
         </h3>
                     <article
@@ -660,7 +682,7 @@
             <section class="phpdocumentor-methods">
         <h3 class="phpdocumentor-elements__header" id="methods">
             Methods
-            <a href="classes/Cecil-Command-ClearTmp.html#methods" class="headerlink"><i class="fas fa-link"></i></a>
+            <a href="classes/Cecil-Command-DoctorFrontmatter.html#methods" class="headerlink"><i class="fas fa-link"></i></a>
 
         </h3>
                     <article
@@ -920,13 +942,13 @@
 >
     <h4 class="phpdocumentor-element__name" id="method_configure">
         configure()
-        <a href="classes/Cecil-Command-ClearTmp.html#method_configure" class="headerlink"><i class="fas fa-link"></i></a>
+        <a href="classes/Cecil-Command-DoctorFrontmatter.html#method_configure" class="headerlink"><i class="fas fa-link"></i></a>
 
     </h4>
     <aside class="phpdocumentor-element-found-in">
-    <abbr class="phpdocumentor-element-found-in__file" title="src/Command/ClearTmp.php"><a href="files/src-command-cleartmp.html"><abbr title="src/Command/ClearTmp.php">ClearTmp.php</abbr></a></abbr>
+    <abbr class="phpdocumentor-element-found-in__file" title="src/Command/DoctorFrontmatter.php"><a href="files/src-command-doctorfrontmatter.html"><abbr title="src/Command/DoctorFrontmatter.php">DoctorFrontmatter.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">33</span>
+    <span class="phpdocumentor-element-found-in__line">35</span>
 
     </aside>
 
@@ -955,13 +977,13 @@
 >
     <h4 class="phpdocumentor-element__name" id="method_execute">
         execute()
-        <a href="classes/Cecil-Command-ClearTmp.html#method_execute" class="headerlink"><i class="fas fa-link"></i></a>
+        <a href="classes/Cecil-Command-DoctorFrontmatter.html#method_execute" class="headerlink"><i class="fas fa-link"></i></a>
 
     </h4>
     <aside class="phpdocumentor-element-found-in">
-    <abbr class="phpdocumentor-element-found-in__file" title="src/Command/ClearTmp.php"><a href="files/src-command-cleartmp.html"><abbr title="src/Command/ClearTmp.php">ClearTmp.php</abbr></a></abbr>
+    <abbr class="phpdocumentor-element-found-in__file" title="src/Command/DoctorFrontmatter.php"><a href="files/src-command-doctorfrontmatter.html"><abbr title="src/Command/DoctorFrontmatter.php">DoctorFrontmatter.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">52</span>
+    <span class="phpdocumentor-element-found-in__line">67</span>
 
     </aside>
 
@@ -1377,6 +1399,160 @@
     
     
 </article>
+                    <article
+        class="phpdocumentor-element
+            -method
+            -private
+                                                        "
+>
+    <h4 class="phpdocumentor-element__name" id="method_formatDetails">
+        formatDetails()
+        <a href="classes/Cecil-Command-DoctorFrontmatter.html#method_formatDetails" class="headerlink"><i class="fas fa-link"></i></a>
+
+    </h4>
+    <aside class="phpdocumentor-element-found-in">
+    <abbr class="phpdocumentor-element-found-in__file" title="src/Command/DoctorFrontmatter.php"><a href="files/src-command-doctorfrontmatter.html"><abbr title="src/Command/DoctorFrontmatter.php">DoctorFrontmatter.php</abbr></a></abbr>
+    :
+    <span class="phpdocumentor-element-found-in__line">146</span>
+
+    </aside>
+
+        <p class="phpdocumentor-summary">Wraps details lines to keep table width under control.</p>
+
+    <code class="phpdocumentor-code phpdocumentor-signature ">
+    <span class="phpdocumentor-signature__visibility">private</span>
+                    <span class="phpdocumentor-signature__name">formatDetails</span><span>(</span><span class="phpdocumentor-signature__argument"><span class="phpdocumentor-signature__argument__type">string&nbsp;</span><span class="phpdocumentor-signature__argument__name">$details</span></span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">string</span></code>
+
+    <div class="phpdocumentor-label-line">
+        </div>
+    
+    
+        <h5 class="phpdocumentor-argument-list__heading">Parameters</h5>
+    <dl class="phpdocumentor-argument-list">
+                    <dt class="phpdocumentor-argument-list__entry">
+                <span class="phpdocumentor-argument-list__argument__name">$details</span>
+                : <span class="phpdocumentor-argument-list__argument__type">string</span>
+                            </dt>
+            <dd class="phpdocumentor-argument-list__definition">
+                
+            </dd>
+            </dl>
+
+    
+
+        
+    
+            <section>
+        <h5 class="phpdocumentor-return-value__heading">Return values</h5>
+        <span class="phpdocumentor-signature__response_type">string</span>
+            </section>
+
+</article>
+                    <article
+        class="phpdocumentor-element
+            -method
+            -private
+                                                        "
+>
+    <h4 class="phpdocumentor-element__name" id="method_formatFileLink">
+        formatFileLink()
+        <a href="classes/Cecil-Command-DoctorFrontmatter.html#method_formatFileLink" class="headerlink"><i class="fas fa-link"></i></a>
+
+    </h4>
+    <aside class="phpdocumentor-element-found-in">
+    <abbr class="phpdocumentor-element-found-in__file" title="src/Command/DoctorFrontmatter.php"><a href="files/src-command-doctorfrontmatter.html"><abbr title="src/Command/DoctorFrontmatter.php">DoctorFrontmatter.php</abbr></a></abbr>
+    :
+    <span class="phpdocumentor-element-found-in__line">134</span>
+
+    </aside>
+
+        <p class="phpdocumentor-summary">Formats a clickable file label using console hyperlinks.</p>
+
+    <code class="phpdocumentor-code phpdocumentor-signature ">
+    <span class="phpdocumentor-signature__visibility">private</span>
+                    <span class="phpdocumentor-signature__name">formatFileLink</span><span>(</span><span class="phpdocumentor-signature__argument"><span class="phpdocumentor-signature__argument__type">string&nbsp;</span><span class="phpdocumentor-signature__argument__name">$label</span></span><span class="phpdocumentor-signature__argument"><span>, </span><span class="phpdocumentor-signature__argument__type">string&nbsp;</span><span class="phpdocumentor-signature__argument__name">$absolutePath</span></span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">string</span></code>
+
+    <div class="phpdocumentor-label-line">
+        </div>
+    
+    
+        <h5 class="phpdocumentor-argument-list__heading">Parameters</h5>
+    <dl class="phpdocumentor-argument-list">
+                    <dt class="phpdocumentor-argument-list__entry">
+                <span class="phpdocumentor-argument-list__argument__name">$label</span>
+                : <span class="phpdocumentor-argument-list__argument__type">string</span>
+                            </dt>
+            <dd class="phpdocumentor-argument-list__definition">
+                
+            </dd>
+                    <dt class="phpdocumentor-argument-list__entry">
+                <span class="phpdocumentor-argument-list__argument__name">$absolutePath</span>
+                : <span class="phpdocumentor-argument-list__argument__type">string</span>
+                            </dt>
+            <dd class="phpdocumentor-argument-list__definition">
+                
+            </dd>
+            </dl>
+
+    
+
+        
+    
+            <section>
+        <h5 class="phpdocumentor-return-value__heading">Return values</h5>
+        <span class="phpdocumentor-signature__response_type">string</span>
+            </section>
+
+</article>
+                    <article
+        class="phpdocumentor-element
+            -method
+            -private
+                                                        "
+>
+    <h4 class="phpdocumentor-element__name" id="method_formatStatus">
+        formatStatus()
+        <a href="classes/Cecil-Command-DoctorFrontmatter.html#method_formatStatus" class="headerlink"><i class="fas fa-link"></i></a>
+
+    </h4>
+    <aside class="phpdocumentor-element-found-in">
+    <abbr class="phpdocumentor-element-found-in__file" title="src/Command/DoctorFrontmatter.php"><a href="files/src-command-doctorfrontmatter.html"><abbr title="src/Command/DoctorFrontmatter.php">DoctorFrontmatter.php</abbr></a></abbr>
+    :
+    <span class="phpdocumentor-element-found-in__line">122</span>
+
+    </aside>
+
+        <p class="phpdocumentor-summary">Formats status for console output.</p>
+
+    <code class="phpdocumentor-code phpdocumentor-signature ">
+    <span class="phpdocumentor-signature__visibility">private</span>
+                    <span class="phpdocumentor-signature__name">formatStatus</span><span>(</span><span class="phpdocumentor-signature__argument"><span class="phpdocumentor-signature__argument__type">string&nbsp;</span><span class="phpdocumentor-signature__argument__name">$status</span></span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">string</span></code>
+
+    <div class="phpdocumentor-label-line">
+        </div>
+    
+    
+        <h5 class="phpdocumentor-argument-list__heading">Parameters</h5>
+    <dl class="phpdocumentor-argument-list">
+                    <dt class="phpdocumentor-argument-list__entry">
+                <span class="phpdocumentor-argument-list__argument__name">$status</span>
+                : <span class="phpdocumentor-argument-list__argument__type">string</span>
+                            </dt>
+            <dd class="phpdocumentor-argument-list__definition">
+                
+            </dd>
+            </dl>
+
+    
+
+        
+    
+            <section>
+        <h5 class="phpdocumentor-return-value__heading">Return values</h5>
+        <span class="phpdocumentor-signature__response_type">string</span>
+            </section>
+
+</article>
             </section>
 
         
@@ -1391,9 +1567,9 @@
             <li class="phpdocumentor-on-this-page-section__title">Table Of Contents</li>
             <li>
                 <ul class="phpdocumentor-list -clean">
-                                        <li><a href="classes/Cecil-Command-ClearTmp.html#toc-constants">Constants</a></li>
-                                                            <li><a href="classes/Cecil-Command-ClearTmp.html#toc-properties">Properties</a></li>
-                                                            <li><a href="classes/Cecil-Command-ClearTmp.html#toc-methods">Methods</a></li>
+                                        <li><a href="classes/Cecil-Command-DoctorFrontmatter.html#toc-constants">Constants</a></li>
+                                                            <li><a href="classes/Cecil-Command-DoctorFrontmatter.html#toc-properties">Properties</a></li>
+                                                            <li><a href="classes/Cecil-Command-DoctorFrontmatter.html#toc-methods">Methods</a></li>
                                     </ul>
             </li>
                             <li class="phpdocumentor-on-this-page-section__title">Constants</li>
@@ -1424,8 +1600,8 @@
                                             <li class=""><a href="classes/Cecil-Command-AbstractCommand.html#method_run">run()</a></li>
                                             <li class=""><a href="classes/Cecil-Command-AbstractCommand.html#method_validateUrl">validateUrl()</a></li>
                                             <li class=""><a href="classes/Cecil-Command-AbstractCommand.html#method_binName">binName()</a></li>
-                                            <li class=""><a href="classes/Cecil-Command-ClearTmp.html#method_configure">configure()</a></li>
-                                            <li class=""><a href="classes/Cecil-Command-ClearTmp.html#method_execute">execute()</a></li>
+                                            <li class=""><a href="classes/Cecil-Command-DoctorFrontmatter.html#method_configure">configure()</a></li>
+                                            <li class=""><a href="classes/Cecil-Command-DoctorFrontmatter.html#method_execute">execute()</a></li>
                                             <li class=""><a href="classes/Cecil-Command-AbstractCommand.html#method_getBuilder">getBuilder()</a></li>
                                             <li class=""><a href="classes/Cecil-Command-AbstractCommand.html#method_getConfigFiles">getConfigFiles()</a></li>
                                             <li class=""><a href="classes/Cecil-Command-AbstractCommand.html#method_getPath">getPath()</a></li>
@@ -1433,6 +1609,9 @@
                                             <li class=""><a href="classes/Cecil-Command-AbstractCommand.html#method_locateAdditionalConfigFiles">locateAdditionalConfigFiles()</a></li>
                                             <li class=""><a href="classes/Cecil-Command-AbstractCommand.html#method_locateConfigFile">locateConfigFile()</a></li>
                                             <li class=""><a href="classes/Cecil-Command-AbstractCommand.html#method_openEditor">openEditor()</a></li>
+                                            <li class=""><a href="classes/Cecil-Command-DoctorFrontmatter.html#method_formatDetails">formatDetails()</a></li>
+                                            <li class=""><a href="classes/Cecil-Command-DoctorFrontmatter.html#method_formatFileLink">formatFileLink()</a></li>
+                                            <li class=""><a href="classes/Cecil-Command-DoctorFrontmatter.html#method_formatStatus">formatStatus()</a></li>
                                     </ul>
             </li>
                     </ul>
@@ -1452,7 +1631,7 @@
     </section>
 </section>
         </div>
-        <a href="classes/Cecil-Command-ClearTmp.html#top" class="phpdocumentor-back-to-top"><i class="fas fa-chevron-circle-up"></i></a>
+        <a href="classes/Cecil-Command-DoctorFrontmatter.html#top" class="phpdocumentor-back-to-top"><i class="fas fa-chevron-circle-up"></i></a>
 
     </main>
 

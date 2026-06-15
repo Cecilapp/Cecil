@@ -2261,6 +2261,36 @@ Search.appendIndex(
             "summary": "Formats\u0020status\u0020from\u0020domain\u0020diagnostics\u0020for\u0020console\u0020output.",
             "url": "classes/Cecil-Command-Doctor.html#method_formatStatus"
         },                {
+            "fqsen": "\\Cecil\\Command\\DoctorFrontmatter",
+            "name": "DoctorFrontmatter",
+            "summary": "Front\u0020matter\u0020doctor\u0020command.",
+            "url": "classes/Cecil-Command-DoctorFrontmatter.html"
+        },                {
+            "fqsen": "\\Cecil\\Command\\DoctorFrontmatter\u003A\u003Aconfigure\u0028\u0029",
+            "name": "configure",
+            "summary": "\u007B\u0040inheritdoc\u007D",
+            "url": "classes/Cecil-Command-DoctorFrontmatter.html#method_configure"
+        },                {
+            "fqsen": "\\Cecil\\Command\\DoctorFrontmatter\u003A\u003Aexecute\u0028\u0029",
+            "name": "execute",
+            "summary": "\u007B\u0040inheritdoc\u007D",
+            "url": "classes/Cecil-Command-DoctorFrontmatter.html#method_execute"
+        },                {
+            "fqsen": "\\Cecil\\Command\\DoctorFrontmatter\u003A\u003AformatStatus\u0028\u0029",
+            "name": "formatStatus",
+            "summary": "Formats\u0020status\u0020for\u0020console\u0020output.",
+            "url": "classes/Cecil-Command-DoctorFrontmatter.html#method_formatStatus"
+        },                {
+            "fqsen": "\\Cecil\\Command\\DoctorFrontmatter\u003A\u003AformatFileLink\u0028\u0029",
+            "name": "formatFileLink",
+            "summary": "Formats\u0020a\u0020clickable\u0020file\u0020label\u0020using\u0020console\u0020hyperlinks.",
+            "url": "classes/Cecil-Command-DoctorFrontmatter.html#method_formatFileLink"
+        },                {
+            "fqsen": "\\Cecil\\Command\\DoctorFrontmatter\u003A\u003AformatDetails\u0028\u0029",
+            "name": "formatDetails",
+            "summary": "Wraps\u0020details\u0020lines\u0020to\u0020keep\u0020table\u0020width\u0020under\u0020control.",
+            "url": "classes/Cecil-Command-DoctorFrontmatter.html#method_formatDetails"
+        },                {
             "fqsen": "\\Cecil\\Command\\DoctorSeo",
             "name": "DoctorSeo",
             "summary": "SEO\u0020doctor\u0020command.",
@@ -2281,6 +2311,16 @@ Search.appendIndex(
             "summary": "Output\u0020results\u0020in\u0020JSON\u0020format.",
             "url": "classes/Cecil-Command-DoctorSeo.html#method_outputJson"
         },                {
+            "fqsen": "\\Cecil\\Command\\DoctorSeo\u003A\u003AfilterResultWithoutLevel\u0028\u0029",
+            "name": "filterResultWithoutLevel",
+            "summary": "",
+            "url": "classes/Cecil-Command-DoctorSeo.html#method_filterResultWithoutLevel"
+        },                {
+            "fqsen": "\\Cecil\\Command\\DoctorSeo\u003A\u003AbuildFilteredResult\u0028\u0029",
+            "name": "buildFilteredResult",
+            "summary": "",
+            "url": "classes/Cecil-Command-DoctorSeo.html#method_buildFilteredResult"
+        },                {
             "fqsen": "\\Cecil\\Command\\DoctorSeo\u003A\u003AoutputText\u0028\u0029",
             "name": "outputText",
             "summary": "Output\u0020results\u0020in\u0020text\u0020format\u0020\u0028tables\u0029.",
@@ -2291,10 +2331,25 @@ Search.appendIndex(
             "summary": "",
             "url": "classes/Cecil-Command-DoctorSeo.html#method_formatLevel"
         },                {
+            "fqsen": "\\Cecil\\Command\\DoctorSeo\u003A\u003AtruncatePageLabel\u0028\u0029",
+            "name": "truncatePageLabel",
+            "summary": "",
+            "url": "classes/Cecil-Command-DoctorSeo.html#method_truncatePageLabel"
+        },                {
+            "fqsen": "\\Cecil\\Command\\DoctorSeo\u003A\u003APAGE_LABEL_MAX_LENGTH",
+            "name": "PAGE_LABEL_MAX_LENGTH",
+            "summary": "",
+            "url": "classes/Cecil-Command-DoctorSeo.html#constant_PAGE_LABEL_MAX_LENGTH"
+        },                {
             "fqsen": "\\Cecil\\Command\\DoctorSeo\u003A\u003A\u0024includeVirtual",
             "name": "includeVirtual",
             "summary": "",
             "url": "classes/Cecil-Command-DoctorSeo.html#property_includeVirtual"
+        },                {
+            "fqsen": "\\Cecil\\Command\\DoctorSeo\u003A\u003A\u0024includeFeedback",
+            "name": "includeFeedback",
+            "summary": "",
+            "url": "classes/Cecil-Command-DoctorSeo.html#property_includeFeedback"
         },                {
             "fqsen": "\\Cecil\\Command\\DoctorSeo\u003A\u003A\u0024format",
             "name": "format",
@@ -3090,6 +3145,26 @@ Search.appendIndex(
             "name": "language",
             "summary": "",
             "url": "classes/Cecil-Converter-Parsedown.html#property_language"
+        },                {
+            "fqsen": "\\Cecil\\Doctor\\FrontmatterDoctor",
+            "name": "FrontmatterDoctor",
+            "summary": "Front\u0020matter\u0020diagnosis\u0020domain\u0020service.",
+            "url": "classes/Cecil-Doctor-FrontmatterDoctor.html"
+        },                {
+            "fqsen": "\\Cecil\\Doctor\\FrontmatterDoctor\u003A\u003Adiagnose\u0028\u0029",
+            "name": "diagnose",
+            "summary": "",
+            "url": "classes/Cecil-Doctor-FrontmatterDoctor.html#method_diagnose"
+        },                {
+            "fqsen": "\\Cecil\\Doctor\\FrontmatterDoctor\u003A\u003AcollectFrontmatterErrors\u0028\u0029",
+            "name": "collectFrontmatterErrors",
+            "summary": "",
+            "url": "classes/Cecil-Doctor-FrontmatterDoctor.html#method_collectFrontmatterErrors"
+        },                {
+            "fqsen": "\\Cecil\\Doctor\\FrontmatterDoctor\u003A\u003AMAX_ERRORS_PER_FILE",
+            "name": "MAX_ERRORS_PER_FILE",
+            "summary": "",
+            "url": "classes/Cecil-Doctor-FrontmatterDoctor.html#constant_MAX_ERRORS_PER_FILE"
         },                {
             "fqsen": "\\Cecil\\Doctor\\SeoDoctor",
             "name": "SeoDoctor",
@@ -5170,6 +5245,16 @@ Search.appendIndex(
             "name": "convertMicrotime",
             "summary": "Converts\u0020microtime\u0020interval\u0020for\u0020human.",
             "url": "classes/Cecil-Util.html#method_convertMicrotime"
+        },                {
+            "fqsen": "\\Cecil\\Util\u003A\u003AgetPhpRequirements\u0028\u0029",
+            "name": "getPhpRequirements",
+            "summary": "Extracts\u0020PHP\u0020minimum\u0020version\u0020and\u0020required\u0020extensions\u0020from\u0020composer.json.",
+            "url": "classes/Cecil-Util.html#method_getPhpRequirements"
+        },                {
+            "fqsen": "\\Cecil\\Util\u003A\u003AresolveComposerFilePath\u0028\u0029",
+            "name": "resolveComposerFilePath",
+            "summary": "Resolve\u0020composer.json\u0020path\u0020from\u0020Cecil\u0020root\u0020\u0028including\u0020PHAR\u0020context\u0029.",
+            "url": "classes/Cecil-Util.html#method_resolveComposerFilePath"
         },                {
             "fqsen": "\\Cecil\\Util\u003A\u003Aautoload\u0028\u0029",
             "name": "autoload",

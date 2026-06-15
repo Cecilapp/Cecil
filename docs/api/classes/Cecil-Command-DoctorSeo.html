@@ -229,6 +229,12 @@ pages for a focused set of SEO checks inspired by editorial audit tools.</p>
         &nbsp;: mixed&nbsp;= \Cecil\Builder::TMP_DIR . &#039;/preview&#039;                            </span>
 </dt>
 
+            <dt class="phpdocumentor-table-of-contents__entry -constant -private">
+    <a class="" href="classes/Cecil-Command-DoctorSeo.html#constant_PAGE_LABEL_MAX_LENGTH">PAGE_LABEL_MAX_LENGTH</a>
+    <span>
+        &nbsp;: mixed&nbsp;= 60                            </span>
+</dt>
+
     </dl>
 
 
@@ -266,6 +272,12 @@ pages for a focused set of SEO checks inspired by editorial audit tools.</p>
     <a class="" href="classes/Cecil-Command-DoctorSeo.html#property_format">$format</a>
     <span>
                         &nbsp;: string            </span>
+</dt>
+
+            <dt class="phpdocumentor-table-of-contents__entry -property -private">
+    <a class="" href="classes/Cecil-Command-DoctorSeo.html#property_includeFeedback">$includeFeedback</a>
+    <span>
+                        &nbsp;: bool            </span>
 </dt>
 
             <dt class="phpdocumentor-table-of-contents__entry -property -private">
@@ -381,6 +393,18 @@ pages for a focused set of SEO checks inspired by editorial audit tools.</p>
 <dd>Opens path with editor.</dd>
 
             <dt class="phpdocumentor-table-of-contents__entry -method -private">
+    <a class="" href="classes/Cecil-Command-DoctorSeo.html#method_buildFilteredResult">buildFilteredResult()</a>
+    <span>
+                                &nbsp;: array{summary: array{pages_audited: int, pages_without_findings: int, bad_count: int, ok_count: int, feedback_count: int}, findings: array<int,array{page: string, level: string, check: string, details: string}>}    </span>
+</dt>
+
+            <dt class="phpdocumentor-table-of-contents__entry -method -private">
+    <a class="" href="classes/Cecil-Command-DoctorSeo.html#method_filterResultWithoutLevel">filterResultWithoutLevel()</a>
+    <span>
+                                &nbsp;: array{summary: array{pages_audited: int, pages_without_findings: int, bad_count: int, ok_count: int, feedback_count: int}, findings: array<int,array{page: string, level: string, check: string, details: string}>}    </span>
+</dt>
+
+            <dt class="phpdocumentor-table-of-contents__entry -method -private">
     <a class="" href="classes/Cecil-Command-DoctorSeo.html#method_formatLevel">formatLevel()</a>
     <span>
                                 &nbsp;: string    </span>
@@ -399,6 +423,12 @@ pages for a focused set of SEO checks inspired by editorial audit tools.</p>
                                 &nbsp;: void    </span>
 </dt>
 <dd>Output results in text format (tables).</dd>
+
+            <dt class="phpdocumentor-table-of-contents__entry -method -private">
+    <a class="" href="classes/Cecil-Command-DoctorSeo.html#method_truncatePageLabel">truncatePageLabel()</a>
+    <span>
+                                &nbsp;: string    </span>
+</dt>
 
     </dl>
 
@@ -522,6 +552,36 @@ pages for a focused set of SEO checks inspired by editorial audit tools.</p>
         <span class="phpdocumentor-signature__type">mixed</span>
     <span class="phpdocumentor-signature__name">SERVE_OUTPUT</span>
     = <span class="phpdocumentor-signature__default-value">\Cecil\Builder::TMP_DIR . &#039;/preview&#039;</span>
+</code>
+
+
+    
+    
+    
+
+        
+    </article>
+                    <article class="phpdocumentor-element -constant -private ">
+    <h4 class="phpdocumentor-element__name" id="constant_PAGE_LABEL_MAX_LENGTH">
+        PAGE_LABEL_MAX_LENGTH
+        <a href="classes/Cecil-Command-DoctorSeo.html#constant_PAGE_LABEL_MAX_LENGTH" class="headerlink"><i class="fas fa-link"></i></a>
+
+    </h4>
+
+    <aside class="phpdocumentor-element-found-in">
+    <abbr class="phpdocumentor-element-found-in__file" title="src/Command/DoctorSeo.php"><a href="files/src-command-doctorseo.html"><abbr title="src/Command/DoctorSeo.php">DoctorSeo.php</abbr></a></abbr>
+    :
+    <span class="phpdocumentor-element-found-in__line">33</span>
+
+    </aside>
+
+    
+    
+    <code class="phpdocumentor-signature phpdocumentor-code ">
+    <span class="phpdocumentor-signature__visibility">private</span>
+        <span class="phpdocumentor-signature__type">mixed</span>
+    <span class="phpdocumentor-signature__name">PAGE_LABEL_MAX_LENGTH</span>
+    = <span class="phpdocumentor-signature__default-value">60</span>
 </code>
 
 
@@ -705,7 +765,7 @@ pages for a focused set of SEO checks inspired by editorial audit tools.</p>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Command/DoctorSeo.php"><a href="files/src-command-doctorseo.html"><abbr title="src/Command/DoctorSeo.php">DoctorSeo.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">34</span>
+    <span class="phpdocumentor-element-found-in__line">37</span>
 
     </aside>
 
@@ -732,6 +792,43 @@ pages for a focused set of SEO checks inspired by editorial audit tools.</p>
             -private
                                                                     "
 >
+    <h4 class="phpdocumentor-element__name" id="property_includeFeedback">
+        $includeFeedback
+        <a href="classes/Cecil-Command-DoctorSeo.html#property_includeFeedback" class="headerlink"><i class="fas fa-link"></i></a>
+
+        <span class="phpdocumentor-element__modifiers">
+                                            </span>
+    </h4>
+    <aside class="phpdocumentor-element-found-in">
+    <abbr class="phpdocumentor-element-found-in__file" title="src/Command/DoctorSeo.php"><a href="files/src-command-doctorseo.html"><abbr title="src/Command/DoctorSeo.php">DoctorSeo.php</abbr></a></abbr>
+    :
+    <span class="phpdocumentor-element-found-in__line">36</span>
+
+    </aside>
+
+    
+    
+    <code class="phpdocumentor-code phpdocumentor-signature ">
+        <span class="phpdocumentor-signature__visibility">private</span>
+            <span class="phpdocumentor-signature__type">bool</span>
+    <span class="phpdocumentor-signature__name">$includeFeedback</span>
+     = <span class="phpdocumentor-signature__default-value">false</span></code>
+
+    
+    
+    
+
+        
+        
+
+</article>
+                    <article
+        class="
+            phpdocumentor-element
+            -property
+            -private
+                                                                    "
+>
     <h4 class="phpdocumentor-element__name" id="property_includeVirtual">
         $includeVirtual
         <a href="classes/Cecil-Command-DoctorSeo.html#property_includeVirtual" class="headerlink"><i class="fas fa-link"></i></a>
@@ -742,7 +839,7 @@ pages for a focused set of SEO checks inspired by editorial audit tools.</p>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Command/DoctorSeo.php"><a href="files/src-command-doctorseo.html"><abbr title="src/Command/DoctorSeo.php">DoctorSeo.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">33</span>
+    <span class="phpdocumentor-element-found-in__line">35</span>
 
     </aside>
 
@@ -1033,7 +1130,7 @@ pages for a focused set of SEO checks inspired by editorial audit tools.</p>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Command/DoctorSeo.php"><a href="files/src-command-doctorseo.html"><abbr title="src/Command/DoctorSeo.php">DoctorSeo.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">39</span>
+    <span class="phpdocumentor-element-found-in__line">42</span>
 
     </aside>
 
@@ -1068,7 +1165,7 @@ pages for a focused set of SEO checks inspired by editorial audit tools.</p>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Command/DoctorSeo.php"><a href="files/src-command-doctorseo.html"><abbr title="src/Command/DoctorSeo.php">DoctorSeo.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">99</span>
+    <span class="phpdocumentor-element-found-in__line">107</span>
 
     </aside>
 
@@ -1490,6 +1587,116 @@ pages for a focused set of SEO checks inspired by editorial audit tools.</p>
             -private
                                                         "
 >
+    <h4 class="phpdocumentor-element__name" id="method_buildFilteredResult">
+        buildFilteredResult()
+        <a href="classes/Cecil-Command-DoctorSeo.html#method_buildFilteredResult" class="headerlink"><i class="fas fa-link"></i></a>
+
+    </h4>
+    <aside class="phpdocumentor-element-found-in">
+    <abbr class="phpdocumentor-element-found-in__file" title="src/Command/DoctorSeo.php"><a href="files/src-command-doctorseo.html"><abbr title="src/Command/DoctorSeo.php">DoctorSeo.php</abbr></a></abbr>
+    :
+    <span class="phpdocumentor-element-found-in__line">183</span>
+
+    </aside>
+
+    
+    <code class="phpdocumentor-code phpdocumentor-signature ">
+    <span class="phpdocumentor-signature__visibility">private</span>
+                    <span class="phpdocumentor-signature__name">buildFilteredResult</span><span>(</span><span class="phpdocumentor-signature__argument"><span class="phpdocumentor-signature__argument__type">array{summary: array{pages_audited: int, pages_without_findings: int, bad_count: int, ok_count: int, feedback_count: int}, findings: array<int,array{page: string, level: string, check: string, details: string}>}&nbsp;</span><span class="phpdocumentor-signature__argument__name">$result</span></span><span class="phpdocumentor-signature__argument"><span>, </span><span class="phpdocumentor-signature__argument__type">array&lt;int, array{page: string, level: string, check: string, details: string}&gt;&nbsp;</span><span class="phpdocumentor-signature__argument__name">$findings</span></span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">array{summary: array{pages_audited: int, pages_without_findings: int, bad_count: int, ok_count: int, feedback_count: int}, findings: array<int,array{page: string, level: string, check: string, details: string}>}</span></code>
+
+    <div class="phpdocumentor-label-line">
+        </div>
+    
+    
+        <h5 class="phpdocumentor-argument-list__heading">Parameters</h5>
+    <dl class="phpdocumentor-argument-list">
+                    <dt class="phpdocumentor-argument-list__entry">
+                <span class="phpdocumentor-argument-list__argument__name">$result</span>
+                : <span class="phpdocumentor-argument-list__argument__type">array{summary: array{pages_audited: int, pages_without_findings: int, bad_count: int, ok_count: int, feedback_count: int}, findings: array<int,array{page: string, level: string, check: string, details: string}>}</span>
+                            </dt>
+            <dd class="phpdocumentor-argument-list__definition">
+                
+            </dd>
+                    <dt class="phpdocumentor-argument-list__entry">
+                <span class="phpdocumentor-argument-list__argument__name">$findings</span>
+                : <span class="phpdocumentor-argument-list__argument__type">array&lt;int, array{page: string, level: string, check: string, details: string}&gt;</span>
+                            </dt>
+            <dd class="phpdocumentor-argument-list__definition">
+                
+            </dd>
+            </dl>
+
+    
+
+        
+    
+            <section>
+        <h5 class="phpdocumentor-return-value__heading">Return values</h5>
+        <span class="phpdocumentor-signature__response_type">array{summary: array{pages_audited: int, pages_without_findings: int, bad_count: int, ok_count: int, feedback_count: int}, findings: array<int,array{page: string, level: string, check: string, details: string}>}</span>
+            </section>
+
+</article>
+                    <article
+        class="phpdocumentor-element
+            -method
+            -private
+                                                        "
+>
+    <h4 class="phpdocumentor-element__name" id="method_filterResultWithoutLevel">
+        filterResultWithoutLevel()
+        <a href="classes/Cecil-Command-DoctorSeo.html#method_filterResultWithoutLevel" class="headerlink"><i class="fas fa-link"></i></a>
+
+    </h4>
+    <aside class="phpdocumentor-element-found-in">
+    <abbr class="phpdocumentor-element-found-in__file" title="src/Command/DoctorSeo.php"><a href="files/src-command-doctorseo.html"><abbr title="src/Command/DoctorSeo.php">DoctorSeo.php</abbr></a></abbr>
+    :
+    <span class="phpdocumentor-element-found-in__line">161</span>
+
+    </aside>
+
+    
+    <code class="phpdocumentor-code phpdocumentor-signature ">
+    <span class="phpdocumentor-signature__visibility">private</span>
+                    <span class="phpdocumentor-signature__name">filterResultWithoutLevel</span><span>(</span><span class="phpdocumentor-signature__argument"><span class="phpdocumentor-signature__argument__type">array{summary: array{pages_audited: int, pages_without_findings: int, bad_count: int, ok_count: int, feedback_count: int}, findings: array<int,array{page: string, level: string, check: string, details: string}>}&nbsp;</span><span class="phpdocumentor-signature__argument__name">$result</span></span><span class="phpdocumentor-signature__argument"><span>, </span><span class="phpdocumentor-signature__argument__type">string&nbsp;</span><span class="phpdocumentor-signature__argument__name">$level</span></span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">array{summary: array{pages_audited: int, pages_without_findings: int, bad_count: int, ok_count: int, feedback_count: int}, findings: array<int,array{page: string, level: string, check: string, details: string}>}</span></code>
+
+    <div class="phpdocumentor-label-line">
+        </div>
+    
+    
+        <h5 class="phpdocumentor-argument-list__heading">Parameters</h5>
+    <dl class="phpdocumentor-argument-list">
+                    <dt class="phpdocumentor-argument-list__entry">
+                <span class="phpdocumentor-argument-list__argument__name">$result</span>
+                : <span class="phpdocumentor-argument-list__argument__type">array{summary: array{pages_audited: int, pages_without_findings: int, bad_count: int, ok_count: int, feedback_count: int}, findings: array<int,array{page: string, level: string, check: string, details: string}>}</span>
+                            </dt>
+            <dd class="phpdocumentor-argument-list__definition">
+                
+            </dd>
+                    <dt class="phpdocumentor-argument-list__entry">
+                <span class="phpdocumentor-argument-list__argument__name">$level</span>
+                : <span class="phpdocumentor-argument-list__argument__type">string</span>
+                            </dt>
+            <dd class="phpdocumentor-argument-list__definition">
+                
+            </dd>
+            </dl>
+
+    
+
+        
+    
+            <section>
+        <h5 class="phpdocumentor-return-value__heading">Return values</h5>
+        <span class="phpdocumentor-signature__response_type">array{summary: array{pages_audited: int, pages_without_findings: int, bad_count: int, ok_count: int, feedback_count: int}, findings: array<int,array{page: string, level: string, check: string, details: string}>}</span>
+            </section>
+
+</article>
+                    <article
+        class="phpdocumentor-element
+            -method
+            -private
+                                                        "
+>
     <h4 class="phpdocumentor-element__name" id="method_formatLevel">
         formatLevel()
         <a href="classes/Cecil-Command-DoctorSeo.html#method_formatLevel" class="headerlink"><i class="fas fa-link"></i></a>
@@ -1498,7 +1705,7 @@ pages for a focused set of SEO checks inspired by editorial audit tools.</p>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Command/DoctorSeo.php"><a href="files/src-command-doctorseo.html"><abbr title="src/Command/DoctorSeo.php">DoctorSeo.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">195</span>
+    <span class="phpdocumentor-element-found-in__line">272</span>
 
     </aside>
 
@@ -1546,7 +1753,7 @@ pages for a focused set of SEO checks inspired by editorial audit tools.</p>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Command/DoctorSeo.php"><a href="files/src-command-doctorseo.html"><abbr title="src/Command/DoctorSeo.php">DoctorSeo.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">133</span>
+    <span class="phpdocumentor-element-found-in__line">145</span>
 
     </aside>
 
@@ -1598,7 +1805,7 @@ pages for a focused set of SEO checks inspired by editorial audit tools.</p>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Command/DoctorSeo.php"><a href="files/src-command-doctorseo.html"><abbr title="src/Command/DoctorSeo.php">DoctorSeo.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">141</span>
+    <span class="phpdocumentor-element-found-in__line">218</span>
 
     </aside>
 
@@ -1636,6 +1843,54 @@ pages for a focused set of SEO checks inspired by editorial audit tools.</p>
     
     
 </article>
+                    <article
+        class="phpdocumentor-element
+            -method
+            -private
+                                                        "
+>
+    <h4 class="phpdocumentor-element__name" id="method_truncatePageLabel">
+        truncatePageLabel()
+        <a href="classes/Cecil-Command-DoctorSeo.html#method_truncatePageLabel" class="headerlink"><i class="fas fa-link"></i></a>
+
+    </h4>
+    <aside class="phpdocumentor-element-found-in">
+    <abbr class="phpdocumentor-element-found-in__file" title="src/Command/DoctorSeo.php"><a href="files/src-command-doctorseo.html"><abbr title="src/Command/DoctorSeo.php">DoctorSeo.php</abbr></a></abbr>
+    :
+    <span class="phpdocumentor-element-found-in__line">281</span>
+
+    </aside>
+
+    
+    <code class="phpdocumentor-code phpdocumentor-signature ">
+    <span class="phpdocumentor-signature__visibility">private</span>
+                    <span class="phpdocumentor-signature__name">truncatePageLabel</span><span>(</span><span class="phpdocumentor-signature__argument"><span class="phpdocumentor-signature__argument__type">string&nbsp;</span><span class="phpdocumentor-signature__argument__name">$page</span></span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">string</span></code>
+
+    <div class="phpdocumentor-label-line">
+        </div>
+    
+    
+        <h5 class="phpdocumentor-argument-list__heading">Parameters</h5>
+    <dl class="phpdocumentor-argument-list">
+                    <dt class="phpdocumentor-argument-list__entry">
+                <span class="phpdocumentor-argument-list__argument__name">$page</span>
+                : <span class="phpdocumentor-argument-list__argument__type">string</span>
+                            </dt>
+            <dd class="phpdocumentor-argument-list__definition">
+                
+            </dd>
+            </dl>
+
+    
+
+        
+    
+            <section>
+        <h5 class="phpdocumentor-return-value__heading">Return values</h5>
+        <span class="phpdocumentor-signature__response_type">string</span>
+            </section>
+
+</article>
             </section>
 
         
@@ -1662,6 +1917,7 @@ pages for a focused set of SEO checks inspired by editorial audit tools.</p>
                                                     <li class=""><a href="classes/Cecil-Command-AbstractCommand.html#constant_EXCLUDED_CMD">EXCLUDED_CMD</a></li>
                                                     <li class=""><a href="classes/Cecil-Command-AbstractCommand.html#constant_PID_FILE">PID_FILE</a></li>
                                                     <li class=""><a href="classes/Cecil-Command-AbstractCommand.html#constant_SERVE_OUTPUT">SERVE_OUTPUT</a></li>
+                                                    <li class=""><a href="classes/Cecil-Command-DoctorSeo.html#constant_PAGE_LABEL_MAX_LENGTH">PAGE_LABEL_MAX_LENGTH</a></li>
                                             </ul>
                 </li>
             
@@ -1673,6 +1929,7 @@ pages for a focused set of SEO checks inspired by editorial audit tools.</p>
                                                     <li class=""><a href="classes/Cecil-Command-AbstractCommand.html#property_output">$output</a></li>
                                                     <li class=""><a href="classes/Cecil-Command-AbstractCommand.html#property_rootPath">$rootPath</a></li>
                                                     <li class=""><a href="classes/Cecil-Command-DoctorSeo.html#property_format">$format</a></li>
+                                                    <li class=""><a href="classes/Cecil-Command-DoctorSeo.html#property_includeFeedback">$includeFeedback</a></li>
                                                     <li class=""><a href="classes/Cecil-Command-DoctorSeo.html#property_includeVirtual">$includeVirtual</a></li>
                                             </ul>
                 </li>
@@ -1694,9 +1951,12 @@ pages for a focused set of SEO checks inspired by editorial audit tools.</p>
                                             <li class=""><a href="classes/Cecil-Command-AbstractCommand.html#method_locateAdditionalConfigFiles">locateAdditionalConfigFiles()</a></li>
                                             <li class=""><a href="classes/Cecil-Command-AbstractCommand.html#method_locateConfigFile">locateConfigFile()</a></li>
                                             <li class=""><a href="classes/Cecil-Command-AbstractCommand.html#method_openEditor">openEditor()</a></li>
+                                            <li class=""><a href="classes/Cecil-Command-DoctorSeo.html#method_buildFilteredResult">buildFilteredResult()</a></li>
+                                            <li class=""><a href="classes/Cecil-Command-DoctorSeo.html#method_filterResultWithoutLevel">filterResultWithoutLevel()</a></li>
                                             <li class=""><a href="classes/Cecil-Command-DoctorSeo.html#method_formatLevel">formatLevel()</a></li>
                                             <li class=""><a href="classes/Cecil-Command-DoctorSeo.html#method_outputJson">outputJson()</a></li>
                                             <li class=""><a href="classes/Cecil-Command-DoctorSeo.html#method_outputText">outputText()</a></li>
+                                            <li class=""><a href="classes/Cecil-Command-DoctorSeo.html#method_truncatePageLabel">truncatePageLabel()</a></li>
                                     </ul>
             </li>
                     </ul>
