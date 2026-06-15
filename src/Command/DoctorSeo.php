@@ -152,6 +152,7 @@ EOF
      *   summary: array{pages_audited: int, pages_without_findings: int, bad_count: int, ok_count: int, feedback_count: int},
      *   findings: array<int, array{page: string, level: string, check: string, details: string}>
      * } $result
+     * @param string $level
      *
      * @return array{
      *   summary: array{pages_audited: int, pages_without_findings: int, bad_count: int, ok_count: int, feedback_count: int},
