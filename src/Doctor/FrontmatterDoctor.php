@@ -26,6 +26,8 @@ use Symfony\Component\Finder\SplFileInfo;
  */
 class FrontmatterDoctor
 {
+    private const MAX_ERRORS_PER_FILE = 20;
+
     /**
      * @param array{page?: string} $options
      *
@@ -97,18 +99,21 @@ class FrontmatterDoctor
 
             $filesWithFrontmatter++;
 
-            try {
-                $converter->convertFrontmatter($frontmatter, $format);
+            $fileErrors = $this->collectFrontmatterErrors($converter, $frontmatter, $format);
+            if (empty($fileErrors)) {
                 $validFrontmatters++;
-            } catch (RuntimeException $e) {
-                $invalidFrontmatters++;
 
+                continue;
+            }
+
+            $invalidFrontmatters += \count($fileErrors);
+            foreach ($fileErrors as $error) {
                 $findings[] = [
                     'file' => $fileRelativePath,
                     'file_absolute' => $fileAbsolutePath,
-                    'line' => $e->getLine() > 0 ? $e->getLine() : null,
+                    'line' => $error['line'],
                     'status' => 'error',
-                    'details' => $e->getMessage(),
+                    'details' => $error['details'],
                 ];
             }
         }
@@ -123,5 +128,71 @@ class FrontmatterDoctor
             ],
             'findings' => $findings,
         ];
+    }
+
+    /**
+     * @return array<int, array{line: int|null, details: string}>
+     */
+    private function collectFrontmatterErrors(Converter $converter, string $frontmatter, string $format): array
+    {
+        if ($format !== 'yaml') {
+            try {
+                $converter->convertFrontmatter($frontmatter, $format);
+
+                return [];
+            } catch (RuntimeException $e) {
+                return [[
+                    'line' => $e->getLine() > 0 ? $e->getLine() : null,
+                    'details' => $e->getMessage(),
+                ]];
+            }
+        }
+
+        // For YAML, retry parsing while removing the failing line to expose additional errors.
+        $workingLines = preg_split('/\r\n|\r|\n/', $frontmatter) ?: [];
+        $lineMap = [];
+        $lineCount = \count($workingLines);
+        for ($line = 1; $line <= $lineCount; $line++) {
+            $lineMap[] = $line;
+        }
+
+        $errors = [];
+        $seen = [];
+        $attempts = 0;
+
+        while (!empty($workingLines) && $attempts < self::MAX_ERRORS_PER_FILE) {
+            $attempts++;
+
+            try {
+                $converter->convertFrontmatter(implode("\n", $workingLines), $format);
+
+                break;
+            } catch (RuntimeException $e) {
+                $reportedLine = $e->getLine() > 0 ? $e->getLine() : null;
+                $originalLine = null;
+                if ($reportedLine !== null && isset($lineMap[$reportedLine - 1])) {
+                    $originalLine = $lineMap[$reportedLine - 1];
+                }
+
+                $fingerprint = \sprintf('%s|%s', $e->getMessage(), (string) ($originalLine ?? 0));
+                if (!isset($seen[$fingerprint])) {
+                    $seen[$fingerprint] = true;
+                    $errors[] = [
+                        'line' => $originalLine,
+                        'details' => $e->getMessage(),
+                    ];
+                }
+
+                if ($reportedLine === null || !isset($lineMap[$reportedLine - 1])) {
+                    break;
+                }
+
+                unset($workingLines[$reportedLine - 1], $lineMap[$reportedLine - 1]);
+                $workingLines = array_values($workingLines);
+                $lineMap = array_values($lineMap);
+            }
+        }
+
+        return $errors;
     }
 }
