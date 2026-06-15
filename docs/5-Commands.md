@@ -339,31 +339,6 @@ Options:
       --include-virtual Include virtual pages (paginated, taxonomies) in audit
 ```
 
-## doctor:frontmatter
-
-Validates pages front matter syntax.
-
-```plaintext
-Description:
-  Validates pages front matter syntax
-
-Usage:
-  doctor:frontmatter|doctor:fm [options] [--] [<path>]
-
-Arguments:
-  path                  Use the given path as working directory
-
-Options:
-  -c, --config=CONFIG   Set the path to an extra configuration file
-  -p, --page=PAGE       Validate a single page relative to the pages directory
-      --ansi|--no-ansi  Force (or disable --no-ansi) ANSI output
-  -n, --no-interaction  Do not ask any interactive question
-  -h, --help            Display help for the given command. When no command is given display help for the list command
-  -q, --quiet           Do not output any message
-  -V, --version         Display this application version
-  -v|vv|vvv             Increase the verbosity of messages: 1 for normal output, 2 for more verbose output and 3 for debug
-```
-
 The command builds the site in dry-run mode, then audits the rendered HTML output for a focused set of checks: title tag, meta description, canonical URL, heading structure, Open Graph tags, image alt attributes and estimated content length.
 
 By default, virtual pages (paginated, taxonomy pages) are excluded from the audit. Use `--include-virtual` to include them.
@@ -389,4 +364,29 @@ doctor:
       img_alt: true
       content_length: true
       lang_attribute: true
+```
+
+## doctor:frontmatter
+
+Validates pages front matter syntax.
+
+```plaintext
+Description:
+  Validates pages front matter syntax
+
+Usage:
+  doctor:frontmatter|doctor:fm [options] [--] [<path>]
+
+Arguments:
+  path                  Use the given path as working directory
+
+Options:
+  -c, --config=CONFIG   Set the path to an extra configuration file
+  -p, --page=PAGE       Validate a single page relative to the pages directory
+      --ansi|--no-ansi  Force (or disable --no-ansi) ANSI output
+  -n, --no-interaction  Do not ask any interactive question
+  -h, --help            Display help for the given command. When no command is given display help for the list command
+  -q, --quiet           Do not output any message
+  -V, --version         Display this application version
+  -v|vv|vvv             Increase the verbosity of messages: 1 for normal output, 2 for more verbose output and 3 for debug
 ```
