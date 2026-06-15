@@ -133,9 +133,9 @@ EOF
      */
     private function formatFileLink(string $label, string $absolutePath): string
     {
-        $normalizedPath = \str_replace('\\', '/', $absolutePath);
-        $uriPath = \preg_match('/^[A-Za-z]:\//', $normalizedPath) ? '/' . $normalizedPath : $normalizedPath;
-        $encodedPath = \implode('/', \array_map(static fn (string $segment): string => \str_replace('%3A', ':', \rawurlencode($segment)), \explode('/', $uriPath)));
+        $normalizedPath = str_replace('\\', '/', $absolutePath);
+        $uriPath = preg_match('/^[A-Za-z]:\//', $normalizedPath) ? '/' . $normalizedPath : $normalizedPath;
+        $encodedPath = implode('/', array_map(static fn (string $segment): string => str_replace('%3A', ':', rawurlencode($segment)), explode('/', $uriPath)));
 
         return \sprintf('<href=file://%s>%s</>', $encodedPath, $label);
     }
