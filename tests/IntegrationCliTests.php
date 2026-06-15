@@ -205,7 +205,7 @@ class IntegrationCliTests extends IntegrationTests
         self::assertStringContainsString('Front matter audit summary', $output);
         self::assertStringContainsString('No front matter errors found.', $output);
         self::assertStringNotContainsString('FAIL', $output);
-        self::assertStringContainsString('Invalid front matter', $output);
+        self::assertStringContainsString('Errors in front matter', $output);
         self::assertStringContainsString('│ 0', $output);
     }
 

@@ -81,9 +81,9 @@ EOF
             ->setRows([
                 ['Files scanned', (string) $summary['files_scanned']],
                 ['Files with front matter', (string) $summary['files_with_frontmatter']],
-                ['Valid front matter', (string) $summary['valid_frontmatters']],
-                ['Invalid front matter', (string) $summary['invalid_frontmatters']],
                 ['Files without front matter', (string) $summary['files_without_frontmatter']],
+                ['Files with valid front matter', (string) $summary['valid_frontmatters']],
+                ['Errors in front matter', (string) $summary['invalid_frontmatters']],
             ])
         ;
         $summaryTable->setStyle('box')->render();
