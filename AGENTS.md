@@ -55,3 +55,4 @@ Short, actionable instructions for coding agents working in this repository.
 - Keep docs updated when behavior or architecture changes, especially in [docs/](docs/) and [README.md](README.md).
 - When updating documentation in [docs/](docs/), always keep both English and French versions aligned (for example, `.md` and `.fr.md` counterparts).
 - When editing a documentation file with frontmatter, always update the `updated` date to reflect the change.
+- When updating code in `src/`, update API documentation with `php phpdoc` command (download `phpdoc` binary with `curl -Lo phpdoc https://phpdoc.org/phpDocumentor.phar` if necessary).
