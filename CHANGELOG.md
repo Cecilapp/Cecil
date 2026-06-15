@@ -2,6 +2,12 @@
 
 All notable changes to this project will be documented in this file. Dates are displayed in UTC.
 
+#### [8.107.2](https://github.com/Cecilapp/Cecil/compare/8.107.1...8.107.2)
+
+> 15 June 2026
+
+- fix: require delimiters on own line in Parser regex [`e5a0d33`](https://github.com/Cecilapp/Cecil/commit/e5a0d33f0e21f0d643e6b59f02a493bec111f8af)
+
 #### [8.107.1](https://github.com/Cecilapp/Cecil/compare/8.107.0...8.107.1)
 
 > 15 June 2026
