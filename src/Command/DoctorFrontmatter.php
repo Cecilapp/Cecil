@@ -95,7 +95,7 @@ EOF
                     $this->formatFileLink($finding['file'], $finding['file_absolute']),
                     $this->formatStatus($finding['status']),
                     $finding['line'] !== null ? (string) $finding['line'] : '-',
-                    $finding['details'],
+                    $this->formatDetails($finding['details']),
                 ];
             }
 
@@ -138,5 +138,13 @@ EOF
         $encodedPath = implode('/', array_map(static fn (string $segment): string => str_replace('%3A', ':', rawurlencode($segment)), explode('/', $uriPath)));
 
         return \sprintf('<href=file://%s>%s</>', $encodedPath, $label);
+    }
+
+    /**
+     * Wraps details lines to keep table width under control.
+     */
+    private function formatDetails(string $details): string
+    {
+        return wordwrap($details, 120, "\n", true);
     }
 }
