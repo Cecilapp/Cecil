@@ -2,6 +2,21 @@
 
 All notable changes to this project will be documented in this file. Dates are displayed in UTC.
 
+#### [8.107.1](https://github.com/Cecilapp/Cecil/compare/8.107.0...8.107.1)
+
+> 15 June 2026
+
+- docs: group commands [`340bf4b`](https://github.com/Cecilapp/Cecil/commit/340bf4b3aec81dd13cc6d3c9b0d1d08d68dac867)
+- fix: wrap frontmatter details to limit width [`307d8d3`](https://github.com/Cecilapp/Cecil/commit/307d8d321879879f84fc0861ab60133dbf8530e1)
+
+#### [8.107.0](https://github.com/Cecilapp/Cecil/compare/8.106.6...8.107.0)
+
+> 15 June 2026
+
+- feat: add doctor:frontmatter command [`#2417`](https://github.com/Cecilapp/Cecil/pull/2417)
+- Enhance Cecil docs: templates, i18n, pagination [`51859d3`](https://github.com/Cecilapp/Cecil/commit/51859d33f2083b76ed6486bb68edeb498a8b697d)
+- chore: rename command to clear:temporary and add alias [`aa0a824`](https://github.com/Cecilapp/Cecil/commit/aa0a824133284f90eca7f3fa6c068c0660fde172)
+
 #### [8.106.6](https://github.com/Cecilapp/Cecil/compare/8.106.5...8.106.6)
 
 > 15 June 2026
