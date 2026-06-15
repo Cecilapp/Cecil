@@ -33,7 +33,7 @@ class FrontmatterDoctor
      *
      * @return array{
      *   summary: array{files_scanned: int, files_with_frontmatter: int, valid_frontmatters: int, invalid_frontmatters: int, files_without_frontmatter: int},
-        *   findings: array<int, array{file: string, file_absolute: string, line: int|null, status: string, details: string}>
+     *   findings: array<int, array{file: string, file_absolute: string, line: int|null, status: string, details: string}>
      * }
      */
     public function diagnose(Builder $builder, array $options = []): array
