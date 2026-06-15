@@ -2,7 +2,7 @@
 title: Commandes
 description: "Liste des commandes disponibles."
 date: 2026-03-27
-updated: 2026-06-13
+updated: 2026-06-15
 slug: commandes
 -->
 # Commandes
@@ -17,6 +17,7 @@ Available commands:
   clear:output               Removes output directory
   clear:tmp                  Removes temporary directory
   doctor                     Diagnoses the site configuration
+  doctor:frontmatter         [doctor:fm] Validates pages front matter syntax
   doctor:seo                 Audits rendered HTML pages for common SEO issues
   edit                       [open] Open pages directory with the editor
   help                       Display help for a command
@@ -338,6 +339,31 @@ Options:
   -p, --page=PAGE       Audit a single page relative to the pages directory
       --format=FORMAT   Output format: text (default) or json
       --include-virtual Include virtual pages (paginated, taxonomies) in audit
+```
+
+## doctor:frontmatter
+
+Valide la syntaxe du front matter des pages.
+
+```plaintext
+Description:
+  Validates pages front matter syntax
+
+Usage:
+  doctor:frontmatter|doctor:fm [options] [--] [<path>]
+
+Arguments:
+  path                  Use the given path as working directory
+
+Options:
+  -c, --config=CONFIG   Set the path to an extra configuration file
+  -p, --page=PAGE       Validate a single page relative to the pages directory
+      --ansi|--no-ansi  Force (or disable --no-ansi) ANSI output
+  -n, --no-interaction  Do not ask any interactive question
+  -h, --help            Display help for the given command. When no command is given display help for the list command
+  -q, --quiet           Do not output any message
+  -V, --version         Display this application version
+  -v|vv|vvv             Increase the verbosity of messages: 1 for normal output, 2 for more verbose output and 3 for debug
 ```
 
 La commande construit le site en mode dry-run, puis audite le HTML rendu avec un jeu de contrôles ciblés : balise title, meta description, URL canonique, structure des titres, balises Open Graph, attributs alt des images et longueur estimée du contenu.

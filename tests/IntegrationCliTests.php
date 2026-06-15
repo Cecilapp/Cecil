@@ -123,6 +123,43 @@ class IntegrationCliTests extends IntegrationTests
         self::assertStringContainsString('SEO audit summary', $output);
     }
 
+    public function testDoctorFrontmatter(): void
+    {
+        exec('php ./bin/cecil new:site tests/demo --demo -n -f 2>&1', $output, $retval);
+        self::assertTrue($retval < 1);
+
+        $invalidPage = Util::joinFile(__DIR__, 'demo', 'pages', 'invalid-frontmatter.md');
+        file_put_contents($invalidPage, "---\ntitle: \"Unclosed\n---\n\nBody\n");
+
+        $output = [];
+        exec('php ./bin/cecil doctor:frontmatter tests/demo 2>&1', $output, $retval);
+        $output = implode("\n", $output);
+        echo $output;
+
+        self::assertTrue($retval < 1);
+        self::assertStringContainsString('Front matter audit summary', $output);
+        self::assertStringContainsString('error(s) found', $output);
+        self::assertStringContainsString('invalid-frontmatter.md', $output);
+    }
+
+    public function testDoctorFrontmatterAlias(): void
+    {
+        exec('php ./bin/cecil new:site tests/demo --demo -n -f 2>&1', $output, $retval);
+        self::assertTrue($retval < 1);
+
+        $invalidPage = Util::joinFile(__DIR__, 'demo', 'pages', 'invalid-frontmatter-alias.md');
+        file_put_contents($invalidPage, "---\ntitle: \"Unclosed\n---\n\nBody\n");
+
+        $output = [];
+        exec('php ./bin/cecil doctor:fm tests/demo 2>&1', $output, $retval);
+        $output = implode("\n", $output);
+        echo $output;
+
+        self::assertTrue($retval < 1);
+        self::assertStringContainsString('Front matter audit summary', $output);
+        self::assertStringContainsString('invalid-frontmatter-alias.md', $output);
+    }
+
     public function testServeBackgroundWithPidFile(): void
     {
         $this->markTestSkipped('Skipping serve background test because it is not reliable in CI environments');
