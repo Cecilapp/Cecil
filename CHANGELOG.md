@@ -2,6 +2,12 @@
 
 All notable changes to this project will be documented in this file. Dates are displayed in UTC.
 
+#### [8.106.6](https://github.com/Cecilapp/Cecil/compare/8.106.5...8.106.6)
+
+> 15 June 2026
+
+- fix: default-language page for x-default alternate [`91e7436`](https://github.com/Cecilapp/Cecil/commit/91e743666df58fcbad2a7c084c0091624b55f858)
+
 #### [8.106.5](https://github.com/Cecilapp/Cecil/compare/8.106.4...8.106.5)
 
 > 14 June 2026
