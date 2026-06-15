@@ -2,6 +2,19 @@
 
 All notable changes to this project will be documented in this file. Dates are displayed in UTC.
 
+#### [8.108.0](https://github.com/Cecilapp/Cecil/compare/8.107.3...8.108.0)
+
+> 15 June 2026
+
+- feat: add --feedback option to doctor:seo command [`dc6924e`](https://github.com/Cecilapp/Cecil/commit/dc6924e360df6060ab88770f93bf2e698bd5eb6b)
+
+#### [8.107.3](https://github.com/Cecilapp/Cecil/compare/8.107.2...8.107.3)
+
+> 15 June 2026
+
+- docs: minor changes [`1359600`](https://github.com/Cecilapp/Cecil/commit/13596001f0210a835f6b63969e689fc5830bc956)
+- refactor: truncate long page labels in SEO command [`266361a`](https://github.com/Cecilapp/Cecil/commit/266361a32cb0888309c6d70aba246d4067b79f8a)
+
 #### [8.107.2](https://github.com/Cecilapp/Cecil/compare/8.107.1...8.107.2)
 
 > 15 June 2026
