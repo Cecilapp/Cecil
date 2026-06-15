@@ -14,24 +14,26 @@ Available commands:
   about                      Shows a short description about Cecil
   build                      Builds the website
   clear                      Removes all generated files
-  clear:output               Removes output directory
-  clear:tmp                  Removes temporary directory
   doctor                     Diagnoses the site configuration
-  doctor:frontmatter         [doctor:fm] Validates pages front matter syntax
-  doctor:seo                 Audits rendered HTML pages for common SEO issues
   edit                       [open] Open pages directory with the editor
   help                       Display help for a command
-  self-update                [selfupdate] Updates Cecil to the latest version
   serve                      Starts the built-in server
-  serve:stop                 Stops the background server
  cache
   cache:clear                Removes all cache files
   cache:clear:assets         Removes assets cache
   cache:clear:templates      Removes templates cache
   cache:clear:translations   Removes translations cache
+ clear
+  clear:output               Removes output directory
+  clear:temporary            [clear:tmp] Removes temporary directory
+ doctor
+  doctor:frontmatter         [doctor:fm] Validates pages front matter syntax
+  doctor:seo                 Audits rendered HTML pages for common SEO issues
  new
   new:page                   Creates a new page
   new:site                   Creates a new website
+ serve
+  serve:stop                 [stop] Stops the background server
  show
   show:config                Shows the configuration
   show:content               Shows content as tree
@@ -320,7 +322,7 @@ Help:
     cecil.phar doctor --config=config.yml
 ```
 
-## doctor:seo
+### doctor:seo
 
 Audite les pages HTML rendues pour détecter les problèmes SEO courants.
 
@@ -347,7 +349,7 @@ Par défaut, les pages virtuelles (paginées, pages de taxonomie) sont exclues d
 
 Exportez les résultats en JSON pour l'intégration CI en utilisant `--format=json`.
 
-### Configuration
+#### Configuration
 
 Personnalisez les seuils d'audit et les contrôles activés dans votre fichier de configuration :
 
@@ -368,7 +370,7 @@ doctor:
       lang_attribute: true
 ```
 
-## doctor:frontmatter
+### doctor:frontmatter
 
 Valide la syntaxe du front matter des pages.
 
