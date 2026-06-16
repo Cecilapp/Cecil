@@ -15,6 +15,7 @@ namespace Cecil\Command;
 
 use Cecil\Command\ShowContent\FileExtensionFilter;
 use Cecil\Command\ShowContent\FilenameRecursiveTreeIterator;
+use Cecil\Command\ShowContent\SortingRecursiveDirectoryIterator;
 use Cecil\Exception\RuntimeException;
 use Cecil\Util;
 use RecursiveDirectoryIterator;
@@ -125,7 +126,7 @@ EOF
             throw new RuntimeException(\sprintf('Invalid directory: %s.', $path));
         }
 
-        $dirIterator = new RecursiveDirectoryIterator($path, RecursiveDirectoryIterator::SKIP_DOTS);
+        $dirIterator = new SortingRecursiveDirectoryIterator($path, RecursiveDirectoryIterator::SKIP_DOTS);
         $dirIterator = new FileExtensionFilter($dirIterator, $ext);
         $files = new FilenameRecursiveTreeIterator(
             $dirIterator,
