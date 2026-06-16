@@ -2,6 +2,12 @@
 
 All notable changes to this project will be documented in this file. Dates are displayed in UTC.
 
+#### [8.108.2](https://github.com/Cecilapp/Cecil/compare/8.108.1...8.108.2)
+
+> 16 June 2026
+
+- fix: sorts show:content command results [`157ccaa`](https://github.com/Cecilapp/Cecil/commit/157ccaa0f05b52c53561167ac094fa46357c7961)
+
 #### [8.108.1](https://github.com/Cecilapp/Cecil/compare/8.108.0...8.108.1)
 
 > 16 June 2026
