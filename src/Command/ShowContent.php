@@ -13,14 +13,12 @@ declare(strict_types=1);
 
 namespace Cecil\Command;
 
-use Cecil\Command\ShowContent\FileExtensionFilter;
-use Cecil\Command\ShowContent\FilenameRecursiveTreeIterator;
-use Cecil\Command\ShowContent\SortingRecursiveDirectoryIterator;
 use Cecil\Exception\RuntimeException;
 use Cecil\Util;
-use RecursiveDirectoryIterator;
-use RecursiveTreeIterator;
+use SplFileInfo;
 use Symfony\Component\Console\Command\Command;
+use Symfony\Component\Console\Helper\TreeHelper;
+use Symfony\Component\Console\Helper\TreeStyle;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
@@ -68,41 +66,33 @@ EOF
      */
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
-        $count = 0;
         $contentTypes = ['pages', 'data'];
 
         $this->io->title('Show pages and data content');
 
-        // formating output
-        $unicodeTreePrefix = function (RecursiveTreeIterator $tree) {
-            $prefixParts = [
-                RecursiveTreeIterator::PREFIX_LEFT         => ' ',
-                RecursiveTreeIterator::PREFIX_MID_HAS_NEXT => '│ ',
-                RecursiveTreeIterator::PREFIX_END_HAS_NEXT => '├ ',
-                RecursiveTreeIterator::PREFIX_END_LAST     => '└ ',
-            ];
-            foreach ($prefixParts as $part => $string) {
-                $tree->setPrefixPart($part, $string);
-            }
-        };
-
         try {
+            $merged = [];
             foreach ($contentTypes as $type) {
                 $dir = (string) $this->getBuilder()->getConfig()->get("$type.dir");
-                if (is_dir(Util::joinFile($this->getPath(), $dir))) {
-                    $output->writeln(\sprintf('<info>%s:</info>', $dir));
-                    $pages = $this->getFilesTree($type);
-                    if (!Util\Platform::isWindows()) {
-                        $unicodeTreePrefix($pages);
-                    }
-                    foreach ($pages as $page) {
-                        $output->writeln($page);
-                        $count++;
-                    }
+                $path = Util::joinFile($this->getPath(), $dir);
+
+                if (!is_dir($path)) {
+                    continue;
                 }
-                if ($count < 1) {
-                    $output->writeln(\sprintf('<comment>Nothing in "%s".</comment>', $dir));
+
+                $ext = (array) $this->getBuilder()->getConfig()->get("$type.ext");
+                $treeStructure = $this->buildTreeStructure($path, $ext);
+
+                if (!empty($treeStructure)) {
+                    $merged[$type] = $treeStructure;
                 }
+            }
+
+            if (empty($merged)) {
+                $output->writeln('<comment>Nothing to show.</comment>');
+            } else {
+                $tree = TreeHelper::createTree($output, $this->getPath(), $merged, TreeStyle::rounded());
+                $tree->render();
             }
 
             return Command::SUCCESS;
@@ -112,27 +102,99 @@ EOF
     }
 
     /**
-     * Returns a console displayable tree of files.
+     * Build a tree structure (array) from the directory, filtering by file extensions.
+     *
+     * @param string $path
+     * @param array  $allowedExtensions
+     *
+     * @return array<string, mixed>
      *
      * @throws RuntimeException
      */
-    private function getFilesTree(string $contentType): FilenameRecursiveTreeIterator
+    private function buildTreeStructure(string $path, array $allowedExtensions): array
     {
-        $dir = (string) $this->getBuilder()->getConfig()->get("$contentType.dir");
-        $ext = (array) $this->getBuilder()->getConfig()->get("$contentType.ext");
-        $path = Util::joinFile($this->getPath(), $dir);
-
         if (!is_dir($path)) {
             throw new RuntimeException(\sprintf('Invalid directory: %s.', $path));
         }
 
-        $dirIterator = new SortingRecursiveDirectoryIterator($path, RecursiveDirectoryIterator::SKIP_DOTS);
-        $dirIterator = new FileExtensionFilter($dirIterator, $ext);
-        $files = new FilenameRecursiveTreeIterator(
-            $dirIterator,
-            FilenameRecursiveTreeIterator::SELF_FIRST
-        );
+        $items = $this->getSortedItems($path);
+        $structure = [];
+        $excludedDirs = ['.git', '.cecil', '.cache', '_site', 'vendor', 'node_modules'];
 
-        return $files;
+        foreach ($items as $item) {
+            if ($item->isDir() && !\in_array($item->getBasename(), $excludedDirs)) {
+                $subStructure = $this->buildSubdirectoryStructure($item->getRealPath(), $allowedExtensions, $excludedDirs);
+                if (!empty($subStructure)) {
+                    $structure[$item->getBasename()] = $subStructure;
+                }
+            } elseif ($item->isFile() && \in_array($item->getExtension(), $allowedExtensions)) {
+                $structure[] = $item->getBasename();
+            }
+        }
+
+        return $structure;
+    }
+
+    /**
+     * Build subdirectory tree structure recursively.
+     *
+     * @param string $path
+     * @param array  $allowedExtensions
+     * @param array  $excludedDirs
+     *
+     * @return array<string, mixed>
+     */
+    private function buildSubdirectoryStructure(string $path, array $allowedExtensions, array $excludedDirs): array
+    {
+        $items = $this->getSortedItems($path);
+        $structure = [];
+
+        foreach ($items as $item) {
+            if ($item->isDir() && !\in_array($item->getBasename(), $excludedDirs)) {
+                $subStructure = $this->buildSubdirectoryStructure($item->getRealPath(), $allowedExtensions, $excludedDirs);
+                if (!empty($subStructure)) {
+                    $structure[$item->getBasename()] = $subStructure;
+                }
+            } elseif ($item->isFile() && \in_array($item->getExtension(), $allowedExtensions)) {
+                $structure[] = $item->getBasename();
+            }
+        }
+
+        return $structure;
+    }
+
+    /**
+     * Get sorted items (files first, then directories) from a directory.
+     *
+     * @param string $path
+     *
+     * @return array<int, SplFileInfo>
+     */
+    private function getSortedItems(string $path): array
+    {
+        $files = [];
+        $dirs = [];
+
+        foreach (scandir($path) as $item) {
+            if ($item === '.' || $item === '..') {
+                continue;
+            }
+
+            $fullPath = $path . \DIRECTORY_SEPARATOR . $item;
+            $fileInfo = new SplFileInfo($fullPath);
+
+            if ($fileInfo->isDir()) {
+                $dirs[$item] = $fileInfo;
+            } else {
+                $files[$item] = $fileInfo;
+            }
+        }
+
+        // Sort each group alphabetically
+        ksort($files);
+        ksort($dirs);
+
+        // Merge: files first, then directories
+        return array_merge($files, $dirs);
     }
 }
