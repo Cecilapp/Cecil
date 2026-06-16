@@ -27,8 +27,6 @@ jobs:
       # checkout/php/cache/deps
       - name: Checkout source code
         uses: actions/checkout@v6
-        with:
-          fetch-depth: 0
       - name: Install PHP
         uses: shivammathur/setup-php@v2
         with:
@@ -146,8 +144,6 @@ jobs:
     steps:
       - name: Checkout source code
         uses: actions/checkout@v6
-        with:
-          fetch-depth: 1
       - name: Download files
         uses: actions/download-artifact@v8
         with:
@@ -251,8 +247,6 @@ jobs:
     steps:
       - name: Checkout source code
         uses: actions/checkout@v6
-        with:
-          fetch-depth: 1
       - name: Download files
         uses: actions/download-artifact@v8
         with:

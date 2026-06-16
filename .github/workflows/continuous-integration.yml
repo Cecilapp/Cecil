@@ -26,7 +26,6 @@ jobs:
     env:
       extensions: :psr, mbstring, intl, gettext, fileinfo, gd, sodium, exif, :redis, :relay
       ext-cache-key: cache-ext-v1
-
     strategy:
       fail-fast: false
       matrix:
@@ -47,18 +46,15 @@ jobs:
           - php: '8.5'
             os: 'ubuntu-latest'
             type: 'experimental'
-
     steps:
       - name: Checkout source code
         uses: actions/checkout@v6
-
       - name: Install image files optimizers (Ubuntu)
         if: ${{ matrix.os == 'ubuntu-latest' && join(matrix.type) == '' }}
         run: |
           sudo apt-get update -y
           sudo apt-get install -y jpegoptim pngquant gifsicle optipng libjpeg-progs webp libavif-bin
           sudo npm install -g svgo
-
       - name: Install image files optimizers (macOS)
         if: ${{ matrix.os == 'macos-15' && join(matrix.type) == '' }}
         run: |
@@ -70,13 +66,11 @@ jobs:
           brew install webp
           brew install libavif
           npm install -g svgo
-
       - name: Install image files optimizers (Windows)
         if: ${{ matrix.os == 'windows-2025-vs2026' && join(matrix.type) == '' }}
         uses: MinoruSekine/setup-scoop@v4.0.2
         with:
           apps: jpegoptim optipng libwebp libavif
-
       - name: Setup cache of PHP extensions
         id: extcache
         uses: shivammathur/cache-extensions@v1
@@ -84,14 +78,12 @@ jobs:
           php-version: ${{ matrix.php }}
           extensions: ${{ env.extensions }}
           key: ${{ env.ext-cache-key }}
-
       - name: Cache PHP extensions
         uses: actions/cache@v5
         with:
           path: ${{ steps.extcache.outputs.dir }}
           key: ${{ steps.extcache.outputs.key }}
           restore-keys: ${{ steps.extcache.outputs.key }}
-
       - name: Install PHP
         if: ${{ join(matrix.type) == '' }}
         uses: shivammathur/setup-php@v2
@@ -100,7 +92,6 @@ jobs:
           extensions: ${{ env.extensions }}
           coverage: none
           tools: composer:${{ env.COMPOSER_VERSION }}, box
-
       - name: Install PHP for code coverage
         if: ${{ join(matrix.type) == 'coverage' }}
         uses: shivammathur/setup-php@v2
@@ -109,7 +100,6 @@ jobs:
           extensions: ${{ env.extensions }}
           coverage: xdebug
           tools: composer:${{ env.COMPOSER_VERSION }}, box
-
       - name: Install PHP for code profiling
         if: ${{ join(matrix.type) == 'profiling' }}
         uses: shivammathur/setup-php@v2
@@ -123,7 +113,6 @@ jobs:
           BLACKFIRE_SERVER_TOKEN: ${{ secrets.BLACKFIRE_SERVER_TOKEN }}
           BLACKFIRE_CLIENT_ID: ${{ secrets.BLACKFIRE_CLIENT_ID }}
           BLACKFIRE_CLIENT_TOKEN: ${{ secrets.BLACKFIRE_CLIENT_TOKEN }}
-
       - name: Install experimental PHP
         if: ${{ join(matrix.type) == 'experimental' }}
         uses: shivammathur/setup-php@v2
@@ -133,7 +122,6 @@ jobs:
           ini-values: opcache.enable_cli=1, opcache.jit=tracing, opcache.jit_buffer_size=64M
           coverage: none
           tools: composer:${{ env.COMPOSER_VERSION }}, box
-
       - name: Cache Composer packages
         id: composer-cache
         uses: actions/cache@v5
@@ -143,44 +131,35 @@ jobs:
             tests/fixtures/website/vendor
           key: composer-${{ runner.os }}-php-${{ matrix.php }}-${{ hashFiles('**/composer.lock') }}
           restore-keys: composer-${{ runner.os }}-php-${{ matrix.php }}-
-
       - name: Validate `composer.json`
         if: steps.composer-cache.outputs.cache-hit != 'true'
         run: composer validate
-
       - name: Install dependencies
         if: steps.composer-cache.outputs.cache-hit != 'true'
         run: |
           composer install --prefer-dist --no-progress
-
       - name: Run code analysis
         run: |
           composer run-script code:analyse:gh
-
       - name: Run code style checker
         run: |
           composer run-script code:style
-
       - name: Run tests
         if: ${{ contains(matrix.type, '') || contains(matrix.type, 'experimental') }}
         run: |
           echo "::group::Integration tests"
           composer run-script test:integration
           echo "::endgroup::"
-
           echo "::group::CLI tests"
           composer run-script test:cli
           echo "::endgroup::"
-
           echo "::group::Unit tests"
           composer run-script test:unit
           echo "::endgroup::"
-
       - name: Run integration tests for code coverage
         if: ${{ contains(matrix.type, 'coverage') }}
         run: |
           composer run-script test:coverage
-
       - name: Upload code coverage results to Coveralls
         if: ${{ contains(matrix.type, 'coverage') }}
         continue-on-error: true
@@ -190,11 +169,9 @@ jobs:
           echo "::group::Install code coverage uploader"
           composer run-script test:coverage:install
           echo "::endgroup::"
-
           echo "::group::Upload code coverage results to Coveralls"
           composer run-script test:coverage:upload
           echo "::endgroup::"
-
       - name: Run integration tests for code profiling
         if: ${{ contains(matrix.type, 'profiling') }}
         continue-on-error: true
@@ -202,7 +179,6 @@ jobs:
           APP_ENV: prod
           APP_DEBUG: 0
         run: blackfire run php vendor/bin/phpunit -c ./ --testsuite=IntegrationTests
-
       - name: Build a skeleton site from `cecil.phar` binary
         if: ${{ matrix.os == 'ubuntu-latest' && matrix.php >= 8.2 && (contains(matrix.type, '') || contains(matrix.type, 'experimental')) }}
         run: |

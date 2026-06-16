@@ -15,11 +15,9 @@ jobs:
   deploy:
     name: Deploy documentation
     runs-on: ubuntu-latest
-
     steps:
       - name: Checkout source code
         uses: actions/checkout@v6
-
       - name: Markdown lint
         uses: DavidAnson/markdownlint-cli2-action@v23
         with:
@@ -27,7 +25,6 @@ jobs:
           globs: |
             'docs/**.md'
         continue-on-error: true
-
       - name: Push files
         if: env.GITHUB_TOKEN != null
         run: bash ./scripts/deploy-documentation.sh
