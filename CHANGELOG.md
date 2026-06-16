@@ -2,6 +2,17 @@
 
 All notable changes to this project will be documented in this file. Dates are displayed in UTC.
 
+#### [8.108.1](https://github.com/Cecilapp/Cecil/compare/8.108.0...8.108.1)
+
+> 16 June 2026
+
+- docs: add DoctorFrontmatter docs and update API docs [`2c1e46d`](https://github.com/Cecilapp/Cecil/commit/2c1e46d0170efa85ee3ee46c128f31e41a39569f)
+- fix: conditionally include feedback row in summary [`f438673`](https://github.com/Cecilapp/Cecil/commit/f438673b6dba8f52db53b77383f864813823b8cf)
+- chore: update deps [`2e1a117`](https://github.com/Cecilapp/Cecil/commit/2e1a1172ceb229b051995a5ffb0c9b326b089a36)
+- ci: add token input to gh-release workflow [`a880fc2`](https://github.com/Cecilapp/Cecil/commit/a880fc21f901789b3149c57815f2f7ec9a5463d9)
+- docs: add @param string $level to DoctorSeo docblock [`5657a29`](https://github.com/Cecilapp/Cecil/commit/5657a29112d30548db75e5b64e0bb5a5421ed640)
+- Add phpdoc instruction for src API updates [`a6ee20f`](https://github.com/Cecilapp/Cecil/commit/a6ee20f66fc9b2b1f9b2c4584867d0f8aa744c12)
+
 #### [8.108.0](https://github.com/Cecilapp/Cecil/compare/8.107.3...8.108.0)
 
 > 15 June 2026
