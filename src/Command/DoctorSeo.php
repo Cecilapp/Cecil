@@ -221,17 +221,21 @@ EOF
         $summaryData = $result['summary'];
         $findings = $result['findings'];
 
+        $summaryRows = [
+            ['Pages audited', (string) $summaryData['pages_audited']],
+            ['Pages without findings', (string) $summaryData['pages_without_findings']],
+            ['Bad', (string) $summaryData['bad_count']],
+            ['OK', (string) $summaryData['ok_count']],
+        ];
+        if ($this->includeFeedback) {
+            $summaryRows[] = ['Feedback', (string) $summaryData['feedback_count']];
+        }
+
         $summary = new Table($output);
         $summary
             ->setHeaderTitle('SEO audit summary')
             ->setHeaders(['Metric', 'Value'])
-            ->setRows([
-                ['Pages audited', (string) $summaryData['pages_audited']],
-                ['Pages without findings', (string) $summaryData['pages_without_findings']],
-                ['Bad', (string) $summaryData['bad_count']],
-                ['OK', (string) $summaryData['ok_count']],
-                ['Feedback', (string) $summaryData['feedback_count']],
-            ])
+            ->setRows($summaryRows)
         ;
         $summary->setStyle('box')->render();
 
