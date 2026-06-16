@@ -1,7 +1,7 @@
 <!--
 description: "Deploy (publish) your website."
 date: 2020-12-19
-updated: 2026-01-14
+updated: 2026-06-16
 alias: documentation/publish
 -->
 # Deploy
@@ -24,10 +24,8 @@ _netlify.toml_:
 [build]
   publish = "_site"
   command = "curl -sSOL https://cecil.app/build.sh && bash ./build.sh"
-
 [context.production.environment]
   CECIL_ENV = "production"
-
 [context.deploy-preview.environment]
   CECIL_ENV = "preview"
 ```
@@ -122,49 +120,33 @@ _.github/workflows/build-and-deploy.yml_:
 
 ```yml
 name: Build and deploy to GitHub Pages
-
 on:
   push:
     branches: [master, main]
   workflow_dispatch:
-
 concurrency:
   group: pages
   cancel-in-progress: true
-
 jobs:
   build:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout source
-        uses: actions/checkout@v4
-      - name: Setup PHP
-        uses: shivammathur/setup-php@v2
-        with:
-          php-version: pre-installed
-          extensions: mbstring, fileinfo, gd, imagick, intl, gettext
+        uses: actions/checkout@v6
       - name: Restore Cecil cache
-        uses: actions/cache/restore@v4
+        uses: actions/cache/restore@v5
         with:
           path: ./.cache
           key: cecil-cache-
           restore-keys: |
             cecil-cache-
-      - name: Setup Pages
-        id: pages
-        uses: actions/configure-pages@v5
-      - name: Build with Cecil
-        uses: Cecilapp/Cecil-Action@v3
-        with:
-          args: '-v --baseurl="${{ steps.pages.outputs.base_url }}/"'
+      - name: Build site
+        uses: Cecilapp/Cecil-Action@v4
       - name: Save Cecil cache
-        uses: actions/cache/save@v4
+        uses: actions/cache/save@v5
         with:
           path: ./.cache
           key: cecil-cache-${{ hashFiles('./.cache/**/*') }}
-      - name: Upload artifact
-        uses: actions/upload-pages-artifact@v3
-
   deploy:
     needs: build
     permissions:
@@ -177,7 +159,7 @@ jobs:
     steps:
       - name: Deploy to GitHub Pages
         id: deployment
-        uses: actions/deploy-pages@v4
+        uses: actions/deploy-pages@v5
 ```
 
 [Official documentation](https://docs.github.com/en/pages)
@@ -192,7 +174,6 @@ _.gitlab-ci.yml_:
 
 ```yml
 image: wordpress:cli-php8.4
-
 test:
   stage: test
   variables:
@@ -204,7 +185,6 @@ test:
      - test
   except:
    - master
-
 pages:
   stage: deploy
   variables:
@@ -217,7 +197,6 @@ pages:
       - public
   only:
     - master
-
 cache:
   paths:
     - composer-cache/
