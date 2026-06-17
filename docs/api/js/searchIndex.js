@@ -636,6 +636,16 @@ Search.appendIndex(
             "summary": "Add\u0020an\u0020asset\u0020path\u0020to\u0020assets\u0020list.",
             "url": "classes/Cecil-Builder.html#method_addToAssetsList"
         },                {
+            "fqsen": "\\Cecil\\Builder\u003A\u003ArememberAsset\u0028\u0029",
+            "name": "rememberAsset",
+            "summary": "Returns\u0020an\u0020Asset\u0020from\u0020the\u0020registry\u0020or\u0020stores\u0020a\u0020newly\u0020created\u0020one.",
+            "url": "classes/Cecil-Builder.html#method_rememberAsset"
+        },                {
+            "fqsen": "\\Cecil\\Builder\u003A\u003AgetAssetRegistryStats\u0028\u0029",
+            "name": "getAssetRegistryStats",
+            "summary": "Returns\u0020asset\u0020registry\u0020deduplication\u0020statistics.",
+            "url": "classes/Cecil-Builder.html#method_getAssetRegistryStats"
+        },                {
             "fqsen": "\\Cecil\\Builder\u003A\u003AgetAssetsList\u0028\u0029",
             "name": "getAssetsList",
             "summary": "Returns\u0020list\u0020of\u0020assets\u0020path.",
@@ -775,6 +785,21 @@ Search.appendIndex(
             "name": "assets",
             "summary": "Assets\u0020path\u0020collection.",
             "url": "classes/Cecil-Builder.html#property_assets"
+        },                {
+            "fqsen": "\\Cecil\\Builder\u003A\u003A\u0024assetRegistry",
+            "name": "assetRegistry",
+            "summary": "In\u002Dmemory\u0020registry\u0020used\u0020to\u0020deduplicate\u0020asset\u0020objects\u0020during\u0020a\u0020build.",
+            "url": "classes/Cecil-Builder.html#property_assetRegistry"
+        },                {
+            "fqsen": "\\Cecil\\Builder\u003A\u003A\u0024assetRegistryHits",
+            "name": "assetRegistryHits",
+            "summary": "Counter\u0020for\u0020asset\u0020registry\u0020cache\u0020hits\u0020during\u0020conversion\u0020steps.",
+            "url": "classes/Cecil-Builder.html#property_assetRegistryHits"
+        },                {
+            "fqsen": "\\Cecil\\Builder\u003A\u003A\u0024assetRegistryMisses",
+            "name": "assetRegistryMisses",
+            "summary": "Counter\u0020for\u0020asset\u0020registry\u0020cache\u0020misses\u0020\u0028new\u0020assets\u0020created\u0029\u0020during\u0020conversion\u0020steps.",
+            "url": "classes/Cecil-Builder.html#property_assetRegistryMisses"
         },                {
             "fqsen": "\\Cecil\\Builder\u003A\u003A\u0024menus",
             "name": "menus",
@@ -3176,15 +3201,15 @@ Search.appendIndex(
             "summary": "Shared\u0020across\u0020all\u0020instances\u003A\u0020registerAllLanguages\u0028\u0029\u0020scans\u0020185\u0020files\u0020but\u0020\u0024classMap\u0020is\u0020static",
             "url": "classes/Cecil-Converter-Parsedown.html#property_highlighter"
         },                {
-            "fqsen": "\\Cecil\\Converter\\Parsedown\u003A\u003A\u0024assetCache",
-            "name": "assetCache",
-            "summary": "",
-            "url": "classes/Cecil-Converter-Parsedown.html#property_assetCache"
-        },                {
             "fqsen": "\\Cecil\\Converter\\Parsedown\u003A\u003A\u0024imageProcessingCache",
             "name": "imageProcessingCache",
             "summary": "",
             "url": "classes/Cecil-Converter-Parsedown.html#property_imageProcessingCache"
+        },                {
+            "fqsen": "\\Cecil\\Converter\\Parsedown\u003A\u003A\u0024cacheBuildId",
+            "name": "cacheBuildId",
+            "summary": "",
+            "url": "classes/Cecil-Converter-Parsedown.html#property_cacheBuildId"
         },                {
             "fqsen": "\\Cecil\\Converter\\Parsedown\u003A\u003A\u0024language",
             "name": "language",
