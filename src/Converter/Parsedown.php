@@ -87,6 +87,13 @@ class Parsedown extends \ParsedownToc
             static::$highlighter = new Highlighter();
         }
 
+        // reset static caches when the build ID changes (e.g. watch mode with multiple builds)
+        $currentBuildId = Builder::getBuildId();
+        if (static::$cacheBuildId !== $currentBuildId) {
+            static::$imageProcessingCache = [];
+            static::$cacheBuildId = $currentBuildId;
+        }
+
         // options
         $options = array_merge([
             'selectors' => (array) $this->config->get('pages.body.toc'),
