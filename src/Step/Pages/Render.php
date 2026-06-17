@@ -392,7 +392,7 @@ class Render extends AbstractStep
             $page->getSection(),
             $this->config->getLayoutSection($page->getSection()),
             $page->getPath() === '',
-            $page->getVariable('layout'),
+            str_replace('.' . Layout::EXT, '', (string) $page->getVariable('layout')),
             $page->getVariable('language', $this->config->getLanguageDefault()),
             $page->getVariable('plural'),
             $page->getVariable('singular'),
