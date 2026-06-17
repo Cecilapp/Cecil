@@ -110,4 +110,9 @@ interface BuildContextInterface
      * Returns Renderer object.
      */
     public function getRenderer(): \Cecil\Renderer\Twig;
+
+    /**
+     * Records a layout cache access during rendering.
+     */
+    public function recordLayoutCacheAccess(bool $hit): void;
 }

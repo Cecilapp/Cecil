@@ -144,6 +144,8 @@ class Render extends AbstractStep
 
         // some cache to avoid multiple calls
         $cache = [];
+        $layoutCache = [];
+        $currentLanguage = null;
 
         /** @var Page $page */
         foreach ($pages as $page) {
@@ -152,22 +154,26 @@ class Render extends AbstractStep
 
             // l10n
             $language = $page->getVariable('language', $this->config->getLanguageDefault());
-            if (!isset($cache['locale'][$language])) {
-                $cache['locale'][$language] = $this->config->getLanguageProperty('locale', $language);
-            }
-            $this->builder->getRenderer()->setLocale($cache['locale'][$language]);
+            if ($currentLanguage !== $language) {
+                if (!isset($cache['locale'][$language])) {
+                    $cache['locale'][$language] = $this->config->getLanguageProperty('locale', $language);
+                }
+                $this->builder->getRenderer()->setLocale($cache['locale'][$language]);
 
-            // global site variables
-            if (!isset($cache['site'][$language])) {
-                $cache['site'][$language] = new Site($this->builder, $language);
-            }
-            $this->builder->getRenderer()->addGlobal('site', $cache['site'][$language]);
+                // global site variables
+                if (!isset($cache['site'][$language])) {
+                    $cache['site'][$language] = new Site($this->builder, $language);
+                }
+                $this->builder->getRenderer()->addGlobal('site', $cache['site'][$language]);
 
-            // global config raw variables
-            if (!isset($cache['config'][$language])) {
-                $cache['config'][$language] = new Config($this->builder, $language);
+                // global config raw variables
+                if (!isset($cache['config'][$language])) {
+                    $cache['config'][$language] = new Config($this->builder, $language);
+                }
+                $this->builder->getRenderer()->addGlobal('config', $cache['config'][$language]);
+
+                $currentLanguage = $language;
             }
-            $this->builder->getRenderer()->addGlobal('config', $cache['config'][$language]);
 
             // excluded format(s)?
             $formats = (array) $page->getVariable('output');
@@ -200,8 +206,14 @@ class Render extends AbstractStep
 
             // renders each output format
             foreach ($formats as $format) {
-                // search for the template
-                $layout = Layout::finder($page, $format, $this->config);
+                $layoutCacheKey = $this->getLayoutCacheKey($page, $format);
+                $layoutCacheHit = isset($layoutCache[$layoutCacheKey]);
+                if (!$layoutCacheHit) {
+                    // search for the template only once per layout profile
+                    $layoutCache[$layoutCacheKey] = Layout::finder($page, $format, $this->config);
+                }
+                $this->builder->recordLayoutCacheAccess($layoutCacheHit);
+                $layout = $layoutCache[$layoutCacheKey];
                 // renders with Twig
                 try {
                     $deprecations = [];
@@ -367,6 +379,25 @@ class Render extends AbstractStep
         }
 
         return $alternates;
+    }
+
+    /**
+     * Returns a deterministic cache key for layout resolution.
+     */
+    protected function getLayoutCacheKey(Page $page, string $format): string
+    {
+        return \md5(\serialize([
+            $format,
+            $page->getType(),
+            $page->getSection(),
+            $this->config->getLayoutSection($page->getSection()),
+            $page->getPath() === '',
+            $page->getVariable('layout'),
+            $page->getVariable('language', $this->config->getLanguageDefault()),
+            $page->getVariable('plural'),
+            $page->getVariable('singular'),
+            $page->getVariable('term'),
+        ]));
     }
 
     /**
