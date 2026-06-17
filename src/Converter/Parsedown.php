@@ -59,6 +59,9 @@ class Parsedown extends \ParsedownToc
     /** @var array<string, mixed> */
     protected static array $imageProcessingCache = [];
 
+    /** Cache scope marker so static caches can be reset between builds. */
+    protected static ?string $cacheBuildId = null;
+
     /** @var string|null */
     protected $language;
 
