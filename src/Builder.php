@@ -522,7 +522,7 @@ class Builder implements BuildContextInterface, LoggerAwareInterface
         if (!isset($this->assetRegistry[$cacheKey])) {
             $asset = $factory();
             if (!$asset instanceof Asset) {
-                throw new RuntimeException(\sprintf('Asset registry factory must return an Asset ("%s" returned).', \get_debug_type($asset)));
+                throw new RuntimeException(\sprintf('Asset registry factory must return an Asset ("%s" returned).', get_debug_type($asset)));
             }
             $this->assetRegistry[$cacheKey] = $asset;
             $this->assetRegistryMisses++;

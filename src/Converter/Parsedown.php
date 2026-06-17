@@ -827,7 +827,7 @@ class Parsedown extends \ParsedownToc
 
     private function getCacheKey(string $prefix, array $payload): string
     {
-        return \sprintf('%s_%s', $prefix, \hash('xxh128', \serialize($payload)));
+        return \sprintf('%s_%s', $prefix, hash('xxh128', serialize($payload)));
     }
 
     /**
