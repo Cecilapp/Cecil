@@ -269,7 +269,7 @@ EOF
             $optimizationRows[] = [
                 'Assets deduplication',
                 \sprintf('%d created / %d reused', $metrics['registry']['misses'], $metrics['registry']['hits']),
-                \sprintf('<fg=green>%.1f%% hit rate</>', $metrics['registry']['deduplication_ratio']),
+                \sprintf('%.1f%% hit rate', $metrics['registry']['deduplication_ratio']),
             ];
         }
 
@@ -278,7 +278,7 @@ EOF
             $optimizationRows[] = [
                 'Layouts cache',
                 \sprintf('%d misses / %d hits', $metrics['layout_cache']['misses'], $metrics['layout_cache']['hits']),
-                \sprintf('<fg=green>%.1f%% hit rate</>', $metrics['layout_cache']['hit_rate']),
+                \sprintf('%.1f%% hit rate', $metrics['layout_cache']['hit_rate']),
             ];
         }
 
