@@ -1,7 +1,7 @@
 <!--
 description: "Create a new website and preview it locally."
 date: 2020-12-19
-updated: 2026-02-02
+updated: 2026-06-18
 menu: home
 -->
 # Quick Start
@@ -89,18 +89,15 @@ You can now copy the content of the `_site` directory to a Web server 🎉
 
 ----
 
-## Create a blog
+## Starter kits
 
-If you want to create a no-hassle blog, quickly, the [starter blog](https://github.com/Cecilapp/the-butler#readme) is for you.
+To get started quickly, use one of Cecil's ready-to-use starter kits:
 
-[![New blog example](/docs/cecil-newblog.png)](https://github.com/Cecilapp/the-butler#readme)
+- [The Butler](https://github.com/Cecilapp/the-butler#readme): a publishing-ready starter blog.
+- [Links](https://github.com/Cecilapp/Links#readme): an open source Linktree alternative.
+- [Photo Stream](https://github.com/Cecilapp/photo-stream#readme): a super simple self-hosted photo stream.
+- [Statidocs](https://github.com/Cecilapp/statidocs#readme): build a documentation website quickly.
 
-The easiest way to deploy and manage your blog is certainly with [Netlify](https://cecil.app/hosting/netlify/deploy/) or [Vercel](https://cecil.app/hosting/vercel/deploy/).
+[![Starter blog example](/docs/cecil-newblog.png)](https://github.com/Cecilapp/the-butler#readme)
 
-### Deploy to Netlify
-
-[![Deploy to Netlify](https://cecil.app/images/netlify/button.svg)](https://cecil.app/hosting/netlify/deploy/)
-
-### Deploy to Vercel
-
-[![Deploy to Vercel](https://vercel.com/button/default.svg)](https://cecil.app/hosting/vercel/deploy/)
+Then check the deployment guides to publish your project on your preferred platform: [Netlify](https://cecil.app/hosting/netlify/deploy/) or [Vercel](https://cecil.app/hosting/vercel/deploy/).
