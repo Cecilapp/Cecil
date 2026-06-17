@@ -267,8 +267,8 @@ EOF
         // add asset registry deduplication stats if available
         if (isset($metrics['registry']) && $metrics['registry']['total'] > 0) {
             $optimizationRows[] = [
-                '<fg=cyan>Assets deduplication</>',
-                \sprintf('%d created, %d reused', $metrics['registry']['misses'], $metrics['registry']['hits']),
+                'Assets deduplication',
+                \sprintf('%d created / %d reused', $metrics['registry']['misses'], $metrics['registry']['hits']),
                 \sprintf('<fg=green>%.1f%% hit rate</>', $metrics['registry']['deduplication_ratio']),
             ];
         }
@@ -276,8 +276,8 @@ EOF
         // add layout cache stats if available
         if (isset($metrics['layout_cache']) && $metrics['layout_cache']['total'] > 0) {
             $optimizationRows[] = [
-                '<fg=cyan>Layouts cache</>',
-                \sprintf('%d misses, %d hits', $metrics['layout_cache']['misses'], $metrics['layout_cache']['hits']),
+                'Layouts cache',
+                \sprintf('%d misses / %d hits', $metrics['layout_cache']['misses'], $metrics['layout_cache']['hits']),
                 \sprintf('<fg=green>%.1f%% hit rate</>', $metrics['layout_cache']['hit_rate']),
             ];
         }
@@ -296,7 +296,7 @@ EOF
         if ($optimizationRows !== []) {
             $table = new Table($output);
             $table
-                ->setHeaderTitle('Optimization metrics')
+                ->setHeaderTitle('Performance metrics')
                 ->setHeaders(['Metric', 'Value', 'Impact'])
                 ->setRows($optimizationRows)
             ;
