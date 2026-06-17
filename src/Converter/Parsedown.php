@@ -721,96 +721,87 @@ class Parsedown extends \ParsedownToc
 
     private function getCachedAsset(string $path, array $assetOptions): Asset
     {
-        $cacheKey = $this->getCacheKey('asset', [
-            'path' => $path,
-            'options' => $assetOptions,
-        ]);
-        if (!isset(static::$assetCache[$cacheKey])) {
-            static::$assetCache[$cacheKey] = new Asset($this->builder, $path, $assetOptions);
-        }
-
-        return static::$assetCache[$cacheKey];
+        return $this->rememberAsset(
+            [
+                'path' => $path,
+                'options' => $assetOptions,
+            ],
+            fn () => new Asset($this->builder, $path, $assetOptions)
+        );
     }
 
     private function getCachedDominantColor(Asset $asset): string
     {
-        $cacheKey = $this->getCacheKey('dominant', ['asset' => $this->getAssetIdentity($asset)]);
-        if (!isset(static::$imageProcessingCache[$cacheKey])) {
-            static::$imageProcessingCache[$cacheKey] = Image::getDominantColor($asset);
-        }
-
-        return (string) static::$imageProcessingCache[$cacheKey];
+        return (string) $this->rememberImageProcessing(
+            'dominant',
+            ['asset' => $this->getAssetIdentity($asset)],
+            static fn () => Image::getDominantColor($asset)
+        );
     }
 
     private function getCachedLqip(Asset $asset): string
     {
-        $cacheKey = $this->getCacheKey('lqip', ['asset' => $this->getAssetIdentity($asset)]);
-        if (!isset(static::$imageProcessingCache[$cacheKey])) {
-            static::$imageProcessingCache[$cacheKey] = Image::getLqip($asset);
-        }
-
-        return (string) static::$imageProcessingCache[$cacheKey];
+        return (string) $this->rememberImageProcessing(
+            'lqip',
+            ['asset' => $this->getAssetIdentity($asset)],
+            static fn () => Image::getLqip($asset)
+        );
     }
 
     private function isAnimatedGifCached(Asset $asset): bool
     {
-        $cacheKey = $this->getCacheKey('animated', ['asset' => $this->getAssetIdentity($asset)]);
-        if (!isset(static::$imageProcessingCache[$cacheKey])) {
-            static::$imageProcessingCache[$cacheKey] = Image::isAnimatedGif($asset);
-        }
-
-        return (bool) static::$imageProcessingCache[$cacheKey];
+        return (bool) $this->rememberImageProcessing(
+            'animated',
+            ['asset' => $this->getAssetIdentity($asset)],
+            static fn () => Image::isAnimatedGif($asset)
+        );
     }
 
     private function getCachedSrcsetW(Asset $asset, array $widths): string
     {
-        $cacheKey = $this->getCacheKey('srcsetw', ['asset' => $this->getAssetIdentity($asset), 'widths' => $widths]);
-        if (!isset(static::$imageProcessingCache[$cacheKey])) {
-            static::$imageProcessingCache[$cacheKey] = Image::buildHtmlSrcsetW($asset, $widths);
-        }
-
-        return (string) static::$imageProcessingCache[$cacheKey];
+        return (string) $this->rememberImageProcessing(
+            'srcsetw',
+            ['asset' => $this->getAssetIdentity($asset), 'widths' => $widths],
+            static fn () => Image::buildHtmlSrcsetW($asset, $widths)
+        );
     }
 
     private function getCachedSrcset(Asset $asset, array $widths): string
     {
-        $cacheKey = $this->getCacheKey('srcset', ['asset' => $this->getAssetIdentity($asset), 'widths' => $widths]);
-        if (!isset(static::$imageProcessingCache[$cacheKey])) {
-            static::$imageProcessingCache[$cacheKey] = Image::buildHtmlSrcset($asset, $widths);
-        }
-
-        return (string) static::$imageProcessingCache[$cacheKey];
+        return (string) $this->rememberImageProcessing(
+            'srcset',
+            ['asset' => $this->getAssetIdentity($asset), 'widths' => $widths],
+            static fn () => Image::buildHtmlSrcset($asset, $widths)
+        );
     }
 
     private function getCachedSizes(string $class, array $sizesConfig): string
     {
-        $cacheKey = $this->getCacheKey('sizes', ['class' => $class, 'sizes' => $sizesConfig]);
-        if (!isset(static::$imageProcessingCache[$cacheKey])) {
-            static::$imageProcessingCache[$cacheKey] = Image::getHtmlSizes($class, $sizesConfig);
-        }
-
-        return (string) static::$imageProcessingCache[$cacheKey];
+        return (string) $this->rememberImageProcessing(
+            'sizes',
+            ['class' => $class, 'sizes' => $sizesConfig],
+            static fn () => Image::getHtmlSizes($class, $sizesConfig)
+        );
     }
 
     private function getCachedDarkSourceAttributes(Asset $asset, string $darkSuffix, array $formats, array $options): array
     {
-        $cacheKey = $this->getCacheKey('dark', [
-            'asset' => $this->getAssetIdentity($asset),
-            'suffix' => $darkSuffix,
-            'formats' => $formats,
-            'options' => $options,
-        ]);
-        if (!isset(static::$imageProcessingCache[$cacheKey])) {
-            static::$imageProcessingCache[$cacheKey] = Image::buildDarkSourceAttributes(
+        return (array) $this->rememberImageProcessing(
+            'dark',
+            [
+                'asset' => $this->getAssetIdentity($asset),
+                'suffix' => $darkSuffix,
+                'formats' => $formats,
+                'options' => $options,
+            ],
+            fn () => Image::buildDarkSourceAttributes(
                 $this->builder,
                 $asset,
                 $darkSuffix,
                 $formats,
                 $options
-            );
-        }
-
-        return (array) static::$imageProcessingCache[$cacheKey];
+            )
+        );
     }
 
     private function getAssetIdentity(Asset $asset): string
@@ -828,6 +819,32 @@ class Parsedown extends \ParsedownToc
     private function getCacheKey(string $prefix, array $payload): string
     {
         return \sprintf('%s_%s', $prefix, \hash('xxh128', \serialize($payload)));
+    }
+
+    /**
+     * Memoize an Asset instance across Parsedown instances.
+     */
+    private function rememberAsset(array $payload, callable $factory): Asset
+    {
+        $cacheKey = $this->getCacheKey('asset', $payload);
+        if (!isset(static::$assetCache[$cacheKey])) {
+            static::$assetCache[$cacheKey] = $factory();
+        }
+
+        return static::$assetCache[$cacheKey];
+    }
+
+    /**
+     * Memoize an image-processing result across Parsedown instances.
+     */
+    private function rememberImageProcessing(string $prefix, array $payload, callable $factory): mixed
+    {
+        $cacheKey = $this->getCacheKey($prefix, $payload);
+        if (!isset(static::$imageProcessingCache[$cacheKey])) {
+            static::$imageProcessingCache[$cacheKey] = $factory();
+        }
+
+        return static::$imageProcessingCache[$cacheKey];
     }
 
     /**
