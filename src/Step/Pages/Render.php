@@ -386,7 +386,7 @@ class Render extends AbstractStep
      */
     protected function getLayoutCacheKey(Page $page, string $format): string
     {
-        return \md5(\serialize([
+        return md5(serialize([
             $format,
             $page->getType(),
             $page->getSection(),
