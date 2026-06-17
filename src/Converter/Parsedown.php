@@ -56,10 +56,12 @@ class Parsedown extends \ParsedownToc
     /** Shared across all instances: registerAllLanguages() scans 185 files but $classMap is static */
     protected static Highlighter $highlighter;
 
-    /** @var array<string, mixed> */
+    /** @var array<string, mixed> Stores image processing results to avoid redundant computations within a build. */
     protected static array $imageProcessingCache = [];
 
-    /** Cache scope marker so static caches can be reset between builds. */
+    /**
+     * @var string|null Cache scope marker so static caches can be reset between builds.
+     */
     protected static ?string $cacheBuildId = null;
 
     /** @var string|null */
