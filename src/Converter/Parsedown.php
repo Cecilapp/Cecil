@@ -53,8 +53,16 @@ class Parsedown extends \ParsedownToc
      */
     protected $regexImage = "~^!\[.*?\]\(.*?\)~";
 
-    /** @var Highlighter */
-    protected $highlighter;
+    /** Shared across all instances: registerAllLanguages() scans 185 files but $classMap is static */
+    protected static Highlighter $highlighter;
+
+    /** @var array<string, mixed> Stores image processing results to avoid redundant computations within a build. */
+    protected static array $imageProcessingCache = [];
+
+    /**
+     * @var string|null Cache scope marker so static caches can be reset between builds.
+     */
+    protected static ?string $cacheBuildId = null;
 
     /** @var string|null */
     protected $language;
@@ -76,7 +84,17 @@ class Parsedown extends \ParsedownToc
         $this->BlockTypes[':'][] = 'Note';
 
         // code highlight
-        $this->highlighter = new Highlighter();
+        // Instantiate once: registerAllLanguages() scans 185 JSON files but classMap is static
+        if (!isset(static::$highlighter)) {
+            static::$highlighter = new Highlighter();
+        }
+
+        // reset static caches when the build ID changes (e.g. watch mode with multiple builds)
+        $currentBuildId = Builder::getBuildId();
+        if (static::$cacheBuildId !== $currentBuildId) {
+            static::$imageProcessingCache = [];
+            static::$cacheBuildId = $currentBuildId;
+        }
 
         // options
         $options = array_merge([
@@ -262,7 +280,7 @@ class Parsedown extends \ParsedownToc
         unset($InlineImage['element']['attributes']['target'], $InlineImage['element']['attributes']['rel']);
 
         // normalize path
-        $InlineImage['element']['attributes']['src'] = $this->normalizePath($InlineImage['element']['attributes']['src']);
+        $InlineImage['element']['attributes']['src'] = $this->normalizePath((string) $InlineImage['element']['attributes']['src']);
 
         // should be lazy loaded?
         if ($this->config->isEnabled('pages.body.images.lazy') && !isset($InlineImage['element']['attributes']['loading'])) {
@@ -292,7 +310,7 @@ class Parsedown extends \ParsedownToc
             $assetOptions += ['fallback' => (string) $this->config->get('pages.body.images.remote.fallback')];
         }
         $assetOptions += ['language' => $this->language];
-        $asset = new Asset($this->builder, $InlineImage['element']['attributes']['src'], $assetOptions);
+        $asset = $this->getCachedAsset((string) $InlineImage['element']['attributes']['src'], $assetOptions);
         $InlineImage['element']['attributes']['src'] = new Url($this->builder, $asset);
         $width = $asset['width'];
 
@@ -356,14 +374,14 @@ class Parsedown extends \ParsedownToc
             $InlineImage['element']['attributes']['style'] = trim($InlineImage['element']['attributes']['style'], ';');
             switch ($InlineImage['element']['attributes']['placeholder']) {
                 case 'color':
-                    $InlineImage['element']['attributes']['style'] .= \sprintf(';max-width:100%%;height:auto;background-color:%s;', Image::getDominantColor($assetResized ?? $asset));
+                    $InlineImage['element']['attributes']['style'] .= \sprintf(';max-width:100%%;height:auto;background-color:%s;', $this->getCachedDominantColor($assetResized ?? $asset));
                     break;
                 case 'lqip':
                     // aborts if animated GIF for performance reasons
-                    if (Image::isAnimatedGif($assetResized ?? $asset)) {
+                    if ($this->isAnimatedGifCached($assetResized ?? $asset)) {
                         break;
                     }
-                    $InlineImage['element']['attributes']['style'] .= \sprintf(';max-width:100%%;height:auto;background-image:url(%s);background-repeat:no-repeat;background-position:center;background-size:cover;', Image::getLqip($asset));
+                    $InlineImage['element']['attributes']['style'] .= \sprintf(';max-width:100%%;height:auto;background-image:url(%s);background-repeat:no-repeat;background-position:center;background-size:cover;', $this->getCachedLqip($asset));
                     break;
             }
             unset($InlineImage['element']['attributes']['placeholder']);
@@ -377,13 +395,10 @@ class Parsedown extends \ParsedownToc
         if ($this->config->isEnabled('pages.body.images.responsive')) {
             try {
                 if (
-                    $srcset = Image::buildHtmlSrcsetW(
-                        $assetResized ?? $asset,
-                        $this->config->getAssetsImagesWidths()
-                    )
+                    $srcset = $this->getCachedSrcsetW($assetResized ?? $asset, $this->config->getAssetsImagesWidths())
                 ) {
                     $InlineImage['element']['attributes']['srcset'] = $srcset;
-                    $sizes = Image::getHtmlSizes($InlineImage['element']['attributes']['class'] ?? '', (array) $this->config->getAssetsImagesSizes());
+                    $sizes = $this->getCachedSizes($InlineImage['element']['attributes']['class'] ?? '', (array) $this->config->getAssetsImagesSizes());
                     $InlineImage['element']['attributes']['sizes'] = $sizes;
                 }
             } catch (\Exception $e) {
@@ -422,7 +437,7 @@ class Parsedown extends \ParsedownToc
         ) {
             try {
                 // abord if InlineImage is an animated GIF
-                if (Image::isAnimatedGif($assetResized ?? $asset)) {
+                if ($this->isAnimatedGifCached($assetResized ?? $asset)) {
                     $filepath = Util::joinFile($this->config->getOutputPath(), $assetResized['path'] ?? $asset['path'] ?? '');
                     throw new RuntimeException(\sprintf('Asset "%s" is not converted (animated GIF).', $filepath));
                 }
@@ -433,7 +448,7 @@ class Parsedown extends \ParsedownToc
                         $assetConverted = ($assetResized ?? $asset)->convert($format);
                         // build responsive images?
                         if ($this->config->isEnabled('pages.body.images.responsive')) {
-                            $srcset = Image::buildHtmlSrcset($assetConverted, $this->config->getAssetsImagesWidths());
+                            $srcset = $this->getCachedSrcset($assetConverted, $this->config->getAssetsImagesWidths());
                         }
                         // if not, use default image as srcset
                         if (empty($srcset)) {
@@ -481,8 +496,7 @@ class Parsedown extends \ParsedownToc
         // dark color-scheme variant: auto-detect `{filename}{suffix}.{ext}` alongside the source image
         $darkSuffix = (string) $this->config->get('pages.body.images.dark_suffix');
         if (!empty($darkSuffix)) {
-            $darkSourceAttributes = Image::buildDarkSourceAttributes(
-                $this->builder,
+            $darkSourceAttributes = $this->getCachedDarkSourceAttributes(
                 $asset,
                 $darkSuffix,
                 $formats,
@@ -615,7 +629,7 @@ class Parsedown extends \ParsedownToc
             $code = $block['element']['element']['text'];
             $languageClass = $block['element']['element']['attributes']['class'];
             $language = explode('-', $languageClass);
-            $highlighted = $this->highlighter->highlight($language[1], $code);
+            $highlighted = static::$highlighter->highlight($language[1], $code);
             $block['element']['element']['attributes']['class'] = vsprintf('%s hljs %s', [
                 $languageClass,
                 $highlighted->language,
@@ -714,6 +728,131 @@ class Parsedown extends \ParsedownToc
         return $matches[3];
     }
 
+    private function getCachedAsset(string $path, array $assetOptions): Asset
+    {
+        return $this->rememberAsset(
+            [
+                'path' => $path,
+                'options' => $assetOptions,
+            ],
+            fn () => new Asset($this->builder, $path, $assetOptions)
+        );
+    }
+
+    private function getCachedDominantColor(Asset $asset): string
+    {
+        return (string) $this->rememberImageProcessing(
+            'dominant',
+            ['asset' => $this->getAssetIdentity($asset)],
+            static fn () => Image::getDominantColor($asset)
+        );
+    }
+
+    private function getCachedLqip(Asset $asset): string
+    {
+        return (string) $this->rememberImageProcessing(
+            'lqip',
+            ['asset' => $this->getAssetIdentity($asset)],
+            static fn () => Image::getLqip($asset)
+        );
+    }
+
+    private function isAnimatedGifCached(Asset $asset): bool
+    {
+        return (bool) $this->rememberImageProcessing(
+            'animated',
+            ['asset' => $this->getAssetIdentity($asset)],
+            static fn () => Image::isAnimatedGif($asset)
+        );
+    }
+
+    private function getCachedSrcsetW(Asset $asset, array $widths): string
+    {
+        return (string) $this->rememberImageProcessing(
+            'srcsetw',
+            ['asset' => $this->getAssetIdentity($asset), 'widths' => $widths],
+            static fn () => Image::buildHtmlSrcsetW($asset, $widths)
+        );
+    }
+
+    private function getCachedSrcset(Asset $asset, array $widths): string
+    {
+        return (string) $this->rememberImageProcessing(
+            'srcset',
+            ['asset' => $this->getAssetIdentity($asset), 'widths' => $widths],
+            static fn () => Image::buildHtmlSrcset($asset, $widths)
+        );
+    }
+
+    private function getCachedSizes(string $class, array $sizesConfig): string
+    {
+        return (string) $this->rememberImageProcessing(
+            'sizes',
+            ['class' => $class, 'sizes' => $sizesConfig],
+            static fn () => Image::getHtmlSizes($class, $sizesConfig)
+        );
+    }
+
+    private function getCachedDarkSourceAttributes(Asset $asset, string $darkSuffix, array $formats, array $options): array
+    {
+        return (array) $this->rememberImageProcessing(
+            'dark',
+            [
+                'asset' => $this->getAssetIdentity($asset),
+                'suffix' => $darkSuffix,
+                'formats' => $formats,
+                'options' => $options,
+            ],
+            fn () => Image::buildDarkSourceAttributes(
+                $this->builder,
+                $asset,
+                $darkSuffix,
+                $formats,
+                $options
+            )
+        );
+    }
+
+    private function getAssetIdentity(Asset $asset): string
+    {
+        return \sprintf(
+            '%s|%s|%s|%sx%s',
+            (string) $asset['path'],
+            (string) $asset['hash'],
+            (string) $asset['subtype'],
+            (string) ($asset['width'] ?? ''),
+            (string) ($asset['height'] ?? '')
+        );
+    }
+
+    private function getCacheKey(string $prefix, array $payload): string
+    {
+        return \sprintf('%s_%s', $prefix, hash('xxh128', serialize($payload)));
+    }
+
+    /**
+     * Memoize an Asset instance across Parsedown instances.
+     */
+    private function rememberAsset(array $payload, callable $factory): Asset
+    {
+        $cacheKey = $this->getCacheKey('asset', $payload);
+
+        return $this->builder->rememberAsset($cacheKey, $factory);
+    }
+
+    /**
+     * Memoize an image-processing result across Parsedown instances.
+     */
+    private function rememberImageProcessing(string $prefix, array $payload, callable $factory): mixed
+    {
+        $cacheKey = $this->getCacheKey($prefix, $payload);
+        if (!isset(static::$imageProcessingCache[$cacheKey])) {
+            static::$imageProcessingCache[$cacheKey] = $factory();
+        }
+
+        return static::$imageProcessingCache[$cacheKey];
+    }
+
     /**
      * Create a media (video or audio) element from a link.
      */
@@ -727,7 +866,10 @@ class Parsedown extends \ParsedownToc
         ];
         $block['element']['attributes'] = $link['element']['attributes'];
         unset($block['element']['attributes']['href']);
-        $block['element']['attributes']['src'] = new Url($this->builder, new Asset($this->builder, $link['element']['attributes']['href']));
+        $block['element']['attributes']['src'] = new Url(
+            $this->builder,
+            $this->getCachedAsset((string) $link['element']['attributes']['href'], [])
+        );
         switch ($type) {
             case 'video':
                 $block['element']['name'] = 'video';
@@ -739,7 +881,10 @@ class Parsedown extends \ParsedownToc
                     $block['element']['attributes']['playsinline'] = '';
                 }
                 if (isset($block['element']['attributes']['poster'])) {
-                    $block['element']['attributes']['poster'] = new Url($this->builder, new Asset($this->builder, $block['element']['attributes']['poster']));
+                    $block['element']['attributes']['poster'] = new Url(
+                        $this->builder,
+                        $this->getCachedAsset((string) $block['element']['attributes']['poster'], [])
+                    );
                 }
                 if (!\array_key_exists('style', $block['element']['attributes'])) {
                     $block['element']['attributes']['style'] = '';

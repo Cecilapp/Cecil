@@ -153,6 +153,21 @@ class Builder implements BuildContextInterface, LoggerAwareInterface
      */
     protected $assets = [];
     /**
+     * In-memory registry used to deduplicate asset objects during a build.
+     * @var array<string, Asset>
+     */
+    protected $assetRegistry = [];
+    /**
+     * Counter for asset registry cache hits during conversion steps.
+     * @var int
+     */
+    protected $assetRegistryHits = 0;
+    /**
+     * Counter for asset registry cache misses (new assets created) during conversion steps.
+     * @var int
+     */
+    protected $assetRegistryMisses = 0;
+    /**
      * Menus collection.
      * This is an associative array that holds menus for different languages.
      * Each key is a language code, and the value is a Collection\Menu\Collection instance
@@ -261,6 +276,11 @@ class Builder implements BuildContextInterface, LoggerAwareInterface
         // merge options with defaults
         $this->options = array_merge(self::OPTIONS, $options);
 
+        // reset in-memory registries for this build
+        $this->assetRegistry = [];
+        $this->assetRegistryHits = 0;
+        $this->assetRegistryMisses = 0;
+
         // set build ID
         self::$buildId = hash('adler32', date('YmdHis') . self::$version);
 
@@ -301,6 +321,11 @@ class Builder implements BuildContextInterface, LoggerAwareInterface
         $this->metrics['total']['duration'] = Util::convertDuration($totalDuration);
         $this->metrics['total']['duration_raw'] = round($totalDuration * 1000, 2);
         $this->metrics['total']['memory']   = Util::convertMemory(memory_get_usage() - $startMemory);
+
+        // store asset registry metrics
+        $this->metrics['registry'] = $this->getAssetRegistryStats();
+
+        // log final build notice
         $this->getLogger()->notice(\sprintf('Built in %s (%s)', $this->metrics['total']['duration'], $this->metrics['total']['memory']));
 
         return $this;
@@ -486,6 +511,41 @@ class Builder implements BuildContextInterface, LoggerAwareInterface
         if (!\in_array($path, $this->assets, true)) {
             $this->assets[] = $path;
         }
+    }
+
+    /**
+     * Returns an Asset from the registry or stores a newly created one.
+     * Tracks hit/miss statistics for performance analysis.
+     */
+    public function rememberAsset(string $cacheKey, callable $factory): Asset
+    {
+        if (!isset($this->assetRegistry[$cacheKey])) {
+            $asset = $factory();
+            if (!$asset instanceof Asset) {
+                throw new RuntimeException(\sprintf('Asset registry factory must return an Asset ("%s" returned).', get_debug_type($asset)));
+            }
+            $this->assetRegistry[$cacheKey] = $asset;
+            $this->assetRegistryMisses++;
+        } else {
+            $this->assetRegistryHits++;
+        }
+
+        return $this->assetRegistry[$cacheKey];
+    }
+
+    /**
+     * Returns asset registry deduplication statistics.
+     */
+    public function getAssetRegistryStats(): array
+    {
+        return [
+            'hits' => $this->assetRegistryHits,
+            'misses' => $this->assetRegistryMisses,
+            'total' => $this->assetRegistryHits + $this->assetRegistryMisses,
+            'deduplication_ratio' => $this->assetRegistryHits + $this->assetRegistryMisses > 0
+                ? round(($this->assetRegistryHits / ($this->assetRegistryHits + $this->assetRegistryMisses)) * 100, 2)
+                : 0.0,
+        ];
     }
 
     /**

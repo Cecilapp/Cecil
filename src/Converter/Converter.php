@@ -53,13 +53,22 @@ class Converter implements ConverterInterface
     }
 
     /**
+     * Parsedown instances keyed by language, shared across convertBody() calls.
+     * @var array<string, Parsedown>
+     */
+    private array $parsedownCache = [];
+
+    /**
      * {@inheritdoc}
      */
     public function convertBody(string $string, ?string $language = null): string
     {
-        $parsedown = new Parsedown($this->builder, ['language' => $language]);
+        $key = $language ?? '';
+        if (!isset($this->parsedownCache[$key])) {
+            $this->parsedownCache[$key] = new Parsedown($this->builder, ['language' => $language]);
+        }
 
-        return $parsedown->text($string);
+        return $this->parsedownCache[$key]->text($string);
     }
 
     /**
