@@ -262,13 +262,23 @@ EOF
         $rows[] = new TableSeparator();
         $rows[] = ['Total', $totalDurationDisplay, $metrics['total']['memory']];
 
+        $optimizationRows = [];
+
         // add asset registry deduplication stats if available
         if (isset($metrics['registry']) && $metrics['registry']['total'] > 0) {
-            $rows[] = new TableSeparator();
-            $rows[] = [
-                '<fg=cyan>Assets deduplication</>',
-                \sprintf('%d created, %d reused', $metrics['registry']['misses'], $metrics['registry']['hits']),
-                \sprintf('<fg=green>%.1f%% hit rate</>', $metrics['registry']['deduplication_ratio']),
+            $optimizationRows[] = [
+                'Assets deduplication',
+                \sprintf('%d created / %d reused', $metrics['registry']['misses'], $metrics['registry']['hits']),
+                \sprintf('%.1f%% hit rate', $metrics['registry']['deduplication_ratio']),
+            ];
+        }
+
+        // add layout cache stats if available
+        if (isset($metrics['layout_cache']) && $metrics['layout_cache']['total'] > 0) {
+            $optimizationRows[] = [
+                'Layouts cache',
+                \sprintf('%d misses / %d hits', $metrics['layout_cache']['misses'], $metrics['layout_cache']['hits']),
+                \sprintf('%.1f%% hit rate', $metrics['layout_cache']['hit_rate']),
             ];
         }
 
@@ -282,6 +292,16 @@ EOF
             ->setRows($rows)
         ;
         $table->setStyle('box')->render();
+
+        if ($optimizationRows !== []) {
+            $table = new Table($output);
+            $table
+                ->setHeaderTitle('Performance metrics')
+                ->setHeaders(['Metric', 'Value', 'Impact'])
+                ->setRows($optimizationRows)
+            ;
+            $table->setStyle('box')->render();
+        }
     }
 
     /**

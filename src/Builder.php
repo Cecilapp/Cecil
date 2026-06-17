@@ -168,6 +168,16 @@ class Builder implements BuildContextInterface, LoggerAwareInterface
      */
     protected $assetRegistryMisses = 0;
     /**
+     * Counter for layout resolution cache hits during render step.
+     * @var int
+     */
+    protected $layoutCacheHits = 0;
+    /**
+     * Counter for layout resolution cache misses during render step.
+     * @var int
+     */
+    protected $layoutCacheMisses = 0;
+    /**
      * Menus collection.
      * This is an associative array that holds menus for different languages.
      * Each key is a language code, and the value is a Collection\Menu\Collection instance
@@ -280,6 +290,8 @@ class Builder implements BuildContextInterface, LoggerAwareInterface
         $this->assetRegistry = [];
         $this->assetRegistryHits = 0;
         $this->assetRegistryMisses = 0;
+        $this->layoutCacheHits = 0;
+        $this->layoutCacheMisses = 0;
 
         // set build ID
         self::$buildId = hash('adler32', date('YmdHis') . self::$version);
@@ -324,6 +336,8 @@ class Builder implements BuildContextInterface, LoggerAwareInterface
 
         // store asset registry metrics
         $this->metrics['registry'] = $this->getAssetRegistryStats();
+        // store layout cache metrics
+        $this->metrics['layout_cache'] = $this->getLayoutCacheStats();
 
         // log final build notice
         $this->getLogger()->notice(\sprintf('Built in %s (%s)', $this->metrics['total']['duration'], $this->metrics['total']['memory']));
@@ -544,6 +558,35 @@ class Builder implements BuildContextInterface, LoggerAwareInterface
             'total' => $this->assetRegistryHits + $this->assetRegistryMisses,
             'deduplication_ratio' => $this->assetRegistryHits + $this->assetRegistryMisses > 0
                 ? round(($this->assetRegistryHits / ($this->assetRegistryHits + $this->assetRegistryMisses)) * 100, 2)
+                : 0.0,
+        ];
+    }
+
+    /**
+     * Records a layout cache access during render step.
+     */
+    public function recordLayoutCacheAccess(bool $hit): void
+    {
+        if ($hit) {
+            $this->layoutCacheHits++;
+
+            return;
+        }
+
+        $this->layoutCacheMisses++;
+    }
+
+    /**
+     * Returns layout cache statistics.
+     */
+    public function getLayoutCacheStats(): array
+    {
+        return [
+            'hits' => $this->layoutCacheHits,
+            'misses' => $this->layoutCacheMisses,
+            'total' => $this->layoutCacheHits + $this->layoutCacheMisses,
+            'hit_rate' => $this->layoutCacheHits + $this->layoutCacheMisses > 0
+                ? round(($this->layoutCacheHits / ($this->layoutCacheHits + $this->layoutCacheMisses)) * 100, 2)
                 : 0.0,
         ];
     }
