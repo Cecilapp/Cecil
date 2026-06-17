@@ -14,7 +14,6 @@ declare(strict_types=1);
 namespace Cecil\Command;
 
 use Cecil\Builder;
-use Cecil\Logger\ConsoleLogger;
 use Cecil\Logger\ProgressConsoleLogger;
 use Cecil\Util;
 use Psr\Log\LoggerInterface;
@@ -262,6 +261,16 @@ EOF
         }
         $rows[] = new TableSeparator();
         $rows[] = ['Total', $totalDurationDisplay, $metrics['total']['memory']];
+
+        // add asset registry deduplication stats if available
+        if (isset($metrics['registry']) && $metrics['registry']['total'] > 0) {
+            $rows[] = new TableSeparator();
+            $rows[] = [
+                '<fg=cyan>Assets deduplication</>',
+                \sprintf('%d created, %d reused', $metrics['registry']['misses'], $metrics['registry']['hits']),
+                \sprintf('<fg=green>%.1f%% hit rate</>', $metrics['registry']['deduplication_ratio']),
+            ];
+        }
 
         // save current metrics for next comparison
         Util\File::getFS()->dumpFile($metricsFile, (string) json_encode($currentMetricsToSave, JSON_PRETTY_PRINT));
