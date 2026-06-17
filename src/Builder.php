@@ -153,6 +153,11 @@ class Builder implements BuildContextInterface, LoggerAwareInterface
      */
     protected $assets = [];
     /**
+     * In-memory registry used to deduplicate asset objects during a build.
+     * @var array<string, Asset>
+     */
+    protected $assetRegistry = [];
+    /**
      * Menus collection.
      * This is an associative array that holds menus for different languages.
      * Each key is a language code, and the value is a Collection\Menu\Collection instance
@@ -260,6 +265,9 @@ class Builder implements BuildContextInterface, LoggerAwareInterface
 
         // merge options with defaults
         $this->options = array_merge(self::OPTIONS, $options);
+
+        // reset in-memory registries for this build
+        $this->assetRegistry = [];
 
         // set build ID
         self::$buildId = hash('adler32', date('YmdHis') . self::$version);
@@ -486,6 +494,22 @@ class Builder implements BuildContextInterface, LoggerAwareInterface
         if (!\in_array($path, $this->assets, true)) {
             $this->assets[] = $path;
         }
+    }
+
+    /**
+     * Returns an Asset from the registry or stores a newly created one.
+     */
+    public function rememberAsset(string $cacheKey, callable $factory): Asset
+    {
+        if (!isset($this->assetRegistry[$cacheKey])) {
+            $asset = $factory();
+            if (!$asset instanceof Asset) {
+                throw new RuntimeException(\sprintf('Asset registry factory must return an Asset ("%s" returned).', \get_debug_type($asset)));
+            }
+            $this->assetRegistry[$cacheKey] = $asset;
+        }
+
+        return $this->assetRegistry[$cacheKey];
     }
 
     /**

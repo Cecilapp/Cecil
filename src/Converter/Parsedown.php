@@ -56,9 +56,6 @@ class Parsedown extends \ParsedownToc
     /** Shared across all instances: registerAllLanguages() scans 185 files but $classMap is static */
     protected static Highlighter $highlighter;
 
-    /** @var array<string, Asset> */
-    protected static array $assetCache = [];
-
     /** @var array<string, mixed> */
     protected static array $imageProcessingCache = [];
 
@@ -827,11 +824,8 @@ class Parsedown extends \ParsedownToc
     private function rememberAsset(array $payload, callable $factory): Asset
     {
         $cacheKey = $this->getCacheKey('asset', $payload);
-        if (!isset(static::$assetCache[$cacheKey])) {
-            static::$assetCache[$cacheKey] = $factory();
-        }
 
-        return static::$assetCache[$cacheKey];
+        return $this->builder->rememberAsset($cacheKey, $factory);
     }
 
     /**
@@ -860,7 +854,10 @@ class Parsedown extends \ParsedownToc
         ];
         $block['element']['attributes'] = $link['element']['attributes'];
         unset($block['element']['attributes']['href']);
-        $block['element']['attributes']['src'] = new Url($this->builder, new Asset($this->builder, $link['element']['attributes']['href']));
+        $block['element']['attributes']['src'] = new Url(
+            $this->builder,
+            $this->getCachedAsset((string) $link['element']['attributes']['href'], [])
+        );
         switch ($type) {
             case 'video':
                 $block['element']['name'] = 'video';
@@ -872,7 +869,10 @@ class Parsedown extends \ParsedownToc
                     $block['element']['attributes']['playsinline'] = '';
                 }
                 if (isset($block['element']['attributes']['poster'])) {
-                    $block['element']['attributes']['poster'] = new Url($this->builder, new Asset($this->builder, $block['element']['attributes']['poster']));
+                    $block['element']['attributes']['poster'] = new Url(
+                        $this->builder,
+                        $this->getCachedAsset((string) $block['element']['attributes']['poster'], [])
+                    );
                 }
                 if (!\array_key_exists('style', $block['element']['attributes'])) {
                     $block['element']['attributes']['style'] = '';
