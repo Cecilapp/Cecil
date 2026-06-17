@@ -2,6 +2,14 @@
 
 All notable changes to this project will be documented in this file. Dates are displayed in UTC.
 
+#### [8.109.0](https://github.com/Cecilapp/Cecil/compare/8.108.3...8.109.0)
+
+> 17 June 2026
+
+- perf: cache Parsedown/highlighter/image processing and add asset dedup metrics [`#2418`](https://github.com/Cecilapp/Cecil/pull/2418)
+- docs: update deployment docs and CI workflow versions [`ca7f475`](https://github.com/Cecilapp/Cecil/commit/ca7f4751c01249c90e544dc39e13a3f1c651fb01)
+- ci: clean up workflows and remove fetch-depth [`3b46a2c`](https://github.com/Cecilapp/Cecil/commit/3b46a2c1a084d5214a55d24a658294e2b37305be)
+
 #### [8.108.3](https://github.com/Cecilapp/Cecil/compare/8.108.2...8.108.3)
 
 > 16 June 2026
