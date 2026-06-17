@@ -2,6 +2,12 @@
 
 All notable changes to this project will be documented in this file. Dates are displayed in UTC.
 
+#### [8.108.3](https://github.com/Cecilapp/Cecil/compare/8.108.2...8.108.3)
+
+> 16 June 2026
+
+- refactor: ShowContent to use TreeHelper [`9b61b00`](https://github.com/Cecilapp/Cecil/commit/9b61b00f2c4fa864686de8c701b6b7ea0e36497f)
+
 #### [8.108.2](https://github.com/Cecilapp/Cecil/compare/8.108.1...8.108.2)
 
 > 16 June 2026
