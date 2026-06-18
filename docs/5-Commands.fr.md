@@ -2,7 +2,7 @@
 title: Commandes
 description: "Liste des commandes disponibles."
 date: 2026-03-27
-updated: 2026-06-15
+updated: 2026-06-18
 slug: commandes
 -->
 # Commandes
@@ -170,6 +170,7 @@ Options:
       --host=HOST                  Server host [default: "localhost"]
       --port=PORT                  Server port [default: "8000"]
   -w, --watch|--no-watch           Enable (or disable --no-watch) changes watcher (enabled by default)
+  -i, --incremental                Enable incremental builds (rebuild only changed pages)
   -d, --drafts                     Include drafts
       --optimize|--no-optimize     Enable (or disable --no-optimize) optimization of generated files
   -c, --config=CONFIG              Set the path to extra config files (comma-separated)
@@ -195,6 +196,13 @@ Help:
     cecil.phar serve --open
     cecil.phar serve --drafts
     cecil.phar serve --no-watch
+
+  To speed up local development you can enable incremental builds with the --incremental option.
+  When content pages change, Cecil rebuilds just those pages.
+  When templates change, Cecil rebuilds only pages using those templates (including Twig dependencies such as extends/include).
+  Any other change (data, config, static or asset file, or file deletion) triggers a full rebuild:
+
+    cecil.phar serve --incremental
 
   You can use a custom host and port by using the --host and --port options:
 

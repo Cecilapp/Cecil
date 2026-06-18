@@ -42,6 +42,21 @@ class Serve extends AbstractCommand
     /** @var boolean */
     protected $watcherEnabled;
 
+    /** @var boolean */
+    protected $incrementalEnabled = false;
+
+    /** @var string PHP executable path used to spawn build processes. */
+    protected $php;
+
+    /** @var float|null Build process timeout, in seconds. */
+    protected $processTimeout = null;
+
+    /**
+     * Base options used to build the `build` process arguments.
+     * @var array<string, mixed>
+     */
+    protected $buildProcessBaseOptions = [];
+
     /**
      * {@inheritdoc}
      */
@@ -56,6 +71,7 @@ class Serve extends AbstractCommand
                 new InputOption('host', null, InputOption::VALUE_REQUIRED, 'Server host', 'localhost'),
                 new InputOption('port', null, InputOption::VALUE_REQUIRED, 'Server port', '8000'),
                 new InputOption('watch', 'w', InputOption::VALUE_NEGATABLE, 'Enable (or disable --no-watch) changes watcher (enabled by default)', true),
+                new InputOption('incremental', 'i', InputOption::VALUE_NONE, 'Enable incremental builds (rebuild only changed pages)'),
                 new InputOption('drafts', 'd', InputOption::VALUE_NONE, 'Include drafts'),
                 new InputOption('optimize', null, InputOption::VALUE_NEGATABLE, 'Enable (or disable --no-optimize) optimization of generated files'),
                 new InputOption('config', 'c', InputOption::VALUE_REQUIRED, 'Set the path to extra config files (comma-separated)'),
@@ -76,6 +92,13 @@ The <info>%command.name%</> command starts the live-reloading-built-in web serve
   <info>%command.full_name% --open</>
   <info>%command.full_name% --drafts</>
   <info>%command.full_name% --no-watch</>
+
+To speed up local development you can enable <comment>incremental builds</comment> with the <info>--incremental</info> option.
+When content pages change, Cecil rebuilds <comment>just those pages</comment>.
+When templates change, Cecil rebuilds <comment>only pages using those templates</comment> (including Twig dependencies such as extends/include).
+Any other change (data, config, static or asset file, or file deletion) triggers a full rebuild:
+
+  <info>%command.full_name% --incremental</>
 
 You can use a custom host and port by using the <info>--host</info> and <info>--port</info> options:
 
@@ -131,8 +154,11 @@ EOF
         $notify = $input->getOption('notify');
         $noansi = $input->getOption('no-ansi');
         $background = $input->getOption('background');
+        $incremental = $input->getOption('incremental');
 
         $this->watcherEnabled = $background ? false : $input->getOption('watch');
+        // incremental builds require the changes watcher to be active
+        $this->incrementalEnabled = $this->watcherEnabled ? (bool) $incremental : false;
 
         // checks if PHP executable is available
         $phpFinder = new PhpExecutableFinder();
@@ -154,7 +180,9 @@ EOF
         $process = new Process($cmd);
 
         // setup build process
-        $buildProcessArguments = $this->createBuildProcessArguments($php, [
+        $this->php = $php;
+        $this->processTimeout = (float) $timeout;
+        $this->buildProcessBaseOptions = [
             'drafts' => $drafts,
             'optimize' => $optimize,
             'clearcache' => $clearcache,
@@ -164,15 +192,9 @@ EOF
             'noansi' => $noansi,
             'host' => $host,
             'port' => $port,
-        ]);
-        $buildProcess = new Process(
-            $buildProcessArguments,
-            null,
-            ['BOX_REQUIREMENT_CHECKER' => '0'] // prevents double check (build then serve)
-        );
-        $buildProcess->setTty(Process::isTtySupported());
-        $buildProcess->setPty(Process::isPtySupported());
-        $buildProcess->setTimeout((float) $timeout);
+        ];
+        $buildProcessArguments = $this->createBuildProcessArguments($php, $this->buildProcessBaseOptions);
+        $buildProcess = $this->createBuildProcess();
         $buildOutputEndsWithLineFeed = true;
         $processOutputCallback = function ($type, $buffer) use ($output, &$buildOutputEndsWithLineFeed) {
             $buildOutputEndsWithLineFeed = str_ends_with($buffer, "\n");
@@ -216,6 +238,29 @@ EOF
             $processOutputCallback,
             $flushBuildOutput
         );
+    }
+
+    /**
+     * Creates a configured `build` process, optionally restricted to a single page.
+     */
+    private function createBuildProcess(?string $page = null): Process
+    {
+        $options = $this->buildProcessBaseOptions;
+        if ($page !== null) {
+            $options['page'] = $page;
+        }
+        $process = new Process(
+            $this->createBuildProcessArguments($this->php, $options),
+            null,
+            ['BOX_REQUIREMENT_CHECKER' => '0'] // prevents double check (build then serve)
+        );
+        $process->setTty(Process::isTtySupported());
+        $process->setPty(Process::isPtySupported());
+        if ($this->processTimeout !== null) {
+            $process->setTimeout($this->processTimeout);
+        }
+
+        return $process;
     }
 
     /**
@@ -441,10 +486,28 @@ EOF
                         }
                         $output->writeln('');
 
-                        $buildProcess->run($processOutputCallback);
-                        $flushBuildOutput();
-                        if ($buildProcess->isSuccessful()) {
-                            $this->buildSuccessActions($output);
+                        if ($this->incrementalEnabled) {
+                            (new IncrementalBuildExecutor(
+                                new IncrementalBuildResolver(
+                                    $this->getBuilder(),
+                                    !empty($this->buildProcessBaseOptions['drafts'])
+                                )
+                            ))->execute(
+                                $watcher,
+                                $output,
+                                fn (?string $page): Process => $this->createBuildProcess($page),
+                                $processOutputCallback,
+                                $flushBuildOutput,
+                                function () use ($output): void {
+                                    $this->buildSuccessActions($output);
+                                }
+                            );
+                        } else {
+                            $buildProcess->run($processOutputCallback);
+                            $flushBuildOutput();
+                            if ($buildProcess->isSuccessful()) {
+                                $this->buildSuccessActions($output);
+                            }
                         }
                         $output->writeln('<info>Server is running...</info>');
                         if ($notify) {
@@ -494,10 +557,18 @@ EOF
      */
     private function setupWatcher(bool $noignorevcs = false): ResourceWatcher
     {
+        $watcherExcludes = [
+            (string) $this->getBuilder()->getConfig()->get('output.dir'),
+            self::SERVE_OUTPUT,
+            Builder::TMP_DIR,
+            (string) $this->getBuilder()->getConfig()->get('cache.dir'),
+        ];
+        $watcherExcludes = array_values(array_unique(array_filter($watcherExcludes)));
+
         $finder = new Finder();
         $finder->files()
             ->in($this->getPath())
-            ->exclude((string) $this->getBuilder()->getConfig()->get('output.dir'));
+            ->exclude($watcherExcludes);
         if (file_exists(Util::joinFile($this->getPath(), '.gitignore')) && $noignorevcs === false) {
             $finder->ignoreVCSIgnored(true);
         }
