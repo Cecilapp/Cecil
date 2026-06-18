@@ -29,6 +29,7 @@ use Symfony\Component\Process\Process;
 use Yosymfony\ResourceWatcher\Crc32ContentHash;
 use Yosymfony\ResourceWatcher\ResourceCacheMemory;
 use Yosymfony\ResourceWatcher\ResourceWatcher;
+use Yosymfony\ResourceWatcher\ResourceWatcherResult;
 
 /**
  * Serve command.
@@ -41,6 +42,21 @@ class Serve extends AbstractCommand
 {
     /** @var boolean */
     protected $watcherEnabled;
+
+    /** @var boolean */
+    protected $incrementalEnabled = false;
+
+    /** @var string PHP executable path used to spawn build processes. */
+    protected $php;
+
+    /** @var float Build process timeout, in seconds. */
+    protected $processTimeout;
+
+    /**
+     * Base options used to build the `build` process arguments.
+     * @var array<string, mixed>
+     */
+    protected $buildProcessBaseOptions = [];
 
     /**
      * {@inheritdoc}
@@ -56,6 +72,7 @@ class Serve extends AbstractCommand
                 new InputOption('host', null, InputOption::VALUE_REQUIRED, 'Server host', 'localhost'),
                 new InputOption('port', null, InputOption::VALUE_REQUIRED, 'Server port', '8000'),
                 new InputOption('watch', 'w', InputOption::VALUE_NEGATABLE, 'Enable (or disable --no-watch) changes watcher (enabled by default)', true),
+                new InputOption('incremental', 'i', InputOption::VALUE_NONE, 'Enable incremental builds (rebuild only changed pages)'),
                 new InputOption('drafts', 'd', InputOption::VALUE_NONE, 'Include drafts'),
                 new InputOption('optimize', null, InputOption::VALUE_NEGATABLE, 'Enable (or disable --no-optimize) optimization of generated files'),
                 new InputOption('config', 'c', InputOption::VALUE_REQUIRED, 'Set the path to extra config files (comma-separated)'),
@@ -76,6 +93,12 @@ The <info>%command.name%</> command starts the live-reloading-built-in web serve
   <info>%command.full_name% --open</>
   <info>%command.full_name% --drafts</>
   <info>%command.full_name% --no-watch</>
+
+To speed up local development you can enable <comment>incremental builds</comment> with the <info>--incremental</info> option.
+When only content pages change, Cecil rebuilds <comment>just those pages</comment> instead of the whole website;
+any other change (layout, data, config, theme, static or asset file) triggers a full rebuild:
+
+  <info>%command.full_name% --incremental</>
 
 You can use a custom host and port by using the <info>--host</info> and <info>--port</info> options:
 
@@ -131,8 +154,11 @@ EOF
         $notify = $input->getOption('notify');
         $noansi = $input->getOption('no-ansi');
         $background = $input->getOption('background');
+        $incremental = $input->getOption('incremental');
 
         $this->watcherEnabled = $background ? false : $input->getOption('watch');
+        // incremental builds require the changes watcher to be active
+        $this->incrementalEnabled = $this->watcherEnabled ? (bool) $incremental : false;
 
         // checks if PHP executable is available
         $phpFinder = new PhpExecutableFinder();
@@ -154,7 +180,9 @@ EOF
         $process = new Process($cmd);
 
         // setup build process
-        $buildProcessArguments = $this->createBuildProcessArguments($php, [
+        $this->php = $php;
+        $this->processTimeout = (float) $timeout;
+        $this->buildProcessBaseOptions = [
             'drafts' => $drafts,
             'optimize' => $optimize,
             'clearcache' => $clearcache,
@@ -164,15 +192,9 @@ EOF
             'noansi' => $noansi,
             'host' => $host,
             'port' => $port,
-        ]);
-        $buildProcess = new Process(
-            $buildProcessArguments,
-            null,
-            ['BOX_REQUIREMENT_CHECKER' => '0'] // prevents double check (build then serve)
-        );
-        $buildProcess->setTty(Process::isTtySupported());
-        $buildProcess->setPty(Process::isPtySupported());
-        $buildProcess->setTimeout((float) $timeout);
+        ];
+        $buildProcessArguments = $this->createBuildProcessArguments($php, $this->buildProcessBaseOptions);
+        $buildProcess = $this->createBuildProcess();
         $buildOutputEndsWithLineFeed = true;
         $processOutputCallback = function ($type, $buffer) use ($output, &$buildOutputEndsWithLineFeed) {
             $buildOutputEndsWithLineFeed = str_ends_with($buffer, "\n");
@@ -216,6 +238,29 @@ EOF
             $processOutputCallback,
             $flushBuildOutput
         );
+    }
+
+    /**
+     * Creates a configured `build` process, optionally restricted to a single page.
+     */
+    private function createBuildProcess(?string $page = null): Process
+    {
+        $options = $this->buildProcessBaseOptions;
+        if ($page !== null) {
+            $options['page'] = $page;
+        }
+        $process = new Process(
+            $this->createBuildProcessArguments($this->php, $options),
+            null,
+            ['BOX_REQUIREMENT_CHECKER' => '0'] // prevents double check (build then serve)
+        );
+        $process->setTty(Process::isTtySupported());
+        $process->setPty(Process::isPtySupported());
+        if ($this->processTimeout !== null) {
+            $process->setTimeout($this->processTimeout);
+        }
+
+        return $process;
     }
 
     /**
@@ -441,10 +486,14 @@ EOF
                         }
                         $output->writeln('');
 
-                        $buildProcess->run($processOutputCallback);
-                        $flushBuildOutput();
-                        if ($buildProcess->isSuccessful()) {
-                            $this->buildSuccessActions($output);
+                        if ($this->incrementalEnabled) {
+                            $this->runIncrementalBuild($watcher, $output, $processOutputCallback, $flushBuildOutput, $buildProcess);
+                        } else {
+                            $buildProcess->run($processOutputCallback);
+                            $flushBuildOutput();
+                            if ($buildProcess->isSuccessful()) {
+                                $this->buildSuccessActions($output);
+                            }
                         }
                         $output->writeln('<info>Server is running...</info>');
                         if ($notify) {
@@ -464,6 +513,100 @@ EOF
         }
 
         return Command::SUCCESS;
+    }
+
+    /**
+     * Runs an incremental build based on the watcher result.
+     *
+     * If every change is an isolated content page (created or updated), Cecil rebuilds
+     * only those pages. Any other change (deletion, layout, data, config, theme, static
+     * or asset file) triggers a full rebuild.
+     */
+    private function runIncrementalBuild(
+        ResourceWatcherResult $watcher,
+        OutputInterface $output,
+        callable $processOutputCallback,
+        callable $flushBuildOutput,
+        Process $fullBuildProcess
+    ): void {
+        $pages = $this->resolveIncrementalPages($watcher);
+
+        // null means a full rebuild is required
+        if ($pages === null) {
+            $output->writeln('<comment>Incremental: full rebuild required</comment>');
+            $fullBuildProcess->run($processOutputCallback);
+            $flushBuildOutput();
+            if ($fullBuildProcess->isSuccessful()) {
+                $this->buildSuccessActions($output);
+            }
+
+            return;
+        }
+
+        $allSuccessful = true;
+        foreach ($pages as $page) {
+            $output->writeln(\sprintf('<comment>Incremental: building page "%s"</comment>', $page));
+            $process = $this->createBuildProcess($page);
+            $process->run($processOutputCallback);
+            $flushBuildOutput();
+            if (!$process->isSuccessful()) {
+                $allSuccessful = false;
+            }
+        }
+        if ($allSuccessful) {
+            $this->buildSuccessActions($output);
+        }
+    }
+
+    /**
+     * Resolves the list of content pages to rebuild from the watcher result.
+     *
+     * Returns an array of page paths (relative to the pages directory) when an incremental
+     * rebuild is possible, or `null` when a full rebuild is required.
+     *
+     * @return array<int, string>|null
+     */
+    private function resolveIncrementalPages(ResourceWatcherResult $watcher): ?array
+    {
+        // a deletion may impact lists, sections, taxonomies, etc.: full rebuild
+        if (\count($watcher->getDeletedFiles()) > 0) {
+            return null;
+        }
+
+        $changedFiles = array_merge($watcher->getNewFiles(), $watcher->getUpdatedFiles());
+        if (\count($changedFiles) === 0) {
+            return null;
+        }
+
+        $config = $this->getBuilder()->getConfig();
+        $pagesPath = $this->normalizePath($config->getPagesPath());
+        $extensions = array_map('strtolower', (array) $config->get('pages.ext'));
+
+        $pages = [];
+        foreach ($changedFiles as $file) {
+            $normalized = $this->normalizePath($file);
+            // file must live inside the pages directory
+            if (strncmp($normalized, $pagesPath . '/', \strlen($pagesPath) + 1) !== 0) {
+                return null;
+            }
+            // file extension must be a valid page extension
+            $extension = strtolower(pathinfo($normalized, PATHINFO_EXTENSION));
+            if (!\in_array($extension, $extensions, true)) {
+                return null;
+            }
+            $relative = substr($normalized, \strlen($pagesPath) + 1);
+            $pages[$relative] = $relative;
+        }
+
+        return array_values($pages);
+    }
+
+    /**
+     * Normalizes a filesystem path to use forward slashes without a trailing slash.
+     */
+    private function normalizePath(string $path): string
+    {
+        return rtrim(str_replace('\\', '/', $path), '/');
     }
 
     /**
