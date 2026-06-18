@@ -196,8 +196,9 @@ Help:
     cecil.phar serve --no-watch
 
   To speed up local development you can enable incremental builds with the --incremental option.
-  When only content pages change, Cecil rebuilds just those pages instead of the whole website;
-  any other change (layout, data, config, theme, static or asset file) triggers a full rebuild:
+  When content pages change, Cecil rebuilds just those pages.
+  When templates change, Cecil rebuilds only pages using those templates (including Twig dependencies such as extends/include).
+  Any other change (data, config, static or asset file, or file deletion) triggers a full rebuild:
 
     cecil.phar serve --incremental
 

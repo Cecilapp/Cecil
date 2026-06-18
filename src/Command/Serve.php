@@ -29,7 +29,6 @@ use Symfony\Component\Process\Process;
 use Yosymfony\ResourceWatcher\Crc32ContentHash;
 use Yosymfony\ResourceWatcher\ResourceCacheMemory;
 use Yosymfony\ResourceWatcher\ResourceWatcher;
-use Yosymfony\ResourceWatcher\ResourceWatcherResult;
 
 /**
  * Serve command.
@@ -95,8 +94,9 @@ The <info>%command.name%</> command starts the live-reloading-built-in web serve
   <info>%command.full_name% --no-watch</>
 
 To speed up local development you can enable <comment>incremental builds</comment> with the <info>--incremental</info> option.
-When only content pages change, Cecil rebuilds <comment>just those pages</comment> instead of the whole website;
-any other change (layout, data, config, theme, static or asset file) triggers a full rebuild:
+When content pages change, Cecil rebuilds <comment>just those pages</comment>.
+When templates change, Cecil rebuilds <comment>only pages using those templates</comment> (including Twig dependencies such as extends/include).
+Any other change (data, config, static or asset file, or file deletion) triggers a full rebuild:
 
   <info>%command.full_name% --incremental</>
 
@@ -487,7 +487,21 @@ EOF
                         $output->writeln('');
 
                         if ($this->incrementalEnabled) {
-                            $this->runIncrementalBuild($watcher, $output, $processOutputCallback, $flushBuildOutput, $buildProcess);
+                            (new IncrementalBuildExecutor(
+                                new IncrementalBuildResolver(
+                                    $this->getBuilder(),
+                                    !empty($this->buildProcessBaseOptions['drafts'])
+                                )
+                            ))->execute(
+                                $watcher,
+                                $output,
+                                fn (?string $page): Process => $this->createBuildProcess($page),
+                                $processOutputCallback,
+                                $flushBuildOutput,
+                                function () use ($output): void {
+                                    $this->buildSuccessActions($output);
+                                }
+                            );
                         } else {
                             $buildProcess->run($processOutputCallback);
                             $flushBuildOutput();
@@ -513,100 +527,6 @@ EOF
         }
 
         return Command::SUCCESS;
-    }
-
-    /**
-     * Runs an incremental build based on the watcher result.
-     *
-     * If every change is an isolated content page (created or updated), Cecil rebuilds
-     * only those pages. Any other change (deletion, layout, data, config, theme, static
-     * or asset file) triggers a full rebuild.
-     */
-    private function runIncrementalBuild(
-        ResourceWatcherResult $watcher,
-        OutputInterface $output,
-        callable $processOutputCallback,
-        callable $flushBuildOutput,
-        Process $fullBuildProcess
-    ): void {
-        $pages = $this->resolveIncrementalPages($watcher);
-
-        // null means a full rebuild is required
-        if ($pages === null) {
-            $output->writeln('<comment>Incremental: full rebuild required</comment>');
-            $fullBuildProcess->run($processOutputCallback);
-            $flushBuildOutput();
-            if ($fullBuildProcess->isSuccessful()) {
-                $this->buildSuccessActions($output);
-            }
-
-            return;
-        }
-
-        $allSuccessful = true;
-        foreach ($pages as $page) {
-            $output->writeln(\sprintf('<comment>Incremental: building page "%s"</comment>', $page));
-            $process = $this->createBuildProcess($page);
-            $process->run($processOutputCallback);
-            $flushBuildOutput();
-            if (!$process->isSuccessful()) {
-                $allSuccessful = false;
-            }
-        }
-        if ($allSuccessful) {
-            $this->buildSuccessActions($output);
-        }
-    }
-
-    /**
-     * Resolves the list of content pages to rebuild from the watcher result.
-     *
-     * Returns an array of page paths (relative to the pages directory) when an incremental
-     * rebuild is possible, or `null` when a full rebuild is required.
-     *
-     * @return array<int, string>|null
-     */
-    private function resolveIncrementalPages(ResourceWatcherResult $watcher): ?array
-    {
-        // a deletion may impact lists, sections, taxonomies, etc.: full rebuild
-        if (\count($watcher->getDeletedFiles()) > 0) {
-            return null;
-        }
-
-        $changedFiles = array_merge($watcher->getNewFiles(), $watcher->getUpdatedFiles());
-        if (\count($changedFiles) === 0) {
-            return null;
-        }
-
-        $config = $this->getBuilder()->getConfig();
-        $pagesPath = $this->normalizePath($config->getPagesPath());
-        $extensions = array_map('strtolower', (array) $config->get('pages.ext'));
-
-        $pages = [];
-        foreach ($changedFiles as $file) {
-            $normalized = $this->normalizePath($file);
-            // file must live inside the pages directory
-            if (strncmp($normalized, $pagesPath . '/', \strlen($pagesPath) + 1) !== 0) {
-                return null;
-            }
-            // file extension must be a valid page extension
-            $extension = strtolower(pathinfo($normalized, PATHINFO_EXTENSION));
-            if (!\in_array($extension, $extensions, true)) {
-                return null;
-            }
-            $relative = substr($normalized, \strlen($pagesPath) + 1);
-            $pages[$relative] = $relative;
-        }
-
-        return array_values($pages);
-    }
-
-    /**
-     * Normalizes a filesystem path to use forward slashes without a trailing slash.
-     */
-    private function normalizePath(string $path): string
-    {
-        return rtrim(str_replace('\\', '/', $path), '/');
     }
 
     /**
@@ -637,10 +557,18 @@ EOF
      */
     private function setupWatcher(bool $noignorevcs = false): ResourceWatcher
     {
+        $watcherExcludes = [
+            (string) $this->getBuilder()->getConfig()->get('output.dir'),
+            self::SERVE_OUTPUT,
+            Builder::TMP_DIR,
+            (string) $this->getBuilder()->getConfig()->get('cache.dir'),
+        ];
+        $watcherExcludes = array_values(array_unique(array_filter($watcherExcludes)));
+
         $finder = new Finder();
         $finder->files()
             ->in($this->getPath())
-            ->exclude((string) $this->getBuilder()->getConfig()->get('output.dir'));
+            ->exclude($watcherExcludes);
         if (file_exists(Util::joinFile($this->getPath(), '.gitignore')) && $noignorevcs === false) {
             $finder->ignoreVCSIgnored(true);
         }
