@@ -337,17 +337,6 @@ class IncrementalBuildResolver
     }
 
     /**
-     * Checks whether a file path is inside a directory path.
-     */
-    private function isPathInDirectory(string $filePath, string $directoryPath): bool
-    {
-        $filePath = $this->normalizePath($filePath);
-        $directoryPath = $this->normalizePath($directoryPath);
-
-        return \str_starts_with($filePath . '/', $directoryPath . '/');
-    }
-
-    /**
      * Returns file path relative to a directory path.
      */
     private function relativePathFromDirectory(string $filePath, string $directoryPath): string
