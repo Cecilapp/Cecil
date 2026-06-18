@@ -48,8 +48,8 @@ class Serve extends AbstractCommand
     /** @var string PHP executable path used to spawn build processes. */
     protected $php;
 
-    /** @var float Build process timeout, in seconds. */
-    protected $processTimeout;
+    /** @var float|null Build process timeout, in seconds. */
+    protected $processTimeout = null;
 
     /**
      * Base options used to build the `build` process arguments.
