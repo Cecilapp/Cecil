@@ -91,7 +91,7 @@ You can now copy the content of the `_site` directory to a Web server 🎉
 
 ## Starter kits
 
-To get started quickly, use one of Cecil's ready-to-use starter kits:
+To get started quickly, use one of Cecil's ready-to-use [starter kits](/starter-kits/):
 
 - [The Butler](https://github.com/Cecilapp/the-butler#readme): a publishing-ready starter blog.
 - [Links](https://github.com/Cecilapp/Links#readme): an open source Linktree alternative.
@@ -99,5 +99,3 @@ To get started quickly, use one of Cecil's ready-to-use starter kits:
 - [Statidocs](https://github.com/Cecilapp/statidocs#readme): build a documentation website quickly.
 
 [![Starter blog example](/docs/cecil-newblog.png)](https://github.com/Cecilapp/the-butler#readme)
-
-Then check the deployment guides to publish your project on your preferred platform: [Netlify](https://cecil.app/hosting/netlify/deploy/) or [Vercel](https://cecil.app/hosting/vercel/deploy/).

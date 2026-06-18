@@ -10,10 +10,6 @@ menu: home
 
 Cecil est une application en ligne de commande, propulsée par [PHP](https://www.php.net), qui fusionne des fichiers textes plats (écrit en [Markdown](https://daringfireball.net/projects/markdown/)), des images et des templates [Twig](https://twig.symfony.com/) afin de générer un [site statique](https://fr.wikipedia.org/wiki/Site_web_statique).
 
-:::info
-La documentation complète est disponible, en anglais, à l’adresse suivante : <https://cecil.app/documentation/>
-:::
-
 ## Créer un site web
 
 Vous pouvez créer un nouveau site web en quelques minutes.
@@ -97,7 +93,7 @@ Vous pouvez maintenant copier le contenu du répertoire `_site` sur un serveur W
 
 ## Kits de démarrage
 
-Pour démarrer rapidement, utilisez l’un des kits de démarrage Cecil prêts à l’emploi :
+Pour démarrer rapidement, utilisez l’un des [kits de démarrage](/fr/kits-de-demarrage/) Cecil prêts à l’emploi :
 
 - [The Butler](https://github.com/Cecilapp/the-butler#readme) : starter blog prêt à publier.
 - [Links](https://github.com/Cecilapp/Links#readme) : alternative open source à Linktree.
@@ -105,5 +101,3 @@ Pour démarrer rapidement, utilisez l’un des kits de démarrage Cecil prêts �
 - [Statidocs](https://github.com/Cecilapp/statidocs#readme) : site de documentation prêt à l’emploi.
 
 [![Exemple de starter blog](/docs/cecil-newblog.png)](https://github.com/Cecilapp/the-butler#readme)
-
-Consultez ensuite les guides de déploiement pour publier votre projet sur votre plateforme favorite : [Netlify](https://cecil.app/hosting/netlify/deploy/) ou [Vercel](https://cecil.app/hosting/vercel/deploy/).
