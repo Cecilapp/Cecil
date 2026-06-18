@@ -51,7 +51,6 @@ class IncrementalBuildExecutor
             $flushBuildOutput();
             if ($fullBuildProcess->isSuccessful()) {
                 $onBuildSuccess();
-            } else {
             }
 
             return;
