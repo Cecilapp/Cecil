@@ -47,14 +47,14 @@ class IncrementalBuildResolver
             return null;
         }
 
-        $changedFiles = \array_merge($watcher->getNewFiles(), $watcher->getUpdatedFiles());
+        $changedFiles = array_merge($watcher->getNewFiles(), $watcher->getUpdatedFiles());
         if (\count($changedFiles) === 0) {
             return null;
         }
 
         $config = $this->builder->getConfig();
         $pagesPath = $this->normalizePath($config->getPagesPath());
-        $extensions = \array_map('strtolower', (array) $config->get('pages.ext'));
+        $extensions = array_map('strtolower', (array) $config->get('pages.ext'));
 
         $pages = [];
         $templates = [];
@@ -66,12 +66,12 @@ class IncrementalBuildResolver
                 continue;
             }
             // File extension must be a valid page extension.
-            $extension = \strtolower((string) \pathinfo($normalized, PATHINFO_EXTENSION));
+            $extension = strtolower((string) pathinfo($normalized, PATHINFO_EXTENSION));
             if (!\in_array($extension, $extensions, true)) {
                 return null;
             }
             // The changed file must belong to the pages directory (otherwise treat as "other" change).
-            if (\strncmp($normalized, $pagesPath . '/', \strlen($pagesPath) + 1) !== 0) {
+            if (strncmp($normalized, $pagesPath . '/', \strlen($pagesPath) + 1) !== 0) {
                 return null;
             }
             $relative = $this->relativePathFromDirectory($normalized, $pagesPath);
@@ -79,12 +79,13 @@ class IncrementalBuildResolver
             if (\is_array($exclude = $config->get('pages.exclude'))) {
                 foreach ($exclude as $pattern) {
                     $pattern = (string) $pattern;
-                    if ($pattern !== '' && \preg_match('#(^|/)' . \preg_quote($pattern, '#') . '(/|$)#', $relative)) {
+                    if ($pattern !== '' && preg_match('#(^|/)' . preg_quote($pattern, '#') . '(/|$)#', $relative)) {
                         return null;
                     }
                 }
             }
             $pages[$relative] = $relative;
+        }
 
         if (\count($templates) > 0) {
             $pagesFromTemplates = $this->resolvePagesImpactedByTemplates($templates);
@@ -96,7 +97,7 @@ class IncrementalBuildResolver
             }
         }
 
-        return \array_values($pages);
+        return array_values($pages);
     }
 
     /**
@@ -115,11 +116,11 @@ class IncrementalBuildResolver
         }
 
         $pagesPath = $config->getPagesPath();
-        if (!\is_dir($pagesPath)) {
+        if (!is_dir($pagesPath)) {
             return [];
         }
 
-        $namePattern = '/\.(' . \implode('|', (array) $config->get('pages.ext')) . ')$/';
+        $namePattern = '/\.(' . implode('|', (array) $config->get('pages.ext')) . ')$/';
         $finder = Finder::create()
             ->files()
             ->in($pagesPath)
@@ -130,7 +131,7 @@ class IncrementalBuildResolver
             $finder->notPath($exclude);
             $finder->notName($exclude);
         }
-        if (\file_exists(Util::joinFile($pagesPath, '.gitignore'))) {
+        if (file_exists(Util::joinFile($pagesPath, '.gitignore'))) {
             $finder->ignoreVCSIgnored(true);
         }
 
@@ -171,7 +172,7 @@ class IncrementalBuildResolver
             }
         }
 
-        return \array_values($impactedPages);
+        return array_values($impactedPages);
     }
 
     /**
@@ -192,7 +193,7 @@ class IncrementalBuildResolver
             $queue[] = $id;
         }
 
-        while (($current = \array_shift($queue)) !== null) {
+        while (($current = array_shift($queue)) !== null) {
             foreach ($reverseDependencies[$current] ?? [] as $dependent) {
                 if (!isset($affected[$dependent])) {
                     $affected[$dependent] = true;
@@ -214,7 +215,7 @@ class IncrementalBuildResolver
         $reverseDependencies = [];
 
         foreach ($this->getTemplateRoots() as $scope => $rootPath) {
-            if (!\is_dir($rootPath)) {
+            if (!is_dir($rootPath)) {
                 continue;
             }
 
@@ -224,17 +225,17 @@ class IncrementalBuildResolver
                 ->name('/\\.' . Layout::EXT . '$/');
 
             foreach ($finder as $file) {
-                $fileRef = $scope . ':' . \str_replace('\\', '/', $file->getRelativePathname());
+                $fileRef = $scope . ':' . str_replace('\\', '/', $file->getRelativePathname());
                 $content = $file->getContents();
-                if (\preg_match_all('/\\{%\\s*(?:extends|include|embed|use|import|from)\\s+["\']([^"\']+)["\']/i', $content, $matches)) {
+                if (preg_match_all('/\\{%\\s*(?:extends|include|embed|use|import|from)\\s+["\']([^"\']+)["\']/i', $content, $matches)) {
                     foreach ($matches[1] as $dependency) {
                         if (!\is_string($dependency) || $dependency === '') {
                             continue;
                         }
-                        if (!\str_ends_with($dependency, '.' . Layout::EXT)) {
+                        if (!str_ends_with($dependency, '.' . Layout::EXT)) {
                             continue;
                         }
-                        $dependencyRef = $scope . ':' . \str_replace('\\', '/', \trim($dependency));
+                        $dependencyRef = $scope . ':' . str_replace('\\', '/', trim($dependency));
                         $reverseDependencies[$dependencyRef][$fileRef] = $fileRef;
                     }
                 }
@@ -242,7 +243,7 @@ class IncrementalBuildResolver
         }
 
         foreach ($reverseDependencies as $template => $dependents) {
-            $reverseDependencies[$template] = \array_values($dependents);
+            $reverseDependencies[$template] = array_values($dependents);
         }
 
         return $reverseDependencies;
@@ -255,19 +256,19 @@ class IncrementalBuildResolver
      */
     private function resolveTemplateRefFromPath(string $path): ?array
     {
-        if (!\str_ends_with($path, '.' . Layout::EXT)) {
+        if (!str_ends_with($path, '.' . Layout::EXT)) {
             return null;
         }
 
         foreach ($this->getTemplateRoots() as $scope => $rootPath) {
             $normalizedRoot = $this->normalizePath($rootPath);
-            if ($path === $normalizedRoot || \strncmp($path, $normalizedRoot . '/', \strlen($normalizedRoot) + 1) !== 0) {
+            if ($path === $normalizedRoot || strncmp($path, $normalizedRoot . '/', \strlen($normalizedRoot) + 1) !== 0) {
                 continue;
             }
 
             return [
                 'scope' => $scope,
-                'file' => \substr($path, \strlen($normalizedRoot) + 1),
+                'file' => substr($path, \strlen($normalizedRoot) + 1),
             ];
         }
 
@@ -312,7 +313,7 @@ class IncrementalBuildResolver
                 $formats = [$formats];
             }
 
-            return \array_values(\array_unique(\array_map('strval', $formats)));
+            return array_values(array_unique(array_map('strval', $formats)));
         }
 
         $formats = $config->get('output.pagetypeformats.' . $page->getType());
@@ -323,7 +324,7 @@ class IncrementalBuildResolver
             $formats = [$formats];
         }
 
-        return \array_values(\array_unique(\array_map('strval', $formats)));
+        return array_values(array_unique(array_map('strval', $formats)));
     }
 
     /**
@@ -331,18 +332,18 @@ class IncrementalBuildResolver
      */
     private function normalizePath(string $path): string
     {
-        $normalized = \rtrim(\str_replace('\\', '/', $path), '/');
+        $normalized = rtrim(str_replace('\\', '/', $path), '/');
 
         // Prefer canonical absolute path when possible to avoid false negatives
         // with relative segments, symlinks/junctions or drive letter variations.
-        $realPath = \realpath($normalized);
+        $realPath = realpath($normalized);
         if ($realPath !== false) {
-            $normalized = \rtrim(\str_replace('\\', '/', $realPath), '/');
+            $normalized = rtrim(str_replace('\\', '/', $realPath), '/');
         }
 
         // Windows filesystems are case-insensitive by default.
         if (DIRECTORY_SEPARATOR === '\\') {
-            $normalized = \strtolower($normalized);
+            $normalized = strtolower($normalized);
         }
 
         return $normalized;
@@ -356,6 +357,6 @@ class IncrementalBuildResolver
         $filePath = $this->normalizePath($filePath);
         $directoryPath = $this->normalizePath($directoryPath);
 
-        return \ltrim((string) \substr($filePath, \strlen($directoryPath)), '/');
+        return ltrim((string) substr($filePath, \strlen($directoryPath)), '/');
     }
 }
