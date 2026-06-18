@@ -72,7 +72,6 @@ class IncrementalBuildExecutor
 
         if ($allSuccessful) {
             $onBuildSuccess();
-        } else {
         }
     }
 }
