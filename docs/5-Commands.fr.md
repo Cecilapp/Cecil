@@ -170,7 +170,7 @@ Options:
       --host=HOST                  Server host [default: "localhost"]
       --port=PORT                  Server port [default: "8000"]
   -w, --watch|--no-watch           Enable (or disable --no-watch) changes watcher (enabled by default)
-    -i, --incremental                Enable incremental builds (rebuild only changed pages)
+  -i, --incremental                Enable incremental builds (rebuild only changed pages)
   -d, --drafts                     Include drafts
       --optimize|--no-optimize     Enable (or disable --no-optimize) optimization of generated files
   -c, --config=CONFIG              Set the path to extra config files (comma-separated)
