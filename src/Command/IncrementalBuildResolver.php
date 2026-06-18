@@ -70,9 +70,21 @@ class IncrementalBuildResolver
             if (!\in_array($extension, $extensions, true)) {
                 return null;
             }
+            // The changed file must belong to the pages directory (otherwise treat as "other" change).
+            if (\strncmp($normalized, $pagesPath . '/', \strlen($pagesPath) + 1) !== 0) {
+                return null;
+            }
             $relative = $this->relativePathFromDirectory($normalized, $pagesPath);
+            // If the file is excluded from pages discovery, it is not safe to do a partial build.
+            if (\is_array($exclude = $config->get('pages.exclude'))) {
+                foreach ($exclude as $pattern) {
+                    $pattern = (string) $pattern;
+                    if ($pattern !== '' && \preg_match('#(^|/)' . \preg_quote($pattern, '#') . '(/|$)#', $relative)) {
+                        return null;
+                    }
+                }
+            }
             $pages[$relative] = $relative;
-        }
 
         if (\count($templates) > 0) {
             $pagesFromTemplates = $this->resolvePagesImpactedByTemplates($templates);
