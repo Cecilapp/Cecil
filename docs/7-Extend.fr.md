@@ -8,8 +8,6 @@ slug: etendre
 
 Comme Cecil repose sur PHP, il est facile d'en étendre les capacités.
 
-[toc]
-
 ## Générateur de pages
 
 Un générateur permet de créer des pages sans fichiers Markdown (avec des données provenant d'une API ou d'une base de données, par exemple), ou de modifier des pages existantes.

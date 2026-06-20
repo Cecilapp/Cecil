@@ -7,8 +7,6 @@ updated: 2025-03-27
 
 Because Cecil is powered by PHP it's easy to extend its capabilities.
 
-[toc]
-
 ## Pages Generator
 
 A generator helps you create pages without Markdown files (for example, with data from an API or a database) or alter existing pages.
