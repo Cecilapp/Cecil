@@ -36,7 +36,7 @@ Téléchargez `cecil.phar` depuis votre terminal:
 curl -LO https://cecil.app/cecil.phar
 ```
 
-Vous pouvez également [télécharger Cecil](https://cecil.app/download/) manuellement, ou utiliser :
+Vous pouvez également [télécharger Cecil manuellement](https://cecil.app/download/), ou utiliser :
 
 - [Homebrew](https://brew.sh): `brew install cecilapp/tap/cecil`
 - [Scoop](https://scoop.sh): `scoop install https://cecil.app/scoop/cecil.json`
