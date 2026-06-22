@@ -2,6 +2,15 @@
 
 All notable changes to this project will be documented in this file. Dates are displayed in UTC.
 
+#### [8.111.0](https://github.com/Cecilapp/Cecil/compare/8.110.0...8.111.0)
+
+> 19 June 2026
+
+- feat: add incremental build option to serve [`#2420`](https://github.com/Cecilapp/Cecil/pull/2420)
+- docs: add starter kits to Quick Start [`ec66601`](https://github.com/Cecilapp/Cecil/commit/ec6660169a6372a53e180acbaf145cde8baeb609)
+- docs: link starter kits [`8721a8e`](https://github.com/Cecilapp/Cecil/commit/8721a8e7993c601e8ca2107bf8038189435cbed5)
+- ci: update checkout action to fetch full history [`82271db`](https://github.com/Cecilapp/Cecil/commit/82271db75ae720cdb5da75a73f948e39c06152fa)
+
 #### [8.110.0](https://github.com/Cecilapp/Cecil/compare/8.109.0...8.110.0)
 
 > 17 June 2026
