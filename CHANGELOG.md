@@ -2,6 +2,17 @@
 
 All notable changes to this project will be documented in this file. Dates are displayed in UTC.
 
+#### [8.111.1](https://github.com/Cecilapp/Cecil/compare/8.111.0...8.111.1)
+
+> 23 June 2026
+
+- chore(deps-dev): bump friendsofphp/php-cs-fixer from 3.95.8 to 3.95.9 [`#2421`](https://github.com/Cecilapp/Cecil/pull/2421)
+- chore: update deps [`e4c9463`](https://github.com/Cecilapp/Cecil/commit/e4c9463ade031a0fd74d4083af90504709b849f8)
+- style: change app header [`d0cc045`](https://github.com/Cecilapp/Cecil/commit/d0cc0454bf422a22f3575285e13f375526f64aa6)
+- fix: remove Parsedown caching in Converter [`1f6243b`](https://github.com/Cecilapp/Cecil/commit/1f6243b9847c99c4ac2638e1e25d45cafe8ba174)
+- dos: minor update [`d268863`](https://github.com/Cecilapp/Cecil/commit/d268863351d923e350ed922b3adbcbe03742abe1)
+- docs: minor fix [`171fc48`](https://github.com/Cecilapp/Cecil/commit/171fc48e583d7e48819163768d8a0c4383cd1fec)
+
 #### [8.111.0](https://github.com/Cecilapp/Cecil/compare/8.110.0...8.111.0)
 
 > 19 June 2026
