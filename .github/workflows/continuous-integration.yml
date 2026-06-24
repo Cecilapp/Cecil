@@ -48,7 +48,7 @@ jobs:
             type: 'experimental'
     steps:
       - name: Checkout source code
-        uses: actions/checkout@v6
+        uses: actions/checkout@v7
       - name: Install image files optimizers (Ubuntu)
         if: ${{ matrix.os == 'ubuntu-latest' && join(matrix.type) == '' }}
         run: |
