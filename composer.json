@@ -40,7 +40,7 @@
     "psr/simple-cache": "^3.0",
     "scrivo/highlight.php": "^9.18",
     "scssphp/scssphp": "^2.1",
-    "spatie/image-optimizer": "^1.8",
+    "spatie/image-optimizer": "^1.9",
     "symfony/config": "^7.4",
     "symfony/console": "^7.4",
     "symfony/dom-crawler": "^7.4",

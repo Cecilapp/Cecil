@@ -37,22 +37,20 @@ class ImageOptimizer
         return (new OptimizerChain())
             ->addOptimizer(new Jpegoptim([
                 "--max=$quality",
+                '--force',
                 '--strip-all',
                 '--all-progressive',
             ]))
             ->addOptimizer(new Pngquant([
                 "--quality=$quality",
                 '--force',
-                '--skip-if-larger',
             ]))
             ->addOptimizer(new Optipng([
                 '-i0',
                 '-o2',
                 '-quiet',
             ]))
-            ->addOptimizer(new Svgo([
-                '--disable={cleanupIDs,removeViewBox}',
-            ]))
+            ->addOptimizer(new Svgo([]))
             ->addOptimizer(new Gifsicle([
                 '-b',
                 '-O3',
@@ -61,7 +59,7 @@ class ImageOptimizer
                 '-m 6',
                 '-pass 10',
                 '-mt',
-                '-q $quality',
+                "-q $quality",
             ]))
             ->addOptimizer(new Avifenc([
                 '-a cq-level=' . round(63 - $quality * 0.63),
