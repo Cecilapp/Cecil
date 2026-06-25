@@ -289,4 +289,28 @@ class IntegrationCliTests extends IntegrationTests
         self::assertFileDoesNotExist($pidFile, 'PID file should be removed by serve:stop');
         $this->backgroundPid = null;
     }
+
+    public function testServeLog(): void
+    {
+        $fs = new Filesystem();
+        exec('php ./bin/cecil new:site tests/demo --demo -n -f', $output, $retval);
+        self::assertTrue($retval < 1);
+        $output = [];
+        exec('php ./bin/cecil build tests/demo', $output, $retval);
+        self::assertTrue($retval < 1);
+
+        // Create log files for testing
+        $logDir = Util::joinFile(__DIR__, 'demo', '.cecil');
+        $fs->mkdir($logDir, 0755);
+        file_put_contents(Util::joinFile($logDir, 'errors.log'), "[Thu Jun 25 15:48:15 2026] PHP 8.2.30 Development Server (http://localhost:8000) started\n");
+        file_put_contents(Util::joinFile($logDir, 'server.log'), "[Thu Jun 25 15:48:16 2026] ::1:56597 [200]: /\n[Thu Jun 25 15:48:17 2026] ::1:56598 [404]: /notfound\n");
+
+        $output = [];
+        exec('php ./bin/cecil serve:log tests/demo', $output, $retval);
+        $output = implode("\n", $output);
+        echo $output;
+        self::assertSame(0, $retval, 'serve:log should exit with code 0');
+        self::assertStringContainsString('Development Server', $output);
+        self::assertStringContainsString('[200]', $output);
+    }
 }

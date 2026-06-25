@@ -14,9 +14,8 @@ declare(strict_types=1);
 // Router for the PHP built-in server
 // phpcs:disable PSR1.Files.SideEffects
 
-if (!date_default_timezone_get()) {
-    date_default_timezone_set('UTC');
-}
+$timezone = detectSystemTimezone() ?? 'UTC';
+date_default_timezone_set($timezone);
 mb_internal_encoding('UTF-8');
 
 \define('DIRECTORY_INDEX', '/index.html');
@@ -177,12 +176,33 @@ return logger(true);
 function logger(bool $return): bool
 {
     error_log(
-        \sprintf("%s:%d [%d]: %s\n", $_SERVER['REMOTE_ADDR'], $_SERVER['REMOTE_PORT'], http_response_code(), $_SERVER['REQUEST_URI']),
+        \sprintf("[%s] %s:%d [%d]: %s\n", date('D M d H:i:s Y'), $_SERVER['REMOTE_ADDR'], $_SERVER['REMOTE_PORT'], http_response_code(), $_SERVER['REQUEST_URI']),
         3,
         __DIR__ . '/server.log'
     );
 
     return $return;
+}
+
+function detectSystemTimezone(): ?string
+{
+    // ICU usually reflects the host system timezone when available.
+    if (!class_exists('\IntlTimeZone')) {
+        return null;
+    }
+
+    $intlTimezone = \IntlTimeZone::createDefault();
+    if (!$intlTimezone instanceof \IntlTimeZone) {
+        return null;
+    }
+
+    $timezone = $intlTimezone->getID();
+
+    if (!\is_string($timezone) || $timezone === '') {
+        return null;
+    }
+
+    return \in_array($timezone, timezone_identifiers_list(), true) ? $timezone : null;
 }
 
 // get path info (media type + headers)
