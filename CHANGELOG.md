@@ -2,6 +2,12 @@
 
 All notable changes to this project will be documented in this file. Dates are displayed in UTC.
 
+#### [8.112.0](https://github.com/Cecilapp/Cecil/compare/8.111.2...8.112.0)
+
+> 25 June 2026
+
+- feat: add serve:background and serve:log commands [`#2424`](https://github.com/Cecilapp/Cecil/pull/2424)
+
 #### [8.111.2](https://github.com/Cecilapp/Cecil/compare/8.111.1...8.111.2)
 
 > 23 June 2026
