@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. Dates are displayed in UTC.
 
+#### [8.111.2](https://github.com/Cecilapp/Cecil/compare/8.111.1...8.111.2)
+
+> 23 June 2026
+
+- chore: update deps [`0044096`](https://github.com/Cecilapp/Cecil/commit/004409600a24b31ec64fcaeb40daaeb34b840b87)
+- fix: adjust OpenGraph image resize height to 628 [`0d00f6c`](https://github.com/Cecilapp/Cecil/commit/0d00f6c7d7c489bc6e3622f71d2e20c361512849)
+
 #### [8.111.1](https://github.com/Cecilapp/Cecil/compare/8.111.0...8.111.1)
 
 > 23 June 2026
