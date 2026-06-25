@@ -2,6 +2,12 @@
 
 All notable changes to this project will be documented in this file. Dates are displayed in UTC.
 
+#### [8.112.1](https://github.com/Cecilapp/Cecil/compare/8.112.0...8.112.1)
+
+> 26 June 2026
+
+- refactor: bump image-optimizer, add error logging [`6d6e1b6`](https://github.com/Cecilapp/Cecil/commit/6d6e1b6495efb7d221ad54dd66c65d98f21b4b7f)
+
 #### [8.112.0](https://github.com/Cecilapp/Cecil/compare/8.111.2...8.112.0)
 
 > 25 June 2026
