@@ -2,7 +2,7 @@
 title: Commandes
 description: "Liste des commandes disponibles."
 date: 2026-03-27
-updated: 2026-06-18
+updated: 2026-06-25
 slug: commandes
 -->
 # Commandes
@@ -33,7 +33,9 @@ Available commands:
   new:page                   Creates a new page
   new:site                   Creates a new website
  serve
+  serve:background           Starts the built-in server in the background
   serve:stop                 [stop] Stops the background server
+  serve:log                  Shows combined server and error logs
  show
   show:config                Shows the configuration
   show:content               Shows content as tree
@@ -231,6 +233,59 @@ Help:
     cecil.phar serve:stop
 
   In background mode, file changes are not watched automatically.
+```
+
+### serve:background
+
+Alias de `serve --background` : démarre le serveur intégré en arrière-plan sans occuper le terminal.
+
+```plaintext
+Description:
+  Starts the built-in server in the background (alias of `serve --background`)
+
+Usage:
+  serve:background [options] [--] [<path>]
+
+Help:
+  The serve:background command starts the built-in web server in the background.
+
+    cecil.phar serve:background
+    cecil.phar serve:background path/to/the/working/directory
+
+  This command is an alias of serve --background.
+
+  Stop the server with:
+
+    cecil.phar serve:stop
+```
+
+### serve:log
+
+Affiche les logs combinés du serveur et des erreurs, triés par date.
+
+```plaintext
+Description:
+  Shows combined server and error logs
+
+Usage:
+  serve:log [options] [--] [<path>]
+
+Arguments:
+  path                  Use the given path as working directory
+
+Options:
+  -l, --lines=LINES     Number of entries to display (default: 25)
+
+Help:
+  The serve:log command displays entries from combined server and error logs, sorted by date.
+
+    cecil.phar serve:log
+    cecil.phar serve:log path/to/the/working/directory
+    cecil.phar serve:log --lines=100
+    cecil.phar serve:log -l 100
+
+  This command shows logs from `.cecil/errors.log` and `.cecil/server.log`.
+  It is useful for debugging issues with your local development server.
 ```
 
 ## build

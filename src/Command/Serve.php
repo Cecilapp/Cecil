@@ -440,7 +440,13 @@ EOF
             $output->writeln(\sprintf('Starting server%s (<href=http://%s:%d>http://%s:%d</>)', $messageSuffix, $host, $port, $host, $port));
             $process->start(function ($type, $buffer) {
                 if ($type === Process::ERR) {
-                    error_log($buffer, 3, Util::joinFile($this->getPath(), Builder::TMP_DIR, 'errors.log'));
+                    $lines = array_filter(explode("\n", $buffer), function (string $line): bool {
+                        return !preg_match('/ (Accepted|Closing|Closed without)/', $line);
+                    });
+                    $filtered = implode("\n", $lines);
+                    if ($filtered !== '') {
+                        error_log($filtered, 3, Util::joinFile($this->getPath(), Builder::TMP_DIR, 'errors.log'));
+                    }
                 }
             });
 
