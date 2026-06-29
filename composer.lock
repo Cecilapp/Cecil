@@ -1815,16 +1815,16 @@
         },
         {
             "name": "spatie/image-optimizer",
-            "version": "1.9.0",
+            "version": "1.10.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/spatie/image-optimizer.git",
-                "reference": "6ad4d364e2fdfdfe7f2640d59e946c7fd7b8f3ab"
+                "reference": "333c03952289dc2df0a91874636a0dffeb5b6aec"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/spatie/image-optimizer/zipball/6ad4d364e2fdfdfe7f2640d59e946c7fd7b8f3ab",
-                "reference": "6ad4d364e2fdfdfe7f2640d59e946c7fd7b8f3ab",
+                "url": "https://api.github.com/repos/spatie/image-optimizer/zipball/333c03952289dc2df0a91874636a0dffeb5b6aec",
+                "reference": "333c03952289dc2df0a91874636a0dffeb5b6aec",
                 "shasum": ""
             },
             "require": {
@@ -1864,9 +1864,9 @@
             ],
             "support": {
                 "issues": "https://github.com/spatie/image-optimizer/issues",
-                "source": "https://github.com/spatie/image-optimizer/tree/1.9.0"
+                "source": "https://github.com/spatie/image-optimizer/tree/1.10.0"
             },
-            "time": "2026-06-25T21:47:29+00:00"
+            "time": "2026-06-29T08:28:30+00:00"
         },
         {
             "name": "symfony/cache",
