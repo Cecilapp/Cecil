@@ -1,6 +1,7 @@
 ---
 name: cecil
 description: Build and configure Cecil static sites, with focused guidance for content, templates, and site generation.
+license: EUPL-1.2
 ---
 
 # Cecil Site Builder
@@ -95,12 +96,6 @@ curl -LO https://cecil.app/cecil.phar
 chmod +x cecil.phar
 ```
 
-Verify the download:
-
-```bash
-php cecil.phar --version
-```
-
 ### Step 2: Create a New Site
 
 Use the `new:site` command to scaffold a new website:
@@ -186,9 +181,7 @@ Output is generated in `_site/` directory.
 | `php cecil.phar serve`            | Start local server with live reload             |
 | `php cecil.phar show:config`      | Display effective configuration                 |
 | `php cecil.phar cache:clear`      | Clear all cache files                           |
-| `php cecil.phar self-update`      | Update Cecil                                    |
 | `php cecil.phar clear`            | Remove generated files                          |
-| `php cecil.phar util:templates:extract` | Extract built-in templates into layouts   |
 
 ## Template Development
 
@@ -334,14 +327,6 @@ pages:
     path: page
 ```
 
-```yaml
----
-pagination:
-  max: 10
-  path: page
----
-```
-
 In list templates, include paginator links with:
 
 ```twig
@@ -482,24 +467,10 @@ When extending or contributing to Cecil:
 - Prefix native function calls with `\` (e.g., `\count()`)
 - Include proper PHPDoc blocks for all classes and methods
 - Use 4-space indentation for PHP, 2-space for YAML/Twig
-- Include the following header comment only when contributing to the Cecil core repository itself. For user project extensions, omit it or replace the copyright line with `(c) [Your Name]`:
-
-```php
-<?php
-
-/**
- * This file is part of Cecil.
- *
- * (c) Arnaud Ligny <arnaud@ligny.fr>
- *
- * For the full copyright and license information, please view the LICENSE
- * file that was distributed with this source code.
- */
-```
 
 ## Useful Resources
 
-- **Official Documentation**: https://cecil.app
+- **Official website**: https://cecil.app
 - **GitHub Repository**: https://github.com/Cecilapp/Cecil
 - **Issue Tracker**: https://github.com/Cecilapp/Cecil/issues
 - **Documentation**: https://cecil.app/documentation/
@@ -531,7 +502,7 @@ When extending or contributing to Cecil:
 
 ## Troubleshooting
 
-When a user reports unexpected behavior or asks about a specific feature, ask them to run `php cecil.phar doctor` and include the output, then qualify guidance with the Cecil version range where the feature is available.
+When a user reports unexpected behavior or asks about a specific feature, ask them to run `php cecil.phar doctor` and include the output. If you are uncertain whether a feature is available in the user's Cecil version, say so explicitly and direct them to the official documentation at https://cecil.app/documentation/ rather than guessing version ranges.
 
 ### Common Issues
 
