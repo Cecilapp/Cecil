@@ -7,6 +7,7 @@ All notable changes to this project will be documented in this file. Dates are d
 > 26 June 2026
 
 - refactor: bump image-optimizer, add error logging [`6d6e1b6`](https://github.com/Cecilapp/Cecil/commit/6d6e1b6495efb7d221ad54dd66c65d98f21b4b7f)
+- chore: update composer.lock [`2842af0`](https://github.com/Cecilapp/Cecil/commit/2842af0b74022c28740b59ca3d3823e372881cd4)
 
 #### [8.112.0](https://github.com/Cecilapp/Cecil/compare/8.111.2...8.112.0)
 
