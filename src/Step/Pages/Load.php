@@ -74,7 +74,7 @@ class Load extends AbstractStep
                     return 1;
                 }
                 // sort by name
-                return \strnatcasecmp($a->getRelativePathname(), $b->getRelativePathname());
+                return strnatcasecmp($a->getRelativePathname(), $b->getRelativePathname());
             });
         // load only one page?
         if ($this->page) {
