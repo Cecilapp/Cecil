@@ -2,17 +2,13 @@
 title: Démarrage rapide
 description: "Créez un nouveau site web et prévisualiser le localement."
 date: 2021-11-03
-updated: 2026-02-02
+updated: 2026-06-18
 slug: demarrage-rapide
 menu: home
 -->
 # Démarrage rapide
 
 Cecil est une application en ligne de commande, propulsée par [PHP](https://www.php.net), qui fusionne des fichiers textes plats (écrit en [Markdown](https://daringfireball.net/projects/markdown/)), des images et des templates [Twig](https://twig.symfony.com/) afin de générer un [site statique](https://fr.wikipedia.org/wiki/Site_web_statique).
-
-:::info
-La documentation complète est disponible, en anglais, à l’adresse suivante : <https://cecil.app/documentation/>
-:::
 
 ## Créer un site web
 
@@ -40,7 +36,7 @@ Téléchargez `cecil.phar` depuis votre terminal:
 curl -LO https://cecil.app/cecil.phar
 ```
 
-Vous pouvez également [télécharger Cecil](https://cecil.app/download/) manuellement, ou utiliser :
+Vous pouvez également [télécharger Cecil manuellement](https://cecil.app/download/), ou utiliser :
 
 - [Homebrew](https://brew.sh): `brew install cecilapp/tap/cecil`
 - [Scoop](https://scoop.sh): `scoop install https://cecil.app/scoop/cecil.json`
@@ -95,18 +91,13 @@ Vous pouvez maintenant copier le contenu du répertoire `_site` sur un serveur W
 
 ----
 
-## Créer un blog
+## Kits de démarrage
 
-Si vous souhaiter créer un blog sans vous casser la tête, rapidement, le [starter blog](https://github.com/Cecilapp/the-butler#readme) est fait pour vous.
+Pour démarrer rapidement, utilisez l’un des [kits de démarrage](/fr/kits-de-demarrage/) Cecil prêts à l’emploi :
 
-[![Exemple de nouveau blog](/docs/cecil-newblog.png)](https://github.com/Cecilapp/the-butler#readme)
+- [The Butler](https://github.com/Cecilapp/the-butler#readme) : starter blog prêt à publier.
+- [Links](https://github.com/Cecilapp/Links#readme) : alternative open source à Linktree.
+- [Photo Stream](https://github.com/Cecilapp/photo-stream#readme) : flux photo auto-hébergé minimaliste.
+- [Statidocs](https://github.com/Cecilapp/statidocs#readme) : site de documentation prêt à l’emploi.
 
-Le moyen le plus simple de déployer et de gérer votre blog est certainement avec [Netlify](https://cecil.app/hosting/netlify/deploy/) ou [Vercel](https://cecil.app/hosting/vercel/deploy/).
-
-### Déployer sur Netlify
-
-[![Déployer sur Netlify](https://cecil.app/images/netlify/button.svg)](https://cecil.app/hosting/netlify/deploy/)
-
-### Déployer sur Vercel
-
-[![Déployer sur Vercel](https://vercel.com/button/default.svg)](https://cecil.app/hosting/vercel/deploy/)
+[![Exemple de starter blog](/docs/cecil-newblog.png)](https://github.com/Cecilapp/the-butler#readme)

@@ -66,6 +66,8 @@ EOF
     {
         $force = $input->getOption('force');
 
+        $this->io->title('Extract built-in templates');
+
         try {
             $phar = new \Phar(Util\Platform::getPharPath());
 

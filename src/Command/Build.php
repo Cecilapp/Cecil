@@ -14,9 +14,13 @@ declare(strict_types=1);
 namespace Cecil\Command;
 
 use Cecil\Builder;
+use Cecil\Logger\ProgressConsoleLogger;
 use Cecil\Util;
+use Psr\Log\LoggerInterface;
 use Symfony\Component\Console\Command\Command;
+use Symfony\Component\Console\Helper\ProgressBar;
 use Symfony\Component\Console\Helper\Table;
+use Symfony\Component\Console\Helper\TableSeparator;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
@@ -52,7 +56,7 @@ class Build extends AbstractCommand
                 new InputOption('render-subset', null, InputOption::VALUE_REQUIRED, 'Render a subset of pages'),
                 new InputOption('show-pages', null, InputOption::VALUE_NONE, 'Show list of built pages in a table'),
                 new InputOption('metrics', 'm', InputOption::VALUE_NONE, 'Show build metrics (duration and memory) of each step'),
-                new InputOption('notif', null, InputOption::VALUE_NONE, 'Send desktop notification on build completion'),
+                new InputOption('notify', null, InputOption::VALUE_NONE, 'Send desktop notification on build completion'),
             ])
             ->setHelp(
                 <<<'EOF'
@@ -85,7 +89,7 @@ To show build steps <comment>metrics</comment>, run:
 
 Send a desktop <comment>notification</comment> on build completion, run:
 
-  <info>%command.full_name% --notif</>
+  <info>%command.full_name% --notify</>
 EOF
             );
     }
@@ -140,7 +144,24 @@ EOF
             }
         }
 
-        $output->writeln(\sprintf('Building website%s...', $messageOpt));
+        // start build
+        $this->io->title(\sprintf('Build website%s', $messageOpt));
+        $progressBar = null;
+        /** @var LoggerInterface $originalLogger */
+        $originalLogger = $builder->getLogger();
+        $useProgressBar = $output->getVerbosity() === OutputInterface::VERBOSITY_NORMAL && $output->isDecorated();
+        if ($useProgressBar) {
+            $progressBar = new ProgressBar($output);
+            $progressBar->setFormat("%current%/%max% %bar% %message%");
+            $progressBar->setEmptyBarCharacter('░');
+            $progressBar->setBarCharacter('<fg=green>▓</>');
+            $progressBar->setProgressCharacter('<fg=green>▓</>');
+            $progressBar->setMessage('Starting build');
+            $progressBar->start();
+            $builder->setLogger(new ProgressConsoleLogger($output, $progressBar));
+        }
+
+        // show build configuration in very verbose mode
         $output->writeln(\sprintf('<comment>Path:   %s</comment>', $this->getPath()), OutputInterface::VERBOSITY_VERY_VERBOSE);
         if (!empty($this->getConfigFiles())) {
             $output->writeln(\sprintf('<comment>Config: %s</comment>', implode(', ', $this->getConfigFiles())), OutputInterface::VERBOSITY_VERY_VERBOSE);
@@ -150,91 +171,168 @@ EOF
             $output->writeln(\sprintf('<comment>Cache:  %s</comment>', $builder->getConfig()->getCachePath()), OutputInterface::VERBOSITY_VERY_VERBOSE);
         }
 
-        // build
-        $builder->build($options);
+        try {
+            // build
+            $builder->build($options);
+        } finally {
+            // end build
+            if ($progressBar !== null) {
+                $progressBar->clear();
+                $output->writeln('');
+            }
+            // restore logger to avoid affecting messages outside of build execution
+            $builder->setLogger($originalLogger);
+        }
         $output->writeln('<info>Build done.</info>');
 
         // notification
-        if ($input->getOption('notif')) {
+        if ($input->getOption('notify')) {
             $this->notification('Build done 🎉');
         }
 
         // show build steps metrics
         if ($input->getOption('metrics')) {
-            $metrics = $builder->getMetrics();
-            $metricsFile = Util::joinFile($this->getPath(), Builder::TMP_DIR, 'metrics.json');
-
-            // load previous metrics
-            $previousMetrics = [];
-            if (file_exists($metricsFile)) {
-                $metricsContent = Util\File::fileGetContents($metricsFile);
-                if ($metricsContent !== false) {
-                    $previousMetrics = json_decode($metricsContent, true) ?: [];
-                }
-            }
-
-            // prepare rows with diff
-            $rows = [];
-            $currentMetricsToSave = ['steps' => [], 'total' => $metrics['total']['duration_raw']];
-            foreach ($metrics['steps'] as $step) {
-                $durationDisplay = $step['duration'];
-                // compute and display diff with previous run
-                if (isset($previousMetrics['steps'][$step['name']])) {
-                    $diff = $step['duration_raw'] - $previousMetrics['steps'][$step['name']];
-                    if (abs($diff) >= 1) {
-                        $diffAbs = abs($diff);
-                        $diffStr = $diffAbs < 1000
-                            ? \sprintf('%s ms', round($diffAbs, 0))
-                            : \sprintf('%s s', round($diffAbs / 1000, 2));
-                        $sign = $diff > 0 ? '+' : '-';
-                        $color = $diff > 0 ? 'red' : 'green';
-                        $durationDisplay .= \sprintf(' (<fg=%s>%s%s</>)', $color, $sign, $diffStr);
-                    }
-                }
-                $rows[] = [$step['name'], $durationDisplay, $step['memory']];
-                $currentMetricsToSave['steps'][$step['name']] = $step['duration_raw'];
-            }
-
-            // save current metrics for next comparison
-            Util\File::getFS()->dumpFile($metricsFile, (string) json_encode($currentMetricsToSave, JSON_PRETTY_PRINT));
-
-            $table = new Table($output);
-            $table
-                ->setHeaderTitle('Build steps metrics')
-                ->setHeaders(['Step', 'Duration', 'Memory'])
-                ->setRows($rows)
-            ;
-            $table->setStyle('box')->render();
+            $this->showBuildMetrics($builder, $output);
         }
 
         // show built pages as table
         if ($input->getOption('show-pages')) {
-            $pagesAsArray = [];
-            foreach (
-                $this->getBuilder()->getPages()->filter(function (\Cecil\Collection\Page\Page $page) {
-                    return $page->getVariable('published');
-                })->usort(function (\Cecil\Collection\Page\Page $pageA, \Cecil\Collection\Page\Page $pageB) {
-                    return strnatcmp((string) $pageA['language'], (string) $pageB['language']);
-                }) as $page
-            ) {
-                /** @var \Cecil\Collection\Page\Page $page */
-                $pagesAsArray[] = [
-                    $page->getId(),
-                    $page->getVariable('language'),
-                    \sprintf("%s %s", $page->getType(), $page->getType() !== \Cecil\Collection\Page\Type::PAGE->value ? "(" . \count($page->getPages() ?: []) . ")" : ''),
-                    $page->getSection(),
-                    $page->isVirtual() ? 'true' : 'false',
-                ];
-            }
-            $table = new Table($output);
-            $table
-                ->setHeaderTitle(\sprintf("Built pages (%s)", \count($pagesAsArray)))
-                ->setHeaders(['ID', 'Lang', 'Type', 'Section', 'Virtual'])
-                ->setRows($pagesAsArray)
-            ;
-            $table->setStyle('box')->render();
+            $this->showBuiltPages($builder, $output);
         }
 
         return Command::SUCCESS;
+    }
+
+    /**
+     * Renders build metrics, compares them to previous run, and saves current values.
+     */
+    private function showBuildMetrics(Builder $builder, OutputInterface $output): void
+    {
+        $metrics = $builder->getMetrics();
+        $metricsFile = Util::joinFile($this->getPath(), Builder::TMP_DIR, 'metrics.json');
+
+        // load previous metrics
+        $previousMetrics = [];
+        if (file_exists($metricsFile)) {
+            $metricsContent = Util\File::fileGetContents($metricsFile);
+            if ($metricsContent !== false) {
+                $previousMetrics = json_decode($metricsContent, true) ?: [];
+            }
+        }
+
+        // prepare rows with diff
+        $rows = [];
+        $currentMetricsToSave = ['steps' => [], 'total' => $metrics['total']['duration_raw']];
+        foreach ($metrics['steps'] as $step) {
+            $durationDisplay = $step['duration'];
+            // compute and display diff with previous run
+            if (\array_key_exists($step['name'], $previousMetrics['steps'] ?? [])) {
+                $diff = $step['duration_raw'] - $previousMetrics['steps'][$step['name']];
+                if (abs($diff) >= 1) {
+                    $diffAbs = abs($diff);
+                    $diffStr = $diffAbs < 1000
+                        ? \sprintf('%s ms', round($diffAbs, 0))
+                        : \sprintf('%s s', round($diffAbs / 1000, 2));
+                    $sign = $diff > 0 ? '+' : '-';
+                    $color = $diff > 0 ? 'red' : 'green';
+                    $durationDisplay .= \sprintf(' (<fg=%s>%s%s</>)', $color, $sign, $diffStr);
+                }
+            }
+            $rows[] = [$step['name'], $durationDisplay, $step['memory']];
+            $currentMetricsToSave['steps'][$step['name']] = $step['duration_raw'];
+        }
+
+        // add total row with optional diff against previous run
+        $totalDuration = (float) $metrics['total']['duration_raw'];
+        $totalDurationDisplay = $totalDuration < 1000
+            ? \sprintf('%s ms', round($totalDuration, 0))
+            : \sprintf('%s s', round($totalDuration / 1000, 2));
+        if (\array_key_exists('total', $previousMetrics)) {
+            $totalDiff = $totalDuration - (float) $previousMetrics['total'];
+            if (abs($totalDiff) >= 1) {
+                $totalDiffAbs = abs($totalDiff);
+                $totalDiffStr = $totalDiffAbs < 1000
+                    ? \sprintf('%s ms', round($totalDiffAbs, 0))
+                    : \sprintf('%s s', round($totalDiffAbs / 1000, 2));
+                $sign = $totalDiff > 0 ? '+' : '-';
+                $color = $totalDiff > 0 ? 'red' : 'green';
+                $totalDurationDisplay .= \sprintf(' (<fg=%s>%s%s</>)', $color, $sign, $totalDiffStr);
+            }
+        }
+        $rows[] = new TableSeparator();
+        $rows[] = ['Total', $totalDurationDisplay, $metrics['total']['memory']];
+
+        $optimizationRows = [];
+
+        // add asset registry deduplication stats if available
+        if (isset($metrics['registry']) && $metrics['registry']['total'] > 0) {
+            $optimizationRows[] = [
+                'Assets deduplication',
+                \sprintf('%d created / %d reused', $metrics['registry']['misses'], $metrics['registry']['hits']),
+                \sprintf('%.1f%% hit rate', $metrics['registry']['deduplication_ratio']),
+            ];
+        }
+
+        // add layout cache stats if available
+        if (isset($metrics['layout_cache']) && $metrics['layout_cache']['total'] > 0) {
+            $optimizationRows[] = [
+                'Layouts cache',
+                \sprintf('%d misses / %d hits', $metrics['layout_cache']['misses'], $metrics['layout_cache']['hits']),
+                \sprintf('%.1f%% hit rate', $metrics['layout_cache']['hit_rate']),
+            ];
+        }
+
+        // save current metrics for next comparison
+        Util\File::getFS()->dumpFile($metricsFile, (string) json_encode($currentMetricsToSave, JSON_PRETTY_PRINT));
+
+        $table = new Table($output);
+        $table
+            ->setHeaderTitle('Build steps metrics')
+            ->setHeaders(['Step', 'Duration', 'Memory'])
+            ->setRows($rows)
+        ;
+        $table->setStyle('box')->render();
+
+        if ($optimizationRows !== []) {
+            $table = new Table($output);
+            $table
+                ->setHeaderTitle('Performance metrics')
+                ->setHeaders(['Metric', 'Value', 'Impact'])
+                ->setRows($optimizationRows)
+            ;
+            $table->setStyle('box')->render();
+        }
+    }
+
+    /**
+     * Renders built pages as a table.
+     */
+    private function showBuiltPages(Builder $builder, OutputInterface $output): void
+    {
+        $pagesAsArray = [];
+        foreach (
+            $builder->getPages()->filter(function (\Cecil\Collection\Page\Page $page) {
+                return $page->getVariable('published');
+            })->usort(function (\Cecil\Collection\Page\Page $pageA, \Cecil\Collection\Page\Page $pageB) {
+                return strnatcmp((string) $pageA['language'], (string) $pageB['language']);
+            }) as $page
+        ) {
+            /** @var \Cecil\Collection\Page\Page $page */
+            $pagesAsArray[] = [
+                $page->getId(),
+                $page->getVariable('language'),
+                \sprintf("%s %s", $page->getType(), $page->getType() !== \Cecil\Collection\Page\Type::PAGE->value ? "(" . \count($page->getPages() ?: []) . ")" : ''),
+                $page->getSection(),
+                $page->isVirtual() ? 'true' : 'false',
+            ];
+        }
+
+        $table = new Table($output);
+        $table
+            ->setHeaderTitle(\sprintf('Built pages (%s)', \count($pagesAsArray)))
+            ->setHeaders(['ID', 'Lang', 'Type', 'Section', 'Virtual'])
+            ->setRows($pagesAsArray)
+        ;
+        $table->setStyle('box')->render();
     }
 }

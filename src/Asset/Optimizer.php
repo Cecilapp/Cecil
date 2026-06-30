@@ -87,7 +87,11 @@ class Optimizer
     {
         $message = \sprintf('Asset not optimized: "%s"', $path);
         $sizeBefore = filesize($filepath);
-        ImageOptimizer::create($quality)->optimize($filepath);
+        ImageOptimizer::create($quality)
+            ->throws(function (\Throwable $exception) use ($path) {
+                $this->builder->getLogger()->debug(\sprintf('Error optimizing image "%s": %s', $path, $exception->getMessage()));
+            })
+            ->optimize($filepath);
         $sizeAfter = filesize($filepath);
         if ($sizeAfter < $sizeBefore) {
             $message = \sprintf('Asset optimized: "%s" (%s Ko -> %s Ko)', $path, ceil($sizeBefore / 1000), ceil($sizeAfter / 1000));

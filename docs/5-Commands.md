@@ -1,7 +1,7 @@
 <!--
 description: "List of available commands."
 date: 2020-12-19
-updated: 2025-11-23
+updated: 2026-06-25
 -->
 # Commands
 
@@ -12,18 +12,28 @@ Available commands:
   about                      Shows a short description about Cecil
   build                      Builds the website
   clear                      Removes all generated files
+  doctor                     Diagnoses the site configuration
   edit                       [open] Open pages directory with the editor
   help                       Display help for a command
-  self-update                [selfupdate] Updates Cecil to the latest version
   serve                      Starts the built-in server
  cache
   cache:clear                Removes all cache files
   cache:clear:assets         Removes assets cache
   cache:clear:templates      Removes templates cache
   cache:clear:translations   Removes translations cache
+ clear
+  clear:output               Removes output directory
+  clear:temporary            [clear:tmp] Removes temporary directory
+ doctor
+  doctor:frontmatter         [doctor:fm] Validates pages front matter syntax
+  doctor:seo                 Audits rendered HTML pages for common SEO issues
  new
   new:page                   Creates a new page
   new:site                   Creates a new website
+ serve
+  serve:background           Starts the built-in server in the background
+  serve:stop                 [stop] Stops the background server
+  serve:log                  Shows combined server and error logs
  show
   show:config                Shows the configuration
   show:content               Shows content as tree
@@ -59,16 +69,16 @@ Options:
 Help:
   The new:site command creates a new website in the current directory, or in <path> if provided.
   If you run this command without any options, it will ask you for the website title, baseline, base URL, description, etc.
-  
+
     cecil.phar new:site
     cecil.phar new:site path/to/the/working/directory
-  
+
   To create a new website with demo content, run:
-  
+
     cecil.phar new:site --demo
-  
+
   To override an existing website, run:
-  
+
     cecil.phar new:site --force
 ```
 
@@ -103,21 +113,21 @@ Options:
 Help:
   The new:page command creates a new page file.
   If you run this command without any options, it will ask you for the page name and other options.
-  
+
     cecil.phar new:page
     cecil.phar new:page --name=path/to/a-page.md
     cecil.phar new:page --name=path/to/A Page.md --slugify
-  
+
   To create a new page with a date prefix (i.e: `YYYY-MM-DD`), run:
-  
+
     cecil.phar new:page --prefix
-  
+
   To create a new page and open it with an editor, run:
-  
+
     cecil.phar new:page --open --editor=editor
-  
+
   To override an existing page, run:
-  
+
     cecil.phar new:page --force
 ```
 
@@ -136,6 +146,145 @@ Two dynamic variables are available:
 ### Open with your editor
 
 With the `--open` option, the editor will be opened automatically. So use `editor` key in your configuration file to define the default editor (e.g.: `editor: typora`).
+
+## serve
+
+Builds and serves the site locally.
+
+:::warning
+The web server is designed to aid website testing. It is not intended to be a full-featured web server and it should not be used on a public network.
+:::
+
+```plaintext
+Description:
+  Starts the built-in server
+
+Usage:
+  serve [options] [--] [<path>]
+
+Arguments:
+  path                             Use the given path as working directory
+
+Options:
+  -o, --open                       Open web browser automatically
+      --host=HOST                  Server host [default: "localhost"]
+      --port=PORT                  Server port [default: "8000"]
+  -w, --watch|--no-watch           Enable (or disable --no-watch) changes watcher (enabled by default)
+  -i, --incremental                Enable incremental builds (rebuild only changed pages)
+  -d, --drafts                     Include drafts
+      --optimize|--no-optimize     Enable (or disable --no-optimize) optimization of generated files
+  -c, --config=CONFIG              Set the path to extra config files (comma-separated)
+      --clear-cache[=CLEAR-CACHE]  Clear cache before build (optional cache key as regular expression) [default: false]
+  -p, --page=PAGE                  Build a specific page
+      --no-ignore-vcs              Changes watcher must not ignore VCS directories
+  -m, --metrics                    Show build metrics (duration and memory) of each step
+      --timeout=TIMEOUT            Sets the process timeout (max. runtime) in seconds [default: 7200]
+      --notify                     Send desktop notification on server start
+  -b, --background                 Run the server in the background
+  -h, --help                       Display help for the given command. When no command is given display help for the list command
+  -q, --quiet                      Do not output any message
+  -V, --version                    Display this application version
+      --ansi|--no-ansi             Force (or disable --no-ansi) ANSI output
+  -n, --no-interaction             Do not ask any interactive question
+  -v|vv|vvv, --verbose             Increase the verbosity of messages: 1 for normal output, 2 for more verbose output and 3 for debug
+
+Help:
+  The serve command starts the live-reloading-built-in web server.
+
+    cecil.phar serve
+    cecil.phar serve path/to/the/working/directory
+    cecil.phar serve --open
+    cecil.phar serve --drafts
+    cecil.phar serve --no-watch
+
+  To speed up local development you can enable incremental builds with the --incremental option.
+  When content pages change, Cecil rebuilds just those pages.
+  When templates change, Cecil rebuilds only pages using those templates (including Twig dependencies such as extends/include).
+  Any other change (data, config, static or asset file, or file deletion) triggers a full rebuild:
+
+    cecil.phar serve --incremental
+
+  You can use a custom host and port by using the --host and --port options:
+
+    cecil.phar serve --host=127.0.0.1 --port=8080
+
+  To build the website with an extra configuration file, you can use the --config option.
+  This is useful during local development to override some settings without modifying the main configuration:
+
+    cecil.phar serve --config=config/dev.yml
+
+  To start the server with changes watcher not ignoring VCS directories, run:
+
+    cecil.phar serve --no-ignore-vcs
+
+  To define the process timeout (in seconds), run:
+
+    cecil.phar serve --timeout=7200
+
+  To run the server in the background, run:
+
+    cecil.phar serve --background
+    cecil.phar serve -b
+
+  Then stop it with:
+
+    cecil.phar serve:stop
+
+  In background mode, file changes are not watched automatically.
+```
+
+### serve:background
+
+Alias of `serve --background`: starts the built-in server in the background without occupying the terminal.
+
+```plaintext
+Description:
+  Starts the built-in server in the background (alias of `serve --background`)
+
+Usage:
+  serve:background [options] [--] [<path>]
+
+Help:
+  The serve:background command starts the built-in web server in the background.
+
+    cecil.phar serve:background
+    cecil.phar serve:background path/to/the/working/directory
+
+  This command is an alias of serve --background.
+
+  Stop the server with:
+
+    cecil.phar serve:stop
+```
+
+### serve:log
+
+Displays the combined server and error logs.
+
+```plaintext
+Description:
+  Shows combined server and error logs
+
+Usage:
+  serve:log [options] [--] [<path>]
+
+Arguments:
+  path                  Use the given path as working directory
+
+Options:
+  -l, --lines=LINES     Number of entries to display (default: 25)
+
+Help:
+  The serve:log command displays entries from combined server and error logs, sorted by date.
+
+    cecil.phar serve:log
+    cecil.phar serve:log path/to/the/working/directory
+    cecil.phar serve:log --lines=100
+    cecil.phar serve:log -l 100
+
+  This command shows logs from `.cecil/errors.log` and `.cecil/server.log`.
+  It is useful for debugging issues with your local development server.
+```
 
 ## build
 
@@ -163,7 +312,7 @@ Options:
       --render-subset=RENDER-SUBSET  Render a subset of pages
       --show-pages                   Show list of built pages in a table
   -m, --metrics                      Show build metrics (duration and memory) of each step
-      --notif                        Send desktop notification on build completion
+      --notify                       Send desktop notification on build completion
   -h, --help                         Display help for the given command. When no command is given display help for the list command
   -q, --quiet                        Do not output any message
   -V, --version                      Display this application version
@@ -200,68 +349,114 @@ Help:
     cecil.phar build --metrics
 ```
 
-## serve
+## doctor
 
-Builds and serves the site locally.
-
-:::warning
-The web server is designed to aid website testing. It is not intended to be a full-featured web server and it should not be used on a public network.
-:::
+Diagnoses the current site and Cecil environment.
 
 ```plaintext
 Description:
-  Starts the built-in server
+  Diagnoses the site configuration
 
 Usage:
-  serve [options] [--] [<path>]
+  doctor [options] [--] [<path>]
 
 Arguments:
-  path                             Use the given path as working directory
+  path                       Use the given path as working directory
 
 Options:
-  -o, --open                       Open web browser automatically
-      --host=HOST                  Server host [default: "localhost"]
-      --port=PORT                  Server port [default: "8000"]
-  -w, --watch|--no-watch           Enable (or disable --no-watch) changes watcher (enabled by default)
-  -d, --drafts                     Include drafts
-      --optimize|--no-optimize     Enable (or disable --no-optimize) optimization of generated files
-  -c, --config=CONFIG              Set the path to extra config files (comma-separated)
-      --clear-cache[=CLEAR-CACHE]  Clear cache before build (optional cache key as regular expression) [default: false]
-  -p, --page=PAGE                  Build a specific page
-      --no-ignore-vcs              Changes watcher must not ignore VCS directories
-  -m, --metrics                    Show build metrics (duration and memory) of each step
-      --timeout=TIMEOUT            Sets the process timeout (max. runtime) in seconds [default: 7200]
-      --notif                      Send desktop notification on server start
-  -h, --help                       Display help for the given command. When no command is given display help for the list command
-  -q, --quiet                      Do not output any message
-  -V, --version                    Display this application version
-      --ansi|--no-ansi             Force (or disable --no-ansi) ANSI output
-  -n, --no-interaction             Do not ask any interactive question
-  -v|vv|vvv, --verbose             Increase the verbosity of messages: 1 for normal output, 2 for more verbose output and 3 for debug
+  -c, --config=CONFIG        Set the path to an extra configuration file
+  -h, --help                 Display help for the given command. When no command is given display help for the list command
+  -q, --quiet                Do not output any message
+  -V, --version              Display this application version
+      --ansi|--no-ansi       Force (or disable --no-ansi) ANSI output
+  -n, --no-interaction       Do not ask any interactive question
+  -v|vv|vvv, --verbose       Increase the verbosity of messages: 1 for normal output, 2 for more verbose output and 3 for debug
 
 Help:
-  The serve command starts the live-reloading-built-in web server.
+  The doctor command diagnoses the current site and Cecil environment.
 
-    cecil.phar serve
-    cecil.phar serve path/to/the/working/directory
-    cecil.phar serve --open
-    cecil.phar serve --drafts
-    cecil.phar serve --no-watch
+    cecil.phar doctor
+    cecil.phar doctor path/to/the/working/directory
 
-  You can use a custom host and port by using the --host and --port options:
+  To inspect a site with an extra configuration file, run:
 
-    cecil.phar serve --host=127.0.0.1 --port=8080
+    cecil.phar doctor --config=config.yml
+```
 
-  To build the website with an extra configuration file, you can use the --config option.
-  This is useful during local development to override some settings without modifying the main configuration:
+### doctor:frontmatter
 
-    cecil.phar serve --config=config/dev.yml
+Validates pages front matter syntax.
 
-  To start the server with changes watcher not ignoring VCS directories, run:
+```plaintext
+Description:
+  Validates pages front matter syntax
 
-    cecil.phar serve --no-ignore-vcs
+Usage:
+  doctor:frontmatter|doctor:fm [options] [--] [<path>]
 
-  To define the process timeout (in seconds), run:
+Arguments:
+  path                  Use the given path as working directory
 
-    cecil.phar serve --timeout=7200
+Options:
+  -c, --config=CONFIG   Set the path to an extra configuration file
+  -p, --page=PAGE       Validate a single page relative to the pages directory
+      --ansi|--no-ansi  Force (or disable --no-ansi) ANSI output
+  -n, --no-interaction  Do not ask any interactive question
+  -h, --help            Display help for the given command. When no command is given display help for the list command
+  -q, --quiet           Do not output any message
+  -V, --version         Display this application version
+  -v|vv|vvv             Increase the verbosity of messages: 1 for normal output, 2 for more verbose output and 3 for debug
+```
+
+### doctor:seo
+
+Audits rendered HTML pages for common SEO issues.
+
+```plaintext
+Description:
+  Audits rendered HTML pages for common SEO issues
+
+Usage:
+  doctor:seo [options] [--] [<path>]
+
+Arguments:
+  path                  Use the given path as working directory
+
+Options:
+  -c, --config=CONFIG   Set the path to an extra configuration file
+  -p, --page=PAGE       Audit a single page relative to the pages directory
+      --format=FORMAT   Output format: text (default) or json
+      --feedback        Include findings with feedback level
+      --include-virtual Include virtual pages (paginated, taxonomies) in audit
+```
+
+The command builds the site in dry-run mode, then audits the rendered HTML output for a focused set of checks: title tag, meta description, canonical URL, heading structure, Open Graph tags, image alt attributes and estimated content length.
+
+By default, virtual pages (paginated, taxonomy pages) are excluded from the audit. Use `--include-virtual` to include them.
+
+By default, findings with level `feedback` are not listed.
+
+Use `--feedback` to include findings with level `feedback` in addition to other findings.
+
+Output results as JSON for CI integration using `--format=json`.
+
+#### Configuration
+
+Customize audit thresholds and enabled checks in your configuration file:
+
+```yaml
+doctor:
+  seo:
+    title: { min: 30, max: 60 }
+    description: { min: 120, max: 160 }
+    content: { min_words: 300 }
+    checks:
+      title: true
+      description: true
+      canonical: true
+      h1: true
+      og_tags: true
+      img_alt: true
+      content_length: true
+      lang_attribute: true
 ```

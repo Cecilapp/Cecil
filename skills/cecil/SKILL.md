@@ -1,6 +1,7 @@
 ---
 name: cecil
 description: Build and configure Cecil static sites, with focused guidance for content, templates, and site generation.
+license: EUPL-1.2
 ---
 
 # Cecil Site Builder
@@ -95,12 +96,6 @@ curl -LO https://cecil.app/cecil.phar
 chmod +x cecil.phar
 ```
 
-Verify the download:
-
-```bash
-php cecil.phar --version
-```
-
 ### Step 2: Create a New Site
 
 Use the `new:site` command to scaffold a new website:
@@ -186,9 +181,7 @@ Output is generated in `_site/` directory.
 | `php cecil.phar serve`            | Start local server with live reload             |
 | `php cecil.phar show:config`      | Display effective configuration                 |
 | `php cecil.phar cache:clear`      | Clear all cache files                           |
-| `php cecil.phar self-update`      | Update Cecil                                    |
 | `php cecil.phar clear`            | Remove generated files                          |
-| `php cecil.phar util:templates:extract` | Extract built-in templates into layouts   |
 
 ## Template Development
 
@@ -212,13 +205,15 @@ Examples:
 
 ### Lookup Rules (How Cecil Chooses a Template)
 
-1. Identify the page kind: homepage, standard page, section page, or taxonomy page.
-2. If a section-specific or explicit `layout` template exists, use it first.
-3. Apply kind-specific fallbacks:
-  - Homepage: `index.*` -> `home.*` -> `list.*` -> `_default/*`
-  - Standard page: `page.*` -> `_default/page.*`
-  - Section/taxonomy pages: dedicated templates -> `list.*` -> `_default/*`
-4. If no previous match exists, use the nearest `_default/*` fallback.
+1. Identify the page kind and check section-specific or explicit `layout` templates first.
+2. Apply the matching fallback chain for that page kind:
+
+| Page Kind | Step 1 | Step 2 | Step 3 | Step 4 |
+|-----------|--------|--------|--------|--------|
+| Homepage | `index.*` | `home.*` | `list.*` | `_default/*` |
+| Standard page | `page.*` | `_default/page.*` | - | - |
+| Section page | section-specific `list.*` or explicit `layout.*` | `list.*` | `_default/*` | - |
+| Taxonomy page | taxonomy template or explicit `layout.*` | `list.*` | `_default/*` | - |
 
 In practice, you usually need only:
 
@@ -236,6 +231,34 @@ Most useful variables in Twig:
 - `site.taxonomies` - vocabularies and terms
 - `site.menus.<name>` - menu entries
 - `page.title`, `page.date`, `page.content`, `page.path`, `page.type`, `page.section`
+
+### Multilingual Sites
+
+Configure languages in `cecil.yml`:
+
+```yaml
+language: en
+languages:
+  - code: en
+    name: English
+    locale: en_US
+  - code: fr
+    name: Francais
+    locale: fr_FR
+```
+
+Use suffixed filenames for translations:
+
+```plaintext
+pages/about.md
+pages/about.fr.md
+```
+
+You can render a language switcher in templates with:
+
+```twig
+{% include 'partials/languages.html.twig' %}
+```
 
 Useful collection helpers:
 
@@ -293,6 +316,23 @@ If needed, extract built-in templates to customize them:
 php cecil.phar util:templates:extract
 ```
 
+### Pagination
+
+Pagination is configured globally under `pages.pagination`, and can be overridden in section front matter.
+
+```yaml
+pages:
+  pagination:
+    max: 5
+    path: page
+```
+
+In list templates, include paginator links with:
+
+```twig
+{% include 'partials/paginator.html.twig' %}
+```
+
 ### Custom Filters and Functions
 
 Core Twig helpers commonly used in Cecil templates:
@@ -348,6 +388,12 @@ class CustomGenerator extends AbstractGenerator
 
 Then register it in configuration with `pages.generators`.
 
+```yaml
+pages:
+  generators:
+    100: MyProject\\Generator\\CustomGenerator
+```
+
 ### Custom Commands
 
 Create CLI commands by extending `AbstractCommand`:
@@ -366,6 +412,22 @@ class MyCommand extends AbstractCommand
 ```
 
 You can also extend Twig (via `layouts.extensions`) and post-process output (via `output.postprocessors`).
+
+```yaml
+layouts:
+  extensions:
+    MyExtension: MyProject\\Twig\\MyExtension
+```
+
+The Twig extension class should implement `Twig\Extension\ExtensionInterface` (or extend `Twig\Extension\AbstractExtension`).
+
+```yaml
+output:
+  postprocessors:
+    MyProcessor: MyProject\\Renderer\\PostProcessor\\MyProcessor
+```
+
+Post-processors should implement `Cecil\Renderer\PostProcessor\PostProcessorInterface`.
 
 ## Deployment
 
@@ -405,24 +467,10 @@ When extending or contributing to Cecil:
 - Prefix native function calls with `\` (e.g., `\count()`)
 - Include proper PHPDoc blocks for all classes and methods
 - Use 4-space indentation for PHP, 2-space for YAML/Twig
-- Include required header comment in all new PHP files:
-
-```php
-<?php
-
-/**
- * This file is part of Cecil.
- *
- * (c) Arnaud Ligny <arnaud@ligny.fr>
- *
- * For the full copyright and license information, please view the LICENSE
- * file that was distributed with this source code.
- */
-```
 
 ## Useful Resources
 
-- **Official Documentation**: https://cecil.app
+- **Official website**: https://cecil.app
 - **GitHub Repository**: https://github.com/Cecilapp/Cecil
 - **Issue Tracker**: https://github.com/Cecilapp/Cecil/issues
 - **Documentation**: https://cecil.app/documentation/
@@ -435,7 +483,7 @@ When extending or contributing to Cecil:
 2. Add individual posts in `pages/blog/post-*.md`
 3. Configure taxonomy for tags/categories
 4. Create templates for listing and individual posts
-5. Build with `cecil build`
+5. Build with `php cecil.phar build`
 
 ### Add Custom Pages
 
@@ -447,12 +495,14 @@ When extending or contributing to Cecil:
 
 ### Implement Search
 
-1. Generate search index during build
+1. Create `pages/search.json.md` with front matter `output: json`
 2. Use JavaScript library (e.g., Lunr.js) on frontend
-3. Process index data with Twig
+3. Create `layouts/search.json.twig` that iterates `site.pages.showable` and emits a JSON array of `{title, url, content}` objects
 4. Add search functionality to templates
 
 ## Troubleshooting
+
+When a user reports unexpected behavior or asks about a specific feature, ask them to run `php cecil.phar doctor` and include the output. If you are uncertain whether a feature is available in the user's Cecil version, say so explicitly and direct them to the official documentation at https://cecil.app/documentation/ rather than guessing version ranges.
 
 ### Common Issues
 

@@ -101,6 +101,10 @@
                 
             </li>
                     <li>
+                <a href="namespaces/cecil-doctor.html" class="">Doctor</a>
+                
+            </li>
+                    <li>
                 <a href="namespaces/cecil-exception.html" class="">Exception</a>
                 
             </li>
@@ -211,7 +215,13 @@ It also supports opening the web browser automatically and includes options for 
             <dt class="phpdocumentor-table-of-contents__entry -constant -public">
     <a class="" href="classes/Cecil-Command-AbstractCommand.html#constant_EXCLUDED_CMD">EXCLUDED_CMD</a>
     <span>
-        &nbsp;: mixed&nbsp;= [&#039;about&#039;, &#039;new:site&#039;, &#039;self-update&#039;]                            </span>
+        &nbsp;: mixed&nbsp;= [&#039;about&#039;, &#039;new:site&#039;, &#039;self-update&#039;, &#039;serve:stop&#039;]                            </span>
+</dt>
+
+            <dt class="phpdocumentor-table-of-contents__entry -constant -public">
+    <a class="" href="classes/Cecil-Command-AbstractCommand.html#constant_PID_FILE">PID_FILE</a>
+    <span>
+        &nbsp;: mixed&nbsp;= \Cecil\Builder::TMP_DIR . &#039;/server.pid&#039;                            </span>
 </dt>
 
             <dt class="phpdocumentor-table-of-contents__entry -constant -public">
@@ -238,7 +248,7 @@ It also supports opening the web browser automatically and includes options for 
             <dt class="phpdocumentor-table-of-contents__entry -property -protected">
     <a class="" href="classes/Cecil-Command-AbstractCommand.html#property_io">$io</a>
     <span>
-                        &nbsp;: <abbr title="\Symfony\Component\Console\Style\SymfonyStyle">SymfonyStyle</abbr>            </span>
+                        &nbsp;: <a href="classes/Cecil-Command-Console-CecilStyle.html"><abbr title="\Cecil\Command\Console\CecilStyle">CecilStyle</abbr></a>            </span>
 </dt>
 
             <dt class="phpdocumentor-table-of-contents__entry -property -protected">
@@ -380,6 +390,24 @@ It also supports opening the web browser automatically and includes options for 
 <dd>Build success actions.</dd>
 
             <dt class="phpdocumentor-table-of-contents__entry -method -private">
+    <a class="" href="classes/Cecil-Command-Serve.html#method_createBuildProcessArguments">createBuildProcessArguments()</a>
+    <span>
+                                &nbsp;: array&lt;int, string&gt;    </span>
+</dt>
+
+            <dt class="phpdocumentor-table-of-contents__entry -method -private">
+    <a class="" href="classes/Cecil-Command-Serve.html#method_runForegroundServer">runForegroundServer()</a>
+    <span>
+                                &nbsp;: int    </span>
+</dt>
+
+            <dt class="phpdocumentor-table-of-contents__entry -method -private">
+    <a class="" href="classes/Cecil-Command-Serve.html#method_runInitialBuild">runInitialBuild()</a>
+    <span>
+                                &nbsp;: bool    </span>
+</dt>
+
+            <dt class="phpdocumentor-table-of-contents__entry -method -private">
     <a class="" href="classes/Cecil-Command-Serve.html#method_setUpServer">setUpServer()</a>
     <span>
                                 &nbsp;: void    </span>
@@ -392,6 +420,18 @@ It also supports opening the web browser automatically and includes options for 
                                 &nbsp;: <abbr title="\Yosymfony\ResourceWatcher\ResourceWatcher">ResourceWatcher</abbr>    </span>
 </dt>
 <dd>Sets up the watcher.</dd>
+
+            <dt class="phpdocumentor-table-of-contents__entry -method -private">
+    <a class="" href="classes/Cecil-Command-Serve.html#method_startDetachedServerProcess">startDetachedServerProcess()</a>
+    <span>
+                                &nbsp;: int    </span>
+</dt>
+
+            <dt class="phpdocumentor-table-of-contents__entry -method -private">
+    <a class="" href="classes/Cecil-Command-Serve.html#method_startServerInBackground">startServerInBackground()</a>
+    <span>
+                                &nbsp;: int    </span>
+</dt>
 
     </dl>
 
@@ -414,7 +454,7 @@ It also supports opening the web browser automatically and includes options for 
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Command/AbstractCommand.php"><a href="files/src-command-abstractcommand.html"><abbr title="src/Command/AbstractCommand.php">AbstractCommand.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">39</span>
+    <span class="phpdocumentor-element-found-in__line">40</span>
 
     </aside>
 
@@ -444,7 +484,7 @@ It also supports opening the web browser automatically and includes options for 
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Command/AbstractCommand.php"><a href="files/src-command-abstractcommand.html"><abbr title="src/Command/AbstractCommand.php">AbstractCommand.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">40</span>
+    <span class="phpdocumentor-element-found-in__line">41</span>
 
     </aside>
 
@@ -454,7 +494,37 @@ It also supports opening the web browser automatically and includes options for 
     <span class="phpdocumentor-signature__visibility">public</span>
         <span class="phpdocumentor-signature__type">mixed</span>
     <span class="phpdocumentor-signature__name">EXCLUDED_CMD</span>
-    = <span class="phpdocumentor-signature__default-value">[&#039;about&#039;, &#039;new:site&#039;, &#039;self-update&#039;]</span>
+    = <span class="phpdocumentor-signature__default-value">[&#039;about&#039;, &#039;new:site&#039;, &#039;self-update&#039;, &#039;serve:stop&#039;]</span>
+</code>
+
+
+    
+    
+    
+
+        
+    </article>
+                    <article class="phpdocumentor-element -constant -public ">
+    <h4 class="phpdocumentor-element__name" id="constant_PID_FILE">
+        PID_FILE
+        <a href="classes/Cecil-Command-AbstractCommand.html#constant_PID_FILE" class="headerlink"><i class="fas fa-link"></i></a>
+
+    </h4>
+
+    <aside class="phpdocumentor-element-found-in">
+    <abbr class="phpdocumentor-element-found-in__file" title="src/Command/AbstractCommand.php"><a href="files/src-command-abstractcommand.html"><abbr title="src/Command/AbstractCommand.php">AbstractCommand.php</abbr></a></abbr>
+    :
+    <span class="phpdocumentor-element-found-in__line">43</span>
+
+    </aside>
+
+    
+    
+    <code class="phpdocumentor-signature phpdocumentor-code ">
+    <span class="phpdocumentor-signature__visibility">public</span>
+        <span class="phpdocumentor-signature__type">mixed</span>
+    <span class="phpdocumentor-signature__name">PID_FILE</span>
+    = <span class="phpdocumentor-signature__default-value">\Cecil\Builder::TMP_DIR . &#039;/server.pid&#039;</span>
 </code>
 
 
@@ -474,7 +544,7 @@ It also supports opening the web browser automatically and includes options for 
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Command/AbstractCommand.php"><a href="files/src-command-abstractcommand.html"><abbr title="src/Command/AbstractCommand.php">AbstractCommand.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">41</span>
+    <span class="phpdocumentor-element-found-in__line">42</span>
 
     </aside>
 
@@ -520,7 +590,7 @@ It also supports opening the web browser automatically and includes options for 
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Command/AbstractCommand.php"><a href="files/src-command-abstractcommand.html"><abbr title="src/Command/AbstractCommand.php">AbstractCommand.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">44</span>
+    <span class="phpdocumentor-element-found-in__line">46</span>
 
     </aside>
 
@@ -557,7 +627,7 @@ It also supports opening the web browser automatically and includes options for 
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Command/AbstractCommand.php"><a href="files/src-command-abstractcommand.html"><abbr title="src/Command/AbstractCommand.php">AbstractCommand.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">50</span>
+    <span class="phpdocumentor-element-found-in__line">52</span>
 
     </aside>
 
@@ -565,7 +635,7 @@ It also supports opening the web browser automatically and includes options for 
     
     <code class="phpdocumentor-code phpdocumentor-signature ">
         <span class="phpdocumentor-signature__visibility">protected</span>
-            <span class="phpdocumentor-signature__type"><abbr title="\Symfony\Component\Console\Style\SymfonyStyle">SymfonyStyle</abbr></span>
+            <span class="phpdocumentor-signature__type"><a href="classes/Cecil-Command-Console-CecilStyle.html"><abbr title="\Cecil\Command\Console\CecilStyle">CecilStyle</abbr></a></span>
     <span class="phpdocumentor-signature__name">$io</span>
     </code>
 
@@ -594,7 +664,7 @@ It also supports opening the web browser automatically and includes options for 
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Command/AbstractCommand.php"><a href="files/src-command-abstractcommand.html"><abbr title="src/Command/AbstractCommand.php">AbstractCommand.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">47</span>
+    <span class="phpdocumentor-element-found-in__line">49</span>
 
     </aside>
 
@@ -631,7 +701,7 @@ It also supports opening the web browser automatically and includes options for 
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Command/AbstractCommand.php"><a href="files/src-command-abstractcommand.html"><abbr title="src/Command/AbstractCommand.php">AbstractCommand.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">53</span>
+    <span class="phpdocumentor-element-found-in__line">55</span>
 
     </aside>
 
@@ -710,7 +780,7 @@ It also supports opening the web browser automatically and includes options for 
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Command/AbstractCommand.php"><a href="files/src-command-abstractcommand.html"><abbr title="src/Command/AbstractCommand.php">AbstractCommand.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">332</span>
+    <span class="phpdocumentor-element-found-in__line">335</span>
 
     </aside>
 
@@ -749,7 +819,7 @@ It also supports opening the web browser automatically and includes options for 
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Command/AbstractCommand.php"><a href="files/src-command-abstractcommand.html"><abbr title="src/Command/AbstractCommand.php">AbstractCommand.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">149</span>
+    <span class="phpdocumentor-element-found-in__line">154</span>
 
     </aside>
 
@@ -801,7 +871,7 @@ It also supports opening the web browser automatically and includes options for 
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Command/AbstractCommand.php"><a href="files/src-command-abstractcommand.html"><abbr title="src/Command/AbstractCommand.php">AbstractCommand.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">101</span>
+    <span class="phpdocumentor-element-found-in__line">106</span>
 
     </aside>
 
@@ -857,7 +927,7 @@ It also supports opening the web browser automatically and includes options for 
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Command/Serve.php"><a href="files/src-command-serve.html"><abbr title="src/Command/Serve.php">Serve.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">384</span>
+    <span class="phpdocumentor-element-found-in__line">550</span>
 
     </aside>
 
@@ -906,7 +976,7 @@ It also supports opening the web browser automatically and includes options for 
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Command/AbstractCommand.php"><a href="files/src-command-abstractcommand.html"><abbr title="src/Command/AbstractCommand.php">AbstractCommand.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">304</span>
+    <span class="phpdocumentor-element-found-in__line">307</span>
 
     </aside>
 
@@ -969,7 +1039,7 @@ It also supports opening the web browser automatically and includes options for 
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Command/AbstractCommand.php"><a href="files/src-command-abstractcommand.html"><abbr title="src/Command/AbstractCommand.php">AbstractCommand.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">322</span>
+    <span class="phpdocumentor-element-found-in__line">325</span>
 
     </aside>
 
@@ -1043,7 +1113,7 @@ It also supports opening the web browser automatically and includes options for 
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Command/Serve.php"><a href="files/src-command-serve.html"><abbr title="src/Command/Serve.php">Serve.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">108</span>
+    <span class="phpdocumentor-element-found-in__line">118</span>
 
     </aside>
 
@@ -1113,7 +1183,7 @@ It also supports opening the web browser automatically and includes options for 
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Command/AbstractCommand.php"><a href="files/src-command-abstractcommand.html"><abbr title="src/Command/AbstractCommand.php">AbstractCommand.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">208</span>
+    <span class="phpdocumentor-element-found-in__line">211</span>
 
     </aside>
 
@@ -1176,7 +1246,7 @@ It also supports opening the web browser automatically and includes options for 
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Command/AbstractCommand.php"><a href="files/src-command-abstractcommand.html"><abbr title="src/Command/AbstractCommand.php">AbstractCommand.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">198</span>
+    <span class="phpdocumentor-element-found-in__line">201</span>
 
     </aside>
 
@@ -1215,7 +1285,7 @@ It also supports opening the web browser automatically and includes options for 
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Command/AbstractCommand.php"><a href="files/src-command-abstractcommand.html"><abbr title="src/Command/AbstractCommand.php">AbstractCommand.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">168</span>
+    <span class="phpdocumentor-element-found-in__line">173</span>
 
     </aside>
 
@@ -1264,7 +1334,7 @@ It also supports opening the web browser automatically and includes options for 
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Command/AbstractCommand.php"><a href="files/src-command-abstractcommand.html"><abbr title="src/Command/AbstractCommand.php">AbstractCommand.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">70</span>
+    <span class="phpdocumentor-element-found-in__line">72</span>
 
     </aside>
 
@@ -1316,7 +1386,7 @@ It also supports opening the web browser automatically and includes options for 
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Command/AbstractCommand.php"><a href="files/src-command-abstractcommand.html"><abbr title="src/Command/AbstractCommand.php">AbstractCommand.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">258</span>
+    <span class="phpdocumentor-element-found-in__line">261</span>
 
     </aside>
 
@@ -1372,7 +1442,7 @@ It also supports opening the web browser automatically and includes options for 
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Command/AbstractCommand.php"><a href="files/src-command-abstractcommand.html"><abbr title="src/Command/AbstractCommand.php">AbstractCommand.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">237</span>
+    <span class="phpdocumentor-element-found-in__line">240</span>
 
     </aside>
 
@@ -1421,7 +1491,7 @@ It also supports opening the web browser automatically and includes options for 
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Command/AbstractCommand.php"><a href="files/src-command-abstractcommand.html"><abbr title="src/Command/AbstractCommand.php">AbstractCommand.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">278</span>
+    <span class="phpdocumentor-element-found-in__line">281</span>
 
     </aside>
 
@@ -1487,7 +1557,7 @@ It also supports opening the web browser automatically and includes options for 
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Command/Serve.php"><a href="files/src-command-serve.html"><abbr title="src/Command/Serve.php">Serve.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">306</span>
+    <span class="phpdocumentor-element-found-in__line">472</span>
 
     </aside>
 
@@ -1524,6 +1594,248 @@ It also supports opening the web browser automatically and includes options for 
             -private
                                                         "
 >
+    <h4 class="phpdocumentor-element__name" id="method_createBuildProcessArguments">
+        createBuildProcessArguments()
+        <a href="classes/Cecil-Command-Serve.html#method_createBuildProcessArguments" class="headerlink"><i class="fas fa-link"></i></a>
+
+    </h4>
+    <aside class="phpdocumentor-element-found-in">
+    <abbr class="phpdocumentor-element-found-in__file" title="src/Command/Serve.php"><a href="files/src-command-serve.html"><abbr title="src/Command/Serve.php">Serve.php</abbr></a></abbr>
+    :
+    <span class="phpdocumentor-element-found-in__line">225</span>
+
+    </aside>
+
+    
+    <code class="phpdocumentor-code phpdocumentor-signature ">
+    <span class="phpdocumentor-signature__visibility">private</span>
+                    <span class="phpdocumentor-signature__name">createBuildProcessArguments</span><span>(</span><span class="phpdocumentor-signature__argument"><span class="phpdocumentor-signature__argument__type">string&nbsp;</span><span class="phpdocumentor-signature__argument__name">$php</span></span><span class="phpdocumentor-signature__argument"><span>, </span><span class="phpdocumentor-signature__argument__type">array&lt;string, mixed&gt;&nbsp;</span><span class="phpdocumentor-signature__argument__name">$options</span></span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">array&lt;int, string&gt;</span></code>
+
+    <div class="phpdocumentor-label-line">
+        </div>
+    
+    
+        <h5 class="phpdocumentor-argument-list__heading">Parameters</h5>
+    <dl class="phpdocumentor-argument-list">
+                    <dt class="phpdocumentor-argument-list__entry">
+                <span class="phpdocumentor-argument-list__argument__name">$php</span>
+                : <span class="phpdocumentor-argument-list__argument__type">string</span>
+                            </dt>
+            <dd class="phpdocumentor-argument-list__definition">
+                
+            </dd>
+                    <dt class="phpdocumentor-argument-list__entry">
+                <span class="phpdocumentor-argument-list__argument__name">$options</span>
+                : <span class="phpdocumentor-argument-list__argument__type">array&lt;string, mixed&gt;</span>
+                            </dt>
+            <dd class="phpdocumentor-argument-list__definition">
+                
+            </dd>
+            </dl>
+
+    
+
+        
+    
+            <section>
+        <h5 class="phpdocumentor-return-value__heading">Return values</h5>
+        <span class="phpdocumentor-signature__response_type">array&lt;int, string&gt;</span>
+            </section>
+
+</article>
+                    <article
+        class="phpdocumentor-element
+            -method
+            -private
+                                                        "
+>
+    <h4 class="phpdocumentor-element__name" id="method_runForegroundServer">
+        runForegroundServer()
+        <a href="classes/Cecil-Command-Serve.html#method_runForegroundServer" class="headerlink"><i class="fas fa-link"></i></a>
+
+    </h4>
+    <aside class="phpdocumentor-element-found-in">
+    <abbr class="phpdocumentor-element-found-in__file" title="src/Command/Serve.php"><a href="files/src-command-serve.html"><abbr title="src/Command/Serve.php">Serve.php</abbr></a></abbr>
+    :
+    <span class="phpdocumentor-element-found-in__line">360</span>
+
+    </aside>
+
+    
+    <code class="phpdocumentor-code phpdocumentor-signature ">
+    <span class="phpdocumentor-signature__visibility">private</span>
+                    <span class="phpdocumentor-signature__name">runForegroundServer</span><span>(</span><span class="phpdocumentor-signature__argument"><span class="phpdocumentor-signature__argument__type"><abbr title="\Symfony\Component\Process\Process">Process</abbr>&nbsp;</span><span class="phpdocumentor-signature__argument__name">$process</span></span><span class="phpdocumentor-signature__argument"><span>, </span><span class="phpdocumentor-signature__argument__type">bool&nbsp;</span><span class="phpdocumentor-signature__argument__name">$noignorevcs</span></span><span class="phpdocumentor-signature__argument"><span>, </span><span class="phpdocumentor-signature__argument__type">string&nbsp;</span><span class="phpdocumentor-signature__argument__name">$host</span></span><span class="phpdocumentor-signature__argument"><span>, </span><span class="phpdocumentor-signature__argument__type">int&nbsp;</span><span class="phpdocumentor-signature__argument__name">$port</span></span><span class="phpdocumentor-signature__argument"><span>, </span><span class="phpdocumentor-signature__argument__type">string&nbsp;</span><span class="phpdocumentor-signature__argument__name">$command</span></span><span class="phpdocumentor-signature__argument"><span>, </span><span class="phpdocumentor-signature__argument__type"><abbr title="\Symfony\Component\Console\Output\OutputInterface">OutputInterface</abbr>&nbsp;</span><span class="phpdocumentor-signature__argument__name">$output</span></span><span class="phpdocumentor-signature__argument"><span>, </span><span class="phpdocumentor-signature__argument__type">array&lt;string|int, mixed&gt;&nbsp;</span><span class="phpdocumentor-signature__argument__name">$options</span></span><span class="phpdocumentor-signature__argument"><span>, </span><span class="phpdocumentor-signature__argument__type"><abbr title="\Symfony\Component\Process\Process">Process</abbr>&nbsp;</span><span class="phpdocumentor-signature__argument__name">$buildProcess</span></span><span class="phpdocumentor-signature__argument"><span>, </span><span class="phpdocumentor-signature__argument__type">callable&nbsp;</span><span class="phpdocumentor-signature__argument__name">$processOutputCallback</span></span><span class="phpdocumentor-signature__argument"><span>, </span><span class="phpdocumentor-signature__argument__type">callable&nbsp;</span><span class="phpdocumentor-signature__argument__name">$flushBuildOutput</span></span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">int</span></code>
+
+    <div class="phpdocumentor-label-line">
+        </div>
+    
+    
+        <h5 class="phpdocumentor-argument-list__heading">Parameters</h5>
+    <dl class="phpdocumentor-argument-list">
+                    <dt class="phpdocumentor-argument-list__entry">
+                <span class="phpdocumentor-argument-list__argument__name">$process</span>
+                : <span class="phpdocumentor-argument-list__argument__type"><abbr title="\Symfony\Component\Process\Process">Process</abbr></span>
+                            </dt>
+            <dd class="phpdocumentor-argument-list__definition">
+                
+            </dd>
+                    <dt class="phpdocumentor-argument-list__entry">
+                <span class="phpdocumentor-argument-list__argument__name">$noignorevcs</span>
+                : <span class="phpdocumentor-argument-list__argument__type">bool</span>
+                            </dt>
+            <dd class="phpdocumentor-argument-list__definition">
+                
+            </dd>
+                    <dt class="phpdocumentor-argument-list__entry">
+                <span class="phpdocumentor-argument-list__argument__name">$host</span>
+                : <span class="phpdocumentor-argument-list__argument__type">string</span>
+                            </dt>
+            <dd class="phpdocumentor-argument-list__definition">
+                
+            </dd>
+                    <dt class="phpdocumentor-argument-list__entry">
+                <span class="phpdocumentor-argument-list__argument__name">$port</span>
+                : <span class="phpdocumentor-argument-list__argument__type">int</span>
+                            </dt>
+            <dd class="phpdocumentor-argument-list__definition">
+                
+            </dd>
+                    <dt class="phpdocumentor-argument-list__entry">
+                <span class="phpdocumentor-argument-list__argument__name">$command</span>
+                : <span class="phpdocumentor-argument-list__argument__type">string</span>
+                            </dt>
+            <dd class="phpdocumentor-argument-list__definition">
+                
+            </dd>
+                    <dt class="phpdocumentor-argument-list__entry">
+                <span class="phpdocumentor-argument-list__argument__name">$output</span>
+                : <span class="phpdocumentor-argument-list__argument__type"><abbr title="\Symfony\Component\Console\Output\OutputInterface">OutputInterface</abbr></span>
+                            </dt>
+            <dd class="phpdocumentor-argument-list__definition">
+                
+            </dd>
+                    <dt class="phpdocumentor-argument-list__entry">
+                <span class="phpdocumentor-argument-list__argument__name">$options</span>
+                : <span class="phpdocumentor-argument-list__argument__type">array&lt;string|int, mixed&gt;</span>
+                            </dt>
+            <dd class="phpdocumentor-argument-list__definition">
+                
+            </dd>
+                    <dt class="phpdocumentor-argument-list__entry">
+                <span class="phpdocumentor-argument-list__argument__name">$buildProcess</span>
+                : <span class="phpdocumentor-argument-list__argument__type"><abbr title="\Symfony\Component\Process\Process">Process</abbr></span>
+                            </dt>
+            <dd class="phpdocumentor-argument-list__definition">
+                
+            </dd>
+                    <dt class="phpdocumentor-argument-list__entry">
+                <span class="phpdocumentor-argument-list__argument__name">$processOutputCallback</span>
+                : <span class="phpdocumentor-argument-list__argument__type">callable</span>
+                            </dt>
+            <dd class="phpdocumentor-argument-list__definition">
+                
+            </dd>
+                    <dt class="phpdocumentor-argument-list__entry">
+                <span class="phpdocumentor-argument-list__argument__name">$flushBuildOutput</span>
+                : <span class="phpdocumentor-argument-list__argument__type">callable</span>
+                            </dt>
+            <dd class="phpdocumentor-argument-list__definition">
+                
+            </dd>
+            </dl>
+
+    
+
+        
+    
+            <section>
+        <h5 class="phpdocumentor-return-value__heading">Return values</h5>
+        <span class="phpdocumentor-signature__response_type">int</span>
+            </section>
+
+</article>
+                    <article
+        class="phpdocumentor-element
+            -method
+            -private
+                                                        "
+>
+    <h4 class="phpdocumentor-element__name" id="method_runInitialBuild">
+        runInitialBuild()
+        <a href="classes/Cecil-Command-Serve.html#method_runInitialBuild" class="headerlink"><i class="fas fa-link"></i></a>
+
+    </h4>
+    <aside class="phpdocumentor-element-found-in">
+    <abbr class="phpdocumentor-element-found-in__file" title="src/Command/Serve.php"><a href="files/src-command-serve.html"><abbr title="src/Command/Serve.php">Serve.php</abbr></a></abbr>
+    :
+    <span class="phpdocumentor-element-found-in__line">278</span>
+
+    </aside>
+
+    
+    <code class="phpdocumentor-code phpdocumentor-signature ">
+    <span class="phpdocumentor-signature__visibility">private</span>
+                    <span class="phpdocumentor-signature__name">runInitialBuild</span><span>(</span><span class="phpdocumentor-signature__argument"><span class="phpdocumentor-signature__argument__type"><abbr title="\Symfony\Component\Process\Process">Process</abbr>&nbsp;</span><span class="phpdocumentor-signature__argument__name">$buildProcess</span></span><span class="phpdocumentor-signature__argument"><span>, </span><span class="phpdocumentor-signature__argument__type">callable&nbsp;</span><span class="phpdocumentor-signature__argument__name">$processOutputCallback</span></span><span class="phpdocumentor-signature__argument"><span>, </span><span class="phpdocumentor-signature__argument__type">callable&nbsp;</span><span class="phpdocumentor-signature__argument__name">$flushBuildOutput</span></span><span class="phpdocumentor-signature__argument"><span>, </span><span class="phpdocumentor-signature__argument__type"><abbr title="\Symfony\Component\Console\Output\OutputInterface">OutputInterface</abbr>&nbsp;</span><span class="phpdocumentor-signature__argument__name">$output</span></span><span class="phpdocumentor-signature__argument"><span>, </span><span class="phpdocumentor-signature__argument__type">array&lt;int, string&gt;&nbsp;</span><span class="phpdocumentor-signature__argument__name">$buildProcessArguments</span></span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">bool</span></code>
+
+    <div class="phpdocumentor-label-line">
+        </div>
+    
+    
+        <h5 class="phpdocumentor-argument-list__heading">Parameters</h5>
+    <dl class="phpdocumentor-argument-list">
+                    <dt class="phpdocumentor-argument-list__entry">
+                <span class="phpdocumentor-argument-list__argument__name">$buildProcess</span>
+                : <span class="phpdocumentor-argument-list__argument__type"><abbr title="\Symfony\Component\Process\Process">Process</abbr></span>
+                            </dt>
+            <dd class="phpdocumentor-argument-list__definition">
+                
+            </dd>
+                    <dt class="phpdocumentor-argument-list__entry">
+                <span class="phpdocumentor-argument-list__argument__name">$processOutputCallback</span>
+                : <span class="phpdocumentor-argument-list__argument__type">callable</span>
+                            </dt>
+            <dd class="phpdocumentor-argument-list__definition">
+                
+            </dd>
+                    <dt class="phpdocumentor-argument-list__entry">
+                <span class="phpdocumentor-argument-list__argument__name">$flushBuildOutput</span>
+                : <span class="phpdocumentor-argument-list__argument__type">callable</span>
+                            </dt>
+            <dd class="phpdocumentor-argument-list__definition">
+                
+            </dd>
+                    <dt class="phpdocumentor-argument-list__entry">
+                <span class="phpdocumentor-argument-list__argument__name">$output</span>
+                : <span class="phpdocumentor-argument-list__argument__type"><abbr title="\Symfony\Component\Console\Output\OutputInterface">OutputInterface</abbr></span>
+                            </dt>
+            <dd class="phpdocumentor-argument-list__definition">
+                
+            </dd>
+                    <dt class="phpdocumentor-argument-list__entry">
+                <span class="phpdocumentor-argument-list__argument__name">$buildProcessArguments</span>
+                : <span class="phpdocumentor-argument-list__argument__type">array&lt;int, string&gt;</span>
+                            </dt>
+            <dd class="phpdocumentor-argument-list__definition">
+                
+            </dd>
+            </dl>
+
+    
+
+        
+    
+            <section>
+        <h5 class="phpdocumentor-return-value__heading">Return values</h5>
+        <span class="phpdocumentor-signature__response_type">bool</span>
+            </section>
+
+</article>
+                    <article
+        class="phpdocumentor-element
+            -method
+            -private
+                                                        "
+>
     <h4 class="phpdocumentor-element__name" id="method_setUpServer">
         setUpServer()
         <a href="classes/Cecil-Command-Serve.html#method_setUpServer" class="headerlink"><i class="fas fa-link"></i></a>
@@ -1532,7 +1844,7 @@ It also supports opening the web browser automatically and includes options for 
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Command/Serve.php"><a href="files/src-command-serve.html"><abbr title="src/Command/Serve.php">Serve.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">346</span>
+    <span class="phpdocumentor-element-found-in__line">512</span>
 
     </aside>
 
@@ -1581,7 +1893,7 @@ It also supports opening the web browser automatically and includes options for 
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Command/Serve.php"><a href="files/src-command-serve.html"><abbr title="src/Command/Serve.php">Serve.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">329</span>
+    <span class="phpdocumentor-element-found-in__line">495</span>
 
     </aside>
 
@@ -1616,6 +1928,151 @@ It also supports opening the web browser automatically and includes options for 
             </section>
 
 </article>
+                    <article
+        class="phpdocumentor-element
+            -method
+            -private
+                                                        "
+>
+    <h4 class="phpdocumentor-element__name" id="method_startDetachedServerProcess">
+        startDetachedServerProcess()
+        <a href="classes/Cecil-Command-Serve.html#method_startDetachedServerProcess" class="headerlink"><i class="fas fa-link"></i></a>
+
+    </h4>
+    <aside class="phpdocumentor-element-found-in">
+    <abbr class="phpdocumentor-element-found-in__file" title="src/Command/Serve.php"><a href="files/src-command-serve.html"><abbr title="src/Command/Serve.php">Serve.php</abbr></a></abbr>
+    :
+    <span class="phpdocumentor-element-found-in__line">327</span>
+
+    </aside>
+
+    
+    <code class="phpdocumentor-code phpdocumentor-signature ">
+    <span class="phpdocumentor-signature__visibility">private</span>
+                    <span class="phpdocumentor-signature__name">startDetachedServerProcess</span><span>(</span><span class="phpdocumentor-signature__argument"><span class="phpdocumentor-signature__argument__type">string&nbsp;</span><span class="phpdocumentor-signature__argument__name">$php</span></span><span class="phpdocumentor-signature__argument"><span>, </span><span class="phpdocumentor-signature__argument__type">string&nbsp;</span><span class="phpdocumentor-signature__argument__name">$host</span></span><span class="phpdocumentor-signature__argument"><span>, </span><span class="phpdocumentor-signature__argument__type">int&nbsp;</span><span class="phpdocumentor-signature__argument__name">$port</span></span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">int</span></code>
+
+    <div class="phpdocumentor-label-line">
+        </div>
+    
+    
+        <h5 class="phpdocumentor-argument-list__heading">Parameters</h5>
+    <dl class="phpdocumentor-argument-list">
+                    <dt class="phpdocumentor-argument-list__entry">
+                <span class="phpdocumentor-argument-list__argument__name">$php</span>
+                : <span class="phpdocumentor-argument-list__argument__type">string</span>
+                            </dt>
+            <dd class="phpdocumentor-argument-list__definition">
+                
+            </dd>
+                    <dt class="phpdocumentor-argument-list__entry">
+                <span class="phpdocumentor-argument-list__argument__name">$host</span>
+                : <span class="phpdocumentor-argument-list__argument__type">string</span>
+                            </dt>
+            <dd class="phpdocumentor-argument-list__definition">
+                
+            </dd>
+                    <dt class="phpdocumentor-argument-list__entry">
+                <span class="phpdocumentor-argument-list__argument__name">$port</span>
+                : <span class="phpdocumentor-argument-list__argument__type">int</span>
+                            </dt>
+            <dd class="phpdocumentor-argument-list__definition">
+                
+            </dd>
+            </dl>
+
+    
+
+        
+    
+            <section>
+        <h5 class="phpdocumentor-return-value__heading">Return values</h5>
+        <span class="phpdocumentor-signature__response_type">int</span>
+            </section>
+
+</article>
+                    <article
+        class="phpdocumentor-element
+            -method
+            -private
+                                                        "
+>
+    <h4 class="phpdocumentor-element__name" id="method_startServerInBackground">
+        startServerInBackground()
+        <a href="classes/Cecil-Command-Serve.html#method_startServerInBackground" class="headerlink"><i class="fas fa-link"></i></a>
+
+    </h4>
+    <aside class="phpdocumentor-element-found-in">
+    <abbr class="phpdocumentor-element-found-in__file" title="src/Command/Serve.php"><a href="files/src-command-serve.html"><abbr title="src/Command/Serve.php">Serve.php</abbr></a></abbr>
+    :
+    <span class="phpdocumentor-element-found-in__line">296</span>
+
+    </aside>
+
+    
+    <code class="phpdocumentor-code phpdocumentor-signature ">
+    <span class="phpdocumentor-signature__visibility">private</span>
+                    <span class="phpdocumentor-signature__name">startServerInBackground</span><span>(</span><span class="phpdocumentor-signature__argument"><span class="phpdocumentor-signature__argument__type">string&nbsp;</span><span class="phpdocumentor-signature__argument__name">$php</span></span><span class="phpdocumentor-signature__argument"><span>, </span><span class="phpdocumentor-signature__argument__type">string&nbsp;</span><span class="phpdocumentor-signature__argument__name">$host</span></span><span class="phpdocumentor-signature__argument"><span>, </span><span class="phpdocumentor-signature__argument__type">int&nbsp;</span><span class="phpdocumentor-signature__argument__name">$port</span></span><span class="phpdocumentor-signature__argument"><span>, </span><span class="phpdocumentor-signature__argument__type"><abbr title="\Symfony\Component\Console\Output\OutputInterface">OutputInterface</abbr>&nbsp;</span><span class="phpdocumentor-signature__argument__name">$output</span></span><span class="phpdocumentor-signature__argument"><span>, </span><span class="phpdocumentor-signature__argument__type">bool&nbsp;</span><span class="phpdocumentor-signature__argument__name">$notify</span></span><span class="phpdocumentor-signature__argument"><span>, </span><span class="phpdocumentor-signature__argument__type">bool&nbsp;</span><span class="phpdocumentor-signature__argument__name">$open</span></span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">int</span></code>
+
+    <div class="phpdocumentor-label-line">
+        </div>
+    
+    
+        <h5 class="phpdocumentor-argument-list__heading">Parameters</h5>
+    <dl class="phpdocumentor-argument-list">
+                    <dt class="phpdocumentor-argument-list__entry">
+                <span class="phpdocumentor-argument-list__argument__name">$php</span>
+                : <span class="phpdocumentor-argument-list__argument__type">string</span>
+                            </dt>
+            <dd class="phpdocumentor-argument-list__definition">
+                
+            </dd>
+                    <dt class="phpdocumentor-argument-list__entry">
+                <span class="phpdocumentor-argument-list__argument__name">$host</span>
+                : <span class="phpdocumentor-argument-list__argument__type">string</span>
+                            </dt>
+            <dd class="phpdocumentor-argument-list__definition">
+                
+            </dd>
+                    <dt class="phpdocumentor-argument-list__entry">
+                <span class="phpdocumentor-argument-list__argument__name">$port</span>
+                : <span class="phpdocumentor-argument-list__argument__type">int</span>
+                            </dt>
+            <dd class="phpdocumentor-argument-list__definition">
+                
+            </dd>
+                    <dt class="phpdocumentor-argument-list__entry">
+                <span class="phpdocumentor-argument-list__argument__name">$output</span>
+                : <span class="phpdocumentor-argument-list__argument__type"><abbr title="\Symfony\Component\Console\Output\OutputInterface">OutputInterface</abbr></span>
+                            </dt>
+            <dd class="phpdocumentor-argument-list__definition">
+                
+            </dd>
+                    <dt class="phpdocumentor-argument-list__entry">
+                <span class="phpdocumentor-argument-list__argument__name">$notify</span>
+                : <span class="phpdocumentor-argument-list__argument__type">bool</span>
+                            </dt>
+            <dd class="phpdocumentor-argument-list__definition">
+                
+            </dd>
+                    <dt class="phpdocumentor-argument-list__entry">
+                <span class="phpdocumentor-argument-list__argument__name">$open</span>
+                : <span class="phpdocumentor-argument-list__argument__type">bool</span>
+                            </dt>
+            <dd class="phpdocumentor-argument-list__definition">
+                
+            </dd>
+            </dl>
+
+    
+
+        
+    
+            <section>
+        <h5 class="phpdocumentor-return-value__heading">Return values</h5>
+        <span class="phpdocumentor-signature__response_type">int</span>
+            </section>
+
+</article>
             </section>
 
         
@@ -1640,6 +2097,7 @@ It also supports opening the web browser automatically and includes options for 
                     <ul class="phpdocumentor-list -clean">
                                                     <li class=""><a href="classes/Cecil-Command-AbstractCommand.html#constant_CONFIG_FILE">CONFIG_FILE</a></li>
                                                     <li class=""><a href="classes/Cecil-Command-AbstractCommand.html#constant_EXCLUDED_CMD">EXCLUDED_CMD</a></li>
+                                                    <li class=""><a href="classes/Cecil-Command-AbstractCommand.html#constant_PID_FILE">PID_FILE</a></li>
                                                     <li class=""><a href="classes/Cecil-Command-AbstractCommand.html#constant_SERVE_OUTPUT">SERVE_OUTPUT</a></li>
                                             </ul>
                 </li>
@@ -1674,8 +2132,13 @@ It also supports opening the web browser automatically and includes options for 
                                             <li class=""><a href="classes/Cecil-Command-AbstractCommand.html#method_locateConfigFile">locateConfigFile()</a></li>
                                             <li class=""><a href="classes/Cecil-Command-AbstractCommand.html#method_openEditor">openEditor()</a></li>
                                             <li class=""><a href="classes/Cecil-Command-Serve.html#method_buildSuccessActions">buildSuccessActions()</a></li>
+                                            <li class=""><a href="classes/Cecil-Command-Serve.html#method_createBuildProcessArguments">createBuildProcessArguments()</a></li>
+                                            <li class=""><a href="classes/Cecil-Command-Serve.html#method_runForegroundServer">runForegroundServer()</a></li>
+                                            <li class=""><a href="classes/Cecil-Command-Serve.html#method_runInitialBuild">runInitialBuild()</a></li>
                                             <li class=""><a href="classes/Cecil-Command-Serve.html#method_setUpServer">setUpServer()</a></li>
                                             <li class=""><a href="classes/Cecil-Command-Serve.html#method_setupWatcher">setupWatcher()</a></li>
+                                            <li class=""><a href="classes/Cecil-Command-Serve.html#method_startDetachedServerProcess">startDetachedServerProcess()</a></li>
+                                            <li class=""><a href="classes/Cecil-Command-Serve.html#method_startServerInBackground">startServerInBackground()</a></li>
                                     </ul>
             </li>
                     </ul>

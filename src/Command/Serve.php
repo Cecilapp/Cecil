@@ -42,6 +42,21 @@ class Serve extends AbstractCommand
     /** @var boolean */
     protected $watcherEnabled;
 
+    /** @var boolean */
+    protected $incrementalEnabled = false;
+
+    /** @var string PHP executable path used to spawn build processes. */
+    protected $php;
+
+    /** @var float|null Build process timeout, in seconds. */
+    protected $processTimeout = null;
+
+    /**
+     * Base options used to build the `build` process arguments.
+     * @var array<string, mixed>
+     */
+    protected $buildProcessBaseOptions = [];
+
     /**
      * {@inheritdoc}
      */
@@ -56,6 +71,7 @@ class Serve extends AbstractCommand
                 new InputOption('host', null, InputOption::VALUE_REQUIRED, 'Server host', 'localhost'),
                 new InputOption('port', null, InputOption::VALUE_REQUIRED, 'Server port', '8000'),
                 new InputOption('watch', 'w', InputOption::VALUE_NEGATABLE, 'Enable (or disable --no-watch) changes watcher (enabled by default)', true),
+                new InputOption('incremental', 'i', InputOption::VALUE_NONE, 'Enable incremental builds (rebuild only changed pages)'),
                 new InputOption('drafts', 'd', InputOption::VALUE_NONE, 'Include drafts'),
                 new InputOption('optimize', null, InputOption::VALUE_NEGATABLE, 'Enable (or disable --no-optimize) optimization of generated files'),
                 new InputOption('config', 'c', InputOption::VALUE_REQUIRED, 'Set the path to extra config files (comma-separated)'),
@@ -64,7 +80,8 @@ class Serve extends AbstractCommand
                 new InputOption('no-ignore-vcs', null, InputOption::VALUE_NONE, 'Changes watcher must not ignore VCS directories'),
                 new InputOption('metrics', 'm', InputOption::VALUE_NONE, 'Show build metrics (duration and memory) of each step'),
                 new InputOption('timeout', null, InputOption::VALUE_REQUIRED, 'Sets the process timeout (max. runtime) in seconds', 7200), // default is 2 hours
-                new InputOption('notif', null, InputOption::VALUE_NONE, 'Send desktop notification on server start'),
+                new InputOption('notify', null, InputOption::VALUE_NONE, 'Send desktop notification on server start'),
+                new InputOption('background', 'b', InputOption::VALUE_NONE, 'Run the server in the background'),
             ])
             ->setHelp(
                 <<<'EOF'
@@ -75,6 +92,13 @@ The <info>%command.name%</> command starts the live-reloading-built-in web serve
   <info>%command.full_name% --open</>
   <info>%command.full_name% --drafts</>
   <info>%command.full_name% --no-watch</>
+
+To speed up local development you can enable <comment>incremental builds</comment> with the <info>--incremental</info> option.
+When content pages change, Cecil rebuilds <comment>just those pages</comment>.
+When templates change, Cecil rebuilds <comment>only pages using those templates</comment> (including Twig dependencies such as extends/include).
+Any other change (data, config, static or asset file, or file deletion) triggers a full rebuild:
+
+  <info>%command.full_name% --incremental</>
 
 You can use a custom host and port by using the <info>--host</info> and <info>--port</info> options:
 
@@ -95,7 +119,16 @@ To define the process <comment>timeout</comment> (in seconds), run:
 
 Send a desktop <comment>notification</comment> on server start, run:
 
-  <info>%command.full_name% --notif</>
+  <info>%command.full_name% --notify</>
+
+To run the server in the <comment>background</comment>, run:
+
+  <info>%command.full_name% --background</>
+  <info>%command.full_name% -b</>
+
+Then stop it with:
+
+  <info>%bin_name% serve:stop</>
 EOF
             );
     }
@@ -118,10 +151,14 @@ EOF
         $metrics = $input->getOption('metrics');
         $timeout = $input->getOption('timeout');
         $verbose = $input->getOption('verbose');
-        $notif = $input->getOption('notif');
+        $notify = $input->getOption('notify');
+        $noansi = $input->getOption('no-ansi');
+        $background = $input->getOption('background');
+        $incremental = $input->getOption('incremental');
 
-        $resourceWatcher = null;
-        $this->watcherEnabled = $input->getOption('watch');
+        $this->watcherEnabled = $background ? false : $input->getOption('watch');
+        // incremental builds require the changes watcher to be active
+        $this->incrementalEnabled = $this->watcherEnabled ? (bool) $incremental : false;
 
         // checks if PHP executable is available
         $phpFinder = new PhpExecutableFinder();
@@ -129,172 +166,370 @@ EOF
         if ($php === false) {
             throw new RuntimeException('Unable to find a local PHP executable.');
         }
-
         // setup server
         $this->setUpServer();
-        $command = \sprintf(
-            '"%s" -S %s:%d -t "%s" "%s"',
+        $cmd = [
             $php,
-            $host,
-            $port,
+            '-S',
+            $host . ':' . (int) $port,
+            '-t',
             Util::joinFile($this->getPath(), self::SERVE_OUTPUT),
-            Util::joinFile($this->getPath(), Builder::TMP_DIR, 'router.php')
-        );
-        $process = Process::fromShellCommandline($command);
+            Util::joinFile($this->getPath(), Builder::TMP_DIR, 'router.php'),
+        ];
+        $command = implode(' ', $cmd);
+        $process = new Process($cmd);
 
         // setup build process
-        $buildProcessArguments = [
-            $php,
-            $_SERVER['argv'][0],
+        $this->php = $php;
+        $this->processTimeout = (float) $timeout;
+        $this->buildProcessBaseOptions = [
+            'drafts' => $drafts,
+            'optimize' => $optimize,
+            'clearcache' => $clearcache,
+            'verbose' => $verbose,
+            'page' => $page,
+            'metrics' => $metrics,
+            'noansi' => $noansi,
+            'host' => $host,
+            'port' => $port,
         ];
-        $buildProcessArguments[] = 'build';
-        $buildProcessArguments[] = $this->getPath();
-        if (!empty($this->getConfigFiles())) {
-            $buildProcessArguments[] = '--config';
-            $buildProcessArguments[] = implode(',', $this->getConfigFiles());
-        }
-        if ($drafts) {
-            $buildProcessArguments[] = '--drafts';
-        }
-        if ($optimize === true) {
-            $buildProcessArguments[] = '--optimize';
-        }
-        if ($optimize === false) {
-            $buildProcessArguments[] = '--no-optimize';
-        }
-        if ($clearcache === null) {
-            $buildProcessArguments[] = '--clear-cache';
-        }
-        if (!empty($clearcache)) {
-            $buildProcessArguments[] = '--clear-cache';
-            $buildProcessArguments[] = $clearcache;
-        }
-        if ($verbose) {
-            $buildProcessArguments[] = '-' . str_repeat('v', $_SERVER['SHELL_VERBOSITY']);
-        }
-        if (!empty($page)) {
-            $buildProcessArguments[] = '--page';
-            $buildProcessArguments[] = $page;
-        }
-        if ($metrics) {
-            $buildProcessArguments[] = '--metrics';
-        }
-        $buildProcessArguments[] = '--baseurl';
-        $buildProcessArguments[] = "http://$host:$port/";
-        $buildProcessArguments[] = '--output';
-        $buildProcessArguments[] = self::SERVE_OUTPUT;
-        $buildProcess = new Process(
-            $buildProcessArguments,
-            null,
-            ['BOX_REQUIREMENT_CHECKER' => '0'] // prevents double check (build then serve)
-        );
-        $buildProcess->setTty(Process::isTtySupported());
-        $buildProcess->setPty(Process::isPtySupported());
-        $buildProcess->setTimeout((float) $timeout);
-        $processOutputCallback = function ($type, $buffer) use ($output) {
+        $buildProcessArguments = $this->createBuildProcessArguments($php, $this->buildProcessBaseOptions);
+        $buildProcess = $this->createBuildProcess();
+        $buildOutputEndsWithLineFeed = true;
+        $processOutputCallback = function ($type, $buffer) use ($output, &$buildOutputEndsWithLineFeed) {
+            $buildOutputEndsWithLineFeed = str_ends_with($buffer, "\n");
+            // Progress bars use carriage returns; normalize them in non-decorated output.
+            if (!$output->isDecorated()) {
+                $buffer = str_replace("\r", "\n", $buffer);
+            }
             $output->write($buffer, false, OutputInterface::OUTPUT_RAW);
+        };
+        $flushBuildOutput = function () use ($output, &$buildOutputEndsWithLineFeed): void {
+            if (!$buildOutputEndsWithLineFeed) {
+                $output->writeln('');
+                $buildOutputEndsWithLineFeed = true;
+            }
         };
 
         // builds before serve
-        $output->writeln(\sprintf('<comment>Build process: %s</comment>', implode(' ', $buildProcessArguments)), OutputInterface::VERBOSITY_DEBUG);
-        $buildProcess->run($processOutputCallback);
-        if ($buildProcess->isSuccessful()) {
-            $this->buildSuccessActions($output);
-        }
-        if ($buildProcess->getExitCode() !== 0) {
+        if (!$this->runInitialBuild($buildProcess, $processOutputCallback, $flushBuildOutput, $output, $buildProcessArguments)) {
             $this->tearDownServer();
 
             return Command::FAILURE;
         }
 
-        // handles serve process
-        if (!$process->isStarted()) {
-            $messageSuffix = '';
-            // setup resource watcher
-            if ($this->watcherEnabled) {
-                $resourceWatcher = $this->setupWatcher($noignorevcs);
-                $resourceWatcher->initialize();
-                $messageSuffix = ' with changes watcher';
-            }
-            // starts server
-            try {
-                if (\function_exists('\pcntl_signal')) {
-                    pcntl_async_signals(true);
-                    pcntl_signal(SIGINT, [$this, 'tearDownServer']);
-                    pcntl_signal(SIGTERM, [$this, 'tearDownServer']);
-                }
-                $output->writeln(\sprintf('<comment>Server process: %s</comment>', $command), OutputInterface::VERBOSITY_DEBUG);
-                $output->writeln(\sprintf('Starting server%s (<href=http://%s:%d>http://%s:%d</>)', $messageSuffix, $host, $port, $host, $port));
-                $process->start(function ($type, $buffer) {
-                    if ($type === Process::ERR) {
-                        error_log($buffer, 3, Util::joinFile($this->getPath(), Builder::TMP_DIR, 'errors.log'));
-                    }
-                });
-                // notification
-                if ($notif) {
-                    $this->notification('Starting server 🚀', \sprintf('http://%s:%s', $host, $port));
-                }
-                // open web browser
-                if ($open) {
-                    $output->writeln('Opening web browser...');
-                    Util\Platform::openBrowser(\sprintf('http://%s:%s', $host, $port));
-                }
-                while ($process->isRunning()) {
-                    sleep(1); // wait for server is ready
-                    if (!fsockopen($host, (int) $port)) {
-                        $output->writeln('<info>Server is not ready</info>');
+        // background mode: start server as a detached process and exit
+        if ($background) {
+            return $this->startServerInBackground($php, (string) $host, (int) $port, $output, (bool) $notify, (bool) $open);
+        }
 
-                        return Command::FAILURE;
+        return $this->runForegroundServer(
+            $process,
+            (bool) $noignorevcs,
+            (string) $host,
+            (int) $port,
+            $command,
+            $output,
+            [
+                'notify' => (bool) $notify,
+                'open' => (bool) $open,
+            ],
+            $buildProcess,
+            $processOutputCallback,
+            $flushBuildOutput
+        );
+    }
+
+    /**
+     * Creates a configured `build` process, optionally restricted to a single page.
+     */
+    private function createBuildProcess(?string $page = null): Process
+    {
+        $options = $this->buildProcessBaseOptions;
+        if ($page !== null) {
+            $options['page'] = $page;
+        }
+        $process = new Process(
+            $this->createBuildProcessArguments($this->php, $options),
+            null,
+            ['BOX_REQUIREMENT_CHECKER' => '0'] // prevents double check (build then serve)
+        );
+        $process->setTty(Process::isTtySupported());
+        $process->setPty(Process::isPtySupported());
+        if ($this->processTimeout !== null) {
+            $process->setTimeout($this->processTimeout);
+        }
+
+        return $process;
+    }
+
+    /**
+     * @param array<string, mixed> $options
+     * @return array<int, string>
+     */
+    private function createBuildProcessArguments(string $php, array $options): array
+    {
+        $buildProcessArguments = [
+            $php,
+            $_SERVER['argv'][0],
+            'build',
+            $this->getPath(),
+        ];
+
+        if (!empty($this->getConfigFiles())) {
+            $buildProcessArguments[] = '--config';
+            $buildProcessArguments[] = implode(',', $this->getConfigFiles());
+        }
+        if ($options['drafts']) {
+            $buildProcessArguments[] = '--drafts';
+        }
+        if ($options['optimize'] === true) {
+            $buildProcessArguments[] = '--optimize';
+        }
+        if ($options['optimize'] === false) {
+            $buildProcessArguments[] = '--no-optimize';
+        }
+        if ($options['clearcache'] === null) {
+            $buildProcessArguments[] = '--clear-cache';
+        }
+        if (!empty($options['clearcache'])) {
+            $buildProcessArguments[] = '--clear-cache';
+            $buildProcessArguments[] = (string) $options['clearcache'];
+        }
+        if ($options['verbose']) {
+            $buildProcessArguments[] = '-' . str_repeat('v', (int) $_SERVER['SHELL_VERBOSITY']);
+        }
+        if (!empty($options['page'])) {
+            $buildProcessArguments[] = '--page';
+            $buildProcessArguments[] = (string) $options['page'];
+        }
+        if ($options['metrics']) {
+            $buildProcessArguments[] = '--metrics';
+        }
+        if ($options['noansi']) {
+            $buildProcessArguments[] = '--no-ansi';
+        }
+        $buildProcessArguments[] = '--baseurl';
+        $buildProcessArguments[] = \sprintf('http://%s:%s/', (string) $options['host'], (string) $options['port']);
+        $buildProcessArguments[] = '--output';
+        $buildProcessArguments[] = self::SERVE_OUTPUT;
+
+        return $buildProcessArguments;
+    }
+
+    /**
+     * @param array<int, string> $buildProcessArguments
+     */
+    private function runInitialBuild(
+        Process $buildProcess,
+        callable $processOutputCallback,
+        callable $flushBuildOutput,
+        OutputInterface $output,
+        array $buildProcessArguments
+    ): bool {
+        $output->writeln(\sprintf('<comment>Build process: %s</comment>', implode(' ', $buildProcessArguments)), OutputInterface::VERBOSITY_DEBUG);
+        $buildProcess->run($processOutputCallback);
+        $flushBuildOutput();
+
+        if ($buildProcess->isSuccessful()) {
+            $this->buildSuccessActions($output);
+        }
+
+        return $buildProcess->getExitCode() === 0;
+    }
+
+    private function startServerInBackground(
+        string $php,
+        string $host,
+        int $port,
+        OutputInterface $output,
+        bool $notify,
+        bool $open
+    ): int {
+        $pid = $this->startDetachedServerProcess($php, $host, $port);
+
+        if ($pid <= 0) {
+            $this->tearDownServer();
+            throw new RuntimeException('Unable to start the server in the background.');
+        }
+
+        Util\File::getFS()->dumpFile(Util::joinFile($this->getPath(), self::PID_FILE), (string) $pid);
+        $output->writeln(\sprintf('<info>Starting server in the background (PID: %d)</info>', $pid));
+        $output->writeln(\sprintf('Server running at <href=http://%s:%d>http://%s:%d</>', $host, $port, $host, $port));
+        $output->writeln(\sprintf('To stop the server, run: <info>%s serve:stop</info>', $this->binName()));
+
+        if ($notify) {
+            $this->notification('Starting server in background 🚀', \sprintf('http://%s:%s', $host, $port));
+        }
+        if ($open) {
+            $output->writeln('Opening web browser...');
+            Util\Platform::openBrowser(\sprintf('http://%s:%s', $host, $port));
+        }
+
+        return Command::SUCCESS;
+    }
+
+    private function startDetachedServerProcess(string $php, string $host, int $port): int
+    {
+        $pidOutput = [];
+
+        if (Util\Platform::isWindows()) {
+            // Use PowerShell Start-Process to launch detached hidden process
+            $phpWin = str_replace('/', '\\', $php);
+            $serverArgs = \sprintf(
+                '-S %s:%d -t "%s" "%s"',
+                $host,
+                $port,
+                str_replace('/', '\\', Util::joinFile($this->getPath(), self::SERVE_OUTPUT)),
+                str_replace('/', '\\', Util::joinFile($this->getPath(), Builder::TMP_DIR, 'router.php'))
+            );
+            $psCommand = \sprintf(
+                'powershell -NoProfile -Command "(Start-Process -PassThru -WindowStyle Hidden -FilePath \'%s\' -ArgumentList \'%s\').Id"',
+                $phpWin,
+                str_replace("'", "''", $serverArgs)
+            );
+            exec($psCommand, $pidOutput);
+        } else {
+            exec(\sprintf(
+                'nohup %s -S %s -t %s %s & echo $!',
+                escapeshellarg($php),
+                escapeshellarg($host . ':' . $port),
+                escapeshellarg(Util::joinFile($this->getPath(), self::SERVE_OUTPUT)),
+                escapeshellarg(Util::joinFile($this->getPath(), Builder::TMP_DIR, 'router.php'))
+            ), $pidOutput);
+        }
+
+        return (int) ($pidOutput[0] ?? 0);
+    }
+
+    private function runForegroundServer(
+        Process $process,
+        bool $noignorevcs,
+        string $host,
+        int $port,
+        string $command,
+        OutputInterface $output,
+        array $options,
+        Process $buildProcess,
+        callable $processOutputCallback,
+        callable $flushBuildOutput
+    ): int {
+        $notify = (bool) ($options['notify'] ?? false);
+        $open = (bool) ($options['open'] ?? false);
+        $resourceWatcher = null;
+
+        if ($process->isStarted()) {
+            return Command::SUCCESS;
+        }
+
+        $messageSuffix = '';
+        if ($this->watcherEnabled) {
+            $resourceWatcher = $this->setupWatcher($noignorevcs);
+            $resourceWatcher->initialize();
+            $messageSuffix = ' with changes watcher';
+        }
+
+        try {
+            if (\function_exists('\pcntl_signal')) {
+                pcntl_async_signals(true);
+                pcntl_signal(SIGINT, [$this, 'tearDownServer']);
+                pcntl_signal(SIGTERM, [$this, 'tearDownServer']);
+            }
+
+            $output->writeln(\sprintf('<comment>Server process: %s</comment>', $command), OutputInterface::VERBOSITY_DEBUG);
+            $output->writeln(\sprintf('Starting server%s (<href=http://%s:%d>http://%s:%d</>)', $messageSuffix, $host, $port, $host, $port));
+            $process->start(function ($type, $buffer) {
+                if ($type === Process::ERR) {
+                    $lines = array_filter(explode("\n", $buffer), function (string $line): bool {
+                        return !preg_match('/ (Accepted|Closing|Closed without)/', $line);
+                    });
+                    $filtered = implode("\n", $lines);
+                    if ($filtered !== '') {
+                        error_log($filtered, 3, Util::joinFile($this->getPath(), Builder::TMP_DIR, 'errors.log'));
                     }
-                    if ($this->watcherEnabled && $resourceWatcher instanceof ResourceWatcher) {
-                        $watcher = $resourceWatcher->findChanges();
-                        if ($watcher->hasChanges()) {
-                            $output->writeln('<comment>Changes detected</comment>');
-                            // notification
-                            if ($notif) {
-                                $this->notification('Changes detected, building website...');
+                }
+            });
+
+            if ($notify) {
+                $this->notification('Starting server 🚀', \sprintf('http://%s:%s', $host, $port));
+            }
+            if ($open) {
+                $output->writeln('Opening web browser...');
+                Util\Platform::openBrowser(\sprintf('http://%s:%s', $host, $port));
+            }
+
+            while ($process->isRunning()) {
+                sleep(1); // wait for server is ready
+                if (!fsockopen($host, $port)) {
+                    $output->writeln('<info>Server is not ready</info>');
+
+                    return Command::FAILURE;
+                }
+                if ($this->watcherEnabled && $resourceWatcher instanceof ResourceWatcher) {
+                    $watcher = $resourceWatcher->findChanges();
+                    if ($watcher->hasChanges()) {
+                        $output->writeln('<comment>Changes detected</comment>');
+                        if ($notify) {
+                            $this->notification('Changes detected, building website...');
+                        }
+                        if (\count($watcher->getDeletedFiles()) > 0) {
+                            $output->writeln('<comment>Deleted files:</comment>', OutputInterface::VERBOSITY_DEBUG);
+                            foreach ($watcher->getDeletedFiles() as $file) {
+                                $output->writeln("<comment>- $file</comment>", OutputInterface::VERBOSITY_DEBUG);
                             }
-                            // prints deleted/new/updated files in debug mode
-                            if (\count($watcher->getDeletedFiles()) > 0) {
-                                $output->writeln('<comment>Deleted files:</comment>', OutputInterface::VERBOSITY_DEBUG);
-                                foreach ($watcher->getDeletedFiles() as $file) {
-                                    $output->writeln("<comment>- $file</comment>", OutputInterface::VERBOSITY_DEBUG);
+                        }
+                        if (\count($watcher->getNewFiles()) > 0) {
+                            $output->writeln('<comment>New files:</comment>', OutputInterface::VERBOSITY_DEBUG);
+                            foreach ($watcher->getNewFiles() as $file) {
+                                $output->writeln("<comment>- $file</comment>", OutputInterface::VERBOSITY_DEBUG);
+                            }
+                        }
+                        if (\count($watcher->getUpdatedFiles()) > 0) {
+                            $output->writeln('<comment>Updated files:</comment>', OutputInterface::VERBOSITY_DEBUG);
+                            foreach ($watcher->getUpdatedFiles() as $file) {
+                                $output->writeln("<comment>- $file</comment>", OutputInterface::VERBOSITY_DEBUG);
+                            }
+                        }
+                        $output->writeln('');
+
+                        if ($this->incrementalEnabled) {
+                            (new IncrementalBuildExecutor(
+                                new IncrementalBuildResolver(
+                                    $this->getBuilder(),
+                                    !empty($this->buildProcessBaseOptions['drafts'])
+                                )
+                            ))->execute(
+                                $watcher,
+                                $output,
+                                fn (?string $page): Process => $this->createBuildProcess($page),
+                                $processOutputCallback,
+                                $flushBuildOutput,
+                                function () use ($output): void {
+                                    $this->buildSuccessActions($output);
                                 }
-                            }
-                            if (\count($watcher->getNewFiles()) > 0) {
-                                $output->writeln('<comment>New files:</comment>', OutputInterface::VERBOSITY_DEBUG);
-                                foreach ($watcher->getNewFiles() as $file) {
-                                    $output->writeln("<comment>- $file</comment>", OutputInterface::VERBOSITY_DEBUG);
-                                }
-                            }
-                            if (\count($watcher->getUpdatedFiles()) > 0) {
-                                $output->writeln('<comment>Updated files:</comment>', OutputInterface::VERBOSITY_DEBUG);
-                                foreach ($watcher->getUpdatedFiles() as $file) {
-                                    $output->writeln("<comment>- $file</comment>", OutputInterface::VERBOSITY_DEBUG);
-                                }
-                            }
-                            $output->writeln('');
-                            // re-builds
+                            );
+                        } else {
                             $buildProcess->run($processOutputCallback);
+                            $flushBuildOutput();
                             if ($buildProcess->isSuccessful()) {
                                 $this->buildSuccessActions($output);
                             }
-                            $output->writeln('<info>Server is running...</info>');
-                            // notification
-                            if ($notif) {
-                                $this->notification('Server is running...');
-                            }
+                        }
+                        $output->writeln('<info>Server is running...</info>');
+                        if ($notify) {
+                            $this->notification('Server is running...');
                         }
                     }
                 }
-                if ($process->getExitCode() > 0) {
-                    $output->writeln(\sprintf('<comment>%s</comment>', trim($process->getErrorOutput())));
-                }
-            } catch (ProcessFailedException $e) {
-                $this->tearDownServer();
-
-                throw new RuntimeException(\sprintf($e->getMessage()));
             }
+
+            if ($process->getExitCode() > 0) {
+                $output->writeln(\sprintf('<comment>%s</comment>', trim($process->getErrorOutput())));
+            }
+        } catch (ProcessFailedException $e) {
+            $this->tearDownServer();
+
+            throw new RuntimeException(\sprintf($e->getMessage()));
         }
 
         return Command::SUCCESS;
@@ -328,10 +563,18 @@ EOF
      */
     private function setupWatcher(bool $noignorevcs = false): ResourceWatcher
     {
+        $watcherExcludes = [
+            (string) $this->getBuilder()->getConfig()->get('output.dir'),
+            self::SERVE_OUTPUT,
+            Builder::TMP_DIR,
+            (string) $this->getBuilder()->getConfig()->get('cache.dir'),
+        ];
+        $watcherExcludes = array_values(array_unique(array_filter($watcherExcludes)));
+
         $finder = new Finder();
         $finder->files()
             ->in($this->getPath())
-            ->exclude((string) $this->getBuilder()->getConfig()->get('output.dir'));
+            ->exclude($watcherExcludes);
         if (file_exists(Util::joinFile($this->getPath(), '.gitignore')) && $noignorevcs === false) {
             $finder->ignoreVCSIgnored(true);
         }
@@ -366,8 +609,8 @@ EOF
                     $livereloadJs,
                     true
                 );
+                Util\File::getFS()->chmod($livereloadJs, 0777 & ~umask());
             }
-            Util\File::getFS()->chmod(Util::joinFile($this->getPath(), Builder::TMP_DIR, 'livereload.js'), 0777 & ~umask());
         } catch (IOExceptionInterface $e) {
             throw new RuntimeException(\sprintf('An error occurred while copying server\'s files: "%s".', $e->getMessage()));
         }

@@ -1,7 +1,7 @@
 <!--
 description: "Configure your website."
 date: 2021-05-07
-updated: 2026-05-26
+updated: 2026-06-13
 -->
 # Configuration
 
@@ -296,35 +296,11 @@ In [templates](3-Templates.md) you can access to an option with `{{ site.<option
 If an option is not available in the current language (e.g.: `fr`) it fallback to the global one (e.g.: `en`).
 :::
 
-### pages.prefix.separator
-
-List of characters used as separator between a filename prefix (`date` or `weight`) and the slug.
-
-```yaml
-pages:
-  prefix:
-    separator: ['-', '_']
-```
-
 ### metatags
 
-_metatags_ are SEO and social helpers that can be automatically  injected in the `<head>`, with the _partial_ template [`metatags.html.twig`](https://github.com/Cecilapp/Cecil/blob/master/resources/layouts/partials/metatags.html.twig).
+_metatags_ are SEO and social helpers that can be automatically injected in the `<head>`, with the template [`partials/metatags.html.twig`](https://github.com/Cecilapp/Cecil/blob/master/resources/layouts/partials/metatags.html.twig).
 
 *[SEO]: Search Engine Optimization
-
-_Example:_
-
-```twig
-<html lang="{{ site.language }}">
-  <head>
-    <meta charset="utf-8">
-    {{ include('partials/metatags.html.twig') }}
-  </head>
-  <body>
-    ...
-  </body>
-</html>
-```
 
 This template adds the following meta tags:
 
@@ -1362,12 +1338,24 @@ It is also possible to enable this option through CLI when using the "build" and
 
 The configuration can be overridden through [environment variables](https://en.wikipedia.org/wiki/Environment_variable).
 
+At startup, Cecil also attempts to load a `.env` file from the current site path (the current working directory, or the `<path>` argument if provided).
+
+- If the `.env` file does not exist, Cecil continues normally.
+- Variables already defined by the shell/system are preserved.
+
 Each environment variable name must be prefixed with `CECIL_` and the configuration key must be set in uppercase.
 
 For example, the following command set the website’s `baseurl`:
 
 ```bash
 export CECIL_BASEURL="https://example.com/"
+```
+
+You can store the same value in a `.env` file at your project root:
+
+```dotenv
+CECIL_BASEURL="https://example.com/"
+CECIL_TITLE="My Cecil site"
 ```
 
 ### CLI option

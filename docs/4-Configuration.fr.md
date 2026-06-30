@@ -2,7 +2,7 @@
 title: Configuration
 description: "Configurez votre site web."
 date: 2026-03-27
-updated: 2026-05-26
+updated: 2026-06-13
 slug: configuration
 -->
 # Configuration
@@ -298,35 +298,11 @@ Dans les [templates](3-Templates.md), vous pouvez accéder à une option avec `{
 Si une option n’est pas disponible dans la langue actuelle (ex. : `fr`), elle revient à la valeur globale (ex. : `en`).
 :::
 
-### pages.prefix.separator
-
-Liste des caractères utilisés comme séparateur entre un préfixe de nom de fichier (`date` ou `weight`) et le slug.
-
-```yaml
-pages:
-  prefix:
-    separator: ['-', '_']
-```
-
 ### metatags
 
-Les _metatags_ sont des aides SEO et réseaux sociaux qui peuvent être injectées automatiquement dans le `<head>`, via le template _partial_ [`metatags.html.twig`](https://github.com/Cecilapp/Cecil/blob/master/resources/layouts/partials/metatags.html.twig).
+Les _metatags_ sont des aides SEO et réseaux sociaux qui peuvent être injectées automatiquement dans le `<head>`, via le template [`partials/metatags.html.twig`](https://github.com/Cecilapp/Cecil/blob/master/resources/layouts/partials/metatags.html.twig).
 
 *[SEO]: Optimisation pour les moteurs de recherche
-
-_Exemple :_
-
-```twig
-<html lang="{{ site.language }}">
-  <head>
-    <meta charset="utf-8">
-    {{ include('partials/metatags.html.twig') }}
-  </head>
-  <body>
-    ...
-  </body>
-</html>
-```
 
 Ce template ajoute les balises meta suivantes :
 
@@ -1348,12 +1324,24 @@ Le compresseur d’**images** utilisera les binaires suivants s’ils sont prés
 
 La configuration peut être surchargée via des [variables d’environnement](https://en.wikipedia.org/wiki/Environment_variable).
 
+Au démarrage, Cecil essaie également de charger un fichier `.env` depuis le chemin du site courant (le répertoire de travail actuel, ou l’argument `<path>` s’il est fourni).
+
+- Si le fichier `.env` n’existe pas, Cecil continue normalement.
+- Les variables déjà définies par le shell/système sont conservées.
+
 Chaque nom de variable d’environnement doit être préfixé par `CECIL_` et la clé de configuration doit être en majuscules.
 
 Par exemple, la commande suivante définit le `baseurl` du site :
 
 ```bash
 export CECIL_BASEURL="https://example.com/"
+```
+
+Vous pouvez stocker la même valeur dans un fichier `.env` à la racine du projet :
+
+```dotenv
+CECIL_BASEURL="https://example.com/"
+CECIL_TITLE="Mon site Cecil"
 ```
 
 ### Option CLI

@@ -14,16 +14,17 @@ declare(strict_types=1);
 namespace Cecil\Command;
 
 use Cecil\Builder;
+use Cecil\Command\Console\CecilStyle;
 use Cecil\Config;
 use Cecil\Exception\RuntimeException;
 use Cecil\Logger\ConsoleLogger;
 use Cecil\Util;
+use Dotenv\Dotenv;
 use Joli\JoliNotif\DefaultNotifier;
 use Joli\JoliNotif\Notification;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
-use Symfony\Component\Console\Style\SymfonyStyle;
 use Symfony\Component\Filesystem\Path;
 use Symfony\Component\Process\Process;
 use Symfony\Component\Validator\Constraints\Url;
@@ -37,8 +38,9 @@ use Symfony\Component\Validator\Validation;
 class AbstractCommand extends Command
 {
     public const CONFIG_FILE = ['cecil.yml', 'config.yml'];
-    public const EXCLUDED_CMD = ['about', 'new:site', 'self-update'];
+    public const EXCLUDED_CMD = ['about', 'new:site', 'self-update', 'serve:stop'];
     public const SERVE_OUTPUT = Builder::TMP_DIR . '/preview';
+    public const PID_FILE = Builder::TMP_DIR . '/server.pid';
 
     /** @var InputInterface */
     protected $input;
@@ -46,7 +48,7 @@ class AbstractCommand extends Command
     /** @var OutputInterface */
     protected $output;
 
-    /** @var SymfonyStyle */
+    /** @var CecilStyle */
     protected $io;
 
     /** @var string */
@@ -71,8 +73,11 @@ class AbstractCommand extends Command
     {
         $this->input = $input;
         $this->output = $output;
-        $this->io = new SymfonyStyle($input, $output);
+        $this->io = new CecilStyle($input, $output);
         $this->rootPath = (Util\Platform::isPhar() ? Util\Platform::getPharPath() : realpath(Util::joinFile(__DIR__, '/../../'))) . '/';
+
+        // load .env file from the current path (working dir or provided <path>) if it exists
+        Dotenv::createUnsafeImmutable($this->getPath(false))->safeLoad();
 
         // prepare configuration files list
         if (!\in_array($this->getName(), self::EXCLUDED_CMD)) {
@@ -119,7 +124,7 @@ class AbstractCommand extends Command
             return parent::run($input, $output);
         } catch (\Exception $e) {
             if ($this->io === null) {
-                $this->io = new SymfonyStyle($input, $output);
+                $this->io = new CecilStyle($input, $output);
             }
             $message = '';
             $i = 0;
@@ -167,26 +172,24 @@ class AbstractCommand extends Command
      */
     protected function getPath(bool $exist = true): ?string
     {
-        if ($this->path === null) {
-            try {
-                // get working directory by default
-                if (false === $this->path = getcwd()) {
-                    throw new \Exception('Unable to get current working directory.');
-                }
-                // ... or path
-                if ($this->input->getArgument('path') !== null) {
-                    $this->path = Path::canonicalize($this->input->getArgument('path'));
-                }
-                // try to get canonicalized absolute path
-                if ($exist) {
-                    if (realpath($this->path) === false) {
-                        throw new \Exception(\sprintf('The given path "%s" is not valid.', $this->path));
-                    }
-                    $this->path = realpath($this->path);
-                }
-            } catch (\Exception $e) {
-                throw new \Exception($e->getMessage());
+        try {
+            // get working directory by default
+            if (false === $this->path = getcwd()) {
+                throw new \Exception('Unable to get current working directory.');
             }
+            // ... or path
+            if ($this->input->hasArgument('path') && $this->input->getArgument('path') !== null) {
+                $this->path = Path::canonicalize($this->input->getArgument('path'));
+            }
+            // try to get canonicalized absolute path
+            if ($exist) {
+                if (false === $realpath = realpath($this->path)) {
+                    throw new \Exception(\sprintf('The given path "%s" is not valid.', $this->path));
+                }
+                $this->path = $realpath;
+            }
+        } catch (\Exception $e) {
+            throw new \Exception($e->getMessage());
         }
 
         return $this->path;
@@ -335,10 +338,12 @@ class AbstractCommand extends Command
         $placeholders = [
             '%command.name%',
             '%command.full_name%',
+            '%bin_name%',
         ];
         $replacements = [
             $name,
             $this->binName() . ' ' . $name,
+            $this->binName(),
         ];
 
         return str_replace($placeholders, $replacements, $this->getHelp() ?: $this->getDescription());

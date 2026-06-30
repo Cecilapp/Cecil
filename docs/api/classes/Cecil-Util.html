@@ -101,6 +101,10 @@
                 
             </li>
                     <li>
+                <a href="namespaces/cecil-doctor.html" class="">Doctor</a>
+                
+            </li>
+                    <li>
                 <a href="namespaces/cecil-exception.html" class="">Exception</a>
                 
             </li>
@@ -164,7 +168,7 @@
         <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Util.php"><a href="files/src-util.html"><abbr title="src/Util.php">Util.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">24</span>
+    <span class="phpdocumentor-element-found-in__line">25</span>
 
     </aside>
 
@@ -243,6 +247,13 @@ joining paths, converting memory sizes, and more.</p>
 <dd>Formats a method name.</dd>
 
             <dt class="phpdocumentor-table-of-contents__entry -method -public">
+    <a class="" href="classes/Cecil-Util.html#method_getPhpRequirements">getPhpRequirements()</a>
+    <span>
+                                &nbsp;: array{minimumVersion: string, requiredExtensions: array<int,string>}    </span>
+</dt>
+<dd>Extracts PHP minimum version and required extensions from composer.json.</dd>
+
+            <dt class="phpdocumentor-table-of-contents__entry -method -public">
     <a class="" href="classes/Cecil-Util.html#method_joinFile">joinFile()</a>
     <span>
                                 &nbsp;: string    </span>
@@ -262,6 +273,13 @@ joining paths, converting memory sizes, and more.</p>
                                 &nbsp;: array&lt;string|int, mixed&gt;|false    </span>
 </dt>
 <dd>Matches a URL against known embedded content patterns.</dd>
+
+            <dt class="phpdocumentor-table-of-contents__entry -method -private">
+    <a class="" href="classes/Cecil-Util.html#method_resolveComposerFilePath">resolveComposerFilePath()</a>
+    <span>
+                                &nbsp;: string    </span>
+</dt>
+<dd>Resolve composer.json path from Cecil root (including PHAR context).</dd>
 
     </dl>
 
@@ -291,7 +309,7 @@ joining paths, converting memory sizes, and more.</p>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Util.php"><a href="files/src-util.html"><abbr title="src/Util.php">Util.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">131</span>
+    <span class="phpdocumentor-element-found-in__line">186</span>
 
     </aside>
 
@@ -343,7 +361,7 @@ joining paths, converting memory sizes, and more.</p>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Util.php"><a href="files/src-util.html"><abbr title="src/Util.php">Util.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">111</span>
+    <span class="phpdocumentor-element-found-in__line">112</span>
 
     </aside>
 
@@ -392,7 +410,7 @@ joining paths, converting memory sizes, and more.</p>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Util.php"><a href="files/src-util.html"><abbr title="src/Util.php">Util.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">98</span>
+    <span class="phpdocumentor-element-found-in__line">99</span>
 
     </aside>
 
@@ -441,7 +459,7 @@ joining paths, converting memory sizes, and more.</p>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Util.php"><a href="files/src-util.html"><abbr title="src/Util.php">Util.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">123</span>
+    <span class="phpdocumentor-element-found-in__line">124</span>
 
     </aside>
 
@@ -490,7 +508,7 @@ joining paths, converting memory sizes, and more.</p>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Util.php"><a href="files/src-util.html"><abbr title="src/Util.php">Util.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">33</span>
+    <span class="phpdocumentor-element-found-in__line">34</span>
 
     </aside>
 
@@ -548,7 +566,7 @@ joining paths, converting memory sizes, and more.</p>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Util.php"><a href="files/src-util.html"><abbr title="src/Util.php">Util.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">53</span>
+    <span class="phpdocumentor-element-found-in__line">54</span>
 
     </aside>
 
@@ -591,6 +609,45 @@ joining paths, converting memory sizes, and more.</p>
             -public
                                     -static                    "
 >
+    <h4 class="phpdocumentor-element__name" id="method_getPhpRequirements">
+        getPhpRequirements()
+        <a href="classes/Cecil-Util.html#method_getPhpRequirements" class="headerlink"><i class="fas fa-link"></i></a>
+
+    </h4>
+    <aside class="phpdocumentor-element-found-in">
+    <abbr class="phpdocumentor-element-found-in__file" title="src/Util.php"><a href="files/src-util.html"><abbr title="src/Util.php">Util.php</abbr></a></abbr>
+    :
+    <span class="phpdocumentor-element-found-in__line">134</span>
+
+    </aside>
+
+        <p class="phpdocumentor-summary">Extracts PHP minimum version and required extensions from composer.json.</p>
+
+    <code class="phpdocumentor-code phpdocumentor-signature ">
+    <span class="phpdocumentor-signature__visibility">public</span>
+            <span class="phpdocumentor-signature__static">static</span>        <span class="phpdocumentor-signature__name">getPhpRequirements</span><span>(</span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">array{minimumVersion: string, requiredExtensions: array<int,string>}</span></code>
+
+    <div class="phpdocumentor-label-line">
+        </div>
+    
+    
+    
+    
+
+        
+    
+            <section>
+        <h5 class="phpdocumentor-return-value__heading">Return values</h5>
+        <span class="phpdocumentor-signature__response_type">array{minimumVersion: string, requiredExtensions: array<int,string>}</span>
+            </section>
+
+</article>
+                    <article
+        class="phpdocumentor-element
+            -method
+            -public
+                                    -static                    "
+>
     <h4 class="phpdocumentor-element__name" id="method_joinFile">
         joinFile()
         <a href="classes/Cecil-Util.html#method_joinFile" class="headerlink"><i class="fas fa-link"></i></a>
@@ -599,7 +656,7 @@ joining paths, converting memory sizes, and more.</p>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Util.php"><a href="files/src-util.html"><abbr title="src/Util.php">Util.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">80</span>
+    <span class="phpdocumentor-element-found-in__line">81</span>
 
     </aside>
 
@@ -648,7 +705,7 @@ joining paths, converting memory sizes, and more.</p>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Util.php"><a href="files/src-util.html"><abbr title="src/Util.php">Util.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">63</span>
+    <span class="phpdocumentor-element-found-in__line">64</span>
 
     </aside>
 
@@ -697,7 +754,7 @@ joining paths, converting memory sizes, and more.</p>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Util.php"><a href="files/src-util.html"><abbr title="src/Util.php">Util.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">158</span>
+    <span class="phpdocumentor-element-found-in__line">213</span>
 
     </aside>
 
@@ -740,6 +797,45 @@ joining paths, converting memory sizes, and more.</p>
             </section>
 
 </article>
+                    <article
+        class="phpdocumentor-element
+            -method
+            -private
+                                    -static                    "
+>
+    <h4 class="phpdocumentor-element__name" id="method_resolveComposerFilePath">
+        resolveComposerFilePath()
+        <a href="classes/Cecil-Util.html#method_resolveComposerFilePath" class="headerlink"><i class="fas fa-link"></i></a>
+
+    </h4>
+    <aside class="phpdocumentor-element-found-in">
+    <abbr class="phpdocumentor-element-found-in__file" title="src/Util.php"><a href="files/src-util.html"><abbr title="src/Util.php">Util.php</abbr></a></abbr>
+    :
+    <span class="phpdocumentor-element-found-in__line">174</span>
+
+    </aside>
+
+        <p class="phpdocumentor-summary">Resolve composer.json path from Cecil root (including PHAR context).</p>
+
+    <code class="phpdocumentor-code phpdocumentor-signature ">
+    <span class="phpdocumentor-signature__visibility">private</span>
+            <span class="phpdocumentor-signature__static">static</span>        <span class="phpdocumentor-signature__name">resolveComposerFilePath</span><span>(</span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">string</span></code>
+
+    <div class="phpdocumentor-label-line">
+        </div>
+    
+    
+    
+    
+
+        
+    
+            <section>
+        <h5 class="phpdocumentor-return-value__heading">Return values</h5>
+        <span class="phpdocumentor-signature__response_type">string</span>
+            </section>
+
+</article>
             </section>
 
         
@@ -768,9 +864,11 @@ joining paths, converting memory sizes, and more.</p>
                                             <li class=""><a href="classes/Cecil-Util.html#method_convertMicrotime">convertMicrotime()</a></li>
                                             <li class=""><a href="classes/Cecil-Util.html#method_formatClassName">formatClassName()</a></li>
                                             <li class=""><a href="classes/Cecil-Util.html#method_formatMethodName">formatMethodName()</a></li>
+                                            <li class=""><a href="classes/Cecil-Util.html#method_getPhpRequirements">getPhpRequirements()</a></li>
                                             <li class=""><a href="classes/Cecil-Util.html#method_joinFile">joinFile()</a></li>
                                             <li class=""><a href="classes/Cecil-Util.html#method_joinPath">joinPath()</a></li>
                                             <li class=""><a href="classes/Cecil-Util.html#method_matchesUrlPattern">matchesUrlPattern()</a></li>
+                                            <li class=""><a href="classes/Cecil-Util.html#method_resolveComposerFilePath">resolveComposerFilePath()</a></li>
                                     </ul>
             </li>
                     </ul>

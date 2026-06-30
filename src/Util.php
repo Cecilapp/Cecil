@@ -13,6 +13,7 @@ declare(strict_types=1);
 
 namespace Cecil;
 
+use Cecil\Util\Platform;
 use Symfony\Component\Filesystem\Path;
 
 /**
@@ -123,6 +124,60 @@ class Util
     public static function convertMicrotime(float $start): string
     {
         return self::convertDuration(microtime(true) - $start);
+    }
+
+    /**
+     * Extracts PHP minimum version and required extensions from composer.json.
+     *
+     * @return array{minimumVersion: string, requiredExtensions: array<int, string>}
+     */
+    public static function getPhpRequirements(): array
+    {
+        $composerFile = self::resolveComposerFilePath();
+        $composerRaw = file_get_contents($composerFile);
+        if ($composerRaw === false) {
+            throw new \RuntimeException(\sprintf('Unable to read `%s`.', $composerFile));
+        }
+
+        $composer = json_decode($composerRaw, true);
+        if (!\is_array($composer) || !isset($composer['require']) || !\is_array($composer['require'])) {
+            throw new \RuntimeException(\sprintf('Unable to parse required packages from `%s`.', $composerFile));
+        }
+
+        $phpVersionConstraint = $composer['require']['php'] ?? null;
+        if (!\is_string($phpVersionConstraint) || !preg_match('/(\d+\.\d+(?:\.\d+)?)/', $phpVersionConstraint, $matches)) {
+            throw new \RuntimeException(\sprintf('Unable to parse PHP version requirement from `%s`.', $composerFile));
+        }
+
+        $phpMinimumVersion = $matches[1];
+        if (substr_count($phpMinimumVersion, '.') === 1) {
+            $phpMinimumVersion .= '.0';
+        }
+
+        $phpRequiredExtensions = [];
+        foreach (array_keys($composer['require']) as $requirement) {
+            if (str_starts_with($requirement, 'ext-')) {
+                $phpRequiredExtensions[] = substr($requirement, 4);
+            }
+        }
+        sort($phpRequiredExtensions);
+
+        return [
+            'minimumVersion' => $phpMinimumVersion,
+            'requiredExtensions' => $phpRequiredExtensions,
+        ];
+    }
+
+    /**
+     * Resolve composer.json path from Cecil root (including PHAR context).
+     */
+    private static function resolveComposerFilePath(): string
+    {
+        if (Platform::isPhar()) {
+            return \sprintf('%s/composer.json', Platform::getPharPath());
+        }
+
+        return self::joinFile(__DIR__, '/../composer.json');
     }
 
     /**

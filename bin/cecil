@@ -23,16 +23,24 @@ require __DIR__ . '/../src/bootstrap.php';
 
 use Cecil\Application;
 use Cecil\Builder;
+use Cecil\Util;
 
 error_reporting(E_ERROR);
 if (getenv('CECIL_DEBUG') == 'true') {
     error_reporting(E_ALL ^ E_NOTICE);
 }
 
-$name                  = 'Cecil';
-$version               = '@git_version@';
-$phpMinimumVersion     = '8.2.0';
-$phpRequiredExtensions = ['fileinfo', 'gd', 'mbstring'];
+$name = 'Cecil';
+$version = '@git_version@';
+
+try {
+    $phpRequirements = Util::getPhpRequirements();
+} catch (\RuntimeException $e) {
+    printf('%s%s', $e->getMessage(), PHP_EOL);
+    exit(1);
+}
+$phpMinimumVersion = $phpRequirements['minimumVersion'];
+$phpRequiredExtensions = $phpRequirements['requiredExtensions'];
 
 // checks PHP minimal version
 if (version_compare(PHP_VERSION, $phpMinimumVersion, '<')) {

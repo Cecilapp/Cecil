@@ -23,23 +23,28 @@ use Symfony\Component\Console\Application as BaseApplication;
 class Application extends BaseApplication
 {
     /**
-     * Banner of the application.
+     * Author of the application.
      * @var string
      */
-    private static $banner = '  ____          _ _
- / ___|___  ___(_) |
-| |   / _ \/ __| | | A simple and powerful content-driven static site generator.
-| |__|  __/ (__| | |
- \____\___|\___|_|_| by Arnaud Ligny
+    private static $author = 'Arnaud Ligny';
 
-';
+    /**
+     * Description of the application.
+     * @var string
+     */
+    private static $description = 'Cecil is a simple and powerful content-driven static site generator.';
 
     /**
      * {@inheritdoc}
      */
     public function getHelp(): string
     {
-        return self::$banner . parent::getHelp();
+        $response = [
+            \sprintf('<info>%s</info> version <comment>%s</comment> (c) 2013-%s %s', $this->getName(), $this->getVersion(), date('Y'), self::$author),
+            self::$description,
+        ];
+
+        return implode("\n\n", $response);
     }
 
     /**
@@ -55,11 +60,19 @@ class Application extends BaseApplication
             new Command\Edit(),
             new Command\Build(),
             new Command\Serve(),
+            new Command\ServeBackground(),
+            new Command\Stop(),
+            new Command\ServeLog(),
             new Command\Clear(),
+            new Command\ClearOutput(),
+            new Command\ClearTmp(),
             new Command\CacheClear(),
             new Command\CacheClearAssets(),
             new Command\CacheClearTemplates(),
             new Command\CacheClearTranslations(),
+            new Command\Doctor(),
+            new Command\DoctorFrontmatter(),
+            new Command\DoctorSeo(),
             new Command\ShowContent(),
             new Command\ShowConfig(),
             new Command\ListCommand(),

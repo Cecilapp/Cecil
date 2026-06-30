@@ -26,7 +26,7 @@ jobs:
     steps:
       # checkout/php/cache/deps
       - name: Checkout source code
-        uses: actions/checkout@v6
+        uses: actions/checkout@v7
         with:
           fetch-depth: 0
       - name: Install PHP
@@ -38,7 +38,7 @@ jobs:
           coverage: none
       - name: Restore/Cache Composer packages
         id: composer-cache
-        uses: actions/cache@v5
+        uses: actions/cache@v6
         with:
           path: |
             vendor
@@ -145,9 +145,7 @@ jobs:
     needs: build
     steps:
       - name: Checkout source code
-        uses: actions/checkout@v6
-        with:
-          fetch-depth: 1
+        uses: actions/checkout@v7
       - name: Download files
         uses: actions/download-artifact@v8
         with:
@@ -221,7 +219,7 @@ jobs:
 
   bump_homebrew_formula:
     name: Bump Homebrew Formulae
-    runs-on: macos-latest
+    runs-on: macos-15
     needs: [build, deploy_to_website, update_github_release]
     steps:
       - name: Change Formula name if preview
@@ -250,9 +248,7 @@ jobs:
     needs: [build, deploy_to_website]
     steps:
       - name: Checkout source code
-        uses: actions/checkout@v6
-        with:
-          fetch-depth: 1
+        uses: actions/checkout@v7
       - name: Download files
         uses: actions/download-artifact@v8
         with:

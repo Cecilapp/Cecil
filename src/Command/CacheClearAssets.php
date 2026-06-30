@@ -50,18 +50,18 @@ EOF
      */
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
+        $this->io->title('Removing assets cache directory');
         if (!Util\File::getFS()->exists($this->getBuilder()->getConfig()->getCacheAssetsPath())) {
-            $output->writeln('<info>No assets cache.</info>');
+            $this->io->success('No assets cache.');
 
             return Command::SUCCESS;
         }
-        $output->writeln('Removing assets cache directory...');
         $output->writeln(
             \sprintf('<comment>Path: %s</comment>', $this->getBuilder()->getConfig()->getCacheAssetsPath()),
             OutputInterface::VERBOSITY_VERBOSE
         );
         Util\File::getFS()->remove($this->getBuilder()->getConfig()->getCacheAssetsPath());
-        $output->writeln('<info>Assets cache is clear.</info>');
+        $this->io->success('Assets cache cleared.');
 
         return Command::SUCCESS;
     }

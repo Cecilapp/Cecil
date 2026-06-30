@@ -2,23 +2,20 @@
 title: "Bibliothèque"
 description: "Utilisez Cecil comme bibliothèque PHP."
 date: 2026-03-27
+updated: 2026-06-13
 slug: bibliotheque
 -->
 # Bibliothèque
 
-Vous pouvez utiliser Cecil comme bibliothèque [PHP](https://www.php.net).
+Cecil propose une API PHP simple pour générer votre site web.
+
+Vous pouvez consulter la [documentation de l'API](https://cecil.app/documentation/library/api/namespaces/cecil.html) pour plus de détails.
 
 ## Installation
 
 ```bash
 composer require cecil/cecil
 ```
-
-## API
-
-Cecil propose une API PHP simple pour générer votre site web.
-
-Vous pouvez consulter la [documentation de l'API](https://cecil.app/documentation/library/api/namespaces/cecil.html) pour plus de détails.
 
 ## Utilisation
 
@@ -27,32 +24,49 @@ Vous pouvez consulter la [documentation de l'API](https://cecil.app/documentatio
 Construisez un nouveau site web avec une configuration personnalisée :
 
 ```php
+require_once 'vendor/autoload.php';
+
 use Cecil\Builder;
 
-// Create a configuration array
 $config = [
     'title'   => "My website",
     'baseurl' => 'https://domain.tld/',
 ];
 
-// Build with the custom configuration
 Builder::create($config)->build();
+
+exec('php -S localhost:8000 -t _site'); // prévisualisation locale
 ```
 
 :::info
 Le paramètre principal de la méthode `create` doit être un `array` PHP ou une instance de [`Cecil\Config`](https://github.com/Cecilapp/Cecil/blob/master/src/Config.php).
 :::
 
-### Exemple
+### Diagnostic
+
+Vous pouvez aussi exécuter les vérifications doctor via des services de domaine dédiés, sans utiliser les commandes CLI.
 
 ```php
+<?php
+
 require_once 'vendor/autoload.php';
 
 use Cecil\Builder;
+use Cecil\Doctor\SeoDoctor;
+use Cecil\Doctor\SiteDoctor;
 
-// Build with the website with the `config.php` configuration file
-Cecil::create(require('config.php'))->build();
+$builder = Builder::create(require 'config.php')
+    ->setSourceDir(__DIR__)
+    ->setDestinationDir(__DIR__);
 
-// Preview locally
-exec('php -S localhost:8000 -t _site');
+$siteDoctor = new SiteDoctor();
+$diagnosis = $siteDoctor->diagnose($builder, __DIR__, ['cecil.yml']);
+
+$seoDoctor = new SeoDoctor();
+$seoAudit = $seoDoctor->audit($builder, [
+    'page' => '',
+    'include_virtual' => false,
+]);
+
+var_dump($diagnosis['errors'], $seoAudit['summary']);
 ```

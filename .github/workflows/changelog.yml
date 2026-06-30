@@ -1,6 +1,7 @@
 name: Changelog
 
 on:
+  workflow_dispatch:
   push:
     branches:
       - master
@@ -13,22 +14,17 @@ jobs:
   generate_changelog:
     name: Generate changelog
     runs-on: ubuntu-latest
-
     steps:
       - name: Checkout source code
-        uses: actions/checkout@v6
+        uses: actions/checkout@v7
         with:
           fetch-depth: 0
-
       - name: Install Node
         uses: actions/setup-node@v6
-
       - name: Install auto-changelog
         run: npm install -g auto-changelog
-
       - name: Run auto-changelog
         run: auto-changelog --ignore-commit-pattern "^[Uu]pdate.*"
-
       - name: Commit changelog
         run: |
           git config --global user.name 'Arnaud Ligny'

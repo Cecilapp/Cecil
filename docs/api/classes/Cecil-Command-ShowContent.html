@@ -101,6 +101,10 @@
                 
             </li>
                     <li>
+                <a href="namespaces/cecil-doctor.html" class="">Doctor</a>
+                
+            </li>
+                    <li>
                 <a href="namespaces/cecil-exception.html" class="">Exception</a>
                 
             </li>
@@ -168,7 +172,7 @@
         <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Command/ShowContent.php"><a href="files/src-command-showcontent.html"><abbr title="src/Command/ShowContent.php">ShowContent.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">35</span>
+    <span class="phpdocumentor-element-found-in__line">34</span>
 
     </aside>
 
@@ -211,7 +215,13 @@ It supports displaying content from specified directories and can filter files b
             <dt class="phpdocumentor-table-of-contents__entry -constant -public">
     <a class="" href="classes/Cecil-Command-AbstractCommand.html#constant_EXCLUDED_CMD">EXCLUDED_CMD</a>
     <span>
-        &nbsp;: mixed&nbsp;= [&#039;about&#039;, &#039;new:site&#039;, &#039;self-update&#039;]                            </span>
+        &nbsp;: mixed&nbsp;= [&#039;about&#039;, &#039;new:site&#039;, &#039;self-update&#039;, &#039;serve:stop&#039;]                            </span>
+</dt>
+
+            <dt class="phpdocumentor-table-of-contents__entry -constant -public">
+    <a class="" href="classes/Cecil-Command-AbstractCommand.html#constant_PID_FILE">PID_FILE</a>
+    <span>
+        &nbsp;: mixed&nbsp;= \Cecil\Builder::TMP_DIR . &#039;/server.pid&#039;                            </span>
 </dt>
 
             <dt class="phpdocumentor-table-of-contents__entry -constant -public">
@@ -238,7 +248,7 @@ It supports displaying content from specified directories and can filter files b
             <dt class="phpdocumentor-table-of-contents__entry -property -protected">
     <a class="" href="classes/Cecil-Command-AbstractCommand.html#property_io">$io</a>
     <span>
-                        &nbsp;: <abbr title="\Symfony\Component\Console\Style\SymfonyStyle">SymfonyStyle</abbr>            </span>
+                        &nbsp;: <a href="classes/Cecil-Command-Console-CecilStyle.html"><abbr title="\Cecil\Command\Console\CecilStyle">CecilStyle</abbr></a>            </span>
 </dt>
 
             <dt class="phpdocumentor-table-of-contents__entry -property -protected">
@@ -360,11 +370,25 @@ It supports displaying content from specified directories and can filter files b
 <dd>Opens path with editor.</dd>
 
             <dt class="phpdocumentor-table-of-contents__entry -method -private">
-    <a class="" href="classes/Cecil-Command-ShowContent.html#method_getFilesTree">getFilesTree()</a>
+    <a class="" href="classes/Cecil-Command-ShowContent.html#method_buildSubdirectoryStructure">buildSubdirectoryStructure()</a>
     <span>
-                                &nbsp;: <a href="classes/Cecil-Command-ShowContent-FilenameRecursiveTreeIterator.html"><abbr title="\Cecil\Command\ShowContent\FilenameRecursiveTreeIterator">FilenameRecursiveTreeIterator</abbr></a>    </span>
+                                &nbsp;: array&lt;string, mixed&gt;    </span>
 </dt>
-<dd>Returns a console displayable tree of files.</dd>
+<dd>Build subdirectory tree structure recursively.</dd>
+
+            <dt class="phpdocumentor-table-of-contents__entry -method -private">
+    <a class="" href="classes/Cecil-Command-ShowContent.html#method_buildTreeStructure">buildTreeStructure()</a>
+    <span>
+                                &nbsp;: array&lt;string, mixed&gt;    </span>
+</dt>
+<dd>Build a tree structure (array) from the directory, filtering by file extensions.</dd>
+
+            <dt class="phpdocumentor-table-of-contents__entry -method -private">
+    <a class="" href="classes/Cecil-Command-ShowContent.html#method_getSortedItems">getSortedItems()</a>
+    <span>
+                                &nbsp;: array&lt;int, <abbr title="\SplFileInfo">SplFileInfo</abbr>&gt;    </span>
+</dt>
+<dd>Get sorted items (files first, then directories) from a directory.</dd>
 
     </dl>
 
@@ -387,7 +411,7 @@ It supports displaying content from specified directories and can filter files b
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Command/AbstractCommand.php"><a href="files/src-command-abstractcommand.html"><abbr title="src/Command/AbstractCommand.php">AbstractCommand.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">39</span>
+    <span class="phpdocumentor-element-found-in__line">40</span>
 
     </aside>
 
@@ -417,7 +441,7 @@ It supports displaying content from specified directories and can filter files b
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Command/AbstractCommand.php"><a href="files/src-command-abstractcommand.html"><abbr title="src/Command/AbstractCommand.php">AbstractCommand.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">40</span>
+    <span class="phpdocumentor-element-found-in__line">41</span>
 
     </aside>
 
@@ -427,7 +451,37 @@ It supports displaying content from specified directories and can filter files b
     <span class="phpdocumentor-signature__visibility">public</span>
         <span class="phpdocumentor-signature__type">mixed</span>
     <span class="phpdocumentor-signature__name">EXCLUDED_CMD</span>
-    = <span class="phpdocumentor-signature__default-value">[&#039;about&#039;, &#039;new:site&#039;, &#039;self-update&#039;]</span>
+    = <span class="phpdocumentor-signature__default-value">[&#039;about&#039;, &#039;new:site&#039;, &#039;self-update&#039;, &#039;serve:stop&#039;]</span>
+</code>
+
+
+    
+    
+    
+
+        
+    </article>
+                    <article class="phpdocumentor-element -constant -public ">
+    <h4 class="phpdocumentor-element__name" id="constant_PID_FILE">
+        PID_FILE
+        <a href="classes/Cecil-Command-AbstractCommand.html#constant_PID_FILE" class="headerlink"><i class="fas fa-link"></i></a>
+
+    </h4>
+
+    <aside class="phpdocumentor-element-found-in">
+    <abbr class="phpdocumentor-element-found-in__file" title="src/Command/AbstractCommand.php"><a href="files/src-command-abstractcommand.html"><abbr title="src/Command/AbstractCommand.php">AbstractCommand.php</abbr></a></abbr>
+    :
+    <span class="phpdocumentor-element-found-in__line">43</span>
+
+    </aside>
+
+    
+    
+    <code class="phpdocumentor-signature phpdocumentor-code ">
+    <span class="phpdocumentor-signature__visibility">public</span>
+        <span class="phpdocumentor-signature__type">mixed</span>
+    <span class="phpdocumentor-signature__name">PID_FILE</span>
+    = <span class="phpdocumentor-signature__default-value">\Cecil\Builder::TMP_DIR . &#039;/server.pid&#039;</span>
 </code>
 
 
@@ -447,7 +501,7 @@ It supports displaying content from specified directories and can filter files b
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Command/AbstractCommand.php"><a href="files/src-command-abstractcommand.html"><abbr title="src/Command/AbstractCommand.php">AbstractCommand.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">41</span>
+    <span class="phpdocumentor-element-found-in__line">42</span>
 
     </aside>
 
@@ -493,7 +547,7 @@ It supports displaying content from specified directories and can filter files b
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Command/AbstractCommand.php"><a href="files/src-command-abstractcommand.html"><abbr title="src/Command/AbstractCommand.php">AbstractCommand.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">44</span>
+    <span class="phpdocumentor-element-found-in__line">46</span>
 
     </aside>
 
@@ -530,7 +584,7 @@ It supports displaying content from specified directories and can filter files b
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Command/AbstractCommand.php"><a href="files/src-command-abstractcommand.html"><abbr title="src/Command/AbstractCommand.php">AbstractCommand.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">50</span>
+    <span class="phpdocumentor-element-found-in__line">52</span>
 
     </aside>
 
@@ -538,7 +592,7 @@ It supports displaying content from specified directories and can filter files b
     
     <code class="phpdocumentor-code phpdocumentor-signature ">
         <span class="phpdocumentor-signature__visibility">protected</span>
-            <span class="phpdocumentor-signature__type"><abbr title="\Symfony\Component\Console\Style\SymfonyStyle">SymfonyStyle</abbr></span>
+            <span class="phpdocumentor-signature__type"><a href="classes/Cecil-Command-Console-CecilStyle.html"><abbr title="\Cecil\Command\Console\CecilStyle">CecilStyle</abbr></a></span>
     <span class="phpdocumentor-signature__name">$io</span>
     </code>
 
@@ -567,7 +621,7 @@ It supports displaying content from specified directories and can filter files b
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Command/AbstractCommand.php"><a href="files/src-command-abstractcommand.html"><abbr title="src/Command/AbstractCommand.php">AbstractCommand.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">47</span>
+    <span class="phpdocumentor-element-found-in__line">49</span>
 
     </aside>
 
@@ -604,7 +658,7 @@ It supports displaying content from specified directories and can filter files b
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Command/AbstractCommand.php"><a href="files/src-command-abstractcommand.html"><abbr title="src/Command/AbstractCommand.php">AbstractCommand.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">53</span>
+    <span class="phpdocumentor-element-found-in__line">55</span>
 
     </aside>
 
@@ -646,7 +700,7 @@ It supports displaying content from specified directories and can filter files b
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Command/AbstractCommand.php"><a href="files/src-command-abstractcommand.html"><abbr title="src/Command/AbstractCommand.php">AbstractCommand.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">332</span>
+    <span class="phpdocumentor-element-found-in__line">335</span>
 
     </aside>
 
@@ -685,7 +739,7 @@ It supports displaying content from specified directories and can filter files b
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Command/AbstractCommand.php"><a href="files/src-command-abstractcommand.html"><abbr title="src/Command/AbstractCommand.php">AbstractCommand.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">149</span>
+    <span class="phpdocumentor-element-found-in__line">154</span>
 
     </aside>
 
@@ -737,7 +791,7 @@ It supports displaying content from specified directories and can filter files b
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Command/AbstractCommand.php"><a href="files/src-command-abstractcommand.html"><abbr title="src/Command/AbstractCommand.php">AbstractCommand.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">101</span>
+    <span class="phpdocumentor-element-found-in__line">106</span>
 
     </aside>
 
@@ -793,7 +847,7 @@ It supports displaying content from specified directories and can filter files b
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Command/AbstractCommand.php"><a href="files/src-command-abstractcommand.html"><abbr title="src/Command/AbstractCommand.php">AbstractCommand.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">304</span>
+    <span class="phpdocumentor-element-found-in__line">307</span>
 
     </aside>
 
@@ -856,7 +910,7 @@ It supports displaying content from specified directories and can filter files b
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Command/AbstractCommand.php"><a href="files/src-command-abstractcommand.html"><abbr title="src/Command/AbstractCommand.php">AbstractCommand.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">322</span>
+    <span class="phpdocumentor-element-found-in__line">325</span>
 
     </aside>
 
@@ -895,7 +949,7 @@ It supports displaying content from specified directories and can filter files b
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Command/ShowContent.php"><a href="files/src-command-showcontent.html"><abbr title="src/Command/ShowContent.php">ShowContent.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">40</span>
+    <span class="phpdocumentor-element-found-in__line">39</span>
 
     </aside>
 
@@ -930,7 +984,7 @@ It supports displaying content from specified directories and can filter files b
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Command/ShowContent.php"><a href="files/src-command-showcontent.html"><abbr title="src/Command/ShowContent.php">ShowContent.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">68</span>
+    <span class="phpdocumentor-element-found-in__line">67</span>
 
     </aside>
 
@@ -1000,7 +1054,7 @@ It supports displaying content from specified directories and can filter files b
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Command/AbstractCommand.php"><a href="files/src-command-abstractcommand.html"><abbr title="src/Command/AbstractCommand.php">AbstractCommand.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">208</span>
+    <span class="phpdocumentor-element-found-in__line">211</span>
 
     </aside>
 
@@ -1063,7 +1117,7 @@ It supports displaying content from specified directories and can filter files b
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Command/AbstractCommand.php"><a href="files/src-command-abstractcommand.html"><abbr title="src/Command/AbstractCommand.php">AbstractCommand.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">198</span>
+    <span class="phpdocumentor-element-found-in__line">201</span>
 
     </aside>
 
@@ -1102,7 +1156,7 @@ It supports displaying content from specified directories and can filter files b
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Command/AbstractCommand.php"><a href="files/src-command-abstractcommand.html"><abbr title="src/Command/AbstractCommand.php">AbstractCommand.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">168</span>
+    <span class="phpdocumentor-element-found-in__line">173</span>
 
     </aside>
 
@@ -1151,7 +1205,7 @@ It supports displaying content from specified directories and can filter files b
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Command/AbstractCommand.php"><a href="files/src-command-abstractcommand.html"><abbr title="src/Command/AbstractCommand.php">AbstractCommand.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">70</span>
+    <span class="phpdocumentor-element-found-in__line">72</span>
 
     </aside>
 
@@ -1203,7 +1257,7 @@ It supports displaying content from specified directories and can filter files b
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Command/AbstractCommand.php"><a href="files/src-command-abstractcommand.html"><abbr title="src/Command/AbstractCommand.php">AbstractCommand.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">258</span>
+    <span class="phpdocumentor-element-found-in__line">261</span>
 
     </aside>
 
@@ -1259,7 +1313,7 @@ It supports displaying content from specified directories and can filter files b
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Command/AbstractCommand.php"><a href="files/src-command-abstractcommand.html"><abbr title="src/Command/AbstractCommand.php">AbstractCommand.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">237</span>
+    <span class="phpdocumentor-element-found-in__line">240</span>
 
     </aside>
 
@@ -1308,7 +1362,7 @@ It supports displaying content from specified directories and can filter files b
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Command/AbstractCommand.php"><a href="files/src-command-abstractcommand.html"><abbr title="src/Command/AbstractCommand.php">AbstractCommand.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">278</span>
+    <span class="phpdocumentor-element-found-in__line">281</span>
 
     </aside>
 
@@ -1366,23 +1420,23 @@ It supports displaying content from specified directories and can filter files b
             -private
                                                         "
 >
-    <h4 class="phpdocumentor-element__name" id="method_getFilesTree">
-        getFilesTree()
-        <a href="classes/Cecil-Command-ShowContent.html#method_getFilesTree" class="headerlink"><i class="fas fa-link"></i></a>
+    <h4 class="phpdocumentor-element__name" id="method_buildSubdirectoryStructure">
+        buildSubdirectoryStructure()
+        <a href="classes/Cecil-Command-ShowContent.html#method_buildSubdirectoryStructure" class="headerlink"><i class="fas fa-link"></i></a>
 
     </h4>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Command/ShowContent.php"><a href="files/src-command-showcontent.html"><abbr title="src/Command/ShowContent.php">ShowContent.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">116</span>
+    <span class="phpdocumentor-element-found-in__line">147</span>
 
     </aside>
 
-        <p class="phpdocumentor-summary">Returns a console displayable tree of files.</p>
+        <p class="phpdocumentor-summary">Build subdirectory tree structure recursively.</p>
 
     <code class="phpdocumentor-code phpdocumentor-signature ">
     <span class="phpdocumentor-signature__visibility">private</span>
-                    <span class="phpdocumentor-signature__name">getFilesTree</span><span>(</span><span class="phpdocumentor-signature__argument"><span class="phpdocumentor-signature__argument__type">string&nbsp;</span><span class="phpdocumentor-signature__argument__name">$contentType</span></span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type"><a href="classes/Cecil-Command-ShowContent-FilenameRecursiveTreeIterator.html"><abbr title="\Cecil\Command\ShowContent\FilenameRecursiveTreeIterator">FilenameRecursiveTreeIterator</abbr></a></span></code>
+                    <span class="phpdocumentor-signature__name">buildSubdirectoryStructure</span><span>(</span><span class="phpdocumentor-signature__argument"><span class="phpdocumentor-signature__argument__type">string&nbsp;</span><span class="phpdocumentor-signature__argument__name">$path</span></span><span class="phpdocumentor-signature__argument"><span>, </span><span class="phpdocumentor-signature__argument__type">array&lt;string|int, mixed&gt;&nbsp;</span><span class="phpdocumentor-signature__argument__name">$allowedExtensions</span></span><span class="phpdocumentor-signature__argument"><span>, </span><span class="phpdocumentor-signature__argument__type">array&lt;string|int, mixed&gt;&nbsp;</span><span class="phpdocumentor-signature__argument__name">$excludedDirs</span></span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">array&lt;string, mixed&gt;</span></code>
 
     <div class="phpdocumentor-label-line">
         </div>
@@ -1391,8 +1445,22 @@ It supports displaying content from specified directories and can filter files b
         <h5 class="phpdocumentor-argument-list__heading">Parameters</h5>
     <dl class="phpdocumentor-argument-list">
                     <dt class="phpdocumentor-argument-list__entry">
-                <span class="phpdocumentor-argument-list__argument__name">$contentType</span>
+                <span class="phpdocumentor-argument-list__argument__name">$path</span>
                 : <span class="phpdocumentor-argument-list__argument__type">string</span>
+                            </dt>
+            <dd class="phpdocumentor-argument-list__definition">
+                
+            </dd>
+                    <dt class="phpdocumentor-argument-list__entry">
+                <span class="phpdocumentor-argument-list__argument__name">$allowedExtensions</span>
+                : <span class="phpdocumentor-argument-list__argument__type">array&lt;string|int, mixed&gt;</span>
+                            </dt>
+            <dd class="phpdocumentor-argument-list__definition">
+                
+            </dd>
+                    <dt class="phpdocumentor-argument-list__entry">
+                <span class="phpdocumentor-argument-list__argument__name">$excludedDirs</span>
+                : <span class="phpdocumentor-argument-list__argument__type">array&lt;string|int, mixed&gt;</span>
                             </dt>
             <dd class="phpdocumentor-argument-list__definition">
                 
@@ -1400,9 +1468,65 @@ It supports displaying content from specified directories and can filter files b
             </dl>
 
     
-    <h5 class="phpdocumentor-tag-list__heading" id="method_getFilesTree_tags">
+
+        
+    
+            <section>
+        <h5 class="phpdocumentor-return-value__heading">Return values</h5>
+        <span class="phpdocumentor-signature__response_type">array&lt;string, mixed&gt;</span>
+            </section>
+
+</article>
+                    <article
+        class="phpdocumentor-element
+            -method
+            -private
+                                                        "
+>
+    <h4 class="phpdocumentor-element__name" id="method_buildTreeStructure">
+        buildTreeStructure()
+        <a href="classes/Cecil-Command-ShowContent.html#method_buildTreeStructure" class="headerlink"><i class="fas fa-link"></i></a>
+
+    </h4>
+    <aside class="phpdocumentor-element-found-in">
+    <abbr class="phpdocumentor-element-found-in__file" title="src/Command/ShowContent.php"><a href="files/src-command-showcontent.html"><abbr title="src/Command/ShowContent.php">ShowContent.php</abbr></a></abbr>
+    :
+    <span class="phpdocumentor-element-found-in__line">114</span>
+
+    </aside>
+
+        <p class="phpdocumentor-summary">Build a tree structure (array) from the directory, filtering by file extensions.</p>
+
+    <code class="phpdocumentor-code phpdocumentor-signature ">
+    <span class="phpdocumentor-signature__visibility">private</span>
+                    <span class="phpdocumentor-signature__name">buildTreeStructure</span><span>(</span><span class="phpdocumentor-signature__argument"><span class="phpdocumentor-signature__argument__type">string&nbsp;</span><span class="phpdocumentor-signature__argument__name">$path</span></span><span class="phpdocumentor-signature__argument"><span>, </span><span class="phpdocumentor-signature__argument__type">array&lt;string|int, mixed&gt;&nbsp;</span><span class="phpdocumentor-signature__argument__name">$allowedExtensions</span></span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">array&lt;string, mixed&gt;</span></code>
+
+    <div class="phpdocumentor-label-line">
+        </div>
+    
+    
+        <h5 class="phpdocumentor-argument-list__heading">Parameters</h5>
+    <dl class="phpdocumentor-argument-list">
+                    <dt class="phpdocumentor-argument-list__entry">
+                <span class="phpdocumentor-argument-list__argument__name">$path</span>
+                : <span class="phpdocumentor-argument-list__argument__type">string</span>
+                            </dt>
+            <dd class="phpdocumentor-argument-list__definition">
+                
+            </dd>
+                    <dt class="phpdocumentor-argument-list__entry">
+                <span class="phpdocumentor-argument-list__argument__name">$allowedExtensions</span>
+                : <span class="phpdocumentor-argument-list__argument__type">array&lt;string|int, mixed&gt;</span>
+                            </dt>
+            <dd class="phpdocumentor-argument-list__definition">
+                
+            </dd>
+            </dl>
+
+    
+    <h5 class="phpdocumentor-tag-list__heading" id="method_buildTreeStructure_tags">
         Tags
-        <a href="classes/Cecil-Command-ShowContent.html#method_getFilesTree_tags" class="headerlink"><i class="fas fa-link"></i></a>
+        <a href="classes/Cecil-Command-ShowContent.html#method_buildTreeStructure_tags" class="headerlink"><i class="fas fa-link"></i></a>
 
     </h5>
     <dl class="phpdocumentor-tag-list">
@@ -1419,7 +1543,56 @@ It supports displaying content from specified directories and can filter files b
     
             <section>
         <h5 class="phpdocumentor-return-value__heading">Return values</h5>
-        <span class="phpdocumentor-signature__response_type"><a href="classes/Cecil-Command-ShowContent-FilenameRecursiveTreeIterator.html"><abbr title="\Cecil\Command\ShowContent\FilenameRecursiveTreeIterator">FilenameRecursiveTreeIterator</abbr></a></span>
+        <span class="phpdocumentor-signature__response_type">array&lt;string, mixed&gt;</span>
+            </section>
+
+</article>
+                    <article
+        class="phpdocumentor-element
+            -method
+            -private
+                                                        "
+>
+    <h4 class="phpdocumentor-element__name" id="method_getSortedItems">
+        getSortedItems()
+        <a href="classes/Cecil-Command-ShowContent.html#method_getSortedItems" class="headerlink"><i class="fas fa-link"></i></a>
+
+    </h4>
+    <aside class="phpdocumentor-element-found-in">
+    <abbr class="phpdocumentor-element-found-in__file" title="src/Command/ShowContent.php"><a href="files/src-command-showcontent.html"><abbr title="src/Command/ShowContent.php">ShowContent.php</abbr></a></abbr>
+    :
+    <span class="phpdocumentor-element-found-in__line">173</span>
+
+    </aside>
+
+        <p class="phpdocumentor-summary">Get sorted items (files first, then directories) from a directory.</p>
+
+    <code class="phpdocumentor-code phpdocumentor-signature ">
+    <span class="phpdocumentor-signature__visibility">private</span>
+                    <span class="phpdocumentor-signature__name">getSortedItems</span><span>(</span><span class="phpdocumentor-signature__argument"><span class="phpdocumentor-signature__argument__type">string&nbsp;</span><span class="phpdocumentor-signature__argument__name">$path</span></span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">array&lt;int, <abbr title="\SplFileInfo">SplFileInfo</abbr>&gt;</span></code>
+
+    <div class="phpdocumentor-label-line">
+        </div>
+    
+    
+        <h5 class="phpdocumentor-argument-list__heading">Parameters</h5>
+    <dl class="phpdocumentor-argument-list">
+                    <dt class="phpdocumentor-argument-list__entry">
+                <span class="phpdocumentor-argument-list__argument__name">$path</span>
+                : <span class="phpdocumentor-argument-list__argument__type">string</span>
+                            </dt>
+            <dd class="phpdocumentor-argument-list__definition">
+                
+            </dd>
+            </dl>
+
+    
+
+        
+    
+            <section>
+        <h5 class="phpdocumentor-return-value__heading">Return values</h5>
+        <span class="phpdocumentor-signature__response_type">array&lt;int, <abbr title="\SplFileInfo">SplFileInfo</abbr>&gt;</span>
             </section>
 
 </article>
@@ -1447,6 +1620,7 @@ It supports displaying content from specified directories and can filter files b
                     <ul class="phpdocumentor-list -clean">
                                                     <li class=""><a href="classes/Cecil-Command-AbstractCommand.html#constant_CONFIG_FILE">CONFIG_FILE</a></li>
                                                     <li class=""><a href="classes/Cecil-Command-AbstractCommand.html#constant_EXCLUDED_CMD">EXCLUDED_CMD</a></li>
+                                                    <li class=""><a href="classes/Cecil-Command-AbstractCommand.html#constant_PID_FILE">PID_FILE</a></li>
                                                     <li class=""><a href="classes/Cecil-Command-AbstractCommand.html#constant_SERVE_OUTPUT">SERVE_OUTPUT</a></li>
                                             </ul>
                 </li>
@@ -1478,7 +1652,9 @@ It supports displaying content from specified directories and can filter files b
                                             <li class=""><a href="classes/Cecil-Command-AbstractCommand.html#method_locateAdditionalConfigFiles">locateAdditionalConfigFiles()</a></li>
                                             <li class=""><a href="classes/Cecil-Command-AbstractCommand.html#method_locateConfigFile">locateConfigFile()</a></li>
                                             <li class=""><a href="classes/Cecil-Command-AbstractCommand.html#method_openEditor">openEditor()</a></li>
-                                            <li class=""><a href="classes/Cecil-Command-ShowContent.html#method_getFilesTree">getFilesTree()</a></li>
+                                            <li class=""><a href="classes/Cecil-Command-ShowContent.html#method_buildSubdirectoryStructure">buildSubdirectoryStructure()</a></li>
+                                            <li class=""><a href="classes/Cecil-Command-ShowContent.html#method_buildTreeStructure">buildTreeStructure()</a></li>
+                                            <li class=""><a href="classes/Cecil-Command-ShowContent.html#method_getSortedItems">getSortedItems()</a></li>
                                     </ul>
             </li>
                     </ul>

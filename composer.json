@@ -40,7 +40,7 @@
     "psr/simple-cache": "^3.0",
     "scrivo/highlight.php": "^9.18",
     "scssphp/scssphp": "^2.1",
-    "spatie/image-optimizer": "^1.8",
+    "spatie/image-optimizer": "^1.9",
     "symfony/config": "^7.4",
     "symfony/console": "^7.4",
     "symfony/dom-crawler": "^7.4",
@@ -61,6 +61,7 @@
     "twig/intl-extra": "^3.26",
     "twig/string-extra": "^3.24",
     "twig/twig": "^3.27",
+    "vlucas/phpdotenv": "^5.6",
     "voku/html-min": "^5.0",
     "wapmorgan/mp3info": "^0.1",
     "yosymfony/toml": "^1.0"

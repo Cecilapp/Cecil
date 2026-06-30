@@ -50,18 +50,18 @@ EOF
      */
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
+        $this->io->title('Removing translations cache directory');
         if (!Util\File::getFS()->exists($this->getBuilder()->getConfig()->getCacheTranslationsPath())) {
-            $output->writeln('<info>No translations cache.</info>');
+            $this->io->success('No translations cache.');
 
             return Command::SUCCESS;
         }
-        $output->writeln('Removing translations cache directory...');
         $output->writeln(
             \sprintf('<comment>Path: %s</comment>', $this->getBuilder()->getConfig()->getCacheTranslationsPath()),
             OutputInterface::VERBOSITY_VERBOSE
         );
         Util\File::getFS()->remove($this->getBuilder()->getConfig()->getCacheTranslationsPath());
-        $output->writeln('<info>Translations cache is clear.</info>');
+        $this->io->success('Translations cache cleared.');
 
         return Command::SUCCESS;
     }

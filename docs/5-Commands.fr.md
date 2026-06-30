@@ -2,6 +2,7 @@
 title: Commandes
 description: "Liste des commandes disponibles."
 date: 2026-03-27
+updated: 2026-06-25
 slug: commandes
 -->
 # Commandes
@@ -13,18 +14,28 @@ Available commands:
   about                      Shows a short description about Cecil
   build                      Builds the website
   clear                      Removes all generated files
+  doctor                     Diagnoses the site configuration
   edit                       [open] Open pages directory with the editor
   help                       Display help for a command
-  self-update                [selfupdate] Updates Cecil to the latest version
   serve                      Starts the built-in server
  cache
   cache:clear                Removes all cache files
   cache:clear:assets         Removes assets cache
   cache:clear:templates      Removes templates cache
   cache:clear:translations   Removes translations cache
+ clear
+  clear:output               Removes output directory
+  clear:temporary            [clear:tmp] Removes temporary directory
+ doctor
+  doctor:frontmatter         [doctor:fm] Validates pages front matter syntax
+  doctor:seo                 Audits rendered HTML pages for common SEO issues
  new
   new:page                   Creates a new page
   new:site                   Creates a new website
+ serve
+  serve:background           Starts the built-in server in the background
+  serve:stop                 [stop] Stops the background server
+  serve:log                  Shows combined server and error logs
  show
   show:config                Shows the configuration
   show:content               Shows content as tree
@@ -138,6 +149,145 @@ Deux variables dynamiques sont disponibles :
 
 Avec l’option `--open`, l’éditeur s’ouvrira automatiquement. Utilisez donc la clé `editor` dans votre fichier de configuration pour définir l’éditeur par défaut (par exemple : `editor: typora`).
 
+## serve
+
+Construit et sert le site en local.
+
+:::warning
+Le serveur web est conçu pour faciliter les tests d’un site. Il n’a pas vocation à être un serveur web complet et ne doit pas être utilisé sur un réseau public.
+:::
+
+```plaintext
+Description:
+  Starts the built-in server
+
+Usage:
+  serve [options] [--] [<path>]
+
+Arguments:
+  path                             Use the given path as working directory
+
+Options:
+  -o, --open                       Open web browser automatically
+      --host=HOST                  Server host [default: "localhost"]
+      --port=PORT                  Server port [default: "8000"]
+  -w, --watch|--no-watch           Enable (or disable --no-watch) changes watcher (enabled by default)
+  -i, --incremental                Enable incremental builds (rebuild only changed pages)
+  -d, --drafts                     Include drafts
+      --optimize|--no-optimize     Enable (or disable --no-optimize) optimization of generated files
+  -c, --config=CONFIG              Set the path to extra config files (comma-separated)
+      --clear-cache[=CLEAR-CACHE]  Clear cache before build (optional cache key as regular expression) [default: false]
+  -p, --page=PAGE                  Build a specific page
+      --no-ignore-vcs              Changes watcher must not ignore VCS directories
+  -m, --metrics                    Show build metrics (duration and memory) of each step
+      --timeout=TIMEOUT            Sets the process timeout (max. runtime) in seconds [default: 7200]
+      --notify                     Send desktop notification on server start
+  -b, --background                 Run the server in the background
+  -h, --help                       Display help for the given command. When no command is given display help for the list command
+  -q, --quiet                      Do not output any message
+  -V, --version                    Display this application version
+      --ansi|--no-ansi             Force (or disable --no-ansi) ANSI output
+  -n, --no-interaction             Do not ask any interactive question
+  -v|vv|vvv, --verbose             Increase the verbosity of messages: 1 for normal output, 2 for more verbose output and 3 for debug
+
+Help:
+  The serve command starts the live-reloading-built-in web server.
+
+    cecil.phar serve
+    cecil.phar serve path/to/the/working/directory
+    cecil.phar serve --open
+    cecil.phar serve --drafts
+    cecil.phar serve --no-watch
+
+  To speed up local development you can enable incremental builds with the --incremental option.
+  When content pages change, Cecil rebuilds just those pages.
+  When templates change, Cecil rebuilds only pages using those templates (including Twig dependencies such as extends/include).
+  Any other change (data, config, static or asset file, or file deletion) triggers a full rebuild:
+
+    cecil.phar serve --incremental
+
+  You can use a custom host and port by using the --host and --port options:
+
+    cecil.phar serve --host=127.0.0.1 --port=8080
+
+  To build the website with an extra configuration file, you can use the --config option.
+  This is useful during local development to override some settings without modifying the main configuration:
+
+    cecil.phar serve --config=config/dev.yml
+
+  To start the server with changes watcher not ignoring VCS directories, run:
+
+    cecil.phar serve --no-ignore-vcs
+
+  To define the process timeout (in seconds), run:
+
+    cecil.phar serve --timeout=7200
+
+  To run the server in the background, run:
+
+    cecil.phar serve --background
+    cecil.phar serve -b
+
+  Then stop it with:
+
+    cecil.phar serve:stop
+
+  In background mode, file changes are not watched automatically.
+```
+
+### serve:background
+
+Alias de `serve --background` : démarre le serveur intégré en arrière-plan sans occuper le terminal.
+
+```plaintext
+Description:
+  Starts the built-in server in the background (alias of `serve --background`)
+
+Usage:
+  serve:background [options] [--] [<path>]
+
+Help:
+  The serve:background command starts the built-in web server in the background.
+
+    cecil.phar serve:background
+    cecil.phar serve:background path/to/the/working/directory
+
+  This command is an alias of serve --background.
+
+  Stop the server with:
+
+    cecil.phar serve:stop
+```
+
+### serve:log
+
+Affiche les logs combinés du serveur et des erreurs, triés par date.
+
+```plaintext
+Description:
+  Shows combined server and error logs
+
+Usage:
+  serve:log [options] [--] [<path>]
+
+Arguments:
+  path                  Use the given path as working directory
+
+Options:
+  -l, --lines=LINES     Number of entries to display (default: 25)
+
+Help:
+  The serve:log command displays entries from combined server and error logs, sorted by date.
+
+    cecil.phar serve:log
+    cecil.phar serve:log path/to/the/working/directory
+    cecil.phar serve:log --lines=100
+    cecil.phar serve:log -l 100
+
+  This command shows logs from `.cecil/errors.log` and `.cecil/server.log`.
+  It is useful for debugging issues with your local development server.
+```
+
 ## build
 
 Construit le site.
@@ -164,7 +314,7 @@ Options:
       --render-subset=RENDER-SUBSET  Render a subset of pages
       --show-pages                   Show list of built pages in a table
   -m, --metrics                      Show build metrics (duration and memory) of each step
-      --notif                        Send desktop notification on build completion
+      --notify                       Send desktop notification on build completion
   -h, --help                         Display help for the given command. When no command is given display help for the list command
   -q, --quiet                        Do not output any message
   -V, --version                      Display this application version
@@ -201,68 +351,114 @@ Help:
     cecil.phar build --metrics
 ```
 
-## serve
+## doctor
 
-Construit et sert le site en local.
-
-:::warning
-Le serveur web est conçu pour faciliter les tests d’un site. Il n’a pas vocation à être un serveur web complet et ne doit pas être utilisé sur un réseau public.
-:::
+Diagnostique le site courant et l'environnement Cecil.
 
 ```plaintext
 Description:
-  Starts the built-in server
+  Diagnoses the site configuration
 
 Usage:
-  serve [options] [--] [<path>]
+  doctor [options] [--] [<path>]
 
 Arguments:
-  path                             Use the given path as working directory
+  path                       Use the given path as working directory
 
 Options:
-  -o, --open                       Open web browser automatically
-      --host=HOST                  Server host [default: "localhost"]
-      --port=PORT                  Server port [default: "8000"]
-  -w, --watch|--no-watch           Enable (or disable --no-watch) changes watcher (enabled by default)
-  -d, --drafts                     Include drafts
-      --optimize|--no-optimize     Enable (or disable --no-optimize) optimization of generated files
-  -c, --config=CONFIG              Set the path to extra config files (comma-separated)
-      --clear-cache[=CLEAR-CACHE]  Clear cache before build (optional cache key as regular expression) [default: false]
-  -p, --page=PAGE                  Build a specific page
-      --no-ignore-vcs              Changes watcher must not ignore VCS directories
-  -m, --metrics                    Show build metrics (duration and memory) of each step
-      --timeout=TIMEOUT            Sets the process timeout (max. runtime) in seconds [default: 7200]
-      --notif                      Send desktop notification on server start
-  -h, --help                       Display help for the given command. When no command is given display help for the list command
-  -q, --quiet                      Do not output any message
-  -V, --version                    Display this application version
-      --ansi|--no-ansi             Force (or disable --no-ansi) ANSI output
-  -n, --no-interaction             Do not ask any interactive question
-  -v|vv|vvv, --verbose             Increase the verbosity of messages: 1 for normal output, 2 for more verbose output and 3 for debug
+  -c, --config=CONFIG        Set the path to an extra configuration file
+  -h, --help                 Display help for the given command. When no command is given display help for the list command
+  -q, --quiet                Do not output any message
+  -V, --version              Display this application version
+      --ansi|--no-ansi       Force (or disable --no-ansi) ANSI output
+  -n, --no-interaction       Do not ask any interactive question
+  -v|vv|vvv, --verbose       Increase the verbosity of messages: 1 for normal output, 2 for more verbose output and 3 for debug
 
 Help:
-  The serve command starts the live-reloading-built-in web server.
+  The doctor command diagnoses the current site and Cecil environment.
 
-    cecil.phar serve
-    cecil.phar serve path/to/the/working/directory
-    cecil.phar serve --open
-    cecil.phar serve --drafts
-    cecil.phar serve --no-watch
+    cecil.phar doctor
+    cecil.phar doctor path/to/the/working/directory
 
-  You can use a custom host and port by using the --host and --port options:
+  To inspect a site with an extra configuration file, run:
 
-    cecil.phar serve --host=127.0.0.1 --port=8080
+    cecil.phar doctor --config=config.yml
+```
 
-  To build the website with an extra configuration file, you can use the --config option.
-  This is useful during local development to override some settings without modifying the main configuration:
+### doctor:frontmatter
 
-    cecil.phar serve --config=config/dev.yml
+Valide la syntaxe du front matter des pages.
 
-  To start the server with changes watcher not ignoring VCS directories, run:
+```plaintext
+Description:
+  Validates pages front matter syntax
 
-    cecil.phar serve --no-ignore-vcs
+Usage:
+  doctor:frontmatter|doctor:fm [options] [--] [<path>]
 
-  To define the process timeout (in seconds), run:
+Arguments:
+  path                  Use the given path as working directory
 
-    cecil.phar serve --timeout=7200
+Options:
+  -c, --config=CONFIG   Set the path to an extra configuration file
+  -p, --page=PAGE       Validate a single page relative to the pages directory
+      --ansi|--no-ansi  Force (or disable --no-ansi) ANSI output
+  -n, --no-interaction  Do not ask any interactive question
+  -h, --help            Display help for the given command. When no command is given display help for the list command
+  -q, --quiet           Do not output any message
+  -V, --version         Display this application version
+  -v|vv|vvv             Increase the verbosity of messages: 1 for normal output, 2 for more verbose output and 3 for debug
+```
+
+### doctor:seo
+
+Audite les pages HTML rendues pour détecter les problèmes SEO courants.
+
+```plaintext
+Description:
+  Audits rendered HTML pages for common SEO issues
+
+Usage:
+  doctor:seo [options] [--] [<path>]
+
+Arguments:
+  path                  Use the given path as working directory
+
+Options:
+  -c, --config=CONFIG   Set the path to an extra configuration file
+  -p, --page=PAGE       Audit a single page relative to the pages directory
+      --format=FORMAT   Output format: text (default) or json
+      --feedback        Include findings with feedback level
+      --include-virtual Include virtual pages (paginated, taxonomies) in audit
+```
+
+La commande construit le site en mode dry-run, puis audite le HTML rendu avec un jeu de contrôles ciblés : balise title, meta description, URL canonique, structure des titres, balises Open Graph, attributs alt des images et longueur estimée du contenu.
+
+Par défaut, les pages virtuelles (paginées, pages de taxonomie) sont exclues de l'audit. Utilisez `--include-virtual` pour les inclure.
+
+Par défaut, les findings de niveau `feedback` ne sont pas listés.
+
+Utilisez `--feedback` pour inclure les findings de niveau `feedback` en plus des autres findings.
+
+Exportez les résultats en JSON pour l'intégration CI en utilisant `--format=json`.
+
+#### Configuration
+
+Personnalisez les seuils d'audit et les contrôles activés dans votre fichier de configuration :
+
+```yaml
+doctor:
+  seo:
+    title: { min: 30, max: 60 }
+    description: { min: 120, max: 160 }
+    content: { min_words: 300 }
+    checks:
+      title: true
+      description: true
+      canonical: true
+      h1: true
+      og_tags: true
+      img_alt: true
+      content_length: true
+      lang_attribute: true
 ```

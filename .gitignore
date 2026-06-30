@@ -7,8 +7,9 @@ phpdoc
 .php-cs-fixer.cache
 .phpmd.result-cache.php
 .phpunit.result.cache
-
 # If you run Cecil here
 _site/
 .cache/
 .cecil/
+# Environment variables
+.env

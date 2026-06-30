@@ -2,14 +2,268 @@
 
 All notable changes to this project will be documented in this file. Dates are displayed in UTC.
 
-#### [8.99.0-beta.1](https://github.com/Cecilapp/Cecil/compare/8.98.0...8.99.0-beta.1)
+#### [8.112.1](https://github.com/Cecilapp/Cecil/compare/8.112.0...8.112.1)
 
-> 30 May 2026
+> 26 June 2026
 
+- refactor: bump image-optimizer, add error logging [`6d6e1b6`](https://github.com/Cecilapp/Cecil/commit/6d6e1b6495efb7d221ad54dd66c65d98f21b4b7f)
+- chore: update composer.lock [`2842af0`](https://github.com/Cecilapp/Cecil/commit/2842af0b74022c28740b59ca3d3823e372881cd4)
+
+#### [8.112.0](https://github.com/Cecilapp/Cecil/compare/8.111.2...8.112.0)
+
+> 25 June 2026
+
+- feat: add serve:background and serve:log commands [`#2424`](https://github.com/Cecilapp/Cecil/pull/2424)
+
+#### [8.111.2](https://github.com/Cecilapp/Cecil/compare/8.111.1...8.111.2)
+
+> 23 June 2026
+
+- chore: update deps [`0044096`](https://github.com/Cecilapp/Cecil/commit/004409600a24b31ec64fcaeb40daaeb34b840b87)
+- fix: adjust OpenGraph image resize height to 628 [`0d00f6c`](https://github.com/Cecilapp/Cecil/commit/0d00f6c7d7c489bc6e3622f71d2e20c361512849)
+
+#### [8.111.1](https://github.com/Cecilapp/Cecil/compare/8.111.0...8.111.1)
+
+> 23 June 2026
+
+- chore(deps-dev): bump friendsofphp/php-cs-fixer from 3.95.8 to 3.95.9 [`#2421`](https://github.com/Cecilapp/Cecil/pull/2421)
+- chore: update deps [`e4c9463`](https://github.com/Cecilapp/Cecil/commit/e4c9463ade031a0fd74d4083af90504709b849f8)
+- style: change app header [`d0cc045`](https://github.com/Cecilapp/Cecil/commit/d0cc0454bf422a22f3575285e13f375526f64aa6)
+- fix: remove Parsedown caching in Converter [`1f6243b`](https://github.com/Cecilapp/Cecil/commit/1f6243b9847c99c4ac2638e1e25d45cafe8ba174)
+- dos: minor update [`d268863`](https://github.com/Cecilapp/Cecil/commit/d268863351d923e350ed922b3adbcbe03742abe1)
+- docs: minor fix [`171fc48`](https://github.com/Cecilapp/Cecil/commit/171fc48e583d7e48819163768d8a0c4383cd1fec)
+
+#### [8.111.0](https://github.com/Cecilapp/Cecil/compare/8.110.0...8.111.0)
+
+> 19 June 2026
+
+- feat: add incremental build option to serve [`#2420`](https://github.com/Cecilapp/Cecil/pull/2420)
+- docs: add starter kits to Quick Start [`ec66601`](https://github.com/Cecilapp/Cecil/commit/ec6660169a6372a53e180acbaf145cde8baeb609)
+- docs: link starter kits [`8721a8e`](https://github.com/Cecilapp/Cecil/commit/8721a8e7993c601e8ca2107bf8038189435cbed5)
+- ci: update checkout action to fetch full history [`82271db`](https://github.com/Cecilapp/Cecil/commit/82271db75ae720cdb5da75a73f948e39c06152fa)
+
+#### [8.110.0](https://github.com/Cecilapp/Cecil/compare/8.109.0...8.110.0)
+
+> 17 June 2026
+
+- perf: record layout cache stats and display metrics [`#2419`](https://github.com/Cecilapp/Cecil/pull/2419)
+
+#### [8.109.0](https://github.com/Cecilapp/Cecil/compare/8.108.3...8.109.0)
+
+> 17 June 2026
+
+- perf: cache Parsedown/highlighter/image processing and add asset dedup metrics [`#2418`](https://github.com/Cecilapp/Cecil/pull/2418)
+- docs: update deployment docs and CI workflow versions [`ca7f475`](https://github.com/Cecilapp/Cecil/commit/ca7f4751c01249c90e544dc39e13a3f1c651fb01)
+- ci: clean up workflows and remove fetch-depth [`3b46a2c`](https://github.com/Cecilapp/Cecil/commit/3b46a2c1a084d5214a55d24a658294e2b37305be)
+
+#### [8.108.3](https://github.com/Cecilapp/Cecil/compare/8.108.2...8.108.3)
+
+> 16 June 2026
+
+- refactor: ShowContent to use TreeHelper [`9b61b00`](https://github.com/Cecilapp/Cecil/commit/9b61b00f2c4fa864686de8c701b6b7ea0e36497f)
+
+#### [8.108.2](https://github.com/Cecilapp/Cecil/compare/8.108.1...8.108.2)
+
+> 16 June 2026
+
+- fix: sorts show:content command results [`157ccaa`](https://github.com/Cecilapp/Cecil/commit/157ccaa0f05b52c53561167ac094fa46357c7961)
+
+#### [8.108.1](https://github.com/Cecilapp/Cecil/compare/8.108.0...8.108.1)
+
+> 16 June 2026
+
+- docs: add DoctorFrontmatter docs and update API docs [`2c1e46d`](https://github.com/Cecilapp/Cecil/commit/2c1e46d0170efa85ee3ee46c128f31e41a39569f)
+- fix: conditionally include feedback row in summary [`f438673`](https://github.com/Cecilapp/Cecil/commit/f438673b6dba8f52db53b77383f864813823b8cf)
+- chore: update deps [`2e1a117`](https://github.com/Cecilapp/Cecil/commit/2e1a1172ceb229b051995a5ffb0c9b326b089a36)
+- ci: add token input to gh-release workflow [`a880fc2`](https://github.com/Cecilapp/Cecil/commit/a880fc21f901789b3149c57815f2f7ec9a5463d9)
+- docs: add @param string $level to DoctorSeo docblock [`5657a29`](https://github.com/Cecilapp/Cecil/commit/5657a29112d30548db75e5b64e0bb5a5421ed640)
+- Add phpdoc instruction for src API updates [`a6ee20f`](https://github.com/Cecilapp/Cecil/commit/a6ee20f66fc9b2b1f9b2c4584867d0f8aa744c12)
+
+#### [8.108.0](https://github.com/Cecilapp/Cecil/compare/8.107.3...8.108.0)
+
+> 15 June 2026
+
+- feat: add --feedback option to doctor:seo command [`dc6924e`](https://github.com/Cecilapp/Cecil/commit/dc6924e360df6060ab88770f93bf2e698bd5eb6b)
+
+#### [8.107.3](https://github.com/Cecilapp/Cecil/compare/8.107.2...8.107.3)
+
+> 15 June 2026
+
+- docs: minor changes [`1359600`](https://github.com/Cecilapp/Cecil/commit/13596001f0210a835f6b63969e689fc5830bc956)
+- refactor: truncate long page labels in SEO command [`266361a`](https://github.com/Cecilapp/Cecil/commit/266361a32cb0888309c6d70aba246d4067b79f8a)
+
+#### [8.107.2](https://github.com/Cecilapp/Cecil/compare/8.107.1...8.107.2)
+
+> 15 June 2026
+
+- fix: require delimiters on own line in Parser regex [`e5a0d33`](https://github.com/Cecilapp/Cecil/commit/e5a0d33f0e21f0d643e6b59f02a493bec111f8af)
+
+#### [8.107.1](https://github.com/Cecilapp/Cecil/compare/8.107.0...8.107.1)
+
+> 15 June 2026
+
+- docs: group commands [`340bf4b`](https://github.com/Cecilapp/Cecil/commit/340bf4b3aec81dd13cc6d3c9b0d1d08d68dac867)
+- fix: wrap frontmatter details to limit width [`307d8d3`](https://github.com/Cecilapp/Cecil/commit/307d8d321879879f84fc0861ab60133dbf8530e1)
+
+#### [8.107.0](https://github.com/Cecilapp/Cecil/compare/8.106.6...8.107.0)
+
+> 15 June 2026
+
+- feat: add doctor:frontmatter command [`#2417`](https://github.com/Cecilapp/Cecil/pull/2417)
+- Enhance Cecil docs: templates, i18n, pagination [`51859d3`](https://github.com/Cecilapp/Cecil/commit/51859d33f2083b76ed6486bb68edeb498a8b697d)
+- chore: rename command to clear:temporary and add alias [`aa0a824`](https://github.com/Cecilapp/Cecil/commit/aa0a824133284f90eca7f3fa6c068c0660fde172)
+
+#### [8.106.6](https://github.com/Cecilapp/Cecil/compare/8.106.5...8.106.6)
+
+> 15 June 2026
+
+- fix: default-language page for x-default alternate [`91e7436`](https://github.com/Cecilapp/Cecil/commit/91e743666df58fcbad2a7c084c0091624b55f858)
+
+#### [8.106.5](https://github.com/Cecilapp/Cecil/compare/8.106.4...8.106.5)
+
+> 14 June 2026
+
+- docs: update API docs [`3b1d2cf`](https://github.com/Cecilapp/Cecil/commit/3b1d2cfe1410761761edb57407bc41f951b33e4c)
+- refactor: load PHP requirements from composer.json [`5df9d7d`](https://github.com/Cecilapp/Cecil/commit/5df9d7d4df1d5217ceeae92897392a07367e19cb)
+- fix: adjust PHAR composer path and Box config [`9e0fce5`](https://github.com/Cecilapp/Cecil/commit/9e0fce5b277ec487d761a961edca8f9cc98164aa)
+- docs: minor fix [`b1c57c1`](https://github.com/Cecilapp/Cecil/commit/b1c57c1b082794e99d110631a44a0d39136b9c3f)
+
+#### [8.106.4](https://github.com/Cecilapp/Cecil/compare/8.106.3...8.106.4)
+
+> 13 June 2026
+
+- Apply fixes from StyleCI [`#2415`](https://github.com/Cecilapp/Cecil/pull/2415)
+- style: use CecilStyle console helper [`cb48a29`](https://github.com/Cecilapp/Cecil/commit/cb48a29a73d5e6097e3fbe5f02718f5220978b8a)
+- chore: update French translations metadata [`ff5c8ff`](https://github.com/Cecilapp/Cecil/commit/ff5c8ff3c380f12642d4c899c090e60e645fc43c)
+- chore: cleaning code [`fe4f898`](https://github.com/Cecilapp/Cecil/commit/fe4f89843de8559e836f191facfee722dda75a5e)
+
+#### [8.106.3](https://github.com/Cecilapp/Cecil/compare/8.106.2...8.106.3)
+
+> 13 June 2026
+
+- refactor: add Doctor services and refactor commands [`#2414`](https://github.com/Cecilapp/Cecil/pull/2414)
+- refactor: add clear:output and clear:tmp commands [`#2413`](https://github.com/Cecilapp/Cecil/pull/2413)
+- chore: cleaning files [`79da630`](https://github.com/Cecilapp/Cecil/commit/79da6308468a7a3d30bd998b9f3cc009246f8ba0)
+- chore: update deps [`d34825a`](https://github.com/Cecilapp/Cecil/commit/d34825a4814475de69359eeba9e056fb30ae630d)
+- refactor: path resolution and realpath usage [`8efa004`](https://github.com/Cecilapp/Cecil/commit/8efa004f24353c6b6a99fb9475a137c780b50098)
+- fix: path argument in site existence check [`ef130d9`](https://github.com/Cecilapp/Cecil/commit/ef130d9fbb999edb4e58c56442b99b279e2ff358)
+- fix: remove title output from Clear command [`0c84088`](https://github.com/Cecilapp/Cecil/commit/0c8408820cccb82948408549027aa13e1081d063)
+
+#### [8.106.2](https://github.com/Cecilapp/Cecil/compare/8.106.1...8.106.2)
+
+> 13 June 2026
+
+- refactor: use SymfonyStyle titles and success messages [`#2412`](https://github.com/Cecilapp/Cecil/pull/2412)
+- test: add CLI 'about' integration test [`eed39cd`](https://github.com/Cecilapp/Cecil/commit/eed39cd6f2c0559ff10430f6b79d8dd22f4ed39a)
+
+#### [8.106.1](https://github.com/Cecilapp/Cecil/compare/8.106.0...8.106.1)
+
+> 13 June 2026
+
+- doc: document loading of .env at startup [`a635e10`](https://github.com/Cecilapp/Cecil/commit/a635e10956e5930892522213504067a148710013)
+- test: remove debug echo output from CLI tests [`5293525`](https://github.com/Cecilapp/Cecil/commit/5293525b9731f9a146177119aa112c94c534e78a)
+- fix: check for 'path' argument before access [`75ceae4`](https://github.com/Cecilapp/Cecil/commit/75ceae46199e968c2acd4eb7f5dc84bdeb313b9d)
+
+#### [8.106.0](https://github.com/Cecilapp/Cecil/compare/8.105.0...8.106.0)
+
+> 13 June 2026
+
+- feat: add dotenv support and load .env [`#2411`](https://github.com/Cecilapp/Cecil/pull/2411)
+
+#### [8.105.0](https://github.com/Cecilapp/Cecil/compare/8.104.2...8.105.0)
+
+> 13 June 2026
+
+- feat: add doctor:seo command with docs and tests [`#2408`](https://github.com/Cecilapp/Cecil/pull/2408)
+
+#### [8.104.2](https://github.com/Cecilapp/Cecil/compare/8.104.1...8.104.2)
+
+> 12 June 2026
+
+- refactor: rename stop command to serve:stop [`#2409`](https://github.com/Cecilapp/Cecil/pull/2409)
+- chore(deps-dev): bump friendsofphp/php-cs-fixer from 3.95.4 to 3.95.5 [`#2407`](https://github.com/Cecilapp/Cecil/pull/2407)
+- docs: add doctor command and reorganize commands [`943bd25`](https://github.com/Cecilapp/Cecil/commit/943bd25f757c2fa66c94f76b29cad9989d1bd576)
+- docs: tweak metatags section and bump date [`b123b1a`](https://github.com/Cecilapp/Cecil/commit/b123b1a445733aec110b727cd0c068f3d97687bc)
+- Remove pages.prefix.separator from config docs [`924a223`](https://github.com/Cecilapp/Cecil/commit/924a2239e1ff863b4a86bab0ae1aa39ba713d59b)
+- Add workflow_dispatch trigger to changelog workflow [`41eb9ca`](https://github.com/Cecilapp/Cecil/commit/41eb9ca389a91b0930cdaeec8994e8ebb10d3a46)
+
+#### [8.104.1](https://github.com/Cecilapp/Cecil/compare/8.104.0...8.104.1)
+
+> 9 June 2026
+
+- doc: add English architecture doc; update French doc [`fa1c352`](https://github.com/Cecilapp/Cecil/commit/fa1c3522bdc3c446d263fdde3802f1d1b3acd0ef)
+- doc: document 'stop' command and background option [`228ca49`](https://github.com/Cecilapp/Cecil/commit/228ca49dc5208b4fce9cb1038aef68c2a25495ed)
+- test: refactor CLI tests logging and names [`3c504fe`](https://github.com/Cecilapp/Cecil/commit/3c504fe9327653ed8fe6ecb46ecc57b78f316502)
+- chore: update deps [`72ac2c3`](https://github.com/Cecilapp/Cecil/commit/72ac2c37e8cda4d493f0f30171ae819b1de35f98)
+- refactor: remove log file redirection from detached server start [`fa2ea99`](https://github.com/Cecilapp/Cecil/commit/fa2ea99ab6071897f767acf4dc2ed5f9659cda7c)
+- test: Make CLI tests Windows-compatible [`c4e9aaf`](https://github.com/Cecilapp/Cecil/commit/c4e9aafdc800a834115700ec3df71fc646b93c0a)
+- chore: update deps [`37281bb`](https://github.com/Cecilapp/Cecil/commit/37281bb3e6194b831916d305a7664b832d3c3105)
+- fix: remove explicit nohup output redirection [`1ce3c49`](https://github.com/Cecilapp/Cecil/commit/1ce3c4995f05f0e06823e74cd1d744d2c0401eb6)
+- test: skip flaky serve background test in CI [`a3358d5`](https://github.com/Cecilapp/Cecil/commit/a3358d5f5cf3fcdd2fadcbb788ba28d76e7d6ea3)
+
+#### [8.104.0](https://github.com/Cecilapp/Cecil/compare/8.103.0...8.104.0)
+
+> 9 June 2026
+
+- feat: add background serve mode and stop command [`#2403`](https://github.com/Cecilapp/Cecil/pull/2403)
+
+#### [8.103.0](https://github.com/Cecilapp/Cecil/compare/8.102.1...8.103.0)
+
+> 6 June 2026
+
+- feat: enhance Doctor checks and diagnostics [`#2402`](https://github.com/Cecilapp/Cecil/pull/2402)
+- chore(deps-dev): bump phpstan/phpstan from 2.2.1 to 2.2.2 [`#2401`](https://github.com/Cecilapp/Cecil/pull/2401)
+- ci: Pin CI runners to specific OS versions [`9911bd9`](https://github.com/Cecilapp/Cecil/commit/9911bd9b97a879b8cf28a9c8b36edd13c222bd6e)
+
+#### [8.102.1](https://github.com/Cecilapp/Cecil/compare/8.102.0...8.102.1)
+
+> 4 June 2026
+
+- fix: log and skip unsupported/empty data files [`#2400`](https://github.com/Cecilapp/Cecil/pull/2400)
+
+#### [8.102.0](https://github.com/Cecilapp/Cecil/compare/8.101.0...8.102.0)
+
+> 4 June 2026
+
+- refactor: extract metrics and pages display [`69c0e88`](https://github.com/Cecilapp/Cecil/commit/69c0e88fd89034aa8a2ab6bd15451c2421cfd8a8)
+- fix: restore original logger and guard progress bar [`a915848`](https://github.com/Cecilapp/Cecil/commit/a9158488865e5fe314c40142fe436ca8ec8d47b9)
+- fix: normalize build output and clear progress bar [`fd886dc`](https://github.com/Cecilapp/Cecil/commit/fd886dc7690cedd4051c9c357b54a2cebf51e5f1)
+- fix: support --no-ansi in Serve command [`5d8a1d9`](https://github.com/Cecilapp/Cecil/commit/5d8a1d95e7f1abb064818ec5db1221852d69d005)
+
+#### [8.101.0](https://github.com/Cecilapp/Cecil/compare/8.100.0...8.101.0)
+
+> 4 June 2026
+
+- feat: add total duration row with diff to metrics [`#2397`](https://github.com/Cecilapp/Cecil/pull/2397)
+- feat: show progress bar during build [`#2398`](https://github.com/Cecilapp/Cecil/pull/2398)
+- chore: update deps [`6f3d130`](https://github.com/Cecilapp/Cecil/commit/6f3d130e79cc7b85267dcd0ca9b6a9791ad9bf2e)
+
+#### [8.100.0](https://github.com/Cecilapp/Cecil/compare/8.99.0...8.100.0)
+
+> 3 June 2026
+
+- Doctor, improve cache cleanup and config validation [`#2396`](https://github.com/Cecilapp/Cecil/pull/2396)
+- feat: add commit message generation instructions for Copilot [`4b45f1f`](https://github.com/Cecilapp/Cecil/commit/4b45f1fb1c98a4fab675ec2fc4b5052acebf6ec0)
+- doc: Update demo media assets [`c3c0717`](https://github.com/Cecilapp/Cecil/commit/c3c0717b6e508f482ea11bb2101e994056d2bacc)
+
+#### [8.99.0](https://github.com/Cecilapp/Cecil/compare/8.98.0...8.99.0)
+
+> 31 May 2026
+
+- perf: Build translations index [`#2395`](https://github.com/Cecilapp/Cecil/pull/2395)
+- chore(deps-dev): bump friendsofphp/php-cs-fixer from 3.95.2 to 3.95.3 [`#2394`](https://github.com/Cecilapp/Cecil/pull/2394)
 - chore(deps-dev): bump phpstan/phpstan from 2.2.0 to 2.2.1 [`#2392`](https://github.com/Cecilapp/Cecil/pull/2392)
+- Add Cecil review agent, PHP rules & PR workflow [`f6800fd`](https://github.com/Cecilapp/Cecil/commit/f6800fd1dfd9fdbdfc221785f0b53254333d2d77)
+- test: add Collection tests; bump scripts [`cbe5a71`](https://github.com/Cecilapp/Cecil/commit/cbe5a71557483812ccd14139b8620e8b05edf9c6)
 - refactor: use single Cache instance in Asset [`d6d8d0a`](https://github.com/Cecilapp/Cecil/commit/d6d8d0aa468622dac88bf3370ac7895af3ab4ffe)
+- Create AGENTS.md [`45ad28d`](https://github.com/Cecilapp/Cecil/commit/45ad28d2763c01c69aee1c277197c48211e9050c)
+- Delete AGENTS.md [`7ba7c7a`](https://github.com/Cecilapp/Cecil/commit/7ba7c7adb41044bd9d1b33d0468d12face2efc29)
 - refactor: rebuild missing asset cache file [`1718d9e`](https://github.com/Cecilapp/Cecil/commit/1718d9e26701503492a1bb40455a6bef8b93afa9)
 - refactor: consolidate asset cache logic [`bbadfaa`](https://github.com/Cecilapp/Cecil/commit/bbadfaa5524966af303e9e7f4fdd0c5ba041d496)
+- chore: update deps [`2ca01f8`](https://github.com/Cecilapp/Cecil/commit/2ca01f8b27868d3357c7e6a7d8394d86842af334)
+- Enhance PR response skill template [`0f2110c`](https://github.com/Cecilapp/Cecil/commit/0f2110c6de4250605397002fb2c8dc982df945c3)
+- Set review agent to strict mode and expand checks [`6473689`](https://github.com/Cecilapp/Cecil/commit/6473689978c96d1e85ca8b07222bc45b2b6b5f43)
+- Refactor release section and update sponsor links [`77f872c`](https://github.com/Cecilapp/Cecil/commit/77f872c8f2019aaa6ca7d781b7900b3c6581dca4)
 - refactor: remove ReturnTypeWillChange attributes [`d57e3a9`](https://github.com/Cecilapp/Cecil/commit/d57e3a94d2aefa446c3762b2fb9a6945b57add3f)
 
 #### [8.98.0](https://github.com/Cecilapp/Cecil/compare/8.97.0...8.98.0)

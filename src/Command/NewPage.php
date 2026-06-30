@@ -85,6 +85,7 @@ EOF
         $open = (bool) $input->getOption('open');
         $editor = $input->getOption('editor');
 
+        $this->io->title('Create a new page');
         try {
             // ask
             if (empty($name)) {

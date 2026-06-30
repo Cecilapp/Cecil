@@ -13,8 +13,6 @@ declare(strict_types=1);
 
 namespace Cecil\Command;
 
-use Cecil\Builder;
-use Cecil\Util;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
@@ -51,53 +49,10 @@ EOF
      */
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
-        $this->removeOutputDir($output);
-        $this->removeTmpDir($output);
-        // deletes all cache files
-        $command = $this->getApplication()->find('cache:clear');
-        $command->run($input, $output);
+        $this->getApplication()->find('clear:output')->run($input, $output);
+        $this->getApplication()->find('clear:tmp')->run($input, $output);
+        $this->getApplication()->find('cache:clear')->run($input, $output);
 
         return Command::SUCCESS;
-    }
-
-    /**
-     * Removes the output directory.
-     */
-    private function removeOutputDir(OutputInterface $output): void
-    {
-        $outputDir = (string) $this->getBuilder()->getConfig()->get('output.dir');
-        // if custom output directory
-        if (Util\File::getFS()->exists(Util::joinFile($this->getPath(), Builder::TMP_DIR, 'output'))) {
-            $outputDir = Util\File::fileGetContents(Util::joinFile($this->getPath(), Builder::TMP_DIR, 'output'));
-        }
-        if ($outputDir === false || !Util\File::getFS()->exists(Util::joinFile($this->getPath(), $outputDir))) {
-            $output->writeln('<info>No output directory.</info>');
-            return;
-        }
-        $output->writeln('Removing output directory...');
-        $output->writeln(
-            \sprintf('<comment>Path: %s</comment>', Util::joinFile($this->getPath(), $outputDir)),
-            OutputInterface::VERBOSITY_VERBOSE
-        );
-        Util\File::getFS()->remove(Util::joinFile($this->getPath(), $outputDir));
-        $output->writeln('<info>Output directory removed.</info>');
-    }
-
-    /**
-     * Removes temporary directory.
-     */
-    private function removeTmpDir(OutputInterface $output): void
-    {
-        if (!Util\File::getFS()->exists(Util::joinFile($this->getPath(), Builder::TMP_DIR))) {
-            $output->writeln('<info>No temporary directory.</info>');
-            return;
-        }
-        $output->writeln('Removing temporary directory...');
-        $output->writeln(
-            \sprintf('<comment>Path: %s</comment>', Util::joinFile($this->getPath(), Builder::TMP_DIR)),
-            OutputInterface::VERBOSITY_VERBOSE
-        );
-        Util\File::getFS()->remove(Util::joinFile($this->getPath(), Builder::TMP_DIR));
-        $output->writeln('<info>Temporary directory removed.</info>');
     }
 }
