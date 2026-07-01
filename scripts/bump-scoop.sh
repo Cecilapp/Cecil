@@ -50,7 +50,7 @@ cat <<EOT > $SCOOP_FILE_JSON
 {
   "description": "A simple and powerful content-driven static site generator.",
   "homepage": "https://cecil.app",
-  "license": "MIT",
+  "license": "EUPL-1.2",
   "bin": "cecil.phar",
   "notes": [
     "Run 'cecil' to get started",
