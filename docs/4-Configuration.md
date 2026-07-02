@@ -1,7 +1,7 @@
 <!--
 description: "Configure your website."
 date: 2021-05-07
-updated: 2026-06-13
+updated: 2026-07-02
 -->
 # Configuration
 
@@ -542,12 +542,12 @@ pages:
 
 #### pages.body.highlight
 
-Enables code syntax highlighting (`false` by default).
+Enables code syntax highlighting (`true` by default).
 
 ```yaml
 pages:
   body:
-    highlight: false
+    highlight: false # set to false to disable syntax highlighting
 ```
 
 #### pages.body.images
