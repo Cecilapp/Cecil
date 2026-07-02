@@ -376,11 +376,8 @@ class Cache implements CacheInterface
         if (\is_int($ttl)) {
             return $ttl;
         }
-        if ($ttl instanceof \DateInterval) {
-            return (int) $ttl->d * 86400 + $ttl->h * 3600 + $ttl->i * 60 + $ttl->s;
-        }
 
-        throw new \InvalidArgumentException('TTL values must be int or \DateInterval');
+        return (int) $ttl->d * 86400 + $ttl->h * 3600 + $ttl->i * 60 + $ttl->s;
     }
 
     /**
