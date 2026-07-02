@@ -2,7 +2,7 @@
 title: Contenu
 description: "Créer du contenu et l’organiser."
 date: 2026-03-27
-updated: 2026-04-20
+updated: 2026-07-02
 slug: contenu
 -->
 # Contenu
@@ -526,7 +526,15 @@ caution
 
 ### Coloration syntaxique
 
-Active le surligneur syntaxique des blocs de code en définissant l’option [pages.body.highlight.enabled](4-Configuration.md#pages-body-highlight) à `true`.
+La coloration syntaxique des blocs de code est activée par défaut avec l’option [pages.body.highlight](4-Configuration.md#pages-body-highlight).
+
+Si besoin, vous pouvez la désactiver avec :
+
+```yaml
+pages:
+  body:
+    highlight: false
+```
 
 _Exemple :_
 

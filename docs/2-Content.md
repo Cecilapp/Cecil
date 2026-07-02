@@ -1,7 +1,7 @@
 <!--
 description: "Create content and organize it."
 date: 2021-05-07
-updated: 2026-04-20
+updated: 2026-07-02
 -->
 # Content
 
@@ -524,7 +524,15 @@ caution
 
 ### Syntax highlight
 
-Enables code block syntax highlighter by setting the [pages.body.highlight.enabled](4-Configuration.md#pages-body-highlight) option to `true`.
+Code block syntax highlighting is enabled by default with the [pages.body.highlight](4-Configuration.md#pages-body-highlight) option.
+
+If needed, you can disable it with:
+
+```yaml
+pages:
+  body:
+    highlight: false
+```
 
 _Example:_
 

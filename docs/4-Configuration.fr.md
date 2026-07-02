@@ -2,7 +2,7 @@
 title: Configuration
 description: "Configurez votre site web."
 date: 2026-03-27
-updated: 2026-06-13
+updated: 2026-07-02
 slug: configuration
 -->
 # Configuration
@@ -544,12 +544,12 @@ pages:
 
 #### pages.body.highlight
 
-Active la coloration syntaxique du code (`false` par défaut).
+Active la coloration syntaxique du code (`true` par défaut).
 
 ```yaml
 pages:
   body:
-    highlight: false
+    highlight: false # définissez à false pour désactiver la coloration syntaxique
 ```
 
 #### pages.body.images

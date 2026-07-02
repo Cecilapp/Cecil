@@ -92,7 +92,7 @@ return [
         'frontmatter' => 'yaml', // front matter format: `yaml`, `ini`, `toml` or `json`
         'body' => [
             'toc' => ['h2', 'h3'], // headers used to build the table of contents
-            'highlight' => false, // enables code syntax highlighting
+            'highlight' => true, // enables code syntax highlighting
             'images' => [
                 'formats' => [], // creates and adds formats images as `source` (e.g.: ['avif', 'webp'])
                 'resize' => 0, // apply a global width to images (in pixels, `0` to disable)
