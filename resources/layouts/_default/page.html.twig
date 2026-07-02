@@ -93,7 +93,9 @@
         border: 1px solid red;
         border-left-width: 4px;
       }
-      {{ include('partials/highlight.css.twig') ~}}
+      {%- if config.pages.body.highlight|default(true) ~%}
+      {{- include('partials/highlight.css.twig') ~}}
+      {%- endif ~%}
     {% endapply %}</style>
     {%- endblock head_css ~%}
   </head>
