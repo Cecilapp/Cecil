@@ -548,8 +548,8 @@ Is rendered to:
 echo "Hello world";
 ```
 
-:::important
-You must add the [StyleSheet](https://highlightjs.org/download/) in the head of your template.
+:::info
+You can customize the syntax highlighting style by creating your own theme. See the [Highlight.js Theme Guide](https://highlightjs.readthedocs.io/en/latest/theme-guide.html).
 :::
 
 ### Inserted text

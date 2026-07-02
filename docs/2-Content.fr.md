@@ -550,8 +550,8 @@ Est rendu en :
 echo "Hello world";
 ```
 
-:::important
-Vous devez ajouter la [StyleSheet](https://highlightjs.org/download/) dans l’en-tête de votre template.
+:::info
+Vous pouvez personnaliser le style de coloration syntaxique en créant votre propre thème. Consultez le [guide des thèmes de Highlight.js](https://highlightjs.readthedocs.io/en/latest/theme-guide.html).
 :::
 
 ### Texte inséré
