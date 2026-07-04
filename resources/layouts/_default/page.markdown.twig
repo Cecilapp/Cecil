@@ -1,0 +1,9 @@
+{% block content %}
+{% if page.body|first != '#' %}
+# {{ page.title }}
+
+{{ page.body }}
+{% else %}
+{{ page.body }}
+{% endif %}
+{% endblock %}

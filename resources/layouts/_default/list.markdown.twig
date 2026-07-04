@@ -1,0 +1,13 @@
+{% set pages = site.pages.showable|filter_by('section', page.section)|sort_by_weight %}
+
+{% extends ['page.markdown.twig', '_default/page.markdown.twig'] %}
+
+{%- block content %}
+# {{ page.title }}
+
+> {{ page.body }}
+
+{% for item in pages %}
+- [{{ item.title }}]({{ url(item, {format: 'markdown', canonical: true}) }})
+{% endfor %}
+{% endblock %}
