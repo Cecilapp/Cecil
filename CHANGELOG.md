@@ -2,6 +2,19 @@
 
 All notable changes to this project will be documented in this file. Dates are displayed in UTC.
 
+#### [8.114.0](https://github.com/Cecilapp/Cecil/compare/8.113.0...8.114.0)
+
+> 4 July 2026
+
+- chore(deps-dev): bump phpstan/phpstan from 2.2.3 to 2.2.4 [`#2430`](https://github.com/Cecilapp/Cecil/pull/2430)
+- feat: add Markdown output format and templates [`2ab2044`](https://github.com/Cecilapp/Cecil/commit/2ab2044cd1c2c5c5991774754105d1642457a704)
+- chore: update deps [`5a4bd14`](https://github.com/Cecilapp/Cecil/commit/5a4bd143659e82b4ca02ddf3c1ace82d011218cd)
+- feat: add llms.txt output format support [`ed593cd`](https://github.com/Cecilapp/Cecil/commit/ed593cdfb2cb8d4697ae459e8d9ea360c798e57f)
+- chore: update deps [`a230985`](https://github.com/Cecilapp/Cecil/commit/a230985a8bdfd48b3a6f3e3e219a325acc0c33ff)
+- test: update output format index in ConfigTest [`60cdafc`](https://github.com/Cecilapp/Cecil/commit/60cdafc2229890aced0b1b5f4057aa31634d1d71)
+- test: use verbose logger in CacheTest builder [`da51983`](https://github.com/Cecilapp/Cecil/commit/da51983f5b1d589c54c866ca7b55b39372bdec2c)
+- test: fix expected output format index in test [`ffcd01f`](https://github.com/Cecilapp/Cecil/commit/ffcd01f9d3e99a039f8fdad1a5b9cd7176daf45d)
+
 #### [8.113.0](https://github.com/Cecilapp/Cecil/compare/8.112.1...8.113.0)
 
 > 2 July 2026
