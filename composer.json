@@ -169,6 +169,7 @@
     "test:coverage:upload": "Uploads tests coverage results",
     "test:integration": "Runs integration tests suite",
     "test:unit": "Runs unit tests suite",
+    "test:unit:verbose": "Runs unit tests suite with verbose output",
     "test:phar": "Builds cecil.phar then create a new demo site"
   },
   "scripts-aliases": {
