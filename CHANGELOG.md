@@ -2,6 +2,18 @@
 
 All notable changes to this project will be documented in this file. Dates are displayed in UTC.
 
+#### [8.113.0](https://github.com/Cecilapp/Cecil/compare/8.112.1...8.113.0)
+
+> 2 July 2026
+
+- Enable default syntax highlighting and update documentation [`#2429`](https://github.com/Cecilapp/Cecil/pull/2429)
+- chore(deps-dev): bump phpstan/phpstan from 2.2.2 to 2.2.3 [`#2427`](https://github.com/Cecilapp/Cecil/pull/2427)
+- chore(deps): bump actions/cache from 5 to 6 [`#2423`](https://github.com/Cecilapp/Cecil/pull/2423)
+- chore(deps): bump actions/checkout from 6 to 7 [`#2422`](https://github.com/Cecilapp/Cecil/pull/2422)
+- Optimize page loader sorting path comparisons [`#2426`](https://github.com/Cecilapp/Cecil/pull/2426)
+- chore(deps): bump spatie/image-optimizer from 1.9.0 to 1.10.0 [`#2425`](https://github.com/Cecilapp/Cecil/pull/2425)
+- chore: update deps [`d9e3cc1`](https://github.com/Cecilapp/Cecil/commit/d9e3cc1aba648c0162cfd0e841391f74347fafd9)
+
 #### [8.112.1](https://github.com/Cecilapp/Cecil/compare/8.112.0...8.112.1)
 
 > 26 June 2026
