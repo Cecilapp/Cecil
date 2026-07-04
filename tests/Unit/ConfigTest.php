@@ -34,7 +34,7 @@ class ConfigTest extends TestCase
     public function testInvalidOutputFormatsStructureIsRejected(): void
     {
         $this->expectException(ConfigException::class);
-        $this->expectExceptionMessage('Output format #15 must be an array.');
+        $this->expectExceptionMessage('Output format #16 must be an array.');
 
         new Config([
             'output' => [
