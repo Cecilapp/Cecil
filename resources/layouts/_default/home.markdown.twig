@@ -3,8 +3,8 @@
 {# description of the site #}
 > {{ site.description }}
 {# section of the site #}
-{% for section in site.pages|filter(p => p.type == 'section') %}
-{% set pages = section.pages.showable|sort_by_weight %}
+{% for section in site.pages.showable|filter(p => p.type == 'section') %}
+{% set pages = section.pages|sort_by_weight %}
 {# only show the section if it has pages #}
 {% if pages|length > 0 ~%}
 ## {{ section.title }}

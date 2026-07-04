@@ -1,4 +1,4 @@
-{% set pages = site.pages.showable|filter_by('section', page.section)|sort_by_weight %}
+{% set pages = site.pages.showable|filter_by('section', page.section)|sort_by_date|sort_by_weight %}
 
 {% extends ['page.markdown.twig', '_default/page.markdown.twig'] %}
 
