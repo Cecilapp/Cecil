@@ -2,6 +2,14 @@
 
 All notable changes to this project will be documented in this file. Dates are displayed in UTC.
 
+#### [8.114.1](https://github.com/Cecilapp/Cecil/compare/8.114.0...8.114.1)
+
+> 5 July 2026
+
+- fix: fix section/page filtering in markdown listings [`bd6f20e`](https://github.com/Cecilapp/Cecil/commit/bd6f20e4e84cf4109ccb7e72a212c092d23e9cad)
+- chore: refresh French translation files [`4a98b5f`](https://github.com/Cecilapp/Cecil/commit/4a98b5ff8353e1cfa1032cfe35ef5072cdb395c3)
+- Fix LLM home links to markdown output [`8b04936`](https://github.com/Cecilapp/Cecil/commit/8b04936ffd8a1835db38bbc7eef26b2d34075d43)
+
 #### [8.114.0](https://github.com/Cecilapp/Cecil/compare/8.113.0...8.114.0)
 
 > 4 July 2026
