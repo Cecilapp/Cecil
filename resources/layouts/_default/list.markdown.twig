@@ -3,11 +3,11 @@
 {% extends ['page.markdown.twig', '_default/page.markdown.twig'] %}
 
 {%- block content %}
-# {{ page.title }}
+# {{ page.title|trim }}
 
-> {{ page.body }}
+> {{ page.body|trim }}
 
 {% for item in pages %}
-- [{{ item.title }}]({{ url(item, {format: 'markdown', canonical: true}) }})
+- [{{ item.title|trim }}]({{ url(item, {format: 'markdown', canonical: true}) }})
 {% endfor %}
 {% endblock %}

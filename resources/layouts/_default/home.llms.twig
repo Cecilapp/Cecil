@@ -12,7 +12,7 @@
 {# pages of the section #}
 {% for page in pages %}
 {% if 'markdown' in page.output %}{% set page_output = 'markdown' %}{% else %}{% set page_output = 'html' %}{% endif %}
-- [{{ page.title }}]({{ url(page, {format: page_output, canonical: true}) }}){% if page.description|default %}: {{ page.description }}{% endif ~%}
+- [{{ page.title }}]({{ url(page, {format: page_output, canonical: true}) }}){% if page.description|default %}: {{ page.description|trim }}{% endif ~%}
 {% endfor %}
 {% endif %}
 {% endfor %}

@@ -1,9 +1,9 @@
 {% block content %}
 {% if page.body|first != '#' %}
-# {{ page.title }}
+# {{ page.title|trim }}
 
-{{ page.body }}
+{{ page.body|trim }}
 {% else %}
-{{ page.body }}
+{{ page.body|trim }}
 {% endif %}
 {% endblock %}
