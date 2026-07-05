@@ -16,10 +16,15 @@ Search.appendIndex(
             "summary": "\u007B\u0040inheritdoc\u007D",
             "url": "classes/Cecil-Application.html#method_getDefaultCommands"
         },                {
-            "fqsen": "\\Cecil\\Application\u003A\u003A\u0024banner",
-            "name": "banner",
-            "summary": "Banner\u0020of\u0020the\u0020application.",
-            "url": "classes/Cecil-Application.html#property_banner"
+            "fqsen": "\\Cecil\\Application\u003A\u003A\u0024author",
+            "name": "author",
+            "summary": "Author\u0020of\u0020the\u0020application.",
+            "url": "classes/Cecil-Application.html#property_author"
+        },                {
+            "fqsen": "\\Cecil\\Application\u003A\u003A\u0024description",
+            "name": "description",
+            "summary": "Description\u0020of\u0020the\u0020application.",
+            "url": "classes/Cecil-Application.html#property_description"
         },                {
             "fqsen": "\\Cecil\\Asset\\Compiler",
             "name": "Compiler",
@@ -526,6 +531,11 @@ Search.appendIndex(
             "summary": "Returns\u0020Renderer\u0020object.",
             "url": "classes/Cecil-BuildContextInterface.html#method_getRenderer"
         },                {
+            "fqsen": "\\Cecil\\BuildContextInterface\u003A\u003ArecordLayoutCacheAccess\u0028\u0029",
+            "name": "recordLayoutCacheAccess",
+            "summary": "Records\u0020a\u0020layout\u0020cache\u0020access\u0020during\u0020rendering.",
+            "url": "classes/Cecil-BuildContextInterface.html#method_recordLayoutCacheAccess"
+        },                {
             "fqsen": "\\Cecil\\Builder",
             "name": "Builder",
             "summary": "The\u0020main\u0020Cecil\u0020builder\u0020class.",
@@ -645,6 +655,16 @@ Search.appendIndex(
             "name": "getAssetRegistryStats",
             "summary": "Returns\u0020asset\u0020registry\u0020deduplication\u0020statistics.",
             "url": "classes/Cecil-Builder.html#method_getAssetRegistryStats"
+        },                {
+            "fqsen": "\\Cecil\\Builder\u003A\u003ArecordLayoutCacheAccess\u0028\u0029",
+            "name": "recordLayoutCacheAccess",
+            "summary": "Records\u0020a\u0020layout\u0020cache\u0020access\u0020during\u0020render\u0020step.",
+            "url": "classes/Cecil-Builder.html#method_recordLayoutCacheAccess"
+        },                {
+            "fqsen": "\\Cecil\\Builder\u003A\u003AgetLayoutCacheStats\u0028\u0029",
+            "name": "getLayoutCacheStats",
+            "summary": "Returns\u0020layout\u0020cache\u0020statistics.",
+            "url": "classes/Cecil-Builder.html#method_getLayoutCacheStats"
         },                {
             "fqsen": "\\Cecil\\Builder\u003A\u003AgetAssetsList\u0028\u0029",
             "name": "getAssetsList",
@@ -800,6 +820,16 @@ Search.appendIndex(
             "name": "assetRegistryMisses",
             "summary": "Counter\u0020for\u0020asset\u0020registry\u0020cache\u0020misses\u0020\u0028new\u0020assets\u0020created\u0029\u0020during\u0020conversion\u0020steps.",
             "url": "classes/Cecil-Builder.html#property_assetRegistryMisses"
+        },                {
+            "fqsen": "\\Cecil\\Builder\u003A\u003A\u0024layoutCacheHits",
+            "name": "layoutCacheHits",
+            "summary": "Counter\u0020for\u0020layout\u0020resolution\u0020cache\u0020hits\u0020during\u0020render\u0020step.",
+            "url": "classes/Cecil-Builder.html#property_layoutCacheHits"
+        },                {
+            "fqsen": "\\Cecil\\Builder\u003A\u003A\u0024layoutCacheMisses",
+            "name": "layoutCacheMisses",
+            "summary": "Counter\u0020for\u0020layout\u0020resolution\u0020cache\u0020misses\u0020during\u0020render\u0020step.",
+            "url": "classes/Cecil-Builder.html#property_layoutCacheMisses"
         },                {
             "fqsen": "\\Cecil\\Builder\u003A\u003A\u0024menus",
             "name": "menus",
@@ -2116,6 +2146,91 @@ Search.appendIndex(
             "summary": "",
             "url": "classes/Cecil-Command-AbstractCommand.html#property_builder"
         },                {
+            "fqsen": "\\Cecil\\Command\\Build\\IncrementalBuildExecutor",
+            "name": "IncrementalBuildExecutor",
+            "summary": "Executes\u0020incremental\u0020build\u0020strategy\u0020and\u0020runs\u0020the\u0020required\u0020build\u0020subprocesses.",
+            "url": "classes/Cecil-Command-Build-IncrementalBuildExecutor.html"
+        },                {
+            "fqsen": "\\Cecil\\Command\\Build\\IncrementalBuildExecutor\u003A\u003A__construct\u0028\u0029",
+            "name": "__construct",
+            "summary": "",
+            "url": "classes/Cecil-Command-Build-IncrementalBuildExecutor.html#method___construct"
+        },                {
+            "fqsen": "\\Cecil\\Command\\Build\\IncrementalBuildExecutor\u003A\u003Aexecute\u0028\u0029",
+            "name": "execute",
+            "summary": "",
+            "url": "classes/Cecil-Command-Build-IncrementalBuildExecutor.html#method_execute"
+        },                {
+            "fqsen": "\\Cecil\\Command\\Build\\IncrementalBuildExecutor\u003A\u003A\u0024resolver",
+            "name": "resolver",
+            "summary": "",
+            "url": "classes/Cecil-Command-Build-IncrementalBuildExecutor.html#property_resolver"
+        },                {
+            "fqsen": "\\Cecil\\Command\\Build\\IncrementalBuildResolver",
+            "name": "IncrementalBuildResolver",
+            "summary": "Resolves\u0020impacted\u0020source\u0020pages\u0020for\u0020incremental\u0020serve\u0020builds.",
+            "url": "classes/Cecil-Command-Build-IncrementalBuildResolver.html"
+        },                {
+            "fqsen": "\\Cecil\\Command\\Build\\IncrementalBuildResolver\u003A\u003A__construct\u0028\u0029",
+            "name": "__construct",
+            "summary": "",
+            "url": "classes/Cecil-Command-Build-IncrementalBuildResolver.html#method___construct"
+        },                {
+            "fqsen": "\\Cecil\\Command\\Build\\IncrementalBuildResolver\u003A\u003Aresolve\u0028\u0029",
+            "name": "resolve",
+            "summary": "Resolves\u0020the\u0020list\u0020of\u0020content\u0020pages\u0020to\u0020rebuild\u0020from\u0020watcher\u0020changes.",
+            "url": "classes/Cecil-Command-Build-IncrementalBuildResolver.html#method_resolve"
+        },                {
+            "fqsen": "\\Cecil\\Command\\Build\\IncrementalBuildResolver\u003A\u003AresolvePagesImpactedByTemplates\u0028\u0029",
+            "name": "resolvePagesImpactedByTemplates",
+            "summary": "Resolves\u0020source\u0020pages\u0020impacted\u0020by\u0020changed\u0020templates.",
+            "url": "classes/Cecil-Command-Build-IncrementalBuildResolver.html#method_resolvePagesImpactedByTemplates"
+        },                {
+            "fqsen": "\\Cecil\\Command\\Build\\IncrementalBuildResolver\u003A\u003AresolveAffectedTemplates\u0028\u0029",
+            "name": "resolveAffectedTemplates",
+            "summary": "Returns\u0020all\u0020templates\u0020impacted\u0020by\u0020changed\u0020templates\u0020\u0028including\u0020reverse\u0020dependencies\u0029.",
+            "url": "classes/Cecil-Command-Build-IncrementalBuildResolver.html#method_resolveAffectedTemplates"
+        },                {
+            "fqsen": "\\Cecil\\Command\\Build\\IncrementalBuildResolver\u003A\u003AbuildReverseTemplateDependencyGraph\u0028\u0029",
+            "name": "buildReverseTemplateDependencyGraph",
+            "summary": "Builds\u0020a\u0020reverse\u0020dependency\u0020graph\u0020keyed\u0020by\u0020template\u0020reference\u0020\u0028\u0060scope\u003Afile\u0060\u0029.",
+            "url": "classes/Cecil-Command-Build-IncrementalBuildResolver.html#method_buildReverseTemplateDependencyGraph"
+        },                {
+            "fqsen": "\\Cecil\\Command\\Build\\IncrementalBuildResolver\u003A\u003AresolveTemplateRefFromPath\u0028\u0029",
+            "name": "resolveTemplateRefFromPath",
+            "summary": "Resolves\u0020a\u0020filesystem\u0020path\u0020to\u0020a\u0020template\u0020reference\u0020when\u0020it\u0020belongs\u0020to\u0020a\u0020template\u0020root.",
+            "url": "classes/Cecil-Command-Build-IncrementalBuildResolver.html#method_resolveTemplateRefFromPath"
+        },                {
+            "fqsen": "\\Cecil\\Command\\Build\\IncrementalBuildResolver\u003A\u003AgetTemplateRoots\u0028\u0029",
+            "name": "getTemplateRoots",
+            "summary": "Returns\u0020template\u0020roots\u0020keyed\u0020by\u0020their\u0020scope\u0020name\u0020used\u0020by\u0020Layout\u003A\u003Afinder.",
+            "url": "classes/Cecil-Command-Build-IncrementalBuildResolver.html#method_getTemplateRoots"
+        },                {
+            "fqsen": "\\Cecil\\Command\\Build\\IncrementalBuildResolver\u003A\u003AgetPageOutputFormats\u0028\u0029",
+            "name": "getPageOutputFormats",
+            "summary": "Returns\u0020output\u0020formats\u0020for\u0020a\u0020page\u0020using\u0020render\u0020step\u0020rules.",
+            "url": "classes/Cecil-Command-Build-IncrementalBuildResolver.html#method_getPageOutputFormats"
+        },                {
+            "fqsen": "\\Cecil\\Command\\Build\\IncrementalBuildResolver\u003A\u003AnormalizePath\u0028\u0029",
+            "name": "normalizePath",
+            "summary": "Normalizes\u0020a\u0020filesystem\u0020path\u0020to\u0020use\u0020forward\u0020slashes\u0020without\u0020a\u0020trailing\u0020slash.",
+            "url": "classes/Cecil-Command-Build-IncrementalBuildResolver.html#method_normalizePath"
+        },                {
+            "fqsen": "\\Cecil\\Command\\Build\\IncrementalBuildResolver\u003A\u003ArelativePathFromDirectory\u0028\u0029",
+            "name": "relativePathFromDirectory",
+            "summary": "Returns\u0020file\u0020path\u0020relative\u0020to\u0020a\u0020directory\u0020path.",
+            "url": "classes/Cecil-Command-Build-IncrementalBuildResolver.html#method_relativePathFromDirectory"
+        },                {
+            "fqsen": "\\Cecil\\Command\\Build\\IncrementalBuildResolver\u003A\u003A\u0024builder",
+            "name": "builder",
+            "summary": "",
+            "url": "classes/Cecil-Command-Build-IncrementalBuildResolver.html#property_builder"
+        },                {
+            "fqsen": "\\Cecil\\Command\\Build\\IncrementalBuildResolver\u003A\u003A\u0024includeDrafts",
+            "name": "includeDrafts",
+            "summary": "",
+            "url": "classes/Cecil-Command-Build-IncrementalBuildResolver.html#property_includeDrafts"
+        },                {
             "fqsen": "\\Cecil\\Command\\Build",
             "name": "Build",
             "summary": "Build\u0020command.",
@@ -2141,6 +2256,51 @@ Search.appendIndex(
             "summary": "Renders\u0020built\u0020pages\u0020as\u0020a\u0020table.",
             "url": "classes/Cecil-Command-Build.html#method_showBuiltPages"
         },                {
+            "fqsen": "\\Cecil\\Command\\CacheClear\\CacheClearAssets",
+            "name": "CacheClearAssets",
+            "summary": "CacheClearAssets\u0020command.",
+            "url": "classes/Cecil-Command-CacheClear-CacheClearAssets.html"
+        },                {
+            "fqsen": "\\Cecil\\Command\\CacheClear\\CacheClearAssets\u003A\u003Aconfigure\u0028\u0029",
+            "name": "configure",
+            "summary": "\u007B\u0040inheritdoc\u007D",
+            "url": "classes/Cecil-Command-CacheClear-CacheClearAssets.html#method_configure"
+        },                {
+            "fqsen": "\\Cecil\\Command\\CacheClear\\CacheClearAssets\u003A\u003Aexecute\u0028\u0029",
+            "name": "execute",
+            "summary": "\u007B\u0040inheritdoc\u007D",
+            "url": "classes/Cecil-Command-CacheClear-CacheClearAssets.html#method_execute"
+        },                {
+            "fqsen": "\\Cecil\\Command\\CacheClear\\CacheClearTemplates",
+            "name": "CacheClearTemplates",
+            "summary": "CacheClearTemplates\u0020command.",
+            "url": "classes/Cecil-Command-CacheClear-CacheClearTemplates.html"
+        },                {
+            "fqsen": "\\Cecil\\Command\\CacheClear\\CacheClearTemplates\u003A\u003Aconfigure\u0028\u0029",
+            "name": "configure",
+            "summary": "\u007B\u0040inheritdoc\u007D",
+            "url": "classes/Cecil-Command-CacheClear-CacheClearTemplates.html#method_configure"
+        },                {
+            "fqsen": "\\Cecil\\Command\\CacheClear\\CacheClearTemplates\u003A\u003Aexecute\u0028\u0029",
+            "name": "execute",
+            "summary": "\u007B\u0040inheritdoc\u007D",
+            "url": "classes/Cecil-Command-CacheClear-CacheClearTemplates.html#method_execute"
+        },                {
+            "fqsen": "\\Cecil\\Command\\CacheClear\\CacheClearTranslations",
+            "name": "CacheClearTranslations",
+            "summary": "CacheClearTranslations\u0020command.",
+            "url": "classes/Cecil-Command-CacheClear-CacheClearTranslations.html"
+        },                {
+            "fqsen": "\\Cecil\\Command\\CacheClear\\CacheClearTranslations\u003A\u003Aconfigure\u0028\u0029",
+            "name": "configure",
+            "summary": "\u007B\u0040inheritdoc\u007D",
+            "url": "classes/Cecil-Command-CacheClear-CacheClearTranslations.html#method_configure"
+        },                {
+            "fqsen": "\\Cecil\\Command\\CacheClear\\CacheClearTranslations\u003A\u003Aexecute\u0028\u0029",
+            "name": "execute",
+            "summary": "\u007B\u0040inheritdoc\u007D",
+            "url": "classes/Cecil-Command-CacheClear-CacheClearTranslations.html#method_execute"
+        },                {
             "fqsen": "\\Cecil\\Command\\CacheClear",
             "name": "CacheClear",
             "summary": "CacheClear\u0020command.",
@@ -2156,50 +2316,35 @@ Search.appendIndex(
             "summary": "\u007B\u0040inheritdoc\u007D",
             "url": "classes/Cecil-Command-CacheClear.html#method_execute"
         },                {
-            "fqsen": "\\Cecil\\Command\\CacheClearAssets",
-            "name": "CacheClearAssets",
-            "summary": "CacheClearAssets\u0020command.",
-            "url": "classes/Cecil-Command-CacheClearAssets.html"
+            "fqsen": "\\Cecil\\Command\\Clear\\ClearOutput",
+            "name": "ClearOutput",
+            "summary": "ClearOutput\u0020command.",
+            "url": "classes/Cecil-Command-Clear-ClearOutput.html"
         },                {
-            "fqsen": "\\Cecil\\Command\\CacheClearAssets\u003A\u003Aconfigure\u0028\u0029",
+            "fqsen": "\\Cecil\\Command\\Clear\\ClearOutput\u003A\u003Aconfigure\u0028\u0029",
             "name": "configure",
             "summary": "\u007B\u0040inheritdoc\u007D",
-            "url": "classes/Cecil-Command-CacheClearAssets.html#method_configure"
+            "url": "classes/Cecil-Command-Clear-ClearOutput.html#method_configure"
         },                {
-            "fqsen": "\\Cecil\\Command\\CacheClearAssets\u003A\u003Aexecute\u0028\u0029",
+            "fqsen": "\\Cecil\\Command\\Clear\\ClearOutput\u003A\u003Aexecute\u0028\u0029",
             "name": "execute",
             "summary": "\u007B\u0040inheritdoc\u007D",
-            "url": "classes/Cecil-Command-CacheClearAssets.html#method_execute"
+            "url": "classes/Cecil-Command-Clear-ClearOutput.html#method_execute"
         },                {
-            "fqsen": "\\Cecil\\Command\\CacheClearTemplates",
-            "name": "CacheClearTemplates",
-            "summary": "CacheClearTemplates\u0020command.",
-            "url": "classes/Cecil-Command-CacheClearTemplates.html"
+            "fqsen": "\\Cecil\\Command\\Clear\\ClearTmp",
+            "name": "ClearTmp",
+            "summary": "ClearTmp\u0020command.",
+            "url": "classes/Cecil-Command-Clear-ClearTmp.html"
         },                {
-            "fqsen": "\\Cecil\\Command\\CacheClearTemplates\u003A\u003Aconfigure\u0028\u0029",
+            "fqsen": "\\Cecil\\Command\\Clear\\ClearTmp\u003A\u003Aconfigure\u0028\u0029",
             "name": "configure",
             "summary": "\u007B\u0040inheritdoc\u007D",
-            "url": "classes/Cecil-Command-CacheClearTemplates.html#method_configure"
+            "url": "classes/Cecil-Command-Clear-ClearTmp.html#method_configure"
         },                {
-            "fqsen": "\\Cecil\\Command\\CacheClearTemplates\u003A\u003Aexecute\u0028\u0029",
+            "fqsen": "\\Cecil\\Command\\Clear\\ClearTmp\u003A\u003Aexecute\u0028\u0029",
             "name": "execute",
             "summary": "\u007B\u0040inheritdoc\u007D",
-            "url": "classes/Cecil-Command-CacheClearTemplates.html#method_execute"
-        },                {
-            "fqsen": "\\Cecil\\Command\\CacheClearTranslations",
-            "name": "CacheClearTranslations",
-            "summary": "CacheClearTranslations\u0020command.",
-            "url": "classes/Cecil-Command-CacheClearTranslations.html"
-        },                {
-            "fqsen": "\\Cecil\\Command\\CacheClearTranslations\u003A\u003Aconfigure\u0028\u0029",
-            "name": "configure",
-            "summary": "\u007B\u0040inheritdoc\u007D",
-            "url": "classes/Cecil-Command-CacheClearTranslations.html#method_configure"
-        },                {
-            "fqsen": "\\Cecil\\Command\\CacheClearTranslations\u003A\u003Aexecute\u0028\u0029",
-            "name": "execute",
-            "summary": "\u007B\u0040inheritdoc\u007D",
-            "url": "classes/Cecil-Command-CacheClearTranslations.html#method_execute"
+            "url": "classes/Cecil-Command-Clear-ClearTmp.html#method_execute"
         },                {
             "fqsen": "\\Cecil\\Command\\Clear",
             "name": "Clear",
@@ -2215,36 +2360,6 @@ Search.appendIndex(
             "name": "execute",
             "summary": "\u007B\u0040inheritdoc\u007D",
             "url": "classes/Cecil-Command-Clear.html#method_execute"
-        },                {
-            "fqsen": "\\Cecil\\Command\\ClearOutput",
-            "name": "ClearOutput",
-            "summary": "ClearOutput\u0020command.",
-            "url": "classes/Cecil-Command-ClearOutput.html"
-        },                {
-            "fqsen": "\\Cecil\\Command\\ClearOutput\u003A\u003Aconfigure\u0028\u0029",
-            "name": "configure",
-            "summary": "\u007B\u0040inheritdoc\u007D",
-            "url": "classes/Cecil-Command-ClearOutput.html#method_configure"
-        },                {
-            "fqsen": "\\Cecil\\Command\\ClearOutput\u003A\u003Aexecute\u0028\u0029",
-            "name": "execute",
-            "summary": "\u007B\u0040inheritdoc\u007D",
-            "url": "classes/Cecil-Command-ClearOutput.html#method_execute"
-        },                {
-            "fqsen": "\\Cecil\\Command\\ClearTmp",
-            "name": "ClearTmp",
-            "summary": "ClearTmp\u0020command.",
-            "url": "classes/Cecil-Command-ClearTmp.html"
-        },                {
-            "fqsen": "\\Cecil\\Command\\ClearTmp\u003A\u003Aconfigure\u0028\u0029",
-            "name": "configure",
-            "summary": "\u007B\u0040inheritdoc\u007D",
-            "url": "classes/Cecil-Command-ClearTmp.html#method_configure"
-        },                {
-            "fqsen": "\\Cecil\\Command\\ClearTmp\u003A\u003Aexecute\u0028\u0029",
-            "name": "execute",
-            "summary": "\u007B\u0040inheritdoc\u007D",
-            "url": "classes/Cecil-Command-ClearTmp.html#method_execute"
         },                {
             "fqsen": "\\Cecil\\Command\\Console\\CecilStyle",
             "name": "CecilStyle",
@@ -2266,6 +2381,131 @@ Search.appendIndex(
             "summary": "",
             "url": "classes/Cecil-Command-Console-CecilStyle.html#method_getBufferedOutput"
         },                {
+            "fqsen": "\\Cecil\\Command\\Doctor\\DoctorCache",
+            "name": "DoctorCache",
+            "summary": "Cache\u0020doctor\u0020command.",
+            "url": "classes/Cecil-Command-Doctor-DoctorCache.html"
+        },                {
+            "fqsen": "\\Cecil\\Command\\Doctor\\DoctorCache\u003A\u003Aconfigure\u0028\u0029",
+            "name": "configure",
+            "summary": "\u007B\u0040inheritdoc\u007D",
+            "url": "classes/Cecil-Command-Doctor-DoctorCache.html#method_configure"
+        },                {
+            "fqsen": "\\Cecil\\Command\\Doctor\\DoctorCache\u003A\u003Aexecute\u0028\u0029",
+            "name": "execute",
+            "summary": "\u007B\u0040inheritdoc\u007D",
+            "url": "classes/Cecil-Command-Doctor-DoctorCache.html#method_execute"
+        },                {
+            "fqsen": "\\Cecil\\Command\\Doctor\\DoctorCache\u003A\u003AtoEnabledState\u0028\u0029",
+            "name": "toEnabledState",
+            "summary": "Converts\u0020boolean\u0020state\u0020to\u0020readable\u0020value.",
+            "url": "classes/Cecil-Command-Doctor-DoctorCache.html#method_toEnabledState"
+        },                {
+            "fqsen": "\\Cecil\\Command\\Doctor\\DoctorCache\u003A\u003AgetDirectoryStats\u0028\u0029",
+            "name": "getDirectoryStats",
+            "summary": "Returns\u0020files\u0020count\u0020and\u0020size\u0020for\u0020a\u0020directory.",
+            "url": "classes/Cecil-Command-Doctor-DoctorCache.html#method_getDirectoryStats"
+        },                {
+            "fqsen": "\\Cecil\\Command\\Doctor\\DoctorCache\u003A\u003AformatBytes\u0028\u0029",
+            "name": "formatBytes",
+            "summary": "Formats\u0020bytes\u0020as\u0020a\u0020human\u002Dreadable\u0020size.",
+            "url": "classes/Cecil-Command-Doctor-DoctorCache.html#method_formatBytes"
+        },                {
+            "fqsen": "\\Cecil\\Command\\Doctor\\DoctorFrontmatter",
+            "name": "DoctorFrontmatter",
+            "summary": "Front\u0020matter\u0020doctor\u0020command.",
+            "url": "classes/Cecil-Command-Doctor-DoctorFrontmatter.html"
+        },                {
+            "fqsen": "\\Cecil\\Command\\Doctor\\DoctorFrontmatter\u003A\u003Aconfigure\u0028\u0029",
+            "name": "configure",
+            "summary": "\u007B\u0040inheritdoc\u007D",
+            "url": "classes/Cecil-Command-Doctor-DoctorFrontmatter.html#method_configure"
+        },                {
+            "fqsen": "\\Cecil\\Command\\Doctor\\DoctorFrontmatter\u003A\u003Aexecute\u0028\u0029",
+            "name": "execute",
+            "summary": "\u007B\u0040inheritdoc\u007D",
+            "url": "classes/Cecil-Command-Doctor-DoctorFrontmatter.html#method_execute"
+        },                {
+            "fqsen": "\\Cecil\\Command\\Doctor\\DoctorFrontmatter\u003A\u003AformatStatus\u0028\u0029",
+            "name": "formatStatus",
+            "summary": "Formats\u0020status\u0020for\u0020console\u0020output.",
+            "url": "classes/Cecil-Command-Doctor-DoctorFrontmatter.html#method_formatStatus"
+        },                {
+            "fqsen": "\\Cecil\\Command\\Doctor\\DoctorFrontmatter\u003A\u003AformatFileLink\u0028\u0029",
+            "name": "formatFileLink",
+            "summary": "Formats\u0020a\u0020clickable\u0020file\u0020label\u0020using\u0020console\u0020hyperlinks.",
+            "url": "classes/Cecil-Command-Doctor-DoctorFrontmatter.html#method_formatFileLink"
+        },                {
+            "fqsen": "\\Cecil\\Command\\Doctor\\DoctorFrontmatter\u003A\u003AformatDetails\u0028\u0029",
+            "name": "formatDetails",
+            "summary": "Wraps\u0020details\u0020lines\u0020to\u0020keep\u0020table\u0020width\u0020under\u0020control.",
+            "url": "classes/Cecil-Command-Doctor-DoctorFrontmatter.html#method_formatDetails"
+        },                {
+            "fqsen": "\\Cecil\\Command\\Doctor\\DoctorSeo",
+            "name": "DoctorSeo",
+            "summary": "SEO\u0020doctor\u0020command.",
+            "url": "classes/Cecil-Command-Doctor-DoctorSeo.html"
+        },                {
+            "fqsen": "\\Cecil\\Command\\Doctor\\DoctorSeo\u003A\u003Aconfigure\u0028\u0029",
+            "name": "configure",
+            "summary": "\u007B\u0040inheritdoc\u007D",
+            "url": "classes/Cecil-Command-Doctor-DoctorSeo.html#method_configure"
+        },                {
+            "fqsen": "\\Cecil\\Command\\Doctor\\DoctorSeo\u003A\u003Aexecute\u0028\u0029",
+            "name": "execute",
+            "summary": "\u007B\u0040inheritdoc\u007D",
+            "url": "classes/Cecil-Command-Doctor-DoctorSeo.html#method_execute"
+        },                {
+            "fqsen": "\\Cecil\\Command\\Doctor\\DoctorSeo\u003A\u003AoutputJson\u0028\u0029",
+            "name": "outputJson",
+            "summary": "Output\u0020results\u0020in\u0020JSON\u0020format.",
+            "url": "classes/Cecil-Command-Doctor-DoctorSeo.html#method_outputJson"
+        },                {
+            "fqsen": "\\Cecil\\Command\\Doctor\\DoctorSeo\u003A\u003AfilterResultWithoutLevel\u0028\u0029",
+            "name": "filterResultWithoutLevel",
+            "summary": "",
+            "url": "classes/Cecil-Command-Doctor-DoctorSeo.html#method_filterResultWithoutLevel"
+        },                {
+            "fqsen": "\\Cecil\\Command\\Doctor\\DoctorSeo\u003A\u003AbuildFilteredResult\u0028\u0029",
+            "name": "buildFilteredResult",
+            "summary": "",
+            "url": "classes/Cecil-Command-Doctor-DoctorSeo.html#method_buildFilteredResult"
+        },                {
+            "fqsen": "\\Cecil\\Command\\Doctor\\DoctorSeo\u003A\u003AoutputText\u0028\u0029",
+            "name": "outputText",
+            "summary": "Output\u0020results\u0020in\u0020text\u0020format\u0020\u0028tables\u0029.",
+            "url": "classes/Cecil-Command-Doctor-DoctorSeo.html#method_outputText"
+        },                {
+            "fqsen": "\\Cecil\\Command\\Doctor\\DoctorSeo\u003A\u003AformatLevel\u0028\u0029",
+            "name": "formatLevel",
+            "summary": "",
+            "url": "classes/Cecil-Command-Doctor-DoctorSeo.html#method_formatLevel"
+        },                {
+            "fqsen": "\\Cecil\\Command\\Doctor\\DoctorSeo\u003A\u003AtruncatePageLabel\u0028\u0029",
+            "name": "truncatePageLabel",
+            "summary": "",
+            "url": "classes/Cecil-Command-Doctor-DoctorSeo.html#method_truncatePageLabel"
+        },                {
+            "fqsen": "\\Cecil\\Command\\Doctor\\DoctorSeo\u003A\u003APAGE_LABEL_MAX_LENGTH",
+            "name": "PAGE_LABEL_MAX_LENGTH",
+            "summary": "",
+            "url": "classes/Cecil-Command-Doctor-DoctorSeo.html#constant_PAGE_LABEL_MAX_LENGTH"
+        },                {
+            "fqsen": "\\Cecil\\Command\\Doctor\\DoctorSeo\u003A\u003A\u0024includeVirtual",
+            "name": "includeVirtual",
+            "summary": "",
+            "url": "classes/Cecil-Command-Doctor-DoctorSeo.html#property_includeVirtual"
+        },                {
+            "fqsen": "\\Cecil\\Command\\Doctor\\DoctorSeo\u003A\u003A\u0024includeFeedback",
+            "name": "includeFeedback",
+            "summary": "",
+            "url": "classes/Cecil-Command-Doctor-DoctorSeo.html#property_includeFeedback"
+        },                {
+            "fqsen": "\\Cecil\\Command\\Doctor\\DoctorSeo\u003A\u003A\u0024format",
+            "name": "format",
+            "summary": "",
+            "url": "classes/Cecil-Command-Doctor-DoctorSeo.html#property_format"
+        },                {
             "fqsen": "\\Cecil\\Command\\Doctor",
             "name": "Doctor",
             "summary": "Doctor\u0020command.",
@@ -2285,101 +2525,6 @@ Search.appendIndex(
             "name": "formatStatus",
             "summary": "Formats\u0020status\u0020from\u0020domain\u0020diagnostics\u0020for\u0020console\u0020output.",
             "url": "classes/Cecil-Command-Doctor.html#method_formatStatus"
-        },                {
-            "fqsen": "\\Cecil\\Command\\DoctorFrontmatter",
-            "name": "DoctorFrontmatter",
-            "summary": "Front\u0020matter\u0020doctor\u0020command.",
-            "url": "classes/Cecil-Command-DoctorFrontmatter.html"
-        },                {
-            "fqsen": "\\Cecil\\Command\\DoctorFrontmatter\u003A\u003Aconfigure\u0028\u0029",
-            "name": "configure",
-            "summary": "\u007B\u0040inheritdoc\u007D",
-            "url": "classes/Cecil-Command-DoctorFrontmatter.html#method_configure"
-        },                {
-            "fqsen": "\\Cecil\\Command\\DoctorFrontmatter\u003A\u003Aexecute\u0028\u0029",
-            "name": "execute",
-            "summary": "\u007B\u0040inheritdoc\u007D",
-            "url": "classes/Cecil-Command-DoctorFrontmatter.html#method_execute"
-        },                {
-            "fqsen": "\\Cecil\\Command\\DoctorFrontmatter\u003A\u003AformatStatus\u0028\u0029",
-            "name": "formatStatus",
-            "summary": "Formats\u0020status\u0020for\u0020console\u0020output.",
-            "url": "classes/Cecil-Command-DoctorFrontmatter.html#method_formatStatus"
-        },                {
-            "fqsen": "\\Cecil\\Command\\DoctorFrontmatter\u003A\u003AformatFileLink\u0028\u0029",
-            "name": "formatFileLink",
-            "summary": "Formats\u0020a\u0020clickable\u0020file\u0020label\u0020using\u0020console\u0020hyperlinks.",
-            "url": "classes/Cecil-Command-DoctorFrontmatter.html#method_formatFileLink"
-        },                {
-            "fqsen": "\\Cecil\\Command\\DoctorFrontmatter\u003A\u003AformatDetails\u0028\u0029",
-            "name": "formatDetails",
-            "summary": "Wraps\u0020details\u0020lines\u0020to\u0020keep\u0020table\u0020width\u0020under\u0020control.",
-            "url": "classes/Cecil-Command-DoctorFrontmatter.html#method_formatDetails"
-        },                {
-            "fqsen": "\\Cecil\\Command\\DoctorSeo",
-            "name": "DoctorSeo",
-            "summary": "SEO\u0020doctor\u0020command.",
-            "url": "classes/Cecil-Command-DoctorSeo.html"
-        },                {
-            "fqsen": "\\Cecil\\Command\\DoctorSeo\u003A\u003Aconfigure\u0028\u0029",
-            "name": "configure",
-            "summary": "\u007B\u0040inheritdoc\u007D",
-            "url": "classes/Cecil-Command-DoctorSeo.html#method_configure"
-        },                {
-            "fqsen": "\\Cecil\\Command\\DoctorSeo\u003A\u003Aexecute\u0028\u0029",
-            "name": "execute",
-            "summary": "\u007B\u0040inheritdoc\u007D",
-            "url": "classes/Cecil-Command-DoctorSeo.html#method_execute"
-        },                {
-            "fqsen": "\\Cecil\\Command\\DoctorSeo\u003A\u003AoutputJson\u0028\u0029",
-            "name": "outputJson",
-            "summary": "Output\u0020results\u0020in\u0020JSON\u0020format.",
-            "url": "classes/Cecil-Command-DoctorSeo.html#method_outputJson"
-        },                {
-            "fqsen": "\\Cecil\\Command\\DoctorSeo\u003A\u003AfilterResultWithoutLevel\u0028\u0029",
-            "name": "filterResultWithoutLevel",
-            "summary": "",
-            "url": "classes/Cecil-Command-DoctorSeo.html#method_filterResultWithoutLevel"
-        },                {
-            "fqsen": "\\Cecil\\Command\\DoctorSeo\u003A\u003AbuildFilteredResult\u0028\u0029",
-            "name": "buildFilteredResult",
-            "summary": "",
-            "url": "classes/Cecil-Command-DoctorSeo.html#method_buildFilteredResult"
-        },                {
-            "fqsen": "\\Cecil\\Command\\DoctorSeo\u003A\u003AoutputText\u0028\u0029",
-            "name": "outputText",
-            "summary": "Output\u0020results\u0020in\u0020text\u0020format\u0020\u0028tables\u0029.",
-            "url": "classes/Cecil-Command-DoctorSeo.html#method_outputText"
-        },                {
-            "fqsen": "\\Cecil\\Command\\DoctorSeo\u003A\u003AformatLevel\u0028\u0029",
-            "name": "formatLevel",
-            "summary": "",
-            "url": "classes/Cecil-Command-DoctorSeo.html#method_formatLevel"
-        },                {
-            "fqsen": "\\Cecil\\Command\\DoctorSeo\u003A\u003AtruncatePageLabel\u0028\u0029",
-            "name": "truncatePageLabel",
-            "summary": "",
-            "url": "classes/Cecil-Command-DoctorSeo.html#method_truncatePageLabel"
-        },                {
-            "fqsen": "\\Cecil\\Command\\DoctorSeo\u003A\u003APAGE_LABEL_MAX_LENGTH",
-            "name": "PAGE_LABEL_MAX_LENGTH",
-            "summary": "",
-            "url": "classes/Cecil-Command-DoctorSeo.html#constant_PAGE_LABEL_MAX_LENGTH"
-        },                {
-            "fqsen": "\\Cecil\\Command\\DoctorSeo\u003A\u003A\u0024includeVirtual",
-            "name": "includeVirtual",
-            "summary": "",
-            "url": "classes/Cecil-Command-DoctorSeo.html#property_includeVirtual"
-        },                {
-            "fqsen": "\\Cecil\\Command\\DoctorSeo\u003A\u003A\u0024includeFeedback",
-            "name": "includeFeedback",
-            "summary": "",
-            "url": "classes/Cecil-Command-DoctorSeo.html#property_includeFeedback"
-        },                {
-            "fqsen": "\\Cecil\\Command\\DoctorSeo\u003A\u003A\u0024format",
-            "name": "format",
-            "summary": "",
-            "url": "classes/Cecil-Command-DoctorSeo.html#property_format"
         },                {
             "fqsen": "\\Cecil\\Command\\Edit",
             "name": "Edit",
@@ -2456,6 +2601,41 @@ Search.appendIndex(
             "summary": "\u007B\u0040inheritdoc\u007D",
             "url": "classes/Cecil-Command-SelfUpdate.html#method_execute"
         },                {
+            "fqsen": "\\Cecil\\Command\\Serve\\ServeBackground",
+            "name": "ServeBackground",
+            "summary": "ServeBackground\u0020command.",
+            "url": "classes/Cecil-Command-Serve-ServeBackground.html"
+        },                {
+            "fqsen": "\\Cecil\\Command\\Serve\\ServeBackground\u003A\u003Aconfigure\u0028\u0029",
+            "name": "configure",
+            "summary": "\u007B\u0040inheritdoc\u007D",
+            "url": "classes/Cecil-Command-Serve-ServeBackground.html#method_configure"
+        },                {
+            "fqsen": "\\Cecil\\Command\\Serve\\ServeBackground\u003A\u003Aexecute\u0028\u0029",
+            "name": "execute",
+            "summary": "\u007B\u0040inheritdoc\u007D",
+            "url": "classes/Cecil-Command-Serve-ServeBackground.html#method_execute"
+        },                {
+            "fqsen": "\\Cecil\\Command\\Serve\\ServeLog",
+            "name": "ServeLog",
+            "summary": "Serve\u0020Log\u0020command.",
+            "url": "classes/Cecil-Command-Serve-ServeLog.html"
+        },                {
+            "fqsen": "\\Cecil\\Command\\Serve\\ServeLog\u003A\u003Aconfigure\u0028\u0029",
+            "name": "configure",
+            "summary": "\u007B\u0040inheritdoc\u007D",
+            "url": "classes/Cecil-Command-Serve-ServeLog.html#method_configure"
+        },                {
+            "fqsen": "\\Cecil\\Command\\Serve\\ServeLog\u003A\u003Aexecute\u0028\u0029",
+            "name": "execute",
+            "summary": "\u007B\u0040inheritdoc\u007D",
+            "url": "classes/Cecil-Command-Serve-ServeLog.html#method_execute"
+        },                {
+            "fqsen": "\\Cecil\\Command\\Serve\\ServeLog\u003A\u003AextractTimestamp\u0028\u0029",
+            "name": "extractTimestamp",
+            "summary": "Extract\u0020timestamp\u0020from\u0020a\u0020log\u0020entry.",
+            "url": "classes/Cecil-Command-Serve-ServeLog.html#method_extractTimestamp"
+        },                {
             "fqsen": "\\Cecil\\Command\\Serve",
             "name": "Serve",
             "summary": "Serve\u0020command.",
@@ -2470,6 +2650,11 @@ Search.appendIndex(
             "name": "execute",
             "summary": "\u007B\u0040inheritdoc\u007D",
             "url": "classes/Cecil-Command-Serve.html#method_execute"
+        },                {
+            "fqsen": "\\Cecil\\Command\\Serve\u003A\u003AcreateBuildProcess\u0028\u0029",
+            "name": "createBuildProcess",
+            "summary": "Creates\u0020a\u0020configured\u0020\u0060build\u0060\u0020process,\u0020optionally\u0020restricted\u0020to\u0020a\u0020single\u0020page.",
+            "url": "classes/Cecil-Command-Serve.html#method_createBuildProcess"
         },                {
             "fqsen": "\\Cecil\\Command\\Serve\u003A\u003AcreateBuildProcessArguments\u0028\u0029",
             "name": "createBuildProcessArguments",
@@ -2520,6 +2705,26 @@ Search.appendIndex(
             "name": "watcherEnabled",
             "summary": "",
             "url": "classes/Cecil-Command-Serve.html#property_watcherEnabled"
+        },                {
+            "fqsen": "\\Cecil\\Command\\Serve\u003A\u003A\u0024incrementalEnabled",
+            "name": "incrementalEnabled",
+            "summary": "",
+            "url": "classes/Cecil-Command-Serve.html#property_incrementalEnabled"
+        },                {
+            "fqsen": "\\Cecil\\Command\\Serve\u003A\u003A\u0024php",
+            "name": "php",
+            "summary": "",
+            "url": "classes/Cecil-Command-Serve.html#property_php"
+        },                {
+            "fqsen": "\\Cecil\\Command\\Serve\u003A\u003A\u0024processTimeout",
+            "name": "processTimeout",
+            "summary": "",
+            "url": "classes/Cecil-Command-Serve.html#property_processTimeout"
+        },                {
+            "fqsen": "\\Cecil\\Command\\Serve\u003A\u003A\u0024buildProcessBaseOptions",
+            "name": "buildProcessBaseOptions",
+            "summary": "Base\u0020options\u0020used\u0020to\u0020build\u0020the\u0020\u0060build\u0060\u0020process\u0020arguments.",
+            "url": "classes/Cecil-Command-Serve.html#property_buildProcessBaseOptions"
         },                {
             "fqsen": "\\Cecil\\Command\\ShowConfig",
             "name": "ShowConfig",
@@ -2985,11 +3190,6 @@ Search.appendIndex(
             "name": "builder",
             "summary": "",
             "url": "classes/Cecil-Converter-Converter.html#property_builder"
-        },                {
-            "fqsen": "\\Cecil\\Converter\\Converter\u003A\u003A\u0024parsedownCache",
-            "name": "parsedownCache",
-            "summary": "Parsedown\u0020instances\u0020keyed\u0020by\u0020language,\u0020shared\u0020across\u0020convertBody\u0028\u0029\u0020calls.",
-            "url": "classes/Cecil-Converter-Converter.html#property_parsedownCache"
         },                {
             "fqsen": "\\Cecil\\Converter\\ConverterInterface",
             "name": "ConverterInterface",
@@ -4861,6 +5061,11 @@ Search.appendIndex(
             "summary": "Get\u0020alternates.",
             "url": "classes/Cecil-Step-Pages-Render.html#method_getAlternates"
         },                {
+            "fqsen": "\\Cecil\\Step\\Pages\\Render\u003A\u003AgetLayoutCacheKey\u0028\u0029",
+            "name": "getLayoutCacheKey",
+            "summary": "Returns\u0020a\u0020deterministic\u0020cache\u0020key\u0020for\u0020layout\u0020resolution.",
+            "url": "classes/Cecil-Step-Pages-Render.html#method_getLayoutCacheKey"
+        },                {
             "fqsen": "\\Cecil\\Step\\Pages\\Render\u003A\u003AbuildTranslationsIndex\u0028\u0029",
             "name": "buildTranslationsIndex",
             "summary": "Builds\u0020translation\u0020groups\u0020once\u0020for\u0020the\u0020current\u0020page\u0020set.",
@@ -5376,10 +5581,35 @@ Search.appendIndex(
             "summary": "",
             "url": "namespaces/cecil-command.html"
         },                {
+            "fqsen": "\\Cecil\\Command\\Build",
+            "name": "Build",
+            "summary": "",
+            "url": "namespaces/cecil-command-build.html"
+        },                {
+            "fqsen": "\\Cecil\\Command\\CacheClear",
+            "name": "CacheClear",
+            "summary": "",
+            "url": "namespaces/cecil-command-cacheclear.html"
+        },                {
+            "fqsen": "\\Cecil\\Command\\Clear",
+            "name": "Clear",
+            "summary": "",
+            "url": "namespaces/cecil-command-clear.html"
+        },                {
             "fqsen": "\\Cecil\\Command\\Console",
             "name": "Console",
             "summary": "",
             "url": "namespaces/cecil-command-console.html"
+        },                {
+            "fqsen": "\\Cecil\\Command\\Doctor",
+            "name": "Doctor",
+            "summary": "",
+            "url": "namespaces/cecil-command-doctor.html"
+        },                {
+            "fqsen": "\\Cecil\\Command\\Serve",
+            "name": "Serve",
+            "summary": "",
+            "url": "namespaces/cecil-command-serve.html"
         },                {
             "fqsen": "\\Cecil\\Converter",
             "name": "Converter",

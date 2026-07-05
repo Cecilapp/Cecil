@@ -150,11 +150,12 @@
                                         <ul class="phpdocumentor-breadcrumbs">
             <li class="phpdocumentor-breadcrumb"><a href="namespaces/cecil.html">Cecil</a></li>
             <li class="phpdocumentor-breadcrumb"><a href="namespaces/cecil-command.html">Command</a></li>
+            <li class="phpdocumentor-breadcrumb"><a href="namespaces/cecil-command-doctor.html">Doctor</a></li>
     </ul>
 
     <article class="phpdocumentor-element -class">
         <h2 class="phpdocumentor-content__title">
-    Build
+    DoctorSeo
 
         <span class="phpdocumentor-element__extends">
         extends <a href="classes/Cecil-Command-AbstractCommand.html"><abbr title="\Cecil\Command\AbstractCommand">AbstractCommand</abbr></a>
@@ -170,18 +171,17 @@
 </div>
 
         <aside class="phpdocumentor-element-found-in">
-    <abbr class="phpdocumentor-element-found-in__file" title="src/Command/Build.php"><a href="files/src-command-build.html"><abbr title="src/Command/Build.php">Build.php</abbr></a></abbr>
+    <abbr class="phpdocumentor-element-found-in__file" title="src/Command/Doctor/DoctorSeo.php"><a href="files/src-command-doctor-doctorseo.html"><abbr title="src/Command/Doctor/DoctorSeo.php">DoctorSeo.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">36</span>
+    <span class="phpdocumentor-element-found-in__line">32</span>
 
     </aside>
 
-            <p class="phpdocumentor-summary">Build command.</p>
+            <p class="phpdocumentor-summary">SEO doctor command.</p>
 
 
-    <section class="phpdocumentor-description"><p>This command generates the website in the output directory.
-It can include drafts, optimize generated files, and perform a dry run.
-It also allows building a specific page or a subset of pages, clearing the cache, and showing build metrics.</p>
+    <section class="phpdocumentor-description"><p>This command builds the site in dry-run mode and audits the rendered HTML
+pages for a focused set of SEO checks inspired by editorial audit tools.</p>
 </section>
 
 
@@ -190,7 +190,7 @@ It also allows building a specific page or a subset of pages, clearing the cache
     
 <h3 id="toc">
     Table of Contents
-    <a href="classes/Cecil-Command-Build.html#toc" class="headerlink"><i class="fas fa-link"></i></a>
+    <a href="classes/Cecil-Command-Doctor-DoctorSeo.html#toc" class="headerlink"><i class="fas fa-link"></i></a>
 
 </h3>
 
@@ -202,7 +202,7 @@ It also allows building a specific page or a subset of pages, clearing the cache
 
 <h4 id="toc-constants">
     Constants
-    <a href="classes/Cecil-Command-Build.html#toc-constants" class="headerlink"><i class="fas fa-link"></i></a>
+    <a href="classes/Cecil-Command-Doctor-DoctorSeo.html#toc-constants" class="headerlink"><i class="fas fa-link"></i></a>
 
 </h4>
 <dl class="phpdocumentor-table-of-contents">
@@ -230,12 +230,18 @@ It also allows building a specific page or a subset of pages, clearing the cache
         &nbsp;: mixed&nbsp;= \Cecil\Builder::TMP_DIR . &#039;/preview&#039;                            </span>
 </dt>
 
+            <dt class="phpdocumentor-table-of-contents__entry -constant -private">
+    <a class="" href="classes/Cecil-Command-Doctor-DoctorSeo.html#constant_PAGE_LABEL_MAX_LENGTH">PAGE_LABEL_MAX_LENGTH</a>
+    <span>
+        &nbsp;: mixed&nbsp;= 60                            </span>
+</dt>
+
     </dl>
 
 
 <h4 id="toc-properties">
     Properties
-    <a href="classes/Cecil-Command-Build.html#toc-properties" class="headerlink"><i class="fas fa-link"></i></a>
+    <a href="classes/Cecil-Command-Doctor-DoctorSeo.html#toc-properties" class="headerlink"><i class="fas fa-link"></i></a>
 
 </h4>
 <dl class="phpdocumentor-table-of-contents">
@@ -263,11 +269,29 @@ It also allows building a specific page or a subset of pages, clearing the cache
                         &nbsp;: string            </span>
 </dt>
 
+            <dt class="phpdocumentor-table-of-contents__entry -property -private">
+    <a class="" href="classes/Cecil-Command-Doctor-DoctorSeo.html#property_format">$format</a>
+    <span>
+                        &nbsp;: string            </span>
+</dt>
+
+            <dt class="phpdocumentor-table-of-contents__entry -property -private">
+    <a class="" href="classes/Cecil-Command-Doctor-DoctorSeo.html#property_includeFeedback">$includeFeedback</a>
+    <span>
+                        &nbsp;: bool            </span>
+</dt>
+
+            <dt class="phpdocumentor-table-of-contents__entry -property -private">
+    <a class="" href="classes/Cecil-Command-Doctor-DoctorSeo.html#property_includeVirtual">$includeVirtual</a>
+    <span>
+                        &nbsp;: bool            </span>
+</dt>
+
     </dl>
 
 <h4 id="toc-methods">
     Methods
-    <a href="classes/Cecil-Command-Build.html#toc-methods" class="headerlink"><i class="fas fa-link"></i></a>
+    <a href="classes/Cecil-Command-Doctor-DoctorSeo.html#toc-methods" class="headerlink"><i class="fas fa-link"></i></a>
 
 </h4>
 <dl class="phpdocumentor-table-of-contents">
@@ -307,14 +331,14 @@ It also allows building a specific page or a subset of pages, clearing the cache
 <dd>Returns the &quot;binary name&quot; in the console context.</dd>
 
             <dt class="phpdocumentor-table-of-contents__entry -method -protected">
-    <a class="" href="classes/Cecil-Command-Build.html#method_configure">configure()</a>
+    <a class="" href="classes/Cecil-Command-Doctor-DoctorSeo.html#method_configure">configure()</a>
     <span>
                                 &nbsp;: mixed    </span>
 </dt>
 <dd>{@inheritdoc}</dd>
 
             <dt class="phpdocumentor-table-of-contents__entry -method -protected">
-    <a class="" href="classes/Cecil-Command-Build.html#method_execute">execute()</a>
+    <a class="" href="classes/Cecil-Command-Doctor-DoctorSeo.html#method_execute">execute()</a>
     <span>
                                 &nbsp;: int    </span>
 </dt>
@@ -370,18 +394,42 @@ It also allows building a specific page or a subset of pages, clearing the cache
 <dd>Opens path with editor.</dd>
 
             <dt class="phpdocumentor-table-of-contents__entry -method -private">
-    <a class="" href="classes/Cecil-Command-Build.html#method_showBuildMetrics">showBuildMetrics()</a>
+    <a class="" href="classes/Cecil-Command-Doctor-DoctorSeo.html#method_buildFilteredResult">buildFilteredResult()</a>
     <span>
-                                &nbsp;: void    </span>
+                                &nbsp;: array{summary: array{pages_audited: int, pages_without_findings: int, bad_count: int, ok_count: int, feedback_count: int}, findings: array<int,array{page: string, level: string, check: string, details: string}>}    </span>
 </dt>
-<dd>Renders build metrics, compares them to previous run, and saves current values.</dd>
 
             <dt class="phpdocumentor-table-of-contents__entry -method -private">
-    <a class="" href="classes/Cecil-Command-Build.html#method_showBuiltPages">showBuiltPages()</a>
+    <a class="" href="classes/Cecil-Command-Doctor-DoctorSeo.html#method_filterResultWithoutLevel">filterResultWithoutLevel()</a>
+    <span>
+                                &nbsp;: array{summary: array{pages_audited: int, pages_without_findings: int, bad_count: int, ok_count: int, feedback_count: int}, findings: array<int,array{page: string, level: string, check: string, details: string}>}    </span>
+</dt>
+
+            <dt class="phpdocumentor-table-of-contents__entry -method -private">
+    <a class="" href="classes/Cecil-Command-Doctor-DoctorSeo.html#method_formatLevel">formatLevel()</a>
+    <span>
+                                &nbsp;: string    </span>
+</dt>
+
+            <dt class="phpdocumentor-table-of-contents__entry -method -private">
+    <a class="" href="classes/Cecil-Command-Doctor-DoctorSeo.html#method_outputJson">outputJson()</a>
     <span>
                                 &nbsp;: void    </span>
 </dt>
-<dd>Renders built pages as a table.</dd>
+<dd>Output results in JSON format.</dd>
+
+            <dt class="phpdocumentor-table-of-contents__entry -method -private">
+    <a class="" href="classes/Cecil-Command-Doctor-DoctorSeo.html#method_outputText">outputText()</a>
+    <span>
+                                &nbsp;: void    </span>
+</dt>
+<dd>Output results in text format (tables).</dd>
+
+            <dt class="phpdocumentor-table-of-contents__entry -method -private">
+    <a class="" href="classes/Cecil-Command-Doctor-DoctorSeo.html#method_truncatePageLabel">truncatePageLabel()</a>
+    <span>
+                                &nbsp;: string    </span>
+</dt>
 
     </dl>
 
@@ -391,7 +439,7 @@ It also allows building a specific page or a subset of pages, clearing the cache
     <section class="phpdocumentor-constants">
         <h3 class="phpdocumentor-elements__header" id="constants">
             Constants
-            <a href="classes/Cecil-Command-Build.html#constants" class="headerlink"><i class="fas fa-link"></i></a>
+            <a href="classes/Cecil-Command-Doctor-DoctorSeo.html#constants" class="headerlink"><i class="fas fa-link"></i></a>
 
         </h3>
                     <article class="phpdocumentor-element -constant -public ">
@@ -514,13 +562,43 @@ It also allows building a specific page or a subset of pages, clearing the cache
 
         
     </article>
+                    <article class="phpdocumentor-element -constant -private ">
+    <h4 class="phpdocumentor-element__name" id="constant_PAGE_LABEL_MAX_LENGTH">
+        PAGE_LABEL_MAX_LENGTH
+        <a href="classes/Cecil-Command-Doctor-DoctorSeo.html#constant_PAGE_LABEL_MAX_LENGTH" class="headerlink"><i class="fas fa-link"></i></a>
+
+    </h4>
+
+    <aside class="phpdocumentor-element-found-in">
+    <abbr class="phpdocumentor-element-found-in__file" title="src/Command/Doctor/DoctorSeo.php"><a href="files/src-command-doctor-doctorseo.html"><abbr title="src/Command/Doctor/DoctorSeo.php">DoctorSeo.php</abbr></a></abbr>
+    :
+    <span class="phpdocumentor-element-found-in__line">34</span>
+
+    </aside>
+
+    
+    
+    <code class="phpdocumentor-signature phpdocumentor-code ">
+    <span class="phpdocumentor-signature__visibility">private</span>
+        <span class="phpdocumentor-signature__type">mixed</span>
+    <span class="phpdocumentor-signature__name">PAGE_LABEL_MAX_LENGTH</span>
+    = <span class="phpdocumentor-signature__default-value">60</span>
+</code>
+
+
+    
+    
+    
+
+        
+    </article>
             </section>
 
         
     <section class="phpdocumentor-properties">
         <h3 class="phpdocumentor-elements__header" id="properties">
             Properties
-            <a href="classes/Cecil-Command-Build.html#properties" class="headerlink"><i class="fas fa-link"></i></a>
+            <a href="classes/Cecil-Command-Doctor-DoctorSeo.html#properties" class="headerlink"><i class="fas fa-link"></i></a>
 
         </h3>
                     <article
@@ -671,12 +749,123 @@ It also allows building a specific page or a subset of pages, clearing the cache
         
 
 </article>
+                    <article
+        class="
+            phpdocumentor-element
+            -property
+            -private
+                                                                    "
+>
+    <h4 class="phpdocumentor-element__name" id="property_format">
+        $format
+        <a href="classes/Cecil-Command-Doctor-DoctorSeo.html#property_format" class="headerlink"><i class="fas fa-link"></i></a>
+
+        <span class="phpdocumentor-element__modifiers">
+                                            </span>
+    </h4>
+    <aside class="phpdocumentor-element-found-in">
+    <abbr class="phpdocumentor-element-found-in__file" title="src/Command/Doctor/DoctorSeo.php"><a href="files/src-command-doctor-doctorseo.html"><abbr title="src/Command/Doctor/DoctorSeo.php">DoctorSeo.php</abbr></a></abbr>
+    :
+    <span class="phpdocumentor-element-found-in__line">38</span>
+
+    </aside>
+
+    
+    
+    <code class="phpdocumentor-code phpdocumentor-signature ">
+        <span class="phpdocumentor-signature__visibility">private</span>
+            <span class="phpdocumentor-signature__type">string</span>
+    <span class="phpdocumentor-signature__name">$format</span>
+     = <span class="phpdocumentor-signature__default-value">&#039;text&#039;</span></code>
+
+    
+    
+    
+
+        
+        
+
+</article>
+                    <article
+        class="
+            phpdocumentor-element
+            -property
+            -private
+                                                                    "
+>
+    <h4 class="phpdocumentor-element__name" id="property_includeFeedback">
+        $includeFeedback
+        <a href="classes/Cecil-Command-Doctor-DoctorSeo.html#property_includeFeedback" class="headerlink"><i class="fas fa-link"></i></a>
+
+        <span class="phpdocumentor-element__modifiers">
+                                            </span>
+    </h4>
+    <aside class="phpdocumentor-element-found-in">
+    <abbr class="phpdocumentor-element-found-in__file" title="src/Command/Doctor/DoctorSeo.php"><a href="files/src-command-doctor-doctorseo.html"><abbr title="src/Command/Doctor/DoctorSeo.php">DoctorSeo.php</abbr></a></abbr>
+    :
+    <span class="phpdocumentor-element-found-in__line">37</span>
+
+    </aside>
+
+    
+    
+    <code class="phpdocumentor-code phpdocumentor-signature ">
+        <span class="phpdocumentor-signature__visibility">private</span>
+            <span class="phpdocumentor-signature__type">bool</span>
+    <span class="phpdocumentor-signature__name">$includeFeedback</span>
+     = <span class="phpdocumentor-signature__default-value">false</span></code>
+
+    
+    
+    
+
+        
+        
+
+</article>
+                    <article
+        class="
+            phpdocumentor-element
+            -property
+            -private
+                                                                    "
+>
+    <h4 class="phpdocumentor-element__name" id="property_includeVirtual">
+        $includeVirtual
+        <a href="classes/Cecil-Command-Doctor-DoctorSeo.html#property_includeVirtual" class="headerlink"><i class="fas fa-link"></i></a>
+
+        <span class="phpdocumentor-element__modifiers">
+                                            </span>
+    </h4>
+    <aside class="phpdocumentor-element-found-in">
+    <abbr class="phpdocumentor-element-found-in__file" title="src/Command/Doctor/DoctorSeo.php"><a href="files/src-command-doctor-doctorseo.html"><abbr title="src/Command/Doctor/DoctorSeo.php">DoctorSeo.php</abbr></a></abbr>
+    :
+    <span class="phpdocumentor-element-found-in__line">36</span>
+
+    </aside>
+
+    
+    
+    <code class="phpdocumentor-code phpdocumentor-signature ">
+        <span class="phpdocumentor-signature__visibility">private</span>
+            <span class="phpdocumentor-signature__type">bool</span>
+    <span class="phpdocumentor-signature__name">$includeVirtual</span>
+     = <span class="phpdocumentor-signature__default-value">false</span></code>
+
+    
+    
+    
+
+        
+        
+
+</article>
             </section>
 
             <section class="phpdocumentor-methods">
         <h3 class="phpdocumentor-elements__header" id="methods">
             Methods
-            <a href="classes/Cecil-Command-Build.html#methods" class="headerlink"><i class="fas fa-link"></i></a>
+            <a href="classes/Cecil-Command-Doctor-DoctorSeo.html#methods" class="headerlink"><i class="fas fa-link"></i></a>
 
         </h3>
                     <article
@@ -936,13 +1125,13 @@ It also allows building a specific page or a subset of pages, clearing the cache
 >
     <h4 class="phpdocumentor-element__name" id="method_configure">
         configure()
-        <a href="classes/Cecil-Command-Build.html#method_configure" class="headerlink"><i class="fas fa-link"></i></a>
+        <a href="classes/Cecil-Command-Doctor-DoctorSeo.html#method_configure" class="headerlink"><i class="fas fa-link"></i></a>
 
     </h4>
     <aside class="phpdocumentor-element-found-in">
-    <abbr class="phpdocumentor-element-found-in__file" title="src/Command/Build.php"><a href="files/src-command-build.html"><abbr title="src/Command/Build.php">Build.php</abbr></a></abbr>
+    <abbr class="phpdocumentor-element-found-in__file" title="src/Command/Doctor/DoctorSeo.php"><a href="files/src-command-doctor-doctorseo.html"><abbr title="src/Command/Doctor/DoctorSeo.php">DoctorSeo.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">41</span>
+    <span class="phpdocumentor-element-found-in__line">43</span>
 
     </aside>
 
@@ -971,13 +1160,13 @@ It also allows building a specific page or a subset of pages, clearing the cache
 >
     <h4 class="phpdocumentor-element__name" id="method_execute">
         execute()
-        <a href="classes/Cecil-Command-Build.html#method_execute" class="headerlink"><i class="fas fa-link"></i></a>
+        <a href="classes/Cecil-Command-Doctor-DoctorSeo.html#method_execute" class="headerlink"><i class="fas fa-link"></i></a>
 
     </h4>
     <aside class="phpdocumentor-element-found-in">
-    <abbr class="phpdocumentor-element-found-in__file" title="src/Command/Build.php"><a href="files/src-command-build.html"><abbr title="src/Command/Build.php">Build.php</abbr></a></abbr>
+    <abbr class="phpdocumentor-element-found-in__file" title="src/Command/Doctor/DoctorSeo.php"><a href="files/src-command-doctor-doctorseo.html"><abbr title="src/Command/Doctor/DoctorSeo.php">DoctorSeo.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">100</span>
+    <span class="phpdocumentor-element-found-in__line">108</span>
 
     </aside>
 
@@ -1399,23 +1588,22 @@ It also allows building a specific page or a subset of pages, clearing the cache
             -private
                                                         "
 >
-    <h4 class="phpdocumentor-element__name" id="method_showBuildMetrics">
-        showBuildMetrics()
-        <a href="classes/Cecil-Command-Build.html#method_showBuildMetrics" class="headerlink"><i class="fas fa-link"></i></a>
+    <h4 class="phpdocumentor-element__name" id="method_buildFilteredResult">
+        buildFilteredResult()
+        <a href="classes/Cecil-Command-Doctor-DoctorSeo.html#method_buildFilteredResult" class="headerlink"><i class="fas fa-link"></i></a>
 
     </h4>
     <aside class="phpdocumentor-element-found-in">
-    <abbr class="phpdocumentor-element-found-in__file" title="src/Command/Build.php"><a href="files/src-command-build.html"><abbr title="src/Command/Build.php">Build.php</abbr></a></abbr>
+    <abbr class="phpdocumentor-element-found-in__file" title="src/Command/Doctor/DoctorSeo.php"><a href="files/src-command-doctor-doctorseo.html"><abbr title="src/Command/Doctor/DoctorSeo.php">DoctorSeo.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">209</span>
+    <span class="phpdocumentor-element-found-in__line">185</span>
 
     </aside>
 
-        <p class="phpdocumentor-summary">Renders build metrics, compares them to previous run, and saves current values.</p>
-
+    
     <code class="phpdocumentor-code phpdocumentor-signature ">
     <span class="phpdocumentor-signature__visibility">private</span>
-                    <span class="phpdocumentor-signature__name">showBuildMetrics</span><span>(</span><span class="phpdocumentor-signature__argument"><span class="phpdocumentor-signature__argument__type"><a href="classes/Cecil-Builder.html"><abbr title="\Cecil\Builder">Builder</abbr></a>&nbsp;</span><span class="phpdocumentor-signature__argument__name">$builder</span></span><span class="phpdocumentor-signature__argument"><span>, </span><span class="phpdocumentor-signature__argument__type"><abbr title="\Symfony\Component\Console\Output\OutputInterface">OutputInterface</abbr>&nbsp;</span><span class="phpdocumentor-signature__argument__name">$output</span></span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">void</span></code>
+                    <span class="phpdocumentor-signature__name">buildFilteredResult</span><span>(</span><span class="phpdocumentor-signature__argument"><span class="phpdocumentor-signature__argument__type">array{summary: array{pages_audited: int, pages_without_findings: int, bad_count: int, ok_count: int, feedback_count: int}, findings: array<int,array{page: string, level: string, check: string, details: string}>}&nbsp;</span><span class="phpdocumentor-signature__argument__name">$result</span></span><span class="phpdocumentor-signature__argument"><span>, </span><span class="phpdocumentor-signature__argument__type">array&lt;int, array{page: string, level: string, check: string, details: string}&gt;&nbsp;</span><span class="phpdocumentor-signature__argument__name">$findings</span></span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">array{summary: array{pages_audited: int, pages_without_findings: int, bad_count: int, ok_count: int, feedback_count: int}, findings: array<int,array{page: string, level: string, check: string, details: string}>}</span></code>
 
     <div class="phpdocumentor-label-line">
         </div>
@@ -1424,15 +1612,174 @@ It also allows building a specific page or a subset of pages, clearing the cache
         <h5 class="phpdocumentor-argument-list__heading">Parameters</h5>
     <dl class="phpdocumentor-argument-list">
                     <dt class="phpdocumentor-argument-list__entry">
-                <span class="phpdocumentor-argument-list__argument__name">$builder</span>
-                : <span class="phpdocumentor-argument-list__argument__type"><a href="classes/Cecil-Builder.html"><abbr title="\Cecil\Builder">Builder</abbr></a></span>
+                <span class="phpdocumentor-argument-list__argument__name">$result</span>
+                : <span class="phpdocumentor-argument-list__argument__type">array{summary: array{pages_audited: int, pages_without_findings: int, bad_count: int, ok_count: int, feedback_count: int}, findings: array<int,array{page: string, level: string, check: string, details: string}>}</span>
                             </dt>
             <dd class="phpdocumentor-argument-list__definition">
                 
             </dd>
                     <dt class="phpdocumentor-argument-list__entry">
+                <span class="phpdocumentor-argument-list__argument__name">$findings</span>
+                : <span class="phpdocumentor-argument-list__argument__type">array&lt;int, array{page: string, level: string, check: string, details: string}&gt;</span>
+                            </dt>
+            <dd class="phpdocumentor-argument-list__definition">
+                
+            </dd>
+            </dl>
+
+    
+
+        
+    
+            <section>
+        <h5 class="phpdocumentor-return-value__heading">Return values</h5>
+        <span class="phpdocumentor-signature__response_type">array{summary: array{pages_audited: int, pages_without_findings: int, bad_count: int, ok_count: int, feedback_count: int}, findings: array<int,array{page: string, level: string, check: string, details: string}>}</span>
+            </section>
+
+</article>
+                    <article
+        class="phpdocumentor-element
+            -method
+            -private
+                                                        "
+>
+    <h4 class="phpdocumentor-element__name" id="method_filterResultWithoutLevel">
+        filterResultWithoutLevel()
+        <a href="classes/Cecil-Command-Doctor-DoctorSeo.html#method_filterResultWithoutLevel" class="headerlink"><i class="fas fa-link"></i></a>
+
+    </h4>
+    <aside class="phpdocumentor-element-found-in">
+    <abbr class="phpdocumentor-element-found-in__file" title="src/Command/Doctor/DoctorSeo.php"><a href="files/src-command-doctor-doctorseo.html"><abbr title="src/Command/Doctor/DoctorSeo.php">DoctorSeo.php</abbr></a></abbr>
+    :
+    <span class="phpdocumentor-element-found-in__line">163</span>
+
+    </aside>
+
+    
+    <code class="phpdocumentor-code phpdocumentor-signature ">
+    <span class="phpdocumentor-signature__visibility">private</span>
+                    <span class="phpdocumentor-signature__name">filterResultWithoutLevel</span><span>(</span><span class="phpdocumentor-signature__argument"><span class="phpdocumentor-signature__argument__type">array{summary: array{pages_audited: int, pages_without_findings: int, bad_count: int, ok_count: int, feedback_count: int}, findings: array<int,array{page: string, level: string, check: string, details: string}>}&nbsp;</span><span class="phpdocumentor-signature__argument__name">$result</span></span><span class="phpdocumentor-signature__argument"><span>, </span><span class="phpdocumentor-signature__argument__type">string&nbsp;</span><span class="phpdocumentor-signature__argument__name">$level</span></span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">array{summary: array{pages_audited: int, pages_without_findings: int, bad_count: int, ok_count: int, feedback_count: int}, findings: array<int,array{page: string, level: string, check: string, details: string}>}</span></code>
+
+    <div class="phpdocumentor-label-line">
+        </div>
+    
+    
+        <h5 class="phpdocumentor-argument-list__heading">Parameters</h5>
+    <dl class="phpdocumentor-argument-list">
+                    <dt class="phpdocumentor-argument-list__entry">
+                <span class="phpdocumentor-argument-list__argument__name">$result</span>
+                : <span class="phpdocumentor-argument-list__argument__type">array{summary: array{pages_audited: int, pages_without_findings: int, bad_count: int, ok_count: int, feedback_count: int}, findings: array<int,array{page: string, level: string, check: string, details: string}>}</span>
+                            </dt>
+            <dd class="phpdocumentor-argument-list__definition">
+                
+            </dd>
+                    <dt class="phpdocumentor-argument-list__entry">
+                <span class="phpdocumentor-argument-list__argument__name">$level</span>
+                : <span class="phpdocumentor-argument-list__argument__type">string</span>
+                            </dt>
+            <dd class="phpdocumentor-argument-list__definition">
+                
+            </dd>
+            </dl>
+
+    
+
+        
+    
+            <section>
+        <h5 class="phpdocumentor-return-value__heading">Return values</h5>
+        <span class="phpdocumentor-signature__response_type">array{summary: array{pages_audited: int, pages_without_findings: int, bad_count: int, ok_count: int, feedback_count: int}, findings: array<int,array{page: string, level: string, check: string, details: string}>}</span>
+            </section>
+
+</article>
+                    <article
+        class="phpdocumentor-element
+            -method
+            -private
+                                                        "
+>
+    <h4 class="phpdocumentor-element__name" id="method_formatLevel">
+        formatLevel()
+        <a href="classes/Cecil-Command-Doctor-DoctorSeo.html#method_formatLevel" class="headerlink"><i class="fas fa-link"></i></a>
+
+    </h4>
+    <aside class="phpdocumentor-element-found-in">
+    <abbr class="phpdocumentor-element-found-in__file" title="src/Command/Doctor/DoctorSeo.php"><a href="files/src-command-doctor-doctorseo.html"><abbr title="src/Command/Doctor/DoctorSeo.php">DoctorSeo.php</abbr></a></abbr>
+    :
+    <span class="phpdocumentor-element-found-in__line">278</span>
+
+    </aside>
+
+    
+    <code class="phpdocumentor-code phpdocumentor-signature ">
+    <span class="phpdocumentor-signature__visibility">private</span>
+                    <span class="phpdocumentor-signature__name">formatLevel</span><span>(</span><span class="phpdocumentor-signature__argument"><span class="phpdocumentor-signature__argument__type">string&nbsp;</span><span class="phpdocumentor-signature__argument__name">$level</span></span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">string</span></code>
+
+    <div class="phpdocumentor-label-line">
+        </div>
+    
+    
+        <h5 class="phpdocumentor-argument-list__heading">Parameters</h5>
+    <dl class="phpdocumentor-argument-list">
+                    <dt class="phpdocumentor-argument-list__entry">
+                <span class="phpdocumentor-argument-list__argument__name">$level</span>
+                : <span class="phpdocumentor-argument-list__argument__type">string</span>
+                            </dt>
+            <dd class="phpdocumentor-argument-list__definition">
+                
+            </dd>
+            </dl>
+
+    
+
+        
+    
+            <section>
+        <h5 class="phpdocumentor-return-value__heading">Return values</h5>
+        <span class="phpdocumentor-signature__response_type">string</span>
+            </section>
+
+</article>
+                    <article
+        class="phpdocumentor-element
+            -method
+            -private
+                                                        "
+>
+    <h4 class="phpdocumentor-element__name" id="method_outputJson">
+        outputJson()
+        <a href="classes/Cecil-Command-Doctor-DoctorSeo.html#method_outputJson" class="headerlink"><i class="fas fa-link"></i></a>
+
+    </h4>
+    <aside class="phpdocumentor-element-found-in">
+    <abbr class="phpdocumentor-element-found-in__file" title="src/Command/Doctor/DoctorSeo.php"><a href="files/src-command-doctor-doctorseo.html"><abbr title="src/Command/Doctor/DoctorSeo.php">DoctorSeo.php</abbr></a></abbr>
+    :
+    <span class="phpdocumentor-element-found-in__line">146</span>
+
+    </aside>
+
+        <p class="phpdocumentor-summary">Output results in JSON format.</p>
+
+    <code class="phpdocumentor-code phpdocumentor-signature ">
+    <span class="phpdocumentor-signature__visibility">private</span>
+                    <span class="phpdocumentor-signature__name">outputJson</span><span>(</span><span class="phpdocumentor-signature__argument"><span class="phpdocumentor-signature__argument__type"><abbr title="\Symfony\Component\Console\Output\OutputInterface">OutputInterface</abbr>&nbsp;</span><span class="phpdocumentor-signature__argument__name">$output</span></span><span class="phpdocumentor-signature__argument"><span>, </span><span class="phpdocumentor-signature__argument__type">array&lt;string|int, mixed&gt;&nbsp;</span><span class="phpdocumentor-signature__argument__name">$result</span></span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">void</span></code>
+
+    <div class="phpdocumentor-label-line">
+        </div>
+    
+    
+        <h5 class="phpdocumentor-argument-list__heading">Parameters</h5>
+    <dl class="phpdocumentor-argument-list">
+                    <dt class="phpdocumentor-argument-list__entry">
                 <span class="phpdocumentor-argument-list__argument__name">$output</span>
                 : <span class="phpdocumentor-argument-list__argument__type"><abbr title="\Symfony\Component\Console\Output\OutputInterface">OutputInterface</abbr></span>
+                            </dt>
+            <dd class="phpdocumentor-argument-list__definition">
+                
+            </dd>
+                    <dt class="phpdocumentor-argument-list__entry">
+                <span class="phpdocumentor-argument-list__argument__name">$result</span>
+                : <span class="phpdocumentor-argument-list__argument__type">array&lt;string|int, mixed&gt;</span>
                             </dt>
             <dd class="phpdocumentor-argument-list__definition">
                 
@@ -1451,23 +1798,23 @@ It also allows building a specific page or a subset of pages, clearing the cache
             -private
                                                         "
 >
-    <h4 class="phpdocumentor-element__name" id="method_showBuiltPages">
-        showBuiltPages()
-        <a href="classes/Cecil-Command-Build.html#method_showBuiltPages" class="headerlink"><i class="fas fa-link"></i></a>
+    <h4 class="phpdocumentor-element__name" id="method_outputText">
+        outputText()
+        <a href="classes/Cecil-Command-Doctor-DoctorSeo.html#method_outputText" class="headerlink"><i class="fas fa-link"></i></a>
 
     </h4>
     <aside class="phpdocumentor-element-found-in">
-    <abbr class="phpdocumentor-element-found-in__file" title="src/Command/Build.php"><a href="files/src-command-build.html"><abbr title="src/Command/Build.php">Build.php</abbr></a></abbr>
+    <abbr class="phpdocumentor-element-found-in__file" title="src/Command/Doctor/DoctorSeo.php"><a href="files/src-command-doctor-doctorseo.html"><abbr title="src/Command/Doctor/DoctorSeo.php">DoctorSeo.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">310</span>
+    <span class="phpdocumentor-element-found-in__line">220</span>
 
     </aside>
 
-        <p class="phpdocumentor-summary">Renders built pages as a table.</p>
+        <p class="phpdocumentor-summary">Output results in text format (tables).</p>
 
     <code class="phpdocumentor-code phpdocumentor-signature ">
     <span class="phpdocumentor-signature__visibility">private</span>
-                    <span class="phpdocumentor-signature__name">showBuiltPages</span><span>(</span><span class="phpdocumentor-signature__argument"><span class="phpdocumentor-signature__argument__type"><a href="classes/Cecil-Builder.html"><abbr title="\Cecil\Builder">Builder</abbr></a>&nbsp;</span><span class="phpdocumentor-signature__argument__name">$builder</span></span><span class="phpdocumentor-signature__argument"><span>, </span><span class="phpdocumentor-signature__argument__type"><abbr title="\Symfony\Component\Console\Output\OutputInterface">OutputInterface</abbr>&nbsp;</span><span class="phpdocumentor-signature__argument__name">$output</span></span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">void</span></code>
+                    <span class="phpdocumentor-signature__name">outputText</span><span>(</span><span class="phpdocumentor-signature__argument"><span class="phpdocumentor-signature__argument__type"><abbr title="\Symfony\Component\Console\Output\OutputInterface">OutputInterface</abbr>&nbsp;</span><span class="phpdocumentor-signature__argument__name">$output</span></span><span class="phpdocumentor-signature__argument"><span>, </span><span class="phpdocumentor-signature__argument__type">array&lt;string|int, mixed&gt;&nbsp;</span><span class="phpdocumentor-signature__argument__name">$result</span></span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">void</span></code>
 
     <div class="phpdocumentor-label-line">
         </div>
@@ -1476,15 +1823,15 @@ It also allows building a specific page or a subset of pages, clearing the cache
         <h5 class="phpdocumentor-argument-list__heading">Parameters</h5>
     <dl class="phpdocumentor-argument-list">
                     <dt class="phpdocumentor-argument-list__entry">
-                <span class="phpdocumentor-argument-list__argument__name">$builder</span>
-                : <span class="phpdocumentor-argument-list__argument__type"><a href="classes/Cecil-Builder.html"><abbr title="\Cecil\Builder">Builder</abbr></a></span>
+                <span class="phpdocumentor-argument-list__argument__name">$output</span>
+                : <span class="phpdocumentor-argument-list__argument__type"><abbr title="\Symfony\Component\Console\Output\OutputInterface">OutputInterface</abbr></span>
                             </dt>
             <dd class="phpdocumentor-argument-list__definition">
                 
             </dd>
                     <dt class="phpdocumentor-argument-list__entry">
-                <span class="phpdocumentor-argument-list__argument__name">$output</span>
-                : <span class="phpdocumentor-argument-list__argument__type"><abbr title="\Symfony\Component\Console\Output\OutputInterface">OutputInterface</abbr></span>
+                <span class="phpdocumentor-argument-list__argument__name">$result</span>
+                : <span class="phpdocumentor-argument-list__argument__type">array&lt;string|int, mixed&gt;</span>
                             </dt>
             <dd class="phpdocumentor-argument-list__definition">
                 
@@ -1496,6 +1843,54 @@ It also allows building a specific page or a subset of pages, clearing the cache
         
     
     
+</article>
+                    <article
+        class="phpdocumentor-element
+            -method
+            -private
+                                                        "
+>
+    <h4 class="phpdocumentor-element__name" id="method_truncatePageLabel">
+        truncatePageLabel()
+        <a href="classes/Cecil-Command-Doctor-DoctorSeo.html#method_truncatePageLabel" class="headerlink"><i class="fas fa-link"></i></a>
+
+    </h4>
+    <aside class="phpdocumentor-element-found-in">
+    <abbr class="phpdocumentor-element-found-in__file" title="src/Command/Doctor/DoctorSeo.php"><a href="files/src-command-doctor-doctorseo.html"><abbr title="src/Command/Doctor/DoctorSeo.php">DoctorSeo.php</abbr></a></abbr>
+    :
+    <span class="phpdocumentor-element-found-in__line">287</span>
+
+    </aside>
+
+    
+    <code class="phpdocumentor-code phpdocumentor-signature ">
+    <span class="phpdocumentor-signature__visibility">private</span>
+                    <span class="phpdocumentor-signature__name">truncatePageLabel</span><span>(</span><span class="phpdocumentor-signature__argument"><span class="phpdocumentor-signature__argument__type">string&nbsp;</span><span class="phpdocumentor-signature__argument__name">$page</span></span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">string</span></code>
+
+    <div class="phpdocumentor-label-line">
+        </div>
+    
+    
+        <h5 class="phpdocumentor-argument-list__heading">Parameters</h5>
+    <dl class="phpdocumentor-argument-list">
+                    <dt class="phpdocumentor-argument-list__entry">
+                <span class="phpdocumentor-argument-list__argument__name">$page</span>
+                : <span class="phpdocumentor-argument-list__argument__type">string</span>
+                            </dt>
+            <dd class="phpdocumentor-argument-list__definition">
+                
+            </dd>
+            </dl>
+
+    
+
+        
+    
+            <section>
+        <h5 class="phpdocumentor-return-value__heading">Return values</h5>
+        <span class="phpdocumentor-signature__response_type">string</span>
+            </section>
+
 </article>
             </section>
 
@@ -1511,9 +1906,9 @@ It also allows building a specific page or a subset of pages, clearing the cache
             <li class="phpdocumentor-on-this-page-section__title">Table Of Contents</li>
             <li>
                 <ul class="phpdocumentor-list -clean">
-                                        <li><a href="classes/Cecil-Command-Build.html#toc-constants">Constants</a></li>
-                                                            <li><a href="classes/Cecil-Command-Build.html#toc-properties">Properties</a></li>
-                                                            <li><a href="classes/Cecil-Command-Build.html#toc-methods">Methods</a></li>
+                                        <li><a href="classes/Cecil-Command-Doctor-DoctorSeo.html#toc-constants">Constants</a></li>
+                                                            <li><a href="classes/Cecil-Command-Doctor-DoctorSeo.html#toc-properties">Properties</a></li>
+                                                            <li><a href="classes/Cecil-Command-Doctor-DoctorSeo.html#toc-methods">Methods</a></li>
                                     </ul>
             </li>
                             <li class="phpdocumentor-on-this-page-section__title">Constants</li>
@@ -1523,6 +1918,7 @@ It also allows building a specific page or a subset of pages, clearing the cache
                                                     <li class=""><a href="classes/Cecil-Command-AbstractCommand.html#constant_EXCLUDED_CMD">EXCLUDED_CMD</a></li>
                                                     <li class=""><a href="classes/Cecil-Command-AbstractCommand.html#constant_PID_FILE">PID_FILE</a></li>
                                                     <li class=""><a href="classes/Cecil-Command-AbstractCommand.html#constant_SERVE_OUTPUT">SERVE_OUTPUT</a></li>
+                                                    <li class=""><a href="classes/Cecil-Command-Doctor-DoctorSeo.html#constant_PAGE_LABEL_MAX_LENGTH">PAGE_LABEL_MAX_LENGTH</a></li>
                                             </ul>
                 </li>
             
@@ -1533,6 +1929,9 @@ It also allows building a specific page or a subset of pages, clearing the cache
                                                     <li class=""><a href="classes/Cecil-Command-AbstractCommand.html#property_io">$io</a></li>
                                                     <li class=""><a href="classes/Cecil-Command-AbstractCommand.html#property_output">$output</a></li>
                                                     <li class=""><a href="classes/Cecil-Command-AbstractCommand.html#property_rootPath">$rootPath</a></li>
+                                                    <li class=""><a href="classes/Cecil-Command-Doctor-DoctorSeo.html#property_format">$format</a></li>
+                                                    <li class=""><a href="classes/Cecil-Command-Doctor-DoctorSeo.html#property_includeFeedback">$includeFeedback</a></li>
+                                                    <li class=""><a href="classes/Cecil-Command-Doctor-DoctorSeo.html#property_includeVirtual">$includeVirtual</a></li>
                                             </ul>
                 </li>
             
@@ -1544,8 +1943,8 @@ It also allows building a specific page or a subset of pages, clearing the cache
                                             <li class=""><a href="classes/Cecil-Command-AbstractCommand.html#method_run">run()</a></li>
                                             <li class=""><a href="classes/Cecil-Command-AbstractCommand.html#method_validateUrl">validateUrl()</a></li>
                                             <li class=""><a href="classes/Cecil-Command-AbstractCommand.html#method_binName">binName()</a></li>
-                                            <li class=""><a href="classes/Cecil-Command-Build.html#method_configure">configure()</a></li>
-                                            <li class=""><a href="classes/Cecil-Command-Build.html#method_execute">execute()</a></li>
+                                            <li class=""><a href="classes/Cecil-Command-Doctor-DoctorSeo.html#method_configure">configure()</a></li>
+                                            <li class=""><a href="classes/Cecil-Command-Doctor-DoctorSeo.html#method_execute">execute()</a></li>
                                             <li class=""><a href="classes/Cecil-Command-AbstractCommand.html#method_getBuilder">getBuilder()</a></li>
                                             <li class=""><a href="classes/Cecil-Command-AbstractCommand.html#method_getConfigFiles">getConfigFiles()</a></li>
                                             <li class=""><a href="classes/Cecil-Command-AbstractCommand.html#method_getPath">getPath()</a></li>
@@ -1553,8 +1952,12 @@ It also allows building a specific page or a subset of pages, clearing the cache
                                             <li class=""><a href="classes/Cecil-Command-AbstractCommand.html#method_locateAdditionalConfigFiles">locateAdditionalConfigFiles()</a></li>
                                             <li class=""><a href="classes/Cecil-Command-AbstractCommand.html#method_locateConfigFile">locateConfigFile()</a></li>
                                             <li class=""><a href="classes/Cecil-Command-AbstractCommand.html#method_openEditor">openEditor()</a></li>
-                                            <li class=""><a href="classes/Cecil-Command-Build.html#method_showBuildMetrics">showBuildMetrics()</a></li>
-                                            <li class=""><a href="classes/Cecil-Command-Build.html#method_showBuiltPages">showBuiltPages()</a></li>
+                                            <li class=""><a href="classes/Cecil-Command-Doctor-DoctorSeo.html#method_buildFilteredResult">buildFilteredResult()</a></li>
+                                            <li class=""><a href="classes/Cecil-Command-Doctor-DoctorSeo.html#method_filterResultWithoutLevel">filterResultWithoutLevel()</a></li>
+                                            <li class=""><a href="classes/Cecil-Command-Doctor-DoctorSeo.html#method_formatLevel">formatLevel()</a></li>
+                                            <li class=""><a href="classes/Cecil-Command-Doctor-DoctorSeo.html#method_outputJson">outputJson()</a></li>
+                                            <li class=""><a href="classes/Cecil-Command-Doctor-DoctorSeo.html#method_outputText">outputText()</a></li>
+                                            <li class=""><a href="classes/Cecil-Command-Doctor-DoctorSeo.html#method_truncatePageLabel">truncatePageLabel()</a></li>
                                     </ul>
             </li>
                     </ul>
@@ -1574,7 +1977,7 @@ It also allows building a specific page or a subset of pages, clearing the cache
     </section>
 </section>
         </div>
-        <a href="classes/Cecil-Command-Build.html#top" class="phpdocumentor-back-to-top"><i class="fas fa-chevron-circle-up"></i></a>
+        <a href="classes/Cecil-Command-Doctor-DoctorSeo.html#top" class="phpdocumentor-back-to-top"><i class="fas fa-chevron-circle-up"></i></a>
 
     </main>
 

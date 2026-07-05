@@ -150,11 +150,12 @@
                                         <ul class="phpdocumentor-breadcrumbs">
             <li class="phpdocumentor-breadcrumb"><a href="namespaces/cecil.html">Cecil</a></li>
             <li class="phpdocumentor-breadcrumb"><a href="namespaces/cecil-command.html">Command</a></li>
+            <li class="phpdocumentor-breadcrumb"><a href="namespaces/cecil-command-cacheclear.html">CacheClear</a></li>
     </ul>
 
     <article class="phpdocumentor-element -class">
         <h2 class="phpdocumentor-content__title">
-    Build
+    CacheClearAssets
 
         <span class="phpdocumentor-element__extends">
         extends <a href="classes/Cecil-Command-AbstractCommand.html"><abbr title="\Cecil\Command\AbstractCommand">AbstractCommand</abbr></a>
@@ -170,18 +171,17 @@
 </div>
 
         <aside class="phpdocumentor-element-found-in">
-    <abbr class="phpdocumentor-element-found-in__file" title="src/Command/Build.php"><a href="files/src-command-build.html"><abbr title="src/Command/Build.php">Build.php</abbr></a></abbr>
+    <abbr class="phpdocumentor-element-found-in__file" title="src/Command/CacheClear/CacheClearAssets.php"><a href="files/src-command-cacheclear-cacheclearassets.html"><abbr title="src/Command/CacheClear/CacheClearAssets.php">CacheClearAssets.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">36</span>
+    <span class="phpdocumentor-element-found-in__line">29</span>
 
     </aside>
 
-            <p class="phpdocumentor-summary">Build command.</p>
+            <p class="phpdocumentor-summary">CacheClearAssets command.</p>
 
 
-    <section class="phpdocumentor-description"><p>This command generates the website in the output directory.
-It can include drafts, optimize generated files, and perform a dry run.
-It also allows building a specific page or a subset of pages, clearing the cache, and showing build metrics.</p>
+    <section class="phpdocumentor-description"><p>This command removes cached assets files from the assets cache directory.
+It is useful for clearing outdated or unnecessary assets that may have been cached during previous builds.</p>
 </section>
 
 
@@ -190,7 +190,7 @@ It also allows building a specific page or a subset of pages, clearing the cache
     
 <h3 id="toc">
     Table of Contents
-    <a href="classes/Cecil-Command-Build.html#toc" class="headerlink"><i class="fas fa-link"></i></a>
+    <a href="classes/Cecil-Command-CacheClear-CacheClearAssets.html#toc" class="headerlink"><i class="fas fa-link"></i></a>
 
 </h3>
 
@@ -202,7 +202,7 @@ It also allows building a specific page or a subset of pages, clearing the cache
 
 <h4 id="toc-constants">
     Constants
-    <a href="classes/Cecil-Command-Build.html#toc-constants" class="headerlink"><i class="fas fa-link"></i></a>
+    <a href="classes/Cecil-Command-CacheClear-CacheClearAssets.html#toc-constants" class="headerlink"><i class="fas fa-link"></i></a>
 
 </h4>
 <dl class="phpdocumentor-table-of-contents">
@@ -235,7 +235,7 @@ It also allows building a specific page or a subset of pages, clearing the cache
 
 <h4 id="toc-properties">
     Properties
-    <a href="classes/Cecil-Command-Build.html#toc-properties" class="headerlink"><i class="fas fa-link"></i></a>
+    <a href="classes/Cecil-Command-CacheClear-CacheClearAssets.html#toc-properties" class="headerlink"><i class="fas fa-link"></i></a>
 
 </h4>
 <dl class="phpdocumentor-table-of-contents">
@@ -267,7 +267,7 @@ It also allows building a specific page or a subset of pages, clearing the cache
 
 <h4 id="toc-methods">
     Methods
-    <a href="classes/Cecil-Command-Build.html#toc-methods" class="headerlink"><i class="fas fa-link"></i></a>
+    <a href="classes/Cecil-Command-CacheClear-CacheClearAssets.html#toc-methods" class="headerlink"><i class="fas fa-link"></i></a>
 
 </h4>
 <dl class="phpdocumentor-table-of-contents">
@@ -307,14 +307,14 @@ It also allows building a specific page or a subset of pages, clearing the cache
 <dd>Returns the &quot;binary name&quot; in the console context.</dd>
 
             <dt class="phpdocumentor-table-of-contents__entry -method -protected">
-    <a class="" href="classes/Cecil-Command-Build.html#method_configure">configure()</a>
+    <a class="" href="classes/Cecil-Command-CacheClear-CacheClearAssets.html#method_configure">configure()</a>
     <span>
                                 &nbsp;: mixed    </span>
 </dt>
 <dd>{@inheritdoc}</dd>
 
             <dt class="phpdocumentor-table-of-contents__entry -method -protected">
-    <a class="" href="classes/Cecil-Command-Build.html#method_execute">execute()</a>
+    <a class="" href="classes/Cecil-Command-CacheClear-CacheClearAssets.html#method_execute">execute()</a>
     <span>
                                 &nbsp;: int    </span>
 </dt>
@@ -369,20 +369,6 @@ It also allows building a specific page or a subset of pages, clearing the cache
 </dt>
 <dd>Opens path with editor.</dd>
 
-            <dt class="phpdocumentor-table-of-contents__entry -method -private">
-    <a class="" href="classes/Cecil-Command-Build.html#method_showBuildMetrics">showBuildMetrics()</a>
-    <span>
-                                &nbsp;: void    </span>
-</dt>
-<dd>Renders build metrics, compares them to previous run, and saves current values.</dd>
-
-            <dt class="phpdocumentor-table-of-contents__entry -method -private">
-    <a class="" href="classes/Cecil-Command-Build.html#method_showBuiltPages">showBuiltPages()</a>
-    <span>
-                                &nbsp;: void    </span>
-</dt>
-<dd>Renders built pages as a table.</dd>
-
     </dl>
 
 
@@ -391,7 +377,7 @@ It also allows building a specific page or a subset of pages, clearing the cache
     <section class="phpdocumentor-constants">
         <h3 class="phpdocumentor-elements__header" id="constants">
             Constants
-            <a href="classes/Cecil-Command-Build.html#constants" class="headerlink"><i class="fas fa-link"></i></a>
+            <a href="classes/Cecil-Command-CacheClear-CacheClearAssets.html#constants" class="headerlink"><i class="fas fa-link"></i></a>
 
         </h3>
                     <article class="phpdocumentor-element -constant -public ">
@@ -520,7 +506,7 @@ It also allows building a specific page or a subset of pages, clearing the cache
     <section class="phpdocumentor-properties">
         <h3 class="phpdocumentor-elements__header" id="properties">
             Properties
-            <a href="classes/Cecil-Command-Build.html#properties" class="headerlink"><i class="fas fa-link"></i></a>
+            <a href="classes/Cecil-Command-CacheClear-CacheClearAssets.html#properties" class="headerlink"><i class="fas fa-link"></i></a>
 
         </h3>
                     <article
@@ -676,7 +662,7 @@ It also allows building a specific page or a subset of pages, clearing the cache
             <section class="phpdocumentor-methods">
         <h3 class="phpdocumentor-elements__header" id="methods">
             Methods
-            <a href="classes/Cecil-Command-Build.html#methods" class="headerlink"><i class="fas fa-link"></i></a>
+            <a href="classes/Cecil-Command-CacheClear-CacheClearAssets.html#methods" class="headerlink"><i class="fas fa-link"></i></a>
 
         </h3>
                     <article
@@ -936,13 +922,13 @@ It also allows building a specific page or a subset of pages, clearing the cache
 >
     <h4 class="phpdocumentor-element__name" id="method_configure">
         configure()
-        <a href="classes/Cecil-Command-Build.html#method_configure" class="headerlink"><i class="fas fa-link"></i></a>
+        <a href="classes/Cecil-Command-CacheClear-CacheClearAssets.html#method_configure" class="headerlink"><i class="fas fa-link"></i></a>
 
     </h4>
     <aside class="phpdocumentor-element-found-in">
-    <abbr class="phpdocumentor-element-found-in__file" title="src/Command/Build.php"><a href="files/src-command-build.html"><abbr title="src/Command/Build.php">Build.php</abbr></a></abbr>
+    <abbr class="phpdocumentor-element-found-in__file" title="src/Command/CacheClear/CacheClearAssets.php"><a href="files/src-command-cacheclear-cacheclearassets.html"><abbr title="src/Command/CacheClear/CacheClearAssets.php">CacheClearAssets.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">41</span>
+    <span class="phpdocumentor-element-found-in__line">34</span>
 
     </aside>
 
@@ -971,13 +957,13 @@ It also allows building a specific page or a subset of pages, clearing the cache
 >
     <h4 class="phpdocumentor-element__name" id="method_execute">
         execute()
-        <a href="classes/Cecil-Command-Build.html#method_execute" class="headerlink"><i class="fas fa-link"></i></a>
+        <a href="classes/Cecil-Command-CacheClear-CacheClearAssets.html#method_execute" class="headerlink"><i class="fas fa-link"></i></a>
 
     </h4>
     <aside class="phpdocumentor-element-found-in">
-    <abbr class="phpdocumentor-element-found-in__file" title="src/Command/Build.php"><a href="files/src-command-build.html"><abbr title="src/Command/Build.php">Build.php</abbr></a></abbr>
+    <abbr class="phpdocumentor-element-found-in__file" title="src/Command/CacheClear/CacheClearAssets.php"><a href="files/src-command-cacheclear-cacheclearassets.html"><abbr title="src/Command/CacheClear/CacheClearAssets.php">CacheClearAssets.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">100</span>
+    <span class="phpdocumentor-element-found-in__line">52</span>
 
     </aside>
 
@@ -1393,110 +1379,6 @@ It also allows building a specific page or a subset of pages, clearing the cache
     
     
 </article>
-                    <article
-        class="phpdocumentor-element
-            -method
-            -private
-                                                        "
->
-    <h4 class="phpdocumentor-element__name" id="method_showBuildMetrics">
-        showBuildMetrics()
-        <a href="classes/Cecil-Command-Build.html#method_showBuildMetrics" class="headerlink"><i class="fas fa-link"></i></a>
-
-    </h4>
-    <aside class="phpdocumentor-element-found-in">
-    <abbr class="phpdocumentor-element-found-in__file" title="src/Command/Build.php"><a href="files/src-command-build.html"><abbr title="src/Command/Build.php">Build.php</abbr></a></abbr>
-    :
-    <span class="phpdocumentor-element-found-in__line">209</span>
-
-    </aside>
-
-        <p class="phpdocumentor-summary">Renders build metrics, compares them to previous run, and saves current values.</p>
-
-    <code class="phpdocumentor-code phpdocumentor-signature ">
-    <span class="phpdocumentor-signature__visibility">private</span>
-                    <span class="phpdocumentor-signature__name">showBuildMetrics</span><span>(</span><span class="phpdocumentor-signature__argument"><span class="phpdocumentor-signature__argument__type"><a href="classes/Cecil-Builder.html"><abbr title="\Cecil\Builder">Builder</abbr></a>&nbsp;</span><span class="phpdocumentor-signature__argument__name">$builder</span></span><span class="phpdocumentor-signature__argument"><span>, </span><span class="phpdocumentor-signature__argument__type"><abbr title="\Symfony\Component\Console\Output\OutputInterface">OutputInterface</abbr>&nbsp;</span><span class="phpdocumentor-signature__argument__name">$output</span></span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">void</span></code>
-
-    <div class="phpdocumentor-label-line">
-        </div>
-    
-    
-        <h5 class="phpdocumentor-argument-list__heading">Parameters</h5>
-    <dl class="phpdocumentor-argument-list">
-                    <dt class="phpdocumentor-argument-list__entry">
-                <span class="phpdocumentor-argument-list__argument__name">$builder</span>
-                : <span class="phpdocumentor-argument-list__argument__type"><a href="classes/Cecil-Builder.html"><abbr title="\Cecil\Builder">Builder</abbr></a></span>
-                            </dt>
-            <dd class="phpdocumentor-argument-list__definition">
-                
-            </dd>
-                    <dt class="phpdocumentor-argument-list__entry">
-                <span class="phpdocumentor-argument-list__argument__name">$output</span>
-                : <span class="phpdocumentor-argument-list__argument__type"><abbr title="\Symfony\Component\Console\Output\OutputInterface">OutputInterface</abbr></span>
-                            </dt>
-            <dd class="phpdocumentor-argument-list__definition">
-                
-            </dd>
-            </dl>
-
-    
-
-        
-    
-    
-</article>
-                    <article
-        class="phpdocumentor-element
-            -method
-            -private
-                                                        "
->
-    <h4 class="phpdocumentor-element__name" id="method_showBuiltPages">
-        showBuiltPages()
-        <a href="classes/Cecil-Command-Build.html#method_showBuiltPages" class="headerlink"><i class="fas fa-link"></i></a>
-
-    </h4>
-    <aside class="phpdocumentor-element-found-in">
-    <abbr class="phpdocumentor-element-found-in__file" title="src/Command/Build.php"><a href="files/src-command-build.html"><abbr title="src/Command/Build.php">Build.php</abbr></a></abbr>
-    :
-    <span class="phpdocumentor-element-found-in__line">310</span>
-
-    </aside>
-
-        <p class="phpdocumentor-summary">Renders built pages as a table.</p>
-
-    <code class="phpdocumentor-code phpdocumentor-signature ">
-    <span class="phpdocumentor-signature__visibility">private</span>
-                    <span class="phpdocumentor-signature__name">showBuiltPages</span><span>(</span><span class="phpdocumentor-signature__argument"><span class="phpdocumentor-signature__argument__type"><a href="classes/Cecil-Builder.html"><abbr title="\Cecil\Builder">Builder</abbr></a>&nbsp;</span><span class="phpdocumentor-signature__argument__name">$builder</span></span><span class="phpdocumentor-signature__argument"><span>, </span><span class="phpdocumentor-signature__argument__type"><abbr title="\Symfony\Component\Console\Output\OutputInterface">OutputInterface</abbr>&nbsp;</span><span class="phpdocumentor-signature__argument__name">$output</span></span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">void</span></code>
-
-    <div class="phpdocumentor-label-line">
-        </div>
-    
-    
-        <h5 class="phpdocumentor-argument-list__heading">Parameters</h5>
-    <dl class="phpdocumentor-argument-list">
-                    <dt class="phpdocumentor-argument-list__entry">
-                <span class="phpdocumentor-argument-list__argument__name">$builder</span>
-                : <span class="phpdocumentor-argument-list__argument__type"><a href="classes/Cecil-Builder.html"><abbr title="\Cecil\Builder">Builder</abbr></a></span>
-                            </dt>
-            <dd class="phpdocumentor-argument-list__definition">
-                
-            </dd>
-                    <dt class="phpdocumentor-argument-list__entry">
-                <span class="phpdocumentor-argument-list__argument__name">$output</span>
-                : <span class="phpdocumentor-argument-list__argument__type"><abbr title="\Symfony\Component\Console\Output\OutputInterface">OutputInterface</abbr></span>
-                            </dt>
-            <dd class="phpdocumentor-argument-list__definition">
-                
-            </dd>
-            </dl>
-
-    
-
-        
-    
-    
-</article>
             </section>
 
         
@@ -1511,9 +1393,9 @@ It also allows building a specific page or a subset of pages, clearing the cache
             <li class="phpdocumentor-on-this-page-section__title">Table Of Contents</li>
             <li>
                 <ul class="phpdocumentor-list -clean">
-                                        <li><a href="classes/Cecil-Command-Build.html#toc-constants">Constants</a></li>
-                                                            <li><a href="classes/Cecil-Command-Build.html#toc-properties">Properties</a></li>
-                                                            <li><a href="classes/Cecil-Command-Build.html#toc-methods">Methods</a></li>
+                                        <li><a href="classes/Cecil-Command-CacheClear-CacheClearAssets.html#toc-constants">Constants</a></li>
+                                                            <li><a href="classes/Cecil-Command-CacheClear-CacheClearAssets.html#toc-properties">Properties</a></li>
+                                                            <li><a href="classes/Cecil-Command-CacheClear-CacheClearAssets.html#toc-methods">Methods</a></li>
                                     </ul>
             </li>
                             <li class="phpdocumentor-on-this-page-section__title">Constants</li>
@@ -1544,8 +1426,8 @@ It also allows building a specific page or a subset of pages, clearing the cache
                                             <li class=""><a href="classes/Cecil-Command-AbstractCommand.html#method_run">run()</a></li>
                                             <li class=""><a href="classes/Cecil-Command-AbstractCommand.html#method_validateUrl">validateUrl()</a></li>
                                             <li class=""><a href="classes/Cecil-Command-AbstractCommand.html#method_binName">binName()</a></li>
-                                            <li class=""><a href="classes/Cecil-Command-Build.html#method_configure">configure()</a></li>
-                                            <li class=""><a href="classes/Cecil-Command-Build.html#method_execute">execute()</a></li>
+                                            <li class=""><a href="classes/Cecil-Command-CacheClear-CacheClearAssets.html#method_configure">configure()</a></li>
+                                            <li class=""><a href="classes/Cecil-Command-CacheClear-CacheClearAssets.html#method_execute">execute()</a></li>
                                             <li class=""><a href="classes/Cecil-Command-AbstractCommand.html#method_getBuilder">getBuilder()</a></li>
                                             <li class=""><a href="classes/Cecil-Command-AbstractCommand.html#method_getConfigFiles">getConfigFiles()</a></li>
                                             <li class=""><a href="classes/Cecil-Command-AbstractCommand.html#method_getPath">getPath()</a></li>
@@ -1553,8 +1435,6 @@ It also allows building a specific page or a subset of pages, clearing the cache
                                             <li class=""><a href="classes/Cecil-Command-AbstractCommand.html#method_locateAdditionalConfigFiles">locateAdditionalConfigFiles()</a></li>
                                             <li class=""><a href="classes/Cecil-Command-AbstractCommand.html#method_locateConfigFile">locateConfigFile()</a></li>
                                             <li class=""><a href="classes/Cecil-Command-AbstractCommand.html#method_openEditor">openEditor()</a></li>
-                                            <li class=""><a href="classes/Cecil-Command-Build.html#method_showBuildMetrics">showBuildMetrics()</a></li>
-                                            <li class=""><a href="classes/Cecil-Command-Build.html#method_showBuiltPages">showBuiltPages()</a></li>
                                     </ul>
             </li>
                     </ul>
@@ -1574,7 +1454,7 @@ It also allows building a specific page or a subset of pages, clearing the cache
     </section>
 </section>
         </div>
-        <a href="classes/Cecil-Command-Build.html#top" class="phpdocumentor-back-to-top"><i class="fas fa-chevron-circle-up"></i></a>
+        <a href="classes/Cecil-Command-CacheClear-CacheClearAssets.html#top" class="phpdocumentor-back-to-top"><i class="fas fa-chevron-circle-up"></i></a>
 
     </main>
 

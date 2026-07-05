@@ -149,15 +149,14 @@
                                 <section>
                                         <ul class="phpdocumentor-breadcrumbs">
             <li class="phpdocumentor-breadcrumb"><a href="namespaces/cecil.html">Cecil</a></li>
+            <li class="phpdocumentor-breadcrumb"><a href="namespaces/cecil-command.html">Command</a></li>
+            <li class="phpdocumentor-breadcrumb"><a href="namespaces/cecil-command-build.html">Build</a></li>
     </ul>
 
     <article class="phpdocumentor-element -class">
         <h2 class="phpdocumentor-content__title">
-    Application
+    IncrementalBuildExecutor
 
-        <span class="phpdocumentor-element__extends">
-        extends <abbr title="\Symfony\Component\Console\Application">Application</abbr>
-    </span>
     
     
     
@@ -169,17 +168,15 @@
 </div>
 
         <aside class="phpdocumentor-element-found-in">
-    <abbr class="phpdocumentor-element-found-in__file" title="src/Application.php"><a href="files/src-application.html"><abbr title="src/Application.php">Application.php</abbr></a></abbr>
+    <abbr class="phpdocumentor-element-found-in__file" title="src/Command/Build/IncrementalBuildExecutor.php"><a href="files/src-command-build-incrementalbuildexecutor.html"><abbr title="src/Command/Build/IncrementalBuildExecutor.php">IncrementalBuildExecutor.php</abbr></a></abbr>
     :
     <span class="phpdocumentor-element-found-in__line">23</span>
 
     </aside>
 
-            <p class="phpdocumentor-summary">The console application that handles the commands.</p>
+            <p class="phpdocumentor-summary">Executes incremental build strategy and runs the required build subprocesses.</p>
 
 
-    <section class="phpdocumentor-description"><p>This class extends the Symfony Console Application.</p>
-</section>
 
 
 
@@ -187,7 +184,7 @@
     
 <h3 id="toc">
     Table of Contents
-    <a href="classes/Cecil-Application.html#toc" class="headerlink"><i class="fas fa-link"></i></a>
+    <a href="classes/Cecil-Command-Build-IncrementalBuildExecutor.html#toc" class="headerlink"><i class="fas fa-link"></i></a>
 
 </h3>
 
@@ -201,45 +198,35 @@
 
 <h4 id="toc-properties">
     Properties
-    <a href="classes/Cecil-Application.html#toc-properties" class="headerlink"><i class="fas fa-link"></i></a>
+    <a href="classes/Cecil-Command-Build-IncrementalBuildExecutor.html#toc-properties" class="headerlink"><i class="fas fa-link"></i></a>
 
 </h4>
 <dl class="phpdocumentor-table-of-contents">
             <dt class="phpdocumentor-table-of-contents__entry -property -private">
-    <a class="" href="classes/Cecil-Application.html#property_author">$author</a>
+    <a class="" href="classes/Cecil-Command-Build-IncrementalBuildExecutor.html#property_resolver">$resolver</a>
     <span>
-                        &nbsp;: string            </span>
+                        &nbsp;: <a href="classes/Cecil-Command-Build-IncrementalBuildResolver.html"><abbr title="\Cecil\Command\Build\IncrementalBuildResolver">IncrementalBuildResolver</abbr></a>            </span>
 </dt>
-<dd>Author of the application.</dd>
-
-            <dt class="phpdocumentor-table-of-contents__entry -property -private">
-    <a class="" href="classes/Cecil-Application.html#property_description">$description</a>
-    <span>
-                        &nbsp;: string            </span>
-</dt>
-<dd>Description of the application.</dd>
 
     </dl>
 
 <h4 id="toc-methods">
     Methods
-    <a href="classes/Cecil-Application.html#toc-methods" class="headerlink"><i class="fas fa-link"></i></a>
+    <a href="classes/Cecil-Command-Build-IncrementalBuildExecutor.html#toc-methods" class="headerlink"><i class="fas fa-link"></i></a>
 
 </h4>
 <dl class="phpdocumentor-table-of-contents">
             <dt class="phpdocumentor-table-of-contents__entry -method -public">
-    <a class="" href="classes/Cecil-Application.html#method_getHelp">getHelp()</a>
+    <a class="" href="classes/Cecil-Command-Build-IncrementalBuildExecutor.html#method___construct">__construct()</a>
     <span>
-                                &nbsp;: string    </span>
+                                &nbsp;: mixed    </span>
 </dt>
-<dd>{@inheritdoc}</dd>
 
-            <dt class="phpdocumentor-table-of-contents__entry -method -protected">
-    <a class="" href="classes/Cecil-Application.html#method_getDefaultCommands">getDefaultCommands()</a>
+            <dt class="phpdocumentor-table-of-contents__entry -method -public">
+    <a class="" href="classes/Cecil-Command-Build-IncrementalBuildExecutor.html#method_execute">execute()</a>
     <span>
-                                &nbsp;: array&lt;string|int, mixed&gt;    </span>
+                                &nbsp;: void    </span>
 </dt>
-<dd>{@inheritdoc}</dd>
 
     </dl>
 
@@ -251,7 +238,7 @@
     <section class="phpdocumentor-properties">
         <h3 class="phpdocumentor-elements__header" id="properties">
             Properties
-            <a href="classes/Cecil-Application.html#properties" class="headerlink"><i class="fas fa-link"></i></a>
+            <a href="classes/Cecil-Command-Build-IncrementalBuildExecutor.html#properties" class="headerlink"><i class="fas fa-link"></i></a>
 
         </h3>
                     <article
@@ -259,68 +246,29 @@
             phpdocumentor-element
             -property
             -private
-            -static                                                        "
+                                                -read-only                    "
 >
-    <h4 class="phpdocumentor-element__name" id="property_author">
-        $author
-        <a href="classes/Cecil-Application.html#property_author" class="headerlink"><i class="fas fa-link"></i></a>
+    <h4 class="phpdocumentor-element__name" id="property_resolver">
+        $resolver
+        <a href="classes/Cecil-Command-Build-IncrementalBuildExecutor.html#property_resolver" class="headerlink"><i class="fas fa-link"></i></a>
 
         <span class="phpdocumentor-element__modifiers">
-                                            </span>
+                        <small class="phpdocumentor-element__modifier">read-only</small>                    </span>
     </h4>
     <aside class="phpdocumentor-element-found-in">
-    <abbr class="phpdocumentor-element-found-in__file" title="src/Application.php"><a href="files/src-application.html"><abbr title="src/Application.php">Application.php</abbr></a></abbr>
+    <abbr class="phpdocumentor-element-found-in__file" title="src/Command/Build/IncrementalBuildExecutor.php"><a href="files/src-command-build-incrementalbuildexecutor.html"><abbr title="src/Command/Build/IncrementalBuildExecutor.php">IncrementalBuildExecutor.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">29</span>
+    <span class="phpdocumentor-element-found-in__line">26</span>
 
     </aside>
 
-        <p class="phpdocumentor-summary">Author of the application.</p>
-
+    
     
     <code class="phpdocumentor-code phpdocumentor-signature ">
         <span class="phpdocumentor-signature__visibility">private</span>
-        <span class="phpdocumentor-signature__static">static</span>    <span class="phpdocumentor-signature__type">string</span>
-    <span class="phpdocumentor-signature__name">$author</span>
-     = <span class="phpdocumentor-signature__default-value">&#039;Arnaud Ligny&#039;</span></code>
-
-    
-    
-    
-
-        
-        
-
-</article>
-                    <article
-        class="
-            phpdocumentor-element
-            -property
-            -private
-            -static                                                        "
->
-    <h4 class="phpdocumentor-element__name" id="property_description">
-        $description
-        <a href="classes/Cecil-Application.html#property_description" class="headerlink"><i class="fas fa-link"></i></a>
-
-        <span class="phpdocumentor-element__modifiers">
-                                            </span>
-    </h4>
-    <aside class="phpdocumentor-element-found-in">
-    <abbr class="phpdocumentor-element-found-in__file" title="src/Application.php"><a href="files/src-application.html"><abbr title="src/Application.php">Application.php</abbr></a></abbr>
-    :
-    <span class="phpdocumentor-element-found-in__line">35</span>
-
-    </aside>
-
-        <p class="phpdocumentor-summary">Description of the application.</p>
-
-    
-    <code class="phpdocumentor-code phpdocumentor-signature ">
-        <span class="phpdocumentor-signature__visibility">private</span>
-        <span class="phpdocumentor-signature__static">static</span>    <span class="phpdocumentor-signature__type">string</span>
-    <span class="phpdocumentor-signature__name">$description</span>
-     = <span class="phpdocumentor-signature__default-value">&#039;Cecil is a simple and powerful content-driven static site generator.&#039;</span></code>
+            <span class="phpdocumentor-signature__type"><a href="classes/Cecil-Command-Build-IncrementalBuildResolver.html"><abbr title="\Cecil\Command\Build\IncrementalBuildResolver">IncrementalBuildResolver</abbr></a></span>
+    <span class="phpdocumentor-signature__name">$resolver</span>
+    </code>
 
     
     
@@ -335,7 +283,7 @@
             <section class="phpdocumentor-methods">
         <h3 class="phpdocumentor-elements__header" id="methods">
             Methods
-            <a href="classes/Cecil-Application.html#methods" class="headerlink"><i class="fas fa-link"></i></a>
+            <a href="classes/Cecil-Command-Build-IncrementalBuildExecutor.html#methods" class="headerlink"><i class="fas fa-link"></i></a>
 
         </h3>
                     <article
@@ -344,77 +292,122 @@
             -public
                                                         "
 >
-    <h4 class="phpdocumentor-element__name" id="method_getHelp">
-        getHelp()
-        <a href="classes/Cecil-Application.html#method_getHelp" class="headerlink"><i class="fas fa-link"></i></a>
+    <h4 class="phpdocumentor-element__name" id="method___construct">
+        __construct()
+        <a href="classes/Cecil-Command-Build-IncrementalBuildExecutor.html#method___construct" class="headerlink"><i class="fas fa-link"></i></a>
 
     </h4>
     <aside class="phpdocumentor-element-found-in">
-    <abbr class="phpdocumentor-element-found-in__file" title="src/Application.php"><a href="files/src-application.html"><abbr title="src/Application.php">Application.php</abbr></a></abbr>
+    <abbr class="phpdocumentor-element-found-in__file" title="src/Command/Build/IncrementalBuildExecutor.php"><a href="files/src-command-build-incrementalbuildexecutor.html"><abbr title="src/Command/Build/IncrementalBuildExecutor.php">IncrementalBuildExecutor.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">40</span>
+    <span class="phpdocumentor-element-found-in__line">25</span>
 
     </aside>
 
-        <p class="phpdocumentor-summary">{@inheritdoc}</p>
-
+    
     <code class="phpdocumentor-code phpdocumentor-signature ">
     <span class="phpdocumentor-signature__visibility">public</span>
-                    <span class="phpdocumentor-signature__name">getHelp</span><span>(</span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">string</span></code>
+                    <span class="phpdocumentor-signature__name">__construct</span><span>(</span><span class="phpdocumentor-signature__argument"><span class="phpdocumentor-signature__argument__type"><a href="classes/Cecil-Command-Build-IncrementalBuildResolver.html"><abbr title="\Cecil\Command\Build\IncrementalBuildResolver">IncrementalBuildResolver</abbr></a>&nbsp;</span><span class="phpdocumentor-signature__argument__name">$resolver</span></span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">mixed</span></code>
 
     <div class="phpdocumentor-label-line">
         </div>
     
     
-    
+        <h5 class="phpdocumentor-argument-list__heading">Parameters</h5>
+    <dl class="phpdocumentor-argument-list">
+                    <dt class="phpdocumentor-argument-list__entry">
+                <span class="phpdocumentor-argument-list__argument__name">$resolver</span>
+                : <span class="phpdocumentor-argument-list__argument__type"><a href="classes/Cecil-Command-Build-IncrementalBuildResolver.html"><abbr title="\Cecil\Command\Build\IncrementalBuildResolver">IncrementalBuildResolver</abbr></a></span>
+                            </dt>
+            <dd class="phpdocumentor-argument-list__definition">
+                
+            </dd>
+            </dl>
+
     
 
         
     
-            <section>
-        <h5 class="phpdocumentor-return-value__heading">Return values</h5>
-        <span class="phpdocumentor-signature__response_type">string</span>
-            </section>
-
+    
 </article>
                     <article
         class="phpdocumentor-element
             -method
-            -protected
+            -public
                                                         "
 >
-    <h4 class="phpdocumentor-element__name" id="method_getDefaultCommands">
-        getDefaultCommands()
-        <a href="classes/Cecil-Application.html#method_getDefaultCommands" class="headerlink"><i class="fas fa-link"></i></a>
+    <h4 class="phpdocumentor-element__name" id="method_execute">
+        execute()
+        <a href="classes/Cecil-Command-Build-IncrementalBuildExecutor.html#method_execute" class="headerlink"><i class="fas fa-link"></i></a>
 
     </h4>
     <aside class="phpdocumentor-element-found-in">
-    <abbr class="phpdocumentor-element-found-in__file" title="src/Application.php"><a href="files/src-application.html"><abbr title="src/Application.php">Application.php</abbr></a></abbr>
+    <abbr class="phpdocumentor-element-found-in__file" title="src/Command/Build/IncrementalBuildExecutor.php"><a href="files/src-command-build-incrementalbuildexecutor.html"><abbr title="src/Command/Build/IncrementalBuildExecutor.php">IncrementalBuildExecutor.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">53</span>
+    <span class="phpdocumentor-element-found-in__line">36</span>
 
     </aside>
 
-        <p class="phpdocumentor-summary">{@inheritdoc}</p>
-
+    
     <code class="phpdocumentor-code phpdocumentor-signature ">
-    <span class="phpdocumentor-signature__visibility">protected</span>
-                    <span class="phpdocumentor-signature__name">getDefaultCommands</span><span>(</span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">array&lt;string|int, mixed&gt;</span></code>
+    <span class="phpdocumentor-signature__visibility">public</span>
+                    <span class="phpdocumentor-signature__name">execute</span><span>(</span><span class="phpdocumentor-signature__argument"><span class="phpdocumentor-signature__argument__type"><abbr title="\Yosymfony\ResourceWatcher\ResourceWatcherResult">ResourceWatcherResult</abbr>&nbsp;</span><span class="phpdocumentor-signature__argument__name">$watcher</span></span><span class="phpdocumentor-signature__argument"><span>, </span><span class="phpdocumentor-signature__argument__type"><abbr title="\Symfony\Component\Console\Output\OutputInterface">OutputInterface</abbr>&nbsp;</span><span class="phpdocumentor-signature__argument__name">$output</span></span><span class="phpdocumentor-signature__argument"><span>, </span><span class="phpdocumentor-signature__argument__type">callable(Array): <abbr title="\Symfony\Component\Process\Process">Process</abbr>&nbsp;</span><span class="phpdocumentor-signature__argument__name">$createBuildProcess</span></span><span class="phpdocumentor-signature__argument"><span>, </span><span class="phpdocumentor-signature__argument__type">callable(string, string): void&nbsp;</span><span class="phpdocumentor-signature__argument__name">$processOutputCallback</span></span><span class="phpdocumentor-signature__argument"><span>, </span><span class="phpdocumentor-signature__argument__type">callable(): void&nbsp;</span><span class="phpdocumentor-signature__argument__name">$flushBuildOutput</span></span><span class="phpdocumentor-signature__argument"><span>, </span><span class="phpdocumentor-signature__argument__type">callable(): void&nbsp;</span><span class="phpdocumentor-signature__argument__name">$onBuildSuccess</span></span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">void</span></code>
 
     <div class="phpdocumentor-label-line">
         </div>
     
     
-    
+        <h5 class="phpdocumentor-argument-list__heading">Parameters</h5>
+    <dl class="phpdocumentor-argument-list">
+                    <dt class="phpdocumentor-argument-list__entry">
+                <span class="phpdocumentor-argument-list__argument__name">$watcher</span>
+                : <span class="phpdocumentor-argument-list__argument__type"><abbr title="\Yosymfony\ResourceWatcher\ResourceWatcherResult">ResourceWatcherResult</abbr></span>
+                            </dt>
+            <dd class="phpdocumentor-argument-list__definition">
+                
+            </dd>
+                    <dt class="phpdocumentor-argument-list__entry">
+                <span class="phpdocumentor-argument-list__argument__name">$output</span>
+                : <span class="phpdocumentor-argument-list__argument__type"><abbr title="\Symfony\Component\Console\Output\OutputInterface">OutputInterface</abbr></span>
+                            </dt>
+            <dd class="phpdocumentor-argument-list__definition">
+                
+            </dd>
+                    <dt class="phpdocumentor-argument-list__entry">
+                <span class="phpdocumentor-argument-list__argument__name">$createBuildProcess</span>
+                : <span class="phpdocumentor-argument-list__argument__type">callable(Array): <abbr title="\Symfony\Component\Process\Process">Process</abbr></span>
+                            </dt>
+            <dd class="phpdocumentor-argument-list__definition">
+                
+            </dd>
+                    <dt class="phpdocumentor-argument-list__entry">
+                <span class="phpdocumentor-argument-list__argument__name">$processOutputCallback</span>
+                : <span class="phpdocumentor-argument-list__argument__type">callable(string, string): void</span>
+                            </dt>
+            <dd class="phpdocumentor-argument-list__definition">
+                
+            </dd>
+                    <dt class="phpdocumentor-argument-list__entry">
+                <span class="phpdocumentor-argument-list__argument__name">$flushBuildOutput</span>
+                : <span class="phpdocumentor-argument-list__argument__type">callable(): void</span>
+                            </dt>
+            <dd class="phpdocumentor-argument-list__definition">
+                
+            </dd>
+                    <dt class="phpdocumentor-argument-list__entry">
+                <span class="phpdocumentor-argument-list__argument__name">$onBuildSuccess</span>
+                : <span class="phpdocumentor-argument-list__argument__type">callable(): void</span>
+                            </dt>
+            <dd class="phpdocumentor-argument-list__definition">
+                
+            </dd>
+            </dl>
+
     
 
         
     
-            <section>
-        <h5 class="phpdocumentor-return-value__heading">Return values</h5>
-        <span class="phpdocumentor-signature__response_type">array&lt;string|int, mixed&gt;</span>
-            </section>
-
+    
 </article>
             </section>
 
@@ -430,24 +423,23 @@
             <li class="phpdocumentor-on-this-page-section__title">Table Of Contents</li>
             <li>
                 <ul class="phpdocumentor-list -clean">
-                                                            <li><a href="classes/Cecil-Application.html#toc-properties">Properties</a></li>
-                                                            <li><a href="classes/Cecil-Application.html#toc-methods">Methods</a></li>
+                                                            <li><a href="classes/Cecil-Command-Build-IncrementalBuildExecutor.html#toc-properties">Properties</a></li>
+                                                            <li><a href="classes/Cecil-Command-Build-IncrementalBuildExecutor.html#toc-methods">Methods</a></li>
                                     </ul>
             </li>
             
                             <li class="phpdocumentor-on-this-page-section__title">Properties</li>
                 <li>
                     <ul class="phpdocumentor-list -clean">
-                                                    <li class=""><a href="classes/Cecil-Application.html#property_author">$author</a></li>
-                                                    <li class=""><a href="classes/Cecil-Application.html#property_description">$description</a></li>
+                                                    <li class=""><a href="classes/Cecil-Command-Build-IncrementalBuildExecutor.html#property_resolver">$resolver</a></li>
                                             </ul>
                 </li>
             
                         <li class="phpdocumentor-on-this-page-section__title">Methods</li>
             <li>
                 <ul class="phpdocumentor-list -clean">
-                                            <li class=""><a href="classes/Cecil-Application.html#method_getHelp">getHelp()</a></li>
-                                            <li class=""><a href="classes/Cecil-Application.html#method_getDefaultCommands">getDefaultCommands()</a></li>
+                                            <li class=""><a href="classes/Cecil-Command-Build-IncrementalBuildExecutor.html#method___construct">__construct()</a></li>
+                                            <li class=""><a href="classes/Cecil-Command-Build-IncrementalBuildExecutor.html#method_execute">execute()</a></li>
                                     </ul>
             </li>
                     </ul>
@@ -467,7 +459,7 @@
     </section>
 </section>
         </div>
-        <a href="classes/Cecil-Application.html#top" class="phpdocumentor-back-to-top"><i class="fas fa-chevron-circle-up"></i></a>
+        <a href="classes/Cecil-Command-Build-IncrementalBuildExecutor.html#top" class="phpdocumentor-back-to-top"><i class="fas fa-chevron-circle-up"></i></a>
 
     </main>
 
