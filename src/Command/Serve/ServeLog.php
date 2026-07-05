@@ -11,8 +11,9 @@
 
 declare(strict_types=1);
 
-namespace Cecil\Command;
+namespace Cecil\Command\Serve;
 
+use Cecil\Command\AbstractCommand;
 use Cecil\Builder;
 use Cecil\Util;
 use Symfony\Component\Console\Command\Command;

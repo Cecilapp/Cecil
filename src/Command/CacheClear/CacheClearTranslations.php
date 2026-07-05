@@ -11,9 +11,9 @@
 
 declare(strict_types=1);
 
-namespace Cecil\Command;
+namespace Cecil\Command\CacheClear;
 
-use Cecil\Builder;
+use Cecil\Command\AbstractCommand;
 use Cecil\Util;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
@@ -21,11 +21,12 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
 /**
- * ClearTmp command.
+ * CacheClearTranslations command.
  *
- * This command removes the temporary directory.
+ * This command removes cached translations files from the translations cache directory.
+ * It is useful for clearing outdated or unnecessary translations that may have been cached during previous builds.
  */
-class ClearTmp extends AbstractCommand
+class CacheClearTranslations extends AbstractCommand
 {
     /**
      * {@inheritdoc}
@@ -33,15 +34,14 @@ class ClearTmp extends AbstractCommand
     protected function configure()
     {
         $this
-            ->setName('clear:temporary')
-            ->setAliases(['clear:tmp'])
-            ->setDescription('Removes temporary directory')
+            ->setName('cache:clear:translations')
+            ->setDescription('Removes translations cache')
             ->setDefinition([
                 new InputArgument('path', InputArgument::OPTIONAL, 'Use the given path as working directory'),
             ])
             ->setHelp(
                 <<<'EOF'
-The <info>%command.name%</> command removes temporary directory.
+The <info>%command.name%</> command removes cached translations files.
 EOF
             );
     }
@@ -51,18 +51,18 @@ EOF
      */
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
-        $this->io->title('Removing temporary directory');
-        if (!Util\File::getFS()->exists(Util::joinFile($this->getPath(), Builder::TMP_DIR))) {
-            $this->io->success('No temporary directory.');
+        $this->io->title('Removing translations cache directory');
+        if (!Util\File::getFS()->exists($this->getBuilder()->getConfig()->getCacheTranslationsPath())) {
+            $this->io->success('No translations cache.');
 
             return Command::SUCCESS;
         }
         $output->writeln(
-            \sprintf('<comment>Path: %s</comment>', Util::joinFile($this->getPath(), Builder::TMP_DIR)),
+            \sprintf('<comment>Path: %s</comment>', $this->getBuilder()->getConfig()->getCacheTranslationsPath()),
             OutputInterface::VERBOSITY_VERBOSE
         );
-        Util\File::getFS()->remove(Util::joinFile($this->getPath(), Builder::TMP_DIR));
-        $this->io->success('Temporary directory removed.');
+        Util\File::getFS()->remove($this->getBuilder()->getConfig()->getCacheTranslationsPath());
+        $this->io->success('Translations cache cleared.');
 
         return Command::SUCCESS;
     }
