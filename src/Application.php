@@ -70,6 +70,7 @@ class Application extends BaseApplication
             new Command\CacheClear\CacheClearAssets(),
             new Command\CacheClear\CacheClearTemplates(),
             new Command\CacheClear\CacheClearTranslations(),
+            new Command\Doctor\DoctorCache(),
             new Command\Doctor(),
             new Command\Doctor\DoctorFrontmatter(),
             new Command\Doctor\DoctorSeo(),

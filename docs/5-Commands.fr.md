@@ -2,7 +2,7 @@
 title: Commandes
 description: "Liste des commandes disponibles."
 date: 2026-03-27
-updated: 2026-06-25
+updated: 2026-07-06
 slug: commandes
 -->
 # Commandes
@@ -28,6 +28,7 @@ Available commands:
   clear:temporary            [clear:tmp] Removes temporary directory
  doctor
   doctor:frontmatter         [doctor:fm] Validates pages front matter syntax
+  doctor:cache               Shows cache status
   doctor:seo                 Audits rendered HTML pages for common SEO issues
  new
   new:page                   Creates a new page

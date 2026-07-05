@@ -72,6 +72,27 @@ class IntegrationCliTests extends IntegrationTests
         self::assertTrue($retval < 1);
     }
 
+    public function testDoctorCache(): void
+    {
+        exec('php ./bin/cecil new:site tests/demo --demo -n -f', $output, $retval);
+        self::assertTrue($retval < 1);
+        $output = [];
+        exec('php ./bin/cecil build tests/demo', $output, $retval);
+        self::assertTrue($retval < 1);
+
+        $output = [];
+        exec('php ./bin/cecil doctor:cache tests/demo 2>&1', $output, $retval);
+        $output = implode("\n", $output);
+        echo $output;
+
+        self::assertTrue($retval < 1);
+        self::assertStringContainsString('Cache status', $output);
+        self::assertStringContainsString('Settings', $output);
+        self::assertStringContainsString('Usage', $output);
+        self::assertStringContainsString('Optimized', $output);
+        self::assertStringContainsString('Total', $output);
+    }
+
     public function testDoctor(): void
     {
         exec('php ./bin/cecil new:site tests/demo --demo -n -f', $output, $retval);
