@@ -2,6 +2,12 @@
 
 All notable changes to this project will be documented in this file. Dates are displayed in UTC.
 
+#### [8.114.2](https://github.com/Cecilapp/Cecil/compare/8.114.1...8.114.2)
+
+> 5 July 2026
+
+- fix: trim markdown template content output [`b7a11c1`](https://github.com/Cecilapp/Cecil/commit/b7a11c1c0d80f57429b35257056fb5141b8d2d0c)
+
 #### [8.114.1](https://github.com/Cecilapp/Cecil/compare/8.114.0...8.114.1)
 
 > 5 July 2026
