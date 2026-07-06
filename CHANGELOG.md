@@ -2,6 +2,15 @@
 
 All notable changes to this project will be documented in this file. Dates are displayed in UTC.
 
+#### [8.115.0](https://github.com/Cecilapp/Cecil/compare/8.114.2...8.115.0)
+
+> 6 July 2026
+
+- docs: update API documentation [`45bb3bd`](https://github.com/Cecilapp/Cecil/commit/45bb3bd4d060ef33f004c94fc415080f5037500c)
+- feat: add doctor:cache command for cache metrics [`cbba83a`](https://github.com/Cecilapp/Cecil/commit/cbba83a6ba03a8dc36fd988381b6324080af70b9)
+- refactor: group cmd classes by feature namespace [`8e2302b`](https://github.com/Cecilapp/Cecil/commit/8e2302be076a61137fb084f71d75d49833c8c8bd)
+- chore: update deps [`f769270`](https://github.com/Cecilapp/Cecil/commit/f7692703101e12566eadf2bdc402bf1c25d5f016)
+
 #### [8.114.2](https://github.com/Cecilapp/Cecil/compare/8.114.1...8.114.2)
 
 > 5 July 2026
