@@ -59,14 +59,15 @@ class Parser
             if (!$this->file->isReadable()) {
                 throw new RuntimeException('Cannot read file.');
             }
+            $content = $this->file->getContents();
             preg_match(
                 '/' . self::PATTERN . '/s',
-                $this->file->getContents(),
+                $content,
                 $matches
             );
             // if there is not front matter, set body only
             if (empty($matches)) {
-                $this->body = $this->file->getContents();
+                $this->body = $content;
 
                 return $this;
             }

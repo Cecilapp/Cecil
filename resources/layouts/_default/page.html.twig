@@ -12,7 +12,7 @@
     {%- endblock head ~%}
     {%- block head_css ~%}
     <style>{% apply minify_css ~%}
-      {{- include('partials/pico.css.twig') }}
+      {{- include('partials/pico.css.twig') ~}}
       /* Pico CSS overrides */
       body > header,
       body > main,
@@ -93,6 +93,9 @@
         border: 1px solid red;
         border-left-width: 4px;
       }
+      {%- if config.pages.body.highlight|default(true) ~%}
+      {{- include('partials/highlight.css.twig') ~}}
+      {%- endif ~%}
     {% endapply %}</style>
     {%- endblock head_css ~%}
   </head>

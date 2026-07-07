@@ -11,8 +11,9 @@
 
 declare(strict_types=1);
 
-namespace Cecil\Command;
+namespace Cecil\Command\Doctor;
 
+use Cecil\Command\AbstractCommand;
 use Cecil\Doctor\FrontmatterDoctor;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Helper\Table;

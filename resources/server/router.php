@@ -282,6 +282,16 @@ function getPathInfo(string $path): array
                 ],
             ];
             break;
+        case 'md':
+        case 'markdown':
+            $info = [
+                'media_maintype' => 'text',
+                'media_subtype'  => 'plain',
+                'headers'        => [
+                    'Content-Type: text/plain; charset=utf-8',
+                ],
+            ];
+            break;
     }
     // forces info according to the media main type
     switch ($info['media_maintype']) {

@@ -2,6 +2,54 @@
 
 All notable changes to this project will be documented in this file. Dates are displayed in UTC.
 
+#### [8.115.0](https://github.com/Cecilapp/Cecil/compare/8.114.2...8.115.0)
+
+> 6 July 2026
+
+- docs: update API documentation [`45bb3bd`](https://github.com/Cecilapp/Cecil/commit/45bb3bd4d060ef33f004c94fc415080f5037500c)
+- feat: add doctor:cache command for cache metrics [`cbba83a`](https://github.com/Cecilapp/Cecil/commit/cbba83a6ba03a8dc36fd988381b6324080af70b9)
+- refactor: group cmd classes by feature namespace [`8e2302b`](https://github.com/Cecilapp/Cecil/commit/8e2302be076a61137fb084f71d75d49833c8c8bd)
+- chore: update deps [`f769270`](https://github.com/Cecilapp/Cecil/commit/f7692703101e12566eadf2bdc402bf1c25d5f016)
+
+#### [8.114.2](https://github.com/Cecilapp/Cecil/compare/8.114.1...8.114.2)
+
+> 5 July 2026
+
+- fix: trim markdown template content output [`b7a11c1`](https://github.com/Cecilapp/Cecil/commit/b7a11c1c0d80f57429b35257056fb5141b8d2d0c)
+
+#### [8.114.1](https://github.com/Cecilapp/Cecil/compare/8.114.0...8.114.1)
+
+> 5 July 2026
+
+- fix: fix section/page filtering in markdown listings [`bd6f20e`](https://github.com/Cecilapp/Cecil/commit/bd6f20e4e84cf4109ccb7e72a212c092d23e9cad)
+- chore: refresh French translation files [`4a98b5f`](https://github.com/Cecilapp/Cecil/commit/4a98b5ff8353e1cfa1032cfe35ef5072cdb395c3)
+- Fix LLM home links to markdown output [`8b04936`](https://github.com/Cecilapp/Cecil/commit/8b04936ffd8a1835db38bbc7eef26b2d34075d43)
+
+#### [8.114.0](https://github.com/Cecilapp/Cecil/compare/8.113.0...8.114.0)
+
+> 4 July 2026
+
+- chore(deps-dev): bump phpstan/phpstan from 2.2.3 to 2.2.4 [`#2430`](https://github.com/Cecilapp/Cecil/pull/2430)
+- feat: add Markdown output format and templates [`2ab2044`](https://github.com/Cecilapp/Cecil/commit/2ab2044cd1c2c5c5991774754105d1642457a704)
+- chore: update deps [`5a4bd14`](https://github.com/Cecilapp/Cecil/commit/5a4bd143659e82b4ca02ddf3c1ace82d011218cd)
+- feat: add llms.txt output format support [`ed593cd`](https://github.com/Cecilapp/Cecil/commit/ed593cdfb2cb8d4697ae459e8d9ea360c798e57f)
+- chore: update deps [`a230985`](https://github.com/Cecilapp/Cecil/commit/a230985a8bdfd48b3a6f3e3e219a325acc0c33ff)
+- test: update output format index in ConfigTest [`60cdafc`](https://github.com/Cecilapp/Cecil/commit/60cdafc2229890aced0b1b5f4057aa31634d1d71)
+- test: use verbose logger in CacheTest builder [`da51983`](https://github.com/Cecilapp/Cecil/commit/da51983f5b1d589c54c866ca7b55b39372bdec2c)
+- test: fix expected output format index in test [`ffcd01f`](https://github.com/Cecilapp/Cecil/commit/ffcd01f9d3e99a039f8fdad1a5b9cd7176daf45d)
+
+#### [8.113.0](https://github.com/Cecilapp/Cecil/compare/8.112.1...8.113.0)
+
+> 2 July 2026
+
+- Enable default syntax highlighting and update documentation [`#2429`](https://github.com/Cecilapp/Cecil/pull/2429)
+- chore(deps-dev): bump phpstan/phpstan from 2.2.2 to 2.2.3 [`#2427`](https://github.com/Cecilapp/Cecil/pull/2427)
+- chore(deps): bump actions/cache from 5 to 6 [`#2423`](https://github.com/Cecilapp/Cecil/pull/2423)
+- chore(deps): bump actions/checkout from 6 to 7 [`#2422`](https://github.com/Cecilapp/Cecil/pull/2422)
+- Optimize page loader sorting path comparisons [`#2426`](https://github.com/Cecilapp/Cecil/pull/2426)
+- chore(deps): bump spatie/image-optimizer from 1.9.0 to 1.10.0 [`#2425`](https://github.com/Cecilapp/Cecil/pull/2425)
+- chore: update deps [`d9e3cc1`](https://github.com/Cecilapp/Cecil/commit/d9e3cc1aba648c0162cfd0e841391f74347fafd9)
+
 #### [8.112.1](https://github.com/Cecilapp/Cecil/compare/8.112.0...8.112.1)
 
 > 26 June 2026

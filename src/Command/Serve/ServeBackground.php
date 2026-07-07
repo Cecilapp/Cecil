@@ -11,8 +11,9 @@
 
 declare(strict_types=1);
 
-namespace Cecil\Command;
+namespace Cecil\Command\Serve;
 
+use Cecil\Command\Serve as ServeCommand;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
@@ -21,7 +22,7 @@ use Symfony\Component\Console\Output\OutputInterface;
  *
  * Alias of `serve --background`: starts the built-in web server in background mode.
  */
-class ServeBackground extends Serve
+class ServeBackground extends ServeCommand
 {
     /**
      * {@inheritdoc}

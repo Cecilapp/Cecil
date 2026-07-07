@@ -14,6 +14,8 @@ declare(strict_types=1);
 namespace Cecil\Command;
 
 use Cecil\Builder;
+use Cecil\Command\Build\IncrementalBuildExecutor;
+use Cecil\Command\Build\IncrementalBuildResolver;
 use Cecil\Exception\RuntimeException;
 use Cecil\Util;
 use Symfony\Component\Console\Command\Command;
