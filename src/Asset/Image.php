@@ -396,6 +396,9 @@ class Image
         $assetOptions = $options['assetOptions'] ?? [];
         $fallbackAsUrl = (bool) ($options['fallbackAsUrl'] ?? false);
         $media = (string) ($options['media'] ?? '(max-width: 767px)');
+        if ($media === '') {
+            $media = '(max-width: 767px)';
+        }
 
         $mobileAssetPath = self::buildMobileAssetPath($asset['_path'], $mobileSuffix);
         $assetMobile = new Asset($builder, $mobileAssetPath, array_merge(['ignore_missing' => true], $assetOptions));
