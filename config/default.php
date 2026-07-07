@@ -103,6 +103,8 @@ return [
                 'placeholder' => '', // fill <img> background before loading (`color` or `lqip`)
                 'class' => '', // puts default CSS class(es) to each image
                 'dark_suffix' => null, // suffix of the dark variant image file (e.g.: `.dark`), null to disable
+                'mobile_suffix' => null, // suffix of the mobile variant image file (e.g.: `.mobile`), null to disable
+                'mobile_media_query' => '(max-width: 767px)', // media query used by mobile image `<source>`
                 'remote' => [ // turns remote images into Assets to process them (disable with `false`)
                     'fallback' => '', // path to the fallback image, stored in assets directory (empty by default)
                 ],
@@ -184,6 +186,8 @@ return [
             'formats' => [], // used by `html` function: adds alternatives image formats as `source` (e.g.: ['avif', 'webp'])
             'responsive' => false, // used by `html` function: adds responsive images ('width' or 'density') to `srcset` attribute
             'dark_suffix' => null, // suffix of the dark variant image file (e.g.: `.dark`), null to disable
+            'mobile_suffix' => null, // suffix of the mobile variant image file (e.g.: `.mobile`), null to disable
+            'mobile_media_query' => '(max-width: 767px)', // media query used by mobile image `<source>`
         ],
         'translations' => [ // i18n
             'dir' => 'translations', // translations files directory
