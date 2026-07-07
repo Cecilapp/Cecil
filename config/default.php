@@ -103,7 +103,7 @@ return [
                 'placeholder' => '', // fill <img> background before loading (`color` or `lqip`)
                 'class' => '', // puts default CSS class(es) to each image
                 'dark_suffix' => null, // suffix of the dark variant image file (e.g.: `.dark`), null to disable
-                'mobile_suffix' => null, // suffix of the mobile variant image file (e.g.: `.mobile`), null to disable
+                'mobile_suffix' => null, // suffix of the mobile variant image file (e.g.: `.mobile` or `mobile`), null to disable
                 'mobile_media_query' => '(max-width: 767px)', // media query used by mobile image `<source>`
                 'remote' => [ // turns remote images into Assets to process them (disable with `false`)
                     'fallback' => '', // path to the fallback image, stored in assets directory (empty by default)
