@@ -252,6 +252,9 @@ class Image
      */
     public static function buildMobileAssetPath(string $assetPath, string $mobileSuffix): string
     {
+        if ($mobileSuffix === '') {
+            return $assetPath;
+        }
         if (!str_starts_with($mobileSuffix, '.')) {
             $mobileSuffix = ".{$mobileSuffix}";
         }
