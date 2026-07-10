@@ -44,5 +44,5 @@ interface RendererInterface
     /**
      * Adds a translation file.
      */
-    public function addTransResource(string $translationsDir, string $locale): void;
+    public function addTransResource(string $translationsDir, string $locale, ?array $formatsConfig = null): void;
 }

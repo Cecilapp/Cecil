@@ -187,7 +187,16 @@ return [
         ],
         'translations' => [ // i18n
             'dir' => 'translations', // translations files directory
-            'formats' => ['yaml', 'mo'], // translations supported formats
+            'formats' => [ // translations supported formats
+                'yaml' => [
+                    'loader' => 'Symfony\Component\Translation\Loader\YamlFileLoader',
+                    'ext' => ['yml', 'yaml'],
+                ],
+                'mo' => [
+                    'loader' => 'Symfony\Component\Translation\Loader\MoFileLoader',
+                    'ext' => ['mo'],
+                ],
+            ],
         ],
         'extensions' => [ // list of Twig extensions class
             //'<name>' => 'Cecil\Renderer\Extension\<class>',
