@@ -1,7 +1,7 @@
 <!--
 description: "Configure your website."
 date: 2021-05-07
-updated: 2026-07-02
+updated: 2026-07-10
 -->
 # Configuration
 
@@ -1039,9 +1039,20 @@ Translations handling options.
 ```yaml
 layouts:
   translations:
-    dir: translations       # translations source directory (`translations` by default)
-    formats: ['yaml', 'mo'] # translations files format (`yaml` and `mo` by default)
+    dir: translations # translations source directory (`translations` by default)
+    formats:          # translations supported formats
+      yaml:
+        loader: Symfony\Component\Translation\Loader\YamlFileLoader
+        ext: [yml, yaml]
+      mo:
+        loader: Symfony\Component\Translation\Loader\MoFileLoader
+        ext: [mo]
 ```
+
+Each translation format defines:
+
+- `loader`: Symfony translation loader class
+- `ext`: one or more file extensions associated with this format
 
 ### layouts.components
 

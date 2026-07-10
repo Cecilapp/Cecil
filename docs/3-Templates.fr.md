@@ -2,6 +2,7 @@
 title: Templates
 description: "Travailler avec les layouts, les templates et les composants."
 date: 2026-05-26
+updated: 2026-07-10
 slug: templates
 -->
 # Templates
@@ -1434,8 +1435,8 @@ Pluraliser :
 
 ### Fichiers de traduction
 
-Les fichiers de traduction doivent être nommés `messages.<locale>.<format>` et stockés dans le répertoire [`translations`](4-Configuration.md#layouts).
-Cecil prend en charge les fichiers `yaml` et `mo` (Gettext) [formats par défaut](4-Configuration.md#layouts).
+Les fichiers de traduction doivent être nommés `messages.<locale>.<extension>` et stockés dans le répertoire [`translations`](4-Configuration.md#layouts).
+Les extensions prises en charge sont définies pour chaque format de traduction dans [`layouts.translations.formats`](4-Configuration.md#layoutstranslations).
 
 Le code locale (ex. : `fr_FR`) d'une langue est défini dans les entrées [`languages`](4-Configuration.md#languages) de la configuration.
 
