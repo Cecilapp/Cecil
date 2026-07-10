@@ -2,6 +2,17 @@
 
 All notable changes to this project will be documented in this file. Dates are displayed in UTC.
 
+#### [8.116.0](https://github.com/Cecilapp/Cecil/compare/8.115.0...8.116.0)
+
+> 10 July 2026
+
+- feat: support custom translation loaders [`#2437`](https://github.com/Cecilapp/Cecil/pull/2437)
+- chore(deps-dev): bump friendsofphp/php-cs-fixer from 3.95.12 to 3.95.13 [`#2436`](https://github.com/Cecilapp/Cecil/pull/2436)
+- chore(deps-dev): bump friendsofphp/php-cs-fixer from 3.95.11 to 3.95.12 [`#2434`](https://github.com/Cecilapp/Cecil/pull/2434)
+- chore(deps): bump MinoruSekine/setup-scoop from 4.0.2 to 5.0.0 [`#2428`](https://github.com/Cecilapp/Cecil/pull/2428)
+- chore(deps): bump vlucas/phpdotenv from 5.6.3 to 5.6.4 [`#2432`](https://github.com/Cecilapp/Cecil/pull/2432)
+- Optimize page parser file reads [`#2431`](https://github.com/Cecilapp/Cecil/pull/2431)
+
 #### [8.115.0](https://github.com/Cecilapp/Cecil/compare/8.114.2...8.115.0)
 
 > 6 July 2026
