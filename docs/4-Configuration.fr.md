@@ -2,7 +2,7 @@
 title: Configuration
 description: "Configurez votre site web."
 date: 2026-03-27
-updated: 2026-07-02
+updated: 2026-07-10
 slug: configuration
 -->
 # Configuration
@@ -1041,9 +1041,20 @@ Options de gestion des traductions.
 ```yaml
 layouts:
   translations:
-    dir: translations       # répertoire source des traductions (`translations` par défaut)
-    formats: ['yaml', 'mo'] # format des fichiers de traduction (`yaml` et `mo` par défaut)
+    dir: translations # répertoire source des traductions (`translations` par défaut)
+    formats:          # formats de traduction pris en charge
+      yaml:
+        loader: Symfony\Component\Translation\Loader\YamlFileLoader
+        ext: [yml, yaml]
+      mo:
+        loader: Symfony\Component\Translation\Loader\MoFileLoader
+        ext: [mo]
 ```
+
+Chaque format de traduction définit :
+
+- `loader` : classe du chargeur de traduction Symfony
+- `ext` : une ou plusieurs extensions de fichier associées à ce format
 
 ### layouts.components
 
