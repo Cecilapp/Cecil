@@ -1453,8 +1453,10 @@ _Exemple:_
 Vous pouvez facilement extraire les traductions de vos templates avec la commande suivante :
 
 ```bash
-php cecil.phar util:translations:extract
+php cecil.phar util:translations:extract --locale=<code> --show
 ```
+
+Utilisez `--save` à la place (ou en plus) de `--show` pour enregistrer les traductions dans un fichier. L'option `--locale` est obligatoire. Le format de sortie par défaut est `yaml` (utilisez `--format=po` pour le format gettext PO).
 
 :::
 

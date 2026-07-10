@@ -51,10 +51,10 @@ class UtilTranslationsExtract extends AbstractCommand
             ->setDescription('Extracts translations from templates')
             ->setDefinition([
                 new InputArgument('path', InputArgument::OPTIONAL, 'Use the given path as working directory'),
-                new InputOption('locale', null, InputOption::VALUE_REQUIRED, 'Set the locale', 'fr'),
+                new InputOption('locale', null, InputOption::VALUE_REQUIRED, 'Set the locale'),
                 new InputOption('show', null, InputOption::VALUE_NONE, 'Display translation messages in the console, as a list'),
                 new InputOption('save', null, InputOption::VALUE_NONE, 'Save translation messages into the translation file'),
-                new InputOption('format', null, InputOption::VALUE_REQUIRED, 'Override the default output format', 'po'),
+                new InputOption('format', null, InputOption::VALUE_REQUIRED, 'Set the output format (yaml, po)', 'yaml'),
                 new InputOption('theme', null, InputOption::VALUE_REQUIRED, 'Merge translation messages from a given theme'),
             ])
             ->setHelp(
@@ -74,7 +74,7 @@ To save translations into a specific <comment>format</comment>, run:
 
 To extract and merge translations from a specific <comment>theme</comment>, run:
 
-  <info>%command.full_name% --locale=code --show --theme=theme-name</>
+  <info>%command.full_name% --locale=code --save --theme=theme-name</>
 EOF
             );
     }
@@ -137,6 +137,9 @@ EOF
 
     private function checkOptions(InputInterface $input): void
     {
+        if (!$input->getOption('locale')) {
+            throw new RuntimeException('You must specify a locale with `--locale` option');
+        }
         if (true !== $input->getOption('save') && true !== $input->getOption('show')) {
             throw new RuntimeException('You must choose to display (`--show`) and/or save (`--save`) the translations');
         }
@@ -148,11 +151,11 @@ EOF
     private function initTranslationComponents(): void
     {
         $this->reader = new TranslationReader();
-        $this->reader->addLoader('po', new PoFileLoader());
         $this->reader->addLoader('yaml', new YamlFileLoader());
+        $this->reader->addLoader('po', new PoFileLoader());
         $this->writer = new TranslationWriter();
-        $this->writer->addDumper('po', new PoFileDumper());
         $this->writer->addDumper('yaml', new YamlFileDumper());
+        $this->writer->addDumper('po', new PoFileDumper());
     }
 
     private function initTwigExtractor($layoutsPath = []): void
