@@ -100,7 +100,7 @@ class Image
             };
             $image = $resize($width, $height);
 
-            $format = Format::create($asset['subtype']);
+            $format = Format::create($asset['ext'] ?? str_replace('image/', '', (string) $asset['subtype']));
 
             return (string) $image->encodeUsingFormat(
                 $format,
@@ -136,7 +136,7 @@ class Image
 
             $image->scaleDown(width: $asset['width']);
 
-            $format = Format::create($asset['subtype']);
+            $format = Format::create($asset['ext'] ?? str_replace('image/', '', (string) $asset['subtype']));
 
             return (string) $image->encodeUsingFormat(
                 $format,
@@ -190,7 +190,7 @@ class Image
         try {
             $image = self::manager()->decodeBinary($asset['content']);
 
-            $format = Format::create($asset['subtype']);
+            $format = Format::create($asset['ext'] ?? str_replace('image/', '', (string) $asset['subtype']));
 
             return (string) $image->encodeUsingFormat($format, quality: $quality)->toDataUri();
         } catch (\Exception $e) {
