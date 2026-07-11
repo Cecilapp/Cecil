@@ -20,8 +20,10 @@ use Cecil\Url;
 use Intervention\Image\Drivers\Gd\Driver as GdDriver;
 use Intervention\Image\Drivers\Imagick\Driver as ImagickDriver;
 use Intervention\Image\Drivers\Vips\Driver as VipsDriver;
-use Intervention\Image\Encoders\AutoEncoder;
+use Intervention\Image\Alignment;
+use Intervention\Image\Format;
 use Intervention\Image\ImageManager;
+use Intervention\Image\Interfaces\ImageManagerInterface;
 
 /**
  * Image Asset class.
@@ -37,7 +39,7 @@ class Image
     /**
      * Create new manager instance with available driver.
      */
-    private static function manager(): ImageManager
+    private static function manager(): ImageManagerInterface
     {
         $driver = null;
         // Use GD first to keep driver capabilities aligned with GD-based format checks in convert().
@@ -52,12 +54,12 @@ class Image
         }
 
         if ($driver) {
-            return ImageManager::withDriver(
+            return ImageManager::usingDriver(
                 $driver,
                 [
                     'autoOrientation' => true,
                     'decodeAnimation' => true,
-                    'blendingColor' => 'ffffff',
+                    'backgroundColor' => 'ffffff',
                     'strip' => true, // remove metadata
                 ]
             );
@@ -78,7 +80,7 @@ class Image
     public static function resize(Asset $asset, ?int $width = null, ?int $height = null, int $quality = 75, bool $rmAnimation = false): string
     {
         try {
-            $image = self::manager()->read($asset['content']);
+            $image = self::manager()->decodeBinary($asset['content']);
 
             if ($rmAnimation && $image->isAnimated()) {
                 $image = $image->removeAnimation('25%'); // use 25% to avoid an "empty" frame
@@ -86,7 +88,7 @@ class Image
 
             $resize = function (?int $width, ?int $height) use ($image) {
                 if ($width !== null && $height !== null) {
-                    return $image->cover(width: $width, height: $height, position: 'center');
+                    return $image->cover(width: $width, height: $height, alignment: Alignment::CENTER);
                 }
                 if ($width !== null) {
                     return $image->scale(width: $width);
@@ -98,8 +100,10 @@ class Image
             };
             $image = $resize($width, $height);
 
-            return (string) $image->encodeByMediaType(
-                $asset['subtype'],
+            $format = Format::create($asset['subtype']);
+
+            return (string) $image->encodeUsingFormat(
+                $format,
                 /** @scrutinizer ignore-type */
                 progressive: true,
                 /** @scrutinizer ignore-type */
@@ -119,21 +123,23 @@ class Image
     public static function maskable(Asset $asset, int $quality, int $padding): string
     {
         try {
-            $source = self::manager()->read($asset['content']);
+            $source = self::manager()->decodeBinary($asset['content']);
 
             // creates a new image with the dominant color as background
             // and the size of the original image plus the padding
-            $image = self::manager()->create(
+            $image = self::manager()->createImage(
                 width: (int) round($asset['width'] * (1 + $padding / 100), 0),
                 height: (int) round($asset['height'] * (1 + $padding / 100), 0)
             )->fill(self::getBackgroundColor($asset));
             // inserts the original image in the center
-            $image->place($source, position: 'center');
+            $image->insert($source, alignment: Alignment::CENTER);
 
             $image->scaleDown(width: $asset['width']);
 
-            return (string) $image->encodeByMediaType(
-                $asset['subtype'],
+            $format = Format::create($asset['subtype']);
+
+            return (string) $image->encodeUsingFormat(
+                $format,
                 /** @scrutinizer ignore-type */
                 progressive: true,
                 /** @scrutinizer ignore-type */
@@ -157,10 +163,12 @@ class Image
                 throw new RuntimeException(\sprintf('Function "image%s" is not available.', $format));
             }
 
-            $image = self::manager()->read($asset['content']);
+            $image = self::manager()->decodeBinary($asset['content']);
 
-            return (string) $image->encodeByExtension(
-                $format,
+            $targetFormat = Format::create($format);
+
+            return (string) $image->encodeUsingFormat(
+                $targetFormat,
                 /** @scrutinizer ignore-type */
                 progressive: true,
                 /** @scrutinizer ignore-type */
@@ -180,9 +188,11 @@ class Image
     public static function getDataUrl(Asset $asset, int $quality): string
     {
         try {
-            $image = self::manager()->read($asset['content']);
+            $image = self::manager()->decodeBinary($asset['content']);
 
-            return (string) $image->encode(new AutoEncoder(quality: $quality))->toDataUri();
+            $format = Format::create($asset['subtype']);
+
+            return (string) $image->encodeUsingFormat($format, quality: $quality)->toDataUri();
         } catch (\Exception $e) {
             throw new RuntimeException(\sprintf('Unable to get Data URL of "%s": %s.', $asset['path'], $e->getMessage()));
         }
@@ -196,9 +206,9 @@ class Image
     public static function getDominantColor(Asset $asset): string
     {
         try {
-            $image = self::manager()->read(self::resize($asset, 100, 50));
+            $image = self::manager()->decodeBinary(self::resize($asset, 100, 50));
 
-            return $image->reduceColors(1)->pickColor(0, 0)->toString();
+            return $image->reduceColors(1)->colorAt(0, 0)->toString();
         } catch (\Exception $e) {
             throw new RuntimeException(\sprintf('Unable to get dominant color of "%s": %s.', $asset['_path'], $e->getMessage()));
         }
@@ -212,9 +222,9 @@ class Image
     public static function getBackgroundColor(Asset $asset): string
     {
         try {
-            $image = self::manager()->read(self::resize($asset, 100, 50));
+            $image = self::manager()->decodeBinary(self::resize($asset, 100, 50));
 
-            return $image->pickColor(0, 0)->toString();
+            return $image->colorAt(0, 0)->toString();
         } catch (\Exception $e) {
             throw new RuntimeException(\sprintf('Unable to get background color of "%s": %s.', $asset['path'], $e->getMessage()));
         }
@@ -228,7 +238,7 @@ class Image
     public static function getLqip(Asset $asset): string
     {
         try {
-            $image = self::manager()->read(self::resize($asset, 100, 50));
+            $image = self::manager()->decodeBinary(self::resize($asset, 100, 50));
 
             return (string) $image->blur(50)->encode()->toDataUri();
         } catch (\Exception $e) {
