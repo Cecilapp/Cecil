@@ -32,7 +32,7 @@ Short, actionable instructions for coding agents working in this repository.
 
 ## Coding Conventions
 
-- PHP 8.2+, strict types, PSR-12 style
+- PHP 8.3+, strict types, PSR-12 style
 - Use 4 spaces in PHP files
 - Prefix PHP native functions with `\` (example: `\count()`)
 - Twig/YAML/JS use 2 spaces
