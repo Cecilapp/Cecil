@@ -33,6 +33,9 @@ class TitleReplace extends AbstractGenerator implements GeneratorInterface
         foreach ($filteredPages as $page) {
             $alteredPage = clone $page;
             $alteredPage->setVariable('title', ucwords($page->getVariable('title')));
+
+            $alteredPage->setTitle('pouet');
+
             $this->generatedPages->add($alteredPage);
         }
     }
