@@ -1,4 +1,4 @@
-php_version: 8.2
+php_version: 8.3
 commit_failure_conditions:
     - "project.severity.critical > 0"
 global_exclude_dirs:

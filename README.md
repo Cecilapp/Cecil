@@ -38,7 +38,7 @@ Create and deploy a blog site:
 
 ## Requirements
 
-- [PHP](https://www.php.net) 8.2+
+- [PHP](https://www.php.net) 8.3+
 
 ## Installation
 
