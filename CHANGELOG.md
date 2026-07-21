@@ -2,6 +2,12 @@
 
 All notable changes to this project will be documented in this file. Dates are displayed in UTC.
 
+#### [8.116.1](https://github.com/Cecilapp/Cecil/compare/8.116.0...8.116.1)
+
+> 11 July 2026
+
+- fix: require locale for translation extraction [`6995f33`](https://github.com/Cecilapp/Cecil/commit/6995f334703dd36bd6bff422aed2d27db44537fb)
+
 #### [8.116.0](https://github.com/Cecilapp/Cecil/compare/8.115.0...8.116.0)
 
 > 10 July 2026
