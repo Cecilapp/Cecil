@@ -2,6 +2,16 @@
 
 All notable changes to this project will be documented in this file. Dates are displayed in UTC.
 
+#### [8.116.2](https://github.com/Cecilapp/Cecil/compare/8.116.1...8.116.2)
+
+> 21 July 2026
+
+- chore(deps-dev): bump friendsofphp/php-cs-fixer from 3.95.13 to 3.95.15 [`#2439`](https://github.com/Cecilapp/Cecil/pull/2439)
+- chore(deps): bump DavidAnson/markdownlint-cli2-action from 23 to 24 [`#2435`](https://github.com/Cecilapp/Cecil/pull/2435)
+- chore: update deps [`c8ad893`](https://github.com/Cecilapp/Cecil/commit/c8ad893fc2207dd914944ca3682113004a309bd0)
+- fix: disable highlight.js background colors [`6d35b14`](https://github.com/Cecilapp/Cecil/commit/6d35b148ec65ed0a46ea2b5ce51b32cff4969ede)
+- Change locale export to C.UTF-8 [`24b9315`](https://github.com/Cecilapp/Cecil/commit/24b9315b96de715f34214c7e71342ba4a673492b)
+
 #### [8.116.1](https://github.com/Cecilapp/Cecil/compare/8.116.0...8.116.1)
 
 > 11 July 2026
