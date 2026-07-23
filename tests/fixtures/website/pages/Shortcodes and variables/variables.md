@@ -1,6 +1,6 @@
 ---
 title: Variables
-layout: shortcode
+layout: shortcodes
 var1: 'var 1'
 ---
 <!-- excerpt -->
