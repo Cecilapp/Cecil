@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. Dates are displayed in UTC.
 
+#### [8.117.0](https://github.com/Cecilapp/Cecil/compare/8.116.2...8.117.0)
+
+> 24 July 2026
+
+- refactor: drop shortcode templates from layouts [`34b1fb8`](https://github.com/Cecilapp/Cecil/commit/34b1fb8e87db391a3bd815dd6f50982cac374574)
+- refactor: unify shortcode template naming in fixtures [`a692caa`](https://github.com/Cecilapp/Cecil/commit/a692caa25a739ca237029a9d003c300ea38ce225)
+
 #### [8.116.2](https://github.com/Cecilapp/Cecil/compare/8.116.1...8.116.2)
 
 > 21 July 2026
