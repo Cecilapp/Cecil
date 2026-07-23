@@ -1,6 +1,5 @@
 {% extends '_default/page.html.twig' %}
 
 {% block content %}
-{# page.content #}
-{{ include(page.content_template) }}
+{{ include(template_from_string(page.content, "dynamic content for page " ~ page.id)) }}
 {% endblock %}
