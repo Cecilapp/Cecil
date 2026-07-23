@@ -1,7 +1,7 @@
 <!--
 description: "Create content and organize it."
 date: 2021-05-07
-updated: 2026-07-02
+updated: 2026-07-23
 -->
 # Content
 
@@ -964,89 +964,17 @@ langref: my-page-ref
 
 ## Dynamic content
 
-With this **_experimental_** feature you can use **[variables](3-Templates.md#variables)** and **shortcodes** in the [body](#body).
-
-:::important
-To do this you must include a specific template:
+You can create dynamic content in a page by using the [`template_from_string`](https://twig.symfony.com/doc/3.x/functions/template_from_string.html) Twig function.
 
 ```twig
-{{ include(page.content_template) }}
+{{ include(template_from_string(page.content, "dynamic content for page " ~ page.id)) }}
 ```
 
-(instead of `{{ page.content }}`)
-:::
-
-### Display variables
-
-Front matter variables can be use in the body with the template’s syntax `{{ page.variable }}`.
-
-_Example:_
+With this, you can use any page variable in the _body_ of the page.
 
 ```twig
 --
 var: 'value'
 ---
 The value of `var` is {{ page.var }}.
-```
-
-> Experimental
-
-### Shortcodes
-
-Shortcodes are helpers to create dynamic content.
-
-> Experimental
-
-#### Built-in shortcodes
-
-2 shortcodes are available by default:
-
-##### YouTube
-
-```twig
-{{ shortcode.youtube(id) }}
-```
-
-- `id`: YouTube video ID
-
-_Example:_
-
-```twig
-{{ shortcode.youtube('NaB8JBfE7DY') }}
-```
-
-##### GitHub Gist
-
-```twig
-{{ shortcode.gist(user, id) }}
-```
-
-- `user`: GitHub user name
-- `id`: Gist ID
-
-_Example:_
-
-```twig
-{{ shortcode.gist('ArnaudLigny', 'fbe791e05b93951ffc1f6abda8ee88f0') }}
-```
-
-#### Custom shortcode
-
-A shortcode is a [Twig macro](https://twig.symfony.com/doc/tags/macro.html) you must add in a template named `shortcodes.twig`.
-
-_Example:_
-
-`shortcodes.twig`:
-
-```twig
-{% extends 'extended/macros.twig' %}
-
-{% block macros %}
-
-{# the "foo" shortcode #}
-{% macro foo(bar = 'bar') %}
-<strong>{{ bar }}</strong>
-{% endmacro %}
-
-{% endblock %}
 ```
