@@ -69,6 +69,12 @@ class Core extends AbstractExtension
             // utilities
             new \Twig\TwigFunction('hash', [$this, 'hash']),
             new \Twig\TwigFunction('cache_key', [$this, 'cacheKey'], ['needs_context' => true]),
+            // sub-sections
+            new \Twig\TwigFunction('subsections', [$this, 'getSubSections']),
+            new \Twig\TwigFunction('parent_section', [$this, 'getParentSectionFunc']),
+            new \Twig\TwigFunction('section_breadcrumb', [$this, 'getSectionBreadcrumb']),
+            new \Twig\TwigFunction('all_pages_recursive', [$this, 'getAllPagesRecursive']),
+            new \Twig\TwigFunction('section_tree', [$this, 'getSectionTree']),
             // others
             new \Twig\TwigFunction('getenv', [$this, 'getEnv']),
             new \Twig\TwigFunction('d', [$this, 'varDump'], ['needs_context' => true, 'needs_environment' => true]),
@@ -137,6 +143,13 @@ class Core extends AbstractExtension
             new \Twig\TwigTest('asset', [$this, 'isAsset']),
             new \Twig\TwigTest('image_large', [$this, 'isImageLarge']),
             new \Twig\TwigTest('image_square', [$this, 'isImageSquare']),
+            // sub-sections
+            new \Twig\TwigTest('subsection', function (Page $page): bool {
+                return $page->isSubSection();
+            }),
+            new \Twig\TwigTest('has_subsections', function (Page $page): bool {
+                return $page->hasSubSections();
+            }),
         ];
     }
 
