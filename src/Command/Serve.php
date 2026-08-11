@@ -549,7 +549,6 @@ EOF
         // writes `headers.ini` file
         $headers = $this->getBuilder()->getConfig()->get('server.headers');
         if (is_iterable($headers)) {
-            $output->writeln('Writing headers file...');
             Util\File::getFS()->remove(Util::joinFile($this->getPath(), Builder::TMP_DIR, 'headers.ini'));
             foreach ($headers as $entry) {
                 Util\File::getFS()->appendToFile(Util::joinFile($this->getPath(), Builder::TMP_DIR, 'headers.ini'), "[{$entry['path']}]\n");
