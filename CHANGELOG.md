@@ -2,6 +2,12 @@
 
 All notable changes to this project will be documented in this file. Dates are displayed in UTC.
 
+#### [8.117.1](https://github.com/Cecilapp/Cecil/compare/8.117.0...8.117.1)
+
+> 24 July 2026
+
+- fix: Removes the default `content_template` [`5eeabdd`](https://github.com/Cecilapp/Cecil/commit/5eeabdd2d46d10e1864e46bb6d09948cf4c69622)
+
 #### [8.117.0](https://github.com/Cecilapp/Cecil/compare/8.116.2...8.117.0)
 
 > 24 July 2026
