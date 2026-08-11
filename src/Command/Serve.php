@@ -334,7 +334,7 @@ EOF
         $flushBuildOutput();
 
         if ($buildProcess->isSuccessful()) {
-            $this->buildSuccessActions($output);
+            $this->buildSuccessActions();
         }
 
         return $buildProcess->getExitCode() === 0;
@@ -506,15 +506,15 @@ EOF
                                 fn (?string $page): Process => $this->createBuildProcess($page),
                                 $processOutputCallback,
                                 $flushBuildOutput,
-                                function () use ($output): void {
-                                    $this->buildSuccessActions($output);
+                                function (): void {
+                                    $this->buildSuccessActions();
                                 }
                             );
                         } else {
                             $buildProcess->run($processOutputCallback);
                             $flushBuildOutput();
                             if ($buildProcess->isSuccessful()) {
-                                $this->buildSuccessActions($output);
+                                $this->buildSuccessActions();
                             }
                         }
                         $output->writeln('<info>Server is running...</info>');
@@ -540,7 +540,7 @@ EOF
     /**
      * Build success actions.
      */
-    private function buildSuccessActions(OutputInterface $output): void
+    private function buildSuccessActions(): void
     {
         // writes `changes.flag` file
         if ($this->watcherEnabled) {
