@@ -6,8 +6,8 @@
         {
           "@context": "https://schema.org",
           "@type": "WebSite",
-          "name": "{{ site.title|e }}",
-          "description": "{{ site.description|e }}",
+          "name": "{{ site.title|e('js') }}",
+          "description": "{{ site.description|e('js') }}",
           "url": "{{ url(site.home, {canonical: true}) }}"
           {%- if site.image|default ~%},
           "image": [
@@ -36,8 +36,8 @@
             {
               "@type": "SiteNavigationElement",
               "position": {{ loop.index }},
-              "name": "{{ site.page(item.id).title|default(item.name)|e }}",
-              "description": "{{ site.page(item.id).description|default|e }}",
+              "name": "{{ site.page(item.id).title|default(item.name)|e('js') }}",
+              "description": "{{ site.page(item.id).description|default|e('js') }}",
               "url": "{{ url(item.url, {canonical: true}) }}"
             }{%- if not loop.last %},{% endif -%}
             {%~ endfor ~%}
@@ -50,11 +50,11 @@
         ,{
           "@context": "http://schema.org",
           "@type": "WebPage",
-          "name": "{{ title|default(page.title)|e }}",
-          "description": "{{ page.description|default(site.description)|e }}",
+          "name": "{{ title|default(page.title)|e('js') }}",
+          "description": "{{ page.description|default(site.description)|e('js') }}",
           "publisher": {
             "@type": "Organization",
-            "name": "{{ site.title|e }}",
+            "name": "{{ site.title|e('js') }}",
             {%- set icon_asset = asset('icon.png', {'ignore_missing': true}) ~%}
             {%- if not icon_asset.missing ~%}
             "logo": "{{ url(icon_asset, {canonical: true}) }}",
@@ -71,13 +71,13 @@
           "itemListElement": [{
             "@type": "ListItem",
             "position": 1,
-            "name": "{{ site.page(page.section).title|default(page.section)|e }}",
+            "name": "{{ site.page(page.section).title|default(page.section)|e('js') }}",
             "item": "{{ url(page.section, {canonical: true}) }}"
           {%- if page.type != 'section' ~%}
           },{
             "@type": "ListItem",
             "position": 2,
-            "name": "{{ title|default(page.title)|e }}",
+            "name": "{{ title|default(page.title)|e('js') }}",
             "item": "{{ url(page, {canonical: true}) }}"
           {%- endif ~%}
           }]
@@ -91,7 +91,7 @@
             "@type": "WebPage",
             "@id": "{{ url(page, {canonical: true}) }}"
           },
-          "headline": "{{ title|default(page.title)|e }}",
+          "headline": "{{ title|default(page.title)|e('js') }}",
           {%- if page.image|default ~%}
           "image": [
             "{{ url(asset(page.image), {canonical: true}) }}"
@@ -104,7 +104,7 @@
           {%- if author.name|default ~%}
           "author": {
             "@type": "Person",
-            "name": "{{ author.name|e }}"
+            "name": "{{ author.name|e('js') }}"
             {%- if author.url|default ~%},
             "url": "{{ author.url }}"
             {%- endif ~%}
@@ -124,7 +124,7 @@
           {%- endif ~%}
           "publisher": {
             "@type": "Organization",
-            "name": "{{ site.title|e }}",
+            "name": "{{ site.title|e('js') }}",
             {%- set icon_asset = asset('icon.png', {'ignore_missing': true}) ~%}
             {%- if not icon_asset.missing ~%}
             "logo": "{{ url(icon_asset, {canonical: true}) }}",
@@ -139,9 +139,9 @@
         ,{
           "@context": "https://schema.org",
           "@type": "VideoObject",
-          "name": "{{ title|default(page.title)|e }}",
+          "name": "{{ title|default(page.title)|e('js') }}",
           {%- if page.description|default ~%}
-          "description": "{{ page.description|e }}",
+          "description": "{{ page.description|e('js') }}",
           {%- endif ~%}
           {%- if page.image|default ~%}
           "thumbnailUrl": [
