@@ -78,7 +78,7 @@ class IntegrationTests extends \PHPUnit\Framework\TestCase
         self::assertMatchesRegularExpression('/<code[^>]*translate="no"[^>]*>/', $htmlMarkdown);
 
         // a title containing a raw backslash must not break the JSON-LD block (see WebPage/BreadcrumbList `name`)
-        preg_match('/<script[^>]*application\/ld\+json[^>]*>(.*?)<\/script>/s', $htmlBackslash, $jsonLdMatches);
+        \preg_match('/<script[^>]*application\/ld\+json[^>]*>(.*?)<\/script>/s', $htmlBackslash, $jsonLdMatches);
         self::assertNotEmpty($jsonLdMatches, 'JSON-LD script block not found on page with backslash in title');
         self::assertJson($jsonLdMatches[1], 'JSON-LD block is not valid JSON when the page title contains a backslash');
     }
