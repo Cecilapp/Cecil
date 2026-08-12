@@ -1,6 +1,6 @@
 ---
 title: Post with \a backslash
-date: 2019-04-24
+date: 2026-08-12
 path: blog/post-with-backslash
 tags:
   - excerpt
