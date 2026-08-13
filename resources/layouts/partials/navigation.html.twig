@@ -5,6 +5,5 @@
           <li><a href="{{ url(item.url) }}" data-weight="{{ item.weight }}">{{ item.name }}</a></li>
         {%- endfor ~%}
         </ul>
-        {{- include('partials/theme-selector.html.twig', {}, with_context = false) ~}}
       </nav>
       {%- endif ~%}

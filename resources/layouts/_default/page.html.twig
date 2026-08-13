@@ -94,13 +94,14 @@
       }
       /* Theme selector */
       #theme-toggle {
+        position: absolute;
+        top: 0;
+        right: 0;
         --pico-background-color: transparent;
         --pico-border-color: transparent;
         --pico-color: var(--pico-muted-color);
-        padding: 0;
         border: none;
         outline:none;
-        transform: translateY(0.4rem);
       }
       #theme-toggle:focus {
         outline-style: none;
@@ -122,6 +123,7 @@
         <div class="site-title">{{ site.title }}</div>
         {%- endif ~%}
         <p>{{ site.baseline }}</p>
+        {{- include('partials/theme-selector.html.twig', {}, with_context = false) ~}}
       </hgroup>
       {{- include('partials/navigation.html.twig', {menu: site.menus.main}, with_context = false) ~}}
       {%- endblock header ~%}
