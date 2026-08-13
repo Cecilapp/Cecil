@@ -2,13 +2,12 @@
 <html lang="{{ site.language }}">
   <head>
     {%- block head ~%}
-    <meta charset="UTF-8">
+    <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     {%- block head_metatags ~%}
     {{- include('partials/metatags.html.twig', {page, site}, with_context = false) ~}}
     {%- endblock head_metatags ~%}
-    <meta name="theme-color" media="(prefers-color-scheme: light)" content="white">
-    <meta name="theme-color" media="(prefers-color-scheme: dark)" content="black">
+    <meta name="color-scheme" content="light dark">
     {%- endblock head ~%}
     {%- block head_css ~%}
     <style>{% apply minify_css ~%}
@@ -92,6 +91,20 @@
       main .note-caution {
         border: 1px solid red;
         border-left-width: 4px;
+      }
+      /* Theme selector */
+      #theme-toggle {
+        --pico-background-color: transparent;
+        --pico-border-color: transparent;
+        --pico-color: var(--pico-muted-color);
+        padding: 0;
+        border: none;
+        outline:none;
+        transform: translateY(0.4rem);
+      }
+      #theme-toggle:focus {
+        outline-style: none;
+        box-shadow: none;
       }
       {%- if config.pages.body.highlight|default(true) ~%}
       {{- include('partials/highlight.css.twig') ~}}
