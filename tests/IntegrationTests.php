@@ -66,11 +66,13 @@ class IntegrationTests extends \PHPUnit\Framework\TestCase
         $htmlImages = Util\File::fileGetContents(Util::joinFile($this->destination, '_site/markdown/images/index.html'));
         $htmlMarkdown = Util\File::fileGetContents(Util::joinFile($this->destination, '_site/markdown/markdown/index.html'));
         $htmlBackslash = Util\File::fileGetContents(Util::joinFile($this->destination, '_site/blog/post-with-backslash/index.html'));
+        $htmlApostrophe = Util\File::fileGetContents(Util::joinFile($this->destination, '_site/blog/post-with-apostrophe/index.html'));
         self::assertNotFalse($htmlEn);
         self::assertNotFalse($htmlFr);
         self::assertNotFalse($htmlImages);
         self::assertNotFalse($htmlMarkdown);
         self::assertNotFalse($htmlBackslash);
+        self::assertNotFalse($htmlApostrophe);
         self::assertStringContainsString('/images/cecil-logo.png', $htmlEn);
         self::assertStringContainsString('/images/cecil-logo.fr.png', $htmlFr);
         self::assertStringContainsString('media="(prefers-color-scheme: dark)"', $htmlImages);
@@ -81,6 +83,22 @@ class IntegrationTests extends \PHPUnit\Framework\TestCase
         preg_match('/<script[^>]*application\/ld\+json[^>]*>(.*?)<\/script>/s', $htmlBackslash, $jsonLdMatches);
         self::assertNotEmpty($jsonLdMatches, 'JSON-LD script block not found on page with backslash in title');
         self::assertJson($jsonLdMatches[1], 'JSON-LD block is not valid JSON when the page title contains a backslash');
+
+        // a title containing an apostrophe must not be double-escaped in the JSON-LD block (WebPage/BreadcrumbList `name`)
+        preg_match('/<script[^>]*application\/ld\+json[^>]*>(.*?)<\/script>/s', $htmlApostrophe, $jsonLdApostropheMatches);
+        self::assertNotEmpty($jsonLdApostropheMatches, 'JSON-LD script block not found on page with apostrophe in title');
+        self::assertJson($jsonLdApostropheMatches[1], 'JSON-LD block is not valid JSON when the page title contains an apostrophe');
+        $jsonLdData = \json_decode($jsonLdApostropheMatches[1], true);
+        $webPageName = null;
+        foreach ($jsonLdData as $item) {
+            if (($item['@type'] ?? null) === 'WebPage') {
+                $webPageName = $item['name'] ?? null;
+                break;
+            }
+        }
+        self::assertNotNull($webPageName, 'JSON-LD WebPage name not found on page with apostrophe in title');
+        self::assertStringContainsString("it's", $webPageName, 'JSON-LD WebPage name should contain apostrophe, not HTML entity');
+        self::assertStringNotContainsString('&#039;', $webPageName, 'JSON-LD WebPage name must not contain HTML-escaped apostrophe &#039;');
     }
 
     /**
