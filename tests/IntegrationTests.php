@@ -89,6 +89,7 @@ class IntegrationTests extends \PHPUnit\Framework\TestCase
         self::assertNotEmpty($jsonLdApostropheMatches, 'JSON-LD script block not found on page with apostrophe in title');
         self::assertJson($jsonLdApostropheMatches[1], 'JSON-LD block is not valid JSON when the page title contains an apostrophe');
         $jsonLdData = \json_decode($jsonLdApostropheMatches[1], true);
+        self::assertIsArray($jsonLdData, 'JSON-LD block must decode to an array');
         $webPageName = null;
         foreach ($jsonLdData as $item) {
             if (($item['@type'] ?? null) === 'WebPage') {
