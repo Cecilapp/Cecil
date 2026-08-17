@@ -2,6 +2,36 @@
 
 All notable changes to this project will be documented in this file. Dates are displayed in UTC.
 
+#### [8.119.0](https://github.com/Cecilapp/Cecil/compare/8.118.0...8.119.0)
+
+> 18 August 2026
+
+- feat: optional Dublin Core metatags support [`#2453`](https://github.com/Cecilapp/Cecil/pull/2453)
+- chore: remove experimental PHP 8.5 CI matrix entry [`#2454`](https://github.com/Cecilapp/Cecil/pull/2454)
+
+#### [8.118.0](https://github.com/Cecilapp/Cecil/compare/8.117.2...8.118.0)
+
+> 13 August 2026
+
+- feat: add theme toggle to site navigation [`#2449`](https://github.com/Cecilapp/Cecil/pull/2449)
+
+#### [8.117.2](https://github.com/Cecilapp/Cecil/compare/8.117.1...8.117.2)
+
+> 13 August 2026
+
+- fix: handle backslack in jsonld [`#2448`](https://github.com/Cecilapp/Cecil/pull/2448)
+- chore(deps-dev): bump phpstan/phpstan from 2.2.7 to 2.2.8 [`#2447`](https://github.com/Cecilapp/Cecil/pull/2447)
+- chore(deps-dev): bump squizlabs/php_codesniffer from 4.0.1 to 4.0.4 [`#2446`](https://github.com/Cecilapp/Cecil/pull/2446)
+- chore(deps): bump MinoruSekine/setup-scoop from 5.0.0 to 5.0.1 [`#2445`](https://github.com/Cecilapp/Cecil/pull/2445)
+- chore(deps-dev): bump friendsofphp/php-cs-fixer from 3.95.17 to 3.95.18 [`#2444`](https://github.com/Cecilapp/Cecil/pull/2444)
+- chore(deps-dev): bump phpstan/phpstan from 2.2.6 to 2.2.7 [`#2443`](https://github.com/Cecilapp/Cecil/pull/2443)
+- chore(deps-dev): bump friendsofphp/php-cs-fixer from 3.95.15 to 3.95.17 [`#2442`](https://github.com/Cecilapp/Cecil/pull/2442)
+- chore(deps-dev): bump phpstan/phpstan from 2.2.5 to 2.2.6 [`#2441`](https://github.com/Cecilapp/Cecil/pull/2441)
+- chore: update deps [`bb611af`](https://github.com/Cecilapp/Cecil/commit/bb611af48835ef642e2a490f349fd954ab9a0d4e)
+- docs: regenerate API docs for renderer updates [`0615d8a`](https://github.com/Cecilapp/Cecil/commit/0615d8a06f60bb831522f600afc1d4fc437e0cdd)
+- fix: remove unused serve build output arg [`81b4b6f`](https://github.com/Cecilapp/Cecil/commit/81b4b6f7f3a05705884292ec89ef656d3f054aee)
+- Silence headers.ini write message in serve [`4ece039`](https://github.com/Cecilapp/Cecil/commit/4ece03910479d77639abfa17affe1e71ef7db37b)
+
 #### [8.117.1](https://github.com/Cecilapp/Cecil/compare/8.117.0...8.117.1)
 
 > 24 July 2026

@@ -1,7 +1,7 @@
 <!--
 description: "Configure your website."
 date: 2021-05-07
-updated: 2026-07-10
+updated: 2026-08-17
 -->
 # Configuration
 
@@ -318,6 +318,7 @@ This template adds the following meta tags:
 - Facebook profile ID
 - [Twitter/X Card](https://developer.x.com/docs/x-for-websites/cards/guides/getting-started)
 - [Fediverse tag](https://blog.joinmastodon.org/2024/07/highlighting-journalism-on-mastodon/)
+- [Dublin Core](https://www.dublincore.org/specifications/dublin-core/dcmi-terms/)
 - [Structured data](https://developers.google.com/search/docs/appearance/structured-data/intro-structured-data) (JSON-LD)
 
 #### metatags options
@@ -384,6 +385,7 @@ metatags:
   articles: "blog"         # articles' section (`blog` by default)
   twitter: true            # includes Twitter/X Card meta tags (`true` by default)
   mastodon: true           # includes Mastodon meta tags (`true` by default)
+  dc: false                # includes Dublin Core meta tags (`false` by default)
   data: false              # includes JSON-LD structured data (`false` by default)
 ```
 
