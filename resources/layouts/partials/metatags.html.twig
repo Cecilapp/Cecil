@@ -304,7 +304,7 @@
   {#- template: Dublin Core ~#}
   {%- block metatags_dc ~%}
   {%- if page.metatags.dc ?? site.metatags.dc ?? false ~%}
-    <link rel="schema.DC" href="http://purl.org/dc/elements/1.1/">
+    <link rel="schema.DC" href="https://purl.org/dc/elements/1.1/">
     <meta name="DC.title" content="{{ opengraph.title }}">
     <meta name="DC.description" content="{{ description }}">
     {%- if keywords is not empty ~%}
