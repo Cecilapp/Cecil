@@ -1,0 +1,7 @@
+{% extends '_default/page.html.twig' %}
+
+{% set shortcodes = "{% import 'shortcodes.twig' as shortcodes %}" %}
+
+{% block content %}
+{{ include(template_from_string(shortcodes ~ page.content, "dynamic content for page " ~ page.id)) }}
+{% endblock %}

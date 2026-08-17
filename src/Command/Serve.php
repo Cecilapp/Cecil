@@ -334,7 +334,7 @@ EOF
         $flushBuildOutput();
 
         if ($buildProcess->isSuccessful()) {
-            $this->buildSuccessActions($output);
+            $this->buildSuccessActions();
         }
 
         return $buildProcess->getExitCode() === 0;
@@ -506,15 +506,15 @@ EOF
                                 fn (?string $page): Process => $this->createBuildProcess($page),
                                 $processOutputCallback,
                                 $flushBuildOutput,
-                                function () use ($output): void {
-                                    $this->buildSuccessActions($output);
+                                function (): void {
+                                    $this->buildSuccessActions();
                                 }
                             );
                         } else {
                             $buildProcess->run($processOutputCallback);
                             $flushBuildOutput();
                             if ($buildProcess->isSuccessful()) {
-                                $this->buildSuccessActions($output);
+                                $this->buildSuccessActions();
                             }
                         }
                         $output->writeln('<info>Server is running...</info>');
@@ -540,7 +540,7 @@ EOF
     /**
      * Build success actions.
      */
-    private function buildSuccessActions(OutputInterface $output): void
+    private function buildSuccessActions(): void
     {
         // writes `changes.flag` file
         if ($this->watcherEnabled) {
@@ -549,7 +549,6 @@ EOF
         // writes `headers.ini` file
         $headers = $this->getBuilder()->getConfig()->get('server.headers');
         if (is_iterable($headers)) {
-            $output->writeln('Writing headers file...');
             Util\File::getFS()->remove(Util::joinFile($this->getPath(), Builder::TMP_DIR, 'headers.ini'));
             foreach ($headers as $entry) {
                 Util\File::getFS()->appendToFile(Util::joinFile($this->getPath(), Builder::TMP_DIR, 'headers.ini'), "[{$entry['path']}]\n");
