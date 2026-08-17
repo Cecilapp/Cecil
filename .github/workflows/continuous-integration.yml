@@ -132,7 +132,7 @@ jobs:
         run: |
           composer run-script code:style
       - name: Run tests
-        if: ${{ contains(matrix.type, '') }}
+        if: ${{ matrix.type == '' }}
         run: |
           echo "::group::Integration tests"
           composer run-script test:integration
@@ -167,6 +167,6 @@ jobs:
           APP_DEBUG: 0
         run: blackfire run php vendor/bin/phpunit -c ./ --testsuite=IntegrationTests
       - name: Build a skeleton site from `cecil.phar` binary
-        if: ${{ matrix.os == 'ubuntu-latest' && matrix.php >= 8.2 && contains(matrix.type, '') }}
+        if: ${{ matrix.os == 'ubuntu-latest' && matrix.php >= 8.2 && matrix.type == '' }}
         run: |
           composer run-script test:phar
