@@ -310,7 +310,7 @@
     {%- if keywords is not empty ~%}
     <meta name="DC.subject" content="{{ keywords|join(', ') }}">
     {%- endif ~%}
-    {%- if page.date is defined ~%}
+    {%- if page.date|default ~%}
     <meta name="DC.date" content="{{ page.date|date('Y-m-d') }}">
     {%- endif ~%}
     {%- if author.name|default ~%}
