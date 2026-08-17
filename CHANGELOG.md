@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. Dates are displayed in UTC.
 
+#### [8.119.0](https://github.com/Cecilapp/Cecil/compare/8.118.0...8.119.0)
+
+> 18 August 2026
+
+- feat: optional Dublin Core metatags support [`#2453`](https://github.com/Cecilapp/Cecil/pull/2453)
+- chore: remove experimental PHP 8.5 CI matrix entry [`#2454`](https://github.com/Cecilapp/Cecil/pull/2454)
+
 #### [8.118.0](https://github.com/Cecilapp/Cecil/compare/8.117.2...8.118.0)
 
 > 13 August 2026
