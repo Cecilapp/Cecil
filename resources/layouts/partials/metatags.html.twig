@@ -301,6 +301,28 @@
   {%- if mastodon.creator and (page.metatags.mastodon ?? site.metatags.mastodon ?? true) ~%}
     <meta name="fediverse:creator" content="@{{ mastodon.creator|trim('@', side: 'left') }}">
   {%- endif ~%}
+  {#- template: Dublin Core ~#}
+  {%- block metatags_dc ~%}
+  {%- if page.metatags.dc ?? site.metatags.dc ?? false ~%}
+    <link rel="schema.DC" href="https://purl.org/dc/elements/1.1/">
+    <meta name="DC.title" content="{{ opengraph.title }}">
+    <meta name="DC.description" content="{{ description }}">
+    {%- if keywords is not empty ~%}
+    <meta name="DC.subject" content="{{ keywords|join(', ') }}">
+    {%- endif ~%}
+    {%- if page.date|default ~%}
+    <meta name="DC.date" content="{{ page.date|date('Y-m-d') }}">
+    {%- endif ~%}
+    {%- if author.name|default ~%}
+    <meta name="DC.creator" content="{{ author.name|e }}">
+    {%- endif ~%}
+    <meta name="DC.publisher" content="{{ site.title|e }}">
+    <meta name="DC.type" content="Text">
+    <meta name="DC.format" content="text/html">
+    <meta name="DC.identifier" content="{{ opengraph.url }}">
+    <meta name="DC.language" content="{{ site.language.locale }}">
+  {%- endif ~%}
+  {%- endblock metatags_dc ~%}
   {#- template: structured data ~#}
   {%- block metatags_structured_data ~%}
   {%- if page.metatags.data ?? config.metatags.data ?? config.metatags.jsonld ?? false ~%}
