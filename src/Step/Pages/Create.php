@@ -60,7 +60,7 @@ class Create extends AbstractStep
 
         $total = \count($this->builder->getPagesFiles());
         $count = 0;
-        $validLanguages = \array_column($this->config->getLanguages(), 'code');
+        $validLanguages = array_column($this->config->getLanguages(), 'code');
 
         foreach ($this->builder->getPagesFiles() as $file) {
             $count++;

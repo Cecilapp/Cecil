@@ -97,7 +97,7 @@ class Create extends AbstractStep
      */
     protected function collectTermsFromPages(): void
     {
-        $validLanguages = \array_column($this->config->getLanguages(), 'code');
+        $validLanguages = array_column($this->config->getLanguages(), 'code');
         $filteredPages = $this->builder->getPages()->filter(function (Page $page) use ($validLanguages) {
             return $page->getVariable('published')
                 && \in_array($page->getVariable('language', $this->config->getLanguageDefault()), $validLanguages);

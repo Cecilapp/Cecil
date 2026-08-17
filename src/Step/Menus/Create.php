@@ -148,7 +148,7 @@ class Create extends AbstractStep
      */
     protected function createMenusFromPages(): void
     {
-        $validLanguages = \array_column($this->config->getLanguages(), 'code');
+        $validLanguages = array_column($this->config->getLanguages(), 'code');
         $filteredPages = $this->builder->getPages()->filter(function (Page $page) use ($validLanguages) {
             return $page->hasVariable('menu')
                 && $page->getVariable('published') === true
