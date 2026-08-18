@@ -4596,6 +4596,11 @@ Search.appendIndex(
             "summary": "Adds\u0020a\u0020translation\u0020file.",
             "url": "classes/Cecil-Renderer-Twig.html#method_addTransResource"
         },                {
+            "fqsen": "\\Cecil\\Renderer\\Twig\u003A\u003AgetTranslationsFormatsConfig\u0028\u0029",
+            "name": "getTranslationsFormatsConfig",
+            "summary": "",
+            "url": "classes/Cecil-Renderer-Twig.html#method_getTranslationsFormatsConfig"
+        },                {
             "fqsen": "\\Cecil\\Renderer\\Twig\u003A\u003AgetTwig\u0028\u0029",
             "name": "getTwig",
             "summary": "Returns\u0020the\u0020Twig\u0020instance.",

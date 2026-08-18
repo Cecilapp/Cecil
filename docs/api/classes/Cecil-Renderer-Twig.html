@@ -300,6 +300,12 @@ It also supports debugging and profiling when in debug mode.</p>
 </dt>
 <dd>Set locale (e.g.: &#039;fr_FR&#039;).</dd>
 
+            <dt class="phpdocumentor-table-of-contents__entry -method -private">
+    <a class="" href="classes/Cecil-Renderer-Twig.html#method_getTranslationsFormatsConfig">getTranslationsFormatsConfig()</a>
+    <span>
+                                &nbsp;: array&lt;string, array{loader: string, ext: string[]}&gt;    </span>
+</dt>
+
     </dl>
 
 
@@ -598,7 +604,7 @@ It also supports debugging and profiling when in debug mode.</p>
 
     <code class="phpdocumentor-code phpdocumentor-signature ">
     <span class="phpdocumentor-signature__visibility">public</span>
-                    <span class="phpdocumentor-signature__name">addTransResource</span><span>(</span><span class="phpdocumentor-signature__argument"><span class="phpdocumentor-signature__argument__type">string&nbsp;</span><span class="phpdocumentor-signature__argument__name">$translationsDir</span></span><span class="phpdocumentor-signature__argument"><span>, </span><span class="phpdocumentor-signature__argument__type">string&nbsp;</span><span class="phpdocumentor-signature__argument__name">$locale</span></span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">void</span></code>
+                    <span class="phpdocumentor-signature__name">addTransResource</span><span>(</span><span class="phpdocumentor-signature__argument"><span class="phpdocumentor-signature__argument__type">string&nbsp;</span><span class="phpdocumentor-signature__argument__name">$translationsDir</span></span><span class="phpdocumentor-signature__argument"><span>, </span><span class="phpdocumentor-signature__argument__type">string&nbsp;</span><span class="phpdocumentor-signature__argument__name">$locale</span></span><span class="phpdocumentor-signature__argument"><span>[</span><span>, </span><span class="phpdocumentor-signature__argument__type">array&lt;string|int, mixed&gt;|null&nbsp;</span><span class="phpdocumentor-signature__argument__name">$formatsConfig</span><span> = </span><span class="phpdocumentor-signature__argument__default-value">null</span><span> ]</span></span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">void</span></code>
 
     <div class="phpdocumentor-label-line">
         </div>
@@ -617,6 +623,13 @@ It also supports debugging and profiling when in debug mode.</p>
                 <span class="phpdocumentor-argument-list__argument__name">$locale</span>
                 : <span class="phpdocumentor-argument-list__argument__type">string</span>
                             </dt>
+            <dd class="phpdocumentor-argument-list__definition">
+                
+            </dd>
+                    <dt class="phpdocumentor-argument-list__entry">
+                <span class="phpdocumentor-argument-list__argument__name">$formatsConfig</span>
+                : <span class="phpdocumentor-argument-list__argument__type">array&lt;string|int, mixed&gt;|null</span>
+                 = <span class="phpdocumentor-argument-list__argument__default-value">null</span>            </dt>
             <dd class="phpdocumentor-argument-list__definition">
                 
             </dd>
@@ -642,7 +655,7 @@ It also supports debugging and profiling when in debug mode.</p>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Renderer/Twig.php"><a href="files/src-renderer-twig.html"><abbr title="src/Renderer/Twig.php">Twig.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">257</span>
+    <span class="phpdocumentor-element-found-in__line">303</span>
 
     </aside>
 
@@ -681,7 +694,7 @@ It also supports debugging and profiling when in debug mode.</p>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Renderer/Twig.php"><a href="files/src-renderer-twig.html"><abbr title="src/Renderer/Twig.php">Twig.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">249</span>
+    <span class="phpdocumentor-element-found-in__line">295</span>
 
     </aside>
 
@@ -807,6 +820,44 @@ It also supports debugging and profiling when in debug mode.</p>
     
     
 </article>
+                    <article
+        class="phpdocumentor-element
+            -method
+            -private
+                                                        "
+>
+    <h4 class="phpdocumentor-element__name" id="method_getTranslationsFormatsConfig">
+        getTranslationsFormatsConfig()
+        <a href="classes/Cecil-Renderer-Twig.html#method_getTranslationsFormatsConfig" class="headerlink"><i class="fas fa-link"></i></a>
+
+    </h4>
+    <aside class="phpdocumentor-element-found-in">
+    <abbr class="phpdocumentor-element-found-in__file" title="src/Renderer/Twig.php"><a href="files/src-renderer-twig.html"><abbr title="src/Renderer/Twig.php">Twig.php</abbr></a></abbr>
+    :
+    <span class="phpdocumentor-element-found-in__line">252</span>
+
+    </aside>
+
+    
+    <code class="phpdocumentor-code phpdocumentor-signature ">
+    <span class="phpdocumentor-signature__visibility">private</span>
+                    <span class="phpdocumentor-signature__name">getTranslationsFormatsConfig</span><span>(</span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">array&lt;string, array{loader: string, ext: string[]}&gt;</span></code>
+
+    <div class="phpdocumentor-label-line">
+        </div>
+    
+    
+    
+    
+
+        
+    
+            <section>
+        <h5 class="phpdocumentor-return-value__heading">Return values</h5>
+        <span class="phpdocumentor-signature__response_type">array&lt;string, array{loader: string, ext: string[]}&gt;</span>
+            </section>
+
+</article>
             </section>
 
         
@@ -846,6 +897,7 @@ It also supports debugging and profiling when in debug mode.</p>
                                             <li class=""><a href="classes/Cecil-Renderer-Twig.html#method_getTwig">getTwig()</a></li>
                                             <li class=""><a href="classes/Cecil-Renderer-Twig.html#method_render">render()</a></li>
                                             <li class=""><a href="classes/Cecil-Renderer-Twig.html#method_setLocale">setLocale()</a></li>
+                                            <li class=""><a href="classes/Cecil-Renderer-Twig.html#method_getTranslationsFormatsConfig">getTranslationsFormatsConfig()</a></li>
                                     </ul>
             </li>
                     </ul>

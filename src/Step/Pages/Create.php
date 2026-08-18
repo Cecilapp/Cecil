@@ -60,6 +60,7 @@ class Create extends AbstractStep
 
         $total = \count($this->builder->getPagesFiles());
         $count = 0;
+        $validLanguages = array_column($this->config->getLanguages(), 'code');
 
         foreach ($this->builder->getPagesFiles() as $file) {
             $count++;
@@ -108,7 +109,7 @@ class Create extends AbstractStep
             }
 
             // add the page to pages collection only if its language is defined in configuration
-            if (\in_array($page->getVariable('language', $this->config->getLanguageDefault()), array_column($this->config->getLanguages(), 'code'))) {
+            if (\in_array($page->getVariable('language', $this->config->getLanguageDefault()), $validLanguages)) {
                 $this->builder->getPages()->add($page);
             }
 

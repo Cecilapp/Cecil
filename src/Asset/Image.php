@@ -288,7 +288,7 @@ class Image
         array $formats,
         array $options = []
     ): array {
-        if (empty($darkSuffix)) {
+        if (empty($darkSuffix) or $asset['url'] !== null) {
             return [];
         }
 
@@ -299,7 +299,6 @@ class Image
         $width1x = $options['width1x'] ?? null;
         $assetOptions = $options['assetOptions'] ?? [];
         $fallbackAsUrl = (bool) ($options['fallbackAsUrl'] ?? false);
-
         $darkAssetPath = self::buildDarkAssetPath($asset['_path'], $darkSuffix);
         $assetDark = new Asset($builder, $darkAssetPath, array_merge(['ignore_missing' => true], $assetOptions));
         if ($assetDark->isMissing()) {

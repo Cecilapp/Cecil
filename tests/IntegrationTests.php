@@ -65,10 +65,12 @@ class IntegrationTests extends \PHPUnit\Framework\TestCase
         $htmlFr = Util\File::fileGetContents(Util::joinFile($this->destination, '_site/fr/markdown/localized-assets/index.html'));
         $htmlImages = Util\File::fileGetContents(Util::joinFile($this->destination, '_site/markdown/images/index.html'));
         $htmlMarkdown = Util\File::fileGetContents(Util::joinFile($this->destination, '_site/markdown/markdown/index.html'));
+        $htmlBackslash = Util\File::fileGetContents(Util::joinFile($this->destination, '_site/blog/post-with-backslash/index.html'));
         self::assertNotFalse($htmlEn);
         self::assertNotFalse($htmlFr);
         self::assertNotFalse($htmlImages);
         self::assertNotFalse($htmlMarkdown);
+        self::assertNotFalse($htmlBackslash);
         self::assertStringContainsString('/images/cecil-logo.png', $htmlEn);
         self::assertStringContainsString('/images/cecil-logo.fr.png', $htmlFr);
         self::assertStringContainsString('media="(prefers-color-scheme: dark)"', $htmlImages);
@@ -77,6 +79,11 @@ class IntegrationTests extends \PHPUnit\Framework\TestCase
         self::assertStringContainsStringIgnoringCase('/images/cecil-logo.mobile.png', $htmlImages);
         self::assertMatchesRegularExpression('/media="\(prefers-color-scheme: dark\)".*media="\(max-width: 767px\)"/s', $htmlImages);
         self::assertMatchesRegularExpression('/<code[^>]*translate="no"[^>]*>/', $htmlMarkdown);
+
+        // a title containing a raw backslash must not break the JSON-LD block (see WebPage/BreadcrumbList `name`)
+        preg_match('/<script[^>]*application\/ld\+json[^>]*>(.*?)<\/script>/s', $htmlBackslash, $jsonLdMatches);
+        self::assertNotEmpty($jsonLdMatches, 'JSON-LD script block not found on page with backslash in title');
+        self::assertJson($jsonLdMatches[1], 'JSON-LD block is not valid JSON when the page title contains a backslash');
     }
 
     /**

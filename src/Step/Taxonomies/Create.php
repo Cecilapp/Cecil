@@ -97,9 +97,10 @@ class Create extends AbstractStep
      */
     protected function collectTermsFromPages(): void
     {
-        $filteredPages = $this->builder->getPages()->filter(function (Page $page) {
+        $validLanguages = array_column($this->config->getLanguages(), 'code');
+        $filteredPages = $this->builder->getPages()->filter(function (Page $page) use ($validLanguages) {
             return $page->getVariable('published')
-                && \in_array($page->getVariable('language', $this->config->getLanguageDefault()), array_column($this->config->getLanguages(), 'code'));
+                && \in_array($page->getVariable('language', $this->config->getLanguageDefault()), $validLanguages);
         })->sortByDate();
         foreach ($filteredPages as $page) {
             $language = (string) $page->getVariable('language', $this->config->getLanguageDefault());
