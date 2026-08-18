@@ -127,25 +127,25 @@ class Twig implements RendererInterface
             $this->builder->getConfig()->isEnabled('cache.translations') ? $this->builder->getConfig()->getCacheTranslationsPath() : null,
             $this->builder->isDebug()
         );
+        $translationsFormats = $this->getTranslationsFormatsConfig();
         if (\count($this->builder->getConfig()->getLanguages()) > 0) {
-            foreach ((array) $this->builder->getConfig()->get('layouts.translations.formats') as $format) {
-                $loader = \sprintf('Symfony\Component\Translation\Loader\%sFileLoader', ucfirst($format));
-                if (class_exists($loader)) {
-                    $this->translator->addLoader($format, new $loader());
+            foreach ($translationsFormats as $format => $config) {
+                if (class_exists($config['loader'])) {
+                    $this->translator->addLoader($format, new $config['loader']());
                     $this->builder->getLogger()->debug(\sprintf('Translation loader for format "%s" found', $format));
                 }
             }
             foreach ($this->builder->getConfig()->getLanguages() as $lang) {
                 // internal
-                $this->addTransResource($this->builder->getConfig()->getTranslationsInternalPath(), $lang['locale']);
+                $this->addTransResource($this->builder->getConfig()->getTranslationsInternalPath(), $lang['locale'], $translationsFormats);
                 // themes
                 if ($themes = $this->builder->getConfig()->getTheme()) {
                     foreach ($themes as $theme) {
-                        $this->addTransResource($this->builder->getConfig()->getThemeDirPath($theme, 'translations'), $lang['locale']);
+                        $this->addTransResource($this->builder->getConfig()->getThemeDirPath($theme, 'translations'), $lang['locale'], $translationsFormats);
                     }
                 }
                 // site
-                $this->addTransResource($this->builder->getConfig()->getTranslationsPath(), $lang['locale']);
+                $this->addTransResource($this->builder->getConfig()->getTranslationsPath(), $lang['locale'], $translationsFormats);
             }
         }
         $this->twig->addExtension(new TranslationExtension($this->translator));
@@ -225,22 +225,68 @@ class Twig implements RendererInterface
     /**
      * {@inheritdoc}
      */
-    public function addTransResource(string $translationsDir, string $locale): void
+    public function addTransResource(string $translationsDir, string $locale, ?array $formatsConfig = null): void
     {
+        $formatsConfig ??= $this->getTranslationsFormatsConfig();
         $locales = [$locale];
         // if locale is 'fr_FR', trying to load ['fr', 'fr_FR']
         if (\strlen($locale) > 2) {
             array_unshift($locales, substr($locale, 0, 2));
         }
         foreach ($locales as $locale) {
-            foreach ((array) $this->builder->getConfig()->get('layouts.translations.formats') as $format) {
-                $translationFile = Util::joinPath($translationsDir, \sprintf('messages.%s.%s', $locale, $format));
-                if (Util\File::getFS()->exists($translationFile)) {
-                    $this->translator->addResource($format, $translationFile, $locale);
-                    $this->builder->getLogger()->debug(\sprintf('Translation file "%s" added', $translationFile));
+            foreach ($formatsConfig as $format => $config) {
+                foreach ($config['ext'] as $ext) {
+                    $translationFile = Util::joinPath($translationsDir, \sprintf('messages.%s.%s', $locale, $ext));
+                    if (Util\File::getFS()->exists($translationFile)) {
+                        $this->translator->addResource($format, $translationFile, $locale);
+                        $this->builder->getLogger()->debug(\sprintf('Translation file "%s" added', $translationFile));
+                    }
                 }
             }
         }
+    }
+
+    /**
+     * @return array<string, array{loader: string, ext: array<string>}>
+     */
+    private function getTranslationsFormatsConfig(): array
+    {
+        $formatsConfig = [];
+        foreach ((array) $this->builder->getConfig()->get('layouts.translations.formats') as $format => $config) {
+            if (\is_string($config)) {
+                $formatsConfig[$config] = [
+                    'loader' => \sprintf('Symfony\\Component\\Translation\\Loader\\%sFileLoader', ucfirst($config)),
+                    'ext' => [$config],
+                ];
+
+                continue;
+            }
+            if (!\is_array($config)) {
+                continue;
+            }
+
+            $format = \is_string($format) ? $format : ($config['name'] ?? null);
+            if (!\is_string($format) || $format === '') {
+                continue;
+            }
+
+            $extensions = [];
+            foreach ((array) ($config['ext'] ?? [$format]) as $ext) {
+                if (!\is_string($ext) || $ext === '') {
+                    continue;
+                }
+                $extensions[] = $ext;
+            }
+
+            $formatsConfig[$format] = [
+                'loader' => \is_string($config['loader'] ?? null)
+                    ? $config['loader']
+                    : \sprintf('Symfony\\Component\\Translation\\Loader\\%sFileLoader', ucfirst($format)),
+                'ext' => $extensions,
+            ];
+        }
+
+        return $formatsConfig;
     }
 
     /**

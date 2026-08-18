@@ -2,6 +2,130 @@
 
 All notable changes to this project will be documented in this file. Dates are displayed in UTC.
 
+#### [8.119.1](https://github.com/Cecilapp/Cecil/compare/8.119.0...8.119.1)
+
+> 18 August 2026
+
+- fix: stop double-escaping title in auto JSON-LD blocks [`#2450`](https://github.com/Cecilapp/Cecil/pull/2450)
+
+#### [8.119.0](https://github.com/Cecilapp/Cecil/compare/8.118.0...8.119.0)
+
+> 18 August 2026
+
+- feat: optional Dublin Core metatags support [`#2453`](https://github.com/Cecilapp/Cecil/pull/2453)
+- chore: remove experimental PHP 8.5 CI matrix entry [`#2454`](https://github.com/Cecilapp/Cecil/pull/2454)
+
+#### [8.118.0](https://github.com/Cecilapp/Cecil/compare/8.117.2...8.118.0)
+
+> 13 August 2026
+
+- feat: add theme toggle to site navigation [`#2449`](https://github.com/Cecilapp/Cecil/pull/2449)
+
+#### [8.117.2](https://github.com/Cecilapp/Cecil/compare/8.117.1...8.117.2)
+
+> 13 August 2026
+
+- fix: handle backslack in jsonld [`#2448`](https://github.com/Cecilapp/Cecil/pull/2448)
+- chore(deps-dev): bump phpstan/phpstan from 2.2.7 to 2.2.8 [`#2447`](https://github.com/Cecilapp/Cecil/pull/2447)
+- chore(deps-dev): bump squizlabs/php_codesniffer from 4.0.1 to 4.0.4 [`#2446`](https://github.com/Cecilapp/Cecil/pull/2446)
+- chore(deps): bump MinoruSekine/setup-scoop from 5.0.0 to 5.0.1 [`#2445`](https://github.com/Cecilapp/Cecil/pull/2445)
+- chore(deps-dev): bump friendsofphp/php-cs-fixer from 3.95.17 to 3.95.18 [`#2444`](https://github.com/Cecilapp/Cecil/pull/2444)
+- chore(deps-dev): bump phpstan/phpstan from 2.2.6 to 2.2.7 [`#2443`](https://github.com/Cecilapp/Cecil/pull/2443)
+- chore(deps-dev): bump friendsofphp/php-cs-fixer from 3.95.15 to 3.95.17 [`#2442`](https://github.com/Cecilapp/Cecil/pull/2442)
+- chore(deps-dev): bump phpstan/phpstan from 2.2.5 to 2.2.6 [`#2441`](https://github.com/Cecilapp/Cecil/pull/2441)
+- chore: update deps [`bb611af`](https://github.com/Cecilapp/Cecil/commit/bb611af48835ef642e2a490f349fd954ab9a0d4e)
+- docs: regenerate API docs for renderer updates [`0615d8a`](https://github.com/Cecilapp/Cecil/commit/0615d8a06f60bb831522f600afc1d4fc437e0cdd)
+- fix: remove unused serve build output arg [`81b4b6f`](https://github.com/Cecilapp/Cecil/commit/81b4b6f7f3a05705884292ec89ef656d3f054aee)
+- Silence headers.ini write message in serve [`4ece039`](https://github.com/Cecilapp/Cecil/commit/4ece03910479d77639abfa17affe1e71ef7db37b)
+
+#### [8.117.1](https://github.com/Cecilapp/Cecil/compare/8.117.0...8.117.1)
+
+> 24 July 2026
+
+- fix: Removes the default `content_template` [`5eeabdd`](https://github.com/Cecilapp/Cecil/commit/5eeabdd2d46d10e1864e46bb6d09948cf4c69622)
+
+#### [8.117.0](https://github.com/Cecilapp/Cecil/compare/8.116.2...8.117.0)
+
+> 24 July 2026
+
+- refactor: drop shortcode templates from layouts [`34b1fb8`](https://github.com/Cecilapp/Cecil/commit/34b1fb8e87db391a3bd815dd6f50982cac374574)
+- refactor: unify shortcode template naming in fixtures [`a692caa`](https://github.com/Cecilapp/Cecil/commit/a692caa25a739ca237029a9d003c300ea38ce225)
+
+#### [8.116.2](https://github.com/Cecilapp/Cecil/compare/8.116.1...8.116.2)
+
+> 21 July 2026
+
+- chore(deps-dev): bump friendsofphp/php-cs-fixer from 3.95.13 to 3.95.15 [`#2439`](https://github.com/Cecilapp/Cecil/pull/2439)
+- chore(deps): bump DavidAnson/markdownlint-cli2-action from 23 to 24 [`#2435`](https://github.com/Cecilapp/Cecil/pull/2435)
+- chore: update deps [`c8ad893`](https://github.com/Cecilapp/Cecil/commit/c8ad893fc2207dd914944ca3682113004a309bd0)
+- fix: disable highlight.js background colors [`6d35b14`](https://github.com/Cecilapp/Cecil/commit/6d35b148ec65ed0a46ea2b5ce51b32cff4969ede)
+- Change locale export to C.UTF-8 [`24b9315`](https://github.com/Cecilapp/Cecil/commit/24b9315b96de715f34214c7e71342ba4a673492b)
+
+#### [8.116.1](https://github.com/Cecilapp/Cecil/compare/8.116.0...8.116.1)
+
+> 11 July 2026
+
+- fix: require locale for translation extraction [`6995f33`](https://github.com/Cecilapp/Cecil/commit/6995f334703dd36bd6bff422aed2d27db44537fb)
+
+#### [8.116.0](https://github.com/Cecilapp/Cecil/compare/8.115.0...8.116.0)
+
+> 10 July 2026
+
+- feat: support custom translation loaders [`#2437`](https://github.com/Cecilapp/Cecil/pull/2437)
+- chore(deps-dev): bump friendsofphp/php-cs-fixer from 3.95.12 to 3.95.13 [`#2436`](https://github.com/Cecilapp/Cecil/pull/2436)
+- chore(deps-dev): bump friendsofphp/php-cs-fixer from 3.95.11 to 3.95.12 [`#2434`](https://github.com/Cecilapp/Cecil/pull/2434)
+- chore(deps): bump MinoruSekine/setup-scoop from 4.0.2 to 5.0.0 [`#2428`](https://github.com/Cecilapp/Cecil/pull/2428)
+- chore(deps): bump vlucas/phpdotenv from 5.6.3 to 5.6.4 [`#2432`](https://github.com/Cecilapp/Cecil/pull/2432)
+- Optimize page parser file reads [`#2431`](https://github.com/Cecilapp/Cecil/pull/2431)
+
+#### [8.115.0](https://github.com/Cecilapp/Cecil/compare/8.114.2...8.115.0)
+
+> 6 July 2026
+
+- docs: update API documentation [`45bb3bd`](https://github.com/Cecilapp/Cecil/commit/45bb3bd4d060ef33f004c94fc415080f5037500c)
+- feat: add doctor:cache command for cache metrics [`cbba83a`](https://github.com/Cecilapp/Cecil/commit/cbba83a6ba03a8dc36fd988381b6324080af70b9)
+- refactor: group cmd classes by feature namespace [`8e2302b`](https://github.com/Cecilapp/Cecil/commit/8e2302be076a61137fb084f71d75d49833c8c8bd)
+- chore: update deps [`f769270`](https://github.com/Cecilapp/Cecil/commit/f7692703101e12566eadf2bdc402bf1c25d5f016)
+
+#### [8.114.2](https://github.com/Cecilapp/Cecil/compare/8.114.1...8.114.2)
+
+> 5 July 2026
+
+- fix: trim markdown template content output [`b7a11c1`](https://github.com/Cecilapp/Cecil/commit/b7a11c1c0d80f57429b35257056fb5141b8d2d0c)
+
+#### [8.114.1](https://github.com/Cecilapp/Cecil/compare/8.114.0...8.114.1)
+
+> 5 July 2026
+
+- fix: fix section/page filtering in markdown listings [`bd6f20e`](https://github.com/Cecilapp/Cecil/commit/bd6f20e4e84cf4109ccb7e72a212c092d23e9cad)
+- chore: refresh French translation files [`4a98b5f`](https://github.com/Cecilapp/Cecil/commit/4a98b5ff8353e1cfa1032cfe35ef5072cdb395c3)
+- Fix LLM home links to markdown output [`8b04936`](https://github.com/Cecilapp/Cecil/commit/8b04936ffd8a1835db38bbc7eef26b2d34075d43)
+
+#### [8.114.0](https://github.com/Cecilapp/Cecil/compare/8.113.0...8.114.0)
+
+> 4 July 2026
+
+- chore(deps-dev): bump phpstan/phpstan from 2.2.3 to 2.2.4 [`#2430`](https://github.com/Cecilapp/Cecil/pull/2430)
+- feat: add Markdown output format and templates [`2ab2044`](https://github.com/Cecilapp/Cecil/commit/2ab2044cd1c2c5c5991774754105d1642457a704)
+- chore: update deps [`5a4bd14`](https://github.com/Cecilapp/Cecil/commit/5a4bd143659e82b4ca02ddf3c1ace82d011218cd)
+- feat: add llms.txt output format support [`ed593cd`](https://github.com/Cecilapp/Cecil/commit/ed593cdfb2cb8d4697ae459e8d9ea360c798e57f)
+- chore: update deps [`a230985`](https://github.com/Cecilapp/Cecil/commit/a230985a8bdfd48b3a6f3e3e219a325acc0c33ff)
+- test: update output format index in ConfigTest [`60cdafc`](https://github.com/Cecilapp/Cecil/commit/60cdafc2229890aced0b1b5f4057aa31634d1d71)
+- test: use verbose logger in CacheTest builder [`da51983`](https://github.com/Cecilapp/Cecil/commit/da51983f5b1d589c54c866ca7b55b39372bdec2c)
+- test: fix expected output format index in test [`ffcd01f`](https://github.com/Cecilapp/Cecil/commit/ffcd01f9d3e99a039f8fdad1a5b9cd7176daf45d)
+
+#### [8.113.0](https://github.com/Cecilapp/Cecil/compare/8.112.1...8.113.0)
+
+> 2 July 2026
+
+- Enable default syntax highlighting and update documentation [`#2429`](https://github.com/Cecilapp/Cecil/pull/2429)
+- chore(deps-dev): bump phpstan/phpstan from 2.2.2 to 2.2.3 [`#2427`](https://github.com/Cecilapp/Cecil/pull/2427)
+- chore(deps): bump actions/cache from 5 to 6 [`#2423`](https://github.com/Cecilapp/Cecil/pull/2423)
+- chore(deps): bump actions/checkout from 6 to 7 [`#2422`](https://github.com/Cecilapp/Cecil/pull/2422)
+- Optimize page loader sorting path comparisons [`#2426`](https://github.com/Cecilapp/Cecil/pull/2426)
+- chore(deps): bump spatie/image-optimizer from 1.9.0 to 1.10.0 [`#2425`](https://github.com/Cecilapp/Cecil/pull/2425)
+- chore: update deps [`d9e3cc1`](https://github.com/Cecilapp/Cecil/commit/d9e3cc1aba648c0162cfd0e841391f74347fafd9)
+
 #### [8.112.1](https://github.com/Cecilapp/Cecil/compare/8.112.0...8.112.1)
 
 > 26 June 2026

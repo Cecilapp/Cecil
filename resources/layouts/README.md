@@ -13,12 +13,6 @@ This directory contains built-in Twig layout templates provided by Cecil.
 `extended/`
 : Optional and advanced layout templates used for custom rendering scenarios. This folder is typically used to host alternative template variants or feature-specific layouts without changing the default baseline.
 
-`page.content.twig`
-: Page body rendering helper
-
-`shortcodes.twig`
-: Built-in shortcode templates
-
 ## Details
 
 ### `_default/`

@@ -2,7 +2,7 @@
 title: Contenu
 description: "Créer du contenu et l’organiser."
 date: 2026-03-27
-updated: 2026-04-20
+updated: 2026-07-23
 slug: contenu
 -->
 # Contenu
@@ -526,7 +526,15 @@ caution
 
 ### Coloration syntaxique
 
-Active le surligneur syntaxique des blocs de code en définissant l’option [pages.body.highlight.enabled](4-Configuration.md#pages-body-highlight) à `true`.
+La coloration syntaxique des blocs de code est activée par défaut avec l’option [pages.body.highlight](4-Configuration.md#pages-body-highlight).
+
+Si besoin, vous pouvez la désactiver avec :
+
+```yaml
+pages:
+  body:
+    highlight: false
+```
 
 _Exemple :_
 
@@ -542,8 +550,8 @@ Est rendu en :
 echo "Hello world";
 ```
 
-:::important
-Vous devez ajouter la [StyleSheet](https://highlightjs.org/download/) dans l’en-tête de votre template.
+:::info
+Vous pouvez personnaliser le style de coloration syntaxique en créant votre propre thème. Consultez le [guide des thèmes de Highlight.js](https://highlightjs.readthedocs.io/en/latest/theme-guide.html).
 :::
 
 ### Texte inséré
@@ -957,89 +965,17 @@ langref: my-page-ref
 
 ## Contenu dynamique
 
-Avec cette fonctionnalité **_expérimentale_**, vous pouvez utiliser des **[variables](3-Templates.md#variables)** et des **shortcodes** dans le [body](#body).
-
-:::important
-Pour cela, vous devez inclure un template spécifique :
+Vous pouvez créer du contenu dynamique dans une page en utilisant la fonction Twig [`template_from_string`](https://twig.symfony.com/doc/3.x/functions/template_from_string.html).
 
 ```twig
-{{ include(page.content_template) }}
+{{ include(template_from_string(page.content, "contenu dynamique pour la page " ~ page.id)) }}
 ```
 
-(au lieu de `{{ page.content }}`)
-:::
-
-### Afficher des variables
-
-Les variables du front matter peuvent être utilisées dans le body avec la syntaxe de template `{{ page.variable }}`.
-
-_Exemple :_
+Avec cette approche, vous pouvez utiliser n’importe quelle variable de page dans le _body_ de la page.
 
 ```twig
 --
 var: 'value'
 ---
-The value of `var` is {{ page.var }}.
-```
-
-> Experimental
-
-### Shortcodes
-
-Les shortcodes sont des helpers pour créer du contenu dynamique.
-
-> Experimental
-
-#### Shortcodes intégrés
-
-2 shortcodes sont disponibles par défaut :
-
-##### YouTube
-
-```twig
-{{ shortcode.youtube(id) }}
-```
-
-- `id`: ID de la vidéo YouTube
-
-_Exemple :_
-
-```twig
-{{ shortcode.youtube('NaB8JBfE7DY') }}
-```
-
-##### GitHub Gist
-
-```twig
-{{ shortcode.gist(user, id) }}
-```
-
-- `user`: nom d’utilisateur GitHub
-- `id`: ID du Gist
-
-_Exemple :_
-
-```twig
-{{ shortcode.gist('ArnaudLigny', 'fbe791e05b93951ffc1f6abda8ee88f0') }}
-```
-
-#### Shortcode personnalisé
-
-Un shortcode est une [macro Twig](https://twig.symfony.com/doc/tags/macro.html) que vous devez ajouter dans un template nommé `shortcodes.twig`.
-
-_Exemple :_
-
-`shortcodes.twig`:
-
-```twig
-{% extends 'extended/macros.twig' %}
-
-{% block macros %}
-
-{# the "foo" shortcode #}
-{% macro foo(bar = 'bar') %}
-<strong>{{ bar }}</strong>
-{% endmacro %}
-
-{% endblock %}
+La valeur de `var` est {{ page.var }}.
 ```

@@ -1,5 +1,7 @@
 #!/bin/bash
-export LC_ALL=$(locale -a|grep -ix 'c.utf-\?8' || echo C)
+#export LC_ALL=$(locale -a|grep -ix 'c.utf-\?8' || echo C)
+export LC_ALL=C.UTF-8
+export LANG=C.UTF-8
 
 # This script build a Cecil website (locally, on statichost / GitLab / Netlify / Vercel / Cloudflare Pages / Render).
 # It is intended to be used on CI / CD.

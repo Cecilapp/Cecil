@@ -168,6 +168,17 @@ return [
                 'extension' => 'html',
                 'exclude'   => ['redirect', 'paginated'],
             ],
+            [ // e.g.: page.md
+                'name'      => 'markdown',
+                'mediatype' => 'text/plain',
+                'extension' => 'md',
+            ],
+            [ // e.g.: llms.txt
+                'name'      => 'llms',
+                'mediatype' => 'text/plain',
+                'filename'  => 'llms',
+                'extension' => 'txt',
+            ]
         ],
         'postprocessors' => [
             'GeneratorMetaTag' => 'Cecil\Renderer\PostProcessor\GeneratorMetaTag',

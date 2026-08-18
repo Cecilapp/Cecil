@@ -1,7 +1,7 @@
 <!--
 description: "Working with layouts, templates and components."
 date: 2021-05-07
-updated: 2026-05-26
+updated: 2026-07-10
 alias: documentation/layouts
 -->
 # Templates
@@ -1571,8 +1571,8 @@ Pluralize:
 
 ### Translation files
 
-Translation files must be named `messages.<locale>.<format>` and stored in the [`translations`](4-Configuration.md#layouts) directory.  
-Cecil supports `yaml` and `mo` (Gettext) file [formats by default](4-Configuration.md#layouts).
+Translation files must be named `messages.<locale>.<extension>` and stored in the [`translations`](4-Configuration.md#layouts) directory.  
+Supported file extensions are defined by each translation format in [`layouts.translations.formats`](4-Configuration.md#layoutstranslations).
 
 The locale code (e.g.: `fr_FR`) of a language is defined in the [`languages`](4-Configuration.md#languages) entries of the configuration.
 
@@ -1589,8 +1589,10 @@ _Example:_
 You can easily extract translations from your templates with the following command:
 
 ```bash
-php cecil.phar util:translations:extract
+php cecil.phar util:translations:extract --locale=<code> --show
 ```
+
+Use `--save` instead of (or in addition to) `--show` to save the translations to a file. The `--locale` option is required. The default output format is `yaml` (use `--format=po` for gettext PO format).
 
 :::
 

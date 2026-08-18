@@ -1,7 +1,7 @@
 <!--
 description: "List of available commands."
 date: 2020-12-19
-updated: 2026-06-25
+updated: 2026-07-06
 -->
 # Commands
 
@@ -26,6 +26,7 @@ Available commands:
   clear:temporary            [clear:tmp] Removes temporary directory
  doctor
   doctor:frontmatter         [doctor:fm] Validates pages front matter syntax
+  doctor:cache               Shows cache status
   doctor:seo                 Audits rendered HTML pages for common SEO issues
  new
   new:page                   Creates a new page

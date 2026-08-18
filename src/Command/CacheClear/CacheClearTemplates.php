@@ -11,8 +11,9 @@
 
 declare(strict_types=1);
 
-namespace Cecil\Command;
+namespace Cecil\Command\CacheClear;
 
+use Cecil\Command\AbstractCommand;
 use Cecil\Util;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;

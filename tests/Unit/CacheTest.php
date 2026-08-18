@@ -94,7 +94,7 @@ class CacheTest extends TestCase
     {
         $builder = new Builder([
             'baseurl' => 'https://example.com/',
-        ], new PrintLogger());
+        ], new PrintLogger(Builder::VERBOSITY_VERBOSE));
         $builder->setSourceDir($this->sourceDir);
         $builder->setDestinationDir($this->destinationDir);
 

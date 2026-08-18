@@ -101,7 +101,6 @@ class Page extends Item
             'filepath'         => null,
             'published'        => true,
             'status'           => Status::PUBLISHED->value,
-            'content_template' => 'page.content.twig',
         ]);
 
         if ($id instanceof SplFileInfo) {

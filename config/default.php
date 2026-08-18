@@ -95,7 +95,7 @@ return [
         ],
         'body' => [
             'toc' => ['h2', 'h3'], // headers used to build the table of contents
-            'highlight' => false, // enables code syntax highlighting
+            'highlight' => true, // enables code syntax highlighting
             'images' => [
                 'formats' => [], // creates and adds formats images as `source` (e.g.: ['avif', 'webp'])
                 'resize' => 0, // apply a global width to images (in pixels, `0` to disable)
@@ -190,7 +190,16 @@ return [
         ],
         'translations' => [ // i18n
             'dir' => 'translations', // translations files directory
-            'formats' => ['yaml', 'mo'], // translations supported formats
+            'formats' => [ // translations supported formats
+                'yaml' => [
+                    'loader' => 'Symfony\Component\Translation\Loader\YamlFileLoader',
+                    'ext' => ['yml', 'yaml'],
+                ],
+                'mo' => [
+                    'loader' => 'Symfony\Component\Translation\Loader\MoFileLoader',
+                    'ext' => ['mo'],
+                ],
+            ],
         ],
         'extensions' => [ // list of Twig extensions class
             //'<name>' => 'Cecil\Renderer\Extension\<class>',

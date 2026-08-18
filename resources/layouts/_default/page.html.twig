@@ -2,17 +2,16 @@
 <html lang="{{ site.language }}">
   <head>
     {%- block head ~%}
-    <meta charset="UTF-8">
+    <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     {%- block head_metatags ~%}
     {{- include('partials/metatags.html.twig', {page, site}, with_context = false) ~}}
     {%- endblock head_metatags ~%}
-    <meta name="theme-color" media="(prefers-color-scheme: light)" content="white">
-    <meta name="theme-color" media="(prefers-color-scheme: dark)" content="black">
+    <meta name="color-scheme" content="light dark">
     {%- endblock head ~%}
     {%- block head_css ~%}
     <style>{% apply minify_css ~%}
-      {{- include('partials/pico.css.twig') }}
+      {{- include('partials/pico.css.twig') ~}}
       /* Pico CSS overrides */
       body > header,
       body > main,
@@ -93,6 +92,24 @@
         border: 1px solid red;
         border-left-width: 4px;
       }
+      /* Theme selector */
+      #theme-toggle {
+        position: absolute;
+        top: 0;
+        right: 0;
+        --pico-background-color: transparent;
+        --pico-border-color: transparent;
+        --pico-color: var(--pico-muted-color);
+        border: none;
+        outline:none;
+      }
+      #theme-toggle:focus {
+        outline-style: none;
+        box-shadow: none;
+      }
+      {%- if config.pages.body.highlight|default(true) ~%}
+      {{- include('partials/highlight.css.twig') ~}}
+      {%- endif ~%}
     {% endapply %}</style>
     {%- endblock head_css ~%}
   </head>
@@ -106,6 +123,7 @@
         <div class="site-title">{{ site.title }}</div>
         {%- endif ~%}
         <p>{{ site.baseline }}</p>
+        {{- include('partials/theme-selector.html.twig', {}, with_context = false) ~}}
       </hgroup>
       {{- include('partials/navigation.html.twig', {menu: site.menus.main}, with_context = false) ~}}
       {%- endblock header ~%}
