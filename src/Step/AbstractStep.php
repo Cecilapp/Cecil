@@ -14,7 +14,6 @@ declare(strict_types=1);
 namespace Cecil\Step;
 
 use Cecil\BuildContextInterface;
-use Cecil\Builder;
 use Cecil\Config;
 
 /**
@@ -35,7 +34,7 @@ abstract class AbstractStep implements StepInterface
 
     /**
      * Configuration options for the step.
-     * @var Builder::OPTIONS
+     * @var \Cecil\Builder::OPTIONS
      */
     protected $options;
 
