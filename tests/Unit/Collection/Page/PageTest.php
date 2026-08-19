@@ -14,7 +14,7 @@ declare(strict_types=1);
 namespace Cecil\Test\Unit\Collection\Page;
 
 use Cecil\Collection\Page\Page;
-use Cecil\Util\Slugifier;
+use Cecil\Util;
 use PHPUnit\Framework\TestCase;
 
 class PageTest extends TestCase
@@ -34,12 +34,12 @@ class PageTest extends TestCase
     public function testSlugifyDelegatesToSlugifier(): void
     {
         $input = 'Hello World';
-        self::assertSame(Slugifier::slugify($input), Page::slugify($input));
+        self::assertSame(Util\Slugifier::slugify($input), Util\Slugifier::slugify($input));
     }
 
     public function testSlugifyPatternConstantMatchesSlugifier(): void
     {
-        self::assertSame(Slugifier::SLUGIFY_PATTERN, Page::SLUGIFY_PATTERN);
+        self::assertSame(Util\Slugifier::SLUGIFY_PATTERN, Page::SLUGIFY_PATTERN);
     }
 
     public function testDefaultTypeIsPage(): void

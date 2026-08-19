@@ -16,6 +16,7 @@ namespace Cecil\Generator;
 use Cecil\Collection\Page\Collection as PagesCollection;
 use Cecil\Collection\Page\Page;
 use Cecil\Collection\Page\Type;
+use Cecil\Util;
 
 /**
  * Pagination generator.
@@ -94,11 +95,11 @@ class Pagination extends AbstractGenerator implements GeneratorInterface
                     ]);
                 // others pages (ie: blog/page/X)
                 if ($i > 0) {
-                    $pageId = Page::slugify(\sprintf('%s/%s/%s', $page->getId(), $paginationPath, $i + 1));
+                    $pageId = Util\Slugifier::slugify(\sprintf('%s/%s/%s', $page->getId(), $paginationPath, $i + 1));
                     $alteredPage
                         ->setId($pageId)
                         ->setVirtual(true)
-                        ->setPath(Page::slugify(\sprintf('%s/%s/%s', $path, $paginationPath, $i + 1)))
+                        ->setPath(Util\Slugifier::slugify(\sprintf('%s/%s/%s', $path, $paginationPath, $i + 1)))
                         ->unVariable('menu')
                         ->unVariable('alias')
                         ->unVariable('aliases') // backward compatibility
@@ -119,7 +120,7 @@ class Pagination extends AbstractGenerator implements GeneratorInterface
                     $paginator['links'] += ['prev' => $page->getId() ?: 'index'];
                 }
                 if ($i > 1) {
-                    $paginator['links'] += ['prev' => Page::slugify(\sprintf(
+                    $paginator['links'] += ['prev' => Util\Slugifier::slugify(\sprintf(
                         '%s/%s/%s',
                         $page->getId(),
                         $paginationPath,
@@ -128,20 +129,20 @@ class Pagination extends AbstractGenerator implements GeneratorInterface
                 }
                 $paginator['links'] += ['self' => $pageId ?: 'index'];
                 if ($i < $paginatorPagesCount - 1) {
-                    $paginator['links'] += ['next' => Page::slugify(\sprintf(
+                    $paginator['links'] += ['next' => Util\Slugifier::slugify(\sprintf(
                         '%s/%s/%s',
                         $page->getId(),
                         $paginationPath,
                         $i + 2
                     ))];
                 }
-                $paginator['links'] += ['last' => Page::slugify(\sprintf(
+                $paginator['links'] += ['last' => Util\Slugifier::slugify(\sprintf(
                     '%s/%s/%s',
                     $page->getId(),
                     $paginationPath,
                     $paginatorPagesCount
                 ))];
-                $paginator['links'] += ['path' => Page::slugify(\sprintf('%s/%s', $page->getId(), $paginationPath))];
+                $paginator['links'] += ['path' => Util\Slugifier::slugify(\sprintf('%s/%s', $page->getId(), $paginationPath))];
                 // set paginator to cloned page
                 $alteredPage->setPaginator($paginator);
                 $alteredPage->setVariable('pagination', $paginator); // backward compatibility

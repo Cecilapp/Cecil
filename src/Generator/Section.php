@@ -16,7 +16,7 @@ namespace Cecil\Generator;
 use Cecil\Collection\Page\Collection as PagesCollection;
 use Cecil\Collection\Page\Page;
 use Cecil\Collection\Page\Type;
-use Cecil\Exception\RuntimeException;
+use Cecil\Util;
 
 /**
  * Section generator class.
@@ -58,7 +58,7 @@ class Section extends AbstractGenerator implements GeneratorInterface
 
             foreach ($sections as $section => $languages) {
                 foreach ($languages as $language => $pagesAsArray) {
-                    $pageId = $path = Page::slugify($section);
+                    $pageId = $path = Util\Slugifier::slugify($section);
                     if ($language != $this->config->getLanguageDefault()) {
                         $pageId = "$language/$pageId";
                     }
