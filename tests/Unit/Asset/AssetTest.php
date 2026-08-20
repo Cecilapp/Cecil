@@ -16,6 +16,7 @@ namespace Cecil\Test\Unit\Asset;
 use Cecil\Asset;
 use Cecil\Builder;
 use Cecil\Cache;
+use Cecil\Collection\Page\Collection as PagesCollection;
 use Cecil\Config;
 use Cecil\Exception\RuntimeException;
 use Cecil\Logger\PrintLogger;
@@ -144,6 +145,66 @@ class AssetTest extends TestCase
         self::assertStringStartsWith('sha256-', $asset->integrity('sha256'));
     }
 
+    public function testToStringReturnsAssetPathByDefault(): void
+    {
+        ['asset' => $asset, 'cache' => $cache] = $this->createTestAsset([
+            'path' => '/css/site.css',
+            'content' => 'body{color:black;}',
+        ]);
+        $this->filesystem->dumpFile($cache->getContentFile('/css/site.css'), 'body{color:black;}');
+
+        self::assertSame('/css/site.css', (string) $asset);
+    }
+
+    public function testToStringReturnsCanonicalUrlWhenEnabled(): void
+    {
+        ['asset' => $asset, 'cache' => $cache] = $this->createTestAsset([
+            'path' => '/css/site.css',
+            'content' => 'body{color:black;}',
+        ], [
+            'canonicalurl' => true,
+            'baseurl' => 'https://example.test/base/',
+        ]);
+        $this->filesystem->dumpFile($cache->getContentFile('/css/site.css'), 'body{color:black;}');
+
+        self::assertSame('https://example.test/base/css/site.css', (string) $asset);
+    }
+
+    public function testToStringReturnsImageCdnUrlWhenEnabledForSvg(): void
+    {
+        ['asset' => $asset, 'cache' => $cache] = $this->createTestAsset([
+            'path' => '/img/logo.svg',
+            'type' => 'image',
+            'ext' => 'svg',
+            'subtype' => 'image/svg+xml',
+            'width' => 120,
+            'height' => 60,
+            'content' => '<svg width="120" height="60" xmlns="http://www.w3.org/2000/svg"/>',
+        ], [
+            'assets' => [
+                'images' => [
+                    'quality' => 80,
+                    'cdn' => [
+                        'enabled' => true,
+                        'svg' => true,
+                        'remote' => false,
+                        'account' => 'demo-account',
+                        'canonical' => true,
+                        'url' => 'https://cdn.example/%account%/%image_url%?w=%width%&q=%quality%&f=%format%',
+                    ],
+                ],
+            ],
+        ]);
+        $this->filesystem->dumpFile($cache->getContentFile('/img/logo.svg'), $asset['content']);
+
+        $url = (string) $asset;
+
+        self::assertStringStartsWith('https://cdn.example/demo-account/', $url);
+        self::assertStringContainsString('w=120', $url);
+        self::assertStringContainsString('q=80', $url);
+        self::assertStringContainsString('f=svg', $url);
+    }
+
     public function testConvertAndFormatsThrowForNonImageAsset(): void
     {
         ['asset' => $asset] = $this->createTestAsset([
@@ -156,6 +217,34 @@ class AssetTest extends TestCase
         $this->expectExceptionMessage('not an image');
 
         $asset->convert('webp');
+    }
+
+    public function testConvertReturnsUpdatedCloneWhenImageHandledByCdn(): void
+    {
+        ['asset' => $asset] = $this->createTestAsset([
+            'path' => '/img/photo.png',
+            'type' => 'image',
+            'ext' => 'png',
+            'subtype' => 'image/png',
+            'url' => 'https://example.com/photo.png',
+        ], [
+            'assets' => [
+                'images' => [
+                    'cdn' => [
+                        'enabled' => false,
+                        'remote' => true,
+                    ],
+                ],
+            ],
+        ]);
+
+        $converted = $asset->convert('webp', 42);
+
+        self::assertNotSame($asset, $converted);
+        self::assertSame('webp', $converted['ext']);
+        self::assertSame('image/webp', $converted['subtype']);
+        self::assertSame('/img/photo.png', $converted['path']);
+        self::assertSame('/img/photo.png', $asset['path']);
     }
 
     public function testWebpAndAvifDelegateToConvertAndThrowForNonImage(): void
@@ -189,6 +278,52 @@ class AssetTest extends TestCase
         self::assertNull($asset->getHeight());
     }
 
+    public function testGetWidthThrowsOnInvalidImageContent(): void
+    {
+        ['asset' => $asset] = $this->createTestAsset([
+            'path' => '/img/invalid.png',
+            'type' => 'image',
+            'ext' => 'png',
+            'subtype' => 'image/png',
+            'content' => 'invalid-image-content',
+        ]);
+
+        $this->expectException(RuntimeException::class);
+        $this->expectExceptionMessage('Unable to get width');
+
+        $asset->getWidth();
+    }
+
+    public function testGetHeightThrowsOnInvalidImageContent(): void
+    {
+        ['asset' => $asset] = $this->createTestAsset([
+            'path' => '/img/invalid.png',
+            'type' => 'image',
+            'ext' => 'png',
+            'subtype' => 'image/png',
+            'content' => 'invalid-image-content',
+        ]);
+
+        $this->expectException(RuntimeException::class);
+        $this->expectExceptionMessage('Unable to get height');
+
+        $asset->getHeight();
+    }
+
+    public function testGetWidthAndHeightFromSvgAttributes(): void
+    {
+        ['asset' => $asset] = $this->createTestAsset([
+            'path' => '/img/vector.svg',
+            'type' => 'image',
+            'ext' => 'svg',
+            'subtype' => 'image/svg+xml',
+            'content' => '<svg width="321" height="123" xmlns="http://www.w3.org/2000/svg"></svg>',
+        ]);
+
+        self::assertSame(321, $asset->getWidth());
+        self::assertSame(123, $asset->getHeight());
+    }
+
     public function testGetVideoThrowsForNonVideoAsset(): void
     {
         ['asset' => $asset] = $this->createTestAsset([
@@ -200,6 +335,19 @@ class AssetTest extends TestCase
         $this->expectExceptionMessage('Unable to get video infos');
 
         $asset->getVideo();
+    }
+
+    public function testGetAudioThrowsWhenFileIsInvalid(): void
+    {
+        ['asset' => $asset] = $this->createTestAsset([
+            'path' => '/audio/test.mp3',
+            'type' => 'audio',
+            'file' => $this->root . DIRECTORY_SEPARATOR . 'missing.mp3',
+        ]);
+
+        $this->expectException(\Throwable::class);
+
+        $asset->getAudio();
     }
 
     public function testIsImageInCdnForSvgAndRemoteCases(): void
@@ -258,6 +406,123 @@ class AssetTest extends TestCase
         self::assertFalse($localPng->isImageInCdn());
     }
 
+    public function testResizeReturnsSameAssetForShortCircuitConditions(): void
+    {
+        ['asset' => $asset] = $this->createTestAsset([
+            'path' => '/img/photo.png',
+            'type' => 'image',
+            'ext' => 'png',
+            'subtype' => 'image/png',
+            'width' => 400,
+            'height' => 200,
+        ]);
+
+        self::assertSame($asset, $asset->resize());
+        self::assertSame($asset, $asset->resize(400, 200));
+        self::assertSame($asset, $asset->resize(450, null));
+        self::assertSame($asset, $asset->resize(null, 250));
+    }
+
+    public function testResizeReturnsComputedDimensionsWhenHandledByCdn(): void
+    {
+        ['asset' => $asset] = $this->createTestAsset([
+            'path' => '/img/photo.png',
+            'type' => 'image',
+            'ext' => 'png',
+            'subtype' => 'image/png',
+            'url' => 'https://example.com/photo.png',
+            'width' => 400,
+            'height' => 200,
+        ], [
+            'assets' => [
+                'images' => [
+                    'cdn' => [
+                        'enabled' => false,
+                        'remote' => true,
+                    ],
+                ],
+            ],
+        ]);
+
+        $resizedByWidth = $asset->resize(100, null);
+        self::assertSame(100, $resizedByWidth['width']);
+        self::assertEquals(50, $resizedByWidth['height']);
+
+        $resizedByHeight = $asset->resize(null, 50);
+        self::assertEquals(100, $resizedByHeight['width']);
+        self::assertSame(50, $resizedByHeight['height']);
+    }
+
+    public function testFingerprintUpdatesPathWithContentHash(): void
+    {
+        ['asset' => $asset] = $this->createTestAsset([
+            'path' => '/css/site.css',
+            'ext' => 'css',
+            'content' => 'body { color: red; }',
+        ]);
+
+        $result = $asset->fingerprint();
+
+        self::assertSame($asset, $result);
+        self::assertMatchesRegularExpression('#^/css/site\.[a-f0-9]+\.css$#', $asset['path']);
+    }
+
+    public function testCompileTransformsScssToCss(): void
+    {
+        ['asset' => $asset] = $this->createTestAsset([
+            'path' => '/css/site.scss',
+            'file' => $this->sourceDir . DIRECTORY_SEPARATOR . 'assets' . DIRECTORY_SEPARATOR . 'site.scss',
+            'ext' => 'scss',
+            'type' => 'text',
+            'subtype' => 'text/x-scss',
+            'content' => '$color: red; body { color: $color; }',
+        ]);
+
+        $asset->compile();
+
+        self::assertSame('/css/site.css', $asset['path']);
+        self::assertSame('css', $asset['ext']);
+        self::assertSame('text/css', $asset['subtype']);
+        self::assertStringContainsString('body', $asset['content']);
+    }
+
+    public function testMinifyTransformsCssContent(): void
+    {
+        ['asset' => $asset] = $this->createTestAsset([
+            'path' => '/css/site.css',
+            'ext' => 'css',
+            'type' => 'text',
+            'subtype' => 'text/css',
+            'content' => "body {\n    color: red;\n}\n",
+            'size' => 0,
+        ]);
+
+        $asset->minify();
+
+        self::assertSame('body{color:red}', trim((string) $asset['content']));
+        self::assertGreaterThan(0, $asset['size']);
+    }
+
+    public function testMinifyCompilesScssBeforeMinifying(): void
+    {
+        ['asset' => $asset] = $this->createTestAsset([
+            'path' => '/css/site.scss',
+            'file' => $this->sourceDir . DIRECTORY_SEPARATOR . 'assets' . DIRECTORY_SEPARATOR . 'site.scss',
+            'ext' => 'scss',
+            'type' => 'text',
+            'subtype' => 'text/x-scss',
+            'content' => '$color: red; body { color: $color; }',
+            'size' => 0,
+        ]);
+
+        $asset->minify();
+
+        self::assertSame('/css/site.css', $asset['path']);
+        self::assertSame('css', $asset['ext']);
+        self::assertSame('text/css', $asset['subtype']);
+        self::assertSame('body{color:red}', trim((string) $asset['content']));
+    }
+
     public function testStaticHelpersDelegateToLocator(): void
     {
         self::assertSame(
@@ -283,6 +548,7 @@ class AssetTest extends TestCase
         ], $config), new PrintLogger(Builder::VERBOSITY_VERBOSE));
         $builder->setSourceDir($this->sourceDir);
         $builder->setDestinationDir($this->destinationDir);
+        $builder->setPages(new PagesCollection('pages'));
         $cache = new Cache($builder, 'assets');
 
         $asset = new class () extends Asset {
