@@ -247,7 +247,7 @@ class Cache implements CacheInterface
     {
         try {
             if (!Util\File::getFS()->exists($this->cacheDir)) {
-                throw new RuntimeException(\sprintf('The cache directory "%s" does not exists.', $this->cacheDir));
+                throw new RuntimeException(\sprintf('The cache directory "%s" does not exist.', $this->cacheDir));
             }
             $fileCount = 0;
             $iterator = new \RecursiveIteratorIterator(
