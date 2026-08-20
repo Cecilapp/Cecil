@@ -185,24 +185,42 @@ class LocatorTest extends TestCase
 
     public function testLocateRemoteWithFallbackUsesFallbackPath(): void
     {
-        $this->filesystem->mkdir($this->sourceDir . DIRECTORY_SEPARATOR . 'assets');
-        file_put_contents($this->sourceDir . DIRECTORY_SEPARATOR . 'assets' . DIRECTORY_SEPARATOR . 'local.css', 'body{}');
+        $previousTimeout = ini_get('default_socket_timeout');
+        ini_set('default_socket_timeout', '1');
 
-        $locator = new Locator($this->createBuilder());
-        $result = $locator->locate('https://invalid.invalid/style.css', 'local.css');
+        try {
+            $this->filesystem->mkdir($this->sourceDir . DIRECTORY_SEPARATOR . 'assets');
+            file_put_contents($this->sourceDir . DIRECTORY_SEPARATOR . 'assets' . DIRECTORY_SEPARATOR . 'local.css', 'body{}');
 
-        self::assertSame('local.css', $result['path']);
-        self::assertFileExists($result['file']);
+            $locator = new Locator($this->createBuilder());
+            $result = $locator->locate('http://127.0.0.1:9/style.css', 'local.css');
+
+            self::assertSame('local.css', $result['path']);
+            self::assertFileExists($result['file']);
+        } finally {
+            if ($previousTimeout !== false) {
+                ini_set('default_socket_timeout', (string) $previousTimeout);
+            }
+        }
     }
 
     public function testLocateRemoteWithoutFallbackThrowsRuntimeException(): void
     {
-        $locator = new Locator($this->createBuilder());
+        $previousTimeout = ini_get('default_socket_timeout');
+        ini_set('default_socket_timeout', '1');
 
-        $this->expectException(RuntimeException::class);
-        $this->expectExceptionMessage('Unable to get remote file');
+        try {
+            $locator = new Locator($this->createBuilder());
 
-        $locator->locate('https://invalid.invalid/style.css');
+            $this->expectException(RuntimeException::class);
+            $this->expectExceptionMessage('Unable to get remote file');
+
+            $locator->locate('http://127.0.0.1:9/style.css');
+        } finally {
+            if ($previousTimeout !== false) {
+                ini_set('default_socket_timeout', (string) $previousTimeout);
+            }
+        }
     }
 
     private function createBuilder(array $config = []): Builder
