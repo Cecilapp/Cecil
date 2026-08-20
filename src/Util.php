@@ -36,7 +36,10 @@ class Util
         $lowercase = false;
         extract($options, EXTR_IF_EXISTS);
 
-        $className = substr(strrchr(\get_class($class), '\\'), 1);
+        $className = \get_class($class);
+        if (($position = strrpos($className, '\\')) !== false) {
+            $className = substr($className, $position + 1);
+        }
         if ($lowercase) {
             $className = strtolower($className);
         }
