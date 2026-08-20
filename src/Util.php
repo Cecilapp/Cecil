@@ -26,6 +26,8 @@ class Util
 {
     /**
      * Formats a class name.
+     * @param array $options Options for formatting. Supported options:
+     *  - 'lowercase' (bool): Whether to convert the class name to lowercase. Default is false.
      *
      * ie: "Cecil\Step\OptimizeHtml" become "OptimizeHtml"
      *
