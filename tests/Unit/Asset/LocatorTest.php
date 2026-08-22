@@ -185,7 +185,7 @@ class LocatorTest extends TestCase
 
     public function testLocateRemoteWithFallbackUsesFallbackPath(): void
     {
-        $previousTimeout = ini_get('default_socket_timeout');
+        $previousTimeout = \ini_get('default_socket_timeout');
         ini_set('default_socket_timeout', '1');
 
         try {
@@ -206,7 +206,7 @@ class LocatorTest extends TestCase
 
     public function testLocateRemoteWithoutFallbackThrowsRuntimeException(): void
     {
-        $previousTimeout = ini_get('default_socket_timeout');
+        $previousTimeout = \ini_get('default_socket_timeout');
         ini_set('default_socket_timeout', '1');
 
         try {
