@@ -2,7 +2,7 @@
 title: Configuration
 description: "Configurez votre site web."
 date: 2026-03-27
-updated: 2026-08-17
+updated: 2026-08-22
 slug: configuration
 -->
 # Configuration
@@ -1328,6 +1328,21 @@ Il est également possible d’activer cette option via la CLI lors de l’utili
 :::important
 Le compresseur d’**images** utilisera les binaires suivants s’ils sont présents sur le système : [JpegOptim](https://github.com/tjko/jpegoptim), [Optipng](http://optipng.sourceforge.net/), [Pngquant 2](https://pngquant.org/), [SVGO](https://github.com/svg/svgo), [Gifsicle](http://www.lcdf.org/gifsicle/), [cwebp](https://developers.google.com/speed/webp/docs/cwebp) et [avifenc](https://github.com/AOMediaCodec/libavif).
 :::
+
+---
+
+## Export
+
+Les options d’export définissent la façon dont le site est exporté au format PDF avec la commande [`export:pdf`](5-Commands.fr.md#exportpdf).
+
+```yaml
+export:
+  pdf:
+    file: website.pdf     # chemin du fichier exporté, relatif au répertoire de travail
+    paper: A4             # format du papier (ex. : `A4`, `letter`)
+    orientation: portrait # orientation du papier (`portrait` ou `landscape`)
+    styles: false         # inclut les feuilles de style des pages (`false` par défaut)
+```
 
 ---
 

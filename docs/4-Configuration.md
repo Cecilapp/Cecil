@@ -1,7 +1,7 @@
 <!--
 description: "Configure your website."
 date: 2021-05-07
-updated: 2026-08-17
+updated: 2026-08-22
 -->
 # Configuration
 
@@ -1326,6 +1326,21 @@ It is also possible to enable this option through CLI when using the "build" and
 :::important
 **Images** compressor will use these binaries if they are present in the system: [JpegOptim](https://github.com/tjko/jpegoptim), [Optipng](http://optipng.sourceforge.net/), [Pngquant 2](https://pngquant.org/), [SVGO](https://github.com/svg/svgo), [Gifsicle](http://www.lcdf.org/gifsicle/), [cwebp](https://developers.google.com/speed/webp/docs/cwebp) and [avifenc](https://github.com/AOMediaCodec/libavif).
 :::
+
+---
+
+## Export
+
+The export options define how the website is exported as a PDF file with the [`export:pdf`](5-Commands.md#exportpdf) command.
+
+```yaml
+export:
+  pdf:
+    file: website.pdf     # path of the exported file, relative to the working directory
+    paper: A4             # paper size (e.g.: `A4`, `letter`)
+    orientation: portrait # paper orientation (`portrait` or `landscape`)
+    styles: false         # includes the stylesheets of the pages (`false` by default)
+```
 
 ---
 

@@ -29,6 +29,7 @@
     "benjaminhoegh/parsedown-toc": "^1.6",
     "cecil/resource-watcher": "^4.1",
     "dflydev/dot-access-data": "^3.0",
+    "dompdf/dompdf": "^3.1",
     "erusev/parsedown-extra": "^0.9",
     "intervention/image": "^3.11",
     "james-heinrich/getid3": "^1.9",
