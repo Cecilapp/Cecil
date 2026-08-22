@@ -207,8 +207,10 @@ class Image
     {
         try {
             $image = self::manager()->decodeBinary(self::resize($asset, 100, 50));
+            // @phpstan-ignore method.notFound
+            $palette = $image->colors()->dominant();
 
-            return $image->reduceColors(1)->colorAt(0, 0)->toString();
+            return $palette->first()->toString();
         } catch (\Exception $e) {
             throw new RuntimeException(\sprintf('Unable to get dominant color of "%s": %s.', $asset['_path'], $e->getMessage()));
         }
