@@ -16,6 +16,7 @@ namespace Cecil\Step\Pages;
 use Cecil\Collection\Page\Collection as PagesCollection;
 use Cecil\Collection\Page\Page;
 use Cecil\Step\AbstractStep;
+use Cecil\Util;
 
 /**
  * Create pages step.
@@ -82,7 +83,7 @@ class Create extends AbstractStep
                 foreach ($this->config->get('pages.paths', $page->getVariable('language')) as $entry) {
                     if (isset($entry['section'])) {
                         /** @var Page $page */
-                        if ($page->getSection() == Page::slugify($entry['section'])) {
+                        if ($page->getSection() == Util\Slugifier::slugify($entry['section'])) {
                             if (isset($entry['path'])) {
                                 $path = str_replace(
                                     [

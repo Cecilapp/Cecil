@@ -116,7 +116,7 @@ class Url
             case \is_string($value): // others cases
                 /** @var non-falsy-string $value */
                 // $value is a potential Page ID
-                $pageId = Page::slugify($value);
+                $pageId = Util\Slugifier::slugify($value);
                 // should force language?
                 $lang = '';
                 if ($language !== null && $language != $this->config->getLanguageDefault()) {

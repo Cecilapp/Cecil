@@ -2,7 +2,7 @@
     <script type="application/ld+json">{%- apply minify_js ~%}
       [
 {#- WebSite ~#}
-        {%- cache cache_key('jsonld-website') -%}
+        {%- cache cache_key('jsonld-website') ~%}
         {
           "@context": "https://schema.org",
           "@type": "WebSite",

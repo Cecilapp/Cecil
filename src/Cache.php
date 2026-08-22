@@ -14,7 +14,6 @@ declare(strict_types=1);
 namespace Cecil;
 
 use Cecil\Builder;
-use Cecil\Collection\Page\Page;
 use Cecil\Exception\RuntimeException;
 use Cecil\Util;
 use Psr\SimpleCache\CacheInterface;
@@ -248,7 +247,7 @@ class Cache implements CacheInterface
     {
         try {
             if (!Util\File::getFS()->exists($this->cacheDir)) {
-                throw new RuntimeException(\sprintf('The cache directory "%s" does not exists.', $this->cacheDir));
+                throw new RuntimeException(\sprintf('The cache directory "%s" does not exist.', $this->cacheDir));
             }
             $fileCount = 0;
             $iterator = new \RecursiveIteratorIterator(
@@ -301,7 +300,7 @@ class Cache implements CacheInterface
     private static function sanitizeKey(string $key): string
     {
         $key = str_replace(['https://', 'http://'], '', $key); // remove protocol (if URL)
-        $key = Page::slugify($key);                            // slugify
+        $key = Util\Slugifier::slugify($key);                       // slugify
         $key = trim($key, '/');                                // remove leading/trailing slashes
         $key = str_replace(['\\', '/'], ['-', '-'], $key);     // replace slashes by hyphens
         $key = substr($key, 0, 200);                           // truncate to 200 characters (NTFS filename length limit is 255 characters)

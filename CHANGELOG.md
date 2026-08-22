@@ -2,6 +2,15 @@
 
 All notable changes to this project will be documented in this file. Dates are displayed in UTC.
 
+#### [8.119.2](https://github.com/Cecilapp/Cecil/compare/8.119.1...8.119.2)
+
+> 18 August 2026
+
+- chore(deps): bump actions/setup-node from 6 to 7 [`#2440`](https://github.com/Cecilapp/Cecil/pull/2440)
+- perf: Cache language codes before filters in Steps [`#2452`](https://github.com/Cecilapp/Cecil/pull/2452)
+- chore: update deps [`cc1e753`](https://github.com/Cecilapp/Cecil/commit/cc1e753a666fa7394db4428ef9a5f3394725b122)
+- fix: skip dark image variant lookup for URL assets [`3659e0f`](https://github.com/Cecilapp/Cecil/commit/3659e0f1426a315d85517eacbdd7941858fb172e)
+
 #### [8.119.1](https://github.com/Cecilapp/Cecil/compare/8.119.0...8.119.1)
 
 > 18 August 2026

@@ -16,6 +16,7 @@ namespace Cecil\Generator;
 use Cecil\Collection\Page\Page;
 use Cecil\Collection\Page\Type;
 use Cecil\Collection\Taxonomy\Vocabulary;
+use Cecil\Util;
 
 /**
  * Taxonomy generator class.
@@ -47,7 +48,7 @@ class Taxonomy extends AbstractGenerator implements GeneratorInterface
                         * e.g.: /tags/tag-1/
                         */
                         foreach ($vocabulary as $term) {
-                            $pageId = $path = Page::slugify($term->getId());
+                            $pageId = $path = Util\Slugifier::slugify($term->getId());
                             if ($language != $this->config->getLanguageDefault()) {
                                 $pageId = "$language/$pageId";
                             }
@@ -74,7 +75,7 @@ class Taxonomy extends AbstractGenerator implements GeneratorInterface
                         * Creates $plural pages (list of terms)
                         * e.g.: /tags/
                         */
-                        $pageId = $path = Page::slugify($plural);
+                        $pageId = $path = Util\Slugifier::slugify($plural);
                         if ($language != $this->config->getLanguageDefault()) {
                             $pageId = "$language/$pageId";
                         }

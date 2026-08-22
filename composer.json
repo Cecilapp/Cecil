@@ -136,7 +136,10 @@
     "code:md": "phpmd ./src text ./.phpmd-rules.xml --cache",
     "code:md:gh": "phpmd ./src github ./.phpmd-rules.xml",
     "code:style": "phpcs",
-    "test": "@test:integration",
+    "test": [
+      "@test:unit",
+      "@test:integration"
+    ],
     "test:bin": "cd bin && php cecil --version && rm -rf demo && mkdir demo && php cecil new:site demo --demo -f -n && php cecil new:page demo -f -n && php cecil build demo -v && rm -rf demo",
     "test:cli": "phpunit -c ./ --testsuite=IntegrationCliTests",
     "test:coverage": "XDEBUG_MODE=coverage phpunit -c ./ --testsuite=IntegrationTests --coverage-text --coverage-clover=coverage/clover.xml",

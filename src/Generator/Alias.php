@@ -14,6 +14,7 @@ declare(strict_types=1);
 namespace Cecil\Generator;
 
 use Cecil\Collection\Page\Page;
+use Cecil\Util;
 
 /**
  * Alias generator.
@@ -35,7 +36,7 @@ class Alias extends AbstractGenerator implements GeneratorInterface
             if (!empty($aliases)) {
                 foreach ($aliases as $alias) {
                     /** @var Page $aliasPage */
-                    $pageId = $path = Page::slugify($alias);
+                    $pageId = $path = Util\Slugifier::slugify($alias);
                     // i18n
                     if ($page->getVariable('language') != $this->config->getLanguageDefault()) {
                         $pageId = \sprintf('%s/%s', $page->getVariable('language'), $pageId);

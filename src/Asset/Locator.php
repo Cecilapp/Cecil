@@ -15,7 +15,6 @@ namespace Cecil\Asset;
 
 use Cecil\Builder;
 use Cecil\Cache;
-use Cecil\Collection\Page\Page;
 use Cecil\Config;
 use Cecil\Exception\RuntimeException;
 use Cecil\Util;
@@ -127,7 +126,7 @@ class Locator
             $ext = 'css';
         }
 
-        return Page::slugify(\sprintf('%s%s%s%s', $host, self::sanitize($path), $query ? "-$query" : '', $query && $ext ? ".$ext" : ''));
+        return Util\Slugifier::slugify(\sprintf('%s%s%s%s', $host, self::sanitize($path), $query ? "-$query" : '', $query && $ext ? ".$ext" : ''));
     }
 
     /**
