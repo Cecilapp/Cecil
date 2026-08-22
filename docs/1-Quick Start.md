@@ -1,7 +1,7 @@
 <!--
 description: "Create a new website and preview it locally."
 date: 2020-12-19
-updated: 2026-06-18
+updated: 2026-08-22
 menu: home
 -->
 # Quick Start
