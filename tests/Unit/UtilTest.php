@@ -69,7 +69,7 @@ class UtilTest extends TestCase
     {
         $requirements = Util::getPhpRequirements();
 
-        self::assertSame('8.2.0', $requirements['minimumVersion']);
+        self::assertSame('8.3.0', $requirements['minimumVersion']);
         self::assertContains('fileinfo', $requirements['requiredExtensions']);
         self::assertContains('gd', $requirements['requiredExtensions']);
         self::assertContains('mbstring', $requirements['requiredExtensions']);
