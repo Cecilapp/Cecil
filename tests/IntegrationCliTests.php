@@ -72,6 +72,19 @@ class IntegrationCliTests extends IntegrationTests
         self::assertTrue($retval < 1);
     }
 
+    public function testExportPdf(): void
+    {
+        exec('php ./bin/cecil new:site tests/demo --demo -n -f', $output, $retval);
+        self::assertTrue($retval < 1);
+        $output = [];
+        exec('php ./bin/cecil export:pdf tests/demo --file=website.pdf 2>&1', $output, $retval);
+        $output = implode("\n", $output);
+        echo $output;
+        self::assertTrue($retval < 1);
+        self::assertStringContainsString('Website exported to', $output);
+        self::assertFileExists(Util::joinFile(__DIR__, 'demo', 'website.pdf'));
+    }
+
     public function testDoctorCache(): void
     {
         exec('php ./bin/cecil new:site tests/demo --demo -n -f', $output, $retval);

@@ -74,6 +74,7 @@ class Application extends BaseApplication
             new Command\Doctor(),
             new Command\Doctor\DoctorFrontmatter(),
             new Command\Doctor\DoctorSeo(),
+            new Command\ExportPdf(),
             new Command\ShowContent(),
             new Command\ShowConfig(),
             new Command\ListCommand(),

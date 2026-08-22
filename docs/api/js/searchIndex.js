@@ -2541,6 +2541,61 @@ Search.appendIndex(
             "summary": "\u007B\u0040inheritdoc\u007D",
             "url": "classes/Cecil-Command-Edit.html#method_execute"
         },                {
+            "fqsen": "\\Cecil\\Command\\ExportPdf",
+            "name": "ExportPdf",
+            "summary": "ExportPdf\u0020command.",
+            "url": "classes/Cecil-Command-ExportPdf.html"
+        },                {
+            "fqsen": "\\Cecil\\Command\\ExportPdf\u003A\u003Aconfigure\u0028\u0029",
+            "name": "configure",
+            "summary": "\u007B\u0040inheritdoc\u007D",
+            "url": "classes/Cecil-Command-ExportPdf.html#method_configure"
+        },                {
+            "fqsen": "\\Cecil\\Command\\ExportPdf\u003A\u003Aexecute\u0028\u0029",
+            "name": "execute",
+            "summary": "\u007B\u0040inheritdoc\u007D",
+            "url": "classes/Cecil-Command-ExportPdf.html#method_execute"
+        },                {
+            "fqsen": "\\Cecil\\Command\\ExportPdf\u003A\u003AcollectHtmlFiles\u0028\u0029",
+            "name": "collectHtmlFiles",
+            "summary": "Returns\u0020the\u0020list\u0020of\u0020the\u0020HTML\u0020files\u0020of\u0020the\u0020output\u0020directory,\u0020the\u0020homepage\u0020first.",
+            "url": "classes/Cecil-Command-ExportPdf.html#method_collectHtmlFiles"
+        },                {
+            "fqsen": "\\Cecil\\Command\\ExportPdf\u003A\u003AbuildDocument\u0028\u0029",
+            "name": "buildDocument",
+            "summary": "Merges\u0020the\u0020HTML\u0020files\u0020into\u0020a\u0020single\u0020HTML\u0020document,\u0020ready\u0020to\u0020be\u0020converted.",
+            "url": "classes/Cecil-Command-ExportPdf.html#method_buildDocument"
+        },                {
+            "fqsen": "\\Cecil\\Command\\ExportPdf\u003A\u003AloadHtmlFile\u0028\u0029",
+            "name": "loadHtmlFile",
+            "summary": "Loads\u0020an\u0020HTML\u0020file\u0020as\u0020a\u0020DOM\u0020document.",
+            "url": "classes/Cecil-Command-ExportPdf.html#method_loadHtmlFile"
+        },                {
+            "fqsen": "\\Cecil\\Command\\ExportPdf\u003A\u003AextractBody\u0028\u0029",
+            "name": "extractBody",
+            "summary": "Extracts\u0020the\u0020content\u0020of\u0020the\u0020\u0060body\u0060\u0020element,\u0020with\u0020local\u0020resources\u0020path\u0020resolved.",
+            "url": "classes/Cecil-Command-ExportPdf.html#method_extractBody"
+        },                {
+            "fqsen": "\\Cecil\\Command\\ExportPdf\u003A\u003AextractStylesheets\u0028\u0029",
+            "name": "extractStylesheets",
+            "summary": "Extracts\u0020the\u0020local\u0020stylesheets\u0020of\u0020a\u0020document\u0020as\u0020inline\u0020\u0060style\u0060\u0020elements.",
+            "url": "classes/Cecil-Command-ExportPdf.html#method_extractStylesheets"
+        },                {
+            "fqsen": "\\Cecil\\Command\\ExportPdf\u003A\u003AresolvePath\u0028\u0029",
+            "name": "resolvePath",
+            "summary": "Resolves\u0020a\u0020resource\u0020URL\u0020as\u0020an\u0020absolute\u0020local\u0020path,\u0020in\u0020the\u0020output\u0020directory.",
+            "url": "classes/Cecil-Command-ExportPdf.html#method_resolvePath"
+        },                {
+            "fqsen": "\\Cecil\\Command\\ExportPdf\u003A\u003Arender\u0028\u0029",
+            "name": "render",
+            "summary": "Converts\u0020the\u0020HTML\u0020document\u0020to\u0020PDF.",
+            "url": "classes/Cecil-Command-ExportPdf.html#method_render"
+        },                {
+            "fqsen": "\\Cecil\\Command\\ExportPdf\u003A\u003AREMOVED_ELEMENTS",
+            "name": "REMOVED_ELEMENTS",
+            "summary": "Elements\u0020removed\u0020from\u0020the\u0020exported\u0020document.",
+            "url": "classes/Cecil-Command-ExportPdf.html#constant_REMOVED_ELEMENTS"
+        },                {
             "fqsen": "\\Cecil\\Command\\ListCommand",
             "name": "ListCommand",
             "summary": "ListCommand\u0020class.",

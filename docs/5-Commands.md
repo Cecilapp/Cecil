@@ -1,7 +1,7 @@
 <!--
 description: "List of available commands."
 date: 2020-12-19
-updated: 2026-07-06
+updated: 2026-08-22
 -->
 # Commands
 
@@ -28,6 +28,8 @@ Available commands:
   doctor:frontmatter         [doctor:fm] Validates pages front matter syntax
   doctor:cache               Shows cache status
   doctor:seo                 Audits rendered HTML pages for common SEO issues
+ export
+  export:pdf                 Exports the website as a PDF file
  new
   new:page                   Creates a new page
   new:site                   Creates a new website
@@ -349,6 +351,53 @@ Help:
 
     cecil.phar build --metrics
 ```
+
+## export:pdf
+
+Exports the site as a single PDF file: the HTML files of the output directory are merged - one document part per HTML file - then converted to PDF with [Dompdf](https://github.com/dompdf/dompdf).
+
+```plaintext
+Description:
+  Exports the website as a PDF file
+
+Usage:
+  export:pdf [options] [--] [<path>]
+
+Arguments:
+  path                         Use the given path as working directory
+
+Options:
+  -f, --file=FILE              Set the path of the exported PDF file
+      --paper=PAPER            Set the paper size (e.g.: "A4", "letter")
+      --orientation=ORIENTATION  Set the paper orientation ("portrait" or "landscape")
+      --styles                 Include the stylesheets of the pages
+  -d, --drafts                 Include drafts
+      --no-build               Export the current content of the output directory, without building the website first
+  -c, --config=CONFIG          Set the path to extra config files (comma-separated)
+
+Help:
+  The export:pdf command builds the website then exports it as a single PDF file.
+
+    cecil.phar export:pdf
+    cecil.phar export:pdf path/to/the/working/directory
+
+  To export the website in a specific file, run:
+
+    cecil.phar export:pdf --file=website.pdf
+
+  To export the current content of the output directory, without building the website first, run:
+
+    cecil.phar export:pdf --no-build
+
+  The stylesheets of the pages are ignored by default, because the CSS support of the PDF renderer is limited.
+  To include them, run:
+
+    cecil.phar export:pdf --styles
+```
+
+Pages are ordered by file path, the homepage first. Only local resources - stored in the output directory - are embedded: remote resources are ignored.
+
+Default values can be defined in the [configuration](4-Configuration.md#export).
 
 ## doctor
 

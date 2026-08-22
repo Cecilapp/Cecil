@@ -231,6 +231,14 @@ return [
         //    '<name>' => 'Cecil\Renderer\PostProcessor\<class>',
         //],
     ],
+    'export' => [ // website export
+        'pdf' => [ // PDF export (`export:pdf` command)
+            'file' => 'website.pdf', // path of the exported file, relative to the working directory
+            'paper' => 'A4', // paper size (e.g.: 'A4', 'letter')
+            'orientation' => 'portrait', // paper orientation ('portrait' or 'landscape')
+            'styles' => false, // includes the stylesheets of the pages
+        ],
+    ],
     'cache' => [ // cache management
         'enabled' => true, // disable with `false`
         'dir' => '.cache', // cache files root directory
