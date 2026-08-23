@@ -104,7 +104,7 @@ EOF
             $extension = $nameParts['extension'] ?? '';
             $title = $extension !== '' ? substr($basename, 0, -\strlen(".$extension")) : $basename;
             // define file name (and slugify if needed)
-            $filename = $slugify ? \Cecil\Collection\Page\Page::slugify($basename) : $basename;
+            $filename = $slugify ? Util\Slugifier::slugify($basename) : $basename;
             // check extension
             if (!\in_array($extension, (array) $this->getBuilder()->getConfig()->get('pages.ext'))) {
                 $title = $filename;

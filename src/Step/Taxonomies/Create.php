@@ -19,6 +19,7 @@ use Cecil\Collection\Taxonomy\Term;
 use Cecil\Collection\Taxonomy\Vocabulary;
 use Cecil\Exception\RuntimeException;
 use Cecil\Step\AbstractStep;
+use Cecil\Util;
 
 /**
  * Create taxonomies step.
@@ -128,7 +129,7 @@ class Create extends AbstractStep
                             ));
                         }
                         // e.g.: "Tag 1" -> "tags/tag-1"
-                        $termId = Page::slugify($plural . '/' . (string) $termName);
+                        $termId = Util\Slugifier::slugify($plural . '/' . (string) $termName);
                         $term = (new Term($termId))->setName((string) $termName);
                         $this->vocabCollection[$language]
                             ->get($plural)

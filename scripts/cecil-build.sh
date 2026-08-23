@@ -7,11 +7,11 @@ export LANG=C.UTF-8
 # It is intended to be used on CI / CD.
 
 # Requirements
-export PHP_MIN_VERSION="8.2"
+export PHP_MIN_VERSION="8.3"
 
 # Specify the PHP version with `PHP_VERSION`
 if [ -z "${PHP_VERSION}" ]; then
-  export PHP_VERSION="8.2"
+  export PHP_VERSION="8.3"
 fi
 # Specify build context with `CECIL_ENV`
 if [ -z "${CECIL_ENV}" ]; then

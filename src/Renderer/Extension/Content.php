@@ -14,8 +14,8 @@ declare(strict_types=1);
 namespace Cecil\Renderer\Extension;
 
 use Cecil\Builder;
-use Cecil\Collection\Page\Page;
 use Cecil\Config;
+use Cecil\Util;
 use Cecil\Converter\Parsedown;
 use Cecil\Exception\RuntimeException;
 use Highlight\Highlighter;
@@ -77,7 +77,7 @@ class Content extends AbstractExtension
      */
     public function slugifyFilter(string $string): string
     {
-        return Page::slugify($string);
+        return Util\Slugifier::slugify($string);
     }
 
     /**

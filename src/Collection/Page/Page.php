@@ -16,7 +16,6 @@ namespace Cecil\Collection\Page;
 use Cecil\Collection\Item;
 use Cecil\Exception\RuntimeException;
 use Cecil\Util;
-use Cecil\Util\Slugifier;
 use Symfony\Component\Finder\SplFileInfo;
 
 /**
@@ -27,7 +26,7 @@ use Symfony\Component\Finder\SplFileInfo;
  */
 class Page extends Item
 {
-    public const SLUGIFY_PATTERN = Slugifier::SLUGIFY_PATTERN;
+    public const SLUGIFY_PATTERN = Util\Slugifier::SLUGIFY_PATTERN;
 
     /** @var bool True if page is not created from a file. */
     protected $virtual;
@@ -129,15 +128,12 @@ class Page extends Item
 
     /**
      * Turns a path (string) into a slug (URI).
-     */
-    /**
-     * Turns a path (string) into a slug (URI).
      *
      * @deprecated Use Slugifier::slugify() instead.
      */
     public static function slugify(string $path): string
     {
-        return Slugifier::slugify($path);
+        return Util\Slugifier::slugify($path);
     }
 
     /**
