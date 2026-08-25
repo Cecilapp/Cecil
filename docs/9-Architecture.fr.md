@@ -123,5 +123,5 @@ graph TD
 | **Steps**           | Pipeline modulaire (13 étapes), chacune avec `init()` / `canProcess()` / `process()` |
 | **Collections**     | Pages, Taxonomies, Menus — structures de données centrales                           |
 | **Generators**      | Créent des pages virtuelles (pagination, tags, redirections…)                        |
-| **Renderer (Twig)** | Applique les modèles + extensions + post-traitements                                |
+| **Renderer (Twig)** | Applique les modèles + extensions + post-traitements                                 |
 | **Assets**          | Compile SCSS, optimise images, fingerprinte les fichiers                             |
