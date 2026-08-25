@@ -576,16 +576,16 @@ Il doit se trouver au tout début du fichier et être un [YAML](https://en.wikip
 
 ### Variables prédéfinies
 
-| Variable    | Description       | Valeur par défaut                                  | Exemple       |
-| ----------- | ----------------- | -------------------------------------------------- | ------------- |
-| `title`     | Titre             | Nom de fichier sans extension.                     | `Post 1`      |
+| Variable    | Description       | Valeur par défaut                                   | Exemple       |
+| ----------- | ----------------- | --------------------------------------------------- | ------------- |
+| `title`     | Titre             | Nom de fichier sans extension.                      | `Post 1`      |
 | `layout`    | Template          | Voir [_Lookup rules_](3-Templates.md#lookup-rules). | `404`         |
 | `date`      | Date de création  | Date de création du fichier (objet PHP _DateTime_). | `2019/04/15`  |
-| `section`   | Section           | _Section_ de la page.                              | `blog`        |
-| `path`      | Chemin            | _Path_ de la page.                                 | `blog/post-1` |
-| `slug`      | Slug              | _Slug_ de la page.                                 | `post-1`      |
-| `published` | Publié ou non     | `true`.                                            | `false`       |
-| `draft`     | Brouillon ou non  | `false`.                                           | `true`        |
+| `section`   | Section           | _Section_ de la page.                               | `blog`        |
+| `path`      | Chemin            | _Path_ de la page.                                  | `blog/post-1` |
+| `slug`      | Slug              | _Slug_ de la page.                                  | `post-1`      |
+| `published` | Publié ou non     | `true`.                                             | `false`       |
+| `draft`     | Brouillon ou non  | `false`.                                            | `true`        |
 
 :::info
 Toutes les variables prédéfinies peuvent être surchargées, sauf `section`.

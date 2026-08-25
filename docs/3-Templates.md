@@ -243,12 +243,12 @@ _Example:_
 
 Information about the current language.
 
-| Variable               | Description                                                  |
-| ---------------------- | ------------------------------------------------------------ |
-| `site.language`        | Language code (e.g.: `en`).                                  |
-| `site.language.name`   | Language name (e.g.: `English`).                             |
+| Variable               | Description                                                            |
+| ---------------------- | ---------------------------------------------------------------------- |
+| `site.language`        | Language code (e.g.: `en`).                                            |
+| `site.language.name`   | Language name (e.g.: `English`).                                       |
 | `site.language.locale` | Language [locale code](configuration/locale-codes.md) (e.g.: `en_US`). |
-| `site.language.weight` | Language position in the `languages` list.                   |
+| `site.language.weight` | Language position in the `languages` list.                             |
 
 :::tip
 You can retrieve `name`, `locale` and `weight` of a specific language by passing its code as a parameter.  
@@ -287,24 +287,24 @@ _Examples:_
 
 The `page` variable contains built-in variables of a page **and** those set in the [front matter](2-Content.md#front-matter).
 
-| Variable              | Description                                            | Example          |
-| --------------------- | ------------------------------------------------------ | ---------------- |
-| `page.id`             | Unique identifier.                                     | `blog/post-1`    |
-| `page.title`          | File name (without extension).                         | `Post 1`         |
-| `page.date`           | File creation date.                                    | _DateTime_       |
-| `page.body`           | File body.                                             | _Markdown_       |
-| `page.content`        | File body converted in HTML.                           | _HTML_           |
-| `page.section`        | File root folder (_slugified_).                        | `blog`           |
-| `page.path`           | File path (_slugified_).                               | `blog/post-1`    |
-| `page.slug`           | File name (_slugified_).                               | `post-1`         |
-| `page.filepath`       | File system path.                                      | `Blog/Post 1.md` |
-| `page.type`           | `homepage`, `page`, `section`, `vocabulary` or `term`. | `page`           |
-| `page.pages`          | Collection of all sub pages.                           | _Collection_     |
-| `page.parent`         | Parent _section_'s page (`null` if none).              | _Page_           |
-| `page.ancestors`      | Collection of ancestor _sections_ (nearest first).     | _Collection_     |
-| `page.sections`       | Collection of immediate descendant _sections_.         | _Collection_     |
-| `page.toplevel`       | `true` if the page is a top level _section_.           | _Boolean_        |
-| `page.translations`   | Collection of translated pages.                        | _Collection_     |
+| Variable            | Description                                            | Example          |
+| ------------------- | ------------------------------------------------------ | ---------------- |
+| `page.id`           | Unique identifier.                                     | `blog/post-1`    |
+| `page.title`        | File name (without extension).                         | `Post 1`         |
+| `page.date`         | File creation date.                                    | _DateTime_       |
+| `page.body`         | File body.                                             | _Markdown_       |
+| `page.content`      | File body converted in HTML.                           | _HTML_           |
+| `page.section`      | File root folder (_slugified_).                        | `blog`           |
+| `page.path`         | File path (_slugified_).                               | `blog/post-1`    |
+| `page.slug`         | File name (_slugified_).                               | `post-1`         |
+| `page.filepath`     | File system path.                                      | `Blog/Post 1.md` |
+| `page.type`         | `homepage`, `page`, `section`, `vocabulary` or `term`. | `page`           |
+| `page.pages`        | Collection of all sub pages.                           | _Collection_     |
+| `page.parent`       | Parent _section_'s page (`null` if none).              | _Page_           |
+| `page.ancestors`    | Collection of ancestor _sections_ (nearest first).     | _Collection_     |
+| `page.sections`     | Collection of immediate descendant _sections_.         | _Collection_     |
+| `page.toplevel`     | `true` if the page is a top level _section_.           | _Boolean_        |
+| `page.translations` | Collection of translated pages.                        | _Collection_     |
 
 :::important
 Use `showable` method on pages collection to return only published and not _virtual/redirect/excluded_ pages.
@@ -382,10 +382,10 @@ _Link to the parent section:_
 
 Navigation between pages within the same _section_.
 
-| Variable              | Description                                            | Example                    |
-| --------------------- | ------------------------------------------------------ | -------------------------- |
-| `page.prev`           | Previous page.                                         | _Page_                     |
-| `page.next`           | Next page.                                             | _Page_                     |
+| Variable    | Description    | Example |
+| ----------- | -------------- | ------- |
+| `page.prev` | Previous page. | _Page_  |
+| `page.next` | Next page.     | _Page_  |
 
 _Example:_
 
@@ -489,11 +489,11 @@ Creates a valid URL for a page, a menu entry, an asset, a page ID or a path.
 {{ url(value, {options}) }}
 ```
 
-| Option    | Description                                                                | Type    | Default |
-| --------- | -------------------------------------------------------------------------- | ------- | ------- |
+| Option    | Description                                                                                                                      | Type    | Default |
+| --------- | -------------------------------------------------------------------------------------------------------------------------------- | ------- | ------- |
 | canonical | Prefix URL with [`baseurl`](4-Configuration.md#baseurl) or use [`canonical.url`](4-Configuration.md#metatags-options) if exists. | boolean | `false` |
-| format    | Defines page [output format](4-Configuration.md#output-formats) (e.g.: `json`).   | string  | `html`  |
-| language  | Defines page [language](4-Configuration.md#language) (e.g.: `fr`). | string  | null    |
+| format    | Defines page [output format](4-Configuration.md#output-formats) (e.g.: `json`).                                                  | string  | `html`  |
+| language  | Defines page [language](4-Configuration.md#language) (e.g.: `fr`).                                                               | string  | null    |
 
 _Examples:_
 
@@ -669,9 +669,9 @@ Creates an HTML element from an asset (or an array of assets with custom attribu
 {{ video(asset) }}
 ```
 
-| Option     | Description                                     | Type  |
-| ---------- | ----------------------------------------------- | ----- |
-| attributes | Adds `name="value"` couple to the HTML element. | array |
+| Option     | Description                                                                                                                                                                                    | Type  |
+| ---------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ----- |
+| attributes | Adds `name="value"` couple to the HTML element.                                                                                                                                                | array |
 | options    | `{preload: boolean}`: preloads.<br>For images:<br>`{formats: array}`: adds alternative formats.<br>`{responsive: bool|string}`: adds responsive images (based on `width` or pixels `density`). | array |
 
 :::warning
@@ -1115,10 +1115,10 @@ See [Content documentation](2-Content.md#excerpt) for details.
 {{ string|excerpt_html({separator, capture}) }}
 ```
 
-| Option    | Description                                           | Type    | Default         |
-| --------- | ----------------------------------------------------- | ------- | --------------- |
-| separator | String to use as separator.                           | string  | `excerpt|break` |
-| capture   | Part to capture, `before` or `after` the separator.   | string  | `before`        |
+| Option    | Description                                         | Type   | Default         |
+| --------- | --------------------------------------------------- | ------ | --------------- |
+| separator | String to use as separator.                         | string | `excerpt|break` |
+| capture   | Part to capture, `before` or `after` the separator. | string | `before`        |
 
 _Examples:_
 
