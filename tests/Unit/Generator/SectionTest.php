@@ -96,6 +96,23 @@ class SectionTest extends TestCase
         self::assertNotContains('blog/2024', $this->pagesIds($generated->get('blog')->getPages()));
     }
 
+    public function testSubSectionWithOnlyIndexIsGenerated(): void
+    {
+        $this->builder->setPages(new PagesCollection('all-pages', [
+            $this->page('blog', 'index.md'),
+            $this->page('blog', 'post.md'),
+            $this->page('blog/2024', 'index.md'),
+        ]));
+
+        $generated = (new Section($this->builder))->runGenerate();
+
+        // a sub-section containing only an "index.md" is still generated...
+        self::assertTrue($generated->has('blog/2024'));
+        self::assertSame('section', $generated->get('blog/2024')->getType());
+        // ...and its index page is not listed in its parent section
+        self::assertNotContains('blog/2024', $this->pagesIds($generated->get('blog')->getPages()));
+    }
+
     public function testNestedFolderWithoutIndexIsNotASubSection(): void
     {
         $this->builder->setPages(new PagesCollection('all-pages', [

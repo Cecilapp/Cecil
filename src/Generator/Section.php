@@ -40,6 +40,8 @@ class Section extends AbstractGenerator implements GeneratorInterface
     public function generate(): void
     {
         $sections = [];
+        // sub-sections that only contain an "index.md" (no other page); generated after the main loop
+        $emptySubSections = [];
 
         // identifying explicit sub-sections: nested folders containing an "index.md" file
         $subSections = [];
@@ -68,11 +70,13 @@ class Section extends AbstractGenerator implements GeneratorInterface
             ) {
                 continue;
             }
-            // a sub-section index page is not listed in its parent section(s)
+            $language = $page->getVariable('language', $this->config->getLanguageDefault());
+            // a sub-section index page is not listed in its parent section(s),
+            // but its own sub-section must still be generated (even if it has no other page)
             if ($page->isSectionIndex() && isset($subSections[(string) $page->getPath()])) {
+                $emptySubSections[(string) $page->getPath()][$language] = true;
                 continue;
             }
-            $language = $page->getVariable('language', $this->config->getLanguageDefault());
             // the page belongs to its top level (root) section...
             $sectionsPaths = [explode('/', (string) $page->getPath())[0]];
             // ...and to each of its ancestor sub-sections
@@ -85,6 +89,16 @@ class Section extends AbstractGenerator implements GeneratorInterface
             }
             foreach (array_unique($sectionsPaths) as $sectionPath) {
                 $sections[$sectionPath][$language][] = $page;
+            }
+        }
+
+        // registers sub-sections that only contain an "index.md" so they are still generated;
+        // appended after content sections to keep ancestors ordered before their descendants
+        foreach ($emptySubSections as $sectionPath => $languages) {
+            foreach ($languages as $language => $true) {
+                if (!isset($sections[$sectionPath][$language])) {
+                    $sections[$sectionPath][$language] = [];
+                }
             }
         }
 
@@ -132,7 +146,7 @@ class Section extends AbstractGenerator implements GeneratorInterface
                         ->setSection($path)
                         ->setPages($pages)
                         ->setVariable('language', $language)
-                        ->setVariable('date', $pages->first()->getVariable('date'))
+                        ->setVariable('date', $pages->first()?->getVariable('date') ?? $page->getVariable('date'))
                         ->setVariable('langref', $path)
                         ->setVariable('toplevel', $toplevel);
                     // human readable title
