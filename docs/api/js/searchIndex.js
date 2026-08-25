@@ -1576,6 +1576,26 @@ Search.appendIndex(
             "summary": "Unset\u0020section.",
             "url": "classes/Cecil-Collection-Page-Page.html#method_unSection"
         },                {
+            "fqsen": "\\Cecil\\Collection\\Page\\Page\u003A\u003AisSectionIndex\u0028\u0029",
+            "name": "isSectionIndex",
+            "summary": "Is\u0020the\u0020page\u0020a\u0020folder\u0027s\u0020index\u0020\u0028created\u0020from\u0020an\u0020\u0022index.md\u0022\u0020file\u0029\u003F",
+            "url": "classes/Cecil-Collection-Page-Page.html#method_isSectionIndex"
+        },                {
+            "fqsen": "\\Cecil\\Collection\\Page\\Page\u003A\u003AgetParent\u0028\u0029",
+            "name": "getParent",
+            "summary": "Returns\u0020the\u0020parent\u0020section\u0027s\u0020page\u0020\u0028\u0060null\u0060\u0020if\u0020there\u0020is\u0020none\u0029.",
+            "url": "classes/Cecil-Collection-Page-Page.html#method_getParent"
+        },                {
+            "fqsen": "\\Cecil\\Collection\\Page\\Page\u003A\u003AgetAncestors\u0028\u0029",
+            "name": "getAncestors",
+            "summary": "Returns\u0020the\u0020collection\u0020of\u0020the\u0020page\u0027s\u0020ancestor\u0020sections,\u0020from\u0020the\u0020nearest\u0020to\u0020the\u0020farthest.",
+            "url": "classes/Cecil-Collection-Page-Page.html#method_getAncestors"
+        },                {
+            "fqsen": "\\Cecil\\Collection\\Page\\Page\u003A\u003AgetSections\u0028\u0029",
+            "name": "getSections",
+            "summary": "Returns\u0020the\u0020collection\u0020of\u0020the\u0020page\u0027s\u0020immediate\u0020descendant\u0020sections.",
+            "url": "classes/Cecil-Collection-Page-Page.html#method_getSections"
+        },                {
             "fqsen": "\\Cecil\\Collection\\Page\\Page\u003A\u003AsetBodyHtml\u0028\u0029",
             "name": "setBodyHtml",
             "summary": "Set\u0020body\u0020as\u0020HTML.",
@@ -1725,6 +1745,11 @@ Search.appendIndex(
             "name": "section",
             "summary": "",
             "url": "classes/Cecil-Collection-Page-Page.html#property_section"
+        },                {
+            "fqsen": "\\Cecil\\Collection\\Page\\Page\u003A\u003A\u0024sectionIndex",
+            "name": "sectionIndex",
+            "summary": "",
+            "url": "classes/Cecil-Collection-Page-Page.html#property_sectionIndex"
         },                {
             "fqsen": "\\Cecil\\Collection\\Page\\Page\u003A\u003A\u0024frontmatter",
             "name": "frontmatter",

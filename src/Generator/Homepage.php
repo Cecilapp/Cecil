@@ -73,6 +73,12 @@ class Homepage extends AbstractGenerator implements GeneratorInterface
             if (!$page->getVariable('menu')) {
                 $page->setVariable('menu', ['main' => ['weight' => 0]]);
             }
+            // set immediate descendant sections (i.e.: top level sections)
+            $page->setVariable('sections', $this->builder->getPages()->filter(function (Page $section) use ($language) {
+                return $section->getType() == Type::SECTION->value
+                    && $section->getVariable('toplevel') === true
+                    && $section->getVariable('language') == $language;
+            }));
             // add an alias redirection from the root directory if language path prefix is enabled for the default language
             if ($language == $this->config->getLanguageDefault() && $this->config->isEnabled('language.prefix')) {
                 $page->setVariable('alias', '../');

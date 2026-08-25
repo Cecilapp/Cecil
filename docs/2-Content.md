@@ -1,7 +1,7 @@
 <!--
 description: "Create content and organize it."
 date: 2021-05-07
-updated: 2026-07-23
+updated: 2026-08-23
 -->
 # Content
 
@@ -862,6 +862,32 @@ _Example:_
 circular: true
 ---
 ```
+
+#### Sub-section
+
+A nested folder that explicitly contains an `index.md` file is turned into a _sub-section_ of its parent _Section_.
+
+```plaintext
+<mywebsite>
+└─ pages
+   └─ blog                 <- Section
+      ├─ index.md
+      ├─ post-1.md         <- Page in Section "blog"
+      └─ 2024              <- Sub-section (contains an "index.md")
+         ├─ index.md
+         └─ post-2.md      <- Page in Section "blog" *and* sub-section "blog/2024"
+```
+
+A _sub-section_:
+
+- is a _Section_ (same type, variables and [layout](3-Templates.md) resolution) available at its own URL (e.g.: `/blog/2024/`)
+- can be nested at any depth (e.g.: `blog/2024/06/`)
+- lists its own pages, and its pages also belong to each of their parent _Sections_
+- is **not** listed in its parent _Section_
+
+:::info
+A nested folder **without** an `index.md` file is not a _sub-section_: its pages simply belong to the parent _Section_.
+:::
 
 ### Home page
 
