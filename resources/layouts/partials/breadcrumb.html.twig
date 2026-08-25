@@ -1,0 +1,14 @@
+{#- breadcrumb navigation ~#}
+{% if page.type != 'homepage' %}
+<nav aria-label="breadcrumb">
+  <ul>
+    <li><a href="{{ url(site.home) }}">{% trans %}Home{% endtrans %}</a></li>
+    {%- for section in page.ancestors|reverse ~%}
+    <li><a href="{{ url(section) }}">{{ section.title }}</a></li>
+    {%- endfor ~%}
+    {%- if page.id != site.home ~%}
+    <li><a href="{{ url(page) }}" aria-current="page">{{ page.title }}</a></li>
+    {%- endif ~%}
+  </ul>
+</nav>
+{% endif %}

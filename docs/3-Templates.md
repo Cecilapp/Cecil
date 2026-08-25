@@ -1,7 +1,7 @@
 <!--
 description: "Working with layouts, templates and components."
 date: 2021-05-07
-updated: 2026-07-10
+updated: 2026-08-25
 alias: documentation/layouts
 -->
 # Templates
@@ -287,20 +287,24 @@ _Examples:_
 
 The `page` variable contains built-in variables of a page **and** those set in the [front matter](2-Content.md#front-matter).
 
-| Variable              | Description                                            | Example                    |
-| --------------------- | ------------------------------------------------------ | -------------------------- |
-| `page.id`             | Unique identifier.                                     | `blog/post-1`              |
-| `page.title`          | File name (without extension).                         | `Post 1`                   |
-| `page.date`           | File creation date.                                    | _DateTime_                 |
-| `page.body`           | File body.                                             | _Markdown_                 |
-| `page.content`        | File body converted in HTML.                           | _HTML_                     |
-| `page.section`        | File root folder (_slugified_).                        | `blog`                     |
-| `page.path`           | File path (_slugified_).                               | `blog/post-1`              |
-| `page.slug`           | File name (_slugified_).                               | `post-1`                   |
-| `page.filepath`       | File system path.                                      | `Blog/Post 1.md`           |
-| `page.type`           | `homepage`, `page`, `section`, `vocabulary` or `term`. | `page`                     |
-| `page.pages`          | Collection of all sub pages.                           | _Collection_               |
-| `page.translations`   | Collection of translated pages.                        | _Collection_               |
+| Variable              | Description                                            | Example          |
+| --------------------- | ------------------------------------------------------ | ---------------- |
+| `page.id`             | Unique identifier.                                     | `blog/post-1`    |
+| `page.title`          | File name (without extension).                         | `Post 1`         |
+| `page.date`           | File creation date.                                    | _DateTime_       |
+| `page.body`           | File body.                                             | _Markdown_       |
+| `page.content`        | File body converted in HTML.                           | _HTML_           |
+| `page.section`        | File root folder (_slugified_).                        | `blog`           |
+| `page.path`           | File path (_slugified_).                               | `blog/post-1`    |
+| `page.slug`           | File name (_slugified_).                               | `post-1`         |
+| `page.filepath`       | File system path.                                      | `Blog/Post 1.md` |
+| `page.type`           | `homepage`, `page`, `section`, `vocabulary` or `term`. | `page`           |
+| `page.pages`          | Collection of all sub pages.                           | _Collection_     |
+| `page.parent`         | Parent _section_'s page (`null` if none).              | _Page_           |
+| `page.ancestors`      | Collection of ancestor _sections_ (nearest first).     | _Collection_     |
+| `page.sections`       | Collection of immediate descendant _sections_.         | _Collection_     |
+| `page.toplevel`       | `true` if the page is a top level _section_.           | _Boolean_        |
+| `page.translations`   | Collection of translated pages.                        | _Collection_     |
 
 :::important
 Use `showable` method on pages collection to return only published and not _virtual/redirect/excluded_ pages.
@@ -314,6 +318,65 @@ _Example:_
 ```
 
 :::
+
+#### Nested sections
+
+In a [nested sections](2-Content.md#sub-section) context, `page.parent`, `page.ancestors`, `page.sections` and `page.toplevel` help you build navigation.
+
+_Breadcrumb (from the home page to the current page):_
+
+```twig
+<nav aria-label="breadcrumb">
+  <ul>
+    <li><a href="{{ url(site.home) }}">{{ site.title }}</a></li>
+    {% for section in page.ancestors|reverse %}
+    <li><a href="{{ url(section) }}">{{ section.title }}</a></li>
+    {% endfor %}
+    {% if page.id != site.home %}
+    <li><a href="{{ url(page) }}" aria-current="page">{{ page.title }}</a></li>
+    {% endif %}
+  </ul>
+</nav>
+```
+
+:::tip
+A ready-to-use [`breadcrumb.html.twig`](https://github.com/Cecilapp/Cecil/blob/master/resources/layouts/partials/breadcrumb.html.twig) partial is available:
+
+```twig
+{{ include('partials/breadcrumb.html.twig') }}
+```
+
+:::
+
+_Sub-sections menu (immediate descendant sections of the current section):_
+
+```twig
+{% if page.sections|length %}
+<ul>
+  {% for section in page.sections|sort_by_title %}
+  <li><a href="{{ url(section) }}">{{ section.title }}</a></li>
+  {% endfor %}
+</ul>
+{% endif %}
+```
+
+_Main navigation limited to top level sections (from any page):_
+
+```twig
+<nav>
+  {% for section in site.page(site.home).sections|sort_by_title %}
+  <a href="{{ url(section) }}">{{ section.title }}</a>
+  {% endfor %}
+</nav>
+```
+
+_Link to the parent section:_
+
+```twig
+{% if page.parent %}
+<a href="{{ url(page.parent) }}">← {{ page.parent.title }}</a>
+{% endif %}
+```
 
 #### page.<prev/next>
 

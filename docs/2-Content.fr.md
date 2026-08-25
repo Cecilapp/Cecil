@@ -2,7 +2,7 @@
 title: Contenu
 description: "Créer du contenu et l’organiser."
 date: 2026-03-27
-updated: 2026-07-23
+updated: 2026-08-23
 slug: contenu
 -->
 # Contenu
@@ -863,6 +863,32 @@ _Exemple :_
 circular: true
 ---
 ```
+
+#### Sous-section
+
+Un dossier imbriqué qui contient explicitement un fichier `index.md` devient une _sous-section_ de sa _Section_ parente.
+
+```plaintext
+<monsiteweb>
+└─ pages
+   └─ blog                 <- Section
+      ├─ index.md
+      ├─ post-1.md         <- Page de la Section « blog »
+      └─ 2024              <- Sous-section (contient un « index.md »)
+         ├─ index.md
+         └─ post-2.md      <- Page de la Section « blog » *et* de la sous-section « blog/2024 »
+```
+
+Une _sous-section_ :
+
+- est une _Section_ (même type, mêmes variables et même résolution de [gabarit](3-Templates.md)) accessible à sa propre URL (ex. : `/blog/2024/`)
+- peut être imbriquée à n'importe quelle profondeur (ex. : `blog/2024/06/`)
+- liste ses propres pages, et ses pages appartiennent aussi à chacune de leurs _Sections_ parentes
+- n'est **pas** listée dans sa _Section_ parente
+
+:::info
+Un dossier imbriqué **sans** fichier `index.md` n'est pas une _sous-section_ : ses pages appartiennent simplement à la _Section_ parente.
+:::
 
 ### Page d'accueil
 

@@ -49,6 +49,9 @@ class Page extends Item
     /** @var string */
     protected $section;
 
+    /** @var bool True if page is a folder's index (created from an "index.md" file). */
+    protected $sectionIndex = false;
+
     /** @var string */
     protected $frontmatter;
 
@@ -164,6 +167,10 @@ class Page extends Item
         // case of "index" = home page
         if (empty($this->file->getRelativePath()) && PrefixSuffix::sub($fileName, $separators) == 'index') {
             $this->setType(Type::HOMEPAGE->value);
+        }
+        // case of a folder's "index" = section index (i.e.: "section/index.md")
+        if (!empty($this->file->getRelativePath()) && PrefixSuffix::sub($fileName, $separators) == 'index') {
+            $this->sectionIndex = true;
         }
         /*
          * Set page properties and variables
@@ -417,6 +424,54 @@ class Page extends Item
         $this->section = null;
 
         return $this;
+    }
+
+    /**
+     * Is the page a folder's index (created from an "index.md" file)?
+     */
+    public function isSectionIndex(): bool
+    {
+        return $this->sectionIndex;
+    }
+
+    /**
+     * Returns the parent section's page (`null` if there is none).
+     */
+    public function getParent(): ?self
+    {
+        $parent = $this->getVariable('parent');
+
+        return $parent instanceof self ? $parent : null;
+    }
+
+    /**
+     * Returns the collection of the page's ancestor sections, from the nearest to the farthest.
+     */
+    public function getAncestors(): Collection
+    {
+        $ancestors = new Collection($this->getId() . '-ancestors');
+        $page = $this;
+        $seen = [$this->getId() => true];
+        while (($parent = $page->getParent()) !== null) {
+            if (isset($seen[$parent->getId()])) {
+                break;
+            }
+            $seen[$parent->getId()] = true;
+            $ancestors->add($parent);
+            $page = $parent;
+        }
+
+        return $ancestors;
+    }
+
+    /**
+     * Returns the collection of the page's immediate descendant sections.
+     */
+    public function getSections(): Collection
+    {
+        $sections = $this->getVariable('sections');
+
+        return $sections instanceof Collection ? $sections : new Collection($this->getId() . '-sections');
     }
 
     /**

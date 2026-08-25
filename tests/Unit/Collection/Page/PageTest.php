@@ -210,6 +210,39 @@ class PageTest extends TestCase
         self::assertSame('index', $page->getId());
     }
 
+    public function testIsSectionIndexTrueForFolderIndex(): void
+    {
+        $file = $this->createFileInfo('blog', 'index.md', 'Hello');
+        $page = new Page($file);
+
+        self::assertTrue($page->isSectionIndex());
+    }
+
+    public function testIsSectionIndexTrueForNestedFolderIndex(): void
+    {
+        $file = $this->createFileInfo('blog/2024', 'index.md', 'Hello');
+        $page = new Page($file);
+
+        self::assertTrue($page->isSectionIndex());
+        self::assertSame('blog/2024', $page->getPath());
+    }
+
+    public function testIsSectionIndexFalseForRegularPage(): void
+    {
+        $file = $this->createFileInfo('blog', 'post.md', 'Hello');
+        $page = new Page($file);
+
+        self::assertFalse($page->isSectionIndex());
+    }
+
+    public function testIsSectionIndexFalseForHomepage(): void
+    {
+        $file = $this->createFileInfo('', 'index.md', 'Hello');
+        $page = new Page($file);
+
+        self::assertFalse($page->isSectionIndex());
+    }
+
     public function testGetPathnameIsAliasOfGetPath(): void
     {
         $page = new Page('alias');

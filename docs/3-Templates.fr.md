@@ -2,7 +2,7 @@
 title: Templates
 description: "Travailler avec les layouts, les templates et les composants."
 date: 2026-05-26
-updated: 2026-07-10
+updated: 2026-08-25
 slug: templates
 -->
 # Templates
@@ -288,20 +288,24 @@ _Exemples :_
 
 La variable `page` contient les variables intégrées d'une page **et** celles définies dans le [avant-plan](2-Content.md#front-matter).
 
-| Variables | Descriptif | Exemple |
-| --------------------- | ------------------------------------------------------ | -------------------------- |
-| `page.id` | Identifiant unique.                                     | `blog/post-1` |
-| `page.title` | Nom du fichier (sans extension).                         | `Post 1` |
-| `page.date` | Date de création du fichier.                                    | _DateHeure_ |
-| `page.body` | Corps du fichier.                                             | _Marquage_ |
-| `page.content` | Corps du fichier converti en HTML.                           | _HTML_ |
-| `page.section` | Dossier racine du fichier (_slugified_).                        | `blog` |
-| `page.path` | Chemin du fichier (_slugified_).                               | `blog/post-1` |
-| `page.slug` | Nom du fichier (_slugified_).                               | `post-1` |
-| `page.filepath` | Chemin du système de fichiers.                                      | `Blog/Post 1.md` |
-| `page.type` | `homepage`, `page`, `section`, `vocabulary` ou `term`. | `page` |
-| `page.pages` | Collection de toutes les sous-pages.                           | _Collection_ |
-| `page.translations` | Collection de pages traduites.                        | _Collection_ |
+| Variables             | Descriptif                                                      | Exemple          |
+| --------------------- | --------------------------------------------------------------- | ---------------- |
+| `page.id`             | Identifiant unique.                                             | `blog/post-1`    |
+| `page.title`          | Nom du fichier (sans extension).                                | `Post 1`         |
+| `page.date`           | Date de création du fichier.                                    | _DateHeure_      |
+| `page.body`           | Corps du fichier.                                               | _Marquage_       |
+| `page.content`        | Corps du fichier converti en HTML.                              | _HTML_           |
+| `page.section`        | Dossier racine du fichier (_slugified_).                        | `blog`           |
+| `page.path`           | Chemin du fichier (_slugified_).                                | `blog/post-1`    |
+| `page.slug`           | Nom du fichier (_slugified_).                                   | `post-1`         |
+| `page.filepath`       | Chemin du système de fichiers.                                  | `Blog/Post 1.md` |
+| `page.type`           | `homepage`, `page`, `section`, `vocabulary` ou `term`.          | `page`           |
+| `page.pages`          | Collection de toutes les sous-pages.                            | _Collection_     |
+| `page.parent`         | Page de la _section_ parente (`null` si aucune).                | _Page_           |
+| `page.ancestors`      | Collection des _sections_ ancêtres (la plus proche en premier). | _Collection_     |
+| `page.sections`       | Collection des _sections_ descendantes immédiates.              | _Collection_     |
+| `page.toplevel`       | `true` si la page est une _section_ de premier niveau.          | _Boolean_        |
+| `page.translations`   | Collection de pages traduites.                                  | _Collection_     |
 
 :::important
 Utilisez la méthode `showable` sur la collection de pages pour renvoyer uniquement les pages publiées et non les pages _virtuelles/redirectes/exclues_.
@@ -315,6 +319,65 @@ _Exemple:_
 ```
 
 :::
+
+#### Sections imbriquées
+
+Dans un contexte de [sections imbriquées](2-Content.md#sub-section), les propriétés `page.parent`, `page.ancestors`, `page.sections` et `page.toplevel` facilitent la construction de la navigation.
+
+_Fil d'Ariane (de la page d'accueil à la page courante) :_
+
+```twig
+<nav aria-label="breadcrumb">
+  <ul>
+    <li><a href="{{ url(site.home) }}">{{ site.title }}</a></li>
+    {% for section in page.ancestors|reverse %}
+    <li><a href="{{ url(section) }}">{{ section.title }}</a></li>
+    {% endfor %}
+    {% if page.id != site.home %}
+    <li><a href="{{ url(page) }}" aria-current="page">{{ page.title }}</a></li>
+    {% endif %}
+  </ul>
+</nav>
+```
+
+:::tip
+Un partial [`breadcrumb.html.twig`](https://github.com/Cecilapp/Cecil/blob/master/resources/layouts/partials/breadcrumb.html.twig) prêt à l'emploi est disponible :
+
+```twig
+{{ include('partials/breadcrumb.html.twig') }}
+```
+
+:::
+
+_Menu des sous-sections (sections descendantes immédiates de la section courante) :_
+
+```twig
+{% if page.sections|length %}
+<ul>
+  {% for section in page.sections|sort_by_title %}
+  <li><a href="{{ url(section) }}">{{ section.title }}</a></li>
+  {% endfor %}
+</ul>
+{% endif %}
+```
+
+_Navigation principale limitée aux sections de premier niveau (depuis n'importe quelle page) :_
+
+```twig
+<nav>
+  {% for section in site.page(site.home).sections|sort_by_title %}
+  <a href="{{ url(section) }}">{{ section.title }}</a>
+  {% endfor %}
+</nav>
+```
+
+_Lien vers la section parente :_
+
+```twig
+{% if page.parent %}
+<a href="{{ url(page.parent) }}">← {{ page.parent.title }}</a>
+{% endif %}
+```
 
 #### page.<prev/next>
 

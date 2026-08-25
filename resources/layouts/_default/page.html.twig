@@ -13,10 +13,12 @@
     <style>{% apply minify_css ~%}
       {{- include('partials/pico.css.twig') ~}}
       /* Pico CSS overrides */
-      body > header,
-      body > main,
-      body > footer {
-        max-width: 700px;
+      @media (min-width: 1024px) {
+        body > header,
+        body > main,
+        body > footer {
+          max-width: 768px;
+        }
       }
       nav, nav ul {
         display: flex;
@@ -24,6 +26,20 @@
       }
       img {
         margin-bottom: calc(var(--pico-spacing) / 2);
+      }
+      body>header {
+        display: flex;
+        align-items: flex-start;
+        justify-content: space-between;
+        flex-direction: column;
+      }
+      @media (width >= 48rem) {
+        body>header {
+          align-items: center;
+          flex-direction: row;
+          align-items: flex-start;
+          gap: calc(var(--pico-spacing) * 1);
+        }
       }
       .site-title {
         --pico-font-weight: 700;
@@ -123,12 +139,13 @@
         <div class="site-title">{{ site.title }}</div>
         {%- endif ~%}
         <p>{{ site.baseline }}</p>
-        {{- include('partials/theme-selector.html.twig', {}, with_context = false) ~}}
       </hgroup>
       {{- include('partials/navigation.html.twig', {menu: site.menus.main}, with_context = false) ~}}
+      {{- include('partials/theme-selector.html.twig', {}, with_context = false) ~}}
       {%- endblock header ~%}
     </header>
     <main>
+      {{- include('partials/breadcrumb.html.twig') ~}}
       {%- block content ~%}
       {{- page.content ~}}
       {%- endblock content ~%}

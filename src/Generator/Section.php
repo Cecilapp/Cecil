@@ -26,6 +26,11 @@ use Cecil\Util;
  * creates a new page for each section. The generated pages are added to the
  * collection of generated pages. It also handles sorting of subpages and
  * adding navigation links (next and previous) to the section pages.
+ *
+ * It also supports sub-sections: any nested folder that explicitly contains an
+ * "index.md" file becomes its own (sub-)section. Pages located in a sub-section
+ * belong to both their top level section and each of their ancestor sub-sections,
+ * while a sub-section index page itself is not listed in its parent section.
  */
 class Section extends AbstractGenerator implements GeneratorInterface
 {
@@ -36,25 +41,57 @@ class Section extends AbstractGenerator implements GeneratorInterface
     {
         $sections = [];
 
+        // identifying explicit sub-sections: nested folders containing an "index.md" file
+        $subSections = [];
+        /** @var Page $page */
+        foreach ($this->builder->getPages() ?? [] as $page) {
+            if ($page->isVirtual() || !$page->isSectionIndex()) {
+                continue;
+            }
+            $path = (string) $page->getPath();
+            // a sub-section is a section index located in a nested folder (its path contains a "/")
+            if (str_contains($path, '/')) {
+                $subSections[$path] = true;
+            }
+        }
+
         // identifying sections from all pages
         /** @var Page $page */
         foreach ($this->builder->getPages() ?? [] as $page) {
-            // top level (root) sections
-            if ($page->getSection()) {
-                // do not add "not published" and "not excluded" pages to its section
-                if (
-                    $page->getVariable('published') !== true
-                    || ($page->getVariable('excluded') || $page->getVariable('exclude'))
-                ) {
-                    continue;
+            if (!$page->getSection()) {
+                continue;
+            }
+            // do not add "not published" and "not excluded" pages to its section
+            if (
+                $page->getVariable('published') !== true
+                || ($page->getVariable('excluded') || $page->getVariable('exclude'))
+            ) {
+                continue;
+            }
+            // a sub-section index page is not listed in its parent section(s)
+            if ($page->isSectionIndex() && isset($subSections[(string) $page->getPath()])) {
+                continue;
+            }
+            $language = $page->getVariable('language', $this->config->getLanguageDefault());
+            // the page belongs to its top level (root) section...
+            $sectionsPaths = [explode('/', (string) $page->getPath())[0]];
+            // ...and to each of its ancestor sub-sections
+            $prefix = '';
+            foreach (explode('/', (string) $page->getFolder()) as $ancestor) {
+                $prefix = $prefix === '' ? $ancestor : "$prefix/$ancestor";
+                if (isset($subSections[$prefix])) {
+                    $sectionsPaths[] = $prefix;
                 }
-                $sections[$page->getSection()][$page->getVariable('language', $this->config->getLanguageDefault())][] = $page;
+            }
+            foreach (array_unique($sectionsPaths) as $sectionPath) {
+                $sections[$sectionPath][$language][] = $page;
             }
         }
 
         // adds each section to pages collection
         if (\count($sections) > 0) {
             $menuWeight = 100;
+            $sectionPages = []; // registry of created section pages, by language then path
 
             foreach ($sections as $section => $languages) {
                 foreach ($languages as $language => $pagesAsArray) {
@@ -90,20 +127,43 @@ class Section extends AbstractGenerator implements GeneratorInterface
                         $this->addNavigationLinks($pages, $sortBy, $page->getVariable('circular') ?? false);
                     }
                     // creates page for each section
+                    $toplevel = !str_contains($path, '/');
                     $page->setType(Type::SECTION->value)
                         ->setSection($path)
                         ->setPages($pages)
                         ->setVariable('language', $language)
                         ->setVariable('date', $pages->first()->getVariable('date'))
-                        ->setVariable('langref', $path);
+                        ->setVariable('langref', $path)
+                        ->setVariable('toplevel', $toplevel);
                     // human readable title
                     if ($page->getVariable('title') == 'index') {
                         $page->setVariable('title', $section);
                     }
-                    // default menu
-                    if (!$page->getVariable('menu')) {
+                    // default menu (only top level sections are added to the "main" menu)
+                    if ($toplevel && !$page->getVariable('menu')) {
                         $page->setVariable('menu', ['main' => ['weight' => $menuWeight]]);
                     }
+
+                    // sets parent references:
+                    // the section's parent is its nearest ancestor section (if any),
+                    // and each of its pages' parent is the section itself (deepest wins).
+                    $sectionPages[$language][$path] = $page;
+                    $parentPath = $path;
+                    while (($pos = strrpos($parentPath, '/')) !== false) {
+                        $parentPath = substr($parentPath, 0, $pos);
+                        if (isset($sectionPages[$language][$parentPath])) {
+                            $parentSection = $sectionPages[$language][$parentPath];
+                            $page->setVariable('parent', $parentSection);
+                            // registers the section as an immediate descendant section of its parent
+                            $childSections = $parentSection->getVariable('sections') ?? new PagesCollection("sections-{$parentSection->getId()}");
+                            $childSections->add($page);
+                            $parentSection->setVariable('sections', $childSections);
+                            break;
+                        }
+                    }
+                    $pages->map(function (Page $subPage) use ($page) {
+                        $subPage->setVariable('parent', $page);
+                    });
 
                     try {
                         $this->generatedPages->add($page);
@@ -156,7 +216,11 @@ class Section extends AbstractGenerator implements GeneratorInterface
                         ]);
                         break;
                 }
-                $this->generatedPages->add($page);
+                try {
+                    $this->generatedPages->add($page);
+                } catch (\DomainException) {
+                    $this->generatedPages->replace($page->getId(), $page);
+                }
             }
         }
     }
