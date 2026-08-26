@@ -1,7 +1,7 @@
 <!--
 description: "Working with layouts, templates and components."
 date: 2021-05-07
-updated: 2026-08-25
+updated: 2026-08-26
 alias: documentation/layouts
 -->
 # Templates
@@ -300,10 +300,6 @@ The `page` variable contains built-in variables of a page **and** those set in t
 | `page.filepath`     | File system path.                                      | `Blog/Post 1.md` |
 | `page.type`         | `homepage`, `page`, `section`, `vocabulary` or `term`. | `page`           |
 | `page.pages`        | Collection of all sub pages.                           | _Collection_     |
-| `page.parent`       | Parent _section_'s page (`null` if none).              | _Page_           |
-| `page.ancestors`    | Collection of ancestor _sections_ (nearest first).     | _Collection_     |
-| `page.sections`     | Collection of immediate descendant _sections_.         | _Collection_     |
-| `page.toplevel`     | `true` if the page is a top level _section_.           | _Boolean_        |
 | `page.translations` | Collection of translated pages.                        | _Collection_     |
 
 :::important
@@ -322,6 +318,13 @@ _Example:_
 #### Nested sections
 
 In a [nested sections](2-Content.md#sub-section) context, `page.parent`, `page.ancestors`, `page.sections` and `page.toplevel` help you build navigation.
+
+| Variable         | Description                                        | Example      |
+| ---------------- | -------------------------------------------------- | ------------ |
+| `page.parent`    | Parent _section_'s page (`null` if none).          | _Page_       |
+| `page.ancestors` | Collection of ancestor _sections_ (nearest first). | _Collection_ |
+| `page.sections`  | Collection of immediate descendant _sections_.     | _Collection_ |
+| `page.toplevel`  | `true` if the page is a top level _section_.       | _Boolean_    |
 
 _Breadcrumb (from the home page to the current page):_
 
