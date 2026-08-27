@@ -210,6 +210,27 @@ class PageTest extends TestCase
         self::assertSame('index', $page->getId());
     }
 
+    public function testLocalizedReadmeAtRootCreatesHomepageType(): void
+    {
+        $file = $this->createFileInfo('', 'README.fr.md', 'Bonjour');
+        $page = new Page($file);
+
+        self::assertSame('homepage', $page->getType());
+        self::assertSame('fr/index', $page->getId());
+        self::assertSame('fr', $page->getVariable('language'));
+    }
+
+    public function testLocalizedReadmeInSectionIsSectionIndex(): void
+    {
+        $file = $this->createFileInfo('blog', 'README.fr.md', 'Bonjour');
+        $page = new Page($file);
+
+        self::assertTrue($page->isSectionIndex());
+        self::assertSame('fr/blog', $page->getId());
+        self::assertSame('blog', $page->getPath());
+        self::assertSame('fr', $page->getVariable('language'));
+    }
+
     public function testIsSectionIndexTrueForFolderIndex(): void
     {
         $file = $this->createFileInfo('blog', 'index.md', 'Hello');

@@ -162,8 +162,14 @@ class Page extends Item
         $fileRelativePath = str_replace(DIRECTORY_SEPARATOR, '/', $this->file->getRelativePath());
         $fileExtension = $this->file->getExtension();
         $fileName = $this->file->getBasename('.' . $fileExtension);
-        // renames "README" to "index"
-        $fileName = strtolower($fileName) == 'readme' ? 'index' : $fileName;
+        // renames "README" to "index" (preserving an optional language suffix, e.g. "README.fr" -> "index.fr")
+        if (PrefixSuffix::hasSuffix($fileName)) {
+            if (strtolower(PrefixSuffix::sub($fileName, $separators)) == 'readme') {
+                $fileName = 'index.' . PrefixSuffix::getSuffix($fileName);
+            }
+        } elseif (strtolower($fileName) == 'readme') {
+            $fileName = 'index';
+        }
         // case of "index" = home page
         if (empty($this->file->getRelativePath()) && PrefixSuffix::sub($fileName, $separators) == 'index') {
             $this->setType(Type::HOMEPAGE->value);
@@ -733,10 +739,16 @@ class Page extends Item
      */
     private static function createIdFromFile(SplFileInfo $file, array $separators = PrefixSuffix::DEFAULT_SEPARATORS): string
     {
-        $relativePath = self::slugify(str_replace(DIRECTORY_SEPARATOR, '/', $file->getRelativePath()));
-        $basename = self::slugify(PrefixSuffix::subPrefix($file->getBasename('.' . $file->getExtension()), $separators));
-        // if file is "README.md", ID is "index"
-        $basename = strtolower($basename) == 'readme' ? 'index' : $basename;
+        $relativePath = Util\Slugifier::slugify(str_replace(DIRECTORY_SEPARATOR, '/', $file->getRelativePath()));
+        $basename = Util\Slugifier::slugify(PrefixSuffix::subPrefix($file->getBasename('.' . $file->getExtension()), $separators));
+        // if file is "README.md", ID is "index" (preserving an optional language suffix, e.g. "README.fr" -> "index.fr")
+        if (PrefixSuffix::hasSuffix($basename)) {
+            if (strtolower(PrefixSuffix::sub($basename, $separators)) == 'readme') {
+                $basename = 'index.' . PrefixSuffix::getSuffix($basename);
+            }
+        } elseif (strtolower($basename) == 'readme') {
+            $basename = 'index';
+        }
         // if file is section's index: "section/index.md", ID is "section"
         if (!empty($relativePath) && PrefixSuffix::sub($basename, $separators) == 'index') {
             // case of a localized section's index: "section/index.fr.md", ID is "fr/section"
