@@ -304,7 +304,7 @@ class Page extends Item
      */
     public function setFolder(string $folder): self
     {
-        $this->folder = self::slugify($folder);
+        $this->folder = Util\Slugifier::slugify($folder);
 
         return $this;
     }
@@ -323,7 +323,7 @@ class Page extends Item
     public function setSlug(string $slug): self
     {
         if (!$this->slug) {
-            $slug = self::slugify(PrefixSuffix::sub($slug));
+            $slug = Util\Slugifier::slugify(PrefixSuffix::sub($slug));
         }
         // force slug and update path
         if ($this->slug && $this->slug != $slug) {
@@ -652,7 +652,7 @@ class Page extends Item
                 break;
             case 'path':
             case 'slug':
-                $slugify = self::slugify((string) $value);
+                $slugify = Util\Slugifier::slugify((string) $value);
                 if ($value != $slugify) {
                     throw new RuntimeException(\sprintf('"%s" variable should be "%s" (not "%s") in "%s".', $name, $slugify, (string) $value, $this->getId()));
                 }
