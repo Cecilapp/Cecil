@@ -2,6 +2,26 @@
 
 All notable changes to this project will be documented in this file. Dates are displayed in UTC.
 
+### [9.0.0](https://github.com/Cecilapp/Cecil/compare/8.120.0...9.0.0)
+
+> 26 August 2026
+
+- feat: add nested section hierarchy and breadcrumbs [`#2457`](https://github.com/Cecilapp/Cecil/pull/2457)
+- Drop PHP 8.2 and migrate to Image v4 API [`#2438`](https://github.com/Cecilapp/Cecil/pull/2438)
+- test: adds comprehensive unit tests for several core classes [`#2455`](https://github.com/Cecilapp/Cecil/pull/2455)
+- chore: normalize markdown table alignment in docs [`b736195`](https://github.com/Cecilapp/Cecil/commit/b736195fdb251063c608b6192e472c2ebae2be55)
+- fix: Fix nested markup in list templates [`10b13b2`](https://github.com/Cecilapp/Cecil/commit/10b13b278b0d2a7bd487c91e07b631549be82ce0)
+
+#### [8.120.0](https://github.com/Cecilapp/Cecil/compare/8.119.2...8.120.0)
+
+> 26 August 2026
+
+- refactor: replace Page::slugify() with Util\Slugifier::slugify() [`94365e2`](https://github.com/Cecilapp/Cecil/commit/94365e2cd1b624081b6453151fca59f7fb6e1745)
+- chore: update deps [`9ecd149`](https://github.com/Cecilapp/Cecil/commit/9ecd1498c676e78a5badac5a44e543da59ded0a3)
+- refactor: remove unused Builder import [`09564b2`](https://github.com/Cecilapp/Cecil/commit/09564b27a6546b49cc9f46bd9572bfe313739ad5)
+- fix: Fix cache directory error message [`c1a869f`](https://github.com/Cecilapp/Cecil/commit/c1a869f657e9f8c74f03aba46994f134f084272c)
+- fix: Fix JSON-LD cache tag whitespace control [`333f607`](https://github.com/Cecilapp/Cecil/commit/333f6070eeebe64195d6deac5b6519d70678fbea)
+
 #### [8.119.2](https://github.com/Cecilapp/Cecil/compare/8.119.1...8.119.2)
 
 > 18 August 2026
