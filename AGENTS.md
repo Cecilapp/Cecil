@@ -18,6 +18,7 @@ Short, actionable instructions for coding agents working in this repository.
 - Style checks: `composer code:style`
 - Integration tests: `composer test`
 - CLI tests: `composer test:cli`
+- If `composer code` or `composer test` fails, stop, report the failing output to the user, and do not commit or continue until all checks pass.
 
 ## Architecture At A Glance
 
@@ -53,6 +54,6 @@ Short, actionable instructions for coding agents working in this repository.
 - Generator ordering is priority-sensitive. Keep configured generator priorities coherent with expected extraction order.
 - Page section assignment relies on original `filepath`, not transformed page path.
 - Keep docs updated when behavior or architecture changes, especially in [docs/](docs/) and [README.md](README.md).
-- When updating documentation in [docs/](docs/), always keep both English and French versions aligned (for example, `.md` and `.fr.md` counterparts).
+- When editing a `.md` documentation file, apply equivalent changes to its `.fr.md` counterpart. If the `.fr.md` counterpart does not exist, notify the user before proceeding.
 - When editing a documentation file with frontmatter, always update the `updated` date to reflect the change.
 - When updating code in `src/`, update API documentation with `php phpdoc` command (download `phpdoc` binary with `curl -Lo phpdoc https://phpdoc.org/phpDocumentor.phar` if necessary).

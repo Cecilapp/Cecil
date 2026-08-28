@@ -32,13 +32,13 @@ Default severity profile: Strict.
 - Do not edit files.
 - Do not run destructive git commands.
 - Prefer lightweight commands and scoped checks.
-- Use repository guidance from `AGENTS.md`.
+- Use repository guidance from `AGENTS.md`. If `AGENTS.md` is missing or silent on a topic, fall back to the conventions listed in this prompt.
 
 ## Suggested Audit Flow
 
 1. Read context and changed files.
 2. Map affected architecture zones (`src/Step`, `src/Generator`, `src/Renderer`, config files).
-3. Check conventions (PSR-12, strict types, Cecil header, native function prefixing where relevant).
+3. Check conventions (PSR-12, strict types, Cecil header, native function prefixing (prefix built-in PHP functions with `\` in namespaced files)).
 4. Assess tests impacted or missing.
 5. Verify documentation impact (`README.md`, `docs/`, `CHANGELOG.md`) for behavior or architecture changes.
 6. Report findings with actionable recommendations.
