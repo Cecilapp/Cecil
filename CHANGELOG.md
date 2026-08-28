@@ -2,6 +2,14 @@
 
 All notable changes to this project will be documented in this file. Dates are displayed in UTC.
 
+#### [9.0.1](https://github.com/Cecilapp/Cecil/compare/9.0.0...9.0.1)
+
+> 27 August 2026
+
+- docs: split nested section variables in docs [`375d5f3`](https://github.com/Cecilapp/Cecil/commit/375d5f3c9875ecb0365dda0ce5a60ab7a60d842d)
+- fix: handle localized README pages as index [`887c80a`](https://github.com/Cecilapp/Cecil/commit/887c80afaab127f00497414b63b07a0cb562403e)
+- chore: use shared Slugifier in Page class [`da0243a`](https://github.com/Cecilapp/Cecil/commit/da0243abf9ec61e330fcf540f4aa3824f9a97bed)
+
 ### [9.0.0](https://github.com/Cecilapp/Cecil/compare/8.120.0...9.0.0)
 
 > 26 August 2026
