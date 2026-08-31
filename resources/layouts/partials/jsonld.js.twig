@@ -55,7 +55,7 @@
           "publisher": {
             "@type": "Organization",
             "name": "{{ site.title|e('js') }}",
-            {%- set icon_asset = asset('icon.png', {'ignore_missing': true}) ~%}
+            {%- set icon_asset = asset('icon.png', {ignore_missing: true}) ~%}
             {%- if not icon_asset.missing ~%}
             "logo": "{{ url(icon_asset, {canonical: true}) }}",
             {%- endif ~%}
@@ -125,7 +125,7 @@
           "publisher": {
             "@type": "Organization",
             "name": "{{ site.title|e('js') }}",
-            {%- set icon_asset = asset('icon.png', {'ignore_missing': true}) ~%}
+            {%- set icon_asset = asset('icon.png', {ignore_missing: true}) ~%}
             {%- if not icon_asset.missing ~%}
             "logo": "{{ url(icon_asset, {canonical: true}) }}",
             {%- endif ~%}

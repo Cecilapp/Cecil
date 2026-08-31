@@ -3,12 +3,12 @@
 {% set id = item.id|json_encode(constant('JSON_UNESCAPED_SLASHES')) %}
 {% set url = url(item, {canonical: true})|json_encode(constant('JSON_UNESCAPED_SLASHES')) %}
 {% set attributes = {
-  'title': item.title,
-  'body': item.body|e('html'),
-  'date': item.date|date('c'),
+  title: item.title,
+  body: item.body|e('html'),
+  date: item.date|date('c'),
 } %}
 {% if item.updated|default %}
-  {%- set attributes = attributes|merge({'updated': item.updated|date('c')}) %}
+  {%- set attributes = attributes|merge({updated: item.updated|date('c')}) %}
 {% endif %}
 {#- add front matter variables to attributes -#}
 {% set attributes = item.fmVariables|merge(attributes) %}

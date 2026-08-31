@@ -50,7 +50,7 @@
       </head>
       <body>
         {%- set url -%}
-        <a href="{{ url(site.home, {'canonical': true}) }}">{{ site.title }}</a>
+        <a href="{{ url(site.home, {canonical: true}) }}">{{ site.title }}</a>
         {%- endset ~%}
         <h1>{% trans %}List of URLs for %url%:{% endtrans %}</h1>
         <form>
@@ -59,7 +59,7 @@
             <xsl:attribute name="type">url</xsl:attribute>
             <xsl:attribute name="url">URL</xsl:attribute>
             <xsl:attribute name="spellcheck">false</xsl:attribute>
-            <xsl:attribute name="value">{{ url('sitemap.xml', {'canonical': true}) }}</xsl:attribute>
+            <xsl:attribute name="value">{{ url('sitemap.xml', {canonical: true}) }}</xsl:attribute>
           </input>
         </form>
         <ol>
