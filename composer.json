@@ -72,7 +72,8 @@
     "phpmd/phpmd": "^2.15",
     "phpstan/phpstan": "^2.2",
     "phpunit/phpunit": "^12.5",
-    "squizlabs/php_codesniffer": "^4.0"
+    "squizlabs/php_codesniffer": "^4.0",
+    "vincentlanglet/twig-cs-fixer": "^4.1"
   },
   "provide": {
     "psr/log-implementation": "3.0",
@@ -124,7 +125,8 @@
       "@code:analyse",
       "@code:md",
       "@code:fix",
-      "@code:style"
+      "@code:style",
+      "@code:twig"
     ],
     "code:analyse": [
       "phpstan analyse ./src/ --memory-limit=1G --level=2 --no-progress --error-format=raw"
@@ -136,6 +138,7 @@
     "code:md": "phpmd ./src text ./.phpmd-rules.xml --cache",
     "code:md:gh": "phpmd ./src github ./.phpmd-rules.xml",
     "code:style": "phpcs",
+    "code:twig": "twig-cs-fixer lint resources/",
     "test": [
       "@test:unit",
       "@test:integration"
@@ -164,6 +167,7 @@
     "code:fix": "Fix code according to the PSR12",
     "code:md": "Look for several potential problems in code with PHP Mess Detector",
     "code:style": "Corrects coding standard violations with PHP CodeSniffer",
+    "code:twig": "Lints Twig templates in resources/ with Twig CS Fixer",
     "test": "Runs tests suite",
     "test:bin": "Runs bin/cecil to create a new demo site",
     "test:cli": "Runs CLI integration tests suite",
