@@ -33,11 +33,17 @@
         justify-content: space-between;
         flex-direction: column;
       }
+      body>header>hgroup>p {
+        text-align: center;
+      }
       @media (width >= 48rem) {
         body>header {
           flex-direction: row;
           align-items: flex-start;
           gap: calc(var(--pico-spacing) * 1);
+        }
+        body>header>hgroup>p {
+          text-align: left;
         }
       }
       .site-title {
