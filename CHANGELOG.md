@@ -2,6 +2,21 @@
 
 All notable changes to this project will be documented in this file. Dates are displayed in UTC.
 
+#### [9.0.2](https://github.com/Cecilapp/Cecil/compare/9.0.1...9.0.2)
+
+> 31 August 2026
+
+- chore(deps-dev): bump friendsofphp/php-cs-fixer from 3.95.22 to 3.95.23 [`#2461`](https://github.com/Cecilapp/Cecil/pull/2461)
+- chore: update deps [`a3d6916`](https://github.com/Cecilapp/Cecil/commit/a3d691670bd0a842cf41b1f822871620446c15a3)
+- Add Twig CS Fixer to code quality pipeline [`7a0f4b2`](https://github.com/Cecilapp/Cecil/commit/7a0f4b2c88eb704b790a945065b571b4b73f959f)
+- refactor: Normalize Twig hash syntax in templates [`34754a7`](https://github.com/Cecilapp/Cecil/commit/34754a7a8ea451beb09c700528794ac1c6da7fcd)
+- docs: Regenerate Page API doc line references [`e41bb1e`](https://github.com/Cecilapp/Cecil/commit/e41bb1ec9d1b7a432747f6b1c0969d3ffffcf52a)
+- docs: Polish Cecil skill docs [`19e7676`](https://github.com/Cecilapp/Cecil/commit/19e767677762f3bc9513721f9d6aca669b7f96be)
+- docs: Document AI agent skill installation [`e02a263`](https://github.com/Cecilapp/Cecil/commit/e02a263634d3b0df46ec1331692953c7a785ed0d)
+- ai: Tighten agent instructions [`396dcd4`](https://github.com/Cecilapp/Cecil/commit/396dcd4e088738ba53e91512740c1a477afb26f3)
+- fix: adjust header subtitle alignment responsively [`82d122e`](https://github.com/Cecilapp/Cecil/commit/82d122e1875e85b52f770ea780b310e7a0c8f7f3)
+- chore: add .twig-cs-fixer.cache to gitignore [`0d00c27`](https://github.com/Cecilapp/Cecil/commit/0d00c27dbd2fed0b8c9404a1842f097fb07116d2)
+
 #### [9.0.1](https://github.com/Cecilapp/Cecil/compare/9.0.0...9.0.1)
 
 > 27 August 2026
