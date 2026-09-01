@@ -54,7 +54,9 @@ coding_style:
         after_type_cast: true
 
 tools:
-  php_analyzer: true
+  # php_analyzer is unmaintained and mis-parses PHP 8.3 typed class constants,
+  # producing false "type not found" errors. Disabled: PHPStan is the reference analyzer.
+  php_analyzer: false
   php_changetracking: true
   php_code_coverage: false
   php_code_sniffer:
