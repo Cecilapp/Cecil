@@ -21,10 +21,10 @@ namespace Cecil\Util;
  */
 class Platform
 {
-    public const OS_UNKNOWN = 1;
-    public const OS_WIN = 2;
-    public const OS_LINUX = 3;
-    public const OS_OSX = 4;
+    public const int OS_UNKNOWN = 1;
+    public const int OS_WIN = 2;
+    public const int OS_LINUX = 3;
+    public const int OS_OSX = 4;
 
     /** @var string */
     protected static $pharPath;

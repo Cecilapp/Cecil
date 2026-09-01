@@ -31,6 +31,7 @@ class Stop extends AbstractCommand
     /**
      * {@inheritdoc}
      */
+    #[\Override]
     protected function configure()
     {
         $this
@@ -55,6 +56,7 @@ EOF
      *
      * @throws RuntimeException
      */
+    #[\Override]
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $pidFile = Util::joinFile($this->getPath(), self::PID_FILE);

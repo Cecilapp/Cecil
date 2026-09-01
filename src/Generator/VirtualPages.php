@@ -38,6 +38,7 @@ class VirtualPages extends AbstractGenerator implements GeneratorInterface
     /**
      * {@inheritdoc}
      */
+    #[\Override]
     public function generate(): void
     {
         $pagesConfig = $this->collectPagesFromConfig($this->configKey);

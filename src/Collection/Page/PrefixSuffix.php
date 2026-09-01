@@ -26,21 +26,21 @@ class PrefixSuffix
     // https://regex101.com/r/tJWUrd/6
     // ie: "blog/2017-10-19_post-1.md" prefix is "2017-10-19"
     // ie: "projet/1_projet-a.md" prefix is "1"
-    private const PREFIX_BASE = '(|.*\/)(([0-9]{4})-(0[1-9]|1[0-2])-(0[1-9]|[1-2][0-9]|3[0-1])|[0-9]+)';
-    private const PREFIX_TAIL = '(.*)';
+    private const string PREFIX_BASE = '(|.*\/)(([0-9]{4})-(0[1-9]|1[0-2])-(0[1-9]|[1-2][0-9]|3[0-1])|[0-9]+)';
+    private const string PREFIX_TAIL = '(.*)';
 
     /** @var string[] Default prefix separators. */
-    public const DEFAULT_SEPARATORS = ['-', '_'];
+    public const array DEFAULT_SEPARATORS = ['-', '_'];
 
     // Match index of the prefix value (number/date) from PREFIX_PATTERN.
-    private const PREFIX_PART = 2;
+    private const int PREFIX_PART = 2;
     // Match index of the string without prefix from PREFIX_PATTERN.
-    private const PREFIX_SUFFIX_PART = 7;
+    private const int PREFIX_SUFFIX_PART = 7;
 
     // https://regex101.com/r/GlgBdT/7
     // ie: "blog/2017-10-19_post-1.en.md" suffix is "en"
     // ie: "projet/1-projet-a.fr-FR.md" suffix is "fr-FR"
-    private const SUFFIX_PATTERN = '(.*)\.' . Config::LANG_CODE_PATTERN;
+    private const string SUFFIX_PATTERN = '(.*)\.' . Config::LANG_CODE_PATTERN;
 
     /**
      * Builds the prefix regex pattern from configured separators.

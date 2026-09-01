@@ -26,7 +26,7 @@ use Symfony\Component\String\Slugger\AsciiSlugger;
 class Slugifier
 {
     /** @see https://regex101.com/r/... */
-    public const SLUGIFY_PATTERN = '/(^\/|[^._a-z0-9\/]|-)+/';
+    public const string SLUGIFY_PATTERN = '/(^\/|[^._a-z0-9\/]|-)+/';
 
     /** @var AsciiSlugger|null */
     private static $slugifier;
