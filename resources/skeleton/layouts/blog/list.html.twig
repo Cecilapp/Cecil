@@ -22,6 +22,6 @@
           </article>
           {%- endfor ~%}
           <footer>
-            {{- include('partials/paginator.html.twig', {page}, with_context=false) ~}}
+            {{- include('partials/paginator.html.twig', {page: page}, with_context=false) ~}}
           </footer>
           {%- endblock content ~%}
