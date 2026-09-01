@@ -206,37 +206,37 @@ Prefixes can be dates or numbers, and suffixes are typically language codes.</p>
             <dt class="phpdocumentor-table-of-contents__entry -constant -public">
     <a class="" href="classes/Cecil-Collection-Page-PrefixSuffix.html#constant_DEFAULT_SEPARATORS">DEFAULT_SEPARATORS</a>
     <span>
-        &nbsp;: array&lt;string|int, string&gt;&nbsp;= [&#039;-&#039;, &#039;_&#039;]                            </span>
+        &nbsp;: array&lt;string|int, mixed&gt;&nbsp;= [&#039;-&#039;, &#039;_&#039;]                            </span>
 </dt>
 
             <dt class="phpdocumentor-table-of-contents__entry -constant -private">
     <a class="" href="classes/Cecil-Collection-Page-PrefixSuffix.html#constant_PREFIX_BASE">PREFIX_BASE</a>
     <span>
-        &nbsp;: mixed&nbsp;= &#039;(|.*\/)(([0-9]{4})-(0[1-9]|1[0-2])-(0[1-9]|[1-...                            </span>
+        &nbsp;: string&nbsp;= &#039;(|.*\/)(([0-9]{4})-(0[1-9]|1[0-2])-(0[1-9]|[1-...                            </span>
 </dt>
 
             <dt class="phpdocumentor-table-of-contents__entry -constant -private">
     <a class="" href="classes/Cecil-Collection-Page-PrefixSuffix.html#constant_PREFIX_PART">PREFIX_PART</a>
     <span>
-        &nbsp;: mixed&nbsp;= 2                            </span>
+        &nbsp;: int&nbsp;= 2                            </span>
 </dt>
 
             <dt class="phpdocumentor-table-of-contents__entry -constant -private">
     <a class="" href="classes/Cecil-Collection-Page-PrefixSuffix.html#constant_PREFIX_SUFFIX_PART">PREFIX_SUFFIX_PART</a>
     <span>
-        &nbsp;: mixed&nbsp;= 7                            </span>
+        &nbsp;: int&nbsp;= 7                            </span>
 </dt>
 
             <dt class="phpdocumentor-table-of-contents__entry -constant -private">
     <a class="" href="classes/Cecil-Collection-Page-PrefixSuffix.html#constant_PREFIX_TAIL">PREFIX_TAIL</a>
     <span>
-        &nbsp;: mixed&nbsp;= &#039;(.*)&#039;                            </span>
+        &nbsp;: string&nbsp;= &#039;(.*)&#039;                            </span>
 </dt>
 
             <dt class="phpdocumentor-table-of-contents__entry -constant -private">
     <a class="" href="classes/Cecil-Collection-Page-PrefixSuffix.html#constant_SUFFIX_PATTERN">SUFFIX_PATTERN</a>
     <span>
-        &nbsp;: mixed&nbsp;= &#039;(.*)\.&#039; . \Cecil\Config::LANG_CODE_PATTERN                            </span>
+        &nbsp;: string&nbsp;= &#039;(.*)\.&#039; . \Cecil\Config::LANG_CODE_PATTERN                            </span>
 </dt>
 
     </dl>
@@ -355,7 +355,7 @@ Prefixes can be dates or numbers, and suffixes are typically language codes.</p>
     
     <code class="phpdocumentor-signature phpdocumentor-code ">
     <span class="phpdocumentor-signature__visibility">public</span>
-        <span class="phpdocumentor-signature__type">array&lt;string|int, string&gt;</span>
+        <span class="phpdocumentor-signature__type">array&lt;string|int, mixed&gt;</span>
     <span class="phpdocumentor-signature__name">DEFAULT_SEPARATORS</span>
     = <span class="phpdocumentor-signature__default-value">[&#039;-&#039;, &#039;_&#039;]</span>
 </code>
@@ -387,7 +387,7 @@ Prefixes can be dates or numbers, and suffixes are typically language codes.</p>
     
     <code class="phpdocumentor-signature phpdocumentor-code ">
     <span class="phpdocumentor-signature__visibility">private</span>
-        <span class="phpdocumentor-signature__type">mixed</span>
+        <span class="phpdocumentor-signature__type">string</span>
     <span class="phpdocumentor-signature__name">PREFIX_BASE</span>
     = <span class="phpdocumentor-signature__default-value">&#039;(|.*\/)(([0-9]{4})-(0[1-9]|1[0-2])-(0[1-9]|[1-2][0-9]|3[0-1])|[0-9]+)&#039;</span>
 </code>
@@ -417,7 +417,7 @@ Prefixes can be dates or numbers, and suffixes are typically language codes.</p>
     
     <code class="phpdocumentor-signature phpdocumentor-code ">
     <span class="phpdocumentor-signature__visibility">private</span>
-        <span class="phpdocumentor-signature__type">mixed</span>
+        <span class="phpdocumentor-signature__type">int</span>
     <span class="phpdocumentor-signature__name">PREFIX_PART</span>
     = <span class="phpdocumentor-signature__default-value">2</span>
 </code>
@@ -447,7 +447,7 @@ Prefixes can be dates or numbers, and suffixes are typically language codes.</p>
     
     <code class="phpdocumentor-signature phpdocumentor-code ">
     <span class="phpdocumentor-signature__visibility">private</span>
-        <span class="phpdocumentor-signature__type">mixed</span>
+        <span class="phpdocumentor-signature__type">int</span>
     <span class="phpdocumentor-signature__name">PREFIX_SUFFIX_PART</span>
     = <span class="phpdocumentor-signature__default-value">7</span>
 </code>
@@ -477,7 +477,7 @@ Prefixes can be dates or numbers, and suffixes are typically language codes.</p>
     
     <code class="phpdocumentor-signature phpdocumentor-code ">
     <span class="phpdocumentor-signature__visibility">private</span>
-        <span class="phpdocumentor-signature__type">mixed</span>
+        <span class="phpdocumentor-signature__type">string</span>
     <span class="phpdocumentor-signature__name">PREFIX_TAIL</span>
     = <span class="phpdocumentor-signature__default-value">&#039;(.*)&#039;</span>
 </code>
@@ -507,7 +507,7 @@ Prefixes can be dates or numbers, and suffixes are typically language codes.</p>
     
     <code class="phpdocumentor-signature phpdocumentor-code ">
     <span class="phpdocumentor-signature__visibility">private</span>
-        <span class="phpdocumentor-signature__type">mixed</span>
+        <span class="phpdocumentor-signature__type">string</span>
     <span class="phpdocumentor-signature__name">SUFFIX_PATTERN</span>
     = <span class="phpdocumentor-signature__default-value">&#039;(.*)\.&#039; . \Cecil\Config::LANG_CODE_PATTERN</span>
 </code>
