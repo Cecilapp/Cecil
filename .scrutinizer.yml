@@ -34,6 +34,7 @@ coding_style:
         after_type_cast: true
 
 build:
+  image: default-jammy
   environment:
     timezone: 'Europe/Paris'
     php:
