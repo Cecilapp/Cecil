@@ -101,26 +101,43 @@ class Create extends AbstractStep
                             $this->builder->getLogger()->error(\sprintf('Config menu entry: key "id" is required for entry at position %s in "%s" menu', $key, $menu), ['progress' => [$countConfig, $totalConfig]]);
                             continue;
                         }
+
+                        // Resolve the page matching the config ID (handles sub-sections and localized pages)
+                        $page = $this->findPageForMenuEntry($properties['id'], $language['code']);
+                        $resolvedId = $properties['id'];
+                        if ($page !== null) {
+                            $pagePath = (new PageRenderer($this->builder, $page))->getPath();
+                            // a localized page id may differ from its config ID (e.g. "news" rendered
+                            // as "actualites"): reuse an existing entry pointing to the same page
+                            $resolvedId = $this->findEntryIdByUrl($menu, $pagePath) ?? $page->getIdWithoutLang();
+                            // create a base entry from the page if none exists yet
+                            if (!$menu->has($resolvedId)) {
+                                $menu->add((new Entry($resolvedId))
+                                    ->setName($page->getVariable('title'))
+                                    ->setUrl($pagePath));
+                            }
+                        }
+
                         /** @var \Cecil\Collection\Menu\Entry $item */
-                        $item = (new Entry($properties['id']))
+                        $item = (new Entry($resolvedId))
                             ->setName($properties['name'] ?? ucfirst($properties['id']))
                             ->setUrl($properties['url'] ?? '404')
                             ->setWeight((int) ($properties['weight'] ?? 0));
                         // is entry already exists?
-                        if ($menu->has($properties['id'])) {
+                        if ($menu->has($resolvedId)) {
                             // removes a not enabled entry
                             if (isset($properties['enabled']) && $properties['enabled'] === false) {
-                                $menu->remove($properties['id']);
+                                $menu->remove($resolvedId);
 
                                 $message = \sprintf('Config menu entry "%s (%s) > %s" removed', (string) $menu, $language['code'], $properties['id']);
                                 $this->builder->getLogger()->info($message, ['progress' => [$countConfig, $totalConfig]]);
                                 continue;
                             }
                             // merges properties
-                            $current = $menu->get($properties['id'])->toArray();
+                            $current = $menu->get($resolvedId)->toArray();
                             $properties = array_merge($current, $properties);
                             /** @var \Cecil\Collection\Menu\Entry $item */
-                            $item = clone $menu->get($properties['id']);
+                            $item = clone $menu->get($resolvedId);
                             $item->setName($properties['name'])
                                 ->setUrl($properties['url'])
                                 ->setWeight($properties['weight']);
@@ -141,6 +158,59 @@ class Create extends AbstractStep
         }
 
         $this->builder->setMenus($this->menus);
+    }
+
+    /**
+     * Find the page matching a config menu entry ID, in the given language.
+     *
+     * Matching is tried by priority: exact ID, last path component (sub-sections),
+     * then section name (section index pages with a localized path, e.g. "news" -> "actualites").
+     *
+     * @param string $configId  The ID from the config (may be partial)
+     * @param string $language  The language code
+     *
+     * @return Page|null The matching page, or null if none found
+     */
+    protected function findPageForMenuEntry(string $configId, string $language): ?Page
+    {
+        $byLastPart = null;
+        $bySection = null;
+        foreach ($this->builder->getPages() as $page) {
+            if ($page->getVariable('language') !== $language) {
+                continue;
+            }
+            // exact ID match wins immediately
+            if ($page->getId() === $configId || $page->getIdWithoutLang() === $configId) {
+                return $page;
+            }
+            // fallback: last path component (e.g. "post" matches "blog/2024/post")
+            if ($byLastPart === null && \basename($page->getIdWithoutLang()) === $configId) {
+                $byLastPart = $page;
+            }
+            // fallback: section name of a section index (stays "news" even if path is "actualites")
+            if ($bySection === null && $page->getVariable('type') === 'section' && $page->getSection() === $configId) {
+                $bySection = $page;
+            }
+        }
+
+        return $byLastPart ?? $bySection;
+    }
+
+    /**
+     * Return the ID of the menu entry pointing to the given URL, or null if none.
+     */
+    private function findEntryIdByUrl(Menu $menu, ?string $url): ?string
+    {
+        if ($url === null) {
+            return null;
+        }
+        foreach ($menu as $entry) {
+            if ($entry->getUrl() === $url) {
+                return $entry->getId();
+            }
+        }
+
+        return null;
     }
 
     /**
@@ -198,6 +268,10 @@ class Create extends AbstractStep
                     }
                     /** @var \Cecil\Collection\Menu\Menu $menu */
                     $menu = $this->menus[$language]->get($menuName);
+                    // skip if an entry already points to the same page (e.g. duplicate localized section)
+                    if ($this->findEntryIdByUrl($menu, $item->getUrl()) !== null) {
+                        continue;
+                    }
                     $menu->add($item);
 
                     $message = \sprintf('Page menu entry "%s (%s) > %s" created {name: %s, weight: %s}', $menu->getId(), $language, $item->getId(), $item->getName(), $properties['weight'] ?? 'N/A');
@@ -220,6 +294,10 @@ class Create extends AbstractStep
             }
             /** @var \Cecil\Collection\Menu\Menu $menu */
             $menu = $this->menus[$language]->get($page->getVariable('menu'));
+            // skip if an entry already points to the same page (e.g. duplicate localized section)
+            if ($this->findEntryIdByUrl($menu, $item->getUrl()) !== null) {
+                continue;
+            }
             $menu->add($item);
 
             $message = \sprintf('Page menu entry "%s (%s) > %s" created {name: %s}', $menu->getId(), $language, $item->getId(), $item->getName());
