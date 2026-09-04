@@ -51,7 +51,7 @@ class ConfigTest extends TestCase
     public function testInvalidOutputFormatsStructureIsRejected(): void
     {
         $this->expectException(ConfigException::class);
-        $this->expectExceptionMessage('Output format #16 must be an array.');
+        $this->expectExceptionMessage('expects to be array');
 
         new Config([
             'output' => [
@@ -346,7 +346,8 @@ class ConfigTest extends TestCase
             ]);
             self::fail('Expected missing locale exception.');
         } catch (ConfigException $e) {
-            self::assertStringContainsString('locale is not defined', $e->getMessage());
+            self::assertStringContainsString('locale', $e->getMessage());
+            self::assertStringContainsString('is missing', $e->getMessage());
         }
 
         try {
@@ -357,7 +358,8 @@ class ConfigTest extends TestCase
             ]);
             self::fail('Expected invalid locale exception.');
         } catch (ConfigException $e) {
-            self::assertStringContainsString('language locale', $e->getMessage());
+            self::assertStringContainsString('locale', $e->getMessage());
+            self::assertStringContainsString('pattern', $e->getMessage());
         }
     }
 
@@ -577,11 +579,12 @@ class ConfigTest extends TestCase
             ]);
             self::fail('Expected missing name validation exception.');
         } catch (ConfigException $e) {
-            self::assertStringContainsString('missing "name"', $e->getMessage());
+            self::assertStringContainsString('name', $e->getMessage());
+            self::assertStringContainsString('is missing', $e->getMessage());
         }
 
         $this->expectException(ConfigException::class);
-        $this->expectExceptionMessage('missing "mediatype"');
+        $this->expectExceptionMessage('mediatype');
 
         new Config([
             'output' => [

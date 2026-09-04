@@ -15,6 +15,10 @@ namespace Cecil;
 
 use Cecil\Exception\ConfigException;
 use Dflydev\DotAccessData\Data;
+use Nette\Schema\Expect;
+use Nette\Schema\Processor;
+use Nette\Schema\Schema;
+use Nette\Schema\ValidationException;
 use Symfony\Component\Yaml\Exception\ParseException;
 use Symfony\Component\Yaml\Yaml;
 
@@ -648,22 +652,13 @@ class Config
      */
     private function validate(): void
     {
+        // structural validation of well-defined sections
+        $this->validateSchema();
+
         // default language must be valid
         if (!preg_match('/^' . Config::LANG_CODE_PATTERN . '$/', $this->getLanguageDefault())) {
             throw new ConfigException(\sprintf('Default language code "%s" is not valid (e.g.: "language: fr-FR").', $this->getLanguageDefault()));
         }
-        // if language is set then the locale is required and must be valid
-        foreach ((array) $this->get('languages') as $lang) {
-            if (!isset($lang['locale'])) {
-                throw new ConfigException('A language locale is not defined.');
-            }
-            if (!preg_match('/^' . Config::LANG_LOCALE_PATTERN . '$/', $lang['locale'])) {
-                throw new ConfigException(\sprintf('The language locale "%s" is not valid (e.g.: "locale: fr_FR").', $lang['locale']));
-            }
-        }
-
-        $this->validateCacheConfiguration();
-        $this->validateOutputFormats();
 
         // check for deprecated options
         $deprecatedConfigFile = Util\File::getRealPath('../config/deprecated.php');
@@ -687,42 +682,70 @@ class Config
     }
 
     /**
-     * Validate cache-related options.
+     * Validates well-defined configuration sections against a schema.
+     * Only targeted sections are processed: the rest of the configuration stays open
+     * (menus, taxonomies, custom variables, etc.).
      *
      * @throws ConfigException
      */
-    private function validateCacheConfiguration(): void
+    private function validateSchema(): void
     {
-        if ($this->isEnabled('cache') && trim((string) $this->get('cache.dir')) === '') {
-            throw new ConfigException('The cache directory (`cache.dir`) must not be empty when cache is enabled.');
+        $processor = new Processor();
+        foreach ($this->getSchemas() as $key => $schema) {
+            if (!$this->has($key)) {
+                continue;
+            }
+            try {
+                $processor->process($schema, $this->get($key));
+            } catch (ValidationException $e) {
+                throw new ConfigException($e->getMessage());
+            }
         }
     }
 
     /**
-     * Validate output format configuration.
+     * Returns the validation schemas indexed by configuration key.
      *
-     * @throws ConfigException
+     * @return array<string, Schema>
      */
-    private function validateOutputFormats(): void
+    private function getSchemas(): array
     {
-        $formats = $this->get('output.formats');
-        if (!\is_array($formats)) {
-            throw new ConfigException('The "output.formats" configuration must be an array.');
-        }
-
-        foreach ($formats as $index => $format) {
-            $position = $index + 1;
-            if (!\is_array($format)) {
-                throw new ConfigException(\sprintf('Output format #%d must be an array.', $position));
-            }
-
-            foreach (['name', 'mediatype'] as $property) {
-                if (!isset($format[$property]) || !\is_string($format[$property]) || trim($format[$property]) === '') {
-                    $label = $format['name'] ?? \sprintf('#%d', $position);
-
-                    throw new ConfigException(\sprintf('Output format "%s" is missing "%s".', $label, $property));
-                }
-            }
-        }
+        return [
+            // `cache: true|false` shorthand or a structure with a non-empty `dir` when enabled
+            'cache' => Expect::anyOf(
+                Expect::bool(),
+                Expect::structure([
+                    'dir' => Expect::string(),
+                ])->otherItems(Expect::mixed())->assert(
+                    fn($cache) => !$this->isEnabled('cache') || trim((string) ($cache->dir ?? '')) !== '',
+                    'The cache directory (`cache.dir`) must not be empty when cache is enabled.'
+                )
+            ),
+            // each output format must define a `name` and a `mediatype`
+            'output.formats' => Expect::arrayOf(
+                Expect::structure([
+                    'name'      => Expect::string()->required(),
+                    'mediatype' => Expect::string()->required(),
+                ])->otherItems(Expect::mixed())
+            ),
+            // each language must define a `code` and a valid `locale`
+            'languages' => Expect::listOf(
+                Expect::structure([
+                    'code'   => Expect::string()->required(),
+                    'locale' => Expect::string()->required()->pattern(Config::LANG_LOCALE_PATTERN),
+                ])->otherItems(Expect::mixed())
+            ),
+            // date formatting options
+            'date' => Expect::structure([
+                'format'   => Expect::string(),
+                'timezone' => Expect::string(),
+            ])->otherItems(Expect::mixed()),
+            // pages management options
+            'pages' => Expect::structure([
+                'dir'         => Expect::string(),
+                'ext'         => Expect::listOf('string'),
+                'frontmatter' => Expect::anyOf('yaml', 'ini', 'toml', 'json'),
+            ])->otherItems(Expect::mixed()),
+        ];
     }
 }
