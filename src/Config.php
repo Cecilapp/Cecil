@@ -717,7 +717,7 @@ class Config
                 Expect::structure([
                     'dir' => Expect::string(),
                 ])->otherItems(Expect::mixed())->assert(
-                    fn($cache) => !$this->isEnabled('cache') || trim((string) ($cache->dir ?? '')) !== '',
+                    fn ($cache) => !$this->isEnabled('cache') || trim((string) ($cache->dir ?? '')) !== '',
                     'The cache directory (`cache.dir`) must not be empty when cache is enabled.'
                 )
             ),
