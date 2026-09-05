@@ -735,8 +735,8 @@ class Config
             // each output format must define a `name` and a `mediatype`
             'output.formats' => Expect::arrayOf(
                 Expect::structure([
-                    'name'      => Expect::string()->required(),
-                    'mediatype' => Expect::string()->required(),
+                    'name'      => Expect::string()->required()->assert(fn ($value) => \trim((string) $value) !== '', 'Output format "name" must not be empty.'),
+                    'mediatype' => Expect::string()->required()->assert(fn ($value) => \trim((string) $value) !== '', 'Output format "mediatype" must not be empty.'),
                 ])->otherItems(Expect::mixed())
             ),
             // formats applied by page type (each type accepts a list of format names)
