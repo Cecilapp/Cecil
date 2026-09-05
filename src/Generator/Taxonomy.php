@@ -32,6 +32,7 @@ class Taxonomy extends AbstractGenerator implements GeneratorInterface
     /**
      * {@inheritdoc}
      */
+    #[\Override]
     public function generate(): void
     {
         foreach ($this->config->getLanguages() as $lang) {

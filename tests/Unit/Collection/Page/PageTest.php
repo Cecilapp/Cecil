@@ -70,6 +70,13 @@ class PageTest extends TestCase
         self::assertSame('page', $page->getType());
     }
 
+    public function testSetTypeAcceptsEnum(): void
+    {
+        $page = new Page('test');
+        $page->setType(\Cecil\Collection\Page\Type::HOMEPAGE);
+        self::assertSame('homepage', $page->getType());
+    }
+
     public function testVirtualByDefault(): void
     {
         $page = new Page('test');

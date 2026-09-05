@@ -27,11 +27,11 @@ use Symfony\Component\Yaml\Yaml;
  */
 class Config
 {
-    public const IMPORT_PRESERVE = 0;
-    public const IMPORT_REPLACE = 1;
-    public const IMPORT_MERGE = 2;
-    public const LANG_CODE_PATTERN = '([a-z]{2}(-[A-Z]{2})?)'; // "fr" or "fr-FR"
-    public const LANG_LOCALE_PATTERN = '[a-z]{2}(_[A-Z]{2})?(_[A-Z]{2})?'; // "fr" or "fr_FR" or "no_NO_NY"
+    public const int IMPORT_PRESERVE = 0;
+    public const int IMPORT_REPLACE = 1;
+    public const int IMPORT_MERGE = 2;
+    public const string LANG_CODE_PATTERN = '([a-z]{2}(-[A-Z]{2})?)'; // "fr" or "fr-FR"
+    public const string LANG_LOCALE_PATTERN = '[a-z]{2}(_[A-Z]{2})?(_[A-Z]{2})?'; // "fr" or "fr_FR" or "no_NO_NY"
 
     /**
      * Configuration is a Data object.

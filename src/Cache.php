@@ -26,8 +26,8 @@ use Psr\SimpleCache\CacheInterface;
 class Cache implements CacheInterface
 {
     /** Reserved characters that cannot be used in a key */
-    public const RESERVED_CHARACTERS = '{}()/\@:';
-    private const SHARD_DELIMITER = '-';
+    public const string RESERVED_CHARACTERS = '{}()/\@:';
+    private const string SHARD_DELIMITER = '-';
 
     /** @var Builder */
     protected $builder;

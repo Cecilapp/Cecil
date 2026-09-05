@@ -23,7 +23,7 @@ use Cecil\Renderer\Page as PageRenderer;
 class SeoDoctor
 {
     /** Default configuration thresholds */
-    private const DEFAULT_CONFIG = [
+    private const array DEFAULT_CONFIG = [
         'title' => ['min' => 30, 'max' => 60],
         'description' => ['min' => 120, 'max' => 160],
         'content' => ['min_words' => 300],
