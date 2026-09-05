@@ -2,6 +2,19 @@
 
 All notable changes to this project will be documented in this file. Dates are displayed in UTC.
 
+#### [9.0.3](https://github.com/Cecilapp/Cecil/compare/9.0.2...9.0.3)
+
+> 5 September 2026
+
+- refactor: normalize page menu parsing in menu step [`55f79bc`](https://github.com/Cecilapp/Cecil/commit/55f79bc070cfc0d47a5f51d6dde005554dd7c178)
+- chore: update deps [`54d6a3c`](https://github.com/Cecilapp/Cecil/commit/54d6a3cee669ccb14540cf7c695a072f540b7f77)
+- chore: update deps [`1d7bbca`](https://github.com/Cecilapp/Cecil/commit/1d7bbca504160fc6aeab6a0a1a51103737edb1eb)
+- fix: skip disabled-language pages earlier [`82edce7`](https://github.com/Cecilapp/Cecil/commit/82edce7c50c51a5fd7f8c7910afb151205177a46)
+- Add license header to Twig CS fixer [`4eddfdf`](https://github.com/Cecilapp/Cecil/commit/4eddfdfa1bf457f69b70976295653de54a20bdb4)
+- refactor: enhance menu entry logging details [`ea5eb4b`](https://github.com/Cecilapp/Cecil/commit/ea5eb4b63aa6b4a0c99e35a5ccc60464752ae33d)
+- fix: Twig include hash argument syntax [`5dc153c`](https://github.com/Cecilapp/Cecil/commit/5dc153c81f0197bac1e5d7517f85ce0336efc26f)
+- fix: use canonical section in Section generator [`d2f6995`](https://github.com/Cecilapp/Cecil/commit/d2f699570d326ec23f7aa89d0528455758b038de)
+
 #### [9.0.2](https://github.com/Cecilapp/Cecil/compare/9.0.1...9.0.2)
 
 > 31 August 2026
