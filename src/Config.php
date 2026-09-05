@@ -698,7 +698,7 @@ class Config
             try {
                 $processor->process($schema, $this->get($key));
             } catch (ValidationException $e) {
-                throw new ConfigException($e->getMessage());
+                throw new ConfigException($e->getMessage(), previous: $e);
             }
         }
     }
