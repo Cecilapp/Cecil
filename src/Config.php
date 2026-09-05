@@ -711,6 +711,17 @@ class Config
     private function getSchemas(): array
     {
         return [
+            // main site options
+            'title'        => Expect::string(),
+            'baseline'     => Expect::string(),
+            'baseurl'      => Expect::string(),
+            'canonicalurl' => Expect::bool(),
+            'description'  => Expect::string(),
+            // `theme: <name>` shorthand or a list of theme names
+            'theme' => Expect::anyOf(
+                Expect::string(),
+                Expect::listOf('string')
+            ),
             // `cache: true|false` shorthand or a structure with a non-empty `dir` when enabled
             'cache' => Expect::anyOf(
                 Expect::bool(),
@@ -728,6 +739,14 @@ class Config
                     'mediatype' => Expect::string()->required(),
                 ])->otherItems(Expect::mixed())
             ),
+            // formats applied by page type (each type accepts a list of format names)
+            'output.pagetypeformats' => Expect::structure([
+                'page'       => Expect::listOf('string'),
+                'homepage'   => Expect::listOf('string'),
+                'section'    => Expect::listOf('string'),
+                'vocabulary' => Expect::listOf('string'),
+                'term'       => Expect::listOf('string'),
+            ])->otherItems(Expect::mixed()),
             // each language must define a `code` and a valid `locale`
             'languages' => Expect::listOf(
                 Expect::structure([
@@ -746,6 +765,53 @@ class Config
                 'ext'         => Expect::listOf('string'),
                 'frontmatter' => Expect::anyOf('yaml', 'ini', 'toml', 'json'),
             ])->otherItems(Expect::mixed()),
+            // data files options
+            'data' => Expect::structure([
+                'dir'  => Expect::string(),
+                'ext'  => Expect::listOf('string'),
+                'load' => Expect::bool(),
+            ])->otherItems(Expect::mixed()),
+            // static files options
+            'static' => Expect::structure([
+                'dir'    => Expect::string(),
+                'target' => Expect::string(),
+                'load'   => Expect::bool(),
+            ])->otherItems(Expect::mixed()),
+            // `optimize: true|false` shorthand or a structure enabling optimization by file type
+            'optimize' => Expect::anyOf(
+                Expect::bool(),
+                Expect::structure([
+                    'enabled' => Expect::bool(),
+                    'html'    => Expect::structure([
+                        'enabled' => Expect::bool(),
+                        'ext'     => Expect::listOf('string'),
+                    ])->otherItems(Expect::mixed()),
+                    'css' => Expect::structure([
+                        'enabled' => Expect::bool(),
+                        'ext'     => Expect::listOf('string'),
+                    ])->otherItems(Expect::mixed()),
+                    'js' => Expect::structure([
+                        'enabled' => Expect::bool(),
+                        'ext'     => Expect::listOf('string'),
+                    ])->otherItems(Expect::mixed()),
+                    'images' => Expect::structure([
+                        'enabled' => Expect::bool(),
+                        'ext'     => Expect::listOf('string'),
+                    ])->otherItems(Expect::mixed()),
+                ])->otherItems(Expect::mixed())
+            ),
+            // local preview server custom HTTP headers
+            'server.headers' => Expect::listOf(
+                Expect::structure([
+                    'path'    => Expect::string()->required(),
+                    'headers' => Expect::listOf(
+                        Expect::structure([
+                            'key'   => Expect::string()->required(),
+                            'value' => Expect::scalar()->required(),
+                        ])->otherItems(Expect::mixed())
+                    )->required(),
+                ])->otherItems(Expect::mixed())
+            ),
         ];
     }
 }
