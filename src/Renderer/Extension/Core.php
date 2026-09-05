@@ -570,10 +570,12 @@ class Core extends AbstractExtension
 
         // dark color-scheme variant: auto-detect `{filename}{suffix}.{ext}` alongside the source image
         $darkSource = $this->buildDarkSourceHtml($asset, $formats, $responsive, $attributes);
+        // mobile variant: auto-detect `{filename}{suffix}.{ext}` alongside the source image
+        $mobileSource = $this->buildMobileSourceHtml($asset, $formats, $responsive, $attributes);
 
         // put `<source>` elements in `<picture>` if exists
-        if (!empty($darkSource) || !empty($source)) {
-            return \sprintf("<picture>%s%s\n  %s\n</picture>", $darkSource, $source, $img);
+        if (!empty($darkSource) || !empty($mobileSource) || !empty($source)) {
+            return \sprintf("<picture>%s%s%s\n  %s\n</picture>", $darkSource, $mobileSource, $source, $img);
         }
 
         return $img;
@@ -627,6 +629,46 @@ class Core extends AbstractExtension
         }
 
         return $darkSource;
+    }
+
+    /**
+     * Builds HTML mobile "source" elements for the mobile variant of an image Asset.
+     *
+     * @param array $formats    Alternative formats (e.g. ['avif', 'webp'])
+     * @param mixed $responsive Responsive mode (true, 'width', 'density' or false)
+     * @param array $attributes Image attributes
+     */
+    private function buildMobileSourceHtml(Asset $asset, array $formats, mixed $responsive, array $attributes): string
+    {
+        $mobileSuffix = (string) $this->config->get('layouts.images.mobile_suffix');
+        $mobileMediaQuery = (string) $this->config->get('layouts.images.mobile_media_query');
+        $sizes = null;
+        if ($responsive === true || $responsive === 'width') {
+            $sizes = Image::getHtmlSizes($attributes['class'] ?? '', $this->config->getAssetsImagesSizes());
+        }
+        $mobileSourceAttributes = Image::buildMobileSourceAttributes(
+            $this->builder,
+            $asset,
+            $mobileSuffix,
+            $formats,
+            [
+                'responsive' => $responsive,
+                'widths' => $this->config->getAssetsImagesWidths(),
+                'densities' => $this->config->getAssetsImagesDensities(),
+                'sizes' => $sizes,
+                'width1x' => isset($attributes['width']) && $attributes['width'] > 0 ? (int) $attributes['width'] : null,
+                'media' => $mobileMediaQuery,
+            ]
+        );
+        if (empty($mobileSourceAttributes)) {
+            return '';
+        }
+        $mobileSource = '';
+        foreach ($mobileSourceAttributes as $sourceAttributes) {
+            $mobileSource .= \sprintf("\n  <source%s>", self::htmlAttributes($sourceAttributes));
+        }
+
+        return $mobileSource;
     }
 
     /**

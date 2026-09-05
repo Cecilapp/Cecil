@@ -494,6 +494,7 @@ class Parsedown extends \ParsedownToc
         }
 
         // dark color-scheme variant: auto-detect `{filename}{suffix}.{ext}` alongside the source image
+        $variantSources = [];
         $darkSuffix = (string) $this->config->get('pages.body.images.dark_suffix');
         if (!empty($darkSuffix)) {
             $darkSourceAttributes = $this->getCachedDarkSourceAttributes(
@@ -513,27 +514,62 @@ class Parsedown extends \ParsedownToc
                 ]
             );
             if (\count($darkSourceAttributes) > 0) {
-                $darkSources = array_map(static fn (array $attributes): array => ['name' => 'source', 'attributes' => $attributes], $darkSourceAttributes);
-                // prepend dark sources to existing <picture>, or wrap <img> in a new <picture>
-                if ($image['element']['name'] === 'picture') {
-                    array_splice($image['element']['text'], 0, 0, $darkSources);
-                } else {
-                    $imageTitle = $image['element']['attributes']['title'] ?? null;
-                    unset($image['element']['attributes']['title']);
-                    $picture = [
-                        'extent'  => $image['extent'],
-                        'element' => [
-                            'name'       => 'picture',
-                            'handler'    => 'elements',
-                            'attributes' => [],
-                            'text'       => array_merge($darkSources, [$image['element']]),
-                        ],
-                    ];
-                    if ($imageTitle !== null) {
-                        $picture['element']['attributes']['title'] = $imageTitle;
-                    }
-                    $image = $picture;
+                $variantSources = array_merge(
+                    $variantSources,
+                    array_map(static fn (array $attributes): array => ['name' => 'source', 'attributes' => $attributes], $darkSourceAttributes)
+                );
+            }
+        }
+
+        // mobile variant: auto-detect `{filename}{suffix}.{ext}` alongside the source image
+        $mobileSuffix = (string) $this->config->get('pages.body.images.mobile_suffix');
+        $mobileMediaQuery = (string) $this->config->get('pages.body.images.mobile_media_query');
+        if (!empty($mobileSuffix)) {
+            $mobileSourceAttributes = $this->getCachedMobileSourceAttributes(
+                $asset,
+                $mobileSuffix,
+                $formats,
+                [
+                    'responsive' => $this->config->isEnabled('pages.body.images.responsive'),
+                    'widths' => $this->config->getAssetsImagesWidths(),
+                    'densities' => $this->config->getAssetsImagesDensities(),
+                    'sizes' => !empty($sizes) ? $sizes : null,
+                    'width1x' => isset($InlineImage['element']['attributes']['width']) && $InlineImage['element']['attributes']['width'] > 0
+                        ? (int) $InlineImage['element']['attributes']['width']
+                        : null,
+                    'assetOptions' => ['language' => $this->language],
+                    'fallbackAsUrl' => true,
+                    'media' => $mobileMediaQuery,
+                ]
+            );
+            if (\count($mobileSourceAttributes) > 0) {
+                $variantSources = array_merge(
+                    $variantSources,
+                    array_map(static fn (array $attributes): array => ['name' => 'source', 'attributes' => $attributes], $mobileSourceAttributes)
+                );
+            }
+        }
+
+        if (\count($variantSources) > 0) {
+            // prepend variant sources to existing <picture>, or wrap <img> in a new <picture>
+            if ($image['element']['name'] === 'picture') {
+                array_splice($image['element']['text'], 0, 0, $variantSources);
+            } else {
+                $imageTitle = $image['element']['attributes']['title'] ?? null;
+                unset($image['element']['attributes']['title']);
+                $picture = [
+                    'extent'  => $image['extent'],
+                    'element' => [
+                        'name'       => 'picture',
+                        'handler'    => 'elements',
+                        'attributes' => [],
+                        'text'       => array_merge($variantSources, [$image['element']]),
+                    ],
+                ];
+                if ($imageTitle !== null) {
+                    $picture['element']['attributes']['title'] = $imageTitle;
                 }
+                $image = $picture;
             }
         }
 
@@ -807,6 +843,26 @@ class Parsedown extends \ParsedownToc
                 $this->builder,
                 $asset,
                 $darkSuffix,
+                $formats,
+                $options
+            )
+        );
+    }
+
+    private function getCachedMobileSourceAttributes(Asset $asset, string $mobileSuffix, array $formats, array $options): array
+    {
+        return (array) $this->rememberImageProcessing(
+            'mobile',
+            [
+                'asset' => $this->getAssetIdentity($asset),
+                'suffix' => $mobileSuffix,
+                'formats' => $formats,
+                'options' => $options,
+            ],
+            fn () => Image::buildMobileSourceAttributes(
+                $this->builder,
+                $asset,
+                $mobileSuffix,
                 $formats,
                 $options
             )
