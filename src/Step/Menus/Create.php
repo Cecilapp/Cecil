@@ -132,7 +132,7 @@ class Create extends AbstractStep
                         }
                         // adds/replaces entry
                         $menu->add($item);
-
+                        // log the addition or update of the menu entry
                         $message = \sprintf('Config menu entry "%s (%s) > %s" %s {name: %s, url: %s, weight: %s}', (string) $menu, $language['code'], $item->getId(), $updated ? 'updated' : 'created', $item->getName(), $item->getUrl(), $item->getWeight());
                         $this->builder->getLogger()->info($message, ['progress' => [$countConfig, $totalConfig]]);
                     }
@@ -154,16 +154,17 @@ class Create extends AbstractStep
                 && $page->getVariable('published') === true
                 && \in_array($page->getVariable('language', $this->config->getLanguageDefault()), $validLanguages);
         });
-
         $total = \count($filteredPages);
         $count = 0;
         /** @var \Cecil\Collection\Page\Page $page */
         foreach ($filteredPages as $page) {
             $count++;
             $language = $page->getVariable('language', $this->config->getLanguageDefault());
+            // ensure menu variable is an array
+            if (!\is_array($page->getVariable('menu'))) {
+                $page->setVariable('menu', [$page->getVariable('menu')]);
+            }
             /**
-             * Array case.
-             *
              * case 1:
              *   menu: [main, navigation]
              * case 2:
@@ -171,59 +172,37 @@ class Create extends AbstractStep
              *     main:
              *       weight: 999
              */
-            if (\is_array($page->getVariable('menu'))) {
-                foreach ($page->getVariable('menu') as $key => $value) {
-                    $menuName = $key;
-                    $properties = $value;
-                    if (\is_int($key)) {
-                        $menuName = $value;
-                        $properties = null;
-                    }
-                    if (!\is_string($menuName)) {
-                        $this->builder->getLogger()->error(\sprintf('Menu\'s name of page "%s" must be a string, not "%s"', $page->getId(), PrintLogger::format($menuName)), ['progress' => [$count, $total]]);
-                        continue;
-                    }
-                    $item = (new Entry($page->getIdWithoutLang()))
-                        ->setName($page->getVariable('title'))
-                        ->setUrl((new PageRenderer($this->builder, $page))->getPath());
-                    if (isset($properties['name'])) {
-                        $item->setName((string) $properties['name']);
-                    }
-                    if (isset($properties['weight'])) {
-                        $item->setWeight((int) $properties['weight']);
-                    }
-                    // add Menu if not exists
-                    if (!$this->menus[$language]->has($menuName)) {
-                        $this->menus[$language]->add(new Menu($menuName));
-                    }
-                    /** @var \Cecil\Collection\Menu\Menu $menu */
-                    $menu = $this->menus[$language]->get($menuName);
-                    $menu->add($item);
-
-                    $message = \sprintf('Page menu entry "%s (%s) > %s" created {name: %s, url: %s, weight: %s}', $menu->getId(), $language, $item->getId(), $item->getName(), $item->getUrl() ?: '/', $properties['weight'] ?? 'N/A');
-                    $this->builder->getLogger()->info($message, ['progress' => [$count, $total]]);
+            foreach ($page->getVariable('menu') as $key => $value) {
+                $menuName = $key;
+                $properties = $value;
+                if (\is_int($key)) {
+                    $menuName = $value;
+                    $properties = null;
                 }
-                continue;
+                if (!\is_string($menuName)) {
+                    $this->builder->getLogger()->error(\sprintf('Menu\'s name of page "%s" must be a string, not "%s"', $page->getId(), PrintLogger::format($menuName)), ['progress' => [$count, $total]]);
+                    continue;
+                }
+                $item = (new Entry($page->getIdWithoutLang()))
+                    ->setName($page->getVariable('title'))
+                    ->setUrl((new PageRenderer($this->builder, $page))->getPath());
+                if (isset($properties['name'])) {
+                    $item->setName((string) $properties['name']);
+                }
+                if (isset($properties['weight'])) {
+                    $item->setWeight((int) $properties['weight']);
+                }
+                // add Menu if not exists
+                if (!$this->menus[$language]->has($menuName)) {
+                    $this->menus[$language]->add(new Menu($menuName));
+                }
+                /** @var \Cecil\Collection\Menu\Menu $menu */
+                $menu = $this->menus[$language]->get($menuName);
+                $menu->add($item);
+                // log the creation of the menu entry
+                $message = \sprintf('Page menu entry "%s (%s) > %s" created {name: %s, url: %s, weight: %s}', $menu->getId(), $language, $item->getId(), $item->getName(), $item->getUrl() ?: '/', $properties['weight'] ?? 'N/A');
+                $this->builder->getLogger()->info($message, ['progress' => [$count, $total]]);
             }
-            /**
-             * String case.
-             *
-             * e.g.:
-             *   menu: main
-             */
-            $item = (new Entry($page->getIdWithoutLang()))
-                ->setName($page->getVariable('title'))
-                ->setUrl((new PageRenderer($this->builder, $page))->getPath());
-            // add Menu if not exists
-            if (!$this->menus[$language]->has($page->getVariable('menu'))) {
-                $this->menus[$language]->add(new Menu($page->getVariable('menu')));
-            }
-            /** @var \Cecil\Collection\Menu\Menu $menu */
-            $menu = $this->menus[$language]->get($page->getVariable('menu'));
-            $menu->add($item);
-
-            $message = \sprintf('Page menu entry "%s (%s) > %s" created {name: %s, url: %s, weight: %s}', $menu->getId(), $language, $item->getId(), $item->getName(), $item->getUrl() ?: '/', $item->getWeight());
-            $this->builder->getLogger()->info($message, ['progress' => [$count, $total]]);
         }
     }
 }
