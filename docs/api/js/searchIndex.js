@@ -3111,15 +3111,15 @@ Search.appendIndex(
             "summary": "Validate\u0020the\u0020configuration.",
             "url": "classes/Cecil-Config.html#method_validate"
         },                {
-            "fqsen": "\\Cecil\\Config\u003A\u003AvalidateCacheConfiguration\u0028\u0029",
-            "name": "validateCacheConfiguration",
-            "summary": "Validate\u0020cache\u002Drelated\u0020options.",
-            "url": "classes/Cecil-Config.html#method_validateCacheConfiguration"
+            "fqsen": "\\Cecil\\Config\u003A\u003AvalidateSchema\u0028\u0029",
+            "name": "validateSchema",
+            "summary": "Validates\u0020well\u002Ddefined\u0020configuration\u0020sections\u0020against\u0020a\u0020schema.",
+            "url": "classes/Cecil-Config.html#method_validateSchema"
         },                {
-            "fqsen": "\\Cecil\\Config\u003A\u003AvalidateOutputFormats\u0028\u0029",
-            "name": "validateOutputFormats",
-            "summary": "Validate\u0020output\u0020format\u0020configuration.",
-            "url": "classes/Cecil-Config.html#method_validateOutputFormats"
+            "fqsen": "\\Cecil\\Config\u003A\u003AgetSchemas\u0028\u0029",
+            "name": "getSchemas",
+            "summary": "Returns\u0020the\u0020validation\u0020schemas\u0020indexed\u0020by\u0020configuration\u0020key.",
+            "url": "classes/Cecil-Config.html#method_getSchemas"
         },                {
             "fqsen": "\\Cecil\\Config\u003A\u003AIMPORT_PRESERVE",
             "name": "IMPORT_PRESERVE",
