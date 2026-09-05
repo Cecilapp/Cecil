@@ -150,7 +150,7 @@ class Create extends AbstractStep
                         // adds/replaces entry
                         $menu->add($item);
 
-                        $message = \sprintf('Config menu entry "%s (%s) > %s" %s {name: %s, url: %s, weight: %s}', (string) $menu, $language['code'], $item->getId(), $updated ? 'updated' : 'created', $item-> getName(), $item->getUrl(), $item->getWeight());
+                        $message = \sprintf('Config menu entry "%s (%s) > %s" %s {name: %s, url: %s, weight: %s}', (string) $menu, $language['code'], $item->getId(), $updated ? 'updated' : 'created', $item->getName(), $item->getUrl(), $item->getWeight());
                         $this->builder->getLogger()->info($message, ['progress' => [$countConfig, $totalConfig]]);
                     }
                 }
@@ -274,7 +274,7 @@ class Create extends AbstractStep
                     }
                     $menu->add($item);
 
-                    $message = \sprintf('Page menu entry "%s (%s) > %s" created {name: %s, weight: %s}', $menu->getId(), $language, $item->getId(), $item->getName(), $properties['weight'] ?? 'N/A');
+                    $message = \sprintf('Page menu entry "%s (%s) > %s" created {name: %s, url: %s, weight: %s}', $menu->getId(), $language, $item->getId(), $item->getName(), $item->getUrl() ?: '/', $properties['weight'] ?? 'N/A');
                     $this->builder->getLogger()->info($message, ['progress' => [$count, $total]]);
                 }
                 continue;
@@ -300,7 +300,7 @@ class Create extends AbstractStep
             }
             $menu->add($item);
 
-            $message = \sprintf('Page menu entry "%s (%s) > %s" created {name: %s}', $menu->getId(), $language, $item->getId(), $item->getName());
+            $message = \sprintf('Page menu entry "%s (%s) > %s" created {name: %s, url: %s, weight: %s}', $menu->getId(), $language, $item->getId(), $item->getName(), $item->getUrl() ?: '/', $item->getWeight());
             $this->builder->getLogger()->info($message, ['progress' => [$count, $total]]);
         }
     }

@@ -70,6 +70,13 @@ class Create extends AbstractStep
             // parse frontmatter and body
             $page->parse();
 
+            // skip pages whose language is not active (i.e. `enabled` is not `false`) in configuration
+            if (!\in_array($page->getVariable('language', $this->config->getLanguageDefault()), $validLanguages)) {
+                $message = \sprintf('Page "%s" skipped (language not enabled)', $page->getId());
+                $this->builder->getLogger()->info($message, ['progress' => [$count, $total]]);
+                continue;
+            }
+
             /*
              * Apply a custom path to pages of a section.
              *
@@ -109,10 +116,8 @@ class Create extends AbstractStep
                 }
             }
 
-            // add the page to pages collection only if its language is defined in configuration
-            if (\in_array($page->getVariable('language', $this->config->getLanguageDefault()), $validLanguages)) {
-                $this->builder->getPages()->add($page);
-            }
+            // add the page to pages collection
+            $this->builder->getPages()->add($page);
 
             $message = \sprintf('Page "%s" created', $page->getId());
             $this->builder->getLogger()->info($message, ['progress' => [$count, $total]]);
