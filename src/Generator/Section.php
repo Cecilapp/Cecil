@@ -74,7 +74,8 @@ class Section extends AbstractGenerator implements GeneratorInterface
             }
             $language = $page->getVariable('language', $this->config->getLanguageDefault());
             // the page belongs to its top level (root) section...
-            $sectionsPaths = [explode('/', (string) $page->getPath())[0]];
+            // (uses the language-independent section, not the path which may be customized per language)
+            $sectionsPaths = [(string) $page->getSection()];
             // ...and to each of its ancestor sub-sections
             $prefix = '';
             foreach (explode('/', (string) $page->getFolder()) as $ancestor) {
