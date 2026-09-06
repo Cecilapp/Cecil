@@ -54,14 +54,14 @@ class Asset implements \ArrayAccess
      * Creates an Asset from a file path, an array of files path or an URL.
      * Options:
      * [
-     *     'filename' => <string>,
-     *     'ignore_missing' => <bool>,
-     *     'fingerprint' => <bool>,
-     *     'minify' => <bool>,
-     *     'optimize' => <bool>,
-     *     'fallback' => <string>,
-     *     'useragent' => <string>,
-     *     'language' => <string|null>,
+     *     'filename' => string,
+     *     'ignore_missing' => bool,
+     *     'fingerprint' => bool,
+     *     'minify' => bool,
+     *     'optimize' => bool,
+     *     'fallback' => string,
+     *     'useragent' => string,
+     *     'language' => string|null,
      * ]
      *
      * @param Builder      $builder
@@ -827,7 +827,7 @@ class Asset implements \ArrayAccess
                 $this->config->get('assets.images.cdn.account') ?? '',
                 ltrim($this->data['url'] ?? (string) new Url($this->builder, $this->data['path'], ['canonical' => $this->config->get('assets.images.cdn.canonical') ?? true]), '/'),
                 $this->data['width'],
-                (int) $this->config->get('assets.images.quality'),
+                (string) $this->config->get('assets.images.quality'),
                 $this->data['ext'],
             ],
             (string) $this->config->get('assets.images.cdn.url')
