@@ -87,6 +87,8 @@ pages:
   body:
     images:
       dark_suffix: .dark
+      mobile_suffix: mobile
+      mobile_media_query: '(max-width: 767px)'
       formats:
         - webp
         - avif
@@ -171,6 +173,8 @@ assets:
 layouts:
   images:
     dark_suffix: .dark
+    mobile_suffix: mobile
+    mobile_media_query: '(max-width: 767px)'
     formats:
       - webp
       - avif
