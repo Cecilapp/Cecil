@@ -1,0 +1,72 @@
+name: 'Release'
+
+env:
+  PHP_VERSION: '8.1'
+
+on:
+  push:
+    tags:
+      - "[0-9]+.[0-9]+.[0-9]+"
+
+jobs:
+  build:
+    name: Build cecil.phar
+    runs-on: ubuntu-latest
+    outputs:
+      previous_release: ${{ steps.previous_release.outputs.tag }}
+      version: ${{ steps.get_version.outputs.version }}
+      shasum: ${{ steps.sha256.outputs.shasum }}
+
+    steps:
+    - name: Checkout source code
+      uses: actions/checkout@v4
+      with:
+        fetch-depth: 0
+
+    - name: Install PHP
+      uses: shivammathur/setup-php@v2
+      with:
+        php-version: ${{ env.PHP_VERSION }}
+        extensions: :psr, mbstring, intl, gettext, fileinfo, gd
+        coverage: none
+
+    - name: Restore/Cache Composer packages
+      id: composer-cache
+      uses: actions/cache@v4
+      with:
+        path: |
+          vendor
+          tests/fixtures/website/themes
+        key: composer-ubuntu-latest-php-${{ env.PHP_VERSION }}-${{ hashFiles('**/composer.lock') }}
+        restore-keys: |
+          composer-ubuntu-latest-php-${{ env.PHP_VERSION }}-
+
+    - name: Validate composer.json
+      if: steps.composer-cache.outputs.cache-hit != 'true'
+      run: composer validate
+
+    - name: Install dependencies
+      if: steps.composer-cache.outputs.cache-hit != 'true'
+      run: |
+        composer install --prefer-dist --no-progress
+        composer dump-autoload --optimize
+
+    - name: Run tests
+      run: composer run-script test
+
+
+
+
+
+  build:
+    name: Create release on tag
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout source code
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: Create release
+        uses: softprops/action-gh-release@v2
+        env:
+          GITHUB_TOKEN: ${{ secrets.REPOS_TOKEN }}
