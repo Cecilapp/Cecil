@@ -32,8 +32,7 @@ class Converter implements ConverterInterface
     /**
      * Supported front matter formats.
      */
-    public const SUPPORTED_FORMATS = ['yaml', 'ini', 'toml', 'json'];
-
+    private const SUPPORTED_FORMATS = ['yaml', 'ini', 'toml', 'json'];
     /** @var Builder */
     protected $builder;
 
