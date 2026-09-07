@@ -27,12 +27,12 @@ Use this skill when:
 
 ```
 my-site/
-├── cecil.yml              # Main configuration file (or config.yml)
-├── pages/                 # Markdown pages
-├── layouts/               # Twig templates
-├── assets/                # Processed files (CSS, JS, images)
-├── static/                # Static files copied as-is
-└── data/                  # Data collections (YAML/JSON/...)
+├── cecil.yml  # Main configuration file (or config.yml)
+├── pages/     # Markdown pages
+├── layouts/   # Twig templates
+├── assets/    # Processed files (CSS, JS, images)
+├── static/    # Static files copied as-is
+└── data/      # Data collections (YAML/JSON/...)
 ```
 
 ### Key Directories
@@ -63,7 +63,7 @@ Builder → Steps → Generators → Renderer → Output
   - StaticFiles: Copy static files
 
 - **Generators** (`Generator/`): Page generators executed via priority queue
-  - Lower numeric priority executes first
+  - Generators are ordered by numeric weight; lower numbers execute first (e.g., DefaultPages at weight 10 runs before Alias at weight 80).
   - DefaultPages (10) → VirtualPages (20) → ExternalBody (30) → Section (40) → Taxonomy (50) → Homepage (60) → Pagination (70) → Alias (80) → Redirect (90)
 
 - **Renderer** (`Renderer/`): Twig-based rendering with custom extensions
@@ -76,6 +76,29 @@ Builder → Steps → Generators → Renderer → Output
 - **Section**: Root folder in `pages/` (e.g. `pages/blog/post-1.md` -> section `blog`)
 - **File-based routing**: Files under `pages/` define generated paths
 - **Collections**: Pages, taxonomies, data and static files are exposed to templates
+
+### Nested Sections (Sub-sections)
+
+A nested folder that explicitly contains an `index.md` file becomes a _sub-section_ of its parent _Section_. A nested folder **without** an `index.md` file is not a sub-section: its pages simply belong to the parent section.
+
+```plaintext
+pages/
+└─ blog                 # Section "blog"
+   ├─ index.md
+   ├─ post-1.md         # Page in "blog"
+   └─ 2024              # Sub-section (contains an "index.md")
+      ├─ index.md
+      └─ post-2.md      # Page in "blog" AND "blog/2024"
+```
+
+A sub-section:
+
+- Is a full _Section_ (same `type`, variables, and [layout](../../docs/3-Templates.md) resolution) available at its own URL (e.g. `/blog/2024/`)
+- Can be nested at any depth (e.g. `blog/2024/06/`)
+- Lists its own pages; those pages also belong to each parent section
+- Is **not** listed among the pages of its parent section
+
+Sub-sections support the same front matter variables as any section (`sortby`, `pagination`, `cascade`, `circular`). Use `cascade` on a parent `index.md` to propagate variables down to sub-sections and their pages.
 
 ### Configuration
 
@@ -173,15 +196,15 @@ Output is generated in `_site/` directory.
 
 ## CLI Commands
 
-| Command                           | Purpose                                         |
-|-----------------------------------|-------------------------------------------------|
-| `php cecil.phar new:site`         | Create a new website                            |
-| `php cecil.phar new:page`         | Create a new page                               |
-| `php cecil.phar build`            | Build the static site                           |
-| `php cecil.phar serve`            | Start local server with live reload             |
-| `php cecil.phar show:config`      | Display effective configuration                 |
-| `php cecil.phar cache:clear`      | Clear all cache files                           |
-| `php cecil.phar clear`            | Remove generated files                          |
+| Command                      | Purpose                             |
+|------------------------------|-------------------------------------|
+| `php cecil.phar new:site`    | Create a new website                |
+| `php cecil.phar new:page`    | Create a new page                   |
+| `php cecil.phar build`       | Build the static site               |
+| `php cecil.phar serve`       | Start local server with live reload |
+| `php cecil.phar show:config` | Display effective configuration     |
+| `php cecil.phar cache:clear` | Clear all cache files               |
+| `php cecil.phar clear`       | Remove generated files              |
 
 ## Template Development
 
@@ -208,12 +231,12 @@ Examples:
 1. Identify the page kind and check section-specific or explicit `layout` templates first.
 2. Apply the matching fallback chain for that page kind:
 
-| Page Kind | Step 1 | Step 2 | Step 3 | Step 4 |
-|-----------|--------|--------|--------|--------|
-| Homepage | `index.*` | `home.*` | `list.*` | `_default/*` |
-| Standard page | `page.*` | `_default/page.*` | - | - |
-| Section page | section-specific `list.*` or explicit `layout.*` | `list.*` | `_default/*` | - |
-| Taxonomy page | taxonomy template or explicit `layout.*` | `list.*` | `_default/*` | - |
+| Page Kind     | Step 1                                           | Step 2            | Step 3       | Step 4       |
+|---------------|--------------------------------------------------|-------------------|--------------|--------------|
+| Homepage      | `index.*`                                        | `home.*`          | `list.*`     | `_default/*` |
+| Standard page | `page.*`                                         | `_default/page.*` | -            | -            |
+| Section page  | section-specific `list.*` or explicit `layout.*` | `list.*`          | `_default/*` | -            |
+| Taxonomy page | taxonomy template or explicit `layout.*`         | `list.*`          | `_default/*` | -            |
 
 In practice, you usually need only:
 
@@ -243,7 +266,7 @@ languages:
     name: English
     locale: en_US
   - code: fr
-    name: Francais
+    name: Français
     locale: fr_FR
 ```
 
@@ -289,7 +312,6 @@ Useful collection helpers:
       </nav>
       {% endif %}
     </header>
-
     <main>
       <article>
         <h2>{{ page.title }}</h2>
@@ -391,8 +413,10 @@ Then register it in configuration with `pages.generators`.
 ```yaml
 pages:
   generators:
-    100: MyProject\\Generator\\CustomGenerator
+    100: MyProject\Generator\CustomGenerator
 ```
+
+> Note: use single backslashes in YAML. Double backslashes (`\\`) are only needed inside JSON or PHP strings.
 
 ### Custom Commands
 
@@ -416,7 +440,7 @@ You can also extend Twig (via `layouts.extensions`) and post-process output (via
 ```yaml
 layouts:
   extensions:
-    MyExtension: MyProject\\Twig\\MyExtension
+    MyExtension: MyProject\Twig\MyExtension
 ```
 
 The Twig extension class should implement `Twig\Extension\ExtensionInterface` (or extend `Twig\Extension\AbstractExtension`).
@@ -424,7 +448,7 @@ The Twig extension class should implement `Twig\Extension\ExtensionInterface` (o
 ```yaml
 output:
   postprocessors:
-    MyProcessor: MyProject\\Renderer\\PostProcessor\\MyProcessor
+    MyProcessor: MyProject\Renderer\PostProcessor\MyProcessor
 ```
 
 Post-processors should implement `Cecil\Renderer\PostProcessor\PostProcessorInterface`.
@@ -517,7 +541,7 @@ When a user reports unexpected behavior or asks about a specific feature, ask th
 Get detailed build information:
 
 ```bash
-php cecil.phar build -v      # Verbose
-php cecil.phar build -vv     # Very verbose
-php cecil.phar build -vvv    # Debug
+php cecil.phar build -v    # Verbose
+php cecil.phar build -vv   # Very verbose
+php cecil.phar build -vvv  # Debug
 ```

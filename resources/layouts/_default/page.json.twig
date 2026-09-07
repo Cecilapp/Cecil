@@ -3,16 +3,16 @@
   "data": [
 {% if items is defined %}
 {% for item in items %}
-{{ include('partials/data.json.twig', {item: item}, with_context = false) }}{% if not loop.last %},{% endif ~%}
+{{ include('partials/data.json.twig', {item: item}, with_context=false) }}{% if not loop.last %},{% endif ~%}
 {% endfor %}
 {% else %}
-{{ include('partials/data.json.twig', {item: page}, with_context = false) -}}
+{{ include('partials/data.json.twig', {item: page}, with_context=false) -}}
 {% endif %}
   ]
 {#- meta #}
 {% block meta %}
 {% if meta is not defined and (page.paginator.pages is defined and 'paginated' not in site.outputproperty('json', 'exclude')) %}
-{% set meta = {'totalPages': page.paginator.totalpages} %}
+{% set meta = {totalPages: page.paginator.totalpages} %}
 {% endif %}
 {% if meta is defined %},
   "meta": {
@@ -26,15 +26,15 @@
 {% block links %}
 {% if links is not defined and (page.paginator.pages is defined and 'paginated' not in site.outputproperty('json', 'exclude')) %}
 {% set links = {
-  'self': url(page.paginator.links.self, {canonical: true, format: 'json'}),
-  'first': url(page.paginator.links.first, {canonical: true, format: 'json'}),
-  'last': url(page.paginator.links.last, {canonical: true, format: 'json'})
+  self: url(page.paginator.links.self, {canonical: true, format: 'json'}),
+  first: url(page.paginator.links.first, {canonical: true, format: 'json'}),
+  last: url(page.paginator.links.last, {canonical: true, format: 'json'}),
 } %}
 {% if page.paginator.links.prev is defined %}
-{% set links = links|merge({'prev': url(page.paginator.links.prev, {canonical: true, format: 'json'})}) %}
+{% set links = links|merge({prev: url(page.paginator.links.prev, {canonical: true, format: 'json'})}) %}
 {% endif %}
 {% if page.paginator.links.next is defined %}
-{% set links = links|merge({'next': url(page.paginator.links.next, {canonical: true, format: 'json'})}) %}
+{% set links = links|merge({next: url(page.paginator.links.next, {canonical: true, format: 'json'})}) %}
 {% endif %}
 {% endif %}
 {% if links is defined %},

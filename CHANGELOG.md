@@ -2,6 +2,62 @@
 
 All notable changes to this project will be documented in this file. Dates are displayed in UTC.
 
+#### [9.0.3](https://github.com/Cecilapp/Cecil/compare/9.0.2...9.0.3)
+
+> 5 September 2026
+
+- refactor: normalize page menu parsing in menu step [`55f79bc`](https://github.com/Cecilapp/Cecil/commit/55f79bc070cfc0d47a5f51d6dde005554dd7c178)
+- chore: update deps [`54d6a3c`](https://github.com/Cecilapp/Cecil/commit/54d6a3cee669ccb14540cf7c695a072f540b7f77)
+- chore: update deps [`1d7bbca`](https://github.com/Cecilapp/Cecil/commit/1d7bbca504160fc6aeab6a0a1a51103737edb1eb)
+- fix: skip disabled-language pages earlier [`82edce7`](https://github.com/Cecilapp/Cecil/commit/82edce7c50c51a5fd7f8c7910afb151205177a46)
+- Add license header to Twig CS fixer [`4eddfdf`](https://github.com/Cecilapp/Cecil/commit/4eddfdfa1bf457f69b70976295653de54a20bdb4)
+- refactor: enhance menu entry logging details [`ea5eb4b`](https://github.com/Cecilapp/Cecil/commit/ea5eb4b63aa6b4a0c99e35a5ccc60464752ae33d)
+- fix: Twig include hash argument syntax [`5dc153c`](https://github.com/Cecilapp/Cecil/commit/5dc153c81f0197bac1e5d7517f85ce0336efc26f)
+- fix: use canonical section in Section generator [`d2f6995`](https://github.com/Cecilapp/Cecil/commit/d2f699570d326ec23f7aa89d0528455758b038de)
+
+#### [9.0.2](https://github.com/Cecilapp/Cecil/compare/9.0.1...9.0.2)
+
+> 31 August 2026
+
+- chore(deps-dev): bump friendsofphp/php-cs-fixer from 3.95.22 to 3.95.23 [`#2461`](https://github.com/Cecilapp/Cecil/pull/2461)
+- chore: update deps [`a3d6916`](https://github.com/Cecilapp/Cecil/commit/a3d691670bd0a842cf41b1f822871620446c15a3)
+- Add Twig CS Fixer to code quality pipeline [`7a0f4b2`](https://github.com/Cecilapp/Cecil/commit/7a0f4b2c88eb704b790a945065b571b4b73f959f)
+- refactor: Normalize Twig hash syntax in templates [`34754a7`](https://github.com/Cecilapp/Cecil/commit/34754a7a8ea451beb09c700528794ac1c6da7fcd)
+- docs: Regenerate Page API doc line references [`e41bb1e`](https://github.com/Cecilapp/Cecil/commit/e41bb1ec9d1b7a432747f6b1c0969d3ffffcf52a)
+- docs: Polish Cecil skill docs [`19e7676`](https://github.com/Cecilapp/Cecil/commit/19e767677762f3bc9513721f9d6aca669b7f96be)
+- docs: Document AI agent skill installation [`e02a263`](https://github.com/Cecilapp/Cecil/commit/e02a263634d3b0df46ec1331692953c7a785ed0d)
+- ai: Tighten agent instructions [`396dcd4`](https://github.com/Cecilapp/Cecil/commit/396dcd4e088738ba53e91512740c1a477afb26f3)
+- fix: adjust header subtitle alignment responsively [`82d122e`](https://github.com/Cecilapp/Cecil/commit/82d122e1875e85b52f770ea780b310e7a0c8f7f3)
+- chore: add .twig-cs-fixer.cache to gitignore [`0d00c27`](https://github.com/Cecilapp/Cecil/commit/0d00c27dbd2fed0b8c9404a1842f097fb07116d2)
+
+#### [9.0.1](https://github.com/Cecilapp/Cecil/compare/9.0.0...9.0.1)
+
+> 27 August 2026
+
+- docs: split nested section variables in docs [`375d5f3`](https://github.com/Cecilapp/Cecil/commit/375d5f3c9875ecb0365dda0ce5a60ab7a60d842d)
+- fix: handle localized README pages as index [`887c80a`](https://github.com/Cecilapp/Cecil/commit/887c80afaab127f00497414b63b07a0cb562403e)
+- chore: use shared Slugifier in Page class [`da0243a`](https://github.com/Cecilapp/Cecil/commit/da0243abf9ec61e330fcf540f4aa3824f9a97bed)
+
+### [9.0.0](https://github.com/Cecilapp/Cecil/compare/8.120.0...9.0.0)
+
+> 26 August 2026
+
+- feat: add nested section hierarchy and breadcrumbs [`#2457`](https://github.com/Cecilapp/Cecil/pull/2457)
+- Drop PHP 8.2 and migrate to Image v4 API [`#2438`](https://github.com/Cecilapp/Cecil/pull/2438)
+- test: adds comprehensive unit tests for several core classes [`#2455`](https://github.com/Cecilapp/Cecil/pull/2455)
+- chore: normalize markdown table alignment in docs [`b736195`](https://github.com/Cecilapp/Cecil/commit/b736195fdb251063c608b6192e472c2ebae2be55)
+- fix: Fix nested markup in list templates [`10b13b2`](https://github.com/Cecilapp/Cecil/commit/10b13b278b0d2a7bd487c91e07b631549be82ce0)
+
+#### [8.120.0](https://github.com/Cecilapp/Cecil/compare/8.119.2...8.120.0)
+
+> 26 August 2026
+
+- refactor: replace Page::slugify() with Util\Slugifier::slugify() [`94365e2`](https://github.com/Cecilapp/Cecil/commit/94365e2cd1b624081b6453151fca59f7fb6e1745)
+- chore: update deps [`9ecd149`](https://github.com/Cecilapp/Cecil/commit/9ecd1498c676e78a5badac5a44e543da59ded0a3)
+- refactor: remove unused Builder import [`09564b2`](https://github.com/Cecilapp/Cecil/commit/09564b27a6546b49cc9f46bd9572bfe313739ad5)
+- fix: Fix cache directory error message [`c1a869f`](https://github.com/Cecilapp/Cecil/commit/c1a869f657e9f8c74f03aba46994f134f084272c)
+- fix: Fix JSON-LD cache tag whitespace control [`333f607`](https://github.com/Cecilapp/Cecil/commit/333f6070eeebe64195d6deac5b6519d70678fbea)
+
 #### [8.119.2](https://github.com/Cecilapp/Cecil/compare/8.119.1...8.119.2)
 
 > 18 August 2026
@@ -7316,8 +7372,8 @@ All notable changes to this project will be documented in this file. Dates are d
 > 29 December 2020
 
 - Fix minify PHP 8 compatibility [`#977`](https://github.com/Cecilapp/Cecil/pull/977)
-- Merge pull request #975 from Cecilapp/dependabot/composer/matthiasmullie/minify-1.3.65 [`634062b`](https://github.com/Cecilapp/Cecil/commit/634062bd194a0768af94b7775741b02aa0070fb7)
 - Bump matthiasmullie/minify from 1.3.64 to 1.3.65 [`ea5f102`](https://github.com/Cecilapp/Cecil/commit/ea5f1028d15f03ab851d3b81d9c4f55bace2e241)
+- Merge pull request #975 from Cecilapp/dependabot/composer/matthiasmullie/minify-1.3.65 [`634062b`](https://github.com/Cecilapp/Cecil/commit/634062bd194a0768af94b7775741b02aa0070fb7)
 
 #### [5.42.6](https://github.com/Cecilapp/Cecil/compare/5.42.5...5.42.6)
 
@@ -8551,13 +8607,13 @@ All notable changes to this project will be documented in this file. Dates are d
 
 > 26 November 2019
 
-- Merge pull request #448 from Cecilapp/dependabot/composer/zendframework/zend-progressbar-2.7.0 [`d1b7183`](https://github.com/Cecilapp/Cecil/commit/d1b71834b17ad4218ec5aa6e83f81b0e8b7b577f)
-- Bump zendframework/zend-progressbar from 2.6.0 to 2.7.0 [`a3f291e`](https://github.com/Cecilapp/Cecil/commit/a3f291ead866615eb4c4064701b1ea21e2d84b5a)
-- Merge pull request #449 from Cecilapp/dependabot/composer/twig/twig-2.12.1 [`5b5b4e5`](https://github.com/Cecilapp/Cecil/commit/5b5b4e5d28eb29a86f8e7820ef6ea7b0e3911aa4)
 - Bump twig/twig from 2.11.3 to 2.12.1 [`e61c587`](https://github.com/Cecilapp/Cecil/commit/e61c58740d5e5a017f78998ec0893841a48e0c68)
-- Merge pull request #431 from Cecilapp/dependabot/composer/phpmd/phpmd-2.7.0 [`52ee369`](https://github.com/Cecilapp/Cecil/commit/52ee3693b3219a16c0a76ea9c832e65fd231fe6b)
 - Bump phpmd/phpmd from 2.6.1 to 2.7.0 [`7cc402c`](https://github.com/Cecilapp/Cecil/commit/7cc402c1a9cfb364a93da14354c4fa962d75c46e)
+- Bump zendframework/zend-progressbar from 2.6.0 to 2.7.0 [`a3f291e`](https://github.com/Cecilapp/Cecil/commit/a3f291ead866615eb4c4064701b1ea21e2d84b5a)
 - Fix "alternates" template [`a119cda`](https://github.com/Cecilapp/Cecil/commit/a119cdaa795b4da5fb6f81b677f18c536194ad6e)
+- Merge pull request #448 from Cecilapp/dependabot/composer/zendframework/zend-progressbar-2.7.0 [`d1b7183`](https://github.com/Cecilapp/Cecil/commit/d1b71834b17ad4218ec5aa6e83f81b0e8b7b577f)
+- Merge pull request #449 from Cecilapp/dependabot/composer/twig/twig-2.12.1 [`5b5b4e5`](https://github.com/Cecilapp/Cecil/commit/5b5b4e5d28eb29a86f8e7820ef6ea7b0e3911aa4)
+- Merge pull request #431 from Cecilapp/dependabot/composer/phpmd/phpmd-2.7.0 [`52ee369`](https://github.com/Cecilapp/Cecil/commit/52ee3693b3219a16c0a76ea9c832e65fd231fe6b)
 
 #### [4.21.2](https://github.com/Cecilapp/Cecil/compare/4.21.1...4.21.2)
 
@@ -8609,18 +8665,18 @@ All notable changes to this project will be documented in this file. Dates are d
 > 12 July 2019
 
 - Reworking taxonomy logic [`#401`](https://github.com/Cecilapp/Cecil/pull/401)
-- Merge pull request #404 from Cecilapp/dependabot/composer/leafo/scssphp-0.8.4 [`47721ea`](https://github.com/Cecilapp/Cecil/commit/47721ea464806a6bc7f8fec2e9095c02bf6a1f50)
-- Bump leafo/scssphp from 0.8.2 to 0.8.4 [`8135d16`](https://github.com/Cecilapp/Cecil/commit/8135d1620c2b3e270a60a86c3dc098f769e447e2)
-- Merge pull request #405 from Cecilapp/dependabot/composer/phpunit/phpunit-7.5.13 [`3dccad3`](https://github.com/Cecilapp/Cecil/commit/3dccad3f1a2076bb32451a8923218c26152a5733)
 - Bump phpunit/phpunit from 7.5.12 to 7.5.13 [`373c6ba`](https://github.com/Cecilapp/Cecil/commit/373c6ba61357417e5a9951ce18262c4710a9e36e)
-- Merge pull request #407 from Cecilapp/dependabot/composer/symfony/yaml-4.3.2 [`84ab233`](https://github.com/Cecilapp/Cecil/commit/84ab2335a6d2dda378f81afd98114dcdcde70fa3)
-- Bump symfony/yaml from 4.3.1 to 4.3.2 [`112928f`](https://github.com/Cecilapp/Cecil/commit/112928fb97869bc1870659a57d28671dbb9e3966)
-- Merge pull request #406 from Cecilapp/dependabot/composer/twig/twig-2.11.3 [`d7c7532`](https://github.com/Cecilapp/Cecil/commit/d7c75327431c43b49feca8f3280bcf5d38da56cd)
+- Bump leafo/scssphp from 0.8.2 to 0.8.4 [`8135d16`](https://github.com/Cecilapp/Cecil/commit/8135d1620c2b3e270a60a86c3dc098f769e447e2)
 - Bump twig/twig from 2.11.2 to 2.11.3 [`88bbebe`](https://github.com/Cecilapp/Cecil/commit/88bbebe546c9327adccd72bf204716d52e314a3a)
-- Merge pull request #409 from Cecilapp/dependabot/composer/symfony/finder-4.3.2 [`6493b03`](https://github.com/Cecilapp/Cecil/commit/6493b0380f90abd74a9019bcd322eda1ae5e33f4)
 - Bump symfony/finder from 4.3.1 to 4.3.2 [`3aa56b7`](https://github.com/Cecilapp/Cecil/commit/3aa56b7093979c27a5dc544f987f4aae3b7eb227)
-- Merge pull request #410 from Cecilapp/dependabot/composer/symfony/process-4.3.2 [`2dff547`](https://github.com/Cecilapp/Cecil/commit/2dff547faf1bb9b2e41c1bd97f25ea4811f59df6)
 - Bump symfony/process from 4.3.1 to 4.3.2 [`d18e411`](https://github.com/Cecilapp/Cecil/commit/d18e41135678ed65650c213bcac03a3a35c3fa96)
+- Bump symfony/yaml from 4.3.1 to 4.3.2 [`112928f`](https://github.com/Cecilapp/Cecil/commit/112928fb97869bc1870659a57d28671dbb9e3966)
+- Merge pull request #404 from Cecilapp/dependabot/composer/leafo/scssphp-0.8.4 [`47721ea`](https://github.com/Cecilapp/Cecil/commit/47721ea464806a6bc7f8fec2e9095c02bf6a1f50)
+- Merge pull request #405 from Cecilapp/dependabot/composer/phpunit/phpunit-7.5.13 [`3dccad3`](https://github.com/Cecilapp/Cecil/commit/3dccad3f1a2076bb32451a8923218c26152a5733)
+- Merge pull request #407 from Cecilapp/dependabot/composer/symfony/yaml-4.3.2 [`84ab233`](https://github.com/Cecilapp/Cecil/commit/84ab2335a6d2dda378f81afd98114dcdcde70fa3)
+- Merge pull request #406 from Cecilapp/dependabot/composer/twig/twig-2.11.3 [`d7c7532`](https://github.com/Cecilapp/Cecil/commit/d7c75327431c43b49feca8f3280bcf5d38da56cd)
+- Merge pull request #409 from Cecilapp/dependabot/composer/symfony/finder-4.3.2 [`6493b03`](https://github.com/Cecilapp/Cecil/commit/6493b0380f90abd74a9019bcd322eda1ae5e33f4)
+- Merge pull request #410 from Cecilapp/dependabot/composer/symfony/process-4.3.2 [`2dff547`](https://github.com/Cecilapp/Cecil/commit/2dff547faf1bb9b2e41c1bd97f25ea4811f59df6)
 
 #### [4.17.3](https://github.com/Cecilapp/Cecil/compare/4.17.2...4.17.3)
 
@@ -8628,32 +8684,32 @@ All notable changes to this project will be documented in this file. Dates are d
 
 - Fix deploy [`#403`](https://github.com/Cecilapp/Cecil/pull/403)
 - Deploy to cecil.app [`#402`](https://github.com/Cecilapp/Cecil/pull/402)
+- Create config.yml [`78374bf`](https://github.com/Cecilapp/Cecil/commit/78374bf68fbbc8c3ec838fc743c281e546245e7f)
+- Bump leafo/scssphp from 0.7.7 to 0.8.2 [`7c6557f`](https://github.com/Cecilapp/Cecil/commit/7c6557f1f514d08c52c08910fe1f196c77bcda10)
+- Create stale.yml [`5a9a537`](https://github.com/Cecilapp/Cecil/commit/5a9a537bfb8320f738b53da47d5c0365a6968844)
+- Bump twig/twig from 2.11.0 to 2.11.2 [`228a168`](https://github.com/Cecilapp/Cecil/commit/228a1682a7e5bab883801463f5642d2cf5f38dbb)
+- Bump symfony/yaml from 4.2.8 to 4.3.1 [`a34c104`](https://github.com/Cecilapp/Cecil/commit/a34c10488272b0884851ebc31e662791768d6012)
+- Bump twig/twig from 2.10.0 to 2.11.0 [`75edea0`](https://github.com/Cecilapp/Cecil/commit/75edea0ffd351cb24161f458336caa1845d1cd33)
+- Bump symfony/filesystem from 4.2.8 to 4.3.0 [`f662a1f`](https://github.com/Cecilapp/Cecil/commit/f662a1fb3f5cd9c5bb82620ac9057edad980375c)
+- Bump symfony/finder from 4.2.8 to 4.3.0 [`a231741`](https://github.com/Cecilapp/Cecil/commit/a231741b2bd23c72a65c85c5f599fd6bad47818e)
+- Bump symfony/process from 4.2.8 to 4.3.0 [`5ba56a1`](https://github.com/Cecilapp/Cecil/commit/5ba56a11b85f240e1899a65373baf79f1dc7b9f3)
+- Bump symfony/process from 4.3.0 to 4.3.1 [`6d4739a`](https://github.com/Cecilapp/Cecil/commit/6d4739a7d5c9e0cff977b80484951b4cdc09ac83)
+- Bump symfony/filesystem from 4.3.0 to 4.3.1 [`83266d5`](https://github.com/Cecilapp/Cecil/commit/83266d554dead533b596823f8796af17e0b045a7)
+- Bump phpunit/phpunit from 7.5.11 to 7.5.12 [`9146a9b`](https://github.com/Cecilapp/Cecil/commit/9146a9b3edfc8ba18ae75dca8c9835e64831b140)
+- Bump symfony/finder from 4.3.0 to 4.3.1 [`a6fb11a`](https://github.com/Cecilapp/Cecil/commit/a6fb11a6e7382e0e07add10328adfa25c7703ebe)
+- Create release-drafter.yml [`17f8cc6`](https://github.com/Cecilapp/Cecil/commit/17f8cc6d6bc2813e61983a02a06b87626edf49cb)
+- Create FUNDING.yml [`abb7655`](https://github.com/Cecilapp/Cecil/commit/abb76552523299760f29bffd96fcc30058418990)
 - Revert "Update .travis.yml" [`ea2adcc`](https://github.com/Cecilapp/Cecil/commit/ea2adcc3ccfd9a8b732521c294bc914fe3fe1b12)
 - Merge pull request #399 from Cecilapp/dependabot/composer/twig/twig-2.11.2 [`09f3c16`](https://github.com/Cecilapp/Cecil/commit/09f3c1644e4e740dcffb4c7789eb93587dde5453)
-- Bump twig/twig from 2.11.0 to 2.11.2 [`228a168`](https://github.com/Cecilapp/Cecil/commit/228a1682a7e5bab883801463f5642d2cf5f38dbb)
 - Merge pull request #396 from Cecilapp/dependabot/composer/symfony/finder-4.3.1 [`cae003c`](https://github.com/Cecilapp/Cecil/commit/cae003c194468bc5b457244bd5f65b777f50bdf1)
-- Bump symfony/finder from 4.3.0 to 4.3.1 [`a6fb11a`](https://github.com/Cecilapp/Cecil/commit/a6fb11a6e7382e0e07add10328adfa25c7703ebe)
 - Merge pull request #398 from Cecilapp/dependabot/composer/symfony/process-4.3.1 [`d751b0a`](https://github.com/Cecilapp/Cecil/commit/d751b0a955ad366746f07075c3da0ee9bec75197)
-- Bump leafo/scssphp from 0.7.7 to 0.8.2 [`7c6557f`](https://github.com/Cecilapp/Cecil/commit/7c6557f1f514d08c52c08910fe1f196c77bcda10)
-- Bump symfony/yaml from 4.2.8 to 4.3.1 [`a34c104`](https://github.com/Cecilapp/Cecil/commit/a34c10488272b0884851ebc31e662791768d6012)
-- Bump symfony/process from 4.3.0 to 4.3.1 [`6d4739a`](https://github.com/Cecilapp/Cecil/commit/6d4739a7d5c9e0cff977b80484951b4cdc09ac83)
 - Merge pull request #397 from Cecilapp/dependabot/composer/symfony/filesystem-4.3.1 [`9e22418`](https://github.com/Cecilapp/Cecil/commit/9e22418da4a7240a118eb053c56bb2b5540ad1cb)
-- Create config.yml [`78374bf`](https://github.com/Cecilapp/Cecil/commit/78374bf68fbbc8c3ec838fc743c281e546245e7f)
-- Create stale.yml [`5a9a537`](https://github.com/Cecilapp/Cecil/commit/5a9a537bfb8320f738b53da47d5c0365a6968844)
-- Bump twig/twig from 2.10.0 to 2.11.0 [`75edea0`](https://github.com/Cecilapp/Cecil/commit/75edea0ffd351cb24161f458336caa1845d1cd33)
-- Bump symfony/finder from 4.2.8 to 4.3.0 [`a231741`](https://github.com/Cecilapp/Cecil/commit/a231741b2bd23c72a65c85c5f599fd6bad47818e)
-- Bump symfony/filesystem from 4.3.0 to 4.3.1 [`83266d5`](https://github.com/Cecilapp/Cecil/commit/83266d554dead533b596823f8796af17e0b045a7)
-- Create release-drafter.yml [`17f8cc6`](https://github.com/Cecilapp/Cecil/commit/17f8cc6d6bc2813e61983a02a06b87626edf49cb)
 - Merge pull request #400 from Cecilapp/dependabot/composer/symfony/yaml-4.3.1 [`b083aee`](https://github.com/Cecilapp/Cecil/commit/b083aeeaa52874f2df73ca05784a616624560190)
-- Create FUNDING.yml [`abb7655`](https://github.com/Cecilapp/Cecil/commit/abb76552523299760f29bffd96fcc30058418990)
 - Merge pull request #392 from Cecilapp/dependabot/composer/twig/twig-2.11.0 [`1fd6b2b`](https://github.com/Cecilapp/Cecil/commit/1fd6b2bf4362ac6242f261ff569800f279de6535)
 - Merge pull request #393 from Cecilapp/dependabot/composer/symfony/filesystem-4.3.0 [`ec24dce`](https://github.com/Cecilapp/Cecil/commit/ec24dce2e43bf2eef9742c898ff7f2c32d9a5d3f)
-- Bump symfony/filesystem from 4.2.8 to 4.3.0 [`f662a1f`](https://github.com/Cecilapp/Cecil/commit/f662a1fb3f5cd9c5bb82620ac9057edad980375c)
 - Merge pull request #391 from Cecilapp/dependabot/composer/symfony/finder-4.3.0 [`f61981b`](https://github.com/Cecilapp/Cecil/commit/f61981b5abe3a124147e3d7e0ef7d8fdb0f7ccc7)
 - Merge pull request #395 from Cecilapp/dependabot/composer/symfony/process-4.3.0 [`8589aaf`](https://github.com/Cecilapp/Cecil/commit/8589aaf0335de72467e263002c14d3bd8e3c2ebc)
-- Bump symfony/process from 4.2.8 to 4.3.0 [`5ba56a1`](https://github.com/Cecilapp/Cecil/commit/5ba56a11b85f240e1899a65373baf79f1dc7b9f3)
 - Merge pull request #394 from Cecilapp/dependabot/composer/phpunit/phpunit-7.5.12 [`b4d40ec`](https://github.com/Cecilapp/Cecil/commit/b4d40ec32928acad77153675b69eb31e669c6839)
-- Bump phpunit/phpunit from 7.5.11 to 7.5.12 [`9146a9b`](https://github.com/Cecilapp/Cecil/commit/9146a9b3edfc8ba18ae75dca8c9835e64831b140)
 - Merge pull request #390 from Cecilapp/dependabot/composer/leafo/scssphp-0.8.2 [`f3e021c`](https://github.com/Cecilapp/Cecil/commit/f3e021cb0f5737b67822dff6886fb87b076829cb)
 
 #### [4.17.2](https://github.com/Cecilapp/Cecil/compare/4.17.1...4.17.2)
@@ -8661,10 +8717,10 @@ All notable changes to this project will be documented in this file. Dates are d
 > 20 May 2019
 
 - Fix excerpt break [`#388`](https://github.com/Cecilapp/Cecil/pull/388)
-- Merge pull request #387 from Cecilapp/dependabot/composer/twig/twig-2.10.0 [`502cd6d`](https://github.com/Cecilapp/Cecil/commit/502cd6df9f02ffac56ece541641e84916ae65d08)
 - Bump twig/twig from 2.8.1 to 2.10.0 [`92c593c`](https://github.com/Cecilapp/Cecil/commit/92c593cf1cc388dacba866bda04e8fbd950311e7)
-- Merge pull request #386 from Cecilapp/dependabot/composer/phpunit/phpunit-7.5.11 [`e693977`](https://github.com/Cecilapp/Cecil/commit/e6939779fa37eab4f1524ceb331a2c2de816fa4c)
 - Bump phpunit/phpunit from 7.5.10 to 7.5.11 [`a442f8b`](https://github.com/Cecilapp/Cecil/commit/a442f8bd41c9e0be9719ee1275a27b2b57340439)
+- Merge pull request #387 from Cecilapp/dependabot/composer/twig/twig-2.10.0 [`502cd6d`](https://github.com/Cecilapp/Cecil/commit/502cd6df9f02ffac56ece541641e84916ae65d08)
+- Merge pull request #386 from Cecilapp/dependabot/composer/phpunit/phpunit-7.5.11 [`e693977`](https://github.com/Cecilapp/Cecil/commit/e6939779fa37eab4f1524ceb331a2c2de816fa4c)
 
 #### [4.17.1](https://github.com/Cecilapp/Cecil/compare/4.17.0...4.17.1)
 
@@ -8679,8 +8735,8 @@ All notable changes to this project will be documented in this file. Dates are d
 > 15 May 2019
 
 - Feature config variables [`#383`](https://github.com/Cecilapp/Cecil/pull/383)
-- Merge pull request #378 from Cecilapp/dependabot/composer/phpunit/phpunit-7.5.10 [`8d5ea57`](https://github.com/Cecilapp/Cecil/commit/8d5ea57eaed0c2e262e4a21f8dbb4bf18d25081f)
 - Bump phpunit/phpunit from 7.5.9 to 7.5.10 [`e7f2a44`](https://github.com/Cecilapp/Cecil/commit/e7f2a445df8b17e50e61dc1ded26647d91ec99a1)
+- Merge pull request #378 from Cecilapp/dependabot/composer/phpunit/phpunit-7.5.10 [`8d5ea57`](https://github.com/Cecilapp/Cecil/commit/8d5ea57eaed0c2e262e4a21f8dbb4bf18d25081f)
 
 #### [4.16.6](https://github.com/Cecilapp/Cecil/compare/4.16.5...4.16.6)
 
@@ -8724,16 +8780,16 @@ All notable changes to this project will be documented in this file. Dates are d
 
 - Internationalisation (Intl+i18n) [`#372`](https://github.com/Cecilapp/Cecil/pull/372)
 - Force roave/better-reflection version [`41ba90f`](https://github.com/Cecilapp/Cecil/commit/41ba90ffa8fbec3870564c3745c9f3d90d825e75)
-- Merge pull request #370 from Cecilapp/dependabot/composer/myclabs/php-enum-1.7.1 [`ed9c61b`](https://github.com/Cecilapp/Cecil/commit/ed9c61b632d6e72bba6f1edbd816c3a4702ab30e)
 - Bump myclabs/php-enum from 1.6.6 to 1.7.1 [`d73ecfd`](https://github.com/Cecilapp/Cecil/commit/d73ecfdb53cb1bd4c1c355956cf9cb146f346506)
-- Merge pull request #368 from Cecilapp/dependabot/composer/symfony/filesystem-4.2.8 [`b014777`](https://github.com/Cecilapp/Cecil/commit/b01477741c7b09332c70fbca6c0817d624fa586c)
-- Bump symfony/filesystem from 4.2.7 to 4.2.8 [`697bad3`](https://github.com/Cecilapp/Cecil/commit/697bad3f7dcda7b56a92706463fec4271e3c3352)
-- Merge pull request #369 from Cecilapp/dependabot/composer/symfony/finder-4.2.8 [`edb8528`](https://github.com/Cecilapp/Cecil/commit/edb8528d20061db46734ec8f43a798ab16316e12)
-- Bump symfony/finder from 4.2.7 to 4.2.8 [`5575d6c`](https://github.com/Cecilapp/Cecil/commit/5575d6c1b3dec4e388bce2e402d92d1976b8e97f)
-- Merge pull request #367 from Cecilapp/dependabot/composer/symfony/yaml-4.2.8 [`b3aff6f`](https://github.com/Cecilapp/Cecil/commit/b3aff6f8fb1c499e69463367a17889f311d253a1)
-- Bump symfony/yaml from 4.2.7 to 4.2.8 [`ee6e081`](https://github.com/Cecilapp/Cecil/commit/ee6e081b13dceedd74578c1b2547ada2b7ea3a5b)
-- Merge pull request #366 from Cecilapp/dependabot/composer/symfony/process-4.2.8 [`ee835f3`](https://github.com/Cecilapp/Cecil/commit/ee835f3ca4780a345fffa35d1a240da33e76cfbc)
 - Bump symfony/process from 4.2.7 to 4.2.8 [`c2ac855`](https://github.com/Cecilapp/Cecil/commit/c2ac855a530b4493b37db5e1f57ddc8485d9bbfe)
+- Bump symfony/filesystem from 4.2.7 to 4.2.8 [`697bad3`](https://github.com/Cecilapp/Cecil/commit/697bad3f7dcda7b56a92706463fec4271e3c3352)
+- Bump symfony/finder from 4.2.7 to 4.2.8 [`5575d6c`](https://github.com/Cecilapp/Cecil/commit/5575d6c1b3dec4e388bce2e402d92d1976b8e97f)
+- Bump symfony/yaml from 4.2.7 to 4.2.8 [`ee6e081`](https://github.com/Cecilapp/Cecil/commit/ee6e081b13dceedd74578c1b2547ada2b7ea3a5b)
+- Merge pull request #370 from Cecilapp/dependabot/composer/myclabs/php-enum-1.7.1 [`ed9c61b`](https://github.com/Cecilapp/Cecil/commit/ed9c61b632d6e72bba6f1edbd816c3a4702ab30e)
+- Merge pull request #368 from Cecilapp/dependabot/composer/symfony/filesystem-4.2.8 [`b014777`](https://github.com/Cecilapp/Cecil/commit/b01477741c7b09332c70fbca6c0817d624fa586c)
+- Merge pull request #369 from Cecilapp/dependabot/composer/symfony/finder-4.2.8 [`edb8528`](https://github.com/Cecilapp/Cecil/commit/edb8528d20061db46734ec8f43a798ab16316e12)
+- Merge pull request #367 from Cecilapp/dependabot/composer/symfony/yaml-4.2.8 [`b3aff6f`](https://github.com/Cecilapp/Cecil/commit/b3aff6f8fb1c499e69463367a17889f311d253a1)
+- Merge pull request #366 from Cecilapp/dependabot/composer/symfony/process-4.2.8 [`ee835f3`](https://github.com/Cecilapp/Cecil/commit/ee835f3ca4780a345fffa35d1a240da33e76cfbc)
 
 #### [4.15.2](https://github.com/Cecilapp/Cecil/compare/4.15.1...4.15.2)
 

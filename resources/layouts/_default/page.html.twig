@@ -5,7 +5,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     {%- block head_metatags ~%}
-    {{- include('partials/metatags.html.twig', {page, site}, with_context = false) ~}}
+    {{- include('partials/metatags.html.twig', {page: page, site: site}, with_context=false) ~}}
     {%- endblock head_metatags ~%}
     <meta name="color-scheme" content="light dark">
     {%- endblock head ~%}
@@ -33,11 +33,17 @@
         justify-content: space-between;
         flex-direction: column;
       }
+      body>header>hgroup>p {
+        text-align: center;
+      }
       @media (width >= 48rem) {
         body>header {
           flex-direction: row;
           align-items: flex-start;
           gap: calc(var(--pico-spacing) * 1);
+        }
+        body>header>hgroup>p {
+          text-align: left;
         }
       }
       .site-title {
@@ -139,8 +145,8 @@
         {%- endif ~%}
         <p>{{ site.baseline }}</p>
       </hgroup>
-      {{- include('partials/navigation.html.twig', {menu: site.menus.main}, with_context = false) ~}}
-      {{- include('partials/theme-selector.html.twig', {}, with_context = false) ~}}
+      {{- include('partials/navigation.html.twig', {menu: site.menus.main}, with_context=false) ~}}
+      {{- include('partials/theme-selector.html.twig', {}, with_context=false) ~}}
       {%- endblock header ~%}
     </header>
     <main>

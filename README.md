@@ -176,6 +176,24 @@ git push origin 1.0.0
 
 The automated workflow also will publish the release to the [website](https://cecil.app/download), update the [Homebrew formula](https://github.com/Cecilapp/homebrew-tap) and the [Scoop manifest](https://cecil.app/scoop/cecil.json).
 
+## AI agent skill
+
+Cecil ships with an [agent skill](skills/cecil/SKILL.md) that teaches AI coding agents (GitHub Copilot, Claude Code, Cursor, etc.) how to build and configure Cecil sites.
+
+Install it with the [GitHub CLI](https://cli.github.com) using the [`gh skill install`](https://cli.github.com/manual/gh_skill_install) command:
+
+```bash
+gh skill install Cecilapp/Cecil cecil
+```
+
+By default the skill is installed at project scope for GitHub Copilot. Use `--scope user` to make it available everywhere, and `--agent` to target another agent:
+
+```bash
+gh skill install Cecilapp/Cecil cecil --scope user --agent claude-code
+```
+
+Once installed, ask your agent to create, build, configure, or deploy a Cecil site and it will use the skill automatically.
+
 ## Sponsors
 
 [![Aperture Lab](https://avatars.githubusercontent.com/u/10225022?s=100)](https://aperturelab.fr "Aperture Lab")&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
@@ -184,6 +202,10 @@ The automated workflow also will publish the release to the [website](https://ce
 ## License
 
 Cecil is a free software licensed under the [EUPL-1.2](https://interoperable-europe.ec.europa.eu/collection/eupl/eupl-text-eupl-12) license.
+
+The Cecil documentation is available under the [Creative Commons Attribution 4.0](https://creativecommons.org/licenses/by/4.0/deed) license.
+
+Libraries used by Cecil are subject to their respective licenses (run `composer licenses`).
 
 Cecil © [Arnaud Ligny](https://arnaudligny.fr)  
 Logo © [Cécile Ricordeau](https://www.cecillie.fr)

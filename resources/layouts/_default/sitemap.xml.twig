@@ -24,7 +24,7 @@
     <video:video>
       <video:title><![CDATA[{{ page.title }}]]></video:title>
       <video:description><![CDATA[{{ page.description }}]]></video:description>
-      <video:thumbnail_loc>{{ url(asset(page.image) , {canonical: true}) }}</video:thumbnail_loc>
+      <video:thumbnail_loc>{{ url(asset(page.image), {canonical: true}) }}</video:thumbnail_loc>
       <video:content_loc>{{ url(asset(page.videos[0]), {canonical: true}) }}</video:content_loc>
       {%- if 'embed' in page.output ~%}
       <video:player_loc>{{ url(page, {canonical: true, format: 'embed'}) }}</video:player_loc>

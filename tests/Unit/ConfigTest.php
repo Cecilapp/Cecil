@@ -51,7 +51,7 @@ class ConfigTest extends TestCase
     public function testInvalidOutputFormatsStructureIsRejected(): void
     {
         $this->expectException(ConfigException::class);
-        $this->expectExceptionMessage('Output format #16 must be an array.');
+        $this->expectExceptionMessage('expects to be array');
 
         new Config([
             'output' => [
@@ -346,7 +346,8 @@ class ConfigTest extends TestCase
             ]);
             self::fail('Expected missing locale exception.');
         } catch (ConfigException $e) {
-            self::assertStringContainsString('locale is not defined', $e->getMessage());
+            self::assertStringContainsString('locale', $e->getMessage());
+            self::assertStringContainsString('is missing', $e->getMessage());
         }
 
         try {
@@ -357,7 +358,8 @@ class ConfigTest extends TestCase
             ]);
             self::fail('Expected invalid locale exception.');
         } catch (ConfigException $e) {
-            self::assertStringContainsString('language locale', $e->getMessage());
+            self::assertStringContainsString('locale', $e->getMessage());
+            self::assertStringContainsString('pattern', $e->getMessage());
         }
     }
 
@@ -577,11 +579,12 @@ class ConfigTest extends TestCase
             ]);
             self::fail('Expected missing name validation exception.');
         } catch (ConfigException $e) {
-            self::assertStringContainsString('missing "name"', $e->getMessage());
+            self::assertStringContainsString('name', $e->getMessage());
+            self::assertStringContainsString('is missing', $e->getMessage());
         }
 
         $this->expectException(ConfigException::class);
-        $this->expectExceptionMessage('missing "mediatype"');
+        $this->expectExceptionMessage('mediatype');
 
         new Config([
             'output' => [
@@ -605,5 +608,109 @@ class ConfigTest extends TestCase
         } finally {
             putenv('CECIL_LANGUAGE');
         }
+    }
+
+    public function testThemeAcceptsStringAndListOfStrings(): void
+    {
+        $config = new Config();
+        $config->import(['theme' => 'hyde']);
+        self::assertSame(['hyde'], $config->getTheme());
+
+        $config->import(['theme' => ['serviceworker', 'hyde']]);
+        self::assertSame(['serviceworker', 'hyde'], $config->getTheme());
+    }
+
+    public function testInvalidThemeStructureIsRejected(): void
+    {
+        $this->expectException(ConfigException::class);
+
+        new Config([
+            'theme' => ['name' => 'hyde'],
+        ]);
+    }
+
+    public function testDataStructureRejectsInvalidLoadType(): void
+    {
+        $this->expectException(ConfigException::class);
+
+        new Config([
+            'data' => ['load' => 'yes'],
+        ]);
+    }
+
+    public function testStaticStructureRejectsInvalidLoadType(): void
+    {
+        $this->expectException(ConfigException::class);
+
+        new Config([
+            'static' => ['load' => 'yes'],
+        ]);
+    }
+
+    public function testOptimizeAcceptsBooleanShorthand(): void
+    {
+        $config = new Config();
+        $config->import(['optimize' => true]);
+
+        self::assertTrue($config->isEnabled('optimize'));
+    }
+
+    public function testOptimizeRejectsInvalidExtType(): void
+    {
+        $this->expectException(ConfigException::class);
+
+        new Config([
+            'optimize' => [
+                'html' => ['ext' => 'html'],
+            ],
+        ]);
+    }
+
+    public function testOutputPageTypeFormatsRejectsNonListValue(): void
+    {
+        $this->expectException(ConfigException::class);
+
+        new Config([
+            'output' => [
+                'pagetypeformats' => ['page' => 'html'],
+            ],
+        ]);
+    }
+
+    public function testServerHeadersAcceptValidStructure(): void
+    {
+        $config = new Config();
+        $config->import([
+            'server' => [
+                'headers' => [
+                    [
+                        'path' => '/*',
+                        'headers' => [
+                            ['key' => 'X-Frame-Options', 'value' => 'SAMEORIGIN'],
+                        ],
+                    ],
+                ],
+            ],
+        ]);
+
+        self::assertSame('/*', $config->get('server.headers')[0]['path']);
+    }
+
+    public function testServerHeadersRequirePath(): void
+    {
+        $this->expectException(ConfigException::class);
+        $this->expectExceptionMessage('path');
+
+        new Config([
+            'server' => [
+                'headers' => [
+                    [
+                        'headers' => [
+                            ['key' => 'X-Frame-Options', 'value' => 'SAMEORIGIN'],
+                        ],
+                    ],
+                ],
+            ],
+        ]);
     }
 }

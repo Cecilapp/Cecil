@@ -7,14 +7,14 @@
   "home_page_url": "{{ url(page, {canonical: true}) }}",
   "feed_url": "{{ url(page, {canonical: true, format: 'jsonfeed'}) }}",
   "description": {{ page.description|default(site.description)|json_encode(constant('JSON_UNESCAPED_UNICODE')) }},
-  {%- set icon = asset(site.metatags.favicon.image|default('favicon.png'), {'ignore_missing': true}) -%}
+  {%- set icon = asset(site.metatags.favicon.image|default('favicon.png'), {ignore_missing: true}) -%}
   {%- if not icon.missing ~%}
   "icon": "{{ icon|resize(512)|url({canonical: true}) }}",
   "favicon": "{{ icon|resize(64)|url({canonical: true}) }}",
   {%- endif -%}
   {%- set author = site.author|default -%}
   {%- if author is not iterable -%}
-    {%- set author = {'name': site.author|default} -%}
+    {%- set author = {name: site.author|default} -%}
   {%- endif -%}
   {%- if author.name|default ~%}
   "authors": [
@@ -53,7 +53,7 @@
       "content_html": {{ item.content|json_encode(constant('JSON_UNESCAPED_UNICODE') b-or constant('JSON_UNESCAPED_SLASHES')) }},
       {%- set author = item.author|default -%}
       {%- if author is not iterable -%}
-        {%- set author = {'name': item.author|default} -%}
+        {%- set author = {name: item.author|default} -%}
       {%- endif -%}
       {%- if author.name|default ~%}
       "authors": [
