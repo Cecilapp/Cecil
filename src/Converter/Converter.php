@@ -29,6 +29,10 @@ use Yosymfony\Toml\Toml;
  */
 class Converter implements ConverterInterface
 {
+    /**
+     * Supported front matter formats.
+     */
+    private const SUPPORTED_FORMATS = ['yaml', 'ini', 'toml', 'json'];
     /** @var Builder */
     protected $builder;
 
@@ -44,8 +48,11 @@ class Converter implements ConverterInterface
      */
     public function convertFrontmatter(string $string, string $format = 'yaml'): array
     {
-        if (!\in_array($format, ['yaml', 'ini', 'toml', 'json'])) {
-            throw new RuntimeException(\sprintf('The front matter format "%s" is not supported ("yaml", "ini", "toml" or "json").', $format));
+        if (!\in_array($format, self::SUPPORTED_FORMATS, true)) {
+            $supported = self::SUPPORTED_FORMATS;
+            $last = \array_pop($supported);
+            $formatList = '"' . \implode('", "', $supported) . '" or "' . $last . '"';
+            throw new RuntimeException(\sprintf('The front matter format "%s" is not supported (%s).', $format, $formatList));
         }
         $method = \sprintf('convert%sToArray', ucfirst($format));
 

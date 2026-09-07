@@ -2,6 +2,12 @@
 
 All notable changes to this project will be documented in this file. Dates are displayed in UTC.
 
+#### [9.1.0](https://github.com/Cecilapp/Cecil/compare/9.0.3...9.1.0)
+
+> 6 September 2026
+
+- feat: use Nette schema for config validation [`#2464`](https://github.com/Cecilapp/Cecil/pull/2464)
+
 #### [9.0.3](https://github.com/Cecilapp/Cecil/compare/9.0.2...9.0.3)
 
 > 5 September 2026
