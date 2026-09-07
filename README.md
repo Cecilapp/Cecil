@@ -203,5 +203,9 @@ Once installed, ask your agent to create, build, configure, or deploy a Cecil si
 
 Cecil is a free software licensed under the [EUPL-1.2](https://interoperable-europe.ec.europa.eu/collection/eupl/eupl-text-eupl-12) license.
 
+The Cecil documentation is available under the [Creative Commons Attribution 4.0](https://creativecommons.org/licenses/by/4.0/deed) license.
+
+Libraries used by Cecil are subject to their respective licenses (run `composer licenses`).
+
 Cecil © [Arnaud Ligny](https://arnaudligny.fr)  
 Logo © [Cécile Ricordeau](https://www.cecillie.fr)
