@@ -222,52 +222,52 @@ Builder::create($config)-&gt;build();
             <dt class="phpdocumentor-table-of-contents__entry -constant -public">
     <a class="" href="classes/Cecil-Builder.html#constant_OPTIONS">OPTIONS</a>
     <span>
-        &nbsp;: array&lt;string, bool|string&gt;&nbsp;= [&#039;drafts&#039; =&gt; false, &#039;dry-run&#039; =&gt; false, &#039;page&#039;...                            </span>
+        &nbsp;: array&lt;string|int, mixed&gt;&nbsp;= [&#039;drafts&#039; =&gt; false, &#039;dry-run&#039; =&gt; false, &#039;page&#039;...                            </span>
 </dt>
 <dd>Default options for the build process.</dd>
 
             <dt class="phpdocumentor-table-of-contents__entry -constant -public">
     <a class="" href="classes/Cecil-Builder.html#constant_STEPS">STEPS</a>
     <span>
-        &nbsp;: array&lt;string|int, string&gt;&nbsp;= [&#039;Cecil\Step\Pages\Load&#039;, &#039;Cecil\Step\Data\Load...                            </span>
+        &nbsp;: array&lt;string|int, mixed&gt;&nbsp;= [&#039;Cecil\Step\Pages\Load&#039;, &#039;Cecil\Step\Data\Load...                            </span>
 </dt>
 <dd>Steps processed by build(), in order.</dd>
 
             <dt class="phpdocumentor-table-of-contents__entry -constant -public">
     <a class="" href="classes/Cecil-Builder.html#constant_TMP_DIR">TMP_DIR</a>
     <span>
-        &nbsp;: mixed&nbsp;= &#039;.cecil&#039;                            </span>
+        &nbsp;: string&nbsp;= &#039;.cecil&#039;                            </span>
 </dt>
 <dd>Temporary directory name.</dd>
 
             <dt class="phpdocumentor-table-of-contents__entry -constant -public">
     <a class="" href="classes/Cecil-Builder.html#constant_VERBOSITY_DEBUG">VERBOSITY_DEBUG</a>
     <span>
-        &nbsp;: mixed&nbsp;= 2                            </span>
+        &nbsp;: int&nbsp;= 2                            </span>
 </dt>
 
             <dt class="phpdocumentor-table-of-contents__entry -constant -public">
     <a class="" href="classes/Cecil-Builder.html#constant_VERBOSITY_NORMAL">VERBOSITY_NORMAL</a>
     <span>
-        &nbsp;: mixed&nbsp;= 0                            </span>
+        &nbsp;: int&nbsp;= 0                            </span>
 </dt>
 
             <dt class="phpdocumentor-table-of-contents__entry -constant -public">
     <a class="" href="classes/Cecil-Builder.html#constant_VERBOSITY_QUIET">VERBOSITY_QUIET</a>
     <span>
-        &nbsp;: mixed&nbsp;= -1                            </span>
+        &nbsp;: int&nbsp;= -1                            </span>
 </dt>
 
             <dt class="phpdocumentor-table-of-contents__entry -constant -public">
     <a class="" href="classes/Cecil-Builder.html#constant_VERBOSITY_VERBOSE">VERBOSITY_VERBOSE</a>
     <span>
-        &nbsp;: mixed&nbsp;= 1                            </span>
+        &nbsp;: int&nbsp;= 1                            </span>
 </dt>
 
             <dt class="phpdocumentor-table-of-contents__entry -constant -public">
     <a class="" href="classes/Cecil-Builder.html#constant_VERSION">VERSION</a>
     <span>
-        &nbsp;: mixed&nbsp;= &#039;8.x-dev&#039;                            </span>
+        &nbsp;: string&nbsp;= &#039;8.x-dev&#039;                            </span>
 </dt>
 
     </dl>
@@ -715,7 +715,7 @@ Builder::create($config)-&gt;build();
     
     <code class="phpdocumentor-signature phpdocumentor-code ">
     <span class="phpdocumentor-signature__visibility">public</span>
-        <span class="phpdocumentor-signature__type">array&lt;string, bool|string&gt;</span>
+        <span class="phpdocumentor-signature__type">array&lt;string|int, mixed&gt;</span>
     <span class="phpdocumentor-signature__name">OPTIONS</span>
     = <span class="phpdocumentor-signature__default-value">[&#039;drafts&#039; =&gt; false, &#039;dry-run&#039; =&gt; false, &#039;page&#039; =&gt; &#039;&#039;, &#039;render-subset&#039; =&gt; &#039;&#039;]</span>
 </code>
@@ -768,7 +768,7 @@ Builder::create($config)-&gt;build();
     
     <code class="phpdocumentor-signature phpdocumentor-code ">
     <span class="phpdocumentor-signature__visibility">public</span>
-        <span class="phpdocumentor-signature__type">array&lt;string|int, string&gt;</span>
+        <span class="phpdocumentor-signature__type">array&lt;string|int, mixed&gt;</span>
     <span class="phpdocumentor-signature__name">STEPS</span>
     = <span class="phpdocumentor-signature__default-value">[&#039;Cecil\Step\Pages\Load&#039;, &#039;Cecil\Step\Data\Load&#039;, &#039;Cecil\Step\StaticFiles\Load&#039;, &#039;Cecil\Step\Pages\Create&#039;, &#039;Cecil\Step\Pages\Convert&#039;, &#039;Cecil\Step\Taxonomies\Create&#039;, &#039;Cecil\Step\Pages\Generate&#039;, &#039;Cecil\Step\Menus\Create&#039;, &#039;Cecil\Step\StaticFiles\Copy&#039;, &#039;Cecil\Step\Pages\Render&#039;, &#039;Cecil\Step\Pages\Save&#039;, &#039;Cecil\Step\Assets\Save&#039;, &#039;Cecil\Step\Optimize\Html&#039;, &#039;Cecil\Step\Optimize\Css&#039;, &#039;Cecil\Step\Optimize\Js&#039;, &#039;Cecil\Step\Optimize\Images&#039;]</span>
 </code>
@@ -816,7 +816,7 @@ Each step is a class that implements the StepInterface.</p>
     
     <code class="phpdocumentor-signature phpdocumentor-code ">
     <span class="phpdocumentor-signature__visibility">public</span>
-        <span class="phpdocumentor-signature__type">mixed</span>
+        <span class="phpdocumentor-signature__type">string</span>
     <span class="phpdocumentor-signature__name">TMP_DIR</span>
     = <span class="phpdocumentor-signature__default-value">&#039;.cecil&#039;</span>
 </code>
@@ -846,7 +846,7 @@ Each step is a class that implements the StepInterface.</p>
     
     <code class="phpdocumentor-signature phpdocumentor-code ">
     <span class="phpdocumentor-signature__visibility">public</span>
-        <span class="phpdocumentor-signature__type">mixed</span>
+        <span class="phpdocumentor-signature__type">int</span>
     <span class="phpdocumentor-signature__name">VERBOSITY_DEBUG</span>
     = <span class="phpdocumentor-signature__default-value">2</span>
 </code>
@@ -876,7 +876,7 @@ Each step is a class that implements the StepInterface.</p>
     
     <code class="phpdocumentor-signature phpdocumentor-code ">
     <span class="phpdocumentor-signature__visibility">public</span>
-        <span class="phpdocumentor-signature__type">mixed</span>
+        <span class="phpdocumentor-signature__type">int</span>
     <span class="phpdocumentor-signature__name">VERBOSITY_NORMAL</span>
     = <span class="phpdocumentor-signature__default-value">0</span>
 </code>
@@ -906,7 +906,7 @@ Each step is a class that implements the StepInterface.</p>
     
     <code class="phpdocumentor-signature phpdocumentor-code ">
     <span class="phpdocumentor-signature__visibility">public</span>
-        <span class="phpdocumentor-signature__type">mixed</span>
+        <span class="phpdocumentor-signature__type">int</span>
     <span class="phpdocumentor-signature__name">VERBOSITY_QUIET</span>
     = <span class="phpdocumentor-signature__default-value">-1</span>
 </code>
@@ -936,7 +936,7 @@ Each step is a class that implements the StepInterface.</p>
     
     <code class="phpdocumentor-signature phpdocumentor-code ">
     <span class="phpdocumentor-signature__visibility">public</span>
-        <span class="phpdocumentor-signature__type">mixed</span>
+        <span class="phpdocumentor-signature__type">int</span>
     <span class="phpdocumentor-signature__name">VERBOSITY_VERBOSE</span>
     = <span class="phpdocumentor-signature__default-value">1</span>
 </code>
@@ -966,7 +966,7 @@ Each step is a class that implements the StepInterface.</p>
     
     <code class="phpdocumentor-signature phpdocumentor-code ">
     <span class="phpdocumentor-signature__visibility">public</span>
-        <span class="phpdocumentor-signature__type">mixed</span>
+        <span class="phpdocumentor-signature__type">string</span>
     <span class="phpdocumentor-signature__name">VERSION</span>
     = <span class="phpdocumentor-signature__default-value">&#039;8.x-dev&#039;</span>
 </code>

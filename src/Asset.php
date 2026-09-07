@@ -34,7 +34,7 @@ use wapmorgan\Mp3Info\Mp3Info;
  */
 class Asset implements \ArrayAccess
 {
-    public const IMAGE_THUMB = 'thumbnails';
+    public const string IMAGE_THUMB = 'thumbnails';
 
     /** @var Builder */
     protected $builder;

@@ -27,6 +27,7 @@ class ServeBackground extends ServeCommand
     /**
      * {@inheritdoc}
      */
+    #[\Override]
     protected function configure()
     {
         parent::configure();
@@ -53,6 +54,7 @@ EOF
     /**
      * {@inheritdoc}
      */
+    #[\Override]
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $input->setOption('background', true);

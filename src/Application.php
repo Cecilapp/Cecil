@@ -37,6 +37,7 @@ class Application extends BaseApplication
     /**
      * {@inheritdoc}
      */
+    #[\Override]
     public function getHelp(): string
     {
         $response = [
@@ -50,6 +51,7 @@ class Application extends BaseApplication
     /**
      * {@inheritdoc}
      */
+    #[\Override]
     protected function getDefaultCommands(): array
     {
         $commands = [

@@ -25,6 +25,7 @@ class ListCommand extends \Symfony\Component\Console\Command\ListCommand
     /**
      * {@inheritdoc}
      */
+    #[\Override]
     protected function configure(): void
     {
         parent::configure();

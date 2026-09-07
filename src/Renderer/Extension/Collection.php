@@ -35,6 +35,7 @@ class Collection extends AbstractExtension
         $this->builder = $builder;
     }
 
+    #[\Override]
     public function getFilters(): array
     {
         return [

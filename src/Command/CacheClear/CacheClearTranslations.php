@@ -31,6 +31,7 @@ class CacheClearTranslations extends AbstractCommand
     /**
      * {@inheritdoc}
      */
+    #[\Override]
     protected function configure()
     {
         $this
@@ -49,6 +50,7 @@ EOF
     /**
      * {@inheritdoc}
      */
+    #[\Override]
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $this->io->title('Removing translations cache directory');

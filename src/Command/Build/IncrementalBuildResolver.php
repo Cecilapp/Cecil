@@ -27,8 +27,8 @@ use Yosymfony\ResourceWatcher\ResourceWatcherResult;
 class IncrementalBuildResolver
 {
     public function __construct(
-        private Builder $builder,
-        private bool $includeDrafts = false,
+        private readonly Builder $builder,
+        private readonly bool $includeDrafts = false,
     ) {
     }
 

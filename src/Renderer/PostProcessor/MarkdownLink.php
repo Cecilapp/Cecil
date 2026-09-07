@@ -31,6 +31,7 @@ class MarkdownLink extends AbstractPostProcessor
      *
      * Replaces internal link to *.md files with the right URL.
      */
+    #[\Override]
     public function process(Page $page, string $output, string $format): string
     {
         $output = preg_replace_callback(

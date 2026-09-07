@@ -26,7 +26,7 @@ use Symfony\Component\Finder\SplFileInfo;
  */
 class Page extends Item
 {
-    public const SLUGIFY_PATTERN = Util\Slugifier::SLUGIFY_PATTERN;
+    public const string SLUGIFY_PATTERN = Util\Slugifier::SLUGIFY_PATTERN;
 
     /** @var bool True if page is not created from a file. */
     protected $virtual;
@@ -89,7 +89,7 @@ class Page extends Item
 
         // default properties
         $this->setVirtual(true);
-        $this->setType(Type::PAGE->value);
+        $this->setType(Type::PAGE);
         $this->setVariables([
             'title'            => 'Page Title',
             'date'             => new \DateTime(),
@@ -290,9 +290,9 @@ class Page extends Item
     /**
      * Set page type.
      */
-    public function setType(string $type): self
+    public function setType(Type|string $type): self
     {
-        $this->type = Type::from($type);
+        $this->type = \is_string($type) ? Type::from($type) : $type;
 
         return $this;
     }
