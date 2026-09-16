@@ -684,6 +684,35 @@ class Parsedown extends \ParsedownToc
     /**
      * {@inheritdoc}
      *
+     * Completes the parent transliteration table, which handles "æ" but not the
+     * French ligature "œ": without this, "cœur" would keep a non-ASCII anchor
+     * while "größe" becomes "grosse".
+     *
+     * @return string
+     */
+    protected function transliterate(string $text): string
+    {
+        return parent::transliterate(strtr($text, ['Œ' => 'OE', 'œ' => 'oe']));
+    }
+
+    /**
+     * {@inheritdoc}
+     *
+     * Ensures the heading text (used to build the anchor ID) is a valid UTF-8 string,
+     * without guessing its encoding: the parent implementation relies on
+     * `mb_convert_encoding($text, 'UTF-8', mb_list_encodings())`, which mis-detects
+     * many valid UTF-8 sequences (e.g. "œ") and turns anchors into mojibake.
+     *
+     * @return string
+     */
+    protected function normalizeString(string $text)
+    {
+        return mb_convert_encoding($text, 'UTF-8', 'UTF-8');
+    }
+
+    /**
+     * {@inheritdoc}
+     *
      * Converts XHTML '<br />' tag to '<br>'.
      *
      * @return string
