@@ -2,6 +2,18 @@
 
 All notable changes to this project will be documented in this file. Dates are displayed in UTC.
 
+#### [9.1.1](https://github.com/Cecilapp/Cecil/compare/9.1.0...9.1.1)
+
+> 16 September 2026
+
+- chore(deps-dev): bump friendsofphp/php-cs-fixer from 3.95.24 to 3.95.25 [`#2469`](https://github.com/Cecilapp/Cecil/pull/2469)
+- chore(deps-dev): bump vincentlanglet/twig-cs-fixer from 4.1.0 to 4.1.1 [`#2467`](https://github.com/Cecilapp/Cecil/pull/2467)
+- chore(deps): bump james-heinrich/getid3 from 1.9.25 to 1.9.26 [`#2466`](https://github.com/Cecilapp/Cecil/pull/2466)
+- perf: Cache front matter format lookup [`#2460`](https://github.com/Cecilapp/Cecil/pull/2460)
+- chore: update deps [`a9c438f`](https://github.com/Cecilapp/Cecil/commit/a9c438f23d66b96bc34523e8e79b6fb7b620304a)
+- refactor(home): add recursive page listing macros [`c2c003d`](https://github.com/Cecilapp/Cecil/commit/c2c003da27cde5f450f5a006462a01a7502f062b)
+- Clarify README licensing information [`e0d643f`](https://github.com/Cecilapp/Cecil/commit/e0d643fab702740d171e5f8e319d38c4072aad6d)
+
 #### [9.1.0](https://github.com/Cecilapp/Cecil/compare/9.0.3...9.1.0)
 
 > 6 September 2026
