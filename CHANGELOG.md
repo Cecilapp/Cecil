@@ -2,6 +2,12 @@
 
 All notable changes to this project will be documented in this file. Dates are displayed in UTC.
 
+#### [9.1.2](https://github.com/Cecilapp/Cecil/compare/9.1.1...9.1.2)
+
+> 17 September 2026
+
+- feat(parsedown): fix heading anchor character encoding [`9b88deb`](https://github.com/Cecilapp/Cecil/commit/9b88deb95a96fd24b2143aa1922ca848e89f2cb7)
+
 #### [9.1.1](https://github.com/Cecilapp/Cecil/compare/9.1.0...9.1.1)
 
 > 16 September 2026
