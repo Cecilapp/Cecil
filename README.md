@@ -184,13 +184,6 @@ Install it with the [GitHub CLI](https://cli.github.com) using the [`gh skill in
 ```bash
 gh skill install Cecilapp/Cecil cecil
 ```
-
-By default the skill is installed at project scope for GitHub Copilot. Use `--scope user` to make it available everywhere, and `--agent` to target another agent:
-
-```bash
-gh skill install Cecilapp/Cecil cecil --scope user --agent claude-code
-```
-
 Once installed, ask your agent to create, build, configure, or deploy a Cecil site and it will use the skill automatically.
 
 ## Sponsors
