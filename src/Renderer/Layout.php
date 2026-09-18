@@ -32,7 +32,7 @@ class Layout
      * Twig template extension.
      * @var string
      */
-    public const EXT = 'twig';
+    public const string EXT = 'twig';
 
     /**
      * Layout files finder.

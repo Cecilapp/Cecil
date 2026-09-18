@@ -37,10 +37,10 @@ use Symfony\Component\Validator\Validation;
  */
 class AbstractCommand extends Command
 {
-    public const CONFIG_FILE = ['cecil.yml', 'config.yml'];
-    public const EXCLUDED_CMD = ['about', 'new:site', 'self-update', 'serve:stop'];
-    public const SERVE_OUTPUT = Builder::TMP_DIR . '/preview';
-    public const PID_FILE = Builder::TMP_DIR . '/server.pid';
+    public const array CONFIG_FILE = ['cecil.yml', 'config.yml'];
+    public const array EXCLUDED_CMD = ['about', 'new:site', 'self-update', 'serve:stop'];
+    public const string SERVE_OUTPUT = Builder::TMP_DIR . '/preview';
+    public const string PID_FILE = Builder::TMP_DIR . '/server.pid';
 
     /** @var InputInterface */
     protected $input;
@@ -69,6 +69,7 @@ class AbstractCommand extends Command
     /**
      * {@inheritdoc}
      */
+    #[\Override]
     protected function initialize(InputInterface $input, OutputInterface $output)
     {
         $this->input = $input;
@@ -103,6 +104,7 @@ class AbstractCommand extends Command
     /**
      * {@inheritdoc}
      */
+    #[\Override]
     public function run(InputInterface $input, OutputInterface $output): int
     {
         // disable debug mode if a verbosity level is specified
@@ -332,6 +334,7 @@ class AbstractCommand extends Command
      *
      * @return string
      */
+    #[\Override]
     public function getProcessedHelp(): string
     {
         $name = $this->getName();

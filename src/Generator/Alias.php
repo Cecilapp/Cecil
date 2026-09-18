@@ -27,6 +27,7 @@ class Alias extends AbstractGenerator implements GeneratorInterface
     /**
      * {@inheritdoc}
      */
+    #[\Override]
     public function generate(): void
     {
         /** @var Page $page */

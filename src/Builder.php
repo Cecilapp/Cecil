@@ -39,11 +39,11 @@ use Symfony\Component\Finder\Finder;
  */
 class Builder implements BuildContextInterface, LoggerAwareInterface
 {
-    public const VERSION = '8.x-dev';
-    public const VERBOSITY_QUIET = -1;
-    public const VERBOSITY_NORMAL = 0;
-    public const VERBOSITY_VERBOSE = 1;
-    public const VERBOSITY_DEBUG = 2;
+    public const string VERSION = '8.x-dev';
+    public const int VERBOSITY_QUIET = -1;
+    public const int VERBOSITY_NORMAL = 0;
+    public const int VERBOSITY_VERBOSE = 1;
+    public const int VERBOSITY_DEBUG = 2;
     /**
      * Default options for the build process.
      * These options can be overridden when calling the build() method.
@@ -54,7 +54,7 @@ class Builder implements BuildContextInterface, LoggerAwareInterface
      * @var array<string, bool|string>
      * @see \Cecil\Builder::build()
      */
-    public const OPTIONS = [
+    public const array OPTIONS = [
         'drafts'  => false,
         'dry-run' => false,
         'page'    => '',
@@ -67,7 +67,7 @@ class Builder implements BuildContextInterface, LoggerAwareInterface
      * @var array<string>
      * @see \Cecil\Step\StepInterface
      */
-    public const STEPS = [
+    public const array STEPS = [
         'Cecil\Step\Pages\Load',
         'Cecil\Step\Data\Load',
         'Cecil\Step\StaticFiles\Load',
@@ -88,7 +88,7 @@ class Builder implements BuildContextInterface, LoggerAwareInterface
     /**
      * Temporary directory name.
      */
-    public const TMP_DIR = '.cecil';
+    public const string TMP_DIR = '.cecil';
 
     /**
      * Configuration object.

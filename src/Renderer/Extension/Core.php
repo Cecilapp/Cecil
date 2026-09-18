@@ -50,6 +50,7 @@ class Core extends AbstractExtension
         $this->config = $builder->getConfig();
     }
 
+    #[\Override]
     public function getFunctions()
     {
         return [
@@ -91,6 +92,7 @@ class Core extends AbstractExtension
         ];
     }
 
+    #[\Override]
     public function getFilters(): array
     {
         return [
@@ -131,6 +133,7 @@ class Core extends AbstractExtension
         ];
     }
 
+    #[\Override]
     public function getTests()
     {
         return [

@@ -27,11 +27,11 @@ use Symfony\Component\Console\Output\OutputInterface;
  */
 class ConsoleLogger extends PrintLogger
 {
-    public const ERROR = 'error';
-    public const WARNING = 'comment';
-    public const NOTICE = 'info';
-    public const INFO = 'text';
-    public const DEBUG = 'debug';
+    public const string ERROR = 'error';
+    public const string WARNING = 'comment';
+    public const string NOTICE = 'info';
+    public const string INFO = 'text';
+    public const string DEBUG = 'debug';
 
     protected $output;
 

@@ -31,7 +31,7 @@ use Symfony\Component\Console\Output\OutputInterface;
  */
 class DoctorSeo extends AbstractCommand
 {
-    private const PAGE_LABEL_MAX_LENGTH = 60;
+    private const int PAGE_LABEL_MAX_LENGTH = 60;
 
     private bool $includeVirtual = false;
     private bool $includeFeedback = false;
@@ -40,6 +40,7 @@ class DoctorSeo extends AbstractCommand
     /**
      * {@inheritdoc}
      */
+    #[\Override]
     protected function configure()
     {
         $this
@@ -105,6 +106,7 @@ EOF
     /**
      * {@inheritdoc}
      */
+    #[\Override]
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $this->format = (string) ($input->getOption('format') ?? 'text');

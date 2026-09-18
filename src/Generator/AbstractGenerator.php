@@ -34,6 +34,7 @@ abstract class AbstractGenerator implements GeneratorInterface
     /**
      * {@inheritdoc}
      */
+    #[\Override]
     public function __construct(BuildContextInterface $builder)
     {
         $this->builder = $builder;

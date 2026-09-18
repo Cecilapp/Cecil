@@ -35,6 +35,7 @@ class NewSite extends AbstractCommand
     /**
      * {@inheritdoc}
      */
+    #[\Override]
     protected function configure()
     {
         $this
@@ -69,6 +70,7 @@ EOF
      *
      * @throws RuntimeException
      */
+    #[\Override]
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $force = $input->getOption('force');
@@ -86,7 +88,7 @@ EOF
             // setup questions
             $title = $this->io->ask('Give a title to your website', 'New website');
             $baseline = $this->io->ask('Give a baseline to your website', 'A new Cecil website');
-            $baseurl = $this->io->ask('Base URL?', '/', [$this, 'validateUrl']);
+            $baseurl = $this->io->ask('Base URL?', '/', $this->validateUrl(...));
             $description = $this->io->ask('Write a full description of your site', 'A website created with Cecil static site generator.');
             $demo = ($demo !== false) ?: $this->io->confirm('Add demo content?', false);
             // override skeleton default config

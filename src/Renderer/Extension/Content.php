@@ -43,6 +43,7 @@ class Content extends AbstractExtension
         $this->config = $builder->getConfig();
     }
 
+    #[\Override]
     public function getFunctions(): array
     {
         return [
@@ -50,6 +51,7 @@ class Content extends AbstractExtension
         ];
     }
 
+    #[\Override]
     public function getFilters(): array
     {
         return [

@@ -26,7 +26,7 @@ use Symfony\Component\Finder\SplFileInfo;
  */
 class FrontmatterDoctor
 {
-    private const MAX_ERRORS_PER_FILE = 20;
+    private const int MAX_ERRORS_PER_FILE = 20;
 
     /**
      * @param array{page?: string} $options

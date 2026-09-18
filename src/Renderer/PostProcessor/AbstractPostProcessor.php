@@ -29,6 +29,7 @@ abstract class AbstractPostProcessor implements PostProcessorInterface
     /**
      * {@inheritdoc}
      */
+    #[\Override]
     public function __construct(Builder $builder)
     {
         $this->builder = $builder;

@@ -44,6 +44,7 @@ class UtilTranslationsExtract extends AbstractCommand
     private TranslationReader $reader;
     private TwigExtractor $extractor;
 
+    #[\Override]
     protected function configure(): void
     {
         $this
@@ -79,6 +80,7 @@ EOF
             );
     }
 
+    #[\Override]
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $config = $this->getBuilder()->getConfig();

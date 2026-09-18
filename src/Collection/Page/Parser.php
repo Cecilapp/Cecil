@@ -25,7 +25,7 @@ class Parser
 {
     // Delimiters must be on their own line to avoid matching values containing ---/+++/-->
     // https://regex101.com/r/4TewvO/1
-    public const PATTERN = '(?m)^\s*(?:<!--|---|\+\+\+)\h*\R(.*?)^\h*(?:-->|---|\+\+\+)\h*\R?(.*)$';
+    public const string PATTERN = '(?m)^\s*(?:<!--|---|\+\+\+)\h*\R(.*?)^\h*(?:-->|---|\+\+\+)\h*\R?(.*)$';
 
     /** @var SplFileInfo */
     protected $file;
