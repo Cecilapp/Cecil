@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. Dates are displayed in UTC.
 
+#### [9.1.3](https://github.com/Cecilapp/Cecil/compare/9.1.2...9.1.3)
+
+> 18 September 2026
+
+- refactor(output): move rel attribute to config [`2c6c167`](https://github.com/Cecilapp/Cecil/commit/2c6c167ceb9bc05939fd5b19a034c50563d6d561)
+- docs: Update README.md [`0a638aa`](https://github.com/Cecilapp/Cecil/commit/0a638aa44c58b00135e0c492811a85296a55c233)
+
 #### [9.1.2](https://github.com/Cecilapp/Cecil/compare/9.1.1...9.1.2)
 
 > 17 September 2026
