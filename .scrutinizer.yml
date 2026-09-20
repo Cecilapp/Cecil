@@ -6,34 +6,8 @@ filter:
   dependency_paths:
     - 'vendor/*'
 
-tools:
-  php_analyzer: true
-  php_changetracking: true
-  php_code_coverage: false
-  php_code_sniffer:
-    enabled: true
-    config:
-      standard: PSR12
-  php_cs_fixer:
-    enabled: true
-    config:
-      level: psr12
-  php_mess_detector: true
-  php_pdepend: true
-  sensiolabs_security_checker: true
-
-coding_style:
-  php:
-    spaces:
-      around_operators:
-        concatenation: true
-      before_parentheses:
-        function_declaration: false
-        closure_definition: true
-      other:
-        after_type_cast: true
-
 build:
+  image: default-jammy
   environment:
     timezone: 'Europe/Paris'
     php:
@@ -43,6 +17,12 @@ build:
         memory_limit: 2048M
   nodes:
     analysis:
+      dependencies:
+        override:
+          - 'composer install --no-interaction --prefer-dist'
+      cache:
+        directories:
+          - ~/.composer/cache
       tests:
         override:
           - php-scrutinizer-run
@@ -57,3 +37,32 @@ build:
             coverage:
               file: build/logs/clover.xml
               format: clover
+
+coding_style:
+  php:
+    spaces:
+      around_operators:
+        concatenation: true
+      before_parentheses:
+        function_declaration: false
+        closure_definition: true
+      other:
+        after_type_cast: true
+
+tools:
+  # php_analyzer is unmaintained and mis-parses PHP 8.3 typed class constants,
+  # producing false "type not found" errors. Disabled: PHPStan is the reference analyzer.
+  php_analyzer: false
+  php_changetracking: true
+  php_code_coverage: false
+  php_code_sniffer:
+    enabled: true
+    config:
+      standard: PSR12
+  php_cs_fixer:
+    enabled: true
+    config:
+      level: psr12
+  php_mess_detector: true
+  php_pdepend: true
+  sensiolabs_security_checker: true

@@ -62,6 +62,7 @@ class Twig implements RendererInterface
     /**
      * {@inheritdoc}
      */
+    #[\Override]
     public function __construct(Builder $builder, $templatesPath)
     {
         $this->builder = $builder;
@@ -198,6 +199,7 @@ class Twig implements RendererInterface
     /**
      * {@inheritdoc}
      */
+    #[\Override]
     public function addGlobal(string $name, $value): void
     {
         $this->twig->addGlobal($name, $value);
@@ -206,6 +208,7 @@ class Twig implements RendererInterface
     /**
      * {@inheritdoc}
      */
+    #[\Override]
     public function render(string $template, array $variables): string
     {
         return $this->twig->render($template, $variables);
@@ -214,6 +217,7 @@ class Twig implements RendererInterface
     /**
      * {@inheritdoc}
      */
+    #[\Override]
     public function setLocale(string $locale): void
     {
         if (\extension_loaded('intl')) {
@@ -225,6 +229,7 @@ class Twig implements RendererInterface
     /**
      * {@inheritdoc}
      */
+    #[\Override]
     public function addTransResource(string $translationsDir, string $locale, ?array $formatsConfig = null): void
     {
         $formatsConfig ??= $this->getTranslationsFormatsConfig();
