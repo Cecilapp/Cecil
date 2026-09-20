@@ -257,19 +257,16 @@ class Content extends AbstractExtension
     }
 
     /**
-     * Calculates estimated time to read a text.
+     * Calculates estimated time to read a text, in minutes (1 minute minimum).
      */
     public function readtime(?string $text): string
     {
         $text = $text ?? '';
 
         $words = str_word_count(strip_tags($text));
-        $min = floor($words / 200);
-        if ($min === 0) {
-            return '1';
-        }
+        $min = (int) floor($words / 200);
 
-        return (string) $min;
+        return (string) max($min, 1);
     }
 
     /**
