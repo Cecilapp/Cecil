@@ -4,7 +4,7 @@ on:
   workflow_dispatch:
   push:
     branches:
-      - master
+      - main
     paths-ignore:
       - '.github/**'
       - 'docs/**'
@@ -33,5 +33,5 @@ jobs:
             echo "Nothing to do"
           else
             git commit -am "Update CHANGELOG"
-            git push origin master
+            git push origin main
           fi

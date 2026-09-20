@@ -4,7 +4,7 @@ on:
   workflow_dispatch:
   push:
     branches:
-      - master
+      - main
     paths:
       - 'docs/**'
   pull_request:
@@ -29,5 +29,5 @@ jobs:
         if: env.GITHUB_TOKEN != null
         run: bash ./scripts/deploy-documentation.sh
         env:
-          TARGET_BRANCH: ${{ github.head_ref || github.ref_name }}
+          TARGET_BRANCH: ${{ github.head_ref || 'master' }} # 'master' is the default branch of the Cecilapp/website repository
           GITHUB_TOKEN: ${{ secrets.REPOS_TOKEN }}

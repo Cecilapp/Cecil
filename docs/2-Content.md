@@ -703,7 +703,7 @@ redirect: "https://arnaudligny.fr"
 ```
 
 :::info
-Redirect works with the [`redirect.html.twig`](https://github.com/Cecilapp/Cecil/blob/master/resources/layouts/_default/redirect.html.twig) template.
+Redirect works with the [`redirect.html.twig`](https://github.com/Cecilapp/Cecil/blob/main/resources/layouts/_default/redirect.html.twig) template.
 :::
 
 ### alias
@@ -747,7 +747,7 @@ _Example:_
 
 ```yaml
 ---
-external: "https://raw.githubusercontent.com/Cecilapp/Cecil/master/README.md"
+external: "https://raw.githubusercontent.com/Cecilapp/Cecil/main/README.md"
 ---
 ```
 
