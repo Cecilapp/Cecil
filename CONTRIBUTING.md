@@ -2,7 +2,7 @@
 
 When contributing to this repository please first discuss the change you wish to make via [issue](https://github.com/Cecilapp/Cecil/issues) or [discussion](https://github.com/Cecilapp/Cecil/discussions).
 
-Note we have a [code of conduct](https://github.com/Cecilapp/Cecil/blob/master/CODE_OF_CONDUCT.md): please follow it in all your interactions with the project.
+Note we have a [code of conduct](https://github.com/Cecilapp/Cecil/blob/main/CODE_OF_CONDUCT.md): please follow it in all your interactions with the project.
 
 ## Pull Request process
 

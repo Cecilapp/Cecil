@@ -49,7 +49,7 @@ build:
     coverage:
       requires:
         - node: analysis
-        - branch: master
+        - branch: main
       tests:
         override:
           - command: ./vendor/bin/phpunit -c ./ --testsuite=IntegrationTests --coverage-text --coverage-clover=build/logs/clover.xml

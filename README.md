@@ -3,7 +3,7 @@
 A simple and powerful content-driven static site generator.
 
 [![Latest stable version](https://poser.pugx.org/cecil/cecil/v/stable)](https://github.com/Cecilapp/Cecil/releases/latest)
-[![License](https://poser.pugx.org/cecil/cecil/license)](https://github.com/Cecilapp/Cecil/blob/master/LICENSE)  
+[![License](https://poser.pugx.org/cecil/cecil/license)](https://github.com/Cecilapp/Cecil/blob/main/LICENSE)  
 
 Cecil is a CLI application that merges plain text files (written in [Markdown](http://daringfireball.net/projects/markdown/)), images and [Twig](https://twig.symfony.com) templates to generate a [static website](https://en.wikipedia.org/wiki/Static_web_page).
 
@@ -16,7 +16,7 @@ Cecil is a CLI application that merges plain text files (written in [Markdown](h
 [![Documentation status](https://github.com/Cecilapp/Cecil/actions/workflows/documentation.yml/badge.svg)](https://github.com/Cecilapp/Cecil/actions/workflows/documentation.yml)  
 [![Scrutinizer score](https://scrutinizer-ci.com/g/Cecilapp/Cecil/badges/quality-score.png)](https://scrutinizer-ci.com/g/Cecilapp/Cecil/)
 [![Codacy badge](https://app.codacy.com/project/badge/Grade/07232d3c7ff34f3da5abdac8f3ad2cee)](https://app.codacy.com/gh/Cecilapp/Cecil/dashboard)
-[![Coverage score](https://coveralls.io/repos/github/Cecilapp/Cecil/badge.svg?branch=master)](https://coveralls.io/github/Cecilapp/Cecil?branch=master)
+[![Coverage score](https://coveralls.io/repos/github/Cecilapp/Cecil/badge.svg?branch=main)](https://coveralls.io/github/Cecilapp/Cecil?branch=main)
 [![StyleCI status](https://github.styleci.io/repos/7548986/shield?style=plastic)](https://styleci.io/repos/12738012)
 
 ## Quick Start

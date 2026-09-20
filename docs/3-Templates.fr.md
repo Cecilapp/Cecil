@@ -87,7 +87,7 @@ layouts/blog/list.rss.twig   # `section` est "blog" et `format` est "rss"
 
 ### Templates intégrés
 
-Cecil est livré avec un ensemble de [templates intégrés](https://github.com/Cecilapp/Cecil/tree/master/resources/layouts).
+Cecil est livré avec un ensemble de [templates intégrés](https://github.com/Cecilapp/Cecil/tree/main/resources/layouts).
 
 :::tip
 Si vous avez besoin de modifier des templates intégrés, vous pouvez facilement les extraire via la commande suivante : ils seront copiés dans le répertoire `layouts` de votre site.
@@ -344,7 +344,7 @@ _Fil d'Ariane (de la page d'accueil à la page courante) :_
 ```
 
 :::tip
-Un partial [`breadcrumb.html.twig`](https://github.com/Cecilapp/Cecil/blob/master/resources/layouts/partials/breadcrumb.html.twig) prêt à l'emploi est disponible :
+Un partial [`breadcrumb.html.twig`](https://github.com/Cecilapp/Cecil/blob/main/resources/layouts/partials/breadcrumb.html.twig) prêt à l'emploi est disponible :
 
 ```twig
 {{ include('partials/breadcrumb.html.twig') }}

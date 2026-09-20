@@ -112,7 +112,7 @@
   },
   "extra": {
     "branch-alias": {
-      "dev-master": "9.x-dev"
+      "dev-main": "9.x-dev"
     }
   },
   "scripts": {

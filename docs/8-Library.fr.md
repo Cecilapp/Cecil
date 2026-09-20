@@ -39,7 +39,7 @@ exec('php -S localhost:8000 -t _site'); // prévisualisation locale
 ```
 
 :::info
-Le paramètre principal de la méthode `create` doit être un `array` PHP ou une instance de [`Cecil\Config`](https://github.com/Cecilapp/Cecil/blob/master/src/Config.php).
+Le paramètre principal de la méthode `create` doit être un `array` PHP ou une instance de [`Cecil\Config`](https://github.com/Cecilapp/Cecil/blob/main/src/Config.php).
 :::
 
 ### Diagnostic

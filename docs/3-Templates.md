@@ -86,7 +86,7 @@ layouts/blog/list.rss.twig   # `section` is "blog" and `format` is "rss"
 
 ### Built-in templates
 
-Cecil comes with a set of [built-in templates](https://github.com/Cecilapp/Cecil/tree/master/resources/layouts).
+Cecil comes with a set of [built-in templates](https://github.com/Cecilapp/Cecil/tree/main/resources/layouts).
 
 :::tip
 If you need to modify built-in templates, you can easily extract them via the following command: they will be copied in the `layouts` directory of your site.
@@ -156,7 +156,7 @@ All rules are detailed below, for each page type, in the priority order.
 5. `_default/list.<format>.twig`
 
 :::info
-Most of those layouts are available by default, see [built-in templates](https://github.com/Cecilapp/Cecil/tree/master/resources/layouts).
+Most of those layouts are available by default, see [built-in templates](https://github.com/Cecilapp/Cecil/tree/main/resources/layouts).
 :::
 
 ## Variables
@@ -343,7 +343,7 @@ _Breadcrumb (from the home page to the current page):_
 ```
 
 :::tip
-A ready-to-use [`breadcrumb.html.twig`](https://github.com/Cecilapp/Cecil/blob/master/resources/layouts/partials/breadcrumb.html.twig) partial is available:
+A ready-to-use [`breadcrumb.html.twig`](https://github.com/Cecilapp/Cecil/blob/main/resources/layouts/partials/breadcrumb.html.twig) partial is available:
 
 ```twig
 {{ include('partials/breadcrumb.html.twig') }}
