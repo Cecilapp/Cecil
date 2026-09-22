@@ -50,8 +50,8 @@ class Converter implements ConverterInterface
     {
         if (!\in_array($format, self::SUPPORTED_FORMATS, true)) {
             $supported = self::SUPPORTED_FORMATS;
-            $last = \array_pop($supported);
-            $formatList = '"' . \implode('", "', $supported) . '" or "' . $last . '"';
+            $last = array_pop($supported);
+            $formatList = '"' . implode('", "', $supported) . '" or "' . $last . '"';
             throw new RuntimeException(\sprintf('The front matter format "%s" is not supported (%s).', $format, $formatList));
         }
         $method = \sprintf('convert%sToArray', ucfirst($format));
