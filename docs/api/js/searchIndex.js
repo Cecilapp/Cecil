@@ -3211,6 +3211,11 @@ Search.appendIndex(
             "summary": "Converts\u0020JSON\u0020string\u0020to\u0020array.",
             "url": "classes/Cecil-Converter-Converter.html#method_convertJsonToArray"
         },                {
+            "fqsen": "\\Cecil\\Converter\\Converter\u003A\u003ASUPPORTED_FORMATS",
+            "name": "SUPPORTED_FORMATS",
+            "summary": "Supported\u0020front\u0020matter\u0020formats.",
+            "url": "classes/Cecil-Converter-Converter.html#constant_SUPPORTED_FORMATS"
+        },                {
             "fqsen": "\\Cecil\\Converter\\Converter\u003A\u003A\u0024builder",
             "name": "builder",
             "summary": "",
@@ -3300,6 +3305,16 @@ Search.appendIndex(
             "name": "parseAttributeData",
             "summary": "\u007B\u0040inheritdoc\u007D",
             "url": "classes/Cecil-Converter-Parsedown.html#method_parseAttributeData"
+        },                {
+            "fqsen": "\\Cecil\\Converter\\Parsedown\u003A\u003Atransliterate\u0028\u0029",
+            "name": "transliterate",
+            "summary": "\u007B\u0040inheritdoc\u007D",
+            "url": "classes/Cecil-Converter-Parsedown.html#method_transliterate"
+        },                {
+            "fqsen": "\\Cecil\\Converter\\Parsedown\u003A\u003AnormalizeString\u0028\u0029",
+            "name": "normalizeString",
+            "summary": "\u007B\u0040inheritdoc\u007D",
+            "url": "classes/Cecil-Converter-Parsedown.html#method_normalizeString"
         },                {
             "fqsen": "\\Cecil\\Converter\\Parsedown\u003A\u003AunmarkedText\u0028\u0029",
             "name": "unmarkedText",
@@ -4063,7 +4078,7 @@ Search.appendIndex(
         },                {
             "fqsen": "\\Cecil\\Renderer\\Extension\\Content\u003A\u003Areadtime\u0028\u0029",
             "name": "readtime",
-            "summary": "Calculates\u0020estimated\u0020time\u0020to\u0020read\u0020a\u0020text.",
+            "summary": "Calculates\u0020estimated\u0020time\u0020to\u0020read\u0020a\u0020text,\u0020in\u0020minutes\u0020\u00281\u0020minute\u0020minimum\u0029.",
             "url": "classes/Cecil-Renderer-Extension-Content.html#method_readtime"
         },                {
             "fqsen": "\\Cecil\\Renderer\\Extension\\Content\u003A\u003AhexToRgb\u0028\u0029",
@@ -4600,6 +4615,11 @@ Search.appendIndex(
             "name": "__construct",
             "summary": "",
             "url": "classes/Cecil-Renderer-Twig.html#method___construct"
+        },                {
+            "fqsen": "\\Cecil\\Renderer\\Twig\u003A\u003AcreateDateFormatterPrototype\u0028\u0029",
+            "name": "createDateFormatterPrototype",
+            "summary": "Creates\u0020the\u0020date\u0020formatter\u0020prototype\u0020used\u0020by\u0020the\u0020Intl\u0020extension\u003A\u0020it\u0020defines\u0020the\u0020default\u0020date\u0020and\u0020time\nformats,\u0020and\u0020exposes\u0020the\u0020current\u0020locale\u0020\u0028i.e.\u0020the\u0020locale\u0020of\u0020the\u0020language\u0020being\u0020rendered\u0029.",
+            "url": "classes/Cecil-Renderer-Twig.html#method_createDateFormatterPrototype"
         },                {
             "fqsen": "\\Cecil\\Renderer\\Twig\u003A\u003AaddGlobal\u0028\u0029",
             "name": "addGlobal",

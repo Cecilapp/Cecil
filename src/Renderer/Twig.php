@@ -150,10 +150,12 @@ class Twig implements RendererInterface
         }
         $this->twig->addExtension(new TranslationExtension($this->translator));
         // intl
-        $this->twig->addExtension(new IntlExtension());
         if (\extension_loaded('intl')) {
             $this->builder->getLogger()->debug('PHP Intl extension is loaded');
         }
+        $this->twig->addExtension(new IntlExtension(
+            dateFormatterPrototype: $this->createDateFormatterPrototype(),
+        ));
         // filters fallback
         $this->twig->registerUndefinedFilterCallback(function ($name) {
             switch ($name) {
@@ -247,6 +249,22 @@ class Twig implements RendererInterface
     }
 
     /**
+     * Returns the Twig instance.
+     */
+    public function getTwig(): \Twig\Environment
+    {
+        return $this->twig;
+    }
+
+    /**
+     * Returns debug profile.
+     */
+    public function getDebugProfile(): ?\Twig\Profiler\Profile
+    {
+        return $this->profile;
+    }
+
+    /**
      * @return array<string, array{loader: string, ext: array<string>}>
      */
     private function getTranslationsFormatsConfig(): array
@@ -290,18 +308,34 @@ class Twig implements RendererInterface
     }
 
     /**
-     * Returns the Twig instance.
+     * Creates the date formatter prototype used by the Intl extension: it defines the default date and time
+     * formats, and exposes the current locale (i.e. the locale of the language being rendered).
+     *
+     * @SuppressWarnings(UnusedFormalParameter)
      */
-    public function getTwig(): \Twig\Environment
+    private function createDateFormatterPrototype(): \IntlDateFormatter
     {
-        return $this->twig;
-    }
+        return new class (
+            // the ICU polyfill, used when the Intl extension is not loaded, only supports the "en" locale
+            \extension_loaded('intl') ? $this->builder->getConfig()->getLanguageProperty('locale') : null,
+            \IntlDateFormatter::MEDIUM,
+            \IntlDateFormatter::SHORT
+        ) extends \IntlDateFormatter {
+            /**
+             * Returns the current locale, set by `Twig::setLocale()`, instead of the creation time one.
+             */
+            public function getLocale(int $type = \Locale::ACTUAL_LOCALE): string|false
+            {
+                return \Locale::getDefault();
+            }
 
-    /**
-     * Returns debug profile.
-     */
-    public function getDebugProfile(): ?\Twig\Profiler\Profile
-    {
-        return $this->profile;
+            /**
+             * Returns an empty pattern: the date and time formats must be resolved from the current locale.
+             */
+            public function getPattern(): string|false
+            {
+                return '';
+            }
+        };
     }
 }
