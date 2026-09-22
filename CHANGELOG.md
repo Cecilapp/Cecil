@@ -2,6 +2,19 @@
 
 All notable changes to this project will be documented in this file. Dates are displayed in UTC.
 
+#### [9.1.4](https://github.com/Cecilapp/Cecil/compare/9.1.3...9.1.4)
+
+> 21 September 2026
+
+- ci: replace blobless checkout with explicit HTTPS clone [`#2474`](https://github.com/Cecilapp/Cecil/pull/2474)
+- ci: rename default branch from master to main [`#2472`](https://github.com/Cecilapp/Cecil/pull/2472)
+- fix(twig): readtime() returns "0" for texts shorter than 200 words [`#2473`](https://github.com/Cecilapp/Cecil/pull/2473)
+- chore(deps): bump twig/intl-extra from 3.26.0 to 3.29.0 [`#2471`](https://github.com/Cecilapp/Cecil/pull/2471)
+- feat(feed): add dark mode support [`ef59097`](https://github.com/Cecilapp/Cecil/commit/ef5909780e624c1b85997243a591b708237c4eaa)
+- chore(deps): update twig and php-cs-fixer [`a6e060b`](https://github.com/Cecilapp/Cecil/commit/a6e060b3d541cbf1503eab7cf7c6bc20974ae0d2)
+- chore(circleci): upgrade config to version 2.1 [`2b56a23`](https://github.com/Cecilapp/Cecil/commit/2b56a23b9afe6c94d4cb3a60fec6d0c51ddba924)
+- chore(builder): update version to 9.x-dev [`b70db29`](https://github.com/Cecilapp/Cecil/commit/b70db29686eb6b727489da94c57372b04c4807e9)
+
 #### [9.1.3](https://github.com/Cecilapp/Cecil/compare/9.1.2...9.1.3)
 
 > 18 September 2026
