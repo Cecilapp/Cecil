@@ -4616,11 +4616,6 @@ Search.appendIndex(
             "summary": "",
             "url": "classes/Cecil-Renderer-Twig.html#method___construct"
         },                {
-            "fqsen": "\\Cecil\\Renderer\\Twig\u003A\u003AcreateDateFormatterPrototype\u0028\u0029",
-            "name": "createDateFormatterPrototype",
-            "summary": "Creates\u0020the\u0020date\u0020formatter\u0020prototype\u0020used\u0020by\u0020the\u0020Intl\u0020extension\u003A\u0020it\u0020defines\u0020the\u0020default\u0020date\u0020and\u0020time\nformats,\u0020and\u0020exposes\u0020the\u0020current\u0020locale\u0020\u0028i.e.\u0020the\u0020locale\u0020of\u0020the\u0020language\u0020being\u0020rendered\u0029.",
-            "url": "classes/Cecil-Renderer-Twig.html#method_createDateFormatterPrototype"
-        },                {
             "fqsen": "\\Cecil\\Renderer\\Twig\u003A\u003AaddGlobal\u0028\u0029",
             "name": "addGlobal",
             "summary": "Adds\u0020a\u0020global\u0020variable.",
@@ -4641,11 +4636,6 @@ Search.appendIndex(
             "summary": "Adds\u0020a\u0020translation\u0020file.",
             "url": "classes/Cecil-Renderer-Twig.html#method_addTransResource"
         },                {
-            "fqsen": "\\Cecil\\Renderer\\Twig\u003A\u003AgetTranslationsFormatsConfig\u0028\u0029",
-            "name": "getTranslationsFormatsConfig",
-            "summary": "",
-            "url": "classes/Cecil-Renderer-Twig.html#method_getTranslationsFormatsConfig"
-        },                {
             "fqsen": "\\Cecil\\Renderer\\Twig\u003A\u003AgetTwig\u0028\u0029",
             "name": "getTwig",
             "summary": "Returns\u0020the\u0020Twig\u0020instance.",
@@ -4655,6 +4645,16 @@ Search.appendIndex(
             "name": "getDebugProfile",
             "summary": "Returns\u0020debug\u0020profile.",
             "url": "classes/Cecil-Renderer-Twig.html#method_getDebugProfile"
+        },                {
+            "fqsen": "\\Cecil\\Renderer\\Twig\u003A\u003AgetTranslationsFormatsConfig\u0028\u0029",
+            "name": "getTranslationsFormatsConfig",
+            "summary": "",
+            "url": "classes/Cecil-Renderer-Twig.html#method_getTranslationsFormatsConfig"
+        },                {
+            "fqsen": "\\Cecil\\Renderer\\Twig\u003A\u003AcreateDateFormatterPrototype\u0028\u0029",
+            "name": "createDateFormatterPrototype",
+            "summary": "Creates\u0020the\u0020date\u0020formatter\u0020prototype\u0020used\u0020by\u0020the\u0020Intl\u0020extension\u003A\u0020it\u0020defines\u0020the\u0020default\u0020date\u0020and\u0020time\nformats,\u0020and\u0020exposes\u0020the\u0020current\u0020locale\u0020\u0028i.e.\u0020the\u0020locale\u0020of\u0020the\u0020language\u0020being\u0020rendered\u0029.",
+            "url": "classes/Cecil-Renderer-Twig.html#method_createDateFormatterPrototype"
         },                {
             "fqsen": "\\Cecil\\Renderer\\Twig\u003A\u003A\u0024builder",
             "name": "builder",
