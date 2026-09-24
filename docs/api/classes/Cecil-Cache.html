@@ -315,6 +315,13 @@
 <dd>{@inheritdoc}</dd>
 
             <dt class="phpdocumentor-table-of-contents__entry -method -public">
+    <a class="" href="classes/Cecil-Cache.html#method_getWithoutContent">getWithoutContent()</a>
+    <span>
+                                &nbsp;: mixed    </span>
+</dt>
+<dd>Gets a value without loading its dedicated content file (if any).</dd>
+
+            <dt class="phpdocumentor-table-of-contents__entry -method -public">
     <a class="" href="classes/Cecil-Cache.html#method_has">has()</a>
     <span>
                                 &nbsp;: bool    </span>
@@ -362,6 +369,13 @@
                                 &nbsp;: mixed    </span>
 </dt>
 <dd>Extracts the stored cache value from a metadata file.</dd>
+
+            <dt class="phpdocumentor-table-of-contents__entry -method -private">
+    <a class="" href="classes/Cecil-Cache.html#method_getValue">getValue()</a>
+    <span>
+                                &nbsp;: mixed    </span>
+</dt>
+<dd>Gets a value, with or without its dedicated content file.</dd>
 
             <dt class="phpdocumentor-table-of-contents__entry -method -private">
     <a class="" href="classes/Cecil-Cache.html#method_prune">prune()</a>
@@ -619,7 +633,7 @@
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Cache.php"><a href="files/src-cache.html"><abbr title="src/Cache.php">Cache.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">142</span>
+    <span class="phpdocumentor-element-found-in__line">161</span>
 
     </aside>
 
@@ -658,7 +672,7 @@
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Cache.php"><a href="files/src-cache.html"><abbr title="src/Cache.php">Cache.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">246</span>
+    <span class="phpdocumentor-element-found-in__line">265</span>
 
     </aside>
 
@@ -707,7 +721,7 @@
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Cache.php"><a href="files/src-cache.html"><abbr title="src/Cache.php">Cache.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">190</span>
+    <span class="phpdocumentor-element-found-in__line">209</span>
 
     </aside>
 
@@ -792,7 +806,7 @@ The key is sanitized to remove reserved characters and ensure it is a valid file
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Cache.php"><a href="files/src-cache.html"><abbr title="src/Cache.php">Cache.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">124</span>
+    <span class="phpdocumentor-element-found-in__line">143</span>
 
     </aside>
 
@@ -841,7 +855,7 @@ The key is sanitized to remove reserved characters and ensure it is a valid file
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Cache.php"><a href="files/src-cache.html"><abbr title="src/Cache.php">Cache.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">174</span>
+    <span class="phpdocumentor-element-found-in__line">193</span>
 
     </aside>
 
@@ -942,7 +956,7 @@ The key is sanitized to remove reserved characters and ensure it is a valid file
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Cache.php"><a href="files/src-cache.html"><abbr title="src/Cache.php">Cache.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">278</span>
+    <span class="phpdocumentor-element-found-in__line">297</span>
 
     </aside>
 
@@ -991,7 +1005,7 @@ The key is sanitized to remove reserved characters and ensure it is a valid file
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Cache.php"><a href="files/src-cache.html"><abbr title="src/Cache.php">Cache.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">158</span>
+    <span class="phpdocumentor-element-found-in__line">177</span>
 
     </aside>
 
@@ -1032,6 +1046,76 @@ The key is sanitized to remove reserved characters and ensure it is a valid file
         <span class="phpdocumentor-signature__response_type">iterable&lt;string|int, mixed&gt;</span>
             </section>
 
+</article>
+                    <article
+        class="phpdocumentor-element
+            -method
+            -public
+                                                        "
+>
+    <h4 class="phpdocumentor-element__name" id="method_getWithoutContent">
+        getWithoutContent()
+        <a href="classes/Cecil-Cache.html#method_getWithoutContent" class="headerlink"><i class="fas fa-link"></i></a>
+
+    </h4>
+    <aside class="phpdocumentor-element-found-in">
+    <abbr class="phpdocumentor-element-found-in__file" title="src/Cache.php"><a href="files/src-cache.html"><abbr title="src/Cache.php">Cache.php</abbr></a></abbr>
+    :
+    <span class="phpdocumentor-element-found-in__line">99</span>
+
+    </aside>
+
+        <p class="phpdocumentor-summary">Gets a value without loading its dedicated content file (if any).</p>
+
+    <code class="phpdocumentor-code phpdocumentor-signature ">
+    <span class="phpdocumentor-signature__visibility">public</span>
+                    <span class="phpdocumentor-signature__name">getWithoutContent</span><span>(</span><span class="phpdocumentor-signature__argument"><span class="phpdocumentor-signature__argument__type">string&nbsp;</span><span class="phpdocumentor-signature__argument__name">$key</span></span><span class="phpdocumentor-signature__argument"><span>[</span><span>, </span><span class="phpdocumentor-signature__argument__type">mixed&nbsp;</span><span class="phpdocumentor-signature__argument__name">$default</span><span> = </span><span class="phpdocumentor-signature__argument__default-value">null</span><span> ]</span></span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">mixed</span></code>
+
+    <div class="phpdocumentor-label-line">
+        </div>
+    
+        <section class="phpdocumentor-description"><p>Useful to handle large files (e.g.: audio, video) without keeping their content in memory.</p>
+</section>
+
+        <h5 class="phpdocumentor-argument-list__heading">Parameters</h5>
+    <dl class="phpdocumentor-argument-list">
+                    <dt class="phpdocumentor-argument-list__entry">
+                <span class="phpdocumentor-argument-list__argument__name">$key</span>
+                : <span class="phpdocumentor-argument-list__argument__type">string</span>
+                            </dt>
+            <dd class="phpdocumentor-argument-list__definition">
+                
+            </dd>
+                    <dt class="phpdocumentor-argument-list__entry">
+                <span class="phpdocumentor-argument-list__argument__name">$default</span>
+                : <span class="phpdocumentor-argument-list__argument__type">mixed</span>
+                 = <span class="phpdocumentor-argument-list__argument__default-value">null</span>            </dt>
+            <dd class="phpdocumentor-argument-list__definition">
+                
+            </dd>
+            </dl>
+
+    
+    <h5 class="phpdocumentor-tag-list__heading" id="method_getWithoutContent_tags">
+        Tags
+        <a href="classes/Cecil-Cache.html#method_getWithoutContent_tags" class="headerlink"><i class="fas fa-link"></i></a>
+
+    </h5>
+    <dl class="phpdocumentor-tag-list">
+                    <dt class="phpdocumentor-tag-list__entry">
+                <span class="phpdocumentor-tag__name">see</span>
+            </dt>
+                            <dd class="phpdocumentor-tag-list__definition">
+                                                                                    <span class="phpdocumentor-tag-link"><abbr title="\Cecil\getContentFile()">getContentFile()</abbr></span>
+                                                                    <section class="phpdocumentor-description"><p>to retrieve the content file path</p>
+</section>
+
+                                    </dd>
+                        </dl>
+
+        
+    
+    
 </article>
                     <article
         class="phpdocumentor-element
@@ -1159,7 +1243,7 @@ The key is sanitized to remove reserved characters and ensure it is a valid file
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Cache.php"><a href="files/src-cache.html"><abbr title="src/Cache.php">Cache.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">166</span>
+    <span class="phpdocumentor-element-found-in__line">185</span>
 
     </aside>
 
@@ -1215,7 +1299,7 @@ The key is sanitized to remove reserved characters and ensure it is a valid file
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Cache.php"><a href="files/src-cache.html"><abbr title="src/Cache.php">Cache.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">388</span>
+    <span class="phpdocumentor-element-found-in__line">407</span>
 
     </aside>
 
@@ -1264,7 +1348,7 @@ The key is sanitized to remove reserved characters and ensure it is a valid file
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Cache.php"><a href="files/src-cache.html"><abbr title="src/Cache.php">Cache.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">373</span>
+    <span class="phpdocumentor-element-found-in__line">392</span>
 
     </aside>
 
@@ -1313,7 +1397,7 @@ The key is sanitized to remove reserved characters and ensure it is a valid file
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Cache.php"><a href="files/src-cache.html"><abbr title="src/Cache.php">Cache.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">288</span>
+    <span class="phpdocumentor-element-found-in__line">307</span>
 
     </aside>
 
@@ -1362,7 +1446,7 @@ The key is sanitized to remove reserved characters and ensure it is a valid file
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Cache.php"><a href="files/src-cache.html"><abbr title="src/Cache.php">Cache.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">416</span>
+    <span class="phpdocumentor-element-found-in__line">435</span>
 
     </aside>
 
@@ -1399,6 +1483,65 @@ The key is sanitized to remove reserved characters and ensure it is a valid file
             -private
                                                         "
 >
+    <h4 class="phpdocumentor-element__name" id="method_getValue">
+        getValue()
+        <a href="classes/Cecil-Cache.html#method_getValue" class="headerlink"><i class="fas fa-link"></i></a>
+
+    </h4>
+    <aside class="phpdocumentor-element-found-in">
+    <abbr class="phpdocumentor-element-found-in__file" title="src/Cache.php"><a href="files/src-cache.html"><abbr title="src/Cache.php">Cache.php</abbr></a></abbr>
+    :
+    <span class="phpdocumentor-element-found-in__line">107</span>
+
+    </aside>
+
+        <p class="phpdocumentor-summary">Gets a value, with or without its dedicated content file.</p>
+
+    <code class="phpdocumentor-code phpdocumentor-signature ">
+    <span class="phpdocumentor-signature__visibility">private</span>
+                    <span class="phpdocumentor-signature__name">getValue</span><span>(</span><span class="phpdocumentor-signature__argument"><span class="phpdocumentor-signature__argument__type">string&nbsp;</span><span class="phpdocumentor-signature__argument__name">$key</span></span><span class="phpdocumentor-signature__argument"><span>, </span><span class="phpdocumentor-signature__argument__type">mixed&nbsp;</span><span class="phpdocumentor-signature__argument__name">$default</span></span><span class="phpdocumentor-signature__argument"><span>, </span><span class="phpdocumentor-signature__argument__type">bool&nbsp;</span><span class="phpdocumentor-signature__argument__name">$withContent</span></span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">mixed</span></code>
+
+    <div class="phpdocumentor-label-line">
+        </div>
+    
+    
+        <h5 class="phpdocumentor-argument-list__heading">Parameters</h5>
+    <dl class="phpdocumentor-argument-list">
+                    <dt class="phpdocumentor-argument-list__entry">
+                <span class="phpdocumentor-argument-list__argument__name">$key</span>
+                : <span class="phpdocumentor-argument-list__argument__type">string</span>
+                            </dt>
+            <dd class="phpdocumentor-argument-list__definition">
+                
+            </dd>
+                    <dt class="phpdocumentor-argument-list__entry">
+                <span class="phpdocumentor-argument-list__argument__name">$default</span>
+                : <span class="phpdocumentor-argument-list__argument__type">mixed</span>
+                            </dt>
+            <dd class="phpdocumentor-argument-list__definition">
+                
+            </dd>
+                    <dt class="phpdocumentor-argument-list__entry">
+                <span class="phpdocumentor-argument-list__argument__name">$withContent</span>
+                : <span class="phpdocumentor-argument-list__argument__type">bool</span>
+                            </dt>
+            <dd class="phpdocumentor-argument-list__definition">
+                
+            </dd>
+            </dl>
+
+    
+
+        
+    
+    
+</article>
+                    <article
+        class="phpdocumentor-element
+            -method
+            -private
+                                                        "
+>
     <h4 class="phpdocumentor-element__name" id="method_prune">
         prune()
         <a href="classes/Cecil-Cache.html#method_prune" class="headerlink"><i class="fas fa-link"></i></a>
@@ -1407,7 +1550,7 @@ The key is sanitized to remove reserved characters and ensure it is a valid file
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Cache.php"><a href="files/src-cache.html"><abbr title="src/Cache.php">Cache.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">318</span>
+    <span class="phpdocumentor-element-found-in__line">337</span>
 
     </aside>
 
@@ -1456,7 +1599,7 @@ The key is sanitized to remove reserved characters and ensure it is a valid file
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Cache.php"><a href="files/src-cache.html"><abbr title="src/Cache.php">Cache.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">404</span>
+    <span class="phpdocumentor-element-found-in__line">423</span>
 
     </aside>
 
@@ -1501,7 +1644,7 @@ The key is sanitized to remove reserved characters and ensure it is a valid file
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Cache.php"><a href="files/src-cache.html"><abbr title="src/Cache.php">Cache.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">355</span>
+    <span class="phpdocumentor-element-found-in__line">374</span>
 
     </aside>
 
@@ -1550,7 +1693,7 @@ The key is sanitized to remove reserved characters and ensure it is a valid file
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Cache.php"><a href="files/src-cache.html"><abbr title="src/Cache.php">Cache.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">300</span>
+    <span class="phpdocumentor-element-found-in__line">319</span>
 
     </aside>
 
@@ -1648,6 +1791,7 @@ The key is sanitized to remove reserved characters and ensure it is a valid file
                                             <li class=""><a href="classes/Cecil-Cache.html#method_get">get()</a></li>
                                             <li class=""><a href="classes/Cecil-Cache.html#method_getContentFile">getContentFile()</a></li>
                                             <li class=""><a href="classes/Cecil-Cache.html#method_getMultiple">getMultiple()</a></li>
+                                            <li class=""><a href="classes/Cecil-Cache.html#method_getWithoutContent">getWithoutContent()</a></li>
                                             <li class=""><a href="classes/Cecil-Cache.html#method_has">has()</a></li>
                                             <li class=""><a href="classes/Cecil-Cache.html#method_set">set()</a></li>
                                             <li class=""><a href="classes/Cecil-Cache.html#method_setMultiple">setMultiple()</a></li>
@@ -1655,6 +1799,7 @@ The key is sanitized to remove reserved characters and ensure it is a valid file
                                             <li class=""><a href="classes/Cecil-Cache.html#method_duration">duration()</a></li>
                                             <li class=""><a href="classes/Cecil-Cache.html#method_getFile">getFile()</a></li>
                                             <li class=""><a href="classes/Cecil-Cache.html#method_getStoredCacheValue">getStoredCacheValue()</a></li>
+                                            <li class=""><a href="classes/Cecil-Cache.html#method_getValue">getValue()</a></li>
                                             <li class=""><a href="classes/Cecil-Cache.html#method_prune">prune()</a></li>
                                             <li class=""><a href="classes/Cecil-Cache.html#method_removeCacheEntry">removeCacheEntry()</a></li>
                                             <li class=""><a href="classes/Cecil-Cache.html#method_resolveShard">resolveShard()</a></li>
