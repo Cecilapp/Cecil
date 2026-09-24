@@ -333,7 +333,7 @@
   {%- if page.metatags.data ?? config.metatags.data ?? config.metatags.jsonld ?? false ~%}
   {#- with_context=false: jsonld.js.twig has its own (JS) escaping strategy,
       it must not inherit `title` already HTML-escaped for this template ~#}
-  {{- include('partials/jsonld.js.twig', {author: author, page: page, title: title_raw}, with_context=false) ~}}
+  {{- include('partials/jsonld.js.twig', {page: page, title: title_raw, author: author, image: image}, with_context=false) ~}}
   {%- endif ~%}
   {%- endblock metatags_structured_data ~%}
 {%- endblock content -%}

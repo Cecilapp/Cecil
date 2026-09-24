@@ -92,9 +92,9 @@
             "@id": "{{ url(page, {canonical: true}) }}"
           },
           "headline": "{{ title|default(page.title)|e('js') }}",
-          {%- if page.image|default ~%}
+          {%- if image|default ~%}
           "image": [
-            "{{ url(asset(page.image), {canonical: true}) }}"
+            "{{ url(image is asset ? image : asset(image), {canonical: true}) }}"
           ],
           {%- endif ~%}
           "datePublished": "{{ page.date|date('Y-m-dTH:i:sP') }}",
@@ -143,9 +143,9 @@
           {%- if page.description|default ~%}
           "description": "{{ page.description|e('js') }}",
           {%- endif ~%}
-          {%- if page.image|default ~%}
+          {%- if image|default ~%}
           "thumbnailUrl": [
-            "{{ url(asset(page.image)|resize(640), {canonical: true}) }}"
+            "{{ url((image is asset ? image : asset(image))|resize(640), {canonical: true}) }}"
           ],
           {%- endif ~%}
           "uploadDate": "{{ page.date|date('Y-m-dTH:i:sP') }}",
