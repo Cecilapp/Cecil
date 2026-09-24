@@ -2,6 +2,15 @@
 
 All notable changes to this project will be documented in this file. Dates are displayed in UTC.
 
+#### [9.1.6](https://github.com/Cecilapp/Cecil/compare/9.1.5...9.1.6)
+
+> 24 September 2026
+
+- docs(api): regenerate API documentation [`64807d4`](https://github.com/Cecilapp/Cecil/commit/64807d4240aacee17e5163dfaa5b4367ad950567)
+- chore(deps): update dependencies [`6b6aaef`](https://github.com/Cecilapp/Cecil/commit/6b6aaef0016fc5e685b4dbeeb3d2e74ee6825a18)
+- chore(composer): update php-cs-fixer to v3.95.27 [`22c61c4`](https://github.com/Cecilapp/Cecil/commit/22c61c4e79797b8f6df9a1f154e3ef95ea3e04b5)
+- refactor(jsonld): extract image to template parameter [`cede999`](https://github.com/Cecilapp/Cecil/commit/cede999992e420da51fe5171e7cc20df0d26da3b)
+
 #### [9.1.5](https://github.com/Cecilapp/Cecil/compare/9.1.4...9.1.5)
 
 > 22 September 2026
