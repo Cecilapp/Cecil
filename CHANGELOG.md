@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. Dates are displayed in UTC.
 
+#### [9.1.5](https://github.com/Cecilapp/Cecil/compare/9.1.4...9.1.5)
+
+> 22 September 2026
+
+- refactor(twig): implement locale-aware date formatter [`5f19a36`](https://github.com/Cecilapp/Cecil/commit/5f19a36a9c0370ca21197322c82c1c93cdf22157)
+- style: remove \ prefix from native PHP functions [`dad1420`](https://github.com/Cecilapp/Cecil/commit/dad142040de39a769cbc9ba41e216192b9ef5fcc)
+
 #### [9.1.4](https://github.com/Cecilapp/Cecil/compare/9.1.3...9.1.4)
 
 > 21 September 2026
