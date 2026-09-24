@@ -525,6 +525,16 @@ class Page extends Item
     }
 
     /**
+     * Clear rendered (e.g.: to free memory once saved).
+     */
+    public function clearRendered(): self
+    {
+        $this->rendered = [];
+
+        return $this;
+    }
+
+    /**
      * Set pages list.
      */
     public function setPages(Collection $pages): self
