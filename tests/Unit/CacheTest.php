@@ -316,6 +316,25 @@ class CacheTest extends TestCase
         self::assertSame('body { color: purple; }', $value['content']);
     }
 
+    public function testGetWithoutContentDoesNotLoadDedicatedContentFile(): void
+    {
+        $cache = $this->createCache();
+        $key = $cache->createKey('stylesheet', name: 'content-lazy');
+
+        self::assertTrue($cache->set($key, [
+            'content' => 'body { color: orange; }',
+            'path' => 'styles/lazy.css',
+        ]));
+
+        $value = $cache->getWithoutContent($key);
+
+        self::assertIsArray($value);
+        self::assertSame('styles/lazy.css', $value['path']);
+        self::assertArrayNotHasKey('content', $value);
+        self::assertFileExists($cache->getContentFile('styles/lazy.css'));
+        self::assertSame('default', $cache->getWithoutContent('missing-key', 'default'));
+    }
+
     public function testDurationHelperSupportsIntAndDateInterval(): void
     {
         $cache = $this->createTestableCache();

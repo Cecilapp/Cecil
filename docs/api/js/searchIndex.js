@@ -266,6 +266,11 @@ Search.appendIndex(
             "summary": "Implements\u0020\\ArrayAccess.",
             "url": "classes/Cecil-Asset.html#method_offsetGet"
         },                {
+            "fqsen": "\\Cecil\\Asset\u003A\u003AgetContent\u0028\u0029",
+            "name": "getContent",
+            "summary": "Returns\u0020content,\u0020loaded\u0020on\u0020demand\u0020from\u0020the\u0020cache\u0020content\u0020file.",
+            "url": "classes/Cecil-Asset.html#method_getContent"
+        },                {
             "fqsen": "\\Cecil\\Asset\u003A\u003Asave\u0028\u0029",
             "name": "save",
             "summary": "Saves\u0020the\u0020asset\u0020by\u0020adding\u0020its\u0020path\u0020to\u0020the\u0020build\u0020assets\u0020list.",
@@ -890,6 +895,16 @@ Search.appendIndex(
             "name": "get",
             "summary": "\u007B\u0040inheritdoc\u007D",
             "url": "classes/Cecil-Cache.html#method_get"
+        },                {
+            "fqsen": "\\Cecil\\Cache\u003A\u003AgetWithoutContent\u0028\u0029",
+            "name": "getWithoutContent",
+            "summary": "Gets\u0020a\u0020value\u0020without\u0020loading\u0020its\u0020dedicated\u0020content\u0020file\u0020\u0028if\u0020any\u0029.",
+            "url": "classes/Cecil-Cache.html#method_getWithoutContent"
+        },                {
+            "fqsen": "\\Cecil\\Cache\u003A\u003AgetValue\u0028\u0029",
+            "name": "getValue",
+            "summary": "Gets\u0020a\u0020value,\u0020with\u0020or\u0020without\u0020its\u0020dedicated\u0020content\u0020file.",
+            "url": "classes/Cecil-Cache.html#method_getValue"
         },                {
             "fqsen": "\\Cecil\\Cache\u003A\u003Adelete\u0028\u0029",
             "name": "delete",
@@ -1620,6 +1635,11 @@ Search.appendIndex(
             "name": "getRendered",
             "summary": "Get\u0020rendered.",
             "url": "classes/Cecil-Collection-Page-Page.html#method_getRendered"
+        },                {
+            "fqsen": "\\Cecil\\Collection\\Page\\Page\u003A\u003AclearRendered\u0028\u0029",
+            "name": "clearRendered",
+            "summary": "Clear\u0020rendered\u0020\u0028e.g.\u003A\u0020to\u0020free\u0020memory\u0020once\u0020saved\u0029.",
+            "url": "classes/Cecil-Collection-Page-Page.html#method_clearRendered"
         },                {
             "fqsen": "\\Cecil\\Collection\\Page\\Page\u003A\u003AsetPages\u0028\u0029",
             "name": "setPages",

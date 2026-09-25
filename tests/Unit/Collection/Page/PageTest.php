@@ -160,6 +160,9 @@ class PageTest extends TestCase
         self::assertSame(['html' => '<p>Hello</p>'], $page->getRendered());
         self::assertSame(['page' => 1], $page->getPaginator());
         self::assertSame(['page' => 1], $page->getPagination());
+
+        $page->clearRendered();
+        self::assertSame([], $page->getRendered());
     }
 
     public function testFrontmatterVariablesCanBeSetAndUnset(): void

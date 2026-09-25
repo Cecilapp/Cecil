@@ -60,6 +60,23 @@ class AssetTest extends TestCase
         self::assertNull($asset['foo']);
     }
 
+    public function testContentIsLoadedOnDemandFromCacheContentFile(): void
+    {
+        ['asset' => $asset, 'cache' => $cache] = $this->createTestAsset([
+            'path' => '/styles/lazy.css',
+        ]);
+        unset($asset['content']); // simulates an asset retrieved from cache, without content
+
+        self::assertFalse(isset($asset['content']));
+        self::assertNull($asset['content']);
+
+        $this->filesystem->dumpFile($cache->getContentFile('/styles/lazy.css'), 'a{b:c;}');
+
+        self::assertTrue(isset($asset['content']));
+        self::assertSame('a{b:c;}', $asset['content']);
+        self::assertSame('data:text/plain;base64,' . base64_encode('a{b:c;}'), $asset->dataurl());
+    }
+
     public function testSaveReturnsEarlyWhenAssetIsMissing(): void
     {
         ['asset' => $asset, 'builder' => $builder] = $this->createTestAsset([
