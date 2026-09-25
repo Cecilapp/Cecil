@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. Dates are displayed in UTC.
 
+#### [9.2.0](https://github.com/Cecilapp/Cecil/compare/9.1.6...9.2.0)
+
+> 25 September 2026
+
+- perf: reduce build memory usage [`#2476`](https://github.com/Cecilapp/Cecil/pull/2476)
+- chore(phpunit): increase memory limit [`2f52480`](https://github.com/Cecilapp/Cecil/commit/2f5248028a454148a9c1e2a72cd31ee89cbe1a84)
+
 #### [9.1.6](https://github.com/Cecilapp/Cecil/compare/9.1.5...9.1.6)
 
 > 24 September 2026
