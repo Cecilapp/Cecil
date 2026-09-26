@@ -97,9 +97,9 @@
             "{{ url(image is asset ? image : asset(image), {canonical: true}) }}"
           ],
           {%- endif ~%}
-          "datePublished": "{{ page.date|date('Y-m-dTH:i:sP') }}",
+          "datePublished": "{{ page.date|date('c') }}",
           {%- if page.updated|default ~%}
-          "dateModified": "{{ page.updated|date('Y-m-dTH:i:sP') }}",
+          "dateModified": "{{ page.updated|date('c') }}",
           {%- endif ~%}
           {%- if author.name|default ~%}
           "author": {
@@ -148,7 +148,7 @@
             "{{ url((image is asset ? image : asset(image))|resize(640), {canonical: true}) }}"
           ],
           {%- endif ~%}
-          "uploadDate": "{{ page.date|date('Y-m-dTH:i:sP') }}",
+          "uploadDate": "{{ page.date|date('c') }}",
           "duration": "{{ asset(page.videos[0]).video.duration|duration_to_iso8601 }}",
           "contentUrl": "{{ url(asset(page.videos[0]), {canonical: true}) }}",
           "embedUrl": "{{ url(page, {canonical: true, format: 'embed'}) }}"
