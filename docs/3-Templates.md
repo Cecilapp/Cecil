@@ -675,14 +675,14 @@ Creates an HTML element from an asset (or an array of assets with custom attribu
 | Option     | Description                                                                                                                                                                                    | Type  |
 | ---------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ----- |
 | attributes | Adds `name="value"` couple to the HTML element.                                                                                                                                                | array |
-| options    | `{preload: boolean}`: preloads.<br>For images:<br>`{formats: array}`: adds alternative formats.<br>`{responsive: bool|string}`: adds responsive images (based on `width` or pixels `density`). | array |
+| options    | `{preload: boolean}`: preloads.<br>For images:<br>`{formats: array}`: adds alternative formats.<br>`{responsive: bool|string}`: adds responsive images (based on `width` or pixels `density`).<br>`{placeholder: string}`: fills the image background before loading (`color` or `lqip`). | array |
 
 :::warning
 Since version ++8.42.0++, the `html` function replace the deprecated `html` filter.
 :::
 
 :::tip
-You can define a global default behavior of images options (`formats` and `responsive`) through the [layouts configuration](4-Configuration.md#layouts-images).
+You can define a global default behavior of images options (`formats`, `responsive` and `placeholder`) through the [layouts configuration](4-Configuration.md#layouts-images).
 
 When [`layouts.images.dark_suffix`](4-Configuration.md#layouts-images) is configured (e.g. `.dark`), Cecil automatically looks for a dark variant of each image (e.g. `photo.dark.jpg` alongside `photo.jpg`) and generates a `<picture>` element with a `<source media="(prefers-color-scheme: dark)">`.
 :::
@@ -707,6 +707,8 @@ _Examples:_
 {{ html(asset('image.jpg'), {alt: 'Description', loading: 'lazy'}, {responsive: true, formats: ['avif', 'webp']}) }}
 {# image with responsive pixels density images #}
 {{ html(asset('image.jpg'), options={responsive: 'density'}, attributes={width: 256}) }}
+{# image with a Low-Quality Image Placeholder #}
+{{ html(asset('image.jpg'), {alt: 'Description', loading: 'lazy'}, {placeholder: 'lqip'}) }}
 {# Audio #}
 {{ html(asset('audio.mp3')) }}
 {# Video #}

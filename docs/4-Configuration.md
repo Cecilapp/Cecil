@@ -1031,6 +1031,7 @@ layouts:
   images:
     formats: []       # used by `html` function: adds alternatives image formats as `source` (e.g. `[avif, webp]`, empty array by default)
     responsive: false # used by `html` function: adds responsive images ('width' or 'density', `false` by default)
+    placeholder: ''   # used by `html` function: fills image background before loading (`color` or `lqip`, disabled by default)
     dark_suffix: ''   # suffix of the dark variant image (e.g. `.dark`), disabled by default
 ```
 
