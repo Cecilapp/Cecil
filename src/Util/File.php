@@ -183,27 +183,4 @@ class File
     {
         return (bool) preg_match('~^(?:f|ht)tps?://~i', $path);
     }
-
-    /**
-     * Tests if a remote file exists.
-     */
-    public static function isRemoteExists(string $path): bool
-    {
-        if (self::isRemote($path)) {
-            if (str_starts_with($path, 'https://') && !\extension_loaded('openssl')) {
-                throw new RuntimeException('The OpenSSL PHP extension is required to get HTTPS remote files.');
-            }
-            $handle = @fopen($path, 'r');
-            if (!empty(get_headers($path))) {
-                if (400 < (int) explode(' ', get_headers($path)[0])[1]) {
-                    return false;
-                }
-            }
-            if (\is_resource($handle)) {
-                return true;
-            }
-        }
-
-        return false;
-    }
 }

@@ -5401,11 +5401,6 @@ Search.appendIndex(
             "summary": "Tests\u0020if\u0020a\u0020file\u0020path\u0020is\u0020remote.",
             "url": "classes/Cecil-Util-File.html#method_isRemote"
         },                {
-            "fqsen": "\\Cecil\\Util\\File\u003A\u003AisRemoteExists\u0028\u0029",
-            "name": "isRemoteExists",
-            "summary": "Tests\u0020if\u0020a\u0020remote\u0020file\u0020exists.",
-            "url": "classes/Cecil-Util-File.html#method_isRemoteExists"
-        },                {
             "fqsen": "\\Cecil\\Util\\File\u003A\u003A\u0024fs",
             "name": "fs",
             "summary": "",

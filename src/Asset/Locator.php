@@ -196,8 +196,8 @@ class Locator
     {
         $timeout = (int) ($this->config->get('assets.remote.timeout') ?? 30);
 
-        if (!Util\File::isRemoteExists($path)) {
-            throw new RuntimeException(\sprintf('Unable to get remote file "%s".', $path));
+        if (str_starts_with($path, 'https://') && !\extension_loaded('openssl')) {
+            throw new RuntimeException('The OpenSSL PHP extension is required to get HTTPS remote files.');
         }
         if (false === $content = Util\File::fileGetContents($path, $userAgent, $timeout)) {
             throw new RuntimeException(\sprintf('Unable to get content of remote file "%s".', $path));

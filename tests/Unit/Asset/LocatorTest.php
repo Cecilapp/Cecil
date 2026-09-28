@@ -213,7 +213,7 @@ class LocatorTest extends TestCase
             $locator = new Locator($this->createBuilder());
 
             $this->expectException(RuntimeException::class);
-            $this->expectExceptionMessage('Unable to get remote file');
+            $this->expectExceptionMessage('Unable to get content of remote file');
 
             $locator->locate('http://127.0.0.1:9/style.css');
         } finally {

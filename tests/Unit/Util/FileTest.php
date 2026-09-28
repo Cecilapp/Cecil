@@ -128,9 +128,4 @@ class FileTest extends TestCase
         self::assertTrue(File::isRemote('ftp://example.com/file.css'));
         self::assertFalse(File::isRemote('/local/path/file.css'));
     }
-
-    public function testIsRemoteExistsReturnsFalseForLocalPath(): void
-    {
-        self::assertFalse(File::isRemoteExists($this->tmpDir . DIRECTORY_SEPARATOR . 'local.txt'));
-    }
 }
