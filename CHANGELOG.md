@@ -2,6 +2,14 @@
 
 All notable changes to this project will be documented in this file. Dates are displayed in UTC.
 
+#### [9.3.1](https://github.com/Cecilapp/Cecil/compare/9.3.0...9.3.1)
+
+> 28 September 2026
+
+- chore(deps): update parsedown-toc, intervention/image, and cpu-core-counter [`5efb29b`](https://github.com/Cecilapp/Cecil/commit/5efb29b23d67e2781e6aa7b6d899ec39c8700a45)
+- refactor(parsedown): remove redundant normalizeString override [`059ad09`](https://github.com/Cecilapp/Cecil/commit/059ad09583986cce042df7960fd29dc3d28e7d3a)
+- chore(readme): remove trailing blank line [`bd2e1e0`](https://github.com/Cecilapp/Cecil/commit/bd2e1e04f04ecc6258aef28bb88b68e46b4bce62)
+
 #### [9.3.0](https://github.com/Cecilapp/Cecil/compare/9.2.1...9.3.0)
 
 > 28 September 2026
