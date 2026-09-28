@@ -1033,6 +1033,7 @@ layouts:
   images:
     formats: []       # utilisé par la fonction `html` : ajoute des formats d’image alternatifs comme `source` (ex. `[avif, webp]`, tableau vide par défaut)
     responsive: false # utilisé par la fonction `html` : ajoute des images responsives ('width' ou 'density', `false` par défaut)
+    placeholder: ''   # utilisé par la fonction `html` : remplit l’arrière-plan de l’image avant son chargement (`color` ou `lqip`, désactivé par défaut)
     dark_suffix: ''   # suffixe de l’image variante sombre (ex. `.dark`), désactivé par défaut
 ```
 

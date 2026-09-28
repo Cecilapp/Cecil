@@ -381,9 +381,10 @@ class Core extends AbstractExtension
      * @param array                                                                $attributes HTML attributes to add to the element
      * @param array                                                                $options    Options:
      * [
-     *     'preload'    => false,
-     *     'responsive' => false,
-     *     'formats'    => [],
+     *     'preload'     => false,
+     *     'responsive'  => false,
+     *     'formats'     => [],
+     *     'placeholder' => '',
      * ];
      *
      * @return string HTML element
@@ -564,6 +565,32 @@ class Core extends AbstractExtension
         }
         if (!isset($attributes['height'])) {
             $attributes['height'] = $asset['height'] ?: '';
+        }
+        // placeholder (`color` or `lqip`)
+        $placeholder = $options['placeholder'] ?? $this->config->get('layouts.images.placeholder');
+        if (!empty($placeholder) && \in_array($asset['subtype'], ['image/jpeg', 'image/png', 'image/gif'])) {
+            try {
+                $style = trim($attributes['style'] ?? '', ';');
+                switch ($placeholder) {
+                    case 'color':
+                        $style .= \sprintf(';max-width:100%%;height:auto;background-color:%s;', Image::getDominantColor($asset));
+                        break;
+                    case 'lqip':
+                        // aborts if animated GIF for performance reasons
+                        if (Image::isAnimatedGif($asset)) {
+                            break;
+                        }
+                        $style .= \sprintf(';max-width:100%%;height:auto;background-image:url(%s);background-repeat:no-repeat;background-position:center;background-size:cover;', Image::getLqip($asset));
+                        break;
+                    default:
+                        throw new RuntimeException(\sprintf('Image placeholder "%s" is not supported (use "color" or "lqip").', $placeholder));
+                }
+                if (!empty($style = trim($style, ';'))) {
+                    $attributes['style'] = $style;
+                }
+            } catch (\Exception $e) {
+                $this->builder->getLogger()->warning($e->getMessage());
+            }
         }
         $img = \sprintf('<img src="%s"%s>', $this->url($context, $asset, $options), self::htmlAttributes($attributes));
 

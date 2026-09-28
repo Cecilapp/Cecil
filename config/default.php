@@ -183,6 +183,7 @@ return [
         'images' => [ // how to handle images in templates
             'formats' => [], // used by `html` function: adds alternatives image formats as `source` (e.g.: ['avif', 'webp'])
             'responsive' => false, // used by `html` function: adds responsive images ('width' or 'density') to `srcset` attribute
+            'placeholder' => '', // used by `html` function: fills <img> background before loading (`color` or `lqip`)
             'dark_suffix' => null, // suffix of the dark variant image file (e.g.: `.dark`), null to disable
         ],
         'translations' => [ // i18n

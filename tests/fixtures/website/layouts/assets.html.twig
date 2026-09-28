@@ -428,6 +428,19 @@
     </blockquote>
     <pre>{{ image(asset('cecil-logo-big.png'), {title: 'title', alt: 'alternative', loading: 'lazy'}, {responsive: false, formats: []})|e }}</pre>
   </p>
+  <h4>Placeholder</h4>
+  <p>
+    <pre>html(asset('cecil-logo-big.png'), {alt: 'LQIP placeholder', style: 'border:1px solid'}, {placeholder: 'lqip'})</pre>
+    <blockquote>
+      {{ html(asset('cecil-logo-big.png'), {alt: 'LQIP placeholder', style: 'border:1px solid'}, {responsive: false, formats: [], placeholder: 'lqip'}) }}
+    </blockquote>
+    <pre>{{ html(asset('cecil-logo-big.png'), {alt: 'LQIP placeholder', style: 'border:1px solid'}, {responsive: false, formats: [], placeholder: 'lqip'})|e }}</pre>
+    <pre>html(asset('cecil-logo-big.png'), {alt: 'Color placeholder'}, {placeholder: 'color'})</pre>
+    <blockquote>
+      {{ html(asset('cecil-logo-big.png'), {alt: 'Color placeholder'}, {responsive: false, formats: [], placeholder: 'color'}) }}
+    </blockquote>
+    <pre>{{ html(asset('cecil-logo-big.png'), {alt: 'Color placeholder'}, {responsive: false, formats: [], placeholder: 'color'})|e }}</pre>
+  </p>
   <h4>Alternative formats</h4>
   <p>
     <pre>html(asset('cecil-logo-big.png'), options={formats: ['webp', 'avif']})</pre>

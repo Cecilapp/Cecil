@@ -676,14 +676,14 @@ Crée un élément HTML à partir d'un actif (ou d'un tableau d'actifs avec des 
 | Options   | Descriptif                                                                                                                                                                                                                     | Tapez   |
 | --------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ------- |
 | attributs | Ajoute le couple `name="value"` à l'élément HTML.                                                                                                                                                                              | tableau |
-| options   | `{preload: boolean}` : préchargements.<br>Pour les images :<br>`{formats: array}` : ajoute des formats alternatifs.<br>`{responsive: bool|string}` : ajoute des images réactives (basées sur `width` ou des pixels `density`). | tableau |
+| options   | `{preload: boolean}` : préchargements.<br>Pour les images :<br>`{formats: array}` : ajoute des formats alternatifs.<br>`{responsive: bool|string}` : ajoute des images réactives (basées sur `width` ou des pixels `density`).<br>`{placeholder: string}` : remplit l'arrière-plan de l'image avant son chargement (`color` ou `lqip`). | tableau |
 
 :::warning
 Depuis la version ++8.42.0++, la fonction `html` remplace le filtre `html` obsolète.
 :::
 
 :::tip
-Vous pouvez définir un comportement global par défaut des options d'images (`formats` et `responsive`) via la [configuration des layouts](4-Configuration.md#layouts-images).
+Vous pouvez définir un comportement global par défaut des options d'images (`formats`, `responsive` et `placeholder`) via la [configuration des layouts](4-Configuration.md#layouts-images).
 
 Lorsque [`layouts.images.dark_suffix`](4-Configuration.md#layouts-images) est configuré (par exemple `.dark`), Cecil recherche automatiquement une variante sombre de chaque image (par exemple `photo.dark.jpg` aux côtés de `photo.jpg`) et génère un élément `<picture>` avec un `<source media="(prefers-color-scheme: dark)">`.
 :::
@@ -708,6 +708,8 @@ _Exemples :_
 {{ html(asset('image.jpg'), {alt: 'Description', loading: 'lazy'}, {responsive: true, formats: ['avif', 'webp']}) }}
 {# image with responsive pixels density images #}
 {{ html(asset('image.jpg'), options={responsive: 'density'}, attributes={width: 256}) }}
+{# image with a Low-Quality Image Placeholder #}
+{{ html(asset('image.jpg'), {alt: 'Description', loading: 'lazy'}, {placeholder: 'lqip'}) }}
 {# Audio #}
 {{ html(asset('audio.mp3')) }}
 {# Video #}
