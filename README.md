@@ -188,7 +188,7 @@ gh skill install Cecilapp/Cecil cecil
 Or with [`npx skills`](https://github.com/vercel-labs/skills):
 
 ```bash
-npx skills add https://github.com/cecilapp/cecil/tree/master/skills
+npx skills add https://github.com/cecilapp/cecil/tree/main/skills
 ```
 
 
