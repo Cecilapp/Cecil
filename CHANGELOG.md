@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. Dates are displayed in UTC.
 
+#### [9.4.0](https://github.com/Cecilapp/Cecil/compare/9.3.1...9.4.0)
+
+> 28 September 2026
+
+- feat(image_from_website): add image fallbacks and cache resolved image URL [`#2479`](https://github.com/Cecilapp/Cecil/pull/2479)
+- docs(api): remove normalizeString method documentation [`21847f5`](https://github.com/Cecilapp/Cecil/commit/21847f56875fd705300679ae29a1242622ac651d)
+
 #### [9.3.1](https://github.com/Cecilapp/Cecil/compare/9.3.0...9.3.1)
 
 > 28 September 2026
