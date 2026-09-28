@@ -1,7 +1,7 @@
 <!--
 description: "Configure your website."
 date: 2021-05-07
-updated: 2026-08-17
+updated: 2026-09-28
 -->
 # Configuration
 
@@ -989,6 +989,28 @@ assets:
       useragent1: <string>
       useragent2: <string>
 ```
+
+### assets.capture
+
+Website screenshot options, used by the [`capture()`](3-Templates.md#capture) function.
+
+```yaml
+assets:
+  capture:
+    url: 'https://api.microlink.io/?url=%url%&screenshot=true&meta=false&embed=screenshot.url&screenshot.type=png&viewport.width=%width%&viewport.height=%height%&viewport.deviceScaleFactor=1'
+    width: 1024 # screenshot width, in pixels
+    height: 768 # viewport height, in pixels
+```
+
+`url` is the screenshot service URL pattern (must return a PNG image), that contains variables:
+
+- `%url%` replaced by the URL of the website to capture (URL encoded)
+- `%width%` replaced by the `assets.capture.width` option
+- `%height%` replaced by the `assets.capture.height` option
+
+:::info
+The default service is [Microlink](https://microlink.io), which has a free plan limited to 50 requests per day. Screenshots are cached (see [`cache.assets.remote.ttl`](#cache-assets-remote-ttl)).
+:::
 
 ## Layouts
 

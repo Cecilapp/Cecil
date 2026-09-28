@@ -153,6 +153,11 @@ return [
             ],
             'timeout' => 30, // HTTP timeout in seconds for remote asset downloads
         ],
+        'capture' => [ // website screenshot used by the `capture()` function
+            'url' => 'https://api.microlink.io/?url=%url%&screenshot=true&meta=false&embed=screenshot.url&screenshot.type=png&viewport.width=%width%&viewport.height=%height%&viewport.deviceScaleFactor=1', // screenshot service URL, support placeholders: `%url%`, `%width%`, `%height%`
+            'width' => 1024, // screenshot width (in pixels)
+            'height' => 768, // viewport height (in pixels)
+        ],
         'images' => [
             'optimize' => false, // enables images optimization with JpegOptim, Optipng, Pngquant 2, SVGO 1, Gifsicle, cwebp, avifenc
             'quality' => 75, // image quality after optimization or resize

@@ -2,7 +2,7 @@
 title: Configuration
 description: "Configurez votre site web."
 date: 2026-03-27
-updated: 2026-08-17
+updated: 2026-09-28
 slug: configuration
 -->
 # Configuration
@@ -991,6 +991,28 @@ assets:
       useragent1: <string>
       useragent2: <string>
 ```
+
+### assets.capture
+
+Options de capture d'écran de site Web, utilisées par la fonction [`capture()`](3-Templates.md#capture).
+
+```yaml
+assets:
+  capture:
+    url: 'https://api.microlink.io/?url=%url%&screenshot=true&meta=false&embed=screenshot.url&screenshot.type=png&viewport.width=%width%&viewport.height=%height%&viewport.deviceScaleFactor=1'
+    width: 1024 # largeur de la capture, en pixels
+    height: 768 # hauteur du viewport, en pixels
+```
+
+`url` est le modèle d'URL du service de capture (qui doit retourner une image PNG), contenant des variables :
+
+- `%url%` remplacée par l'URL du site Web à capturer (encodée)
+- `%width%` remplacée par l'option `assets.capture.width`
+- `%height%` remplacée par l'option `assets.capture.height`
+
+:::info
+Le service par défaut est [Microlink](https://microlink.io), dont l'offre gratuite est limitée à 50 requêtes par jour. Les captures sont mises en cache (voir [`cache.assets.remote.ttl`](#cache-assets-remote-ttl)).
+:::
 
 ## Disposition
 

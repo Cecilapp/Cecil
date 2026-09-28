@@ -66,6 +66,7 @@ class Core extends AbstractExtension
             new \Twig\TwigFunction('image_srcset', [$this, 'imageSrcset']),
             new \Twig\TwigFunction('image_sizes', [$this, 'imageSizes']),
             new \Twig\TwigFunction('image_from_website', [$this, 'htmlImageFromWebsite'], ['needs_context' => true]),
+            new \Twig\TwigFunction('capture', [$this, 'capture']),
             // utilities
             new \Twig\TwigFunction('hash', [$this, 'hash']),
             new \Twig\TwigFunction('cache_key', [$this, 'cacheKey'], ['needs_context' => true]),
@@ -712,6 +713,41 @@ class Core extends AbstractExtension
         }
 
         return null;
+    }
+
+    /**
+     * Captures a screenshot of a website and returns it as an image Asset.
+     * The screenshot is downloaded from the service defined in `assets.capture.url` and cached as a remote asset.
+     *
+     * @throws RuntimeException
+     */
+    public function capture(string $url): Asset
+    {
+        if (!Util\File::isRemote($url)) {
+            throw new RuntimeException(\sprintf('Argument of "%s()" must be a website URL ("%s" given).', \Cecil\Util::formatMethodName(__METHOD__), $url));
+        }
+
+        $width = (int) $this->config->get('assets.capture.width');
+        $height = (int) $this->config->get('assets.capture.height');
+        $serviceUrl = str_replace(
+            ['%url%', '%width%', '%height%'],
+            [urlencode($url), (string) $width, (string) $height],
+            (string) $this->config->get('assets.capture.url')
+        );
+        $filename = Util::joinPath(
+            (string) $this->config->get('assets.target'),
+            'capture',
+            Util\Slugifier::slugify(Asset\Locator::sanitize((string) preg_replace('#^https?://#i', '', rtrim($url, '/')))) . '.png'
+        );
+
+        try {
+            $asset = new Asset($this->builder, $serviceUrl, ['filename' => $filename]);
+        } catch (RuntimeException $e) {
+            throw new RuntimeException(\sprintf('Unable to capture website "%s".', $url), previous: $e);
+        }
+
+        // ensures the screenshot width
+        return $asset->resize($width);
     }
 
     /**

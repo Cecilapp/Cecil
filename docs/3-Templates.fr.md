@@ -2,7 +2,7 @@
 title: Templates
 description: "Travailler avec les layouts, les templates et les composants."
 date: 2026-05-26
-updated: 2026-08-26
+updated: 2026-09-28
 slug: templates
 -->
 # Templates
@@ -768,6 +768,24 @@ _Exemples :_
 
 ```twig
 {{ image_from_website('https://example.com/page-with-image.html') }}
+```
+
+### capture
+
+Réalise une capture d'écran d'un site Web et la retourne sous forme d'_Asset_ image (1024 pixels de large par défaut).
+
+```twig
+{{ capture('url') }}
+```
+
+La capture est générée par un service distant (voir [`assets.capture`](4-Configuration.md#assets-capture)), puis téléchargée et mise en cache comme n'importe quelle ressource distante : le service n'est rappelé qu'à l'expiration du cache (voir [`cache.assets.remote.ttl`](4-Configuration.md#cache-assets-remote-ttl)).
+
+_Exemples :_
+
+```twig
+{{ image(capture('https://cecil.app'), {alt: 'Capture de cecil.app', loading: 'lazy'}) }}
+{{ image(capture('https://cecil.app')|webp, {alt: 'Capture de cecil.app'}) }}
+<img src="{{ url(capture('https://cecil.app')) }}" width="1024" alt="">
 ```
 
 ### readtime
