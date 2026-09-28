@@ -4271,6 +4271,11 @@ Search.appendIndex(
             "summary": "Builds\u0020the\u0020HTML\u0020img\u0020element\u0020from\u0020a\u0020website\u0020URL\u0020by\u0020extracting\u0020the\u0020image\u0020from\u0020meta\u0020tags.",
             "url": "classes/Cecil-Renderer-Extension-Core.html#method_htmlImageFromWebsite"
         },                {
+            "fqsen": "\\Cecil\\Renderer\\Extension\\Core\u003A\u003Acapture\u0028\u0029",
+            "name": "capture",
+            "summary": "Captures\u0020a\u0020screenshot\u0020of\u0020a\u0020website\u0020and\u0020returns\u0020it\u0020as\u0020an\u0020image\u0020Asset.",
+            "url": "classes/Cecil-Renderer-Extension-Core.html#method_capture"
+        },                {
             "fqsen": "\\Cecil\\Renderer\\Extension\\Core\u003A\u003Awebp\u0028\u0029",
             "name": "webp",
             "summary": "Converts\u0020an\u0020image\u0020Asset\u0020to\u0020WebP\u0020format.",

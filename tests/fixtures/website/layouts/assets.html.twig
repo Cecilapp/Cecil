@@ -504,5 +504,14 @@
     </blockquote>
     <pre>{{ image_from_website('https://cecil.app', {alt: 'Example Image from URL', loading: 'lazy'})|e }}</pre>
   </p>
+  <H3>Website capture</h3>
+  <p>
+    <pre>{% verbatim %}{{ image(capture('https://cecil.app'), {alt: 'Screenshot of cecil.app', loading: 'lazy'}) }}{% endverbatim %}</pre>
+    <blockquote>
+      {% set screenshot = capture('https://cecil.app') %}
+      {{ image(screenshot, {alt: 'Screenshot of cecil.app', loading: 'lazy'}) }}
+      <br>{{ screenshot.path }} ({{ screenshot.width }}x{{ screenshot.height }})
+    </blockquote>
+  </p>
 
 {% endblock content %}

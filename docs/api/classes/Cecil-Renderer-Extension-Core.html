@@ -256,6 +256,13 @@ including URL generation, asset management, content processing, and more.</p>
 <dd>Builds a cache key from a variable.</dd>
 
             <dt class="phpdocumentor-table-of-contents__entry -method -public">
+    <a class="" href="classes/Cecil-Renderer-Extension-Core.html#method_capture">capture()</a>
+    <span>
+                                &nbsp;: <a href="classes/Cecil-Asset.html"><abbr title="\Cecil\Asset">Asset</abbr></a>    </span>
+</dt>
+<dd>Captures a screenshot of a website and returns it as an image Asset.</dd>
+
+            <dt class="phpdocumentor-table-of-contents__entry -method -public">
     <a class="" href="classes/Cecil-Renderer-Extension-Core.html#method_dataurl">dataurl()</a>
     <span>
                                 &nbsp;: string    </span>
@@ -657,7 +664,7 @@ including URL generation, asset management, content processing, and more.</p>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Renderer/Extension/Core.php"><a href="files/src-renderer-extension-core.html"><abbr title="src/Renderer/Extension/Core.php">Core.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">173</span>
+    <span class="phpdocumentor-element-found-in__line">174</span>
 
     </aside>
 
@@ -715,7 +722,7 @@ including URL generation, asset management, content processing, and more.</p>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Renderer/Extension/Core.php"><a href="files/src-renderer-extension-core.html"><abbr title="src/Renderer/Extension/Core.php">Core.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">728</span>
+    <span class="phpdocumentor-element-found-in__line">764</span>
 
     </aside>
 
@@ -771,7 +778,7 @@ including URL generation, asset management, content processing, and more.</p>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Renderer/Extension/Core.php"><a href="files/src-renderer-extension-core.html"><abbr title="src/Renderer/Extension/Core.php">Core.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">880</span>
+    <span class="phpdocumentor-element-found-in__line">916</span>
 
     </aside>
 
@@ -834,6 +841,71 @@ including URL generation, asset management, content processing, and more.</p>
             -public
                                                         "
 >
+    <h4 class="phpdocumentor-element__name" id="method_capture">
+        capture()
+        <a href="classes/Cecil-Renderer-Extension-Core.html#method_capture" class="headerlink"><i class="fas fa-link"></i></a>
+
+    </h4>
+    <aside class="phpdocumentor-element-found-in">
+    <abbr class="phpdocumentor-element-found-in__file" title="src/Renderer/Extension/Core.php"><a href="files/src-renderer-extension-core.html"><abbr title="src/Renderer/Extension/Core.php">Core.php</abbr></a></abbr>
+    :
+    <span class="phpdocumentor-element-found-in__line">724</span>
+
+    </aside>
+
+        <p class="phpdocumentor-summary">Captures a screenshot of a website and returns it as an image Asset.</p>
+
+    <code class="phpdocumentor-code phpdocumentor-signature ">
+    <span class="phpdocumentor-signature__visibility">public</span>
+                    <span class="phpdocumentor-signature__name">capture</span><span>(</span><span class="phpdocumentor-signature__argument"><span class="phpdocumentor-signature__argument__type">string&nbsp;</span><span class="phpdocumentor-signature__argument__name">$url</span></span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type"><a href="classes/Cecil-Asset.html"><abbr title="\Cecil\Asset">Asset</abbr></a></span></code>
+
+    <div class="phpdocumentor-label-line">
+        </div>
+    
+        <section class="phpdocumentor-description"><p>The screenshot is downloaded from the service defined in <code class="prettyprint">assets.capture.url</code> and cached as a remote asset.</p>
+</section>
+
+        <h5 class="phpdocumentor-argument-list__heading">Parameters</h5>
+    <dl class="phpdocumentor-argument-list">
+                    <dt class="phpdocumentor-argument-list__entry">
+                <span class="phpdocumentor-argument-list__argument__name">$url</span>
+                : <span class="phpdocumentor-argument-list__argument__type">string</span>
+                            </dt>
+            <dd class="phpdocumentor-argument-list__definition">
+                
+            </dd>
+            </dl>
+
+    
+    <h5 class="phpdocumentor-tag-list__heading" id="method_capture_tags">
+        Tags
+        <a href="classes/Cecil-Renderer-Extension-Core.html#method_capture_tags" class="headerlink"><i class="fas fa-link"></i></a>
+
+    </h5>
+    <dl class="phpdocumentor-tag-list">
+                    <dt class="phpdocumentor-tag-list__entry">
+                <span class="phpdocumentor-tag__name">throws</span>
+            </dt>
+                            <dd class="phpdocumentor-tag-list__definition">
+                                                                <span class="phpdocumentor-tag-link"><a href="classes/Cecil-Exception-RuntimeException.html"><abbr title="\Cecil\Exception\RuntimeException">RuntimeException</abbr></a></span>
+                                                                                    
+                                    </dd>
+                        </dl>
+
+        
+    
+            <section>
+        <h5 class="phpdocumentor-return-value__heading">Return values</h5>
+        <span class="phpdocumentor-signature__response_type"><a href="classes/Cecil-Asset.html"><abbr title="\Cecil\Asset">Asset</abbr></a></span>
+            </section>
+
+</article>
+                    <article
+        class="phpdocumentor-element
+            -method
+            -public
+                                                        "
+>
     <h4 class="phpdocumentor-element__name" id="method_dataurl">
         dataurl()
         <a href="classes/Cecil-Renderer-Extension-Core.html#method_dataurl" class="headerlink"><i class="fas fa-link"></i></a>
@@ -842,7 +914,7 @@ including URL generation, asset management, content processing, and more.</p>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Renderer/Extension/Core.php"><a href="files/src-renderer-extension-core.html"><abbr title="src/Renderer/Extension/Core.php">Core.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">275</span>
+    <span class="phpdocumentor-element-found-in__line">276</span>
 
     </aside>
 
@@ -891,7 +963,7 @@ including URL generation, asset management, content processing, and more.</p>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Renderer/Extension/Core.php"><a href="files/src-renderer-extension-core.html"><abbr title="src/Renderer/Extension/Core.php">Core.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">832</span>
+    <span class="phpdocumentor-element-found-in__line">868</span>
 
     </aside>
 
@@ -940,7 +1012,7 @@ including URL generation, asset management, content processing, and more.</p>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Renderer/Extension/Core.php"><a href="files/src-renderer-extension-core.html"><abbr title="src/Renderer/Extension/Core.php">Core.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">221</span>
+    <span class="phpdocumentor-element-found-in__line">222</span>
 
     </aside>
 
@@ -989,7 +1061,7 @@ including URL generation, asset management, content processing, and more.</p>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Renderer/Extension/Core.php"><a href="files/src-renderer-extension-core.html"><abbr title="src/Renderer/Extension/Core.php">Core.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">765</span>
+    <span class="phpdocumentor-element-found-in__line">801</span>
 
     </aside>
 
@@ -1038,7 +1110,7 @@ including URL generation, asset management, content processing, and more.</p>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Renderer/Extension/Core.php"><a href="files/src-renderer-extension-core.html"><abbr title="src/Renderer/Extension/Core.php">Core.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">94</span>
+    <span class="phpdocumentor-element-found-in__line">95</span>
 
     </aside>
 
@@ -1110,7 +1182,7 @@ including URL generation, asset management, content processing, and more.</p>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Renderer/Extension/Core.php"><a href="files/src-renderer-extension-core.html"><abbr title="src/Renderer/Extension/Core.php">Core.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">134</span>
+    <span class="phpdocumentor-element-found-in__line">135</span>
 
     </aside>
 
@@ -1144,7 +1216,7 @@ including URL generation, asset management, content processing, and more.</p>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Renderer/Extension/Core.php"><a href="files/src-renderer-extension-core.html"><abbr title="src/Renderer/Extension/Core.php">Core.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">860</span>
+    <span class="phpdocumentor-element-found-in__line">896</span>
 
     </aside>
 
@@ -1200,7 +1272,7 @@ including URL generation, asset management, content processing, and more.</p>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Renderer/Extension/Core.php"><a href="files/src-renderer-extension-core.html"><abbr title="src/Renderer/Extension/Core.php">Core.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">394</span>
+    <span class="phpdocumentor-element-found-in__line">395</span>
 
     </aside>
 
@@ -1302,7 +1374,7 @@ including URL generation, asset management, content processing, and more.</p>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Renderer/Extension/Core.php"><a href="files/src-renderer-extension-core.html"><abbr title="src/Renderer/Extension/Core.php">Core.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">612</span>
+    <span class="phpdocumentor-element-found-in__line">613</span>
 
     </aside>
 
@@ -1372,7 +1444,7 @@ including URL generation, asset management, content processing, and more.</p>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Renderer/Extension/Core.php"><a href="files/src-renderer-extension-core.html"><abbr title="src/Renderer/Extension/Core.php">Core.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">465</span>
+    <span class="phpdocumentor-element-found-in__line">466</span>
 
     </aside>
 
@@ -1442,7 +1514,7 @@ including URL generation, asset management, content processing, and more.</p>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Renderer/Extension/Core.php"><a href="files/src-renderer-extension-core.html"><abbr title="src/Renderer/Extension/Core.php">Core.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">491</span>
+    <span class="phpdocumentor-element-found-in__line">492</span>
 
     </aside>
 
@@ -1512,7 +1584,7 @@ including URL generation, asset management, content processing, and more.</p>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Renderer/Extension/Core.php"><a href="files/src-renderer-extension-core.html"><abbr title="src/Renderer/Extension/Core.php">Core.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">695</span>
+    <span class="phpdocumentor-element-found-in__line">696</span>
 
     </aside>
 
@@ -1598,7 +1670,7 @@ including URL generation, asset management, content processing, and more.</p>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Renderer/Extension/Core.php"><a href="files/src-renderer-extension-core.html"><abbr title="src/Renderer/Extension/Core.php">Core.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">483</span>
+    <span class="phpdocumentor-element-found-in__line">484</span>
 
     </aside>
 
@@ -1668,7 +1740,7 @@ including URL generation, asset management, content processing, and more.</p>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Renderer/Extension/Core.php"><a href="files/src-renderer-extension-core.html"><abbr title="src/Renderer/Extension/Core.php">Core.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">662</span>
+    <span class="phpdocumentor-element-found-in__line">663</span>
 
     </aside>
 
@@ -1738,7 +1810,7 @@ including URL generation, asset management, content processing, and more.</p>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Renderer/Extension/Core.php"><a href="files/src-renderer-extension-core.html"><abbr title="src/Renderer/Extension/Core.php">Core.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">684</span>
+    <span class="phpdocumentor-element-found-in__line">685</span>
 
     </aside>
 
@@ -1787,7 +1859,7 @@ including URL generation, asset management, content processing, and more.</p>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Renderer/Extension/Core.php"><a href="files/src-renderer-extension-core.html"><abbr title="src/Renderer/Extension/Core.php">Core.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">676</span>
+    <span class="phpdocumentor-element-found-in__line">677</span>
 
     </aside>
 
@@ -1850,7 +1922,7 @@ including URL generation, asset management, content processing, and more.</p>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Renderer/Extension/Core.php"><a href="files/src-renderer-extension-core.html"><abbr title="src/Renderer/Extension/Core.php">Core.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">757</span>
+    <span class="phpdocumentor-element-found-in__line">793</span>
 
     </aside>
 
@@ -1899,7 +1971,7 @@ including URL generation, asset management, content processing, and more.</p>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Renderer/Extension/Core.php"><a href="files/src-renderer-extension-core.html"><abbr title="src/Renderer/Extension/Core.php">Core.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">292</span>
+    <span class="phpdocumentor-element-found-in__line">293</span>
 
     </aside>
 
@@ -1955,7 +2027,7 @@ including URL generation, asset management, content processing, and more.</p>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Renderer/Extension/Core.php"><a href="files/src-renderer-extension-core.html"><abbr title="src/Renderer/Extension/Core.php">Core.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">802</span>
+    <span class="phpdocumentor-element-found-in__line">838</span>
 
     </aside>
 
@@ -2004,7 +2076,7 @@ including URL generation, asset management, content processing, and more.</p>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Renderer/Extension/Core.php"><a href="files/src-renderer-extension-core.html"><abbr title="src/Renderer/Extension/Core.php">Core.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">811</span>
+    <span class="phpdocumentor-element-found-in__line">847</span>
 
     </aside>
 
@@ -2055,7 +2127,7 @@ including URL generation, asset management, content processing, and more.</p>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Renderer/Extension/Core.php"><a href="files/src-renderer-extension-core.html"><abbr title="src/Renderer/Extension/Core.php">Core.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">820</span>
+    <span class="phpdocumentor-element-found-in__line">856</span>
 
     </aside>
 
@@ -2106,7 +2178,7 @@ including URL generation, asset management, content processing, and more.</p>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Renderer/Extension/Core.php"><a href="files/src-renderer-extension-core.html"><abbr title="src/Renderer/Extension/Core.php">Core.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">848</span>
+    <span class="phpdocumentor-element-found-in__line">884</span>
 
     </aside>
 
@@ -2155,7 +2227,7 @@ including URL generation, asset management, content processing, and more.</p>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Renderer/Extension/Core.php"><a href="files/src-renderer-extension-core.html"><abbr title="src/Renderer/Extension/Core.php">Core.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">259</span>
+    <span class="phpdocumentor-element-found-in__line">260</span>
 
     </aside>
 
@@ -2213,7 +2285,7 @@ including URL generation, asset management, content processing, and more.</p>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Renderer/Extension/Core.php"><a href="files/src-renderer-extension-core.html"><abbr title="src/Renderer/Extension/Core.php">Core.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">205</span>
+    <span class="phpdocumentor-element-found-in__line">206</span>
 
     </aside>
 
@@ -2262,7 +2334,7 @@ including URL generation, asset management, content processing, and more.</p>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Renderer/Extension/Core.php"><a href="files/src-renderer-extension-core.html"><abbr title="src/Renderer/Extension/Core.php">Core.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">304</span>
+    <span class="phpdocumentor-element-found-in__line">305</span>
 
     </aside>
 
@@ -2311,7 +2383,7 @@ including URL generation, asset management, content processing, and more.</p>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Renderer/Extension/Core.php"><a href="files/src-renderer-extension-core.html"><abbr title="src/Renderer/Extension/Core.php">Core.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">326</span>
+    <span class="phpdocumentor-element-found-in__line">327</span>
 
     </aside>
 
@@ -2360,7 +2432,7 @@ including URL generation, asset management, content processing, and more.</p>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Renderer/Extension/Core.php"><a href="files/src-renderer-extension-core.html"><abbr title="src/Renderer/Extension/Core.php">Core.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">242</span>
+    <span class="phpdocumentor-element-found-in__line">243</span>
 
     </aside>
 
@@ -2437,7 +2509,7 @@ including URL generation, asset management, content processing, and more.</p>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Renderer/Extension/Core.php"><a href="files/src-renderer-extension-core.html"><abbr title="src/Renderer/Extension/Core.php">Core.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">350</span>
+    <span class="phpdocumentor-element-found-in__line">351</span>
 
     </aside>
 
@@ -2500,7 +2572,7 @@ including URL generation, asset management, content processing, and more.</p>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Renderer/Extension/Core.php"><a href="files/src-renderer-extension-core.html"><abbr title="src/Renderer/Extension/Core.php">Core.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">189</span>
+    <span class="phpdocumentor-element-found-in__line">190</span>
 
     </aside>
 
@@ -2549,7 +2621,7 @@ including URL generation, asset management, content processing, and more.</p>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Renderer/Extension/Core.php"><a href="files/src-renderer-extension-core.html"><abbr title="src/Renderer/Extension/Core.php">Core.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">156</span>
+    <span class="phpdocumentor-element-found-in__line">157</span>
 
     </aside>
 
@@ -2618,7 +2690,7 @@ including URL generation, asset management, content processing, and more.</p>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Renderer/Extension/Core.php"><a href="files/src-renderer-extension-core.html"><abbr title="src/Renderer/Extension/Core.php">Core.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">775</span>
+    <span class="phpdocumentor-element-found-in__line">811</span>
 
     </aside>
 
@@ -2684,7 +2756,7 @@ including URL generation, asset management, content processing, and more.</p>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Renderer/Extension/Core.php"><a href="files/src-renderer-extension-core.html"><abbr title="src/Renderer/Extension/Core.php">Core.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">720</span>
+    <span class="phpdocumentor-element-found-in__line">756</span>
 
     </aside>
 
@@ -2740,7 +2812,7 @@ including URL generation, asset management, content processing, and more.</p>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Renderer/Extension/Core.php"><a href="files/src-renderer-extension-core.html"><abbr title="src/Renderer/Extension/Core.php">Core.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">628</span>
+    <span class="phpdocumentor-element-found-in__line">629</span>
 
     </aside>
 
@@ -2816,7 +2888,7 @@ including URL generation, asset management, content processing, and more.</p>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Renderer/Extension/Core.php"><a href="files/src-renderer-extension-core.html"><abbr title="src/Renderer/Extension/Core.php">Core.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">738</span>
+    <span class="phpdocumentor-element-found-in__line">774</span>
 
     </aside>
 
@@ -2893,7 +2965,7 @@ including URL generation, asset management, content processing, and more.</p>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Renderer/Extension/Core.php"><a href="files/src-renderer-extension-core.html"><abbr title="src/Renderer/Extension/Core.php">Core.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">891</span>
+    <span class="phpdocumentor-element-found-in__line">927</span>
 
     </aside>
 
@@ -2962,6 +3034,7 @@ including URL generation, asset management, content processing, and more.</p>
                                             <li class=""><a href="classes/Cecil-Renderer-Extension-Core.html#method_asset">asset()</a></li>
                                             <li class=""><a href="classes/Cecil-Renderer-Extension-Core.html#method_avif">avif()</a></li>
                                             <li class=""><a href="classes/Cecil-Renderer-Extension-Core.html#method_cacheKey">cacheKey()</a></li>
+                                            <li class=""><a href="classes/Cecil-Renderer-Extension-Core.html#method_capture">capture()</a></li>
                                             <li class=""><a href="classes/Cecil-Renderer-Extension-Core.html#method_dataurl">dataurl()</a></li>
                                             <li class=""><a href="classes/Cecil-Renderer-Extension-Core.html#method_dominantColor">dominantColor()</a></li>
                                             <li class=""><a href="classes/Cecil-Renderer-Extension-Core.html#method_fingerprint">fingerprint()</a></li>
