@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. Dates are displayed in UTC.
 
+#### [9.2.1](https://github.com/Cecilapp/Cecil/compare/9.2.0...9.2.1)
+
+> 26 September 2026
+
+- chore(deps): upgrade Twig and dev dependencies [`1c50655`](https://github.com/Cecilapp/Cecil/commit/1c50655172a2bdc898e2751443c289430605986d)
+- fix(jsonld): use ISO 8601 date format [`0063b30`](https://github.com/Cecilapp/Cecil/commit/0063b30c571dbe03c2d79f563c9298d27cd21d08)
+
 #### [9.2.0](https://github.com/Cecilapp/Cecil/compare/9.1.6...9.2.0)
 
 > 25 September 2026
