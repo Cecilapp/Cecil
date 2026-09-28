@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. Dates are displayed in UTC.
 
+#### [9.3.0](https://github.com/Cecilapp/Cecil/compare/9.2.1...9.3.0)
+
+> 28 September 2026
+
+- feat(html): add image placeholder option to html function [`#2477`](https://github.com/Cecilapp/Cecil/pull/2477)
+- chore: update default branch references from master to main [`b8900da`](https://github.com/Cecilapp/Cecil/commit/b8900da6feb241160a53ca197b32d81be37403f8)
+
 #### [9.2.1](https://github.com/Cecilapp/Cecil/compare/9.2.0...9.2.1)
 
 > 26 September 2026
