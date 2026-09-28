@@ -191,7 +191,6 @@ Or with [`npx skills`](https://github.com/vercel-labs/skills):
 npx skills add https://github.com/cecilapp/cecil/tree/main/skills
 ```
 
-
 Once installed, ask your agent to create, build, configure, or deploy a Cecil site and it will use the skill automatically.
 
 ## Sponsors
