@@ -191,6 +191,11 @@ Search.appendIndex(
             "summary": "Try\u0020to\u0020get\u0020remote\u0020file\u0020content.",
             "url": "classes/Cecil-Asset-Locator.html#method_getRemoteFileContent"
         },                {
+            "fqsen": "\\Cecil\\Asset\\Locator\u003A\u003AMAX_FILENAME_LENGTH",
+            "name": "MAX_FILENAME_LENGTH",
+            "summary": "Max\u0020length\u0020of\u0020a\u0020remote\u0020file\u0020name\u0020\u0028file\u0020systems\u0020limit\u0020is\u0020255\u0020characters\u0029.",
+            "url": "classes/Cecil-Asset-Locator.html#constant_MAX_FILENAME_LENGTH"
+        },                {
             "fqsen": "\\Cecil\\Asset\\Locator\u003A\u003A\u0024builder",
             "name": "builder",
             "summary": "",

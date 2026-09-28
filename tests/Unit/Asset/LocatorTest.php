@@ -77,6 +77,24 @@ class LocatorTest extends TestCase
         self::assertStringEndsWith('.css', $result);
     }
 
+    public function testBuildPathFromUrlWithLongQuery(): void
+    {
+        $url = 'https://cdn.example.com/v/t51/476101375_n.jpg?stp=dst-jpg_s100x100&' . str_repeat('param=' . str_repeat('x', 40) . '&', 10) . 'oe=6AC06BBB';
+        $result = Locator::buildPathFromUrl($url);
+        $name = basename($result);
+        self::assertStringStartsWith('cdn.example.com/v/t51/', $result);
+        self::assertLessThanOrEqual(Locator::MAX_FILENAME_LENGTH, \strlen($name));
+        self::assertStringEndsWith('-' . hash('xxh32', $url) . '.jpg', $name);
+        // stable and unique
+        self::assertSame($result, Locator::buildPathFromUrl($url));
+        self::assertNotSame($result, Locator::buildPathFromUrl($url . '1'));
+    }
+
+    public function testBuildPathFromUrlShortQueryUnchanged(): void
+    {
+        self::assertSame('fonts.googleapis.com/css2-family-roboto.css', Locator::buildPathFromUrl('https://fonts.googleapis.com/css2?family=Roboto'));
+    }
+
     // --- buildLocalizedPath ---
 
     public function testBuildLocalizedPathBasic(): void
