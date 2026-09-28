@@ -1,7 +1,7 @@
 <!--
 description: "Working with layouts, templates and components."
 date: 2021-05-07
-updated: 2026-08-26
+updated: 2026-09-28
 alias: documentation/layouts
 -->
 # Templates
@@ -757,16 +757,40 @@ _Examples:_
 
 ### image_from_website
 
-Builds the HTML img element from a website URL by extracting the image from meta tags.
+Builds the HTML img element from a website URL by extracting its illustration image.
+Returns `null` if no image is found.
 
 ```twig
-{{ image_from_website('url') }}
+{{ image_from_website('url', {attributes}, {options}) }}
 ```
+
+The image is searched in the page HTML with the following fallbacks, the first candidate that can be downloaded as an image is used:
+
+1. Open Graph: `og:image:secure_url`, `og:image`, `og:image:url`
+2. Twitter: `twitter:image`, `twitter:image:src`
+3. `<link rel="image_src">`
+4. Microdata: `itemprop="image"`
+5. JSON-LD: `image` property
+6. First `<img>` of `<article>`, `<main>` or `<body>`
+7. `<link rel="apple-touch-icon">`
+8. `<link rel="icon">`
+
+Relative URLs are resolved against `<base href>` or the page URL.
+
+The resolved image URL and the downloaded image are cached (see [`cache.assets.remote.ttl`](4-Configuration.md#cache)).
+
+Options:
+
+- `fallback`: image path (or URL) used if no image is found
+- other [`image`](#html) options (e.g.: `responsive`, `formats`)
 
 _Examples:_
 
 ```twig
 {{ image_from_website('https://example.com/page-with-image.html') }}
+
+{# with a fallback image #}
+{{ image_from_website('https://example.com/', {alt: 'Illustration'}, {fallback: 'images/default.png'}) }}
 ```
 
 ### readtime

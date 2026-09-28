@@ -687,31 +687,98 @@ class Core extends AbstractExtension
     }
 
     /**
-     * Builds the HTML img element from a website URL by extracting the image from meta tags.
+     * Builds the HTML img element from a website URL by extracting its illustration image.
      * Returns null if no image found.
+     *
+     * The image is searched in the page HTML with several fallbacks (Open Graph, Twitter, `image_src`,
+     * microdata, JSON-LD, first content image, icons): the first candidate that can be downloaded
+     * as an image is used. The resolved image URL and the downloaded image are cached.
+     *
+     * $options[
+     *     'fallback' => <string>, // image path used if no image found
+     *     ...                     // other `image()` options (e.g.: 'responsive', 'formats', etc.)
+     * ]
      *
      * @throws RuntimeException
      */
     public function htmlImageFromWebsite(array $context, string $url, array $attributes = [], array $options = []): ?string
     {
-        $htmlAsset = new Asset($this->builder, $url, ['ignore_missing' => true]);
+        $fallback = $options['fallback'] ?? null;
+        unset($options['fallback']);
 
-        if ($htmlAsset->isMissing()) {
-            $this->builder->getLogger()->warning(\sprintf('Unable to fetch "%s" to extract image.', $url));
-
+        if (null === $asset = $this->getImageFromWebsite($url, $fallback)) {
             return null;
         }
 
-        if (!empty($html = $htmlAsset['content'])) {
-            $imageUrl = Util\Html::getImageFromMetaTags($html);
-            if ($imageUrl !== null) {
-                $asset = new Asset($this->builder, $imageUrl);
+        return $this->htmlImage($context, $asset, $attributes, $options);
+    }
 
-                return $this->htmlImage($context, $asset, $attributes, $options);
+    /**
+     * Returns the illustration image Asset of a web page, the fallback image Asset, or null if not found.
+     *
+     * @see Util\Html::getImageCandidates()
+     *
+     * @throws RuntimeException
+     */
+    private function getImageFromWebsite(string $url, ?string $fallback = null): ?Asset
+    {
+        $cache = new Cache($this->builder, 'assets/_remote');
+        $cacheKey = \sprintf('image-from-website_%s', Asset\Locator::buildPathFromUrl($url));
+        $ttl = $this->config->get('cache.assets.remote.ttl');
+
+        // resolved image URL in cache?
+        $imageUrl = $cache->get($cacheKey);
+        if (\is_string($imageUrl) && $imageUrl !== '') {
+            if (null !== $asset = $this->getImageAsset($imageUrl)) {
+                return $asset;
+            }
+            // cached image is not valid anymore: searches again
+            $cache->delete($cacheKey);
+            $imageUrl = null;
+        }
+
+        // searches image in the web page
+        if ($imageUrl === null) {
+            $htmlAsset = new Asset($this->builder, $url, ['ignore_missing' => true, 'fingerprint' => false, 'minify' => false]);
+            if ($htmlAsset->isMissing()) {
+                $this->builder->getLogger()->warning(\sprintf('Unable to fetch "%s" to extract image.', $url));
+            } else {
+                foreach (Util\Html::getImageCandidates((string) $htmlAsset['content'], $url) as $candidate) {
+                    if (null !== $asset = $this->getImageAsset($candidate)) {
+                        $cache->set($cacheKey, $candidate, $ttl);
+
+                        return $asset;
+                    }
+                    $this->builder->getLogger()->debug(\sprintf('Image candidate "%s" of "%s" is not valid.', $candidate, $url));
+                }
+                // caches "not found" to avoid searching again
+                $cache->set($cacheKey, '', $ttl);
             }
         }
 
+        if (!empty($fallback)) {
+            return new Asset($this->builder, $fallback);
+        }
+        $this->builder->getLogger()->debug(\sprintf('No image found for "%s".', $url));
+
         return null;
+    }
+
+    /**
+     * Returns an image Asset from a path or an URL, or null if missing or not an image.
+     */
+    private function getImageAsset(string $path): ?Asset
+    {
+        try {
+            $asset = new Asset($this->builder, $path, ['ignore_missing' => true]);
+        } catch (\Exception) {
+            return null;
+        }
+        if ($asset->isMissing() || $asset['type'] != 'image') {
+            return null;
+        }
+
+        return $asset;
     }
 
     /**

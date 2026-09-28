@@ -4268,8 +4268,18 @@ Search.appendIndex(
         },                {
             "fqsen": "\\Cecil\\Renderer\\Extension\\Core\u003A\u003AhtmlImageFromWebsite\u0028\u0029",
             "name": "htmlImageFromWebsite",
-            "summary": "Builds\u0020the\u0020HTML\u0020img\u0020element\u0020from\u0020a\u0020website\u0020URL\u0020by\u0020extracting\u0020the\u0020image\u0020from\u0020meta\u0020tags.",
+            "summary": "Builds\u0020the\u0020HTML\u0020img\u0020element\u0020from\u0020a\u0020website\u0020URL\u0020by\u0020extracting\u0020its\u0020illustration\u0020image.",
             "url": "classes/Cecil-Renderer-Extension-Core.html#method_htmlImageFromWebsite"
+        },                {
+            "fqsen": "\\Cecil\\Renderer\\Extension\\Core\u003A\u003AgetImageFromWebsite\u0028\u0029",
+            "name": "getImageFromWebsite",
+            "summary": "Returns\u0020the\u0020illustration\u0020image\u0020Asset\u0020of\u0020a\u0020web\u0020page,\u0020the\u0020fallback\u0020image\u0020Asset,\u0020or\u0020null\u0020if\u0020not\u0020found.",
+            "url": "classes/Cecil-Renderer-Extension-Core.html#method_getImageFromWebsite"
+        },                {
+            "fqsen": "\\Cecil\\Renderer\\Extension\\Core\u003A\u003AgetImageAsset\u0028\u0029",
+            "name": "getImageAsset",
+            "summary": "Returns\u0020an\u0020image\u0020Asset\u0020from\u0020a\u0020path\u0020or\u0020an\u0020URL,\u0020or\u0020null\u0020if\u0020missing\u0020or\u0020not\u0020an\u0020image.",
+            "url": "classes/Cecil-Renderer-Extension-Core.html#method_getImageAsset"
         },                {
             "fqsen": "\\Cecil\\Renderer\\Extension\\Core\u003A\u003Awebp\u0028\u0029",
             "name": "webp",
@@ -5420,6 +5430,16 @@ Search.appendIndex(
             "name": "getImageFromMetaTags",
             "summary": "Get\u0020the\u0020image\u0020URL\u0020from\u0020Open\u0020Graph\u0020or\u0020Twitter\u0020meta\u0020tags.",
             "url": "classes/Cecil-Util-Html.html#method_getImageFromMetaTags"
+        },                {
+            "fqsen": "\\Cecil\\Util\\Html\u003A\u003AgetImageCandidates\u0028\u0029",
+            "name": "getImageCandidates",
+            "summary": "Get\u0020candidate\u0020image\u0020URLs\u0020from\u0020HTML\u0020content,\u0020ordered\u0020by\u0020priority.",
+            "url": "classes/Cecil-Util-Html.html#method_getImageCandidates"
+        },                {
+            "fqsen": "\\Cecil\\Util\\Html\u003A\u003AgetImagesFromJsonLd\u0028\u0029",
+            "name": "getImagesFromJsonLd",
+            "summary": "Extracts\u0020image\u0020URLs\u0020from\u0020JSON\u002DLD\u0020data.",
+            "url": "classes/Cecil-Util-Html.html#method_getImagesFromJsonLd"
         },                {
             "fqsen": "\\Cecil\\Util\\ImageOptimizer",
             "name": "ImageOptimizer",

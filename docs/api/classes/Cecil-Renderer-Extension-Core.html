@@ -341,7 +341,7 @@ including URL generation, asset management, content processing, and more.</p>
     <span>
                                 &nbsp;: string|null    </span>
 </dt>
-<dd>Builds the HTML img element from a website URL by extracting the image from meta tags.</dd>
+<dd>Builds the HTML img element from a website URL by extracting its illustration image.</dd>
 
             <dt class="phpdocumentor-table-of-contents__entry -method -public">
     <a class="" href="classes/Cecil-Renderer-Extension-Core.html#method_htmlJs">htmlJs()</a>
@@ -496,6 +496,20 @@ including URL generation, asset management, content processing, and more.</p>
                                 &nbsp;: <a href="classes/Cecil-Asset.html"><abbr title="\Cecil\Asset">Asset</abbr></a>    </span>
 </dt>
 <dd>Converts an image Asset to the given format.</dd>
+
+            <dt class="phpdocumentor-table-of-contents__entry -method -private">
+    <a class="" href="classes/Cecil-Renderer-Extension-Core.html#method_getImageAsset">getImageAsset()</a>
+    <span>
+                                &nbsp;: <a href="classes/Cecil-Asset.html"><abbr title="\Cecil\Asset">Asset</abbr></a>|null    </span>
+</dt>
+<dd>Returns an image Asset from a path or an URL, or null if missing or not an image.</dd>
+
+            <dt class="phpdocumentor-table-of-contents__entry -method -private">
+    <a class="" href="classes/Cecil-Renderer-Extension-Core.html#method_getImageFromWebsite">getImageFromWebsite()</a>
+    <span>
+                                &nbsp;: <a href="classes/Cecil-Asset.html"><abbr title="\Cecil\Asset">Asset</abbr></a>|null    </span>
+</dt>
+<dd>Returns the illustration image Asset of a web page, the fallback image Asset, or null if not found.</dd>
 
             <dt class="phpdocumentor-table-of-contents__entry -method -private">
     <a class="" href="classes/Cecil-Renderer-Extension-Core.html#method_htmlAttributes">htmlAttributes()</a>
@@ -715,7 +729,7 @@ including URL generation, asset management, content processing, and more.</p>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Renderer/Extension/Core.php"><a href="files/src-renderer-extension-core.html"><abbr title="src/Renderer/Extension/Core.php">Core.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">728</span>
+    <span class="phpdocumentor-element-found-in__line">795</span>
 
     </aside>
 
@@ -771,7 +785,7 @@ including URL generation, asset management, content processing, and more.</p>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Renderer/Extension/Core.php"><a href="files/src-renderer-extension-core.html"><abbr title="src/Renderer/Extension/Core.php">Core.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">880</span>
+    <span class="phpdocumentor-element-found-in__line">947</span>
 
     </aside>
 
@@ -891,7 +905,7 @@ including URL generation, asset management, content processing, and more.</p>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Renderer/Extension/Core.php"><a href="files/src-renderer-extension-core.html"><abbr title="src/Renderer/Extension/Core.php">Core.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">832</span>
+    <span class="phpdocumentor-element-found-in__line">899</span>
 
     </aside>
 
@@ -989,7 +1003,7 @@ including URL generation, asset management, content processing, and more.</p>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Renderer/Extension/Core.php"><a href="files/src-renderer-extension-core.html"><abbr title="src/Renderer/Extension/Core.php">Core.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">765</span>
+    <span class="phpdocumentor-element-found-in__line">832</span>
 
     </aside>
 
@@ -1144,7 +1158,7 @@ including URL generation, asset management, content processing, and more.</p>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Renderer/Extension/Core.php"><a href="files/src-renderer-extension-core.html"><abbr title="src/Renderer/Extension/Core.php">Core.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">860</span>
+    <span class="phpdocumentor-element-found-in__line">927</span>
 
     </aside>
 
@@ -1512,11 +1526,11 @@ including URL generation, asset management, content processing, and more.</p>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Renderer/Extension/Core.php"><a href="files/src-renderer-extension-core.html"><abbr title="src/Renderer/Extension/Core.php">Core.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">695</span>
+    <span class="phpdocumentor-element-found-in__line">704</span>
 
     </aside>
 
-        <p class="phpdocumentor-summary">Builds the HTML img element from a website URL by extracting the image from meta tags.</p>
+        <p class="phpdocumentor-summary">Builds the HTML img element from a website URL by extracting its illustration image.</p>
 
     <code class="phpdocumentor-code phpdocumentor-signature ">
     <span class="phpdocumentor-signature__visibility">public</span>
@@ -1526,6 +1540,13 @@ including URL generation, asset management, content processing, and more.</p>
         </div>
     
         <section class="phpdocumentor-description"><p>Returns null if no image found.</p>
+<p>The image is searched in the page HTML with several fallbacks (Open Graph, Twitter, <code class="prettyprint">image_src</code>,
+microdata, JSON-LD, first content image, icons): the first candidate that can be downloaded
+as an image is used. The resolved image URL and the downloaded image are cached.</p>
+<p>$options[
+'fallback' =&gt; <string>, // image path used if no image found
+...                     // other <code class="prettyprint">image()</code> options (e.g.: 'responsive', 'formats', etc.)
+]</p>
 </section>
 
         <h5 class="phpdocumentor-argument-list__heading">Parameters</h5>
@@ -1850,7 +1871,7 @@ including URL generation, asset management, content processing, and more.</p>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Renderer/Extension/Core.php"><a href="files/src-renderer-extension-core.html"><abbr title="src/Renderer/Extension/Core.php">Core.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">757</span>
+    <span class="phpdocumentor-element-found-in__line">824</span>
 
     </aside>
 
@@ -1955,7 +1976,7 @@ including URL generation, asset management, content processing, and more.</p>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Renderer/Extension/Core.php"><a href="files/src-renderer-extension-core.html"><abbr title="src/Renderer/Extension/Core.php">Core.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">802</span>
+    <span class="phpdocumentor-element-found-in__line">869</span>
 
     </aside>
 
@@ -2004,7 +2025,7 @@ including URL generation, asset management, content processing, and more.</p>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Renderer/Extension/Core.php"><a href="files/src-renderer-extension-core.html"><abbr title="src/Renderer/Extension/Core.php">Core.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">811</span>
+    <span class="phpdocumentor-element-found-in__line">878</span>
 
     </aside>
 
@@ -2055,7 +2076,7 @@ including URL generation, asset management, content processing, and more.</p>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Renderer/Extension/Core.php"><a href="files/src-renderer-extension-core.html"><abbr title="src/Renderer/Extension/Core.php">Core.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">820</span>
+    <span class="phpdocumentor-element-found-in__line">887</span>
 
     </aside>
 
@@ -2106,7 +2127,7 @@ including URL generation, asset management, content processing, and more.</p>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Renderer/Extension/Core.php"><a href="files/src-renderer-extension-core.html"><abbr title="src/Renderer/Extension/Core.php">Core.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">848</span>
+    <span class="phpdocumentor-element-found-in__line">915</span>
 
     </aside>
 
@@ -2618,7 +2639,7 @@ including URL generation, asset management, content processing, and more.</p>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Renderer/Extension/Core.php"><a href="files/src-renderer-extension-core.html"><abbr title="src/Renderer/Extension/Core.php">Core.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">775</span>
+    <span class="phpdocumentor-element-found-in__line">842</span>
 
     </aside>
 
@@ -2684,7 +2705,7 @@ including URL generation, asset management, content processing, and more.</p>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Renderer/Extension/Core.php"><a href="files/src-renderer-extension-core.html"><abbr title="src/Renderer/Extension/Core.php">Core.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">720</span>
+    <span class="phpdocumentor-element-found-in__line">787</span>
 
     </aside>
 
@@ -2816,7 +2837,7 @@ including URL generation, asset management, content processing, and more.</p>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Renderer/Extension/Core.php"><a href="files/src-renderer-extension-core.html"><abbr title="src/Renderer/Extension/Core.php">Core.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">738</span>
+    <span class="phpdocumentor-element-found-in__line">805</span>
 
     </aside>
 
@@ -2883,6 +2904,132 @@ including URL generation, asset management, content processing, and more.</p>
         class="phpdocumentor-element
             -method
             -private
+                                                        "
+>
+    <h4 class="phpdocumentor-element__name" id="method_getImageAsset">
+        getImageAsset()
+        <a href="classes/Cecil-Renderer-Extension-Core.html#method_getImageAsset" class="headerlink"><i class="fas fa-link"></i></a>
+
+    </h4>
+    <aside class="phpdocumentor-element-found-in">
+    <abbr class="phpdocumentor-element-found-in__file" title="src/Renderer/Extension/Core.php"><a href="files/src-renderer-extension-core.html"><abbr title="src/Renderer/Extension/Core.php">Core.php</abbr></a></abbr>
+    :
+    <span class="phpdocumentor-element-found-in__line">770</span>
+
+    </aside>
+
+        <p class="phpdocumentor-summary">Returns an image Asset from a path or an URL, or null if missing or not an image.</p>
+
+    <code class="phpdocumentor-code phpdocumentor-signature ">
+    <span class="phpdocumentor-signature__visibility">private</span>
+                    <span class="phpdocumentor-signature__name">getImageAsset</span><span>(</span><span class="phpdocumentor-signature__argument"><span class="phpdocumentor-signature__argument__type">string&nbsp;</span><span class="phpdocumentor-signature__argument__name">$path</span></span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type"><a href="classes/Cecil-Asset.html"><abbr title="\Cecil\Asset">Asset</abbr></a>|null</span></code>
+
+    <div class="phpdocumentor-label-line">
+        </div>
+    
+    
+        <h5 class="phpdocumentor-argument-list__heading">Parameters</h5>
+    <dl class="phpdocumentor-argument-list">
+                    <dt class="phpdocumentor-argument-list__entry">
+                <span class="phpdocumentor-argument-list__argument__name">$path</span>
+                : <span class="phpdocumentor-argument-list__argument__type">string</span>
+                            </dt>
+            <dd class="phpdocumentor-argument-list__definition">
+                
+            </dd>
+            </dl>
+
+    
+
+        
+    
+            <section>
+        <h5 class="phpdocumentor-return-value__heading">Return values</h5>
+        <span class="phpdocumentor-signature__response_type"><a href="classes/Cecil-Asset.html"><abbr title="\Cecil\Asset">Asset</abbr></a>|null</span>
+            </section>
+
+</article>
+                    <article
+        class="phpdocumentor-element
+            -method
+            -private
+                                                        "
+>
+    <h4 class="phpdocumentor-element__name" id="method_getImageFromWebsite">
+        getImageFromWebsite()
+        <a href="classes/Cecil-Renderer-Extension-Core.html#method_getImageFromWebsite" class="headerlink"><i class="fas fa-link"></i></a>
+
+    </h4>
+    <aside class="phpdocumentor-element-found-in">
+    <abbr class="phpdocumentor-element-found-in__file" title="src/Renderer/Extension/Core.php"><a href="files/src-renderer-extension-core.html"><abbr title="src/Renderer/Extension/Core.php">Core.php</abbr></a></abbr>
+    :
+    <span class="phpdocumentor-element-found-in__line">723</span>
+
+    </aside>
+
+        <p class="phpdocumentor-summary">Returns the illustration image Asset of a web page, the fallback image Asset, or null if not found.</p>
+
+    <code class="phpdocumentor-code phpdocumentor-signature ">
+    <span class="phpdocumentor-signature__visibility">private</span>
+                    <span class="phpdocumentor-signature__name">getImageFromWebsite</span><span>(</span><span class="phpdocumentor-signature__argument"><span class="phpdocumentor-signature__argument__type">string&nbsp;</span><span class="phpdocumentor-signature__argument__name">$url</span></span><span class="phpdocumentor-signature__argument"><span>[</span><span>, </span><span class="phpdocumentor-signature__argument__type">string|null&nbsp;</span><span class="phpdocumentor-signature__argument__name">$fallback</span><span> = </span><span class="phpdocumentor-signature__argument__default-value">null</span><span> ]</span></span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type"><a href="classes/Cecil-Asset.html"><abbr title="\Cecil\Asset">Asset</abbr></a>|null</span></code>
+
+    <div class="phpdocumentor-label-line">
+        </div>
+    
+    
+        <h5 class="phpdocumentor-argument-list__heading">Parameters</h5>
+    <dl class="phpdocumentor-argument-list">
+                    <dt class="phpdocumentor-argument-list__entry">
+                <span class="phpdocumentor-argument-list__argument__name">$url</span>
+                : <span class="phpdocumentor-argument-list__argument__type">string</span>
+                            </dt>
+            <dd class="phpdocumentor-argument-list__definition">
+                
+            </dd>
+                    <dt class="phpdocumentor-argument-list__entry">
+                <span class="phpdocumentor-argument-list__argument__name">$fallback</span>
+                : <span class="phpdocumentor-argument-list__argument__type">string|null</span>
+                 = <span class="phpdocumentor-argument-list__argument__default-value">null</span>            </dt>
+            <dd class="phpdocumentor-argument-list__definition">
+                
+            </dd>
+            </dl>
+
+    
+    <h5 class="phpdocumentor-tag-list__heading" id="method_getImageFromWebsite_tags">
+        Tags
+        <a href="classes/Cecil-Renderer-Extension-Core.html#method_getImageFromWebsite_tags" class="headerlink"><i class="fas fa-link"></i></a>
+
+    </h5>
+    <dl class="phpdocumentor-tag-list">
+                    <dt class="phpdocumentor-tag-list__entry">
+                <span class="phpdocumentor-tag__name">see</span>
+            </dt>
+                            <dd class="phpdocumentor-tag-list__definition">
+                                                                                    <span class="phpdocumentor-tag-link"><a href="classes/Cecil-Util-Html.html#method_getImageCandidates"><abbr title="\Cecil\Util\Html::getImageCandidates()">Html::getImageCandidates()</abbr></a></span>
+                                                                
+                                    </dd>
+                                <dt class="phpdocumentor-tag-list__entry">
+                <span class="phpdocumentor-tag__name">throws</span>
+            </dt>
+                            <dd class="phpdocumentor-tag-list__definition">
+                                                                <span class="phpdocumentor-tag-link"><a href="classes/Cecil-Exception-RuntimeException.html"><abbr title="\Cecil\Exception\RuntimeException">RuntimeException</abbr></a></span>
+                                                                                    
+                                    </dd>
+                        </dl>
+
+        
+    
+            <section>
+        <h5 class="phpdocumentor-return-value__heading">Return values</h5>
+        <span class="phpdocumentor-signature__response_type"><a href="classes/Cecil-Asset.html"><abbr title="\Cecil\Asset">Asset</abbr></a>|null</span>
+            </section>
+
+</article>
+                    <article
+        class="phpdocumentor-element
+            -method
+            -private
                                     -static                    "
 >
     <h4 class="phpdocumentor-element__name" id="method_htmlAttributes">
@@ -2893,7 +3040,7 @@ including URL generation, asset management, content processing, and more.</p>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Renderer/Extension/Core.php"><a href="files/src-renderer-extension-core.html"><abbr title="src/Renderer/Extension/Core.php">Core.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">891</span>
+    <span class="phpdocumentor-element-found-in__line">958</span>
 
     </aside>
 
@@ -2997,6 +3144,8 @@ including URL generation, asset management, content processing, and more.</p>
                                             <li class=""><a href="classes/Cecil-Renderer-Extension-Core.html#method_webp">webp()</a></li>
                                             <li class=""><a href="classes/Cecil-Renderer-Extension-Core.html#method_buildDarkSourceHtml">buildDarkSourceHtml()</a></li>
                                             <li class=""><a href="classes/Cecil-Renderer-Extension-Core.html#method_convert">convert()</a></li>
+                                            <li class=""><a href="classes/Cecil-Renderer-Extension-Core.html#method_getImageAsset">getImageAsset()</a></li>
+                                            <li class=""><a href="classes/Cecil-Renderer-Extension-Core.html#method_getImageFromWebsite">getImageFromWebsite()</a></li>
                                             <li class=""><a href="classes/Cecil-Renderer-Extension-Core.html#method_htmlAttributes">htmlAttributes()</a></li>
                                     </ul>
             </li>
