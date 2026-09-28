@@ -32,7 +32,8 @@ my-site/
 ├── layouts/   # Twig templates
 ├── assets/    # Processed files (CSS, JS, images)
 ├── static/    # Static files copied as-is
-└── data/      # Data collections (YAML/JSON/...)
+├── data/      # Data collections (YAML/JSON/...)
+└── extensions/ # Custom PHP classes (generators, Twig extensions, post-processors)
 ```
 
 ### Key Directories
@@ -42,6 +43,7 @@ my-site/
 - **assets/** - Files handled by Cecil (Sass compilation, minification, image handling)
 - **static/** - Files copied to output without transformation
 - **data/** - Data files exposed in templates via `site.data`
+- **extensions/** - Custom PHP classes autoloaded by Cecil (file path must match the class namespace, e.g. `extensions/MyProject/Generator/CustomGenerator.php`)
 
 ## Cecil Fundamentals
 
@@ -53,14 +55,16 @@ Cecil follows a build pipeline:
 Builder → Steps → Generators → Renderer → Output
 ```
 
-- **Steps** (`Step/`): Sequential build phases
-  - Pages: Parse markdown content
-  - Data: Load data files
-  - Assets: Process assets
-  - Taxonomies: Generate taxonomy pages
-  - Menus: Build navigation structures
-  - Optimize: Optimize output
-  - StaticFiles: Copy static files
+- **Steps** (`Step/`): Sequential build phases, in this order
+  - Load: pages, data files and static files
+  - Pages Create / Convert: create pages collection, convert front matter and Markdown body
+  - Taxonomies Create: build vocabularies and terms
+  - Pages Generate: run generators (see below)
+  - Menus Create: build navigation structures
+  - StaticFiles Copy: copy static files
+  - Pages Render / Save: render with Twig and write output files
+  - Assets Save: save processed assets
+  - Optimize: HTML, CSS, JS and images
 
 - **Generators** (`Generator/`): Page generators executed via priority queue
   - Generators are ordered by numeric weight; lower numbers execute first (e.g., DefaultPages at weight 10 runs before Alias at weight 80).
@@ -99,6 +103,8 @@ A sub-section:
 - Is **not** listed among the pages of its parent section
 
 Sub-sections support the same front matter variables as any section (`sortby`, `pagination`, `cascade`, `circular`). Use `cascade` on a parent `index.md` to propagate variables down to sub-sections and their pages.
+
+In templates, use `page.parent`, `page.ancestors`, `page.sections` and `page.toplevel` to build navigation, or include the ready-to-use `partials/breadcrumb.html.twig` partial.
 
 ### Configuration
 
@@ -196,15 +202,17 @@ Output is generated in `_site/` directory.
 
 ## CLI Commands
 
-| Command                      | Purpose                             |
-|------------------------------|-------------------------------------|
-| `php cecil.phar new:site`    | Create a new website                |
-| `php cecil.phar new:page`    | Create a new page                   |
-| `php cecil.phar build`       | Build the static site               |
-| `php cecil.phar serve`       | Start local server with live reload |
-| `php cecil.phar show:config` | Display effective configuration     |
-| `php cecil.phar cache:clear` | Clear all cache files               |
-| `php cecil.phar clear`       | Remove generated files              |
+| Command                              | Purpose                                                        |
+|--------------------------------------|----------------------------------------------------------------|
+| `php cecil.phar new:site`            | Create a new website                                           |
+| `php cecil.phar new:page`            | Create a new page                                              |
+| `php cecil.phar build`               | Build the static site                                          |
+| `php cecil.phar serve`               | Start local server with live reload                            |
+| `php cecil.phar serve --incremental` | Serve with incremental builds (rebuild only changed pages)     |
+| `php cecil.phar show:config`         | Display effective configuration                                |
+| `php cecil.phar doctor`              | Diagnose site and environment (see also `doctor:frontmatter`, `doctor:seo`, `doctor:cache`) |
+| `php cecil.phar cache:clear`         | Clear all cache files                                          |
+| `php cecil.phar clear`               | Remove generated files                                         |
 
 ## Template Development
 
@@ -228,15 +236,15 @@ Examples:
 
 ### Lookup Rules (How Cecil Chooses a Template)
 
-1. Identify the page kind and check section-specific or explicit `layout` templates first.
-2. Apply the matching fallback chain for that page kind:
+Cecil uses the first existing template, in priority order, for each page type. `<layout>` is the front matter `layout` variable, and each entry resolves to `<name>.<format>.twig` (e.g. `blog/list.html.twig`):
 
-| Page Kind     | Step 1                                           | Step 2            | Step 3       | Step 4       |
-|---------------|--------------------------------------------------|-------------------|--------------|--------------|
-| Homepage      | `index.*`                                        | `home.*`          | `list.*`     | `_default/*` |
-| Standard page | `page.*`                                         | `_default/page.*` | -            | -            |
-| Section page  | section-specific `list.*` or explicit `layout.*` | `list.*`          | `_default/*` | -            |
-| Taxonomy page | taxonomy template or explicit `layout.*`         | `list.*`          | `_default/*` | -            |
+| Page type  | Lookup order                                                                                                                         |
+|------------|--------------------------------------------------------------------------------------------------------------------------------------|
+| Homepage   | `<layout>` → `index` → `home` → `list` → `_default/<layout>` → `_default/index` → `_default/home` → `_default/list` → `_default/page` |
+| Page       | `<section>/<layout>` → `<layout>` → `<section>/page` → `_default/<layout>` → `page` → `_default/page`                                |
+| Section    | `<layout>` → `<section>/index` → `<section>/list` → `section/<section>` → `_default/section` → `list` → `_default/list`              |
+| Vocabulary | `taxonomy/<plural>` → `vocabulary` → `_default/vocabulary`                                                                           |
+| Term       | `taxonomy/<term>` → `taxonomy/<singular>` → `term` → `_default/term` → `_default/list`                                               |
 
 In practice, you usually need only:
 
@@ -331,6 +339,7 @@ Useful collection helpers:
 - `partials/navigation.html.twig` - navigation helper
 - `partials/paginator.html.twig` - pagination links
 - `partials/languages.html.twig` - language switcher
+- `partials/breadcrumb.html.twig` - breadcrumb (nested sections aware)
 
 If needed, extract built-in templates to customize them:
 
@@ -401,14 +410,14 @@ use Cecil\Generator\AbstractGenerator;
 
 class CustomGenerator extends AbstractGenerator
 {
-  public function generate(): void
-  {
+    public function generate(): void
+    {
         // Custom generation logic
     }
 }
 ```
 
-Then register it in configuration with `pages.generators`.
+Save it as `extensions/MyProject/Generator/CustomGenerator.php`, then register it in configuration with `pages.generators`.
 
 ```yaml
 pages:
@@ -488,7 +497,6 @@ When extending or contributing to Cecil:
 
 - Follow PSR-12 coding standards
 - Use `declare(strict_types=1);` in all PHP files
-- Prefix native function calls with `\` (e.g., `\count()`)
 - Include proper PHPDoc blocks for all classes and methods
 - Use 4-space indentation for PHP, 2-space for YAML/Twig
 
@@ -512,14 +520,14 @@ When extending or contributing to Cecil:
 ### Add Custom Pages
 
 1. Create markdown files in `pages/` directory
-2. Add frontmatter with title and template
+2. Add front matter with `title` and, if needed, `layout`
 3. Create corresponding template in `layouts/`
-4. Reference template in page frontmatter
+4. Let lookup rules pick the template, or set `layout: <name>` in front matter
 5. Build to generate output
 
 ### Implement Search
 
-1. Create `pages/search.json.md` with front matter `output: json`
+1. Create `pages/search.md` with front matter `layout: search` and `output: json`
 2. Use JavaScript library (e.g., Lunr.js) on frontend
 3. Create `layouts/search.json.twig` that iterates `site.pages.showable` and emits a JSON array of `{title, url, content}` objects
 4. Add search functionality to templates
@@ -532,7 +540,7 @@ When a user reports unexpected behavior or asks about a specific feature, ask th
 
 - **Site not generating**: Check `cecil.yml` syntax and configuration
 - **Missing pages**: Ensure content files are in `pages/` directory
-- **Template not loading**: Verify template path in frontmatter and layouts directory
+- **Template not loading**: Verify the `layout` front matter variable, template naming and lookup rules
 - **Build errors**: Run `php cecil.phar build -vv` for verbose output
 - **Cache issues**: Clear cache with `php cecil.phar cache:clear`
 
