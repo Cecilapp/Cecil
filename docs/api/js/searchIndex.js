@@ -3331,11 +3331,6 @@ Search.appendIndex(
             "summary": "\u007B\u0040inheritdoc\u007D",
             "url": "classes/Cecil-Converter-Parsedown.html#method_transliterate"
         },                {
-            "fqsen": "\\Cecil\\Converter\\Parsedown\u003A\u003AnormalizeString\u0028\u0029",
-            "name": "normalizeString",
-            "summary": "\u007B\u0040inheritdoc\u007D",
-            "url": "classes/Cecil-Converter-Parsedown.html#method_normalizeString"
-        },                {
             "fqsen": "\\Cecil\\Converter\\Parsedown\u003A\u003AunmarkedText\u0028\u0029",
             "name": "unmarkedText",
             "summary": "\u007B\u0040inheritdoc\u007D",
