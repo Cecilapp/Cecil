@@ -121,6 +121,11 @@ Search.appendIndex(
             "summary": "Build\u0020the\u0020\u0060srcset\u0060\u0020HTML\u0020attribute\u0020for\u0020responsive\u0020images,\u0020based\u0020on\u0020pixel\u0020ratios.",
             "url": "classes/Cecil-Asset-Image.html#method_buildHtmlSrcsetX"
         },                {
+            "fqsen": "\\Cecil\\Asset\\Image\u003A\u003Aurl\u0028\u0029",
+            "name": "url",
+            "summary": "Returns\u0020the\u0020URL\u0020of\u0020an\u0020Asset,\u0020built\u0020with\u0020the\u0020URL\u0020builder\u0020if\u0020provided.",
+            "url": "classes/Cecil-Asset-Image.html#method_url"
+        },                {
             "fqsen": "\\Cecil\\Asset\\Image\u003A\u003AgetHtmlSizes\u0028\u0029",
             "name": "getHtmlSizes",
             "summary": "Returns\u0020the\u0020value\u0020from\u0020the\u0020\u0060\u0024sizes\u0060\u0020array\u0020if\u0020the\u0020class\u0020exists,\u0020otherwise\u0020returns\u0020the\u0020default\u0020size.",
@@ -3390,6 +3395,11 @@ Search.appendIndex(
             "name": "getCachedDarkSourceAttributes",
             "summary": "",
             "url": "classes/Cecil-Converter-Parsedown.html#method_getCachedDarkSourceAttributes"
+        },                {
+            "fqsen": "\\Cecil\\Converter\\Parsedown\u003A\u003AgetUrlBuilder\u0028\u0029",
+            "name": "getUrlBuilder",
+            "summary": "Returns\u0020a\u0020callable\u0020that\u0020builds\u0020the\u0020URL\u0020of\u0020an\u0020Asset.",
+            "url": "classes/Cecil-Converter-Parsedown.html#method_getUrlBuilder"
         },                {
             "fqsen": "\\Cecil\\Converter\\Parsedown\u003A\u003AgetAssetIdentity\u0028\u0029",
             "name": "getAssetIdentity",
