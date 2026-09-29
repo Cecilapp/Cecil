@@ -2,6 +2,14 @@
 
 All notable changes to this project will be documented in this file. Dates are displayed in UTC.
 
+#### [9.4.1](https://github.com/Cecilapp/Cecil/compare/9.4.0...9.4.1)
+
+> 28 September 2026
+
+- fix(asset): truncate long filenames to filesystem limit [`420a62c`](https://github.com/Cecilapp/Cecil/commit/420a62c3b0ae7ede5ca57b27d497aaa10d3004c6)
+- fix(util): remove isRemoteExists method and simplify remote file validation [`5aa530f`](https://github.com/Cecilapp/Cecil/commit/5aa530fda992f556ebb7fee397799223b3dfb12f)
+- docs(cecil): clarify build steps, template lookup, and add extensions documentation [`f22bf76`](https://github.com/Cecilapp/Cecil/commit/f22bf76cb878eaa4dabe7f8e904b7e508bd382de)
+
 #### [9.4.0](https://github.com/Cecilapp/Cecil/compare/9.3.1...9.4.0)
 
 > 28 September 2026
