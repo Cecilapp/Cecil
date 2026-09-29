@@ -16,7 +16,6 @@ namespace Cecil\Asset;
 use Cecil\Asset;
 use Cecil\Builder;
 use Cecil\Exception\RuntimeException;
-use Cecil\Url;
 use Intervention\Image\Drivers\Gd\Driver as GdDriver;
 use Intervention\Image\Drivers\Imagick\Driver as ImagickDriver;
 use Intervention\Image\Drivers\Vips\Driver as VipsDriver;
@@ -270,7 +269,7 @@ class Image
      *   sizes?: ?string,
      *   width1x?: ?int,
      *   assetOptions?: array<mixed>,
-     *   fallbackAsUrl?: bool
+     *   url?: ?callable
      * } $options
      *
      * @return array<array<string, string>>
@@ -292,7 +291,7 @@ class Image
         $sizes = $options['sizes'] ?? null;
         $width1x = $options['width1x'] ?? null;
         $assetOptions = $options['assetOptions'] ?? [];
-        $fallbackAsUrl = (bool) ($options['fallbackAsUrl'] ?? false);
+        $url = $options['url'] ?? null;
         $darkAssetPath = self::buildDarkAssetPath($asset['_path'], $darkSuffix);
         $assetDark = new Asset($builder, $darkAssetPath, array_merge(['ignore_missing' => true], $assetOptions));
         if ($assetDark->isMissing()) {
@@ -309,10 +308,10 @@ class Image
             try {
                 $assetDarkConverted = $assetDark->convert($format);
                 if ($responsive === true || $responsive === 'width') {
-                    $darkSrcset = !empty($widths) ? self::buildHtmlSrcsetW($assetDarkConverted, $widths) : '';
+                    $darkSrcset = !empty($widths) ? self::buildHtmlSrcsetW($assetDarkConverted, $widths, false, $url) : '';
                 } elseif ($responsive === 'density') {
                     $darkSrcset = !empty($densities)
-                        ? self::buildHtmlSrcsetX($assetDarkConverted, $width1x ?? $assetDark['width'], $densities)
+                        ? self::buildHtmlSrcsetX($assetDarkConverted, $width1x ?? $assetDark['width'], $densities, $url)
                         : '';
                 } else {
                     $darkSrcset = '';
@@ -320,7 +319,7 @@ class Image
                 $darkSourceAttributes = [
                     'media'  => '(prefers-color-scheme: dark)',
                     'type'   => "image/$format",
-                    'srcset' => empty($darkSrcset) ? (string) $assetDarkConverted : $darkSrcset,
+                    'srcset' => empty($darkSrcset) ? self::url($assetDarkConverted, $url) : $darkSrcset,
                 ];
                 if (!empty($sizes)) {
                     $darkSourceAttributes['sizes'] = $sizes;
@@ -330,10 +329,10 @@ class Image
                 $builder->getLogger()->warning($e->getMessage());
             }
         }
-        $darkFallbackSrcset = $fallbackAsUrl ? (string) new Url($builder, $assetDark) : (string) $assetDark;
+        $darkFallbackSrcset = self::url($assetDark, $url);
         if (($responsive === true || $responsive === 'width') && !empty($widths)) {
             try {
-                $darkResponsiveSrcset = self::buildHtmlSrcsetW($assetDark, $widths);
+                $darkResponsiveSrcset = self::buildHtmlSrcsetW($assetDark, $widths, false, $url);
                 if (!empty($darkResponsiveSrcset)) {
                     $darkFallbackSrcset = $darkResponsiveSrcset;
                 }
@@ -357,12 +356,13 @@ class Image
      * Build the `srcset` HTML attribute for responsive images, based on widths.
      * e.g.: `srcset="/img-480.jpg 480w, /img-800.jpg 800w"`.
      *
-     * @param array $widths   An array of widths to include in the `srcset`
-     * @param bool  $notEmpty If true the source image is always added to the `srcset`
+     * @param array         $widths   An array of widths to include in the `srcset`
+     * @param bool          $notEmpty If true the source image is always added to the `srcset`
+     * @param callable|null $url      Optional URL builder, called with each Asset (e.g.: to handle base URL)
      *
      * @throws RuntimeException
      */
-    public static function buildHtmlSrcsetW(Asset $asset, array $widths, $notEmpty = false): string
+    public static function buildHtmlSrcsetW(Asset $asset, array $widths, $notEmpty = false, ?callable $url = null): string
     {
         if (!self::isImage($asset)) {
             throw new RuntimeException(\sprintf('Unable to build "srcset" of "%s": it\'s not an image file.', $asset['path']));
@@ -377,12 +377,12 @@ class Image
                 continue;
             }
             $img = $asset->resize($width);
-            array_unshift($srcset, \sprintf('%s %sw', (string) $img, $width));
+            array_unshift($srcset, \sprintf('%s %sw', self::url($img, $url), $width));
             $widthMax = $width;
         }
         // adds source image
         if ((!empty($srcset) || $notEmpty) && ($asset['width'] < max($widths) && $asset['width'] != $widthMax)) {
-            $srcset[] = \sprintf('%s %sw', (string) $asset, $asset['width']);
+            $srcset[] = \sprintf('%s %sw', self::url($asset, $url), $asset['width']);
         }
 
         return implode(', ', $srcset);
@@ -391,21 +391,22 @@ class Image
     /**
      * Alias of buildHtmlSrcsetW for backward compatibility.
      */
-    public static function buildHtmlSrcset(Asset $asset, array $widths, $notEmpty = false): string
+    public static function buildHtmlSrcset(Asset $asset, array $widths, $notEmpty = false, ?callable $url = null): string
     {
-        return self::buildHtmlSrcsetW($asset, $widths, $notEmpty);
+        return self::buildHtmlSrcsetW($asset, $widths, $notEmpty, $url);
     }
 
     /**
      * Build the `srcset` HTML attribute for responsive images, based on pixel ratios.
      * e.g.: `srcset="/img-1x.jpg 1.0x, /img-2x.jpg 2.0x"`.
      *
-     * @param int   $width1x  The width of the 1x image
-     * @param array $ratios   An array of pixel ratios to include in the `srcset`
+     * @param int           $width1x The width of the 1x image
+     * @param array         $ratios  An array of pixel ratios to include in the `srcset`
+     * @param callable|null $url     Optional URL builder, called with each Asset (e.g.: to handle base URL)
      *
      * @throws RuntimeException
      */
-    public static function buildHtmlSrcsetX(Asset $asset, int $width1x, array $ratios): string
+    public static function buildHtmlSrcsetX(Asset $asset, int $width1x, array $ratios, ?callable $url = null): string
     {
         if (!self::isImage($asset)) {
             throw new RuntimeException(\sprintf('Unable to build "srcset" of "%s": it\'s not an image file.', $asset['path']));
@@ -423,12 +424,20 @@ class Image
                 continue;
             }
             $img = $asset->resize($width);
-            array_unshift($srcset, \sprintf('%s %dx', (string) $img, $ratio));
+            array_unshift($srcset, \sprintf('%s %dx', self::url($img, $url), $ratio));
         }
         // adds 1x image
-        array_unshift($srcset, \sprintf('%s 1x', (string) $asset->resize($width1x)));
+        array_unshift($srcset, \sprintf('%s 1x', self::url($asset->resize($width1x), $url)));
 
         return implode(', ', $srcset);
+    }
+
+    /**
+     * Returns the URL of an Asset, built with the URL builder if provided.
+     */
+    private static function url(Asset $asset, ?callable $url = null): string
+    {
+        return $url !== null ? (string) $url($asset) : (string) $asset;
     }
 
     /**

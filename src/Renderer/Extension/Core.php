@@ -63,7 +63,7 @@ class Core extends AbstractExtension
             new \Twig\TwigFunction('image', [$this, 'htmlImage'], ['needs_context' => true]),
             new \Twig\TwigFunction('audio', [$this, 'htmlAudio'], ['needs_context' => true]),
             new \Twig\TwigFunction('video', [$this, 'htmlVideo'], ['needs_context' => true]),
-            new \Twig\TwigFunction('image_srcset', [$this, 'imageSrcset']),
+            new \Twig\TwigFunction('image_srcset', [$this, 'imageSrcset'], ['needs_context' => true]),
             new \Twig\TwigFunction('image_sizes', [$this, 'imageSizes']),
             new \Twig\TwigFunction('image_from_website', [$this, 'htmlImageFromWebsite'], ['needs_context' => true]),
             // utilities
@@ -492,10 +492,12 @@ class Core extends AbstractExtension
     {
         $responsive = $options['responsive'] ?? $this->config->get('layouts.images.responsive');
         $source = '';
+        // URL builder
+        $url = fn (Asset $asset): string => $this->url($context, $asset, $options);
         // build responsive attributes
         try {
             if ($responsive === true || $responsive == 'width') {
-                $srcset = Image::buildHtmlSrcsetW($asset, $this->config->getAssetsImagesWidths());
+                $srcset = Image::buildHtmlSrcsetW($asset, $this->config->getAssetsImagesWidths(), false, $url);
                 if (!empty($srcset)) {
                     $attributes['srcset'] = $srcset;
                 }
@@ -506,7 +508,7 @@ class Core extends AbstractExtension
                 }
             } elseif ($responsive == 'density') {
                 $width1x = isset($attributes['width']) && $attributes['width'] > 0 ? (int) $attributes['width'] : $asset['width'];
-                $srcset = Image::buildHtmlSrcsetX($asset, $width1x, $this->config->getAssetsImagesDensities());
+                $srcset = Image::buildHtmlSrcsetX($asset, $width1x, $this->config->getAssetsImagesDensities(), $url);
                 if (!empty($srcset)) {
                     $attributes['srcset'] = $srcset;
                 }
@@ -525,9 +527,9 @@ class Core extends AbstractExtension
                         $assetConverted = $asset->convert($format);
                         // responsive
                         if ($responsive === true || $responsive == 'width') {
-                            $srcset = Image::buildHtmlSrcsetW($assetConverted, $this->config->getAssetsImagesWidths());
+                            $srcset = Image::buildHtmlSrcsetW($assetConverted, $this->config->getAssetsImagesWidths(), false, $url);
                             if (empty($srcset)) {
-                                $source .= \sprintf("\n  <source type=\"image/$format\" srcset=\"%s\">", (string) $assetConverted);
+                                $source .= \sprintf("\n  <source type=\"image/$format\" srcset=\"%s\">", $url($assetConverted));
                                 continue;
                             }
                             $source .= \sprintf("\n  <source type=\"image/$format\" srcset=\"%s\" sizes=\"%s\">", $srcset, Image::getHtmlSizes($attributes['class'] ?? '', $this->config->getAssetsImagesSizes()));
@@ -535,14 +537,14 @@ class Core extends AbstractExtension
                         }
                         if ($responsive == 'density') {
                             $width1x = isset($attributes['width']) && $attributes['width'] > 0 ? (int) $attributes['width'] : $asset['width'];
-                            $srcset = Image::buildHtmlSrcsetX($assetConverted, $width1x, $this->config->getAssetsImagesDensities());
+                            $srcset = Image::buildHtmlSrcsetX($assetConverted, $width1x, $this->config->getAssetsImagesDensities(), $url);
                             if (empty($srcset)) {
-                                $srcset = (string) $assetConverted;
+                                $srcset = $url($assetConverted);
                             }
                             $source .= \sprintf("\n  <source type=\"image/$format\" srcset=\"%s\">", $srcset);
                             continue;
                         }
-                        $source .= \sprintf("\n  <source type=\"image/$format\" srcset=\"%s\">", $assetConverted);
+                        $source .= \sprintf("\n  <source type=\"image/$format\" srcset=\"%s\">", $url($assetConverted));
                     } catch (\Exception $e) {
                         $this->builder->getLogger()->warning($e->getMessage());
                         continue;
@@ -592,11 +594,10 @@ class Core extends AbstractExtension
                 $this->builder->getLogger()->warning($e->getMessage());
             }
         }
-        $img = \sprintf('<img src="%s"%s>', $this->url($context, $asset, $options), self::htmlAttributes($attributes));
-
+        $img = \sprintf('<img src="%s"%s>', $url($asset), self::htmlAttributes($attributes));
 
         // dark color-scheme variant: auto-detect `{filename}{suffix}.{ext}` alongside the source image
-        $darkSource = $this->buildDarkSourceHtml($asset, $formats, $responsive, $attributes);
+        $darkSource = $this->buildDarkSourceHtml($asset, $formats, $responsive, $attributes, $url);
 
         // put `<source>` elements in `<picture>` if exists
         if (!empty($darkSource) || !empty($source)) {
@@ -621,11 +622,12 @@ class Core extends AbstractExtension
     /**
      * Builds HTML dark "source" elements for the dark color-scheme variant of an image Asset.
      *
-     * @param array $formats    Alternative formats (e.g. ['avif', 'webp'])
-     * @param mixed $responsive Responsive mode (true, 'width', 'density' or false)
-     * @param array $attributes Image attributes
+     * @param array    $formats    Alternative formats (e.g. ['avif', 'webp'])
+     * @param mixed    $responsive Responsive mode (true, 'width', 'density' or false)
+     * @param array    $attributes Image attributes
+     * @param callable $url        URL builder
      */
-    private function buildDarkSourceHtml(Asset $asset, array $formats, mixed $responsive, array $attributes): string
+    private function buildDarkSourceHtml(Asset $asset, array $formats, mixed $responsive, array $attributes, callable $url): string
     {
         $darkSuffix = (string) $this->config->get('layouts.images.dark_suffix');
         $sizes = null;
@@ -643,6 +645,7 @@ class Core extends AbstractExtension
                 'densities' => $this->config->getAssetsImagesDensities(),
                 'sizes' => $sizes,
                 'width1x' => isset($attributes['width']) && $attributes['width'] > 0 ? (int) $attributes['width'] : null,
+                'url' => $url,
             ]
         );
         if (empty($darkSourceAttributes)) {
@@ -673,9 +676,9 @@ class Core extends AbstractExtension
      *
      * @throws RuntimeException
      */
-    public function imageSrcset(Asset $asset): string
+    public function imageSrcset(array $context, Asset $asset): string
     {
-        return Image::buildHtmlSrcsetW($asset, $this->config->getAssetsImagesWidths(), true);
+        return Image::buildHtmlSrcsetW($asset, $this->config->getAssetsImagesWidths(), true, fn (Asset $asset): string => $this->url($context, $asset));
     }
 
     /**
