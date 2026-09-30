@@ -2,6 +2,12 @@
 
 All notable changes to this project will be documented in this file. Dates are displayed in UTC.
 
+#### [9.4.3](https://github.com/Cecilapp/Cecil/compare/9.4.2...9.4.3)
+
+> 30 September 2026
+
+- fix(asset): normalize Windows path separators in dark asset path [`0c75e14`](https://github.com/Cecilapp/Cecil/commit/0c75e14bd062e0734c4c5433d07a1ce2748efd10)
+
 #### [9.4.2](https://github.com/Cecilapp/Cecil/compare/9.4.1...9.4.2)
 
 > 29 September 2026
