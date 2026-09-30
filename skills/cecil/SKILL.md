@@ -168,15 +168,19 @@ tags: [Welcome, "First post"]
 This is my first post content.
 ```
 
-### Step 5: Create Templates
+### Step 5: Create Templates (Optional)
+
+Cecil ships with [built-in templates](#built-in-templates) (`resources/layouts/`), so a site builds **without any template** in `layouts/`. Only create templates to customize the rendering, and prefer extending the built-in ones (see [Built-in Templates](#built-in-templates)).
 
 Create Twig templates in `layouts/` (for example `layouts/page.html.twig`):
 
 ```twig
 <!DOCTYPE html>
-<html>
+<html lang="{{ site.language }}">
   <head>
-    <title>{{ page.title }} - {{ site.title }}</title>
+    <meta charset="utf-8">
+    {# generates <title>, description, canonical, Open Graph, etc. #}
+    {{ include('partials/metatags.html.twig') }}
   </head>
   <body>
     <header>
@@ -246,11 +250,98 @@ Cecil uses the first existing template, in priority order, for each page type. `
 | Vocabulary | `taxonomy/<plural>` → `vocabulary` → `_default/vocabulary`                                                                           |
 | Term       | `taxonomy/<term>` → `taxonomy/<singular>` → `term` → `_default/term` → `_default/list`                                               |
 
+Each candidate is searched in `layouts/` (site), then in `themes/<theme>/layouts/`, then in Cecil's built-in templates (`resources/layouts/`). Most `_default/*` templates exist built-in, which is why a site renders without any custom layout.
+
 In practice, you usually need only:
 
 - `layouts/page.html.twig`
 - `layouts/list.html.twig`
-- optional overrides in `layouts/_default/` or per section
+- optional overrides per section
+
+### Built-in Templates
+
+Cecil embeds default templates in [`resources/layouts/`](https://github.com/Cecilapp/Cecil/tree/main/resources/layouts). They are always available to Twig (lowest priority, after site and theme layouts), so they can be rendered, included or extended **without being copied** into `layouts/`.
+
+- `_default/` - fallback layouts: `page.html.twig`, `list.html.twig`, `home.html.twig`, `vocabulary.html.twig`, `404.html.twig`, `redirect.html.twig`, feeds (`list.atom.twig`, `list.rss.twig`, `list.jsonfeed.twig`), JSON/Markdown/LLMs outputs, `sitemap.xml.twig`, `robots.txt.twig`, etc.
+- `partials/` - reusable fragments (see [Built-in Partials](#built-in-partials-and-utilities))
+- `extended/` - advanced/alternative variants
+- `shortcodes.twig` - built-in shortcodes
+
+Rules to follow:
+
+1. **Don't recreate what already exists**: before writing a template, check whether a built-in one covers the need (feeds, sitemap, robots.txt, 404, redirects, JSON outputs are already provided).
+2. **Extend rather than copy**: `_default/page.html.twig` exposes the blocks `head`, `head_metatags`, `head_css`, `header`, `content` and `footer`.
+
+   ```twig
+   {# layouts/page.html.twig #}
+   {% extends '_default/page.html.twig' %}
+   {% block content %}
+     <article>{{ page.content }}</article>
+   {% endblock %}
+   ```
+
+3. **Don't shadow a built-in template by accident**: a site file with the same path (e.g. `layouts/_default/page.html.twig` or `layouts/partials/metatags.html.twig`) fully replaces the built-in one for the whole site, and can't `extends` itself.
+4. **Extract only as a last resort**: `php cecil.phar util:templates:extract` copies all built-in templates into `layouts/`; the copies then no longer receive Cecil updates.
+
+### Metatags (`partials/metatags.html.twig`)
+
+Always use the built-in `partials/metatags.html.twig` partial in the `<head>` of HTML layouts instead of hand-writing SEO/social tags. It is already included by `_default/page.html.twig` (block `head_metatags`).
+
+```twig
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  {{ include('partials/metatags.html.twig') }}
+</head>
+```
+
+It generates:
+
+- `<title>` (page title + divider + site title; site title + baseline on the homepage; page number on paginated lists)
+- `description`, `keywords` (from `tags`), `author`, `robots` (`noindex` on paginated pages)
+- favicons (from `favicon.ico`, `favicon.svg`, `favicon.png` assets, resized)
+- `prev`/`next`/`first`/`last` links, canonical and alternate formats, feeds, `hreflang` alternates
+- `rel=me` links, Open Graph, Facebook, Twitter/X Card, Fediverse creator
+- optional Dublin Core and JSON-LD structured data
+
+Important:
+
+- **Never add a separate `<title>`, `<meta name="description">`, canonical or `og:*` tags** next to this partial: they would be duplicated.
+- Feed it through front matter (page) or configuration (site fallback): `title`, `description`, `tags`, `author`, `image`, `canonical.url`, `social.*`.
+- Tune it with the `metatags` configuration (per page with front matter `metatags`):
+
+  ```yaml
+  metatags:
+    title:
+      divider: " &middot; "
+      only: false        # page title only
+    robots: "index,follow"
+    favicon: true
+    og: true
+    twitter: true
+    mastodon: true
+    articles: "blog"     # section rendered as Open Graph "article"
+    dc: false            # Dublin Core
+    data: false          # JSON-LD structured data
+  ```
+
+- Override `title` or `image` for a specific template:
+
+  ```twig
+  {{ include('partials/metatags.html.twig', {title: 'Custom title', image: og_image}) }}
+  ```
+
+- Customize one part with `embed` and its blocks (`title`, `description`, `metatags_favicon`, `metatags_alternates`, `metatags_og`, `metatags_twitter`, `metatags_dc`, `metatags_structured_data`), instead of copying the whole file:
+
+  ```twig
+  {% embed 'partials/metatags.html.twig' %}
+    {% block metatags_twitter %}{% endblock %}
+  {% endembed %}
+  ```
+
+- Run `php cecil.phar doctor:seo` to check the generated metatags.
+
+See the [metatags documentation](https://cecil.app/documentation/configuration/#metatags) for all options.
 
 ### Template Variables
 
@@ -304,7 +395,8 @@ Useful collection helpers:
 <html lang="{{ site.language }}">
   <head>
     <meta charset="utf-8">
-    <title>{{ page.title }} - {{ site.title }}</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    {# no <title> here: metatags.html.twig generates it #}
     {{ include('partials/metatags.html.twig') }}
   </head>
   <body>
@@ -335,13 +427,24 @@ Useful collection helpers:
 
 ### Built-in Partials and Utilities
 
-- `partials/metatags.html.twig` - SEO/social tags
-- `partials/navigation.html.twig` - navigation helper
+Available in every site, without extraction (include them rather than rewriting them):
+
+- `partials/metatags.html.twig` - all `<head>` SEO/social tags, including `<title>` (see [Metatags](#metatags-partialsmetatagshtmltwig))
+- `partials/alternates.html.twig` - canonical and alternate formats links (included by metatags)
+- `partials/alternates-languages.html.twig` - `hreflang` links (included by metatags)
+- `partials/feeds-from-section.html.twig` - section feeds links (included by metatags)
+- `partials/jsonld.js.twig` - JSON-LD structured data (included by metatags when `metatags.data` is enabled)
+- `partials/navigation.html.twig` - main menu navigation
+- `partials/page-navigation.html.twig` - previous/next page links
 - `partials/paginator.html.twig` - pagination links
 - `partials/languages.html.twig` - language switcher
 - `partials/breadcrumb.html.twig` - breadcrumb (nested sections aware)
+- `partials/terms-list.html.twig` - taxonomy terms list
+- `partials/theme-selector.html.twig` - light/dark theme toggle
+- `partials/googleanalytics.js.twig` - Google Analytics snippet
+- `partials/pico.css.twig`, `partials/highlight.css.twig` - CSS used by the default layouts
 
-If needed, extract built-in templates to customize them:
+If a built-in template really needs to be modified, extract them all into `layouts/` (last resort, see [Built-in Templates](#built-in-templates)):
 
 ```bash
 php cecil.phar util:templates:extract
@@ -514,14 +617,14 @@ When extending or contributing to Cecil:
 1. Create `pages/blog/index.md` for blog section
 2. Add individual posts in `pages/blog/post-*.md`
 3. Configure taxonomy for tags/categories
-4. Create templates for listing and individual posts
+4. Rely on built-in `_default/list.html.twig` and `_default/page.html.twig`, or extend them in `layouts/blog/`
 5. Build with `php cecil.phar build`
 
 ### Add Custom Pages
 
 1. Create markdown files in `pages/` directory
 2. Add front matter with `title` and, if needed, `layout`
-3. Create corresponding template in `layouts/`
+3. If needed, create a template in `layouts/` (preferably extending a built-in one, with `partials/metatags.html.twig` in `<head>`)
 4. Let lookup rules pick the template, or set `layout: <name>` in front matter
 5. Build to generate output
 

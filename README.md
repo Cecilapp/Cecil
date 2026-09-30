@@ -177,12 +177,13 @@ The automated workflow also will publish the release to the [website](https://ce
 
 ## AI agent skill
 
-Cecil ships with an [agent skill](skills/cecil/SKILL.md) that teaches AI coding agents (GitHub Copilot, Claude Code, Cursor, etc.) how to build and configure Cecil sites.
+Cecil ships with an [agent skill](skills/cecil/SKILL.md) that teaches AI coding agents (GitHub Copilot, Claude Code, Cursor, etc.) how to build and configure Cecil sites, and a [theme skill](skills/cecil-theme/SKILL.md) dedicated to creating and packaging Cecil themes.
 
-Install it with the [GitHub CLI](https://cli.github.com):
+Install them with the [GitHub CLI](https://cli.github.com):
 
 ```bash
 gh skill install Cecilapp/Cecil cecil
+gh skill install Cecilapp/Cecil cecil-theme
 ```
 
 Or with [`npx skills`](https://github.com/vercel-labs/skills):
