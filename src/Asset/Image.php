@@ -253,9 +253,11 @@ class Image
     public static function buildDarkAssetPath(string $assetPath, string $darkSuffix): string
     {
         $pathInfo = pathinfo($assetPath);
+        // on Windows, `dirname` of a root file is "\"
+        $dirname = str_replace('\\', '/', $pathInfo['dirname']);
         $extension = empty($pathInfo['extension']) ? '' : '.' . $pathInfo['extension'];
 
-        return rtrim($pathInfo['dirname'], '/') . '/' . $pathInfo['filename'] . $darkSuffix . $extension;
+        return rtrim($dirname, '/') . '/' . $pathInfo['filename'] . $darkSuffix . $extension;
     }
 
     /**
