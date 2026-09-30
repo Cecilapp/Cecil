@@ -2,6 +2,12 @@
 
 All notable changes to this project will be documented in this file. Dates are displayed in UTC.
 
+#### [9.4.2](https://github.com/Cecilapp/Cecil/compare/9.4.1...9.4.2)
+
+> 29 September 2026
+
+- fix(assets): build images srcset and sources URLs with Url [`#2480`](https://github.com/Cecilapp/Cecil/pull/2480)
+
 #### [9.4.1](https://github.com/Cecilapp/Cecil/compare/9.4.0...9.4.1)
 
 > 28 September 2026
