@@ -152,26 +152,28 @@
   {%- block metatags_favicon ~%}
     {%- if page.metatags.favicon ?? site.metatags.favicon ?? true ~%}
       {%- cache cache_key('metatags-favicon') ~%}
-      {#- favicon.ico ~#}
-      {%- set favicon_ico = asset('favicon.ico', {ignore_missing: true}) -%}
-      {%- if not favicon_ico.missing ~%}
-    <link rel="icon" href="{{ url(favicon_ico, {canonical: true}) }}" type="image/x-icon">
-    <link rel="icon" href="{{ url(favicon_ico, {canonical: true}) }}" type="image/vnd.microsoft.icon">
-    <link rel="shortcut icon" href="{{ url(favicon_ico, {canonical: true}) }}" type="image/x-icon">
-      {%- endif -%}
     {#- favicon.svg ~#}
       {%- set favicon_svg = asset('favicon.svg', {ignore_missing: true}) -%}
       {%- if not favicon_svg.missing ~%}
-    <link rel="icon" sizes="any" href="{{ url(favicon_svg, {canonical: true}) }}" type="image/svg+xml">
+    <link rel="icon" sizes="any" href="{{ url(favicon_svg, {canonical: false}) }}" type="image/svg+xml">
       {%- endif -%}
-      {#- favicon.png ~#}
+    {#- favicon.png ~#}
       {%- set favicon_asset = asset(site.metatags.favicon.image|default('favicon.png'), {ignore_missing: true}) -%}
       {%- if not favicon_asset.missing -%}
         {%- for favicon_variant, favicon_sizes in site.metatags.favicon.sizes|default(favicon_defaults) -%}
           {%- for size in favicon_sizes|sort|reverse|filter(size => favicon_asset.width >= size) ~%}
-    <link rel="{{ favicon_variant }}" sizes="{{ size }}x{{ size }}" href="{{ url(favicon_asset|resize(size), {canonical: true}) }}" type="{{ favicon_asset.subtype }}">
+    <link rel="{{ favicon_variant }}" sizes="{{ size }}x{{ size }}" href="{{ url(favicon_asset|resize(size), {canonical: false}) }}" type="{{ favicon_asset.subtype }}">
           {%- endfor -%}
         {%- endfor -%}
+      {%- endif -%}
+      {#- favicon.ico ~#}
+      {%- set favicon_ico = asset('favicon.ico', {ignore_missing: true}) -%}
+      {%- if not favicon_ico.missing ~%}
+        {%- set favicon_ico_48 = asset('favicon.ico', {fingerprint: false})|resize(48) ~%}
+    <link rel="icon" href="{{ url(favicon_ico_48, {canonical: false}) }}">
+    <link rel="icon" href="{{ url(favicon_ico, {canonical: false}) }}" type="image/x-icon">
+    <link rel="icon" href="{{ url(favicon_ico, {canonical: false}) }}" type="image/vnd.microsoft.icon">
+    <link rel="shortcut icon" href="{{ url(favicon_ico, {canonical: false}) }}" type="image/x-icon">
       {%- endif -%}
       {%- endcache ~%}
     {%- endif ~%}
