@@ -14,7 +14,6 @@ Cecil is a CLI application that merges plain text files (written in [Markdown](h
 [![Continuous Integration status](https://github.com/Cecilapp/Cecil/actions/workflows/continuous-integration.yml/badge.svg)](https://github.com/Cecilapp/Cecil/actions/workflows/continuous-integration.yml)
 [![Release status](https://github.com/Cecilapp/Cecil/actions/workflows/release.yml/badge.svg)](https://github.com/Cecilapp/Cecil/actions/workflows/release.yml)
 [![Documentation status](https://github.com/Cecilapp/Cecil/actions/workflows/documentation.yml/badge.svg)](https://github.com/Cecilapp/Cecil/actions/workflows/documentation.yml)  
-[![Scrutinizer score](https://scrutinizer-ci.com/g/Cecilapp/Cecil/badges/quality-score.png)](https://scrutinizer-ci.com/g/Cecilapp/Cecil/)
 [![Codacy badge](https://app.codacy.com/project/badge/Grade/07232d3c7ff34f3da5abdac8f3ad2cee)](https://app.codacy.com/gh/Cecilapp/Cecil/dashboard)
 [![Coverage score](https://coveralls.io/repos/github/Cecilapp/Cecil/badge.svg?branch=main)](https://coveralls.io/github/Cecilapp/Cecil?branch=main)
 [![StyleCI status](https://github.styleci.io/repos/7548986/shield?style=plastic)](https://styleci.io/repos/12738012)

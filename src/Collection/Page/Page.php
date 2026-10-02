@@ -770,7 +770,7 @@ class Page extends Item
         }
         // localized page
         if (PrefixSuffix::hasSuffix($basename)) {
-            return trim(Util::joinPath(/** @scrutinizer ignore-type */ PrefixSuffix::getSuffix($basename), $relativePath, PrefixSuffix::sub($basename, $separators)), '/');
+            return trim(Util::joinPath(PrefixSuffix::getSuffix($basename), $relativePath, PrefixSuffix::sub($basename, $separators)), '/');
         }
 
         return trim(Util::joinPath($relativePath, $basename), '/');
