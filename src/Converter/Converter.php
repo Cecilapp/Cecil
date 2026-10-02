@@ -120,7 +120,7 @@ class Converter implements ConverterInterface
 
             return $result;
         } catch (TomlParseException $e) {
-            throw new RuntimeException($e->getMessage(), file: $e->getParsedFile(), line: $e->getParsedLine());
+            throw new RuntimeException($e->getMessage(), line: $e->getParsedLine());
         } catch (\Exception $e) {
             throw new RuntimeException($e->getMessage());
         }
@@ -133,15 +133,11 @@ class Converter implements ConverterInterface
      */
     private static function convertJsonToArray(string $string): array
     {
-        try {
-            $result = json_decode($string, true);
-            if ($result === null && json_last_error() !== JSON_ERROR_NONE) {
-                throw new \Exception('JSON error.');
-            }
-
-            return $result;
-        } catch (\Exception) {
+        $result = json_decode($string, true);
+        if (!\is_array($result)) {
             throw new RuntimeException('Unable to parse JSON front matter.');
         }
+
+        return $result;
     }
 }
