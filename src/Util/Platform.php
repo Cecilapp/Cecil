@@ -26,6 +26,20 @@ class Platform
     public const int OS_LINUX = 3;
     public const int OS_OSX = 4;
 
+    /** PHP_OS values by OS family */
+    private const array OS_FAMILIES = [
+        'Unix'      => self::OS_LINUX,
+        'FreeBSD'   => self::OS_LINUX,
+        'NetBSD'    => self::OS_LINUX,
+        'OpenBSD'   => self::OS_LINUX,
+        'Linux'     => self::OS_LINUX,
+        'WINNT'     => self::OS_WIN,
+        'WIN32'     => self::OS_WIN,
+        'Windows'   => self::OS_WIN,
+        'CYGWIN_NT' => self::OS_WIN,
+        'Darwin'    => self::OS_OSX,
+    ];
+
     /** @var string */
     protected static $pharPath;
 
@@ -70,41 +84,45 @@ class Platform
      */
     public static function openBrowser(string $url): void
     {
-        if (self::isWindows()) {
-            passthru('start "web" explorer "' . $url . '"');
+        // @codeCoverageIgnoreStart
+        if (null !== $command = self::getOpenBrowserCommand($url)) {
+            passthru($command);
+        }
+        // @codeCoverageIgnoreEnd
+    }
 
-            return;
+    /**
+     * Returns the command used to open a URL in the system default browser, or null if none is available.
+     */
+    public static function getOpenBrowserCommand(string $url): ?string
+    {
+        if (self::isWindows()) {
+            return 'start "web" explorer "' . $url . '"';
         }
-        passthru('which xdg-open', $linux);
-        passthru('which open', $osx);
-        if (0 === $linux) {
-            passthru('xdg-open ' . $url);
-        } elseif (0 === $osx) {
-            passthru('open ' . $url);
+        foreach (['xdg-open', 'open'] as $opener) {
+            if (self::commandExists($opener)) {
+                return $opener . ' ' . $url;
+            }
         }
+
+        return null;
     }
 
     /**
      * Search for system OS in PHP_OS constant.
      */
-    public static function getOS(): int
+    public static function getOS(?string $os = null): int
     {
-        switch (PHP_OS) {
-            case 'Unix':
-            case 'FreeBSD':
-            case 'NetBSD':
-            case 'OpenBSD':
-            case 'Linux':
-                return self::OS_LINUX;
-            case 'WINNT':
-            case 'WIN32':
-            case 'Windows':
-            case 'CYGWIN_NT':
-                return self::OS_WIN;
-            case 'Darwin':
-                return self::OS_OSX;
-            default:
-                return self::OS_UNKNOWN;
-        }
+        return self::OS_FAMILIES[$os ?? PHP_OS] ?? self::OS_UNKNOWN;
+    }
+
+    /**
+     * Whether a command is available in the PATH (Unix-like systems only).
+     */
+    private static function commandExists(string $command): bool
+    {
+        exec('command -v ' . escapeshellarg($command) . ' 2>/dev/null', $output, $code);
+
+        return $code === 0;
     }
 }
