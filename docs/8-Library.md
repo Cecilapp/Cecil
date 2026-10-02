@@ -1,7 +1,7 @@
 <!--
-description: "Use Cecil as a PHP library."
+description: "Use Cecil as a PHP library: install it with Composer, then build your website and run diagnostics programmatically through its API."
 date: 2023-12-13
-updated: 2026-06-13
+updated: 2026-10-02
 -->
 # Library
 

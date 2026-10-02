@@ -1,8 +1,8 @@
 <!--
 title: Codes de locale
-description: Liste des codes de locale disponibles (`language_COUNTRY`).
+description: "Liste des codes de locale disponibles (`language_COUNTRY`) à utiliser avec l’option de configuration `languages` pour créer un site web multilingue."
 date: 2020-12-19
-updated: 2025-03-27
+updated: 2026-10-02
 weight: 4
 excluded: true
 -->

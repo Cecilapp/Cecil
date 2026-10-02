@@ -1,8 +1,8 @@
 <!--
 title: Fournisseurs de CDN
-description: Exemples de configuration de fournisseurs de CDN.
+description: "Exemples de configuration de fournisseurs de CDN d’images (Cloudinary, Cloudimage, TwicPics, imgix, Netlify Image CDN) à utiliser avec l’option assets.images.cdn."
 date: 2023-10-23
-updated: 2025-03-27
+updated: 2026-10-02
 weight: 4
 excluded: true
 -->

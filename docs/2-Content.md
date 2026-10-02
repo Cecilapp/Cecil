@@ -1,7 +1,7 @@
 <!--
-description: "Create content and organize it."
+description: "Create and organize your content: pages, assets, static and data files, front matter variables, Markdown syntax and extensions, multilingual and dynamic content."
 date: 2021-05-07
-updated: 2026-08-23
+updated: 2026-10-02
 -->
 # Content
 

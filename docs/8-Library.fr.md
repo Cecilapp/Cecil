@@ -1,8 +1,8 @@
 <!--
 title: "Bibliothèque"
-description: "Utilisez Cecil comme bibliothèque PHP."
+description: "Utilisez Cecil comme bibliothèque PHP : installez-la avec Composer, puis générez votre site web et lancez des diagnostics par programmation via son API."
 date: 2026-03-27
-updated: 2026-06-13
+updated: 2026-10-02
 slug: bibliotheque
 -->
 # Bibliothèque

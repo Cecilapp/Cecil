@@ -1,8 +1,8 @@
 <!--
 title: Déployer
-description: "Déployer (publier) votre site web."
+description: "Déployez (publiez) votre site statique sur des plateformes Jamstack (Netlify, Vercel, Cloudflare Pages, etc.), via le déploiement continu (GitHub Pages, GitLab CI) ou sur un hébergement statique."
 date: 2026-03-27
-updated: 2026-06-16
+updated: 2026-10-02
 slug: deployer
 alias: documentation/publier
 -->

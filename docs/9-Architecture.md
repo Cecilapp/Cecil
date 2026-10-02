@@ -1,7 +1,7 @@
 <!--
-description: "Cecil architecture."
+description: "Overview of Cecil architecture: diagram of the build pipeline, from the Builder through Steps, Generators and Renderer to the output, with a legend of key components."
 date: 2026-05-27
-updated: 2026-06-08
+updated: 2026-10-02
 -->
 # Architecture
 

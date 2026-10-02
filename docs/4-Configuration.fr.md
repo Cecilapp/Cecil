@@ -1,8 +1,8 @@
 <!--
 title: Configuration
-description: "Configurez votre site web."
+description: "Configurez votre site web avec cecil.yml : options du site, pages, données, fichiers statiques, assets, layouts, formats de sortie, cache, serveur local, optimisation et surcharge par variables d’environnement."
 date: 2026-03-27
-updated: 2026-08-17
+updated: 2026-10-02
 slug: configuration
 -->
 # Configuration

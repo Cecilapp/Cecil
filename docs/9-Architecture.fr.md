@@ -1,7 +1,7 @@
 <!--
-description: "Architecture de Cecil."
+description: "Vue d’ensemble de l’architecture de Cecil : diagramme du processus de génération, du Builder aux fichiers de sortie en passant par les Steps, Generators et Renderer, avec une légende des composants clés."
 date: 2026-05-27
-updated: 2026-06-08
+updated: 2026-10-02
 -->
 # Architecture
 

@@ -1,8 +1,8 @@
 <!--
 title: Contenu
-description: "Créer du contenu et l’organiser."
+description: "Créez et organisez votre contenu : pages, assets, fichiers statiques et de données, variables du front matter, syntaxe et extensions Markdown, contenu multilingue et dynamique."
 date: 2026-03-27
-updated: 2026-08-23
+updated: 2026-10-02
 slug: contenu
 -->
 # Contenu

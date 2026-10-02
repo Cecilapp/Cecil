@@ -1,7 +1,7 @@
 <!--
-description: "Configure your website."
+description: "Configure your website with cecil.yml: site options, pages, data, static files, assets, layouts, output formats, cache, local server, optimization and environment variables override."
 date: 2021-05-07
-updated: 2026-08-17
+updated: 2026-10-02
 -->
 # Configuration
 

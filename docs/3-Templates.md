@@ -1,7 +1,7 @@
 <!--
-description: "Working with layouts, templates and components."
+description: "Work with Twig layouts, templates and components: files organization, lookup rules, variables, functions, sorts, filters, localization, cache and custom extensions."
 date: 2021-05-07
-updated: 2026-09-28
+updated: 2026-10-02
 alias: documentation/layouts
 -->
 # Templates
