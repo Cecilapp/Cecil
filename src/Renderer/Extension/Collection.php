@@ -35,6 +35,7 @@ class Collection extends AbstractExtension
         $this->builder = $builder;
     }
 
+    #[\Override]
     public function getFilters(): array
     {
         return [
@@ -81,7 +82,7 @@ class Collection extends AbstractExtension
         $sort = \SORT_ASC;
 
         $collection = iterator_to_array($collection);
-        array_multisort(array_keys(/** @scrutinizer ignore-type */ $collection), $sort, \SORT_NATURAL | \SORT_FLAG_CASE, $collection);
+        array_multisort(array_keys($collection), $sort, \SORT_NATURAL | \SORT_FLAG_CASE, $collection);
 
         return $collection;
     }
@@ -110,7 +111,7 @@ class Collection extends AbstractExtension
         if (!\is_array($collection)) {
             $collection = iterator_to_array($collection);
         }
-        usort(/** @scrutinizer ignore-type */ $collection, $callback);
+        usort($collection, $callback);
 
         return $collection;
     }
@@ -134,7 +135,7 @@ class Collection extends AbstractExtension
         };
 
         $collection = iterator_to_array($collection);
-        usort(/** @scrutinizer ignore-type */ $collection, $callback);
+        usort($collection, $callback);
 
         return $collection;
     }

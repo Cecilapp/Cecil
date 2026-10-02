@@ -54,7 +54,7 @@ class Builder implements BuildContextInterface, LoggerAwareInterface
      * @var array<string, bool|string>
      * @see \Cecil\Builder::build()
      */
-    public const OPTIONS = [
+    public const array OPTIONS = [
         'drafts'  => false,
         'dry-run' => false,
         'page'    => '',
@@ -67,7 +67,7 @@ class Builder implements BuildContextInterface, LoggerAwareInterface
      * @var array<string>
      * @see \Cecil\Step\StepInterface
      */
-    public const STEPS = [
+    public const array STEPS = [
         'Cecil\Step\Pages\Load',
         'Cecil\Step\Data\Load',
         'Cecil\Step\StaticFiles\Load',
@@ -88,7 +88,7 @@ class Builder implements BuildContextInterface, LoggerAwareInterface
     /**
      * Temporary directory name.
      */
-    public const TMP_DIR = '.cecil';
+    public const string TMP_DIR = '.cecil';
 
     /**
      * Configuration object.

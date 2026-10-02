@@ -30,6 +30,7 @@ class GeneratorMetaTag extends AbstractPostProcessor
      *
      * Adds generator meta tag.
      */
+    #[\Override]
     public function process(Page $page, string $output, string $format): string
     {
         if ($format == 'html') {

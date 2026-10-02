@@ -27,6 +27,7 @@ class HtmlExcerpt extends AbstractPostProcessor
     /**
      * {@inheritdoc}
      */
+    #[\Override]
     public function process(Page $page, string $output, string $format): string
     {
         if ($format == 'html') {

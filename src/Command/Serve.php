@@ -62,6 +62,7 @@ class Serve extends AbstractCommand
     /**
      * {@inheritdoc}
      */
+    #[\Override]
     protected function configure()
     {
         $this
@@ -140,6 +141,7 @@ EOF
      *
      * @throws RuntimeException
      */
+    #[\Override]
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $open = $input->getOption('open');
@@ -434,8 +436,8 @@ EOF
         try {
             if (\function_exists('\pcntl_signal')) {
                 pcntl_async_signals(true);
-                pcntl_signal(SIGINT, [$this, 'tearDownServer']);
-                pcntl_signal(SIGTERM, [$this, 'tearDownServer']);
+                pcntl_signal(SIGINT, $this->tearDownServer(...));
+                pcntl_signal(SIGTERM, $this->tearDownServer(...));
             }
 
             $output->writeln(\sprintf('<comment>Server process: %s</comment>', $command), OutputInterface::VERBOSITY_DEBUG);

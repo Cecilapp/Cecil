@@ -29,6 +29,7 @@ class DefaultPages extends VirtualPages
     /**
      * {@inheritdoc}
      */
+    #[\Override]
     public function generate(): void
     {
         parent::generate();

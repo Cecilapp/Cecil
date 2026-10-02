@@ -27,8 +27,8 @@ use Yosymfony\ResourceWatcher\ResourceWatcherResult;
 class IncrementalBuildResolver
 {
     public function __construct(
-        private Builder $builder,
-        private bool $includeDrafts = false,
+        private readonly Builder $builder,
+        private readonly bool $includeDrafts = false,
     ) {
     }
 
@@ -88,11 +88,7 @@ class IncrementalBuildResolver
         }
 
         if (\count($templates) > 0) {
-            $pagesFromTemplates = $this->resolvePagesImpactedByTemplates($templates);
-            if ($pagesFromTemplates === null) {
-                return null;
-            }
-            foreach ($pagesFromTemplates as $page) {
+            foreach ($this->resolvePagesImpactedByTemplates($templates) as $page) {
                 $pages[$page] = $page;
             }
         }
@@ -104,9 +100,9 @@ class IncrementalBuildResolver
      * Resolves source pages impacted by changed templates.
      *
      * @param array<int, array{scope: string, file: string}> $changedTemplates
-     * @return array<int, string>|null
+     * @return array<int, string>
      */
-    private function resolvePagesImpactedByTemplates(array $changedTemplates): ?array
+    private function resolvePagesImpactedByTemplates(array $changedTemplates): array
     {
         $config = $this->builder->getConfig();
         $affectedTemplates = $this->resolveAffectedTemplates($changedTemplates);

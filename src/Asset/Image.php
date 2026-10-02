@@ -103,9 +103,7 @@ class Image
 
             return (string) $image->encodeUsingFormat(
                 $format,
-                /** @scrutinizer ignore-type */
                 progressive: true,
-                /** @scrutinizer ignore-type */
                 interlaced: false,
                 quality: $quality
             );
@@ -139,9 +137,7 @@ class Image
 
             return (string) $image->encodeUsingFormat(
                 $format,
-                /** @scrutinizer ignore-type */
                 progressive: true,
-                /** @scrutinizer ignore-type */
                 interlaced: false,
                 quality: $quality
             );
@@ -168,9 +164,7 @@ class Image
 
             return (string) $image->encodeUsingFormat(
                 $targetFormat,
-                /** @scrutinizer ignore-type */
                 progressive: true,
-                /** @scrutinizer ignore-type */
                 interlaced: false,
                 quality: $quality
             );

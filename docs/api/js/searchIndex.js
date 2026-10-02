@@ -4773,7 +4773,7 @@ Search.appendIndex(
         },                {
             "fqsen": "\\Cecil\\Step\\AbstractStep\u003A\u003A\u0024options",
             "name": "options",
-            "summary": "Configuration\u0020options\u0020for\u0020the\u0020step.",
+            "summary": "Configuration\u0020options\u0020for\u0020the\u0020step\u0020\u0028see\u0020\\Cecil\\Builder\u003A\u003AOPTIONS\u0029.",
             "url": "classes/Cecil-Step-AbstractStep.html#property_options"
         },                {
             "fqsen": "\\Cecil\\Step\\Assets\\Save",

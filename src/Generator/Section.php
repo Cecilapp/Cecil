@@ -37,6 +37,7 @@ class Section extends AbstractGenerator implements GeneratorInterface
     /**
      * {@inheritdoc}
      */
+    #[\Override]
     public function generate(): void
     {
         $sections = [];
