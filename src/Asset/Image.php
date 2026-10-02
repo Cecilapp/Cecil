@@ -36,23 +36,40 @@ use Intervention\Image\Interfaces\ImageManagerInterface;
 class Image
 {
     /**
+     * Returns the name of the available image driver (e.g.: "Imagick"), or null if none.
+     */
+    public static function getDriverName(): ?string
+    {
+        return self::driver()[0] ?? null;
+    }
+
+    /**
+     * Returns the available driver as [name, class], or null if none.
+     *
+     * @return array{string, class-string}|null
+     */
+    private static function driver(): ?array
+    {
+        // Use Imagick first (fast and widely available), then libvips (fast), then GD as fallback.
+        if (\extension_loaded('imagick') && class_exists('Imagick')) {
+            return ['Imagick', ImagickDriver::class];
+        }
+        if (\extension_loaded('vips') && class_exists('Jcupitt\Vips\Config') && class_exists(VipsDriver::class)) {
+            return ['Vips', VipsDriver::class];
+        }
+        if (\extension_loaded('gd') && \function_exists('gd_info')) {
+            return ['GD', GdDriver::class];
+        }
+
+        return null;
+    }
+
+    /**
      * Create new manager instance with available driver.
      */
     private static function manager(): ImageManagerInterface
     {
-        $driver = null;
-        // Use GD first to keep driver capabilities aligned with GD-based format checks in convert().
-        if (\extension_loaded('gd') && \function_exists('gd_info')) {
-            $driver = GdDriver::class;
-        } elseif (\extension_loaded('imagick') && class_exists('Imagick')) {
-            // ImageMagick fallback.
-            $driver = ImagickDriver::class;
-        } elseif (\extension_loaded('vips') && class_exists('Jcupitt\Vips\Config') && class_exists(VipsDriver::class)) {
-            // libvips fallback.
-            $driver = VipsDriver::class;
-        }
-
-        if ($driver) {
+        if (null !== $driver = self::driver()[1] ?? null) {
             return ImageManager::usingDriver(
                 $driver,
                 [
@@ -64,7 +81,7 @@ class Image
             );
         }
 
-        throw new RuntimeException('PHP GD or Imagick extension is required, or Vips support via ext-vips/jcupitt-vips and intervention/image-driver-vips.');
+        throw new RuntimeException('PHP Imagick or GD extension is required, or Vips support via ext-vips/jcupitt-vips and intervention/image-driver-vips.');
     }
 
     /**
@@ -256,13 +273,12 @@ class Image
     public static function convert(Asset $asset, string $format, int $quality): string
     {
         try {
-            if (!\function_exists("image$format")) {
-                throw new RuntimeException(\sprintf('Function "image%s" is not available.', $format));
-            }
-
             $image = self::manager()->decodeBinary($asset['content']);
 
             $targetFormat = Format::create($format);
+            if (!$image->driver()->supports($targetFormat)) {
+                throw new RuntimeException(\sprintf('Format "%s" is not supported by the image driver.', $format));
+            }
 
             return (string) $image->encodeUsingFormat(
                 $targetFormat,

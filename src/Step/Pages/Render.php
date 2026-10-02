@@ -13,6 +13,7 @@ declare(strict_types=1);
 
 namespace Cecil\Step\Pages;
 
+use Cecil\Asset\Image;
 use Cecil\Builder;
 use Cecil\Collection\Page\Collection;
 use Cecil\Collection\Page\Page;
@@ -60,6 +61,8 @@ class Render extends AbstractStep
             $message = \sprintf('"%s" is not a valid layouts directory', $this->config->getLayoutsPath());
             $this->builder->getLogger()->debug($message);
         }
+
+        $this->builder->getLogger()->debug(\sprintf('Image driver: %s', Image::getDriverName() ?? 'none'));
 
         // render a subset of pages?
         if (!empty($options['render-subset'])) {

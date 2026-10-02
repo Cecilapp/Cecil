@@ -56,6 +56,16 @@ Search.appendIndex(
             "summary": "Image\u0020Asset\u0020class.",
             "url": "classes/Cecil-Asset-Image.html"
         },                {
+            "fqsen": "\\Cecil\\Asset\\Image\u003A\u003AgetDriverName\u0028\u0029",
+            "name": "getDriverName",
+            "summary": "Returns\u0020the\u0020name\u0020of\u0020the\u0020available\u0020image\u0020driver\u0020\u0028e.g.\u003A\u0020\u0022Imagick\u0022\u0029,\u0020or\u0020null\u0020if\u0020none.",
+            "url": "classes/Cecil-Asset-Image.html#method_getDriverName"
+        },                {
+            "fqsen": "\\Cecil\\Asset\\Image\u003A\u003Adriver\u0028\u0029",
+            "name": "driver",
+            "summary": "Returns\u0020the\u0020available\u0020driver\u0020as\u0020\u005Bname,\u0020class\u005D,\u0020or\u0020null\u0020if\u0020none.",
+            "url": "classes/Cecil-Asset-Image.html#method_driver"
+        },                {
             "fqsen": "\\Cecil\\Asset\\Image\u003A\u003Amanager\u0028\u0029",
             "name": "manager",
             "summary": "Create\u0020new\u0020manager\u0020instance\u0020with\u0020available\u0020driver.",
