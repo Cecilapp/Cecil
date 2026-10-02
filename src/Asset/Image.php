@@ -41,15 +41,13 @@ class Image
     private static function manager(): ImageManagerInterface
     {
         $driver = null;
-        // Use GD first to keep driver capabilities aligned with GD-based format checks in convert().
-        if (\extension_loaded('gd') && \function_exists('gd_info')) {
-            $driver = GdDriver::class;
-        } elseif (\extension_loaded('imagick') && class_exists('Imagick')) {
-            // ImageMagick fallback.
+        // Use Imagick first (fast and widely available), then libvips (fast), then GD as fallback.
+        if (\extension_loaded('imagick') && class_exists('Imagick')) {
             $driver = ImagickDriver::class;
         } elseif (\extension_loaded('vips') && class_exists('Jcupitt\Vips\Config') && class_exists(VipsDriver::class)) {
-            // libvips fallback.
             $driver = VipsDriver::class;
+        } elseif (\extension_loaded('gd') && \function_exists('gd_info')) {
+            $driver = GdDriver::class;
         }
 
         if ($driver) {
@@ -64,7 +62,7 @@ class Image
             );
         }
 
-        throw new RuntimeException('PHP GD or Imagick extension is required, or Vips support via ext-vips/jcupitt-vips and intervention/image-driver-vips.');
+        throw new RuntimeException('PHP Imagick or GD extension is required, or Vips support via ext-vips/jcupitt-vips and intervention/image-driver-vips.');
     }
 
     /**
@@ -154,13 +152,12 @@ class Image
     public static function convert(Asset $asset, string $format, int $quality): string
     {
         try {
-            if (!\function_exists("image$format")) {
-                throw new RuntimeException(\sprintf('Function "image%s" is not available.', $format));
-            }
-
             $image = self::manager()->decodeBinary($asset['content']);
 
             $targetFormat = Format::create($format);
+            if (!$image->driver()->supports($targetFormat)) {
+                throw new RuntimeException(\sprintf('Format "%s" is not supported by the image driver.', $format));
+            }
 
             return (string) $image->encodeUsingFormat(
                 $targetFormat,
