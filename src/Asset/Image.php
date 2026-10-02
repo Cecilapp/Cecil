@@ -36,21 +36,40 @@ use Intervention\Image\Interfaces\ImageManagerInterface;
 class Image
 {
     /**
+     * Returns the name of the available image driver (e.g.: "Imagick"), or null if none.
+     */
+    public static function getDriverName(): ?string
+    {
+        return self::driver()[0] ?? null;
+    }
+
+    /**
+     * Returns the available driver as [name, class], or null if none.
+     *
+     * @return array{string, class-string}|null
+     */
+    private static function driver(): ?array
+    {
+        // Use Imagick first (fast and widely available), then libvips (fast), then GD as fallback.
+        if (\extension_loaded('imagick') && class_exists('Imagick')) {
+            return ['Imagick', ImagickDriver::class];
+        }
+        if (\extension_loaded('vips') && class_exists('Jcupitt\Vips\Config') && class_exists(VipsDriver::class)) {
+            return ['Vips', VipsDriver::class];
+        }
+        if (\extension_loaded('gd') && \function_exists('gd_info')) {
+            return ['GD', GdDriver::class];
+        }
+
+        return null;
+    }
+
+    /**
      * Create new manager instance with available driver.
      */
     private static function manager(): ImageManagerInterface
     {
-        $driver = null;
-        // Use Imagick first (fast and widely available), then libvips (fast), then GD as fallback.
-        if (\extension_loaded('imagick') && class_exists('Imagick')) {
-            $driver = ImagickDriver::class;
-        } elseif (\extension_loaded('vips') && class_exists('Jcupitt\Vips\Config') && class_exists(VipsDriver::class)) {
-            $driver = VipsDriver::class;
-        } elseif (\extension_loaded('gd') && \function_exists('gd_info')) {
-            $driver = GdDriver::class;
-        }
-
-        if ($driver) {
+        if (null !== $driver = self::driver()[1] ?? null) {
             return ImageManager::usingDriver(
                 $driver,
                 [
