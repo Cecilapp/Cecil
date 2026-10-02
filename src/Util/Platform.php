@@ -121,7 +121,7 @@ class Platform
      */
     private static function commandExists(string $command): bool
     {
-        exec('command -v ' . escapeshellarg($command) . ' 2>/dev/null', $output, $code);
+        exec('command -v ' . escapeshellarg($command) . ' 2>/dev/null', result_code: $code);
 
         return $code === 0;
     }
