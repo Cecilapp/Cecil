@@ -42,7 +42,7 @@ jobs:
       - name: Checkout source code
         uses: actions/checkout@v7
       - name: Install image files optimizers (Ubuntu)
-        if: ${{ matrix.os == 'ubuntu-latest' && join(matrix.type) == '' }}
+        if: ${{ matrix.os == 'ubuntu-latest' && (join(matrix.type) == '' || join(matrix.type) == 'coverage') }}
         run: |
           sudo apt-get update -y
           sudo apt-get install -y jpegoptim pngquant gifsicle optipng libjpeg-progs webp libavif-bin

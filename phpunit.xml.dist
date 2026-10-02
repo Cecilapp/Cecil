@@ -32,5 +32,5 @@
       <file>./tests/IntegrationCliTests.php</file>
     </testsuite>
   </testsuites>
-  <coverage includeUncoveredFiles="false"></coverage>
+  <coverage includeUncoveredFiles="true"></coverage>
 </phpunit>

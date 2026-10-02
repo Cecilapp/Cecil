@@ -146,7 +146,7 @@
     ],
     "test:bin": "cd bin && php cecil --version && rm -rf demo && mkdir demo && php cecil new:site demo --demo -f -n && php cecil new:page demo -f -n && php cecil build demo -v && rm -rf demo",
     "test:cli": "phpunit -c ./ --testsuite=IntegrationCliTests",
-    "test:coverage": "XDEBUG_MODE=coverage phpunit -c ./ --testsuite=IntegrationTests --coverage-text --coverage-clover=coverage/clover.xml",
+    "test:coverage": "XDEBUG_MODE=coverage phpunit -c ./ --testsuite=UnitTests,IntegrationTests --coverage-text --coverage-clover=coverage/clover.xml",
     "test:coverage:install": [
       "wget -c -nc --retry-connrefused --tries=0 https://github.com/php-coveralls/php-coveralls/releases/download/v2.8.0/php-coveralls.phar -O coveralls.phar",
       "chmod +x coveralls.phar",
