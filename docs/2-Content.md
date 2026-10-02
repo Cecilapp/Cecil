@@ -670,6 +670,13 @@ tags: ["Development", "PHP"]
 ---
 ```
 
+Cecil then generates, for each vocabulary:
+
+- a page listing its terms, e.g.: `/tags/`
+- a page per term listing its pages, e.g.: `/tags/development/` and `/tags/php/`
+
+See [templates lookup rules](3-Templates.md#type-vocabulary) and [taxonomy variables](3-Templates.md#taxonomy) to customize those pages.
+
 ### Schedule
 
 Schedules pages’ publication.

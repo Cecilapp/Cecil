@@ -672,6 +672,13 @@ tags: ["Développement", "PHP"]
 ---
 ```
 
+Cecil génère ensuite, pour chaque vocabulaire :
+
+- une page listant ses termes, ex. : `/tags/`
+- une page par terme listant ses pages, ex. : `/tags/developpement/` et `/tags/php/`
+
+Voir les [règles de recherche des templates](3-Templates.md#type-vocabulary) et les [variables de taxonomie](3-Templates.md#taxonomie) pour personnaliser ces pages.
+
 ### Planification
 
 Planifie la publication des pages.

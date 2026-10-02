@@ -135,7 +135,7 @@ class Url
                         if ($lang && Util\Str::startsWith($value, $lang)) {
                             $value = substr($value, \strlen($lang));
                         }
-                        $this->url = $base . '/' . $lang . ltrim($value, '/');
+                        $this->url = $base . '/' . $lang . self::encode(ltrim($value, '/'));
                 }
         }
     }
@@ -154,5 +154,18 @@ class Url
     public function getUrl(): string
     {
         return (string) $this->url ?: '/';
+    }
+
+    /**
+     * Percent-encodes characters not allowed in an URL (e.g.: spaces),
+     * preserving reserved characters and already encoded sequences.
+     */
+    public static function encode(string $url): string
+    {
+        return (string) preg_replace_callback(
+            '/%(?![0-9A-Fa-f]{2})|[^A-Za-z0-9\-._~!$&\'()*+,;=:@\/?#\[\]%]+/',
+            fn (array $matches) => rawurlencode($matches[0]),
+            $url
+        );
     }
 }

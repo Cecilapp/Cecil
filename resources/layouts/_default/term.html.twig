@@ -1,0 +1,8 @@
+{% extends '_default/list.html.twig' %}
+
+      {%- block content ~%}
+      {{- parent() ~}}
+      <nav>
+        <a href="{{ url(page.plural, {language: site.language}) }}">{{ page.plural|capitalize }}</a>
+      </nav>
+      {%- endblock content ~%}

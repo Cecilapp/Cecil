@@ -5341,6 +5341,11 @@ Search.appendIndex(
             "summary": "Returns\u0020built\u0020URL.",
             "url": "classes/Cecil-Url.html#method_getUrl"
         },                {
+            "fqsen": "\\Cecil\\Url\u003A\u003Aencode\u0028\u0029",
+            "name": "encode",
+            "summary": "Percent\u002Dencodes\u0020characters\u0020not\u0020allowed\u0020in\u0020an\u0020URL\u0020\u0028e.g.\u003A\u0020spaces\u0029,\npreserving\u0020reserved\u0020characters\u0020and\u0020already\u0020encoded\u0020sequences.",
+            "url": "classes/Cecil-Url.html#method_encode"
+        },                {
             "fqsen": "\\Cecil\\Url\u003A\u003A\u0024builder",
             "name": "builder",
             "summary": "",

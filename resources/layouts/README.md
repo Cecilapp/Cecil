@@ -38,6 +38,7 @@ This directory contains built-in Twig layout templates provided by Cecil.
 - `robots.txt.twig` : `robots.txt` template allowing pages except 404 and referencing the sitemap.
 - `sitemap.xml.twig`: `sitemap.xml` template listing pages.
 - `sitemap.xsl.twig` : XSL stylesheet used to render the sitemap XML in browsers.
+- `term.html.twig` : List of pages of a taxonomy term, with a link to its vocabulary.
 - `vocabulary.html.twig` : Simple list of all terms in a vocabulary.
 
 ### `partials/`
