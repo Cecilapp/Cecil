@@ -5491,10 +5491,20 @@ Search.appendIndex(
             "summary": "Opens\u0020a\u0020URL\u0020in\u0020the\u0020system\u0020default\u0020browser.",
             "url": "classes/Cecil-Util-Platform.html#method_openBrowser"
         },                {
+            "fqsen": "\\Cecil\\Util\\Platform\u003A\u003AgetOpenBrowserCommand\u0028\u0029",
+            "name": "getOpenBrowserCommand",
+            "summary": "Returns\u0020the\u0020command\u0020used\u0020to\u0020open\u0020a\u0020URL\u0020in\u0020the\u0020system\u0020default\u0020browser,\u0020or\u0020null\u0020if\u0020none\u0020is\u0020available.",
+            "url": "classes/Cecil-Util-Platform.html#method_getOpenBrowserCommand"
+        },                {
             "fqsen": "\\Cecil\\Util\\Platform\u003A\u003AgetOS\u0028\u0029",
             "name": "getOS",
             "summary": "Search\u0020for\u0020system\u0020OS\u0020in\u0020PHP_OS\u0020constant.",
             "url": "classes/Cecil-Util-Platform.html#method_getOS"
+        },                {
+            "fqsen": "\\Cecil\\Util\\Platform\u003A\u003AcommandExists\u0028\u0029",
+            "name": "commandExists",
+            "summary": "Whether\u0020a\u0020command\u0020is\u0020available\u0020in\u0020the\u0020PATH\u0020\u0028Unix\u002Dlike\u0020systems\u0020only\u0029.",
+            "url": "classes/Cecil-Util-Platform.html#method_commandExists"
         },                {
             "fqsen": "\\Cecil\\Util\\Platform\u003A\u003AOS_UNKNOWN",
             "name": "OS_UNKNOWN",
@@ -5515,6 +5525,11 @@ Search.appendIndex(
             "name": "OS_OSX",
             "summary": "",
             "url": "classes/Cecil-Util-Platform.html#constant_OS_OSX"
+        },                {
+            "fqsen": "\\Cecil\\Util\\Platform\u003A\u003AOS_FAMILIES",
+            "name": "OS_FAMILIES",
+            "summary": "PHP_OS\u0020values\u0020by\u0020OS\u0020family",
+            "url": "classes/Cecil-Util-Platform.html#constant_OS_FAMILIES"
         },                {
             "fqsen": "\\Cecil\\Util\\Platform\u003A\u003A\u0024pharPath",
             "name": "pharPath",
