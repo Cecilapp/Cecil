@@ -1,8 +1,8 @@
 <!--
 title: Templates
-description: "Travailler avec les layouts, les templates et les composants."
+description: "Travaillez avec les layouts, templates et composants Twig : organisation des fichiers, règles de recherche, variables, fonctions, tris, filtres, localisation, cache et extensions personnalisées."
 date: 2026-05-26
-updated: 2026-08-26
+updated: 2026-10-02
 slug: templates
 -->
 # Templates
@@ -73,9 +73,12 @@ layouts/blog/list.rss.twig   # `section` est "blog" et `format` est "rss"
 ├─ ...
 ├─ layouts
 |  ├─ index.html.twig      # Utilisé par le type "homepage"
-|  ├─ list.html.twig       # Utilisé par les types "homepage", "section" et "term"
-|  ├─ list.rss.twig        # Utilisé par les types "homepage", "section" et "term", pour le format de sortie RSS
+|  ├─ list.html.twig       # Utilisé par les types "homepage" et "section"
+|  ├─ list.rss.twig        # Utilisé par les types "homepage" et "section", pour le format de sortie RSS
 |  ├─ page.html.twig       # Utilisé par le type "page"
+|  ├─ taxonomy
+|  |  ├─ tags.html.twig    # Utilisé par le type "vocabulary" de `tags` (liste des termes)
+|  |  └─ tag.html.twig     # Utilisé par le type "term" de `tags` (liste des pages)
 |  ├─ my-layout.html.twig  # Utilisé par les pages avec `layout: my-layout` dans le front-matter
 |  ├─ ...
 |  └─ partials
@@ -87,7 +90,7 @@ layouts/blog/list.rss.twig   # `section` est "blog" et `format` est "rss"
 
 ### Templates intégrés
 
-Cecil est livré avec un ensemble de [templates intégrés](https://github.com/Cecilapp/Cecil/tree/master/resources/layouts).
+Cecil est livré avec un ensemble de [templates intégrés](https://github.com/Cecilapp/Cecil/tree/main/resources/layouts).
 
 :::tip
 Si vous avez besoin de modifier des templates intégrés, vous pouvez facilement les extraire via la commande suivante : ils seront copiés dans le répertoire `layouts` de votre site.
@@ -150,11 +153,19 @@ Toutes les règles sont détaillées ci-dessous, pour chaque type de page, par o
 
 ### Type _term_
 
-1. `taxonomy/<term>.<format>.twig`
+1. `taxonomy/<plural>/<term>.<format>.twig`
 2. `taxonomy/<singular>.<format>.twig`
 3. `term.<format>.twig`
 4. `_default/term.<format>.twig`
 5. `_default/list.<format>.twig`
+
+:::important
+Le template du **vocabulaire** est nommé d’après le **pluriel** (ex. : `taxonomy/categories.html.twig` pour `/categories/`), tandis que le template d’un **terme** est nommé d’après le **singulier** (ex. : `taxonomy/category.html.twig` pour `/categories/data-sovereignty/`).
+:::
+
+:::tip
+`<term>` est le nom du terme « slugifié » : un template dédié au terme « Data Sovereignty » du vocabulaire `categories` est `taxonomy/categories/data-sovereignty.html.twig`.
+:::
 
 :::info
 La plupart de ces layouts sont disponibles par défaut, voir [templates intégrés](#templates-intégrés).
@@ -344,7 +355,7 @@ _Fil d'Ariane (de la page d'accueil à la page courante) :_
 ```
 
 :::tip
-Un partial [`breadcrumb.html.twig`](https://github.com/Cecilapp/Cecil/blob/master/resources/layouts/partials/breadcrumb.html.twig) prêt à l'emploi est disponible :
+Un partial [`breadcrumb.html.twig`](https://github.com/Cecilapp/Cecil/blob/main/resources/layouts/partials/breadcrumb.html.twig) prêt à l'emploi est disponible :
 
 ```twig
 {{ include('partials/breadcrumb.html.twig') }}
@@ -460,18 +471,89 @@ Variables disponibles dans les templates _vocabulary_ et _term_.
 
 ##### Vocabulaire
 
+Page `/<plural>/` (ex. : `/categories/`).
+
 | Variables       | Descriptif                       |
 | --------------- | -------------------------------- |
 | `page.plural`   | Nom de vocabulaire au pluriel.   |
 | `page.singular` | Nom de vocabulaire au singulier. |
 | `page.terms`    | Liste de termes (_Collection_).  |
 
+Chaque terme de `page.terms` fournit `term.id` (identifiant du terme, ex. : `categories/php`), `term.name` (nom du terme, ex. : `PHP`) et le nombre de ses pages avec `term|length`.
+
 ##### Terme
 
-| Variables    | Descriptif                                    |
-| ------------ | --------------------------------------------- |
-| `page.term`  | Identifiant du terme.                         |
-| `page.pages` | Liste des pages dans ce terme (_Collection_). |
+Page `/<plural>/<term>/` (ex. : `/categories/php/`).
+
+| Variables       | Descriptif                                                       |
+| --------------- | ---------------------------------------------------------------- |
+| `page.title`    | Nom du terme.                                                    |
+| `page.term`     | Identifiant du terme (ex. : `categories/php`).                   |
+| `page.plural`   | Nom de vocabulaire au pluriel.                                   |
+| `page.singular` | Nom de vocabulaire au singulier.                                 |
+| `page.pages`    | Liste des pages dans ce terme, triées par date (_Collection_).   |
+
+##### Exemple de taxonomie
+
+Configuration :
+
+```yaml
+taxonomies:
+  categories: category
+```
+
+Front matter d’une page :
+
+```yaml
+---
+categories: ["Data Sovereignty"]
+---
+```
+
+Liste des termes (`/categories/`), dans `layouts/taxonomy/categories.html.twig` :
+
+```twig
+{% extends 'page.html.twig' %}
+
+{% block content %}
+  <h1>{{ page.title }}</h1>
+  <ul>
+  {% for term in page.terms %}
+    <li><a href="{{ url(term.id) }}">{{ term.name }}</a> ({{ term|length }})</li>
+  {% endfor %}
+  </ul>
+{% endblock %}
+```
+
+Liste des pages d’un terme (`/categories/data-sovereignty/`), dans `layouts/taxonomy/category.html.twig` :
+
+```twig
+{% extends 'page.html.twig' %}
+
+{% block content %}
+  <h1>{{ page.title }}</h1>
+  {% for p in page.paginator.pages ?? page.pages %}
+    <article>
+      <h2><a href="{{ url(p) }}">{{ p.title }}</a></h2>
+    </article>
+  {% endfor %}
+  <a href="{{ url(page.plural) }}">Toutes les {{ page.plural }}</a>
+{% endblock %}
+```
+
+Liens vers les termes de la page courante, dans un template de page :
+
+```twig
+{% for category in page.categories ?? [] %}
+  <a href="{{ url('categories/' ~ category) }}">{{ category }}</a>
+{% endfor %}
+```
+
+:::tip
+La fonction [`url()`](#url) « slugifie » la chaîne fournie pour trouver la page correspondante : `url('categories/Data Sovereignty')` retourne `/categories/data-sovereignty/`.
+
+Vous pouvez aussi utiliser le partial intégré `{{ include('partials/terms-list.html.twig', {vocabulary: 'categories'}) }}`.
+:::
 
 ### cecil
 
@@ -529,6 +611,10 @@ Pour plus de commodité, la fonction `url` est également disponible sous forme 
 {{ asset('styles.css')|url }}
 ```
 
+:::
+
+:::tip
+Lorsque la valeur est une chaîne, `url()` la « slugifie » pour trouver un ID de page correspondant (ex. : `url('tags/My Tag')` retourne l’URL de la page `tags/my-tag`). Si aucune page ne correspond, la chaîne est conservée comme chemin, avec les caractères invalides (ex. : espaces) encodés.
 :::
 
 ### asset
@@ -676,14 +762,14 @@ Crée un élément HTML à partir d'un actif (ou d'un tableau d'actifs avec des 
 | Options   | Descriptif                                                                                                                                                                                                                     | Tapez   |
 | --------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ------- |
 | attributs | Ajoute le couple `name="value"` à l'élément HTML.                                                                                                                                                                              | tableau |
-| options   | `{preload: boolean}` : préchargements.<br>Pour les images :<br>`{formats: array}` : ajoute des formats alternatifs.<br>`{responsive: bool|string}` : ajoute des images réactives (basées sur `width` ou des pixels `density`). | tableau |
+| options   | `{preload: boolean}` : préchargements.<br>Pour les images :<br>`{formats: array}` : ajoute des formats alternatifs.<br>`{responsive: bool|string}` : ajoute des images réactives (basées sur `width` ou des pixels `density`).<br>`{placeholder: string}` : remplit l'arrière-plan de l'image avant son chargement (`color` ou `lqip`). | tableau |
 
 :::warning
 Depuis la version ++8.42.0++, la fonction `html` remplace le filtre `html` obsolète.
 :::
 
 :::tip
-Vous pouvez définir un comportement global par défaut des options d'images (`formats` et `responsive`) via la [configuration des layouts](4-Configuration.md#layouts-images).
+Vous pouvez définir un comportement global par défaut des options d'images (`formats`, `responsive` et `placeholder`) via la [configuration des layouts](4-Configuration.md#layouts-images).
 
 Lorsque [`layouts.images.dark_suffix`](4-Configuration.md#layouts-images) est configuré (par exemple `.dark`), Cecil recherche automatiquement une variante sombre de chaque image (par exemple `photo.dark.jpg` aux côtés de `photo.jpg`) et génère un élément `<picture>` avec un `<source media="(prefers-color-scheme: dark)">`.
 :::
@@ -708,6 +794,8 @@ _Exemples :_
 {{ html(asset('image.jpg'), {alt: 'Description', loading: 'lazy'}, {responsive: true, formats: ['avif', 'webp']}) }}
 {# image with responsive pixels density images #}
 {{ html(asset('image.jpg'), options={responsive: 'density'}, attributes={width: 256}) }}
+{# image with a Low-Quality Image Placeholder #}
+{{ html(asset('image.jpg'), {alt: 'Description', loading: 'lazy'}, {placeholder: 'lqip'}) }}
 {# Audio #}
 {{ html(asset('audio.mp3')) }}
 {# Video #}
@@ -756,16 +844,40 @@ _Exemples :_
 
 ### image_from_website
 
-Construit l'élément HTML img à partir d'une URL de site Web en extrayant l'image des balises méta.
+Construit l'élément HTML img à partir d'une URL de site Web en extrayant son image d'illustration.
+Retourne `null` si aucune image n'est trouvée.
 
 ```twig
-{{ image_from_website('url') }}
+{{ image_from_website('url', {attributs}, {options}) }}
 ```
+
+L'image est recherchée dans le HTML de la page avec les fallbacks suivants, le premier candidat pouvant être téléchargé en tant qu'image est utilisé :
+
+1. Open Graph : `og:image:secure_url`, `og:image`, `og:image:url`
+2. Twitter : `twitter:image`, `twitter:image:src`
+3. `<link rel="image_src">`
+4. Microdata : `itemprop="image"`
+5. JSON-LD : propriété `image`
+6. Première `<img>` de `<article>`, `<main>` ou `<body>`
+7. `<link rel="apple-touch-icon">`
+8. `<link rel="icon">`
+
+Les URL relatives sont résolues par rapport à `<base href>` ou à l'URL de la page.
+
+L'URL de l'image trouvée et l'image téléchargée sont mises en cache (voir [`cache.assets.remote.ttl`](4-Configuration.fr.md#cache)).
+
+Options :
+
+- `fallback` : chemin (ou URL) de l'image utilisée si aucune image n'est trouvée
+- autres options de [`image`](#html) (ex. : `responsive`, `formats`)
 
 _Exemples :_
 
 ```twig
 {{ image_from_website('https://example.com/page-with-image.html') }}
+
+{# avec une image de fallback #}
+{{ image_from_website('https://example.com/', {alt: 'Illustration'}, {fallback: 'images/default.png'}) }}
 ```
 
 ### readtime

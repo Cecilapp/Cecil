@@ -87,6 +87,25 @@ class Cache implements CacheInterface
      */
     public function get($key, $default = null): mixed
     {
+        return $this->getValue($key, $default, true);
+    }
+
+    /**
+     * Gets a value without loading its dedicated content file (if any).
+     * Useful to handle large files (e.g.: audio, video) without keeping their content in memory.
+     *
+     * @see getContentFile() to retrieve the content file path
+     */
+    public function getWithoutContent(string $key, mixed $default = null): mixed
+    {
+        return $this->getValue($key, $default, false);
+    }
+
+    /**
+     * Gets a value, with or without its dedicated content file.
+     */
+    private function getValue(string $key, mixed $default, bool $withContent): mixed
+    {
         try {
             $key = self::sanitizeKey($key);
             // return default value if file doesn't exists
@@ -104,7 +123,7 @@ class Cache implements CacheInterface
                 return $default;
             }
             // get content from dedicated file
-            if (\is_array($data['value']) && isset($data['value']['path'])) {
+            if ($withContent && \is_array($data['value']) && isset($data['value']['path'])) {
                 if (false !== $content = Util\File::fileGetContents($this->getContentFile($data['value']['path']))) {
                     $data['value']['content'] = $content;
                 }

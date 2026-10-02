@@ -1,8 +1,8 @@
 <!--
 title: Locale codes
-description: List of available locale codes (`language_COUNTRY`).
+description: "List of available locale codes (`language_COUNTRY`) to use with the `languages` configuration option to build a multilingual website."
 date: 2020-12-19
-updated: 2025-03-27
+updated: 2026-10-02
 weight: 4
 excluded: true
 -->

@@ -1,7 +1,7 @@
 <!--
-description: "Create a new website and preview it locally."
+description: "Install Cecil, create a new website, add pages, preview it locally with the built-in server, then build and deploy it, or get started quickly with a starter kit."
 date: 2020-12-19
-updated: 2026-08-22
+updated: 2026-10-02
 menu: home
 -->
 # Quick Start

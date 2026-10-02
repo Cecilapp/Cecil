@@ -1,8 +1,8 @@
 <!--
 title: Contenu
-description: "Créer du contenu et l’organiser."
+description: "Créez et organisez votre contenu : pages, assets, fichiers statiques et de données, variables du front matter, syntaxe et extensions Markdown, contenu multilingue et dynamique."
 date: 2026-03-27
-updated: 2026-08-23
+updated: 2026-10-02
 slug: contenu
 -->
 # Contenu
@@ -672,6 +672,13 @@ tags: ["Développement", "PHP"]
 ---
 ```
 
+Cecil génère ensuite, pour chaque vocabulaire :
+
+- une page listant ses termes, ex. : `/tags/`
+- une page par terme listant ses pages, ex. : `/tags/developpement/` et `/tags/php/`
+
+Voir les [règles de recherche des templates](3-Templates.md#type-vocabulary) et les [variables de taxonomie](3-Templates.md#taxonomie) pour personnaliser ces pages.
+
 ### Planification
 
 Planifie la publication des pages.
@@ -705,7 +712,7 @@ redirect: "https://arnaudligny.fr"
 ```
 
 :::info
-La redirection fonctionne avec le template [`redirect.html.twig`](https://github.com/Cecilapp/Cecil/blob/master/resources/layouts/_default/redirect.html.twig).
+La redirection fonctionne avec le template [`redirect.html.twig`](https://github.com/Cecilapp/Cecil/blob/main/resources/layouts/_default/redirect.html.twig).
 :::
 
 ### alias
@@ -749,7 +756,7 @@ _Exemple :_
 
 ```yaml
 ---
-external: "https://raw.githubusercontent.com/Cecilapp/Cecil/master/README.md"
+external: "https://raw.githubusercontent.com/Cecilapp/Cecil/main/README.md"
 ---
 ```
 

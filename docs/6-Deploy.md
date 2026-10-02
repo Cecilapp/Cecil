@@ -1,7 +1,7 @@
 <!--
-description: "Deploy (publish) your website."
+description: "Deploy (publish) your static website to Jamstack platforms (Netlify, Vercel, Cloudflare Pages, etc.), through continuous deployment (GitHub Pages, GitLab CI) or to a static hosting."
 date: 2020-12-19
-updated: 2026-06-16
+updated: 2026-10-02
 alias: documentation/publish
 -->
 # Deploy

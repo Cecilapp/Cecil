@@ -169,7 +169,7 @@
         <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Util/Html.php"><a href="files/src-util-html.html"><abbr title="src/Util/Html.php">Html.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">23</span>
+    <span class="phpdocumentor-element-found-in__line">24</span>
 
     </aside>
 
@@ -205,6 +205,13 @@
 </h4>
 <dl class="phpdocumentor-table-of-contents">
             <dt class="phpdocumentor-table-of-contents__entry -method -public">
+    <a class="" href="classes/Cecil-Util-Html.html#method_getImageCandidates">getImageCandidates()</a>
+    <span>
+                                &nbsp;: array&lt;string|int, string&gt;    </span>
+</dt>
+<dd>Get candidate image URLs from HTML content, ordered by priority.</dd>
+
+            <dt class="phpdocumentor-table-of-contents__entry -method -public">
     <a class="" href="classes/Cecil-Util-Html.html#method_getImageFromMetaTags">getImageFromMetaTags()</a>
     <span>
                                 &nbsp;: string|null    </span>
@@ -224,6 +231,13 @@
                                 &nbsp;: array&lt;string|int, mixed&gt;    </span>
 </dt>
 <dd>Extract Twitter meta tags from HTML content.</dd>
+
+            <dt class="phpdocumentor-table-of-contents__entry -method -private">
+    <a class="" href="classes/Cecil-Util-Html.html#method_getImagesFromJsonLd">getImagesFromJsonLd()</a>
+    <span>
+                                &nbsp;: array&lt;string|int, string&gt;    </span>
+</dt>
+<dd>Extracts image URLs from JSON-LD data.</dd>
 
     </dl>
 
@@ -245,6 +259,83 @@
             -public
                                     -static                    "
 >
+    <h4 class="phpdocumentor-element__name" id="method_getImageCandidates">
+        getImageCandidates()
+        <a href="classes/Cecil-Util-Html.html#method_getImageCandidates" class="headerlink"><i class="fas fa-link"></i></a>
+
+    </h4>
+    <aside class="phpdocumentor-element-found-in">
+    <abbr class="phpdocumentor-element-found-in__file" title="src/Util/Html.php"><a href="files/src-util-html.html"><abbr title="src/Util/Html.php">Html.php</abbr></a></abbr>
+    :
+    <span class="phpdocumentor-element-found-in__line">116</span>
+
+    </aside>
+
+        <p class="phpdocumentor-summary">Get candidate image URLs from HTML content, ordered by priority.</p>
+
+    <code class="phpdocumentor-code phpdocumentor-signature ">
+    <span class="phpdocumentor-signature__visibility">public</span>
+            <span class="phpdocumentor-signature__static">static</span>        <span class="phpdocumentor-signature__name">getImageCandidates</span><span>(</span><span class="phpdocumentor-signature__argument"><span class="phpdocumentor-signature__argument__type">string&nbsp;</span><span class="phpdocumentor-signature__argument__name">$html</span></span><span class="phpdocumentor-signature__argument"><span>[</span><span>, </span><span class="phpdocumentor-signature__argument__type">string|null&nbsp;</span><span class="phpdocumentor-signature__argument__name">$baseUrl</span><span> = </span><span class="phpdocumentor-signature__argument__default-value">null</span><span> ]</span></span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">array&lt;string|int, string&gt;</span></code>
+
+    <div class="phpdocumentor-label-line">
+        </div>
+    
+        <section class="phpdocumentor-description"><p>Fallbacks (in order):</p>
+<ol>
+<li>Open Graph (<code class="prettyprint">og:image:secure_url</code>, <code class="prettyprint">og:image</code>, <code class="prettyprint">og:image:url</code>)</li>
+<li>Twitter (<code class="prettyprint">twitter:image</code>, <code class="prettyprint">twitter:image:src</code>)</li>
+<li><code class="prettyprint">&lt;link rel=&quot;image_src&quot;&gt;</code></li>
+<li>Schema.org microdata (<code class="prettyprint">itemprop=&quot;image&quot;</code>)</li>
+<li>JSON-LD <code class="prettyprint">image</code> property</li>
+<li>First <code class="prettyprint">&lt;img&gt;</code> in <code class="prettyprint">&lt;article&gt;</code>, <code class="prettyprint">&lt;main&gt;</code> or <code class="prettyprint">&lt;body&gt;</code></li>
+<li><code class="prettyprint">&lt;link rel=&quot;apple-touch-icon&quot;&gt;</code></li>
+<li><code class="prettyprint">&lt;link rel=&quot;icon&quot;&gt;</code></li>
+</ol>
+<p>Relative URLs are resolved against <code class="prettyprint">&lt;base href&gt;</code> or $baseUrl.</p>
+</section>
+
+        <h5 class="phpdocumentor-argument-list__heading">Parameters</h5>
+    <dl class="phpdocumentor-argument-list">
+                    <dt class="phpdocumentor-argument-list__entry">
+                <span class="phpdocumentor-argument-list__argument__name">$html</span>
+                : <span class="phpdocumentor-argument-list__argument__type">string</span>
+                            </dt>
+            <dd class="phpdocumentor-argument-list__definition">
+                    <section class="phpdocumentor-description"><p>The HTML content to parse</p>
+</section>
+
+            </dd>
+                    <dt class="phpdocumentor-argument-list__entry">
+                <span class="phpdocumentor-argument-list__argument__name">$baseUrl</span>
+                : <span class="phpdocumentor-argument-list__argument__type">string|null</span>
+                 = <span class="phpdocumentor-argument-list__argument__default-value">null</span>            </dt>
+            <dd class="phpdocumentor-argument-list__definition">
+                    <section class="phpdocumentor-description"><p>The URL of the HTML document</p>
+</section>
+
+            </dd>
+            </dl>
+
+    
+
+        
+    
+            <section>
+        <h5 class="phpdocumentor-return-value__heading">Return values</h5>
+        <span class="phpdocumentor-signature__response_type">array&lt;string|int, string&gt;</span>
+                    &mdash;
+                <section class="phpdocumentor-description"><p>A list of unique absolute image URLs</p>
+</section>
+
+            </section>
+
+</article>
+                    <article
+        class="phpdocumentor-element
+            -method
+            -public
+                                    -static                    "
+>
     <h4 class="phpdocumentor-element__name" id="method_getImageFromMetaTags">
         getImageFromMetaTags()
         <a href="classes/Cecil-Util-Html.html#method_getImageFromMetaTags" class="headerlink"><i class="fas fa-link"></i></a>
@@ -253,7 +344,7 @@
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Util/Html.php"><a href="files/src-util-html.html"><abbr title="src/Util/Html.php">Html.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">80</span>
+    <span class="phpdocumentor-element-found-in__line">81</span>
 
     </aside>
 
@@ -308,7 +399,7 @@
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Util/Html.php"><a href="files/src-util-html.html"><abbr title="src/Util/Html.php">Html.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">32</span>
+    <span class="phpdocumentor-element-found-in__line">33</span>
 
     </aside>
 
@@ -363,7 +454,7 @@
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Util/Html.php"><a href="files/src-util-html.html"><abbr title="src/Util/Html.php">Html.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">56</span>
+    <span class="phpdocumentor-element-found-in__line">57</span>
 
     </aside>
 
@@ -404,6 +495,55 @@
             </section>
 
 </article>
+                    <article
+        class="phpdocumentor-element
+            -method
+            -private
+                                    -static                    "
+>
+    <h4 class="phpdocumentor-element__name" id="method_getImagesFromJsonLd">
+        getImagesFromJsonLd()
+        <a href="classes/Cecil-Util-Html.html#method_getImagesFromJsonLd" class="headerlink"><i class="fas fa-link"></i></a>
+
+    </h4>
+    <aside class="phpdocumentor-element-found-in">
+    <abbr class="phpdocumentor-element-found-in__file" title="src/Util/Html.php"><a href="files/src-util-html.html"><abbr title="src/Util/Html.php">Html.php</abbr></a></abbr>
+    :
+    <span class="phpdocumentor-element-found-in__line">182</span>
+
+    </aside>
+
+        <p class="phpdocumentor-summary">Extracts image URLs from JSON-LD data.</p>
+
+    <code class="phpdocumentor-code phpdocumentor-signature ">
+    <span class="phpdocumentor-signature__visibility">private</span>
+            <span class="phpdocumentor-signature__static">static</span>        <span class="phpdocumentor-signature__name">getImagesFromJsonLd</span><span>(</span><span class="phpdocumentor-signature__argument"><span class="phpdocumentor-signature__argument__type">array&lt;string|int, mixed&gt;&nbsp;</span><span class="phpdocumentor-signature__argument__name">$data</span></span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">array&lt;string|int, string&gt;</span></code>
+
+    <div class="phpdocumentor-label-line">
+        </div>
+    
+    
+        <h5 class="phpdocumentor-argument-list__heading">Parameters</h5>
+    <dl class="phpdocumentor-argument-list">
+                    <dt class="phpdocumentor-argument-list__entry">
+                <span class="phpdocumentor-argument-list__argument__name">$data</span>
+                : <span class="phpdocumentor-argument-list__argument__type">array&lt;string|int, mixed&gt;</span>
+                            </dt>
+            <dd class="phpdocumentor-argument-list__definition">
+                
+            </dd>
+            </dl>
+
+    
+
+        
+    
+            <section>
+        <h5 class="phpdocumentor-return-value__heading">Return values</h5>
+        <span class="phpdocumentor-signature__response_type">array&lt;string|int, string&gt;</span>
+            </section>
+
+</article>
             </section>
 
         
@@ -426,9 +566,11 @@
                         <li class="phpdocumentor-on-this-page-section__title">Methods</li>
             <li>
                 <ul class="phpdocumentor-list -clean">
+                                            <li class=""><a href="classes/Cecil-Util-Html.html#method_getImageCandidates">getImageCandidates()</a></li>
                                             <li class=""><a href="classes/Cecil-Util-Html.html#method_getImageFromMetaTags">getImageFromMetaTags()</a></li>
                                             <li class=""><a href="classes/Cecil-Util-Html.html#method_getOpenGraphMetaTags">getOpenGraphMetaTags()</a></li>
                                             <li class=""><a href="classes/Cecil-Util-Html.html#method_getTwitterMetaTags">getTwitterMetaTags()</a></li>
+                                            <li class=""><a href="classes/Cecil-Util-Html.html#method_getImagesFromJsonLd">getImagesFromJsonLd()</a></li>
                                     </ul>
             </li>
                     </ul>

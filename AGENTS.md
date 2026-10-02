@@ -35,7 +35,6 @@ Short, actionable instructions for coding agents working in this repository.
 
 - PHP 8.3+, strict types, PSR-12 style
 - Use 4 spaces in PHP files
-- Prefix PHP native functions with `\` (example: `\count()`)
 - Twig/YAML/JS use 2 spaces
 - All Twig template files (*.twig) anywhere in the repository must not end with a trailing newline. Remove any trailing newline when creating or editing these files.
 - Markdown trailing spaces are semantically meaningful (they produce line breaks). Never remove trailing spaces from Markdown files, even when reformatting or cleaning up content, unless the user explicitly confirms the spaces are unintentional.

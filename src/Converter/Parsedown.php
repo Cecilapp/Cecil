@@ -348,6 +348,7 @@ class Parsedown extends \ParsedownToc
         if ($shouldResize) {
             try {
                 $assetResized = $asset->resize($width);
+                $InlineImage['element']['attributes']['src'] = new Url($this->builder, $assetResized);
             } catch (\Exception $e) {
                 $this->builder->getLogger()->debug($e->getMessage());
 
@@ -452,7 +453,7 @@ class Parsedown extends \ParsedownToc
                         }
                         // if not, use default image as srcset
                         if (empty($srcset)) {
-                            $srcset = (string) $assetConverted;
+                            $srcset = (string) new Url($this->builder, $assetConverted);
                         }
                         // add format to <sources>
                         $sources[] = [
@@ -509,7 +510,6 @@ class Parsedown extends \ParsedownToc
                         ? (int) $InlineImage['element']['attributes']['width']
                         : null,
                     'assetOptions' => ['language' => $this->language],
-                    'fallbackAsUrl' => true,
                 ]
             );
             if (\count($darkSourceAttributes) > 0) {
@@ -684,6 +684,20 @@ class Parsedown extends \ParsedownToc
     /**
      * {@inheritdoc}
      *
+     * Completes the parent transliteration table, which handles "æ" but not the
+     * French ligature "œ": without this, "cœur" would keep a non-ASCII anchor
+     * while "größe" becomes "grosse".
+     *
+     * @return string
+     */
+    protected function transliterate(string $text): string
+    {
+        return parent::transliterate(strtr($text, ['Œ' => 'OE', 'œ' => 'oe']));
+    }
+
+    /**
+     * {@inheritdoc}
+     *
      * Converts XHTML '<br />' tag to '<br>'.
      *
      * @return string
@@ -771,7 +785,7 @@ class Parsedown extends \ParsedownToc
         return (string) $this->rememberImageProcessing(
             'srcsetw',
             ['asset' => $this->getAssetIdentity($asset), 'widths' => $widths],
-            static fn () => Image::buildHtmlSrcsetW($asset, $widths)
+            fn () => Image::buildHtmlSrcsetW($asset, $widths, false, $this->getUrlBuilder())
         );
     }
 
@@ -780,7 +794,7 @@ class Parsedown extends \ParsedownToc
         return (string) $this->rememberImageProcessing(
             'srcset',
             ['asset' => $this->getAssetIdentity($asset), 'widths' => $widths],
-            static fn () => Image::buildHtmlSrcset($asset, $widths)
+            fn () => Image::buildHtmlSrcset($asset, $widths, false, $this->getUrlBuilder())
         );
     }
 
@@ -808,9 +822,17 @@ class Parsedown extends \ParsedownToc
                 $asset,
                 $darkSuffix,
                 $formats,
-                $options
+                $options + ['url' => $this->getUrlBuilder()]
             )
         );
+    }
+
+    /**
+     * Returns a callable that builds the URL of an Asset.
+     */
+    private function getUrlBuilder(): callable
+    {
+        return fn (Asset $asset): string => (string) new Url($this->builder, $asset);
     }
 
     private function getAssetIdentity(Asset $asset): string

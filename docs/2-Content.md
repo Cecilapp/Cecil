@@ -1,7 +1,7 @@
 <!--
-description: "Create content and organize it."
+description: "Create and organize your content: pages, assets, static and data files, front matter variables, Markdown syntax and extensions, multilingual and dynamic content."
 date: 2021-05-07
-updated: 2026-08-23
+updated: 2026-10-02
 -->
 # Content
 
@@ -670,6 +670,13 @@ tags: ["Development", "PHP"]
 ---
 ```
 
+Cecil then generates, for each vocabulary:
+
+- a page listing its terms, e.g.: `/tags/`
+- a page per term listing its pages, e.g.: `/tags/development/` and `/tags/php/`
+
+See [templates lookup rules](3-Templates.md#type-vocabulary) and [taxonomy variables](3-Templates.md#taxonomy) to customize those pages.
+
 ### Schedule
 
 Schedules pages’ publication.
@@ -703,7 +710,7 @@ redirect: "https://arnaudligny.fr"
 ```
 
 :::info
-Redirect works with the [`redirect.html.twig`](https://github.com/Cecilapp/Cecil/blob/master/resources/layouts/_default/redirect.html.twig) template.
+Redirect works with the [`redirect.html.twig`](https://github.com/Cecilapp/Cecil/blob/main/resources/layouts/_default/redirect.html.twig) template.
 :::
 
 ### alias
@@ -747,7 +754,7 @@ _Example:_
 
 ```yaml
 ---
-external: "https://raw.githubusercontent.com/Cecilapp/Cecil/master/README.md"
+external: "https://raw.githubusercontent.com/Cecilapp/Cecil/main/README.md"
 ---
 ```
 

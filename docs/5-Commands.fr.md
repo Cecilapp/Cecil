@@ -1,8 +1,8 @@
 <!--
 title: Commandes
-description: "Liste des commandes disponibles."
+description: "Référence des commandes et options de la CLI de Cecil : créer un nouveau site ou une page, prévisualiser avec le serveur local, générer le site web et diagnostiquer votre installation."
 date: 2026-03-27
-updated: 2026-07-06
+updated: 2026-10-02
 slug: commandes
 -->
 # Commandes

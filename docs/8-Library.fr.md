@@ -1,8 +1,8 @@
 <!--
 title: "Bibliothèque"
-description: "Utilisez Cecil comme bibliothèque PHP."
+description: "Utilisez Cecil comme bibliothèque PHP : installez-la avec Composer, puis générez votre site web et lancez des diagnostics par programmation via son API."
 date: 2026-03-27
-updated: 2026-06-13
+updated: 2026-10-02
 slug: bibliotheque
 -->
 # Bibliothèque
@@ -39,7 +39,7 @@ exec('php -S localhost:8000 -t _site'); // prévisualisation locale
 ```
 
 :::info
-Le paramètre principal de la méthode `create` doit être un `array` PHP ou une instance de [`Cecil\Config`](https://github.com/Cecilapp/Cecil/blob/master/src/Config.php).
+Le paramètre principal de la méthode `create` doit être un `array` PHP ou une instance de [`Cecil\Config`](https://github.com/Cecilapp/Cecil/blob/main/src/Config.php).
 :::
 
 ### Diagnostic

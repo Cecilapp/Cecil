@@ -1,8 +1,9 @@
 <!--
 title: Étendre
-description: "Étendre Cecil."
+description: "Étendez les capacités de Cecil avec PHP : créez des générateurs de pages personnalisés, ajoutez des extensions Twig et post-traitez les fichiers de sortie."
 date: 2026-03-27
 slug: etendre
+updated: 2026-10-02
 -->
 # Étendre
 

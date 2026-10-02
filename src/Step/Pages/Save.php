@@ -84,6 +84,8 @@ class Save extends AbstractStep
 
                 $files[] = $this->builder->isDebug() ? $pathname : substr($pathname, \strlen($this->config->getOutputPath()) + 1);
             }
+            // frees memory: rendered output is no longer needed once saved
+            $page->clearRendered();
 
             $message = \sprintf('File(s) "%s" saved', implode(', ', $files));
             $this->builder->getLogger()->info($message, ['progress' => [$count, $total]]);

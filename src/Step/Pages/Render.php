@@ -368,10 +368,9 @@ class Render extends AbstractStep
 
         if (\count($formats) > 1 || \in_array('html', $formats)) {
             foreach ($formats as $format) {
-                $format == 'html' ? $rel = 'canonical' : $rel = 'alternate';
                 $alternates[] = [
-                    'rel'    => $rel,
-                    'type'   => $this->config->getOutputFormatProperty($format, 'mediatype'),
+                    'rel'    => $this->config->getOutputFormatProperty($format, 'rel') ?? 'alternate',
+                    'type'   => $this->config->getOutputFormatProperty($format, 'mediatype') ?? 'application/octet-stream',
                     'title'  => strtoupper($format),
                     'format' => $format,
                 ];

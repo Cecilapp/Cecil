@@ -39,11 +39,11 @@ use Symfony\Component\Finder\Finder;
  */
 class Builder implements BuildContextInterface, LoggerAwareInterface
 {
-    public const string VERSION = '8.x-dev';
-    public const int VERBOSITY_QUIET = -1;
-    public const int VERBOSITY_NORMAL = 0;
-    public const int VERBOSITY_VERBOSE = 1;
-    public const int VERBOSITY_DEBUG = 2;
+    public const VERSION = '9.x-dev';
+    public const VERBOSITY_QUIET = -1;
+    public const VERBOSITY_NORMAL = 0;
+    public const VERBOSITY_VERBOSE = 1;
+    public const VERBOSITY_DEBUG = 2;
     /**
      * Default options for the build process.
      * These options can be overridden when calling the build() method.

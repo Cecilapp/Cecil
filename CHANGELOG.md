@@ -2,6 +2,116 @@
 
 All notable changes to this project will be documented in this file. Dates are displayed in UTC.
 
+#### [9.4.3](https://github.com/Cecilapp/Cecil/compare/9.4.2...9.4.3)
+
+> 30 September 2026
+
+- fix(asset): normalize Windows path separators in dark asset path [`0c75e14`](https://github.com/Cecilapp/Cecil/commit/0c75e14bd062e0734c4c5433d07a1ce2748efd10)
+
+#### [9.4.2](https://github.com/Cecilapp/Cecil/compare/9.4.1...9.4.2)
+
+> 29 September 2026
+
+- fix(assets): build images srcset and sources URLs with Url [`#2480`](https://github.com/Cecilapp/Cecil/pull/2480)
+
+#### [9.4.1](https://github.com/Cecilapp/Cecil/compare/9.4.0...9.4.1)
+
+> 28 September 2026
+
+- fix(asset): truncate long filenames to filesystem limit [`420a62c`](https://github.com/Cecilapp/Cecil/commit/420a62c3b0ae7ede5ca57b27d497aaa10d3004c6)
+- fix(util): remove isRemoteExists method and simplify remote file validation [`5aa530f`](https://github.com/Cecilapp/Cecil/commit/5aa530fda992f556ebb7fee397799223b3dfb12f)
+- docs(cecil): clarify build steps, template lookup, and add extensions documentation [`f22bf76`](https://github.com/Cecilapp/Cecil/commit/f22bf76cb878eaa4dabe7f8e904b7e508bd382de)
+
+#### [9.4.0](https://github.com/Cecilapp/Cecil/compare/9.3.1...9.4.0)
+
+> 28 September 2026
+
+- feat(image_from_website): add image fallbacks and cache resolved image URL [`#2479`](https://github.com/Cecilapp/Cecil/pull/2479)
+- docs(api): remove normalizeString method documentation [`21847f5`](https://github.com/Cecilapp/Cecil/commit/21847f56875fd705300679ae29a1242622ac651d)
+
+#### [9.3.1](https://github.com/Cecilapp/Cecil/compare/9.3.0...9.3.1)
+
+> 28 September 2026
+
+- chore(deps): update parsedown-toc, intervention/image, and cpu-core-counter [`5efb29b`](https://github.com/Cecilapp/Cecil/commit/5efb29b23d67e2781e6aa7b6d899ec39c8700a45)
+- refactor(parsedown): remove redundant normalizeString override [`059ad09`](https://github.com/Cecilapp/Cecil/commit/059ad09583986cce042df7960fd29dc3d28e7d3a)
+- chore(readme): remove trailing blank line [`bd2e1e0`](https://github.com/Cecilapp/Cecil/commit/bd2e1e04f04ecc6258aef28bb88b68e46b4bce62)
+
+#### [9.3.0](https://github.com/Cecilapp/Cecil/compare/9.2.1...9.3.0)
+
+> 28 September 2026
+
+- feat(html): add image placeholder option to html function [`#2477`](https://github.com/Cecilapp/Cecil/pull/2477)
+- chore: update default branch references from master to main [`b8900da`](https://github.com/Cecilapp/Cecil/commit/b8900da6feb241160a53ca197b32d81be37403f8)
+
+#### [9.2.1](https://github.com/Cecilapp/Cecil/compare/9.2.0...9.2.1)
+
+> 26 September 2026
+
+- chore(deps): upgrade Twig and dev dependencies [`1c50655`](https://github.com/Cecilapp/Cecil/commit/1c50655172a2bdc898e2751443c289430605986d)
+- fix(jsonld): use ISO 8601 date format [`0063b30`](https://github.com/Cecilapp/Cecil/commit/0063b30c571dbe03c2d79f563c9298d27cd21d08)
+
+#### [9.2.0](https://github.com/Cecilapp/Cecil/compare/9.1.6...9.2.0)
+
+> 25 September 2026
+
+- perf: reduce build memory usage [`#2476`](https://github.com/Cecilapp/Cecil/pull/2476)
+- chore(phpunit): increase memory limit [`2f52480`](https://github.com/Cecilapp/Cecil/commit/2f5248028a454148a9c1e2a72cd31ee89cbe1a84)
+
+#### [9.1.6](https://github.com/Cecilapp/Cecil/compare/9.1.5...9.1.6)
+
+> 24 September 2026
+
+- docs(api): regenerate API documentation [`64807d4`](https://github.com/Cecilapp/Cecil/commit/64807d4240aacee17e5163dfaa5b4367ad950567)
+- chore(deps): update dependencies [`6b6aaef`](https://github.com/Cecilapp/Cecil/commit/6b6aaef0016fc5e685b4dbeeb3d2e74ee6825a18)
+- chore(composer): update php-cs-fixer to v3.95.27 [`22c61c4`](https://github.com/Cecilapp/Cecil/commit/22c61c4e79797b8f6df9a1f154e3ef95ea3e04b5)
+- refactor(jsonld): extract image to template parameter [`cede999`](https://github.com/Cecilapp/Cecil/commit/cede999992e420da51fe5171e7cc20df0d26da3b)
+
+#### [9.1.5](https://github.com/Cecilapp/Cecil/compare/9.1.4...9.1.5)
+
+> 22 September 2026
+
+- refactor(twig): implement locale-aware date formatter [`5f19a36`](https://github.com/Cecilapp/Cecil/commit/5f19a36a9c0370ca21197322c82c1c93cdf22157)
+- style: remove \ prefix from native PHP functions [`dad1420`](https://github.com/Cecilapp/Cecil/commit/dad142040de39a769cbc9ba41e216192b9ef5fcc)
+
+#### [9.1.4](https://github.com/Cecilapp/Cecil/compare/9.1.3...9.1.4)
+
+> 21 September 2026
+
+- ci: replace blobless checkout with explicit HTTPS clone [`#2474`](https://github.com/Cecilapp/Cecil/pull/2474)
+- ci: rename default branch from master to main [`#2472`](https://github.com/Cecilapp/Cecil/pull/2472)
+- fix(twig): readtime() returns "0" for texts shorter than 200 words [`#2473`](https://github.com/Cecilapp/Cecil/pull/2473)
+- chore(deps): bump twig/intl-extra from 3.26.0 to 3.29.0 [`#2471`](https://github.com/Cecilapp/Cecil/pull/2471)
+- feat(feed): add dark mode support [`ef59097`](https://github.com/Cecilapp/Cecil/commit/ef5909780e624c1b85997243a591b708237c4eaa)
+- chore(deps): update twig and php-cs-fixer [`a6e060b`](https://github.com/Cecilapp/Cecil/commit/a6e060b3d541cbf1503eab7cf7c6bc20974ae0d2)
+- chore(circleci): upgrade config to version 2.1 [`2b56a23`](https://github.com/Cecilapp/Cecil/commit/2b56a23b9afe6c94d4cb3a60fec6d0c51ddba924)
+- chore(builder): update version to 9.x-dev [`b70db29`](https://github.com/Cecilapp/Cecil/commit/b70db29686eb6b727489da94c57372b04c4807e9)
+
+#### [9.1.3](https://github.com/Cecilapp/Cecil/compare/9.1.2...9.1.3)
+
+> 18 September 2026
+
+- refactor(output): move rel attribute to config [`2c6c167`](https://github.com/Cecilapp/Cecil/commit/2c6c167ceb9bc05939fd5b19a034c50563d6d561)
+- docs: Update README.md [`0a638aa`](https://github.com/Cecilapp/Cecil/commit/0a638aa44c58b00135e0c492811a85296a55c233)
+
+#### [9.1.2](https://github.com/Cecilapp/Cecil/compare/9.1.1...9.1.2)
+
+> 17 September 2026
+
+- feat(parsedown): fix heading anchor character encoding [`9b88deb`](https://github.com/Cecilapp/Cecil/commit/9b88deb95a96fd24b2143aa1922ca848e89f2cb7)
+
+#### [9.1.1](https://github.com/Cecilapp/Cecil/compare/9.1.0...9.1.1)
+
+> 16 September 2026
+
+- chore(deps-dev): bump friendsofphp/php-cs-fixer from 3.95.24 to 3.95.25 [`#2469`](https://github.com/Cecilapp/Cecil/pull/2469)
+- chore(deps-dev): bump vincentlanglet/twig-cs-fixer from 4.1.0 to 4.1.1 [`#2467`](https://github.com/Cecilapp/Cecil/pull/2467)
+- chore(deps): bump james-heinrich/getid3 from 1.9.25 to 1.9.26 [`#2466`](https://github.com/Cecilapp/Cecil/pull/2466)
+- perf: Cache front matter format lookup [`#2460`](https://github.com/Cecilapp/Cecil/pull/2460)
+- chore: update deps [`a9c438f`](https://github.com/Cecilapp/Cecil/commit/a9c438f23d66b96bc34523e8e79b6fb7b620304a)
+- refactor(home): add recursive page listing macros [`c2c003d`](https://github.com/Cecilapp/Cecil/commit/c2c003da27cde5f450f5a006462a01a7502f062b)
+- Clarify README licensing information [`e0d643f`](https://github.com/Cecilapp/Cecil/commit/e0d643fab702740d171e5f8e319d38c4072aad6d)
+
 #### [9.1.0](https://github.com/Cecilapp/Cecil/compare/9.0.3...9.1.0)
 
 > 6 September 2026

@@ -92,14 +92,14 @@
             "@id": "{{ url(page, {canonical: true}) }}"
           },
           "headline": "{{ title|default(page.title)|e('js') }}",
-          {%- if page.image|default ~%}
+          {%- if image|default ~%}
           "image": [
-            "{{ url(asset(page.image), {canonical: true}) }}"
+            "{{ url(image is asset ? image : asset(image), {canonical: true}) }}"
           ],
           {%- endif ~%}
-          "datePublished": "{{ page.date|date('Y-m-dTH:i:sP') }}",
+          "datePublished": "{{ page.date|date('c') }}",
           {%- if page.updated|default ~%}
-          "dateModified": "{{ page.updated|date('Y-m-dTH:i:sP') }}",
+          "dateModified": "{{ page.updated|date('c') }}",
           {%- endif ~%}
           {%- if author.name|default ~%}
           "author": {
@@ -143,12 +143,12 @@
           {%- if page.description|default ~%}
           "description": "{{ page.description|e('js') }}",
           {%- endif ~%}
-          {%- if page.image|default ~%}
+          {%- if image|default ~%}
           "thumbnailUrl": [
-            "{{ url(asset(page.image)|resize(640), {canonical: true}) }}"
+            "{{ url((image is asset ? image : asset(image))|resize(640), {canonical: true}) }}"
           ],
           {%- endif ~%}
-          "uploadDate": "{{ page.date|date('Y-m-dTH:i:sP') }}",
+          "uploadDate": "{{ page.date|date('c') }}",
           "duration": "{{ asset(page.videos[0]).video.duration|duration_to_iso8601 }}",
           "contentUrl": "{{ url(asset(page.videos[0]), {canonical: true}) }}",
           "embedUrl": "{{ url(page, {canonical: true, format: 'embed'}) }}"

@@ -64,7 +64,7 @@ class Core extends AbstractExtension
             new \Twig\TwigFunction('image', [$this, 'htmlImage'], ['needs_context' => true]),
             new \Twig\TwigFunction('audio', [$this, 'htmlAudio'], ['needs_context' => true]),
             new \Twig\TwigFunction('video', [$this, 'htmlVideo'], ['needs_context' => true]),
-            new \Twig\TwigFunction('image_srcset', [$this, 'imageSrcset']),
+            new \Twig\TwigFunction('image_srcset', [$this, 'imageSrcset'], ['needs_context' => true]),
             new \Twig\TwigFunction('image_sizes', [$this, 'imageSizes']),
             new \Twig\TwigFunction('image_from_website', [$this, 'htmlImageFromWebsite'], ['needs_context' => true]),
             // utilities
@@ -384,9 +384,10 @@ class Core extends AbstractExtension
      * @param array                                                                $attributes HTML attributes to add to the element
      * @param array                                                                $options    Options:
      * [
-     *     'preload'    => false,
-     *     'responsive' => false,
-     *     'formats'    => [],
+     *     'preload'     => false,
+     *     'responsive'  => false,
+     *     'formats'     => [],
+     *     'placeholder' => '',
      * ];
      *
      * @return string HTML element
@@ -494,10 +495,12 @@ class Core extends AbstractExtension
     {
         $responsive = $options['responsive'] ?? $this->config->get('layouts.images.responsive');
         $source = '';
+        // URL builder
+        $url = fn (Asset $asset): string => $this->url($context, $asset, $options);
         // build responsive attributes
         try {
             if ($responsive === true || $responsive == 'width') {
-                $srcset = Image::buildHtmlSrcsetW($asset, $this->config->getAssetsImagesWidths());
+                $srcset = Image::buildHtmlSrcsetW($asset, $this->config->getAssetsImagesWidths(), false, $url);
                 if (!empty($srcset)) {
                     $attributes['srcset'] = $srcset;
                 }
@@ -508,7 +511,7 @@ class Core extends AbstractExtension
                 }
             } elseif ($responsive == 'density') {
                 $width1x = isset($attributes['width']) && $attributes['width'] > 0 ? (int) $attributes['width'] : $asset['width'];
-                $srcset = Image::buildHtmlSrcsetX($asset, $width1x, $this->config->getAssetsImagesDensities());
+                $srcset = Image::buildHtmlSrcsetX($asset, $width1x, $this->config->getAssetsImagesDensities(), $url);
                 if (!empty($srcset)) {
                     $attributes['srcset'] = $srcset;
                 }
@@ -527,9 +530,9 @@ class Core extends AbstractExtension
                         $assetConverted = $asset->convert($format);
                         // responsive
                         if ($responsive === true || $responsive == 'width') {
-                            $srcset = Image::buildHtmlSrcsetW($assetConverted, $this->config->getAssetsImagesWidths());
+                            $srcset = Image::buildHtmlSrcsetW($assetConverted, $this->config->getAssetsImagesWidths(), false, $url);
                             if (empty($srcset)) {
-                                $source .= \sprintf("\n  <source type=\"image/$format\" srcset=\"%s\">", (string) $assetConverted);
+                                $source .= \sprintf("\n  <source type=\"image/$format\" srcset=\"%s\">", $url($assetConverted));
                                 continue;
                             }
                             $source .= \sprintf("\n  <source type=\"image/$format\" srcset=\"%s\" sizes=\"%s\">", $srcset, Image::getHtmlSizes($attributes['class'] ?? '', $this->config->getAssetsImagesSizes()));
@@ -537,14 +540,14 @@ class Core extends AbstractExtension
                         }
                         if ($responsive == 'density') {
                             $width1x = isset($attributes['width']) && $attributes['width'] > 0 ? (int) $attributes['width'] : $asset['width'];
-                            $srcset = Image::buildHtmlSrcsetX($assetConverted, $width1x, $this->config->getAssetsImagesDensities());
+                            $srcset = Image::buildHtmlSrcsetX($assetConverted, $width1x, $this->config->getAssetsImagesDensities(), $url);
                             if (empty($srcset)) {
-                                $srcset = (string) $assetConverted;
+                                $srcset = $url($assetConverted);
                             }
                             $source .= \sprintf("\n  <source type=\"image/$format\" srcset=\"%s\">", $srcset);
                             continue;
                         }
-                        $source .= \sprintf("\n  <source type=\"image/$format\" srcset=\"%s\">", $assetConverted);
+                        $source .= \sprintf("\n  <source type=\"image/$format\" srcset=\"%s\">", $url($assetConverted));
                     } catch (\Exception $e) {
                         $this->builder->getLogger()->warning($e->getMessage());
                         continue;
@@ -568,11 +571,36 @@ class Core extends AbstractExtension
         if (!isset($attributes['height'])) {
             $attributes['height'] = $asset['height'] ?: '';
         }
-        $img = \sprintf('<img src="%s"%s>', $this->url($context, $asset, $options), self::htmlAttributes($attributes));
-
+        // placeholder (`color` or `lqip`)
+        $placeholder = $options['placeholder'] ?? $this->config->get('layouts.images.placeholder');
+        if (!empty($placeholder) && \in_array($asset['subtype'], ['image/jpeg', 'image/png', 'image/gif'])) {
+            try {
+                $style = trim($attributes['style'] ?? '', ';');
+                switch ($placeholder) {
+                    case 'color':
+                        $style .= \sprintf(';max-width:100%%;height:auto;background-color:%s;', Image::getDominantColor($asset));
+                        break;
+                    case 'lqip':
+                        // aborts if animated GIF for performance reasons
+                        if (Image::isAnimatedGif($asset)) {
+                            break;
+                        }
+                        $style .= \sprintf(';max-width:100%%;height:auto;background-image:url(%s);background-repeat:no-repeat;background-position:center;background-size:cover;', Image::getLqip($asset));
+                        break;
+                    default:
+                        throw new RuntimeException(\sprintf('Image placeholder "%s" is not supported (use "color" or "lqip").', $placeholder));
+                }
+                if (!empty($style = trim($style, ';'))) {
+                    $attributes['style'] = $style;
+                }
+            } catch (\Exception $e) {
+                $this->builder->getLogger()->warning($e->getMessage());
+            }
+        }
+        $img = \sprintf('<img src="%s"%s>', $url($asset), self::htmlAttributes($attributes));
 
         // dark color-scheme variant: auto-detect `{filename}{suffix}.{ext}` alongside the source image
-        $darkSource = $this->buildDarkSourceHtml($asset, $formats, $responsive, $attributes);
+        $darkSource = $this->buildDarkSourceHtml($asset, $formats, $responsive, $attributes, $url);
 
         // put `<source>` elements in `<picture>` if exists
         if (!empty($darkSource) || !empty($source)) {
@@ -597,11 +625,12 @@ class Core extends AbstractExtension
     /**
      * Builds HTML dark "source" elements for the dark color-scheme variant of an image Asset.
      *
-     * @param array $formats    Alternative formats (e.g. ['avif', 'webp'])
-     * @param mixed $responsive Responsive mode (true, 'width', 'density' or false)
-     * @param array $attributes Image attributes
+     * @param array    $formats    Alternative formats (e.g. ['avif', 'webp'])
+     * @param mixed    $responsive Responsive mode (true, 'width', 'density' or false)
+     * @param array    $attributes Image attributes
+     * @param callable $url        URL builder
      */
-    private function buildDarkSourceHtml(Asset $asset, array $formats, mixed $responsive, array $attributes): string
+    private function buildDarkSourceHtml(Asset $asset, array $formats, mixed $responsive, array $attributes, callable $url): string
     {
         $darkSuffix = (string) $this->config->get('layouts.images.dark_suffix');
         $sizes = null;
@@ -619,6 +648,7 @@ class Core extends AbstractExtension
                 'densities' => $this->config->getAssetsImagesDensities(),
                 'sizes' => $sizes,
                 'width1x' => isset($attributes['width']) && $attributes['width'] > 0 ? (int) $attributes['width'] : null,
+                'url' => $url,
             ]
         );
         if (empty($darkSourceAttributes)) {
@@ -649,9 +679,9 @@ class Core extends AbstractExtension
      *
      * @throws RuntimeException
      */
-    public function imageSrcset(Asset $asset): string
+    public function imageSrcset(array $context, Asset $asset): string
     {
-        return Image::buildHtmlSrcsetW($asset, $this->config->getAssetsImagesWidths(), true);
+        return Image::buildHtmlSrcsetW($asset, $this->config->getAssetsImagesWidths(), true, fn (Asset $asset): string => $this->url($context, $asset));
     }
 
     /**
@@ -663,31 +693,98 @@ class Core extends AbstractExtension
     }
 
     /**
-     * Builds the HTML img element from a website URL by extracting the image from meta tags.
+     * Builds the HTML img element from a website URL by extracting its illustration image.
      * Returns null if no image found.
+     *
+     * The image is searched in the page HTML with several fallbacks (Open Graph, Twitter, `image_src`,
+     * microdata, JSON-LD, first content image, icons): the first candidate that can be downloaded
+     * as an image is used. The resolved image URL and the downloaded image are cached.
+     *
+     * $options[
+     *     'fallback' => <string>, // image path used if no image found
+     *     ...                     // other `image()` options (e.g.: 'responsive', 'formats', etc.)
+     * ]
      *
      * @throws RuntimeException
      */
     public function htmlImageFromWebsite(array $context, string $url, array $attributes = [], array $options = []): ?string
     {
-        $htmlAsset = new Asset($this->builder, $url, ['ignore_missing' => true]);
+        $fallback = $options['fallback'] ?? null;
+        unset($options['fallback']);
 
-        if ($htmlAsset->isMissing()) {
-            $this->builder->getLogger()->warning(\sprintf('Unable to fetch "%s" to extract image.', $url));
-
+        if (null === $asset = $this->getImageFromWebsite($url, $fallback)) {
             return null;
         }
 
-        if (!empty($html = $htmlAsset['content'])) {
-            $imageUrl = Util\Html::getImageFromMetaTags($html);
-            if ($imageUrl !== null) {
-                $asset = new Asset($this->builder, $imageUrl);
+        return $this->htmlImage($context, $asset, $attributes, $options);
+    }
 
-                return $this->htmlImage($context, $asset, $attributes, $options);
+    /**
+     * Returns the illustration image Asset of a web page, the fallback image Asset, or null if not found.
+     *
+     * @see Util\Html::getImageCandidates()
+     *
+     * @throws RuntimeException
+     */
+    private function getImageFromWebsite(string $url, ?string $fallback = null): ?Asset
+    {
+        $cache = new Cache($this->builder, 'assets/_remote');
+        $cacheKey = \sprintf('image-from-website_%s', Asset\Locator::buildPathFromUrl($url));
+        $ttl = $this->config->get('cache.assets.remote.ttl');
+
+        // resolved image URL in cache?
+        $imageUrl = $cache->get($cacheKey);
+        if (\is_string($imageUrl) && $imageUrl !== '') {
+            if (null !== $asset = $this->getImageAsset($imageUrl)) {
+                return $asset;
+            }
+            // cached image is not valid anymore: searches again
+            $cache->delete($cacheKey);
+            $imageUrl = null;
+        }
+
+        // searches image in the web page
+        if ($imageUrl === null) {
+            $htmlAsset = new Asset($this->builder, $url, ['ignore_missing' => true, 'fingerprint' => false, 'minify' => false]);
+            if ($htmlAsset->isMissing()) {
+                $this->builder->getLogger()->warning(\sprintf('Unable to fetch "%s" to extract image.', $url));
+            } else {
+                foreach (Util\Html::getImageCandidates((string) $htmlAsset['content'], $url) as $candidate) {
+                    if (null !== $asset = $this->getImageAsset($candidate)) {
+                        $cache->set($cacheKey, $candidate, $ttl);
+
+                        return $asset;
+                    }
+                    $this->builder->getLogger()->debug(\sprintf('Image candidate "%s" of "%s" is not valid.', $candidate, $url));
+                }
+                // caches "not found" to avoid searching again
+                $cache->set($cacheKey, '', $ttl);
             }
         }
 
+        if (!empty($fallback)) {
+            return new Asset($this->builder, $fallback);
+        }
+        $this->builder->getLogger()->debug(\sprintf('No image found for "%s".', $url));
+
         return null;
+    }
+
+    /**
+     * Returns an image Asset from a path or an URL, or null if missing or not an image.
+     */
+    private function getImageAsset(string $path): ?Asset
+    {
+        try {
+            $asset = new Asset($this->builder, $path, ['ignore_missing' => true]);
+        } catch (\Exception) {
+            return null;
+        }
+        if ($asset->isMissing() || $asset['type'] != 'image') {
+            return null;
+        }
+
+        return $asset;
     }
 
     /**

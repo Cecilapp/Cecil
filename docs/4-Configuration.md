@@ -1,7 +1,7 @@
 <!--
-description: "Configure your website."
+description: "Configure your website with cecil.yml: site options, pages, data, static files, assets, layouts, output formats, cache, local server, optimization and environment variables override."
 date: 2021-05-07
-updated: 2026-08-17
+updated: 2026-10-02
 -->
 # Configuration
 
@@ -14,7 +14,7 @@ The website configuration is defined in a [YAML](https://en.wikipedia.org/wiki/Y
 └─ cecil.yml
 ```
 
-Cecil offers many configuration options, but its [defaults](https://github.com/Cecilapp/Cecil/blob/master/config/default.php) are often sufficient. A new site requires only these settings:
+Cecil offers many configuration options, but its [defaults](https://github.com/Cecilapp/Cecil/blob/main/config/default.php) are often sufficient. A new site requires only these settings:
 
 ```yaml
 title: "My new Cecil site"
@@ -298,7 +298,7 @@ If an option is not available in the current language (e.g.: `fr`) it fallback t
 
 ### metatags
 
-_metatags_ are SEO and social helpers that can be automatically injected in the `<head>`, with the template [`partials/metatags.html.twig`](https://github.com/Cecilapp/Cecil/blob/master/resources/layouts/partials/metatags.html.twig).
+_metatags_ are SEO and social helpers that can be automatically injected in the `<head>`, with the template [`partials/metatags.html.twig`](https://github.com/Cecilapp/Cecil/blob/main/resources/layouts/partials/metatags.html.twig).
 
 *[SEO]: Search Engine Optimization
 
@@ -1031,6 +1031,7 @@ layouts:
   images:
     formats: []       # used by `html` function: adds alternatives image formats as `source` (e.g. `[avif, webp]`, empty array by default)
     responsive: false # used by `html` function: adds responsive images ('width' or 'density', `false` by default)
+    placeholder: ''   # used by `html` function: fills image background before loading (`color` or `lqip`, disabled by default)
     dark_suffix: ''   # suffix of the dark variant image (e.g. `.dark`), disabled by default
 ```
 
@@ -1101,7 +1102,7 @@ Those formats are used in the [`output.pagetypeformats`](#output-pagetypeformats
 
 #### Default formats
 
-Cecil provides some [default formats](https://github.com/Cecilapp/Cecil/blob/master/config/base.php#L81-L162), which can be overridden in the configuration file: `html` (default), `atom`, `rss`, `json`, `xml`, `txt`, `amp`, `js`, `webmanifest`, `xsl`, `jsonfeed`, `iframe`, `oembed`.
+Cecil provides some [default formats](https://github.com/Cecilapp/Cecil/blob/main/config/base.php#L81-L162), which can be overridden in the configuration file: `html` (default), `atom`, `rss`, `json`, `xml`, `txt`, `amp`, `js`, `webmanifest`, `xsl`, `jsonfeed`, `iframe`, `oembed`.
 
 ### output.pagetypeformats
 

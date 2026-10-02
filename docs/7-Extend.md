@@ -1,7 +1,7 @@
 <!--
-description: "Extend Cecil."
+description: "Extend Cecil capabilities with PHP: create custom pages generators, add Twig extensions and post-process output files."
 date: 2023-04-17
-updated: 2025-03-27
+updated: 2026-10-02
 -->
 # Extend
 

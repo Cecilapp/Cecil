@@ -1,7 +1,7 @@
 <!--
-description: "List of available commands."
+description: "Reference of Cecil CLI commands and options: create a new site or page, preview with the local server, build the website and diagnose your installation."
 date: 2020-12-19
-updated: 2026-07-06
+updated: 2026-10-02
 -->
 # Commands
 
