@@ -81,6 +81,15 @@ class IntegrationTests extends \PHPUnit\Framework\TestCase
         preg_match('/<script[^>]*application\/ld\+json[^>]*>(.*?)<\/script>/s', $htmlBackslash, $jsonLdMatches);
         self::assertNotEmpty($jsonLdMatches, 'JSON-LD script block not found on page with backslash in title');
         self::assertJson($jsonLdMatches[1], 'JSON-LD block is not valid JSON when the page title contains a backslash');
+
+        // ICO resize
+        $htmlAssets = Util\File::fileGetContents(Util::joinFile($this->destination, '_site/assets/assets/index.html'));
+        self::assertNotFalse($htmlAssets);
+        self::assertMatchesRegularExpression('/(thumbnails\/32x\/images\/favicon[^"\s>]*\.ico)/', $htmlAssets);
+        preg_match('/(thumbnails\/32x\/images\/favicon[^"\s>]*\.ico)/', $htmlAssets, $icoMatches);
+        $icoSize = getimagesize(Util::joinFile($this->destination, '_site', $icoMatches[1]));
+        self::assertNotFalse($icoSize);
+        self::assertSame([32, 32, IMAGETYPE_ICO], [$icoSize[0], $icoSize[1], $icoSize[2]]);
     }
 
     /**

@@ -78,6 +78,10 @@ class Image
      */
     public static function resize(Asset $asset, ?int $width = null, ?int $height = null, int $quality = 75, bool $rmAnimation = false): string
     {
+        if (self::isIco($asset)) {
+            return self::resizeIco($asset, $width, $height);
+        }
+
         try {
             $image = self::manager()->decodeBinary($asset['content']);
 
@@ -110,6 +114,104 @@ class Image
         } catch (\Exception $e) {
             throw new RuntimeException(\sprintf('Asset "%s" can\'t be resized: %s.', $asset['path'], $e->getMessage()));
         }
+    }
+
+    /**
+     * Resizes an ICO Asset to the given width or/and height.
+     *
+     * The largest icon of the ICO file is resized and returned as a single PNG-compressed icon.
+     * PNG icons are handled by any driver, BMP icons require the Imagick extension.
+     *
+     * @throws RuntimeException
+     */
+    public static function resizeIco(Asset $asset, ?int $width = null, ?int $height = null): string
+    {
+        try {
+            $icon = self::extractIcoLargestIcon((string) $asset['content']);
+            if (str_starts_with($icon, "\x89PNG")) {
+                $image = self::manager()->decodeBinary($icon);
+            } else {
+                // BMP icon: decode a single icon ICO file with Imagick
+                if (!\extension_loaded('imagick') || !class_exists('Imagick')) {
+                    throw new RuntimeException('BMP icons require the PHP Imagick extension');
+                }
+                $image = ImageManager::usingDriver(ImagickDriver::class)->decodeBinary(self::buildIco($icon, 0, 0, 32));
+            }
+
+            if ($width !== null && $height !== null) {
+                $image = $image->cover(width: $width, height: $height, alignment: Alignment::CENTER);
+            } elseif ($width !== null || $height !== null) {
+                $image = $image->scale(width: $width, height: $height);
+            } else {
+                throw new RuntimeException('Width or height must be specified');
+            }
+
+            return self::buildIco((string) $image->encodeUsingFormat(Format::PNG), $image->width(), $image->height());
+        } catch (\Exception $e) {
+            throw new RuntimeException(\sprintf('Asset "%s" can\'t be resized: %s.', $asset['path'], $e->getMessage()));
+        }
+    }
+
+    /**
+     * Returns the binary data (PNG or BMP DIB) of the largest icon of an ICO file.
+     *
+     * A PNG file (e.g.: renamed in ".ico") is returned as is.
+     *
+     * @throws RuntimeException
+     */
+    public static function extractIcoLargestIcon(string $data): string
+    {
+        if (str_starts_with($data, "\x89PNG")) {
+            return $data;
+        }
+
+        // ICONDIR: reserved (2 bytes), type (2 bytes, 1 = icon), count (2 bytes)
+        $header = \strlen($data) >= 6 ? unpack('vreserved/vtype/vcount', $data) : false;
+        if ($header === false || $header['reserved'] !== 0 || $header['type'] !== 1 || $header['count'] < 1) {
+            throw new RuntimeException('Invalid ICO file');
+        }
+
+        $largest = null;
+        for ($i = 0; $i < $header['count']; $i++) {
+            // ICONDIRENTRY (16 bytes): width, height, colors, reserved, planes, bpp, size, offset
+            $entry = substr($data, 6 + $i * 16, 16);
+            if (\strlen($entry) < 16 || false === $entry = unpack('Cwidth/Cheight/Ccolors/Creserved/vplanes/vbpp/Vsize/Voffset', $entry)) {
+                throw new RuntimeException('Invalid ICO file');
+            }
+            // 0 means 256 pixels
+            $entry['width'] = $entry['width'] ?: 256;
+            $entry['height'] = $entry['height'] ?: 256;
+            if ($largest === null || $entry['width'] * $entry['height'] > $largest['width'] * $largest['height']) {
+                $largest = $entry;
+            }
+        }
+
+        $icon = substr($data, $largest['offset'], $largest['size']);
+        if (\strlen($icon) !== $largest['size'] || $largest['size'] === 0) {
+            throw new RuntimeException('Invalid ICO file');
+        }
+
+        return $icon;
+    }
+
+    /**
+     * Builds an ICO file containing a single icon (PNG or BMP DIB data).
+     */
+    public static function buildIco(string $icon, int $width, int $height, int $bpp = 32): string
+    {
+        return pack('vvv', 0, 1, 1)
+            . pack(
+                'CCCCvvVV',
+                $width >= 256 ? 0 : $width,
+                $height >= 256 ? 0 : $height,
+                0,
+                0,
+                1,
+                $bpp,
+                \strlen($icon),
+                6 + 16
+            )
+            . $icon;
     }
 
     /**

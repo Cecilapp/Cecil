@@ -1416,6 +1416,10 @@ Redimensionne une image à une largeur (en pixels) ou/et une hauteur (en pixels)
 Le fichier original n'est pas modifié et la version redimensionnée est enregistrée sous `/thumbnails/<width>x<height>/image.jpg`.
 :::
 
+:::tip
+Les fichiers ICO sont supportés : la plus grande icône est redimensionnée et enregistrée dans un fichier ICO à icône unique (compressée en PNG). Les icônes stockées en BMP nécessitent l'extension PHP [Imagick](https://www.php.net/manual/fr/book.imagick.php).
+:::
+
 _Exemples :_
 
 ```twig

@@ -221,6 +221,15 @@
     </blockquote>
     <pre>{{ asset('images/cecil-logo.png')|resize(width: 300, height: 100) }}</pre>
   </p>
+  <h4>Resize ICO</h4>
+  <p>
+    <pre>{% verbatim %}{{ asset('images/favicon.ico')|resize(32) }}{% endverbatim %}</pre>
+    <blockquote>
+      {%- set favicon_resized = asset('images/favicon.ico')|resize(32) -%}
+      <img src="{{ url(favicon_resized) }}" width="{{ favicon_resized.width }}" height="{{ favicon_resized.height }}" alt="Favicon resized to 32px">
+    </blockquote>
+    <pre>{{ asset('images/favicon.ico')|resize(32) }}</pre>
+  </p>
   <h3>Image dominant color</h3>
   <p>
     <pre>{% verbatim %}{{ asset('images/cecil-logo.png')|dominant_color }}{% endverbatim %}</pre>

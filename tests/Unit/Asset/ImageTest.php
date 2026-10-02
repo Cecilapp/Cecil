@@ -37,4 +37,41 @@ class ImageTest extends TestCase
     {
         $this->assertSame($expected, Image::buildDarkAssetPath($assetPath, $darkSuffix));
     }
+
+    public function testExtractIcoLargestIcon(): void
+    {
+        $data = (string) file_get_contents(__DIR__ . '/../../fixtures/website/assets/images/favicon.ico');
+        $icon = Image::extractIcoLargestIcon($data);
+
+        $this->assertStringStartsWith("\x89PNG", $icon);
+        $size = getimagesizefromstring($icon);
+        $this->assertNotFalse($size);
+        $this->assertSame([64, 64], [$size[0], $size[1]]);
+    }
+
+    public function testExtractIcoLargestIconFromPng(): void
+    {
+        $png = "\x89PNG\r\n\x1a\n" . 'data';
+
+        $this->assertSame($png, Image::extractIcoLargestIcon($png));
+    }
+
+    public function testExtractIcoLargestIconInvalid(): void
+    {
+        $this->expectException(\Cecil\Exception\RuntimeException::class);
+        Image::extractIcoLargestIcon('not an ico');
+    }
+
+    public function testBuildIco(): void
+    {
+        $data = (string) file_get_contents(__DIR__ . '/../../fixtures/website/assets/images/favicon.ico');
+        $icon = Image::extractIcoLargestIcon($data);
+        $ico = Image::buildIco($icon, 64, 64);
+
+        $size = getimagesizefromstring($ico);
+        $this->assertNotFalse($size);
+        $this->assertSame(IMAGETYPE_ICO, $size[2]);
+        $this->assertSame([64, 64], [$size[0], $size[1]]);
+        $this->assertSame($icon, Image::extractIcoLargestIcon($ico));
+    }
 }
