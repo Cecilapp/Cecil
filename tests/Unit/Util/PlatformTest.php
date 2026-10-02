@@ -14,6 +14,7 @@ declare(strict_types=1);
 namespace Cecil\Test\Unit\Util;
 
 use Cecil\Util\Platform;
+use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
 
 class PlatformTest extends TestCase
@@ -33,6 +34,43 @@ class PlatformTest extends TestCase
             Platform::OS_LINUX,
             Platform::OS_OSX,
         ]);
+        self::assertSame(Platform::getOS(PHP_OS), $os);
+    }
+
+    public static function osProvider(): iterable
+    {
+        foreach (['Unix', 'FreeBSD', 'NetBSD', 'OpenBSD', 'Linux'] as $os) {
+            yield $os => [$os, Platform::OS_LINUX];
+        }
+        foreach (['WINNT', 'WIN32', 'Windows', 'CYGWIN_NT'] as $os) {
+            yield $os => [$os, Platform::OS_WIN];
+        }
+        yield 'Darwin' => ['Darwin', Platform::OS_OSX];
+        yield 'SunOS' => ['SunOS', Platform::OS_UNKNOWN];
+    }
+
+    #[DataProvider('osProvider')]
+    public function testGetOsMapsPhpOsValues(string $phpOs, int $expected): void
+    {
+        self::assertSame($expected, Platform::getOS($phpOs));
+    }
+
+    public function testGetOpenBrowserCommand(): void
+    {
+        $command = Platform::getOpenBrowserCommand('http://localhost:8000');
+
+        if (Platform::isWindows()) {
+            self::assertSame('start "web" explorer "http://localhost:8000"', $command);
+
+            return;
+        }
+        if ($command === null) {
+            self::assertNotSame(0, $this->commandStatus('xdg-open'));
+            self::assertNotSame(0, $this->commandStatus('open'));
+
+            return;
+        }
+        self::assertMatchesRegularExpression('/^(xdg-open|open) http:\/\/localhost:8000$/', $command);
     }
 
     public function testGetPharPathThrowsWhenNotRunningFromPhar(): void
@@ -72,5 +110,12 @@ class PlatformTest extends TestCase
         } finally {
             $boundSetter($previousValue);
         }
+    }
+
+    private function commandStatus(string $command): int
+    {
+        exec('command -v ' . escapeshellarg($command) . ' 2>/dev/null', $output, $code);
+
+        return $code;
     }
 }
