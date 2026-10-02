@@ -15,20 +15,18 @@ build:
       ini:
         xdebug.mode: coverage
         memory_limit: 2048M
+  # No `php-scrutinizer-run` analysis node: Scrutinizer's PHP analyzer is unmaintained and
+  # mis-parses PHP 8.3 typed class constants, producing false "type not found" errors.
+  # PHPStan (`composer code:analyse`) is the reference static analyzer.
   nodes:
-    analysis:
+    coverage:
       dependencies:
         override:
           - 'composer install --no-interaction --prefer-dist'
       cache:
         directories:
           - ~/.composer/cache
-      tests:
-        override:
-          - php-scrutinizer-run
-    coverage:
       requires:
-        - node: analysis
         - branch: main
       tests:
         override:
@@ -50,8 +48,7 @@ coding_style:
         after_type_cast: true
 
 tools:
-  # php_analyzer is unmaintained and mis-parses PHP 8.3 typed class constants,
-  # producing false "type not found" errors. Disabled: PHPStan is the reference analyzer.
+  # see `build.nodes` comment above
   php_analyzer: false
   php_changetracking: true
   php_code_coverage: false
