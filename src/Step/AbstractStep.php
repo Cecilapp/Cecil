@@ -33,8 +33,8 @@ abstract class AbstractStep implements StepInterface
     protected $config;
 
     /**
-     * Configuration options for the step.
-     * @var \Cecil\Builder::OPTIONS
+     * Configuration options for the step (see \Cecil\Builder::OPTIONS).
+     * @var array<string, mixed>
      */
     protected $options;
 

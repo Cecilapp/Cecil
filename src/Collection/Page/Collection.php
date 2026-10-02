@@ -96,12 +96,8 @@ class Collection extends CecilCollection
     public function sortByDate(string|array|null $options = null): self
     {
         $opt = [];
-        // backward compatibility (i.e. $options = 'updated')
-        if (\is_string($options)) {
-            $opt['variable'] = $options;
-        }
-        // options
-        $opt['variable'] = $options['variable'] ?? 'date';
+        // options (backward compatibility: $options can be a string, i.e. 'updated')
+        $opt['variable'] = \is_string($options) ? $options : ($options['variable'] ?? 'date');
         $opt['descTitle'] = $options['descTitle'] ?? false;
         $opt['reverse'] = $options['reverse'] ?? false;
         // sort

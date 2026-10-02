@@ -158,8 +158,11 @@ class Content extends AbstractExtension
      *
      * @throws RuntimeException
      */
-    public function markdownToToc(?string $markdown, $format = 'html', ?array $selectors = null, string $url = ''): ?string
+    public function markdownToToc(?string $markdown, string $format = 'html', ?array $selectors = null, string $url = ''): ?string
     {
+        if (!\in_array(strtolower($format), ['html', 'json'], true)) {
+            throw new RuntimeException(\sprintf('"toc" filter format "%s" is not supported (use "html" or "json").', $format));
+        }
         $markdown = $markdown ?? '';
         $selectors = $selectors ?? (array) $this->config->get('pages.body.toc');
 
