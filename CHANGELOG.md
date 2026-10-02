@@ -2,6 +2,16 @@
 
 All notable changes to this project will be documented in this file. Dates are displayed in UTC.
 
+#### [9.5.0](https://github.com/Cecilapp/Cecil/compare/9.4.3...9.5.0)
+
+> 2 October 2026
+
+- chore(deps): bump symfony/polyfill-intl-icu from 1.38.0 to 1.43.0 [`#2481`](https://github.com/Cecilapp/Cecil/pull/2481)
+- feat(skills): add cecil-theme skill and update documentation [`6c58bd4`](https://github.com/Cecilapp/Cecil/commit/6c58bd410e5d7fa4010923e9699e2772b4ce00d4)
+- feat(taxonomy): add term layout template and URL encoding [`ace283f`](https://github.com/Cecilapp/Cecil/commit/ace283fba5520e5f46aac737a5650f39cbb4a748)
+- docs: update page descriptions and timestamps [`7cee9b7`](https://github.com/Cecilapp/Cecil/commit/7cee9b75ca2d38c571421cb4c59560c01c2af865)
+- docs(layouts): update README with new templates and reorganize structure [`42d67da`](https://github.com/Cecilapp/Cecil/commit/42d67da032033e7c0e77e6b0d29cda69d9446c30)
+
 #### [9.4.3](https://github.com/Cecilapp/Cecil/compare/9.4.2...9.4.3)
 
 > 30 September 2026
