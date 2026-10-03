@@ -2,6 +2,12 @@
 
 All notable changes to this project will be documented in this file. Dates are displayed in UTC.
 
+#### [9.6.1](https://github.com/Cecilapp/Cecil/compare/9.6.0...9.6.1)
+
+> 3 October 2026
+
+- chore(deps): move vips driver to dev dependencies and document setup [`0b0613b`](https://github.com/Cecilapp/Cecil/commit/0b0613bc1a509991af6925a9efb61b40846d3db8)
+
 #### [9.6.0](https://github.com/Cecilapp/Cecil/compare/9.5.0...9.6.0)
 
 > 3 October 2026
