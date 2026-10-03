@@ -1,7 +1,7 @@
 <!--
 description: "Work with Twig layouts, templates and components: files organization, lookup rules, variables, functions, sorts, filters, localization, cache and custom extensions."
 date: 2021-05-07
-updated: 2026-10-02
+updated: 2026-10-03
 alias: documentation/layouts
 -->
 # Templates
@@ -1416,7 +1416,7 @@ The original file is not altered and the resized version is saved at `/thumbnail
 :::
 
 :::tip
-ICO files are supported: the largest icon is resized and saved as a single icon ICO file (PNG compressed). Icons stored as BMP require the [Imagick](https://www.php.net/manual/book.imagick.php) PHP extension.
+ICO files are supported: the largest icon is resized and saved as a single icon ICO file (PNG compressed). Icons stored as BMP with a color depth other than 24 or 32 bits require the [Imagick](https://www.php.net/manual/book.imagick.php) PHP extension: otherwise, the original ICO file is kept and a warning is logged.
 :::
 
 _Examples:_

@@ -2,7 +2,7 @@
 title: Templates
 description: "Travaillez avec les layouts, templates et composants Twig : organisation des fichiers, règles de recherche, variables, fonctions, tris, filtres, localisation, cache et extensions personnalisées."
 date: 2026-05-26
-updated: 2026-10-02
+updated: 2026-10-03
 slug: templates
 -->
 # Templates
