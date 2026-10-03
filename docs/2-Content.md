@@ -1,7 +1,7 @@
 <!--
 description: "Create and organize your content: pages, assets, static and data files, front matter variables, Markdown syntax and extensions, multilingual and dynamic content."
 date: 2021-05-07
-updated: 2026-10-02
+updated: 2026-10-03
 -->
 # Content
 
@@ -308,7 +308,7 @@ Ratio is preserved (`height` attribute is calculated automatically), the origina
 :::
 
 :::important
-This feature requires an image processing library: [Imagick](https://www.php.net/manual/book.imagick.php) is used first if available, then [libvips](https://www.libvips.org/), and finally [GD](https://www.php.net/manual/book.image.php) as fallback; otherwise it only adds a `width` HTML attribute to the `img` tag.
+This feature requires an image processing library: [Imagick](https://www.php.net/manual/book.imagick.php) is used first if available, then [libvips](https://www.libvips.org/) (through the PHP [FFI](https://www.php.net/manual/book.ffi.php) extension), and finally [GD](https://www.php.net/manual/book.image.php) as fallback; otherwise it only adds a `width` HTML attribute to the `img` tag.
 :::
 
 #### Formats

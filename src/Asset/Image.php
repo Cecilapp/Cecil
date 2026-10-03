@@ -54,7 +54,7 @@ class Image
         if (\extension_loaded('imagick') && class_exists('Imagick')) {
             return ['Imagick', ImagickDriver::class];
         }
-        if (\extension_loaded('vips') && class_exists('Jcupitt\Vips\Config') && class_exists(VipsDriver::class)) {
+        if (\extension_loaded('ffi') && class_exists(VipsDriver::class) && self::isVipsAvailable()) {
             return ['Vips', VipsDriver::class];
         }
         if (\extension_loaded('gd') && \function_exists('gd_info')) {
@@ -62,6 +62,25 @@ class Image
         }
 
         return null;
+    }
+
+    /**
+     * Checks if libvips can be loaded through FFI (php-vips v2+ does not rely on ext-vips).
+     */
+    private static function isVipsAvailable(): bool
+    {
+        static $available = null;
+
+        if ($available === null) {
+            try {
+                \Jcupitt\Vips\Config::version();
+                $available = true;
+            } catch (\Throwable) {
+                $available = false;
+            }
+        }
+
+        return $available;
     }
 
     /**
@@ -81,7 +100,7 @@ class Image
             );
         }
 
-        throw new RuntimeException('PHP Imagick or GD extension is required, or Vips support via ext-vips/jcupitt-vips and intervention/image-driver-vips.');
+        throw new RuntimeException('PHP Imagick or GD extension is required, or libvips with PHP FFI extension enabled.');
     }
 
     /**
