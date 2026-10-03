@@ -2,6 +2,25 @@
 
 All notable changes to this project will be documented in this file. Dates are displayed in UTC.
 
+#### [9.6.0](https://github.com/Cecilapp/Cecil/compare/9.5.0...9.6.0)
+
+> 3 October 2026
+
+- feat(image): add ICO file support with resize and extraction methods [`#2483`](https://github.com/Cecilapp/Cecil/pull/2483)
+- feat(image): prefer Imagick, then Vips, then GD as fallback [`#2484`](https://github.com/Cecilapp/Cecil/pull/2484)
+- refactor: modernize PHP 8.3 typing, fix sorting/TOC bugs and drop Scrutinizer [`#2462`](https://github.com/Cecilapp/Cecil/pull/2462)
+- test: add unit tests for converter and doctor classes [`ba86cd7`](https://github.com/Cecilapp/Cecil/commit/ba86cd718bfbb411d3a66a708dabab9436a2a1a4)
+- feat(image): replace ext-vips with FFI-based libvips driver [`7b6c041`](https://github.com/Cecilapp/Cecil/commit/7b6c04140e6c02b7e51853e0ccc8901358215098)
+- docs(api): regenerate Platform class documentation [`4b26dd3`](https://github.com/Cecilapp/Cecil/commit/4b26dd3ee3ddabaaa2f064e15a0049e88bdf9729)
+- docs(api): update Cecil Asset Image class line numbers for isVipsAvailable method [`3e1b228`](https://github.com/Cecilapp/Cecil/commit/3e1b228e51bd347e5c871142d58da7b9e822e891)
+- refactor(platform): extract browser opening logic and simplify OS detection [`1215acb`](https://github.com/Cecilapp/Cecil/commit/1215acbef9cbb3cf69b2946fcbf9a852f1ef1a2e)
+- fix(metatags): use non-canonical URLs for favicon assets + ico last [`37d5ead`](https://github.com/Cecilapp/Cecil/commit/37d5eadb94c0b6352448dcd6f4540c2054577953)
+- fix(converter): simplify JSON parsing and remove unused file parameter [`117388e`](https://github.com/Cecilapp/Cecil/commit/117388ebfe59ff75d8ed0e49854fa45199e57cd0)
+- fix(assets): skip asset if file already exists in output [`52a8c48`](https://github.com/Cecilapp/Cecil/commit/52a8c48efd3b72403bbee4aefa00fa88c146bedb)
+- chore(test): enable coverage for unit and integration tests [`416d7ba`](https://github.com/Cecilapp/Cecil/commit/416d7baa67e4ebc2813013573825bc991f376103)
+- fix(metatags): remove unnecessary image resize filter [`2ade082`](https://github.com/Cecilapp/Cecil/commit/2ade0825c1c809198a76b8eb0d3cac17dc373428)
+- fix(platform): use named argument for exec result code [`9d8d64c`](https://github.com/Cecilapp/Cecil/commit/9d8d64c39514c961eec569069da37c0f04272301)
+
 #### [9.5.0](https://github.com/Cecilapp/Cecil/compare/9.4.3...9.5.0)
 
 > 2 October 2026
