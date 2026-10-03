@@ -1417,7 +1417,7 @@ Le fichier original n'est pas modifié et la version redimensionnée est enregis
 :::
 
 :::tip
-Les fichiers ICO sont supportés : la plus grande icône est redimensionnée et enregistrée dans un fichier ICO à icône unique (compressée en PNG). Les icônes stockées en BMP nécessitent l'extension PHP [Imagick](https://www.php.net/manual/fr/book.imagick.php).
+Les fichiers ICO sont supportés : la plus grande icône est redimensionnée et enregistrée dans un fichier ICO à icône unique (compressée en PNG). Les icônes stockées en BMP avec une profondeur de couleur autre que 24 ou 32 bits nécessitent l'extension PHP [Imagick](https://www.php.net/manual/fr/book.imagick.php) : à défaut, le fichier ICO original est conservé et un avertissement est journalisé.
 :::
 
 _Exemples :_
