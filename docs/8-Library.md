@@ -1,7 +1,7 @@
 <!--
 description: "Use Cecil as a PHP library: install it with Composer, then build your website and run diagnostics programmatically through its API."
 date: 2023-12-13
-updated: 2026-10-02
+updated: 2026-10-03
 -->
 # Library
 
@@ -14,6 +14,19 @@ You can read the [API documentation](https://cecil.app/documentation/library/api
 ```bash
 composer require cecil/cecil
 ```
+
+### libvips support
+
+To process images with [libvips](https://www.libvips.org/) (optional), install the libvips driver in your project:
+
+```bash
+composer require intervention/image-driver-vips
+```
+
+:::important
+This driver requires [libvips](https://www.libvips.org/install.html) installed on your system and the PHP [FFI](https://www.php.net/manual/book.ffi.php) extension enabled.  
+Without it, Cecil uses [Imagick](https://www.php.net/manual/book.imagick.php) or [GD](https://www.php.net/manual/book.image.php) instead.
+:::
 
 ## Usage
 

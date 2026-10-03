@@ -313,6 +313,26 @@ Le ratio est conservé (l’attribut `height` est calculé automatiquement), le 
 Cette fonctionnalité nécessite une bibliothèque de traitement d’images : [Imagick](https://www.php.net/manual/book.imagick.php) est utilisé en priorité s’il est disponible, puis [libvips](https://www.libvips.org/) (via l’extension PHP [FFI](https://www.php.net/manual/book.ffi.php)), et enfin [GD](https://www.php.net/manual/book.image.php) en dernier recours ; sinon, elle ajoute seulement un attribut HTML `width` à la balise `img`.
 :::
 
+:::info
+Le support de libvips est optionnel et n’est pas inclus dans `cecil.phar`. Pour l’utiliser, Cecil doit être installé avec [Composer](https://getcomposer.org) et il faut :
+
+1. [libvips](https://www.libvips.org/install.html) installé sur le système
+2. l’extension PHP [FFI](https://www.php.net/manual/book.ffi.php) activée
+3. le paquet `intervention/image-driver-vips` installé avec Cecil
+
+Si Cecil est une dépendance de votre projet (voir [Bibliothèque](8-Library.md#support-de-libvips)) :
+
+```bash
+composer require intervention/image-driver-vips
+```
+
+Si Cecil est installé globalement :
+
+```bash
+composer global require cecil/cecil intervention/image-driver-vips
+```
+:::
+
 #### Formats
 
 Si l’[option `formats`](4-Configuration.md#pages-body-images) est définie, des images alternatives sont créées et ajoutées.
