@@ -51,7 +51,7 @@ class Image
     private static function driver(): ?array
     {
         // Use Imagick first (fast and widely available), then libvips (fast), then GD as fallback.
-        if (\extension_loaded('imagick') && class_exists('Imagick')) {
+        if (\extension_loaded('imagick') && class_exists('Imagick') && self::isImagickUsable()) {
             return ['Imagick', ImagickDriver::class];
         }
         if (\extension_loaded('ffi') && class_exists(VipsDriver::class) && self::isVipsAvailable()) {
@@ -62,6 +62,24 @@ class Image
         }
 
         return null;
+    }
+
+    /**
+     * Checks if ImageMagick can read common formats (e.g.: Alpine images can ship Imagick without JPEG coder).
+     */
+    private static function isImagickUsable(): bool
+    {
+        static $usable = null;
+
+        if ($usable === null) {
+            try {
+                $usable = !empty(\Imagick::queryFormats('JPEG')) && !empty(\Imagick::queryFormats('PNG'));
+            } catch (\Throwable) {
+                $usable = false;
+            }
+        }
+
+        return $usable;
     }
 
     /**

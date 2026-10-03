@@ -152,4 +152,20 @@ class ImageTest extends TestCase
         $this->assertSame([64, 64], [$size[0], $size[1]]);
         $this->assertSame($icon, Image::extractIcoLargestIcon($ico));
     }
+
+    public function testDriverIsNotImagickWithoutJpegOrPngSupport(): void
+    {
+        if (!\extension_loaded('imagick') && !\extension_loaded('gd')) {
+            $this->markTestSkipped('No Imagick or GD extension.');
+        }
+        $imagickUsable = \extension_loaded('imagick')
+            && !empty(\Imagick::queryFormats('JPEG'))
+            && !empty(\Imagick::queryFormats('PNG'));
+
+        if ($imagickUsable) {
+            $this->assertSame('Imagick', Image::getDriverName());
+        } else {
+            $this->assertNotSame('Imagick', Image::getDriverName());
+        }
+    }
 }

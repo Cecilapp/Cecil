@@ -308,7 +308,7 @@ Ratio is preserved (`height` attribute is calculated automatically), the origina
 :::
 
 :::important
-This feature requires an image processing library: [Imagick](https://www.php.net/manual/book.imagick.php) is used first if available, then [libvips](https://www.libvips.org/) (through the PHP [FFI](https://www.php.net/manual/book.ffi.php) extension), and finally [GD](https://www.php.net/manual/book.image.php) as fallback; otherwise it only adds a `width` HTML attribute to the `img` tag.
+This feature requires an image processing library: [Imagick](https://www.php.net/manual/book.imagick.php) is used first if available (and able to read JPEG and PNG), then [libvips](https://www.libvips.org/) (through the PHP [FFI](https://www.php.net/manual/book.ffi.php) extension), and finally [GD](https://www.php.net/manual/book.image.php) as fallback; otherwise it only adds a `width` HTML attribute to the `img` tag.
 :::
 
 :::info

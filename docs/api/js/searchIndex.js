@@ -66,6 +66,11 @@ Search.appendIndex(
             "summary": "Returns\u0020the\u0020available\u0020driver\u0020as\u0020\u005Bname,\u0020class\u005D,\u0020or\u0020null\u0020if\u0020none.",
             "url": "classes/Cecil-Asset-Image.html#method_driver"
         },                {
+            "fqsen": "\\Cecil\\Asset\\Image\u003A\u003AisImagickUsable\u0028\u0029",
+            "name": "isImagickUsable",
+            "summary": "Checks\u0020if\u0020ImageMagick\u0020can\u0020read\u0020common\u0020formats\u0020\u0028e.g.\u003A\u0020Alpine\u0020images\u0020can\u0020ship\u0020Imagick\u0020without\u0020JPEG\u0020coder\u0029.",
+            "url": "classes/Cecil-Asset-Image.html#method_isImagickUsable"
+        },                {
             "fqsen": "\\Cecil\\Asset\\Image\u003A\u003AisVipsAvailable\u0028\u0029",
             "name": "isVipsAvailable",
             "summary": "Checks\u0020if\u0020libvips\u0020can\u0020be\u0020loaded\u0020through\u0020FFI\u0020\u0028php\u002Dvips\u0020v2\u002B\u0020does\u0020not\u0020rely\u0020on\u0020ext\u002Dvips\u0029.",
