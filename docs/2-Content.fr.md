@@ -2,7 +2,7 @@
 title: Contenu
 description: "Créez et organisez votre contenu : pages, assets, fichiers statiques et de données, variables du front matter, syntaxe et extensions Markdown, contenu multilingue et dynamique."
 date: 2026-03-27
-updated: 2026-10-02
+updated: 2026-10-03
 slug: contenu
 -->
 # Contenu
@@ -310,7 +310,7 @@ Le ratio est conservé (l’attribut `height` est calculé automatiquement), le 
 :::
 
 :::important
-Cette fonctionnalité nécessite une bibliothèque de traitement d’images : [Imagick](https://www.php.net/manual/book.imagick.php) est utilisé en priorité s’il est disponible, puis [libvips](https://www.libvips.org/), et enfin [GD](https://www.php.net/manual/book.image.php) en dernier recours ; sinon, elle ajoute seulement un attribut HTML `width` à la balise `img`.
+Cette fonctionnalité nécessite une bibliothèque de traitement d’images : [Imagick](https://www.php.net/manual/book.imagick.php) est utilisé en priorité s’il est disponible, puis [libvips](https://www.libvips.org/) (via l’extension PHP [FFI](https://www.php.net/manual/book.ffi.php)), et enfin [GD](https://www.php.net/manual/book.image.php) en dernier recours ; sinon, elle ajoute seulement un attribut HTML `width` à la balise `img`.
 :::
 
 #### Formats

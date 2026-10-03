@@ -66,6 +66,11 @@ Search.appendIndex(
             "summary": "Returns\u0020the\u0020available\u0020driver\u0020as\u0020\u005Bname,\u0020class\u005D,\u0020or\u0020null\u0020if\u0020none.",
             "url": "classes/Cecil-Asset-Image.html#method_driver"
         },                {
+            "fqsen": "\\Cecil\\Asset\\Image\u003A\u003AisVipsAvailable\u0028\u0029",
+            "name": "isVipsAvailable",
+            "summary": "Checks\u0020if\u0020libvips\u0020can\u0020be\u0020loaded\u0020through\u0020FFI\u0020\u0028php\u002Dvips\u0020v2\u002B\u0020does\u0020not\u0020rely\u0020on\u0020ext\u002Dvips\u0029.",
+            "url": "classes/Cecil-Asset-Image.html#method_isVipsAvailable"
+        },                {
             "fqsen": "\\Cecil\\Asset\\Image\u003A\u003Amanager\u0028\u0029",
             "name": "manager",
             "summary": "Create\u0020new\u0020manager\u0020instance\u0020with\u0020available\u0020driver.",
