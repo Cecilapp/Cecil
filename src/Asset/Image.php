@@ -483,7 +483,7 @@ class Image
     public static function getLqip(Asset $asset): string
     {
         try {
-            $image = self::manager()->decodeBinary(self::resize($asset, 100, 50));
+            $image = self::manager()->decodeBinary(self::resize($asset, 100, 50, rmAnimation: true));
 
             return (string) $image->blur(50)->encode()->toDataUri();
         } catch (\Exception $e) {
