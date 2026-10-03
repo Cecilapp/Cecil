@@ -243,11 +243,32 @@ It supports GD, Imagick and libvips drivers, depending on available extensions.<
 <dd>Build the `srcset` HTML attribute for responsive images, based on pixel ratios.</dd>
 
             <dt class="phpdocumentor-table-of-contents__entry -method -public">
+    <a class="" href="classes/Cecil-Asset-Image.html#method_buildIco">buildIco()</a>
+    <span>
+                                &nbsp;: string    </span>
+</dt>
+<dd>Builds an ICO file containing a single icon (PNG or BMP DIB data).</dd>
+
+            <dt class="phpdocumentor-table-of-contents__entry -method -public">
     <a class="" href="classes/Cecil-Asset-Image.html#method_convert">convert()</a>
     <span>
                                 &nbsp;: string    </span>
 </dt>
 <dd>Converts an image Asset to the target format.</dd>
+
+            <dt class="phpdocumentor-table-of-contents__entry -method -public">
+    <a class="" href="classes/Cecil-Asset-Image.html#method_dibToPng">dibToPng()</a>
+    <span>
+                                &nbsp;: string|null    </span>
+</dt>
+<dd>Converts a 24 or 32 bits BMP icon (DIB data of an ICO file) to PNG.</dd>
+
+            <dt class="phpdocumentor-table-of-contents__entry -method -public">
+    <a class="" href="classes/Cecil-Asset-Image.html#method_extractIcoLargestIcon">extractIcoLargestIcon()</a>
+    <span>
+                                &nbsp;: string    </span>
+</dt>
+<dd>Returns the binary data (PNG or BMP DIB) of the largest icon of an ICO file.</dd>
 
             <dt class="phpdocumentor-table-of-contents__entry -method -public">
     <a class="" href="classes/Cecil-Asset-Image.html#method_getBackgroundColor">getBackgroundColor()</a>
@@ -283,6 +304,13 @@ It supports GD, Imagick and libvips drivers, depending on available extensions.<
                                 &nbsp;: string    </span>
 </dt>
 <dd>Returns the value from the `$sizes` array if the class exists, otherwise returns the default size.</dd>
+
+            <dt class="phpdocumentor-table-of-contents__entry -method -public">
+    <a class="" href="classes/Cecil-Asset-Image.html#method_getIcoSize">getIcoSize()</a>
+    <span>
+                                &nbsp;: array{int, int}    </span>
+</dt>
+<dd>Returns the size (width and height) of the largest icon of an ICO file.</dd>
 
             <dt class="phpdocumentor-table-of-contents__entry -method -public">
     <a class="" href="classes/Cecil-Asset-Image.html#method_getLqip">getLqip()</a>
@@ -340,6 +368,13 @@ It supports GD, Imagick and libvips drivers, depending on available extensions.<
 </dt>
 <dd>Resizes an image Asset to the given width or/and height.</dd>
 
+            <dt class="phpdocumentor-table-of-contents__entry -method -public">
+    <a class="" href="classes/Cecil-Asset-Image.html#method_resizeIco">resizeIco()</a>
+    <span>
+                                &nbsp;: string    </span>
+</dt>
+<dd>Resizes an ICO Asset to the given width or/and height.</dd>
+
             <dt class="phpdocumentor-table-of-contents__entry -method -private">
     <a class="" href="classes/Cecil-Asset-Image.html#method_driver">driver()</a>
     <span>
@@ -348,11 +383,11 @@ It supports GD, Imagick and libvips drivers, depending on available extensions.<
 <dd>Returns the available driver as [name, class], or null if none.</dd>
 
             <dt class="phpdocumentor-table-of-contents__entry -method -private">
-    <a class="" href="classes/Cecil-Asset-Image.html#method_isVipsAvailable">isVipsAvailable()</a>
+    <a class="" href="classes/Cecil-Asset-Image.html#method_getIcoLargestEntry">getIcoLargestEntry()</a>
     <span>
-                                &nbsp;: bool    </span>
+                                &nbsp;: array&lt;string, int&gt;    </span>
 </dt>
-<dd>Checks if libvips can be loaded through FFI (php-vips v2+ does not rely on ext-vips).</dd>
+<dd>Returns the directory entry of the largest icon of an ICO file.</dd>
 
             <dt class="phpdocumentor-table-of-contents__entry -method -private">
     <a class="" href="classes/Cecil-Asset-Image.html#method_manager">manager()</a>
@@ -396,7 +431,7 @@ It supports GD, Imagick and libvips drivers, depending on available extensions.<
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Asset/Image.php"><a href="files/src-asset-image.html"><abbr title="src/Asset/Image.php">Image.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">282</span>
+    <span class="phpdocumentor-element-found-in__line">478</span>
 
     </aside>
 
@@ -452,7 +487,7 @@ It supports GD, Imagick and libvips drivers, depending on available extensions.<
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Asset/Image.php"><a href="files/src-asset-image.html"><abbr title="src/Asset/Image.php">Image.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">308</span>
+    <span class="phpdocumentor-element-found-in__line">504</span>
 
     </aside>
 
@@ -529,7 +564,7 @@ It supports GD, Imagick and libvips drivers, depending on available extensions.<
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Asset/Image.php"><a href="files/src-asset-image.html"><abbr title="src/Asset/Image.php">Image.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">425</span>
+    <span class="phpdocumentor-element-found-in__line">621</span>
 
     </aside>
 
@@ -599,7 +634,7 @@ It supports GD, Imagick and libvips drivers, depending on available extensions.<
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Asset/Image.php"><a href="files/src-asset-image.html"><abbr title="src/Asset/Image.php">Image.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">396</span>
+    <span class="phpdocumentor-element-found-in__line">592</span>
 
     </aside>
 
@@ -691,7 +726,7 @@ It supports GD, Imagick and libvips drivers, depending on available extensions.<
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Asset/Image.php"><a href="files/src-asset-image.html"><abbr title="src/Asset/Image.php">Image.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">440</span>
+    <span class="phpdocumentor-element-found-in__line">636</span>
 
     </aside>
 
@@ -775,6 +810,76 @@ It supports GD, Imagick and libvips drivers, depending on available extensions.<
             -public
                                     -static                    "
 >
+    <h4 class="phpdocumentor-element__name" id="method_buildIco">
+        buildIco()
+        <a href="classes/Cecil-Asset-Image.html#method_buildIco" class="headerlink"><i class="fas fa-link"></i></a>
+
+    </h4>
+    <aside class="phpdocumentor-element-found-in">
+    <abbr class="phpdocumentor-element-found-in__file" title="src/Asset/Image.php"><a href="files/src-asset-image.html"><abbr title="src/Asset/Image.php">Image.php</abbr></a></abbr>
+    :
+    <span class="phpdocumentor-element-found-in__line">330</span>
+
+    </aside>
+
+        <p class="phpdocumentor-summary">Builds an ICO file containing a single icon (PNG or BMP DIB data).</p>
+
+    <code class="phpdocumentor-code phpdocumentor-signature ">
+    <span class="phpdocumentor-signature__visibility">public</span>
+            <span class="phpdocumentor-signature__static">static</span>        <span class="phpdocumentor-signature__name">buildIco</span><span>(</span><span class="phpdocumentor-signature__argument"><span class="phpdocumentor-signature__argument__type">string&nbsp;</span><span class="phpdocumentor-signature__argument__name">$icon</span></span><span class="phpdocumentor-signature__argument"><span>, </span><span class="phpdocumentor-signature__argument__type">int&nbsp;</span><span class="phpdocumentor-signature__argument__name">$width</span></span><span class="phpdocumentor-signature__argument"><span>, </span><span class="phpdocumentor-signature__argument__type">int&nbsp;</span><span class="phpdocumentor-signature__argument__name">$height</span></span><span class="phpdocumentor-signature__argument"><span>[</span><span>, </span><span class="phpdocumentor-signature__argument__type">int&nbsp;</span><span class="phpdocumentor-signature__argument__name">$bpp</span><span> = </span><span class="phpdocumentor-signature__argument__default-value">32</span><span> ]</span></span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">string</span></code>
+
+    <div class="phpdocumentor-label-line">
+        </div>
+    
+    
+        <h5 class="phpdocumentor-argument-list__heading">Parameters</h5>
+    <dl class="phpdocumentor-argument-list">
+                    <dt class="phpdocumentor-argument-list__entry">
+                <span class="phpdocumentor-argument-list__argument__name">$icon</span>
+                : <span class="phpdocumentor-argument-list__argument__type">string</span>
+                            </dt>
+            <dd class="phpdocumentor-argument-list__definition">
+                
+            </dd>
+                    <dt class="phpdocumentor-argument-list__entry">
+                <span class="phpdocumentor-argument-list__argument__name">$width</span>
+                : <span class="phpdocumentor-argument-list__argument__type">int</span>
+                            </dt>
+            <dd class="phpdocumentor-argument-list__definition">
+                
+            </dd>
+                    <dt class="phpdocumentor-argument-list__entry">
+                <span class="phpdocumentor-argument-list__argument__name">$height</span>
+                : <span class="phpdocumentor-argument-list__argument__type">int</span>
+                            </dt>
+            <dd class="phpdocumentor-argument-list__definition">
+                
+            </dd>
+                    <dt class="phpdocumentor-argument-list__entry">
+                <span class="phpdocumentor-argument-list__argument__name">$bpp</span>
+                : <span class="phpdocumentor-argument-list__argument__type">int</span>
+                 = <span class="phpdocumentor-argument-list__argument__default-value">32</span>            </dt>
+            <dd class="phpdocumentor-argument-list__definition">
+                
+            </dd>
+            </dl>
+
+    
+
+        
+    
+            <section>
+        <h5 class="phpdocumentor-return-value__heading">Return values</h5>
+        <span class="phpdocumentor-signature__response_type">string</span>
+            </section>
+
+</article>
+                    <article
+        class="phpdocumentor-element
+            -method
+            -public
+                                    -static                    "
+>
     <h4 class="phpdocumentor-element__name" id="method_convert">
         convert()
         <a href="classes/Cecil-Asset-Image.html#method_convert" class="headerlink"><i class="fas fa-link"></i></a>
@@ -783,7 +888,7 @@ It supports GD, Imagick and libvips drivers, depending on available extensions.<
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Asset/Image.php"><a href="files/src-asset-image.html"><abbr title="src/Asset/Image.php">Image.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">190</span>
+    <span class="phpdocumentor-element-found-in__line">386</span>
 
     </aside>
 
@@ -852,6 +957,136 @@ It supports GD, Imagick and libvips drivers, depending on available extensions.<
             -public
                                     -static                    "
 >
+    <h4 class="phpdocumentor-element__name" id="method_dibToPng">
+        dibToPng()
+        <a href="classes/Cecil-Asset-Image.html#method_dibToPng" class="headerlink"><i class="fas fa-link"></i></a>
+
+    </h4>
+    <aside class="phpdocumentor-element-found-in">
+    <abbr class="phpdocumentor-element-found-in__file" title="src/Asset/Image.php"><a href="files/src-asset-image.html"><abbr title="src/Asset/Image.php">Image.php</abbr></a></abbr>
+    :
+    <span class="phpdocumentor-element-found-in__line">265</span>
+
+    </aside>
+
+        <p class="phpdocumentor-summary">Converts a 24 or 32 bits BMP icon (DIB data of an ICO file) to PNG.</p>
+
+    <code class="phpdocumentor-code phpdocumentor-signature ">
+    <span class="phpdocumentor-signature__visibility">public</span>
+            <span class="phpdocumentor-signature__static">static</span>        <span class="phpdocumentor-signature__name">dibToPng</span><span>(</span><span class="phpdocumentor-signature__argument"><span class="phpdocumentor-signature__argument__type">string&nbsp;</span><span class="phpdocumentor-signature__argument__name">$dib</span></span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">string|null</span></code>
+
+    <div class="phpdocumentor-label-line">
+        </div>
+    
+        <section class="phpdocumentor-description"><p>Returns null if the BMP icon format is not supported (other color depth or compression).</p>
+</section>
+
+        <h5 class="phpdocumentor-argument-list__heading">Parameters</h5>
+    <dl class="phpdocumentor-argument-list">
+                    <dt class="phpdocumentor-argument-list__entry">
+                <span class="phpdocumentor-argument-list__argument__name">$dib</span>
+                : <span class="phpdocumentor-argument-list__argument__type">string</span>
+                            </dt>
+            <dd class="phpdocumentor-argument-list__definition">
+                
+            </dd>
+            </dl>
+
+    
+    <h5 class="phpdocumentor-tag-list__heading" id="method_dibToPng_tags">
+        Tags
+        <a href="classes/Cecil-Asset-Image.html#method_dibToPng_tags" class="headerlink"><i class="fas fa-link"></i></a>
+
+    </h5>
+    <dl class="phpdocumentor-tag-list">
+                    <dt class="phpdocumentor-tag-list__entry">
+                <span class="phpdocumentor-tag__name">throws</span>
+            </dt>
+                            <dd class="phpdocumentor-tag-list__definition">
+                                                                <span class="phpdocumentor-tag-link"><a href="classes/Cecil-Exception-RuntimeException.html"><abbr title="\Cecil\Exception\RuntimeException">RuntimeException</abbr></a></span>
+                                                                                    
+                                    </dd>
+                        </dl>
+
+        
+    
+            <section>
+        <h5 class="phpdocumentor-return-value__heading">Return values</h5>
+        <span class="phpdocumentor-signature__response_type">string|null</span>
+            </section>
+
+</article>
+                    <article
+        class="phpdocumentor-element
+            -method
+            -public
+                                    -static                    "
+>
+    <h4 class="phpdocumentor-element__name" id="method_extractIcoLargestIcon">
+        extractIcoLargestIcon()
+        <a href="classes/Cecil-Asset-Image.html#method_extractIcoLargestIcon" class="headerlink"><i class="fas fa-link"></i></a>
+
+    </h4>
+    <aside class="phpdocumentor-element-found-in">
+    <abbr class="phpdocumentor-element-found-in__file" title="src/Asset/Image.php"><a href="files/src-asset-image.html"><abbr title="src/Asset/Image.php">Image.php</abbr></a></abbr>
+    :
+    <span class="phpdocumentor-element-found-in__line">181</span>
+
+    </aside>
+
+        <p class="phpdocumentor-summary">Returns the binary data (PNG or BMP DIB) of the largest icon of an ICO file.</p>
+
+    <code class="phpdocumentor-code phpdocumentor-signature ">
+    <span class="phpdocumentor-signature__visibility">public</span>
+            <span class="phpdocumentor-signature__static">static</span>        <span class="phpdocumentor-signature__name">extractIcoLargestIcon</span><span>(</span><span class="phpdocumentor-signature__argument"><span class="phpdocumentor-signature__argument__type">string&nbsp;</span><span class="phpdocumentor-signature__argument__name">$data</span></span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">string</span></code>
+
+    <div class="phpdocumentor-label-line">
+        </div>
+    
+        <section class="phpdocumentor-description"><p>A PNG file (e.g.: renamed in &quot;.ico&quot;) is returned as is.</p>
+</section>
+
+        <h5 class="phpdocumentor-argument-list__heading">Parameters</h5>
+    <dl class="phpdocumentor-argument-list">
+                    <dt class="phpdocumentor-argument-list__entry">
+                <span class="phpdocumentor-argument-list__argument__name">$data</span>
+                : <span class="phpdocumentor-argument-list__argument__type">string</span>
+                            </dt>
+            <dd class="phpdocumentor-argument-list__definition">
+                
+            </dd>
+            </dl>
+
+    
+    <h5 class="phpdocumentor-tag-list__heading" id="method_extractIcoLargestIcon_tags">
+        Tags
+        <a href="classes/Cecil-Asset-Image.html#method_extractIcoLargestIcon_tags" class="headerlink"><i class="fas fa-link"></i></a>
+
+    </h5>
+    <dl class="phpdocumentor-tag-list">
+                    <dt class="phpdocumentor-tag-list__entry">
+                <span class="phpdocumentor-tag__name">throws</span>
+            </dt>
+                            <dd class="phpdocumentor-tag-list__definition">
+                                                                <span class="phpdocumentor-tag-link"><a href="classes/Cecil-Exception-RuntimeException.html"><abbr title="\Cecil\Exception\RuntimeException">RuntimeException</abbr></a></span>
+                                                                                    
+                                    </dd>
+                        </dl>
+
+        
+    
+            <section>
+        <h5 class="phpdocumentor-return-value__heading">Return values</h5>
+        <span class="phpdocumentor-signature__response_type">string</span>
+            </section>
+
+</article>
+                    <article
+        class="phpdocumentor-element
+            -method
+            -public
+                                    -static                    "
+>
     <h4 class="phpdocumentor-element__name" id="method_getBackgroundColor">
         getBackgroundColor()
         <a href="classes/Cecil-Asset-Image.html#method_getBackgroundColor" class="headerlink"><i class="fas fa-link"></i></a>
@@ -860,7 +1095,7 @@ It supports GD, Imagick and libvips drivers, depending on available extensions.<
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Asset/Image.php"><a href="files/src-asset-image.html"><abbr title="src/Asset/Image.php">Image.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">252</span>
+    <span class="phpdocumentor-element-found-in__line">448</span>
 
     </aside>
 
@@ -923,7 +1158,7 @@ It supports GD, Imagick and libvips drivers, depending on available extensions.<
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Asset/Image.php"><a href="files/src-asset-image.html"><abbr title="src/Asset/Image.php">Image.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">216</span>
+    <span class="phpdocumentor-element-found-in__line">412</span>
 
     </aside>
 
@@ -993,7 +1228,7 @@ It supports GD, Imagick and libvips drivers, depending on available extensions.<
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Asset/Image.php"><a href="files/src-asset-image.html"><abbr title="src/Asset/Image.php">Image.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">234</span>
+    <span class="phpdocumentor-element-found-in__line">430</span>
 
     </aside>
 
@@ -1095,7 +1330,7 @@ It supports GD, Imagick and libvips drivers, depending on available extensions.<
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Asset/Image.php"><a href="files/src-asset-image.html"><abbr title="src/Asset/Image.php">Image.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">477</span>
+    <span class="phpdocumentor-element-found-in__line">673</span>
 
     </aside>
 
@@ -1143,6 +1378,71 @@ It supports GD, Imagick and libvips drivers, depending on available extensions.<
             -public
                                     -static                    "
 >
+    <h4 class="phpdocumentor-element__name" id="method_getIcoSize">
+        getIcoSize()
+        <a href="classes/Cecil-Asset-Image.html#method_getIcoSize" class="headerlink"><i class="fas fa-link"></i></a>
+
+    </h4>
+    <aside class="phpdocumentor-element-found-in">
+    <abbr class="phpdocumentor-element-found-in__file" title="src/Asset/Image.php"><a href="files/src-asset-image.html"><abbr title="src/Asset/Image.php">Image.php</abbr></a></abbr>
+    :
+    <span class="phpdocumentor-element-found-in__line">205</span>
+
+    </aside>
+
+        <p class="phpdocumentor-summary">Returns the size (width and height) of the largest icon of an ICO file.</p>
+
+    <code class="phpdocumentor-code phpdocumentor-signature ">
+    <span class="phpdocumentor-signature__visibility">public</span>
+            <span class="phpdocumentor-signature__static">static</span>        <span class="phpdocumentor-signature__name">getIcoSize</span><span>(</span><span class="phpdocumentor-signature__argument"><span class="phpdocumentor-signature__argument__type">string&nbsp;</span><span class="phpdocumentor-signature__argument__name">$data</span></span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">array{int, int}</span></code>
+
+    <div class="phpdocumentor-label-line">
+        </div>
+    
+        <section class="phpdocumentor-description"><p>Unlike getimagesize(), which doesn't necessarily return the size of the largest icon.</p>
+</section>
+
+        <h5 class="phpdocumentor-argument-list__heading">Parameters</h5>
+    <dl class="phpdocumentor-argument-list">
+                    <dt class="phpdocumentor-argument-list__entry">
+                <span class="phpdocumentor-argument-list__argument__name">$data</span>
+                : <span class="phpdocumentor-argument-list__argument__type">string</span>
+                            </dt>
+            <dd class="phpdocumentor-argument-list__definition">
+                
+            </dd>
+            </dl>
+
+    
+    <h5 class="phpdocumentor-tag-list__heading" id="method_getIcoSize_tags">
+        Tags
+        <a href="classes/Cecil-Asset-Image.html#method_getIcoSize_tags" class="headerlink"><i class="fas fa-link"></i></a>
+
+    </h5>
+    <dl class="phpdocumentor-tag-list">
+                    <dt class="phpdocumentor-tag-list__entry">
+                <span class="phpdocumentor-tag__name">throws</span>
+            </dt>
+                            <dd class="phpdocumentor-tag-list__definition">
+                                                                <span class="phpdocumentor-tag-link"><a href="classes/Cecil-Exception-RuntimeException.html"><abbr title="\Cecil\Exception\RuntimeException">RuntimeException</abbr></a></span>
+                                                                                    
+                                    </dd>
+                        </dl>
+
+        
+    
+            <section>
+        <h5 class="phpdocumentor-return-value__heading">Return values</h5>
+        <span class="phpdocumentor-signature__response_type">array{int, int}</span>
+            </section>
+
+</article>
+                    <article
+        class="phpdocumentor-element
+            -method
+            -public
+                                    -static                    "
+>
     <h4 class="phpdocumentor-element__name" id="method_getLqip">
         getLqip()
         <a href="classes/Cecil-Asset-Image.html#method_getLqip" class="headerlink"><i class="fas fa-link"></i></a>
@@ -1151,7 +1451,7 @@ It supports GD, Imagick and libvips drivers, depending on available extensions.<
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Asset/Image.php"><a href="files/src-asset-image.html"><abbr title="src/Asset/Image.php">Image.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">268</span>
+    <span class="phpdocumentor-element-found-in__line">464</span>
 
     </aside>
 
@@ -1214,7 +1514,7 @@ It supports GD, Imagick and libvips drivers, depending on available extensions.<
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Asset/Image.php"><a href="files/src-asset-image.html"><abbr title="src/Asset/Image.php">Image.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">540</span>
+    <span class="phpdocumentor-element-found-in__line">736</span>
 
     </aside>
 
@@ -1263,7 +1563,7 @@ It supports GD, Imagick and libvips drivers, depending on available extensions.<
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Asset/Image.php"><a href="files/src-asset-image.html"><abbr title="src/Asset/Image.php">Image.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">496</span>
+    <span class="phpdocumentor-element-found-in__line">692</span>
 
     </aside>
 
@@ -1312,7 +1612,7 @@ It supports GD, Imagick and libvips drivers, depending on available extensions.<
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Asset/Image.php"><a href="files/src-asset-image.html"><abbr title="src/Asset/Image.php">Image.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">518</span>
+    <span class="phpdocumentor-element-found-in__line">714</span>
 
     </aside>
 
@@ -1361,7 +1661,7 @@ It supports GD, Imagick and libvips drivers, depending on available extensions.<
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Asset/Image.php"><a href="files/src-asset-image.html"><abbr title="src/Asset/Image.php">Image.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">526</span>
+    <span class="phpdocumentor-element-found-in__line">722</span>
 
     </aside>
 
@@ -1410,7 +1710,7 @@ It supports GD, Imagick and libvips drivers, depending on available extensions.<
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Asset/Image.php"><a href="files/src-asset-image.html"><abbr title="src/Asset/Image.php">Image.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">510</span>
+    <span class="phpdocumentor-element-found-in__line">706</span>
 
     </aside>
 
@@ -1459,7 +1759,7 @@ It supports GD, Imagick and libvips drivers, depending on available extensions.<
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Asset/Image.php"><a href="files/src-asset-image.html"><abbr title="src/Asset/Image.php">Image.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">156</span>
+    <span class="phpdocumentor-element-found-in__line">352</span>
 
     </aside>
 
@@ -1620,6 +1920,86 @@ The $rmAnimation parameter can be set to true to remove animations from animated
                     <article
         class="phpdocumentor-element
             -method
+            -public
+                                    -static                    "
+>
+    <h4 class="phpdocumentor-element__name" id="method_resizeIco">
+        resizeIco()
+        <a href="classes/Cecil-Asset-Image.html#method_resizeIco" class="headerlink"><i class="fas fa-link"></i></a>
+
+    </h4>
+    <aside class="phpdocumentor-element-found-in">
+    <abbr class="phpdocumentor-element-found-in__file" title="src/Asset/Image.php"><a href="files/src-asset-image.html"><abbr title="src/Asset/Image.php">Image.php</abbr></a></abbr>
+    :
+    <span class="phpdocumentor-element-found-in__line">144</span>
+
+    </aside>
+
+        <p class="phpdocumentor-summary">Resizes an ICO Asset to the given width or/and height.</p>
+
+    <code class="phpdocumentor-code phpdocumentor-signature ">
+    <span class="phpdocumentor-signature__visibility">public</span>
+            <span class="phpdocumentor-signature__static">static</span>        <span class="phpdocumentor-signature__name">resizeIco</span><span>(</span><span class="phpdocumentor-signature__argument"><span class="phpdocumentor-signature__argument__type"><a href="classes/Cecil-Asset.html"><abbr title="\Cecil\Asset">Asset</abbr></a>&nbsp;</span><span class="phpdocumentor-signature__argument__name">$asset</span></span><span class="phpdocumentor-signature__argument"><span>[</span><span>, </span><span class="phpdocumentor-signature__argument__type">int|null&nbsp;</span><span class="phpdocumentor-signature__argument__name">$width</span><span> = </span><span class="phpdocumentor-signature__argument__default-value">null</span><span> ]</span></span><span class="phpdocumentor-signature__argument"><span>[</span><span>, </span><span class="phpdocumentor-signature__argument__type">int|null&nbsp;</span><span class="phpdocumentor-signature__argument__name">$height</span><span> = </span><span class="phpdocumentor-signature__argument__default-value">null</span><span> ]</span></span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">string</span></code>
+
+    <div class="phpdocumentor-label-line">
+        </div>
+    
+        <section class="phpdocumentor-description"><p>The largest icon of the ICO file is resized and returned as a single PNG-compressed icon.
+PNG icons and 24/32 bits BMP icons are handled by any driver, other BMP icons require the Imagick extension.</p>
+</section>
+
+        <h5 class="phpdocumentor-argument-list__heading">Parameters</h5>
+    <dl class="phpdocumentor-argument-list">
+                    <dt class="phpdocumentor-argument-list__entry">
+                <span class="phpdocumentor-argument-list__argument__name">$asset</span>
+                : <span class="phpdocumentor-argument-list__argument__type"><a href="classes/Cecil-Asset.html"><abbr title="\Cecil\Asset">Asset</abbr></a></span>
+                            </dt>
+            <dd class="phpdocumentor-argument-list__definition">
+                
+            </dd>
+                    <dt class="phpdocumentor-argument-list__entry">
+                <span class="phpdocumentor-argument-list__argument__name">$width</span>
+                : <span class="phpdocumentor-argument-list__argument__type">int|null</span>
+                 = <span class="phpdocumentor-argument-list__argument__default-value">null</span>            </dt>
+            <dd class="phpdocumentor-argument-list__definition">
+                
+            </dd>
+                    <dt class="phpdocumentor-argument-list__entry">
+                <span class="phpdocumentor-argument-list__argument__name">$height</span>
+                : <span class="phpdocumentor-argument-list__argument__type">int|null</span>
+                 = <span class="phpdocumentor-argument-list__argument__default-value">null</span>            </dt>
+            <dd class="phpdocumentor-argument-list__definition">
+                
+            </dd>
+            </dl>
+
+    
+    <h5 class="phpdocumentor-tag-list__heading" id="method_resizeIco_tags">
+        Tags
+        <a href="classes/Cecil-Asset-Image.html#method_resizeIco_tags" class="headerlink"><i class="fas fa-link"></i></a>
+
+    </h5>
+    <dl class="phpdocumentor-tag-list">
+                    <dt class="phpdocumentor-tag-list__entry">
+                <span class="phpdocumentor-tag__name">throws</span>
+            </dt>
+                            <dd class="phpdocumentor-tag-list__definition">
+                                                                <span class="phpdocumentor-tag-link"><a href="classes/Cecil-Exception-RuntimeException.html"><abbr title="\Cecil\Exception\RuntimeException">RuntimeException</abbr></a></span>
+                                                                                    
+                                    </dd>
+                        </dl>
+
+        
+    
+            <section>
+        <h5 class="phpdocumentor-return-value__heading">Return values</h5>
+        <span class="phpdocumentor-signature__response_type">string</span>
+            </section>
+
+</article>
+                    <article
+        class="phpdocumentor-element
+            -method
             -private
                                     -static                    "
 >
@@ -1662,36 +2042,60 @@ The $rmAnimation parameter can be set to true to remove animations from animated
             -private
                                     -static                    "
 >
-    <h4 class="phpdocumentor-element__name" id="method_isVipsAvailable">
-        isVipsAvailable()
-        <a href="classes/Cecil-Asset-Image.html#method_isVipsAvailable" class="headerlink"><i class="fas fa-link"></i></a>
+    <h4 class="phpdocumentor-element__name" id="method_getIcoLargestEntry">
+        getIcoLargestEntry()
+        <a href="classes/Cecil-Asset-Image.html#method_getIcoLargestEntry" class="headerlink"><i class="fas fa-link"></i></a>
 
     </h4>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Asset/Image.php"><a href="files/src-asset-image.html"><abbr title="src/Asset/Image.php">Image.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">70</span>
+    <span class="phpdocumentor-element-found-in__line">227</span>
 
     </aside>
 
-        <p class="phpdocumentor-summary">Checks if libvips can be loaded through FFI (php-vips v2+ does not rely on ext-vips).</p>
+        <p class="phpdocumentor-summary">Returns the directory entry of the largest icon of an ICO file.</p>
 
     <code class="phpdocumentor-code phpdocumentor-signature ">
     <span class="phpdocumentor-signature__visibility">private</span>
-            <span class="phpdocumentor-signature__static">static</span>        <span class="phpdocumentor-signature__name">isVipsAvailable</span><span>(</span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">bool</span></code>
+            <span class="phpdocumentor-signature__static">static</span>        <span class="phpdocumentor-signature__name">getIcoLargestEntry</span><span>(</span><span class="phpdocumentor-signature__argument"><span class="phpdocumentor-signature__argument__type">string&nbsp;</span><span class="phpdocumentor-signature__argument__name">$data</span></span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">array&lt;string, int&gt;</span></code>
 
     <div class="phpdocumentor-label-line">
         </div>
     
     
+        <h5 class="phpdocumentor-argument-list__heading">Parameters</h5>
+    <dl class="phpdocumentor-argument-list">
+                    <dt class="phpdocumentor-argument-list__entry">
+                <span class="phpdocumentor-argument-list__argument__name">$data</span>
+                : <span class="phpdocumentor-argument-list__argument__type">string</span>
+                            </dt>
+            <dd class="phpdocumentor-argument-list__definition">
+                
+            </dd>
+            </dl>
+
     
-    
+    <h5 class="phpdocumentor-tag-list__heading" id="method_getIcoLargestEntry_tags">
+        Tags
+        <a href="classes/Cecil-Asset-Image.html#method_getIcoLargestEntry_tags" class="headerlink"><i class="fas fa-link"></i></a>
+
+    </h5>
+    <dl class="phpdocumentor-tag-list">
+                    <dt class="phpdocumentor-tag-list__entry">
+                <span class="phpdocumentor-tag__name">throws</span>
+            </dt>
+                            <dd class="phpdocumentor-tag-list__definition">
+                                                                <span class="phpdocumentor-tag-link"><a href="classes/Cecil-Exception-RuntimeException.html"><abbr title="\Cecil\Exception\RuntimeException">RuntimeException</abbr></a></span>
+                                                                                    
+                                    </dd>
+                        </dl>
 
         
     
             <section>
         <h5 class="phpdocumentor-return-value__heading">Return values</h5>
-        <span class="phpdocumentor-signature__response_type">bool</span>
+        <span class="phpdocumentor-signature__response_type">array&lt;string, int&gt;</span>
             </section>
 
 </article>
@@ -1748,7 +2152,7 @@ The $rmAnimation parameter can be set to true to remove animations from animated
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Asset/Image.php"><a href="files/src-asset-image.html"><abbr title="src/Asset/Image.php">Image.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">469</span>
+    <span class="phpdocumentor-element-found-in__line">665</span>
 
     </aside>
 
@@ -1817,12 +2221,16 @@ The $rmAnimation parameter can be set to true to remove animations from animated
                                             <li class=""><a href="classes/Cecil-Asset-Image.html#method_buildHtmlSrcset">buildHtmlSrcset()</a></li>
                                             <li class=""><a href="classes/Cecil-Asset-Image.html#method_buildHtmlSrcsetW">buildHtmlSrcsetW()</a></li>
                                             <li class=""><a href="classes/Cecil-Asset-Image.html#method_buildHtmlSrcsetX">buildHtmlSrcsetX()</a></li>
+                                            <li class=""><a href="classes/Cecil-Asset-Image.html#method_buildIco">buildIco()</a></li>
                                             <li class=""><a href="classes/Cecil-Asset-Image.html#method_convert">convert()</a></li>
+                                            <li class=""><a href="classes/Cecil-Asset-Image.html#method_dibToPng">dibToPng()</a></li>
+                                            <li class=""><a href="classes/Cecil-Asset-Image.html#method_extractIcoLargestIcon">extractIcoLargestIcon()</a></li>
                                             <li class=""><a href="classes/Cecil-Asset-Image.html#method_getBackgroundColor">getBackgroundColor()</a></li>
                                             <li class=""><a href="classes/Cecil-Asset-Image.html#method_getDataUrl">getDataUrl()</a></li>
                                             <li class=""><a href="classes/Cecil-Asset-Image.html#method_getDominantColor">getDominantColor()</a></li>
                                             <li class=""><a href="classes/Cecil-Asset-Image.html#method_getDriverName">getDriverName()</a></li>
                                             <li class=""><a href="classes/Cecil-Asset-Image.html#method_getHtmlSizes">getHtmlSizes()</a></li>
+                                            <li class=""><a href="classes/Cecil-Asset-Image.html#method_getIcoSize">getIcoSize()</a></li>
                                             <li class=""><a href="classes/Cecil-Asset-Image.html#method_getLqip">getLqip()</a></li>
                                             <li class=""><a href="classes/Cecil-Asset-Image.html#method_getSvgAttributes">getSvgAttributes()</a></li>
                                             <li class=""><a href="classes/Cecil-Asset-Image.html#method_isAnimatedGif">isAnimatedGif()</a></li>
@@ -1831,8 +2239,9 @@ The $rmAnimation parameter can be set to true to remove animations from animated
                                             <li class=""><a href="classes/Cecil-Asset-Image.html#method_isSVG">isSVG()</a></li>
                                             <li class=""><a href="classes/Cecil-Asset-Image.html#method_maskable">maskable()</a></li>
                                             <li class=""><a href="classes/Cecil-Asset-Image.html#method_resize">resize()</a></li>
+                                            <li class=""><a href="classes/Cecil-Asset-Image.html#method_resizeIco">resizeIco()</a></li>
                                             <li class=""><a href="classes/Cecil-Asset-Image.html#method_driver">driver()</a></li>
-                                            <li class=""><a href="classes/Cecil-Asset-Image.html#method_isVipsAvailable">isVipsAvailable()</a></li>
+                                            <li class=""><a href="classes/Cecil-Asset-Image.html#method_getIcoLargestEntry">getIcoLargestEntry()</a></li>
                                             <li class=""><a href="classes/Cecil-Asset-Image.html#method_manager">manager()</a></li>
                                             <li class=""><a href="classes/Cecil-Asset-Image.html#method_url">url()</a></li>
                                     </ul>

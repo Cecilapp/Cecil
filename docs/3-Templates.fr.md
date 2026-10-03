@@ -2,7 +2,7 @@
 title: Templates
 description: "Travaillez avec les layouts, templates et composants Twig : organisation des fichiers, règles de recherche, variables, fonctions, tris, filtres, localisation, cache et extensions personnalisées."
 date: 2026-05-26
-updated: 2026-10-02
+updated: 2026-10-03
 slug: templates
 -->
 # Templates
@@ -1414,6 +1414,10 @@ Redimensionne une image à une largeur (en pixels) ou/et une hauteur (en pixels)
 
 :::info
 Le fichier original n'est pas modifié et la version redimensionnée est enregistrée sous `/thumbnails/<width>x<height>/image.jpg`.
+:::
+
+:::tip
+Les fichiers ICO sont supportés : la plus grande icône est redimensionnée et enregistrée dans un fichier ICO à icône unique (compressée en PNG). Les icônes stockées en BMP avec une profondeur de couleur autre que 24 ou 32 bits nécessitent l'extension PHP [Imagick](https://www.php.net/manual/fr/book.imagick.php) : à défaut, le fichier ICO original est conservé et un avertissement est journalisé.
 :::
 
 _Exemples :_

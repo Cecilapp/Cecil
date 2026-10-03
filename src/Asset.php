@@ -514,7 +514,17 @@ class Asset implements \ArrayAccess
         $assetResized->cacheTags['height'] = $height;
         $cacheKey = $this->cache->createKey($assetResized, tags: $assetResized->cacheTags);
         if (!$this->cache->has($cacheKey)) {
-            $assetResized->data['content'] = Image::resize($assetResized, $width, $height, $quality, $rmAnimation);
+            try {
+                $assetResized->data['content'] = Image::resize($assetResized, $width, $height, $quality, $rmAnimation);
+            } catch (RuntimeException $e) {
+                // an ICO file can't always be resized (e.g.: 8 bits BMP icon without Imagick): returns the original
+                if (!Image::isIco($this)) {
+                    throw $e;
+                }
+                $this->builder->getLogger()->warning($e->getMessage());
+
+                return $this;
+            }
             $assetResized->data['path'] = '/' . Util::joinPath(
                 (string) $this->config->get('assets.target'),
                 self::IMAGE_THUMB,
@@ -827,6 +837,10 @@ class Asset implements \ArrayAccess
         }
 
         try {
+            // getimagesize() doesn't necessarily return the size of the largest icon of an ICO file
+            if (Image::isIco($this)) {
+                return Image::getIcoSize((string) $this->getContent());
+            }
             if (false === $size = getimagesizefromstring((string) $this->getContent())) {
                 return false;
             }

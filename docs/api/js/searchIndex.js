@@ -81,6 +81,36 @@ Search.appendIndex(
             "summary": "Resizes\u0020an\u0020image\u0020Asset\u0020to\u0020the\u0020given\u0020width\u0020or\/and\u0020height.",
             "url": "classes/Cecil-Asset-Image.html#method_resize"
         },                {
+            "fqsen": "\\Cecil\\Asset\\Image\u003A\u003AresizeIco\u0028\u0029",
+            "name": "resizeIco",
+            "summary": "Resizes\u0020an\u0020ICO\u0020Asset\u0020to\u0020the\u0020given\u0020width\u0020or\/and\u0020height.",
+            "url": "classes/Cecil-Asset-Image.html#method_resizeIco"
+        },                {
+            "fqsen": "\\Cecil\\Asset\\Image\u003A\u003AextractIcoLargestIcon\u0028\u0029",
+            "name": "extractIcoLargestIcon",
+            "summary": "Returns\u0020the\u0020binary\u0020data\u0020\u0028PNG\u0020or\u0020BMP\u0020DIB\u0029\u0020of\u0020the\u0020largest\u0020icon\u0020of\u0020an\u0020ICO\u0020file.",
+            "url": "classes/Cecil-Asset-Image.html#method_extractIcoLargestIcon"
+        },                {
+            "fqsen": "\\Cecil\\Asset\\Image\u003A\u003AgetIcoSize\u0028\u0029",
+            "name": "getIcoSize",
+            "summary": "Returns\u0020the\u0020size\u0020\u0028width\u0020and\u0020height\u0029\u0020of\u0020the\u0020largest\u0020icon\u0020of\u0020an\u0020ICO\u0020file.",
+            "url": "classes/Cecil-Asset-Image.html#method_getIcoSize"
+        },                {
+            "fqsen": "\\Cecil\\Asset\\Image\u003A\u003AgetIcoLargestEntry\u0028\u0029",
+            "name": "getIcoLargestEntry",
+            "summary": "Returns\u0020the\u0020directory\u0020entry\u0020of\u0020the\u0020largest\u0020icon\u0020of\u0020an\u0020ICO\u0020file.",
+            "url": "classes/Cecil-Asset-Image.html#method_getIcoLargestEntry"
+        },                {
+            "fqsen": "\\Cecil\\Asset\\Image\u003A\u003AdibToPng\u0028\u0029",
+            "name": "dibToPng",
+            "summary": "Converts\u0020a\u002024\u0020or\u002032\u0020bits\u0020BMP\u0020icon\u0020\u0028DIB\u0020data\u0020of\u0020an\u0020ICO\u0020file\u0029\u0020to\u0020PNG.",
+            "url": "classes/Cecil-Asset-Image.html#method_dibToPng"
+        },                {
+            "fqsen": "\\Cecil\\Asset\\Image\u003A\u003AbuildIco\u0028\u0029",
+            "name": "buildIco",
+            "summary": "Builds\u0020an\u0020ICO\u0020file\u0020containing\u0020a\u0020single\u0020icon\u0020\u0028PNG\u0020or\u0020BMP\u0020DIB\u0020data\u0029.",
+            "url": "classes/Cecil-Asset-Image.html#method_buildIco"
+        },                {
             "fqsen": "\\Cecil\\Asset\\Image\u003A\u003Amaskable\u0028\u0029",
             "name": "maskable",
             "summary": "Makes\u0020an\u0020image\u0020Asset\u0020maskable,\u0020meaning\u0020it\u0020can\u0020be\u0020used\u0020as\u0020a\u0020PWA\u0020icon.",

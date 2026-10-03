@@ -114,6 +114,10 @@ class Image
      */
     public static function resize(Asset $asset, ?int $width = null, ?int $height = null, int $quality = 75, bool $rmAnimation = false): string
     {
+        if (self::isIco($asset)) {
+            return self::resizeIco($asset, $width, $height);
+        }
+
         try {
             $image = self::manager()->decodeBinary($asset['content']);
 
@@ -146,6 +150,217 @@ class Image
         } catch (\Exception $e) {
             throw new RuntimeException(\sprintf('Asset "%s" can\'t be resized: %s.', $asset['path'], $e->getMessage()));
         }
+    }
+
+    /**
+     * Resizes an ICO Asset to the given width or/and height.
+     *
+     * The largest icon of the ICO file is resized and returned as a single PNG-compressed icon.
+     * PNG icons and 24/32 bits BMP icons are handled by any driver, other BMP icons require the Imagick extension.
+     *
+     * @throws RuntimeException
+     */
+    public static function resizeIco(Asset $asset, ?int $width = null, ?int $height = null): string
+    {
+        try {
+            $icon = self::extractIcoLargestIcon((string) $asset['content']);
+            if (str_starts_with($icon, "\x89PNG")) {
+                $image = self::manager()->decodeBinary($icon);
+            } elseif (null !== $png = self::dibToPng($icon)) {
+                $image = self::manager()->decodeBinary($png);
+            } else {
+                // other BMP icon: decode a single icon ICO file with Imagick
+                if (!\extension_loaded('imagick') || !class_exists('Imagick')) {
+                    throw new RuntimeException('BMP icons require the PHP Imagick extension');
+                }
+                $image = ImageManager::usingDriver(ImagickDriver::class)->decodeBinary(self::buildIco($icon, 0, 0, 32));
+            }
+
+            if ($width !== null && $height !== null) {
+                $image = $image->cover(width: $width, height: $height, alignment: Alignment::CENTER);
+            } elseif ($width !== null || $height !== null) {
+                $image = $image->scale(width: $width, height: $height);
+            } else {
+                throw new RuntimeException('Width or height must be specified');
+            }
+
+            return self::buildIco((string) $image->encodeUsingFormat(Format::PNG), $image->width(), $image->height());
+        } catch (\Exception $e) {
+            throw new RuntimeException(\sprintf('Asset "%s" can\'t be resized: %s.', $asset['path'], $e->getMessage()));
+        }
+    }
+
+    /**
+     * Returns the binary data (PNG or BMP DIB) of the largest icon of an ICO file.
+     *
+     * A PNG file (e.g.: renamed in ".ico") is returned as is.
+     *
+     * @throws RuntimeException
+     */
+    public static function extractIcoLargestIcon(string $data): string
+    {
+        if (str_starts_with($data, "\x89PNG")) {
+            return $data;
+        }
+
+        $largest = self::getIcoLargestEntry($data);
+        $icon = substr($data, $largest['offset'], $largest['size']);
+        if (\strlen($icon) !== $largest['size'] || $largest['size'] === 0) {
+            throw new RuntimeException('Invalid ICO file');
+        }
+
+        return $icon;
+    }
+
+    /**
+     * Returns the size (width and height) of the largest icon of an ICO file.
+     *
+     * Unlike getimagesize(), which doesn't necessarily return the size of the largest icon.
+     *
+     * @return array{int, int}
+     *
+     * @throws RuntimeException
+     */
+    public static function getIcoSize(string $data): array
+    {
+        if (str_starts_with($data, "\x89PNG")) {
+            if (false === $size = getimagesizefromstring($data)) {
+                throw new RuntimeException('Invalid ICO file');
+            }
+
+            return [$size[0], $size[1]];
+        }
+
+        $largest = self::getIcoLargestEntry($data);
+
+        return [$largest['width'], $largest['height']];
+    }
+
+    /**
+     * Returns the directory entry of the largest icon of an ICO file.
+     *
+     * @return array<string, int>
+     *
+     * @throws RuntimeException
+     */
+    private static function getIcoLargestEntry(string $data): array
+    {
+        // ICONDIR: reserved (2 bytes), type (2 bytes, 1 = icon), count (2 bytes)
+        $header = \strlen($data) >= 6 ? unpack('vreserved/vtype/vcount', $data) : false;
+        if ($header === false || $header['reserved'] !== 0 || $header['type'] !== 1 || $header['count'] < 1) {
+            throw new RuntimeException('Invalid ICO file');
+        }
+
+        $largest = null;
+        for ($i = 0; $i < $header['count']; $i++) {
+            // ICONDIRENTRY (16 bytes): width, height, colors, reserved, planes, bpp, size, offset
+            $entry = substr($data, 6 + $i * 16, 16);
+            if (\strlen($entry) < 16 || false === $entry = unpack('Cwidth/Cheight/Ccolors/Creserved/vplanes/vbpp/Vsize/Voffset', $entry)) {
+                throw new RuntimeException('Invalid ICO file');
+            }
+            // 0 means 256 pixels
+            $entry['width'] = $entry['width'] ?: 256;
+            $entry['height'] = $entry['height'] ?: 256;
+            // the largest one, with the highest color depth
+            if (
+                $largest === null
+                || $entry['width'] * $entry['height'] > $largest['width'] * $largest['height']
+                || ($entry['width'] * $entry['height'] == $largest['width'] * $largest['height'] && $entry['bpp'] > $largest['bpp'])
+            ) {
+                $largest = $entry;
+            }
+        }
+
+        return $largest;
+    }
+
+    /**
+     * Converts a 24 or 32 bits BMP icon (DIB data of an ICO file) to PNG.
+     *
+     * Returns null if the BMP icon format is not supported (other color depth or compression).
+     *
+     * @throws RuntimeException
+     */
+    public static function dibToPng(string $dib): ?string
+    {
+        // BITMAPINFOHEADER: size, width, height (x2: XOR + AND masks), planes, bpp, compression
+        $header = \strlen($dib) >= 40 ? unpack('Vsize/Vwidth/Vheight/vplanes/vbpp/Vcompression', $dib) : false;
+        if ($header === false || $header['size'] < 40) {
+            throw new RuntimeException('Invalid BMP icon');
+        }
+        if (!\in_array($header['bpp'], [24, 32], true) || $header['compression'] !== 0) {
+            return null;
+        }
+        // height is signed: negative means top-down rows
+        $topDown = $header['height'] > 0x7FFFFFFF;
+        $width = $header['width'];
+        $height = intdiv($topDown ? 0x100000000 - $header['height'] : $header['height'], 2);
+        if ($width < 1 || $width > 1024 || $height < 1 || $height > 1024) {
+            throw new RuntimeException('Invalid BMP icon');
+        }
+
+        $bytesPerPixel = $header['bpp'] / 8;
+        $rowSize = (($width * $header['bpp'] + 31) >> 5) << 2; // rows are 4 bytes aligned
+        $maskRowSize = (($width + 31) >> 5) << 2;
+        $maskOffset = $header['size'] + $rowSize * $height;
+        if (\strlen($dib) < $maskOffset) {
+            throw new RuntimeException('Invalid BMP icon');
+        }
+        $hasMask = \strlen($dib) >= $maskOffset + $maskRowSize * $height;
+        // 32 bits icons have an alpha channel, but it can be empty (transparency is then defined by the AND mask)
+        $hasAlpha = false;
+        if ($header['bpp'] == 32) {
+            for ($i = $header['size'] + 3; $i < $maskOffset; $i += 4) {
+                if ($dib[$i] !== "\0") {
+                    $hasAlpha = true;
+                    break;
+                }
+            }
+        }
+
+        // RGBA scanlines, each one prefixed by the PNG filter type (0 = none)
+        $raw = '';
+        for ($y = 0; $y < $height; $y++) {
+            $row = $topDown ? $y : $height - 1 - $y; // BMP rows are bottom-up
+            $raw .= "\0";
+            for ($x = 0; $x < $width; $x++) {
+                $offset = $header['size'] + $row * $rowSize + $x * $bytesPerPixel;
+                $alpha = "\xff";
+                if ($hasAlpha) {
+                    $alpha = $dib[$offset + 3];
+                } elseif ($hasMask && (\ord($dib[$maskOffset + $row * $maskRowSize + ($x >> 3)]) >> (7 - ($x & 7))) & 1) {
+                    $alpha = "\0";
+                }
+                $raw .= $dib[$offset + 2] . $dib[$offset + 1] . $dib[$offset] . $alpha; // BGR(A) -> RGBA
+            }
+        }
+
+        $chunk = fn (string $type, string $data): string => pack('N', \strlen($data)) . $type . $data . pack('N', crc32($type . $data));
+
+        return "\x89PNG\r\n\x1a\n"
+            . $chunk('IHDR', pack('NNCCCCC', $width, $height, 8, 6, 0, 0, 0)) // 8 bits RGBA
+            . $chunk('IDAT', (string) gzcompress($raw))
+            . $chunk('IEND', '');
+    }
+
+    /**
+     * Builds an ICO file containing a single icon (PNG or BMP DIB data).
+     */
+    public static function buildIco(string $icon, int $width, int $height, int $bpp = 32): string
+    {
+        return pack('vvv', 0, 1, 1)
+            . pack(
+                'CCCCvvVV',
+                $width >= 256 ? 0 : $width,
+                $height >= 256 ? 0 : $height,
+                0,
+                0,
+                1,
+                $bpp,
+                \strlen($icon),
+                6 + 16
+            )
+            . $icon;
     }
 
     /**
