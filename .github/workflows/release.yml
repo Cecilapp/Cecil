@@ -111,6 +111,7 @@ jobs:
               --detach-sign \
               --output dist/cecil.phar.asc \
               dist/cecil.phar
+          gpg --verify dist/cecil.phar.asc dist/cecil.phar
       - name: Generate binary provenance attestation
         id: attestation
         uses: actions/attest-build-provenance@v4
