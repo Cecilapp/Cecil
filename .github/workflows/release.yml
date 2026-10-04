@@ -140,10 +140,33 @@ jobs:
         if: "github.event.release.prerelease"
         run: echo "> _This is a pre-release_" >> $GITHUB_STEP_SUMMARY
 
+  bump_scoop_file: # generated before deploy to be embedded in the same website commit
+    name: Bump Scoop file
+    runs-on: ubuntu-latest
+    needs: build
+    steps:
+      - name: Checkout source code
+        uses: actions/checkout@v7
+      - name: Generate Scoop file
+        run: bash ./scripts/bump-scoop.sh
+        env:
+          SHA1: ${{ needs.build.outputs.sha1 }}
+          VERSION: ${{ needs.build.outputs.version }}
+          PRERELEASE: ${{ github.event.release.prerelease }}
+          OUTPUT_DIR: dist/scoop
+      - name: Upload Scoop file
+        uses: actions/upload-artifact@v7
+        with:
+          name: scoop-${{ github.sha }}
+          path: dist/scoop
+          if-no-files-found: error
+      - name: Summary
+        run: echo "🍨 Generated Scoop file for version ${{ needs.build.outputs.version }}" >> $GITHUB_STEP_SUMMARY
+
   deploy_to_website: # https://cecil.app/download/
     name: Deploy to website
     runs-on: ubuntu-latest
-    needs: build
+    needs: [build, bump_scoop_file]
     steps:
       - name: Checkout source code
         uses: actions/checkout@v7
@@ -152,6 +175,11 @@ jobs:
         with:
           name: cecil-${{ github.sha }}.phar
           path: dist
+      - name: Download Scoop file
+        uses: actions/download-artifact@v8
+        with:
+          name: scoop-${{ github.sha }}
+          path: dist/scoop
       - name: Prepare and deploy files
         run: bash ./scripts/deploy-release.sh
         env:
@@ -243,25 +271,3 @@ jobs:
             {{formulaName}} {{version}}
 
             Created by https://github.com/mislav/bump-homebrew-formula-action
-
-  bump_scoop_file:
-    name: Bump Scoop file
-    runs-on: ubuntu-latest
-    needs: [build, deploy_to_website]
-    steps:
-      - name: Checkout source code
-        uses: actions/checkout@v7
-      - name: Download files
-        uses: actions/download-artifact@v8
-        with:
-          name: cecil-${{ github.sha }}.phar
-          path: dist
-      - name: Bump Scoop file
-        run: bash ./scripts/bump-scoop.sh
-        env:
-          GITHUB_TOKEN: ${{ secrets.REPOS_TOKEN }}
-          SHA1: ${{ needs.build.outputs.sha1 }}
-          VERSION: ${{ needs.build.outputs.version }}
-          PRERELEASE: ${{ github.event.release.prerelease }}
-      - name: Summary
-        run: echo "🍨 Bumped Scoop file to version ${{ needs.build.outputs.version }}" >> $GITHUB_STEP_SUMMARY
