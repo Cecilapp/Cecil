@@ -230,7 +230,7 @@
             <dt class="phpdocumentor-table-of-contents__entry -property -protected">
     <a class="" href="classes/Cecil-Collection-Collection.html#property_items">$items</a>
     <span>
-                        &nbsp;: array&lt;string|int, <abbr title="\Cecil\Collection\T">T</abbr>&gt;            </span>
+                        &nbsp;: array&lt;int, <abbr title="\Cecil\Collection\T">T</abbr>&gt;            </span>
 </dt>
 <dd>Collection&#039;s items.</dd>
 
@@ -307,7 +307,7 @@
             <dt class="phpdocumentor-table-of-contents__entry -method -public">
     <a class="" href="classes/Cecil-Collection-Collection.html#method_getIterator">getIterator()</a>
     <span>
-                                &nbsp;: <abbr title="\ArrayIterator">ArrayIterator</abbr>    </span>
+                                &nbsp;: <abbr title="\ArrayIterator">ArrayIterator</abbr>&lt;int, <abbr title="\Cecil\Collection\T">T</abbr>&gt;    </span>
 </dt>
 <dd>Implements \IteratorAggregate.</dd>
 
@@ -328,7 +328,7 @@
             <dt class="phpdocumentor-table-of-contents__entry -method -public">
     <a class="" href="classes/Cecil-Collection-Collection.html#method_keys">keys()</a>
     <span>
-                                &nbsp;: array&lt;string|int, mixed&gt;    </span>
+                                &nbsp;: array&lt;int, int&gt;    </span>
 </dt>
 <dd>Retrieves all keys.</dd>
 
@@ -405,7 +405,7 @@
             <dt class="phpdocumentor-table-of-contents__entry -method -public">
     <a class="" href="classes/Cecil-Collection-Collection.html#method_toArray">toArray()</a>
     <span>
-                                &nbsp;: array&lt;string|int, mixed&gt;    </span>
+                                &nbsp;: array&lt;int, <abbr title="\Cecil\Collection\T">T</abbr>&gt;    </span>
 </dt>
 <dd>Returns collection as array.</dd>
 
@@ -426,7 +426,7 @@
             <dt class="phpdocumentor-table-of-contents__entry -method -protected">
     <a class="" href="classes/Cecil-Collection-Collection.html#method_searchItem">searchItem()</a>
     <span>
-                                &nbsp;: array&lt;string|int, mixed&gt;|null    </span>
+                                &nbsp;: array&lt;int, <abbr title="\Cecil\Collection\T">T</abbr>&gt;    </span>
 </dt>
 <dd>Search an item by ID.</dd>
 
@@ -507,7 +507,7 @@
     
     <code class="phpdocumentor-code phpdocumentor-signature ">
         <span class="phpdocumentor-signature__visibility">protected</span>
-            <span class="phpdocumentor-signature__type">array&lt;string|int, <abbr title="\Cecil\Collection\T">T</abbr>&gt;</span>
+            <span class="phpdocumentor-signature__type">array&lt;int, <abbr title="\Cecil\Collection\T">T</abbr>&gt;</span>
     <span class="phpdocumentor-signature__name">$items</span>
      = <span class="phpdocumentor-signature__default-value">[]</span></code>
 
@@ -548,7 +548,7 @@
     
     <code class="phpdocumentor-code phpdocumentor-signature ">
     <span class="phpdocumentor-signature__visibility">public</span>
-                    <span class="phpdocumentor-signature__name">__construct</span><span>(</span><span class="phpdocumentor-signature__argument"><span class="phpdocumentor-signature__argument__type">string&nbsp;</span><span class="phpdocumentor-signature__argument__name">$id</span></span><span class="phpdocumentor-signature__argument"><span>[</span><span>, </span><span class="phpdocumentor-signature__argument__type">array&lt;string|int, <abbr title="\Cecil\Collection\T">T</abbr>&gt;&nbsp;</span><span class="phpdocumentor-signature__argument__name">$items</span><span> = </span><span class="phpdocumentor-signature__argument__default-value">[]</span><span> ]</span></span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">mixed</span></code>
+                    <span class="phpdocumentor-signature__name">__construct</span><span>(</span><span class="phpdocumentor-signature__argument"><span class="phpdocumentor-signature__argument__type">string&nbsp;</span><span class="phpdocumentor-signature__argument__name">$id</span></span><span class="phpdocumentor-signature__argument"><span>[</span><span>, </span><span class="phpdocumentor-signature__argument__type">array&lt;int, <abbr title="\Cecil\Collection\T">T</abbr>&gt;&nbsp;</span><span class="phpdocumentor-signature__argument__name">$items</span><span> = </span><span class="phpdocumentor-signature__argument__default-value">[]</span><span> ]</span></span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">mixed</span></code>
 
     <div class="phpdocumentor-label-line">
         </div>
@@ -565,7 +565,7 @@
             </dd>
                     <dt class="phpdocumentor-argument-list__entry">
                 <span class="phpdocumentor-argument-list__argument__name">$items</span>
-                : <span class="phpdocumentor-argument-list__argument__type">array&lt;string|int, <abbr title="\Cecil\Collection\T">T</abbr>&gt;</span>
+                : <span class="phpdocumentor-argument-list__argument__type">array&lt;int, <abbr title="\Cecil\Collection\T">T</abbr>&gt;</span>
                  = <span class="phpdocumentor-argument-list__argument__default-value">[]</span>            </dt>
             <dd class="phpdocumentor-argument-list__definition">
                 
@@ -641,7 +641,7 @@
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Collection/Collection.php"><a href="files/src-collection-collection.html"><abbr title="src/Collection/Collection.php">Collection.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">333</span>
+    <span class="phpdocumentor-element-found-in__line">341</span>
 
     </aside>
 
@@ -680,7 +680,7 @@
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Collection/Collection.php"><a href="files/src-collection-collection.html"><abbr title="src/Collection/Collection.php">Collection.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">107</span>
+    <span class="phpdocumentor-element-found-in__line">109</span>
 
     </aside>
 
@@ -743,7 +743,7 @@
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Collection/Collection.php"><a href="files/src-collection-collection.html"><abbr title="src/Collection/Collection.php">Collection.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">206</span>
+    <span class="phpdocumentor-element-found-in__line">210</span>
 
     </aside>
 
@@ -782,7 +782,7 @@
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Collection/Collection.php"><a href="files/src-collection-collection.html"><abbr title="src/Collection/Collection.php">Collection.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">262</span>
+    <span class="phpdocumentor-element-found-in__line">270</span>
 
     </aside>
 
@@ -831,7 +831,7 @@
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Collection/Collection.php"><a href="files/src-collection-collection.html"><abbr title="src/Collection/Collection.php">Collection.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">178</span>
+    <span class="phpdocumentor-element-found-in__line">182</span>
 
     </aside>
 
@@ -959,7 +959,7 @@
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Collection/Collection.php"><a href="files/src-collection-collection.html"><abbr title="src/Collection/Collection.php">Collection.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">230</span>
+    <span class="phpdocumentor-element-found-in__line">238</span>
 
     </aside>
 
@@ -967,7 +967,7 @@
 
     <code class="phpdocumentor-code phpdocumentor-signature ">
     <span class="phpdocumentor-signature__visibility">public</span>
-                    <span class="phpdocumentor-signature__name">getIterator</span><span>(</span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type"><abbr title="\ArrayIterator">ArrayIterator</abbr></span></code>
+                    <span class="phpdocumentor-signature__name">getIterator</span><span>(</span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type"><abbr title="\ArrayIterator">ArrayIterator</abbr>&lt;int, <abbr title="\Cecil\Collection\T">T</abbr>&gt;</span></code>
 
     <div class="phpdocumentor-label-line">
         </div>
@@ -980,7 +980,7 @@
     
             <section>
         <h5 class="phpdocumentor-return-value__heading">Return values</h5>
-        <span class="phpdocumentor-signature__response_type"><abbr title="\ArrayIterator">ArrayIterator</abbr></span>
+        <span class="phpdocumentor-signature__response_type"><abbr title="\ArrayIterator">ArrayIterator</abbr>&lt;int, <abbr title="\Cecil\Collection\T">T</abbr>&gt;</span>
             </section>
 
 </article>
@@ -998,7 +998,7 @@
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Collection/Collection.php"><a href="files/src-collection-collection.html"><abbr title="src/Collection/Collection.php">Collection.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">78</span>
+    <span class="phpdocumentor-element-found-in__line">80</span>
 
     </aside>
 
@@ -1061,7 +1061,7 @@
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Collection/Collection.php"><a href="files/src-collection-collection.html"><abbr title="src/Collection/Collection.php">Collection.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">92</span>
+    <span class="phpdocumentor-element-found-in__line">94</span>
 
     </aside>
 
@@ -1110,7 +1110,7 @@
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Collection/Collection.php"><a href="files/src-collection-collection.html"><abbr title="src/Collection/Collection.php">Collection.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">168</span>
+    <span class="phpdocumentor-element-found-in__line">172</span>
 
     </aside>
 
@@ -1118,7 +1118,7 @@
 
     <code class="phpdocumentor-code phpdocumentor-signature ">
     <span class="phpdocumentor-signature__visibility">public</span>
-                    <span class="phpdocumentor-signature__name">keys</span><span>(</span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">array&lt;string|int, mixed&gt;</span></code>
+                    <span class="phpdocumentor-signature__name">keys</span><span>(</span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">array&lt;int, int&gt;</span></code>
 
     <div class="phpdocumentor-label-line">
         </div>
@@ -1131,7 +1131,7 @@
     
             <section>
         <h5 class="phpdocumentor-return-value__heading">Return values</h5>
-        <span class="phpdocumentor-signature__response_type">array&lt;string|int, mixed&gt;</span>
+        <span class="phpdocumentor-signature__response_type">array&lt;int, int&gt;</span>
             </section>
 
 </article>
@@ -1149,7 +1149,7 @@
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Collection/Collection.php"><a href="files/src-collection-collection.html"><abbr title="src/Collection/Collection.php">Collection.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">193</span>
+    <span class="phpdocumentor-element-found-in__line">197</span>
 
     </aside>
 
@@ -1188,7 +1188,7 @@
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Collection/Collection.php"><a href="files/src-collection-collection.html"><abbr title="src/Collection/Collection.php">Collection.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">270</span>
+    <span class="phpdocumentor-element-found-in__line">278</span>
 
     </aside>
 
@@ -1237,7 +1237,7 @@
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Collection/Collection.php"><a href="files/src-collection-collection.html"><abbr title="src/Collection/Collection.php">Collection.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">282</span>
+    <span class="phpdocumentor-element-found-in__line">290</span>
 
     </aside>
 
@@ -1297,7 +1297,7 @@
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Collection/Collection.php"><a href="files/src-collection-collection.html"><abbr title="src/Collection/Collection.php">Collection.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">295</span>
+    <span class="phpdocumentor-element-found-in__line">303</span>
 
     </aside>
 
@@ -1357,7 +1357,7 @@
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Collection/Collection.php"><a href="files/src-collection-collection.html"><abbr title="src/Collection/Collection.php">Collection.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">309</span>
+    <span class="phpdocumentor-element-found-in__line">317</span>
 
     </aside>
 
@@ -1435,7 +1435,7 @@
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Collection/Collection.php"><a href="files/src-collection-collection.html"><abbr title="src/Collection/Collection.php">Collection.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">322</span>
+    <span class="phpdocumentor-element-found-in__line">330</span>
 
     </aside>
 
@@ -1491,7 +1491,7 @@
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Collection/Collection.php"><a href="files/src-collection-collection.html"><abbr title="src/Collection/Collection.php">Collection.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">138</span>
+    <span class="phpdocumentor-element-found-in__line">140</span>
 
     </aside>
 
@@ -1554,7 +1554,7 @@
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Collection/Collection.php"><a href="files/src-collection-collection.html"><abbr title="src/Collection/Collection.php">Collection.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">122</span>
+    <span class="phpdocumentor-element-found-in__line">124</span>
 
     </aside>
 
@@ -1624,7 +1624,7 @@
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Collection/Collection.php"><a href="files/src-collection-collection.html"><abbr title="src/Collection/Collection.php">Collection.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">254</span>
+    <span class="phpdocumentor-element-found-in__line">262</span>
 
     </aside>
 
@@ -1712,7 +1712,7 @@
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Collection/Collection.php"><a href="files/src-collection-collection.html"><abbr title="src/Collection/Collection.php">Collection.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">214</span>
+    <span class="phpdocumentor-element-found-in__line">220</span>
 
     </aside>
 
@@ -1720,7 +1720,7 @@
 
     <code class="phpdocumentor-code phpdocumentor-signature ">
     <span class="phpdocumentor-signature__visibility">public</span>
-                    <span class="phpdocumentor-signature__name">toArray</span><span>(</span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">array&lt;string|int, mixed&gt;</span></code>
+                    <span class="phpdocumentor-signature__name">toArray</span><span>(</span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">array&lt;int, <abbr title="\Cecil\Collection\T">T</abbr>&gt;</span></code>
 
     <div class="phpdocumentor-label-line">
         </div>
@@ -1733,7 +1733,7 @@
     
             <section>
         <h5 class="phpdocumentor-return-value__heading">Return values</h5>
-        <span class="phpdocumentor-signature__response_type">array&lt;string|int, mixed&gt;</span>
+        <span class="phpdocumentor-signature__response_type">array&lt;int, <abbr title="\Cecil\Collection\T">T</abbr>&gt;</span>
             </section>
 
 </article>
@@ -1751,7 +1751,7 @@
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Collection/Collection.php"><a href="files/src-collection-collection.html"><abbr title="src/Collection/Collection.php">Collection.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">222</span>
+    <span class="phpdocumentor-element-found-in__line">228</span>
 
     </aside>
 
@@ -1790,7 +1790,7 @@
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Collection/Collection.php"><a href="files/src-collection-collection.html"><abbr title="src/Collection/Collection.php">Collection.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">238</span>
+    <span class="phpdocumentor-element-found-in__line">246</span>
 
     </aside>
 
@@ -1839,7 +1839,7 @@
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Collection/Collection.php"><a href="files/src-collection-collection.html"><abbr title="src/Collection/Collection.php">Collection.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">66</span>
+    <span class="phpdocumentor-element-found-in__line">68</span>
 
     </aside>
 
@@ -1847,7 +1847,7 @@
 
     <code class="phpdocumentor-code phpdocumentor-signature ">
     <span class="phpdocumentor-signature__visibility">protected</span>
-                    <span class="phpdocumentor-signature__name">searchItem</span><span>(</span><span class="phpdocumentor-signature__argument"><span class="phpdocumentor-signature__argument__type">string&nbsp;</span><span class="phpdocumentor-signature__argument__name">$id</span></span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">array&lt;string|int, mixed&gt;|null</span></code>
+                    <span class="phpdocumentor-signature__name">searchItem</span><span>(</span><span class="phpdocumentor-signature__argument"><span class="phpdocumentor-signature__argument__type">string&nbsp;</span><span class="phpdocumentor-signature__argument__name">$id</span></span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">array&lt;int, <abbr title="\Cecil\Collection\T">T</abbr>&gt;</span></code>
 
     <div class="phpdocumentor-label-line">
         </div>
@@ -1870,7 +1870,7 @@
     
             <section>
         <h5 class="phpdocumentor-return-value__heading">Return values</h5>
-        <span class="phpdocumentor-signature__response_type">array&lt;string|int, mixed&gt;|null</span>
+        <span class="phpdocumentor-signature__response_type">array&lt;int, <abbr title="\Cecil\Collection\T">T</abbr>&gt;</span>
             </section>
 
 </article>

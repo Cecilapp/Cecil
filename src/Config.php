@@ -68,7 +68,7 @@ class Config
      * Languages list as array.
      * This is used to store the languages defined in the configuration.
      * It is initialized to null and will be populated when the languages are requested.
-     * @var array|null
+     * @var array<int, array<string, mixed>>|null
      * @see Config::getLanguages()
      * @see Config::getLanguageDefault()
      */
@@ -76,6 +76,8 @@ class Config
 
     /**
      * Build the Config object with the default config + the optional given array.
+     *
+     * @param array<string, mixed>|null $config
      */
     public function __construct(?array $config = null)
     {
@@ -97,7 +99,7 @@ class Config
      * - Config::IMPORT_PRESERVE: preserves existing configuration and adds new keys.
      * - Config::IMPORT_REPLACE: replaces existing configuration with new keys.
      * - Config::IMPORT_MERGE: merges existing configuration with new keys, overriding existing keys.
-     * @param array $config Configuration array to import
+     * @param array<string, mixed> $config Configuration array to import
      * @param self::IMPORT_* $mode Import mode (default: Config::IMPORT_MERGE)
      */
     public function import(array $config, int $mode = self::IMPORT_MERGE): void
@@ -109,6 +111,8 @@ class Config
 
     /**
      * Get configuration as an array.
+     *
+     * @return array<string, mixed>
      */
     public function export(): array
     {
@@ -117,6 +121,8 @@ class Config
 
     /**
      * Loads and parse a YAML file.
+     *
+     * @return array<string, mixed>
      */
     public static function loadFile(string $file, bool $ignore = false): array
     {
@@ -426,6 +432,8 @@ class Config
     /**
      * Returns the property value of an output format.
      *
+     * @return string|array<int, string>|null
+     *
      * @throws ConfigException
      */
     public function getOutputFormatProperty(string $name, string $property): string|array|null
@@ -444,6 +452,8 @@ class Config
 
     /**
      * Returns asset image widths.
+     *
+     * @return array<int, int>
      */
     public function getAssetsImagesWidths(): array
     {
@@ -452,6 +462,8 @@ class Config
 
     /**
      * Returns asset image sizes.
+     *
+     * @return array<string, string>
      */
     public function getAssetsImagesSizes(): array
     {
@@ -460,6 +472,8 @@ class Config
 
     /**
      * Returns asset image densities.
+     *
+     * @return array<int, int|float>
      */
     public function getAssetsImagesDensities(): array
     {
@@ -472,6 +486,8 @@ class Config
 
     /**
      * Returns theme(s) as an array.
+     *
+     * @return array<int, string>|null
      */
     public function getTheme(): ?array
     {
@@ -521,6 +537,8 @@ class Config
 
     /**
      * Returns an array of available languages.
+     *
+     * @return array<int, array<string, mixed>>
      *
      * @throws ConfigException
      */

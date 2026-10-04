@@ -107,7 +107,7 @@ EOF
      * Build a tree structure (array) from the directory, filtering by file extensions.
      *
      * @param string $path
-     * @param array  $allowedExtensions
+     * @param array<int, string> $allowedExtensions
      *
      * @return array<string, mixed>
      *
@@ -141,8 +141,8 @@ EOF
      * Build subdirectory tree structure recursively.
      *
      * @param string $path
-     * @param array  $allowedExtensions
-     * @param array  $excludedDirs
+     * @param array<int, string> $allowedExtensions
+     * @param array<int, string> $excludedDirs
      *
      * @return array<string, mixed>
      */

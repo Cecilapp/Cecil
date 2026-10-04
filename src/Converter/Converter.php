@@ -73,6 +73,8 @@ class Converter implements ConverterInterface
      * Converts YAML string to array.
      *
      * @see https://wikipedia.org/wiki/YAML
+     *
+     * @return array<string, mixed>
      */
     private static function convertYamlToArray(string $string): array
     {
@@ -94,6 +96,8 @@ class Converter implements ConverterInterface
      * Converts INI string to array.
      *
      * @see https://wikipedia.org/wiki/INI_file
+     *
+     * @return array<string, mixed>
      */
     private static function convertIniToArray(string $string): array
     {
@@ -109,6 +113,8 @@ class Converter implements ConverterInterface
      * Converts TOML string to array.
      *
      * @see https://wikipedia.org/wiki/TOML
+     *
+     * @return array<string, mixed>
      */
     private static function convertTomlToArray(string $string): array
     {
@@ -130,6 +136,8 @@ class Converter implements ConverterInterface
      * Converts JSON string to array.
      *
      * @see https://wikipedia.org/wiki/JSON
+     *
+     * @return array<string, mixed>
      */
     private static function convertJsonToArray(string $string): array
     {

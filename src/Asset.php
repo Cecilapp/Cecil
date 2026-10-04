@@ -31,6 +31,8 @@ use wapmorgan\Mp3Info\Mp3Info;
  * Represents an asset (file) in the Cecil project.
  * Handles file locating, content reading, compiling, minifying, fingerprinting,
  * resizing images, and more.
+ *
+ * @implements \ArrayAccess<string, mixed>
  */
 class Asset implements \ArrayAccess
 {
@@ -44,10 +46,10 @@ class Asset implements \ArrayAccess
 
     protected Cache $cache;
 
-    /** @var array */
+    /** @var array<string, mixed> */
     protected $data = [];
 
-    /** @var array Cache tags */
+    /** @var array<string, mixed> Cache tags */
     protected $cacheTags = [];
 
     /**
@@ -64,9 +66,9 @@ class Asset implements \ArrayAccess
      *     'language' => <string|null>,
      * ]
      *
-     * @param Builder      $builder
-     * @param string|array $paths
-     * @param array|null   $options
+     * @param Builder                   $builder
+     * @param string|array<mixed>       $paths
+     * @param array<string, mixed>|null $options
      *
      * @throws RuntimeException
      */
@@ -712,6 +714,8 @@ class Asset implements \ArrayAccess
      * - channel ('stereo', 'dual_mono', 'joint_stereo' or 'mono')
      *
      * @see https://github.com/wapmorgan/Mp3Info
+     *
+     * @return array{duration: float, bitrate: int, channel: string}
      */
     public function getAudio(): array
     {
@@ -731,6 +735,8 @@ class Asset implements \ArrayAccess
      * - height (in pixels)
      *
      * @see https://github.com/JamesHeinrich/getID3
+     *
+     * @return array{duration: float, width: int, height: int}
      */
     public function getVideo(): array
     {
@@ -823,6 +829,8 @@ class Asset implements \ArrayAccess
      * Returns image size informations.
      *
      * @see https://www.php.net/manual/function.getimagesize.php
+     *
+     * @return array{0: int, 1: int, 2?: int, 3?: string, mime?: string, channels?: int, bits?: int}|false
      *
      * @throws RuntimeException
      */

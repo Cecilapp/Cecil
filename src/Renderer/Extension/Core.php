@@ -152,9 +152,9 @@ class Core extends AbstractExtension
      *     'language'  => null,
      * ];
      *
-     * @param array                                      $context
+     * @param array<string, mixed>                          $context
      * @param \Cecil\Collection\Page\Page|Asset|string|null $value
-     * @param array|null                                 $options
+     * @param array<string, mixed>|null                     $options
      */
     public function url(array $context, $value = null, ?array $options = null): string
     {
@@ -168,8 +168,8 @@ class Core extends AbstractExtension
     /**
      * Creates an Asset (CSS, JS, images, etc.) from a path or an array of paths.
      *
-     * @param mixed      $path    File path or array of files path (relative from `assets/` or `static/` dir).
-     * @param array|null   $options
+     * @param mixed                     $path    File path or array of files path (relative from `assets/` or `static/` dir).
+     * @param array<string, mixed>|null $options
      *
      * @return Asset
      */
@@ -379,10 +379,10 @@ class Core extends AbstractExtension
     /**
      * Creates the HTML element of an asset.
      *
-     * @param array                                                                $context    Twig context
+     * @param array<string, mixed>                                                 $context    Twig context
      * @param Asset|array<int,array{asset:Asset|string|array<string>,attributes:?array<string,string>}> $assets Asset or array of assets + attributes
-     * @param array                                                                $attributes HTML attributes to add to the element
-     * @param array                                                                $options    Options:
+     * @param array<string, mixed>                                                 $attributes HTML attributes to add to the element
+     * @param array<string, mixed>                                                 $options    Options:
      * [
      *     'preload'     => false,
      *     'responsive'  => false,
@@ -464,6 +464,10 @@ class Core extends AbstractExtension
 
     /**
      * Builds the HTML link element of a CSS Asset.
+     *
+     * @param array<string, mixed> $context
+     * @param array<string, mixed> $attributes
+     * @param array<string, mixed> $options
      */
     public function htmlCss(array $context, Asset $asset, array $attributes = [], array $options = []): string
     {
@@ -482,6 +486,10 @@ class Core extends AbstractExtension
 
     /**
      * Builds the HTML script element of a JS Asset.
+     *
+     * @param array<string, mixed> $context
+     * @param array<string, mixed> $attributes
+     * @param array<string, mixed> $options
      */
     public function htmlJs(array $context, Asset $asset, array $attributes = [], array $options = []): string
     {
@@ -490,6 +498,10 @@ class Core extends AbstractExtension
 
     /**
      * Builds the HTML img element of an image Asset.
+     *
+     * @param array<string, mixed> $context
+     * @param array<string, mixed> $attributes
+     * @param array<string, mixed> $options
      */
     public function htmlImage(array $context, Asset $asset, array $attributes = [], array $options = []): string
     {
@@ -612,6 +624,10 @@ class Core extends AbstractExtension
 
     /**
      * Builds the HTML audio element of an audio Asset.
+     *
+     * @param array<string, mixed> $context
+     * @param array<string, mixed> $attributes
+     * @param array<string, mixed> $options
      */
     public function htmlAudio(array $context, Asset $asset, array $attributes = [], array $options = []): string
     {
@@ -625,10 +641,10 @@ class Core extends AbstractExtension
     /**
      * Builds HTML dark "source" elements for the dark color-scheme variant of an image Asset.
      *
-     * @param array    $formats    Alternative formats (e.g. ['avif', 'webp'])
-     * @param mixed    $responsive Responsive mode (true, 'width', 'density' or false)
-     * @param array    $attributes Image attributes
-     * @param callable $url        URL builder
+     * @param array<string>        $formats    Alternative formats (e.g. ['avif', 'webp'])
+     * @param mixed                $responsive Responsive mode (true, 'width', 'density' or false)
+     * @param array<string, mixed> $attributes Image attributes
+     * @param callable             $url        URL builder
      */
     private function buildDarkSourceHtml(Asset $asset, array $formats, mixed $responsive, array $attributes, callable $url): string
     {
@@ -664,6 +680,10 @@ class Core extends AbstractExtension
 
     /**
      * Builds the HTML video element of a video Asset.
+     *
+     * @param array<string, mixed> $context
+     * @param array<string, mixed> $attributes
+     * @param array<string, mixed> $options
      */
     public function htmlVideo(array $context, Asset $asset, array $attributes = [], array $options = []): string
     {
@@ -676,6 +696,8 @@ class Core extends AbstractExtension
 
     /**
      * Builds the HTML img `srcset` (responsive) attribute of an image Asset, based on configured widths.
+     *
+     * @param array<string, mixed> $context
      *
      * @throws RuntimeException
      */
@@ -704,6 +726,10 @@ class Core extends AbstractExtension
      *     'fallback' => <string>, // image path used if no image found
      *     ...                     // other `image()` options (e.g.: 'responsive', 'formats', etc.)
      * ]
+     *
+     * @param array<string, mixed> $context
+     * @param array<string, mixed> $attributes
+     * @param array<string, mixed> $options
      *
      * @throws RuntimeException
      */
@@ -844,6 +870,10 @@ class Core extends AbstractExtension
 
     /**
      * Dump variable (or Twig context).
+     *
+     * @param array<string, mixed>      $context
+     * @param mixed                     $var
+     * @param array<string, mixed>|null $options
      */
     public function varDump(\Twig\Environment $env, array $context, $var = null, ?array $options = null): void
     {
@@ -871,6 +901,8 @@ class Core extends AbstractExtension
 
     /**
      * Tests if a variable is an Asset.
+     *
+     * @param mixed $variable
      */
     public function isAsset($variable): bool
     {
@@ -929,6 +961,9 @@ class Core extends AbstractExtension
 
     /**
      * Hashing an object, an array or a string (with algo, xxh128 by default).
+     *
+     * @param object|array<mixed>|string $data
+     * @param string                     $algo
      */
     public function hash(object|array|string $data, $algo = 'xxh128'): string
     {
@@ -946,9 +981,9 @@ class Core extends AbstractExtension
      * Builds a cache key from a variable.
      * The cache key is built from the name of the variable, its hash, the site language and build.
      *
-     * @param array                    $context Twig context, used to get the site language and build.
-     * @param string                   $name    Name of the variable to build the cache key from.
-     * @param object|array|string|null $value   The variable to build the cache key from.
+     * @param array<string, mixed>            $context Twig context, used to get the site language and build.
+     * @param string                          $name    Name of the variable to build the cache key from.
+     * @param object|array<mixed>|string|null $value   The variable to build the cache key from.
      */
     public function cacheKey(array $context, string $name, object|array|string|null $value = null): string
     {
@@ -960,6 +995,8 @@ class Core extends AbstractExtension
 
     /**
      * Builds the HTML attributes string from an array.
+     *
+     * @param array<string, mixed> $attributes
      */
     private static function htmlAttributes(array $attributes): string
     {

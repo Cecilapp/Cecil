@@ -76,6 +76,10 @@ class Collection extends AbstractExtension
 
     /**
      * Sorts a collection by title.
+     *
+     * @param \Traversable<string, mixed> $collection
+     *
+     * @return array<string, mixed>
      */
     public function sortByTitle(\Traversable $collection): array
     {
@@ -90,7 +94,9 @@ class Collection extends AbstractExtension
     /**
      * Sorts a collection by weight.
      *
-     * @param \Traversable|array $collection
+     * @param \Traversable<mixed>|array<mixed> $collection
+     *
+     * @return list<mixed>
      */
     public function sortByWeight($collection): array
     {
@@ -118,6 +124,10 @@ class Collection extends AbstractExtension
 
     /**
      * Sorts by creation date (or 'updated' date): the most recent first.
+     *
+     * @param \Traversable<mixed> $collection
+     *
+     * @return list<mixed>
      */
     public function sortByDate(\Traversable $collection, string $variable = 'date', bool $descTitle = false): array
     {

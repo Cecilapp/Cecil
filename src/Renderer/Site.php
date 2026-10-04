@@ -25,6 +25,8 @@ use Cecil\Collection\Page\Page as CollectionPage;
  * properties such as pages, menus, taxonomies, and language settings.
  * It also provides methods to retrieve specific pages and collections of pages
  * based on the current language or all pages regardless of their translation.
+ *
+ * @implements \ArrayAccess<string, mixed>
  */
 class Site implements \ArrayAccess
 {
@@ -204,6 +206,8 @@ class Site implements \ArrayAccess
 
     /**
      * Returns the property value(s) of an output format.
+     *
+     * @return string|array<mixed>|null
      */
     public function getOutputProperty(string $name, string $property): string|array|null
     {

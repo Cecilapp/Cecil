@@ -2793,7 +2793,7 @@ Search.appendIndex(
         },                {
             "fqsen": "\\Cecil\\Command\\Serve\u003A\u003ArunForegroundServer\u0028\u0029",
             "name": "runForegroundServer",
-            "summary": "",
+            "summary": "Runs\u0020the\u0020server\u0020in\u0020foreground\u0020and\u0020watches\u0020for\u0020changes.",
             "url": "classes/Cecil-Command-Serve.html#method_runForegroundServer"
         },                {
             "fqsen": "\\Cecil\\Command\\Serve\u003A\u003AbuildSuccessActions\u0028\u0029",
@@ -3378,12 +3378,12 @@ Search.appendIndex(
         },                {
             "fqsen": "\\Cecil\\Converter\\Parsedown\u003A\u003AblockNoteContinue\u0028\u0029",
             "name": "blockNoteContinue",
-            "summary": "",
+            "summary": "Continues\u0020a\u0020note\u0020block.",
             "url": "classes/Cecil-Converter-Parsedown.html#method_blockNoteContinue"
         },                {
             "fqsen": "\\Cecil\\Converter\\Parsedown\u003A\u003AblockNoteComplete\u0028\u0029",
             "name": "blockNoteComplete",
-            "summary": "",
+            "summary": "Completes\u0020a\u0020note\u0020block.",
             "url": "classes/Cecil-Converter-Parsedown.html#method_blockNoteComplete"
         },                {
             "fqsen": "\\Cecil\\Converter\\Parsedown\u003A\u003AblockFencedCodeComplete\u0028\u0029",
@@ -5618,7 +5618,7 @@ Search.appendIndex(
         },                {
             "fqsen": "\\Cecil\\Util\\Slugifier\u003A\u003AcreateSlugifyPlaceholders\u0028\u0029",
             "name": "createSlugifyPlaceholders",
-            "summary": "",
+            "summary": "Creates\u0020unique\u0020placeholders\u0020for\u0020characters\u0020to\u0020preserve\u0020during\u0020slugification.",
             "url": "classes/Cecil-Util-Slugifier.html#method_createSlugifyPlaceholders"
         },                {
             "fqsen": "\\Cecil\\Util\\Slugifier\u003A\u003AcreateSlugifyPlaceholder\u0028\u0029",

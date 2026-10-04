@@ -168,14 +168,22 @@ EOF
 
     /**
      * Finds the page model and returns its [name, content].
+     *
+     * @return array{name: string, content: string}
+     *
+     * @throws RuntimeException
      */
     private function findModel(string $name): array
     {
         $name = strstr($name, DIRECTORY_SEPARATOR, true) ?: 'default';
         if (file_exists($model = Util::joinFile($this->getPath(), 'models', "$name.md"))) {
+            if (false === $content = Util\File::fileGetContents($model)) {
+                throw new RuntimeException(\sprintf('Unable to read model file "%s".', $model));
+            }
+
             return [
                 'name'    => $name,
-                'content' => Util\File::fileGetContents($model),
+                'content' => $content,
             ];
         }
 

@@ -620,7 +620,7 @@ class Image
      * Build the `srcset` HTML attribute for responsive images, based on widths.
      * e.g.: `srcset="/img-480.jpg 480w, /img-800.jpg 800w"`.
      *
-     * @param array         $widths   An array of widths to include in the `srcset`
+     * @param array<int>    $widths   An array of widths to include in the `srcset`
      * @param bool          $notEmpty If true the source image is always added to the `srcset`
      * @param callable|null $url      Optional URL builder, called with each Asset (e.g.: to handle base URL)
      *
@@ -654,6 +654,10 @@ class Image
 
     /**
      * Alias of buildHtmlSrcsetW for backward compatibility.
+     *
+     * @param array<int>    $widths   An array of widths to include in the `srcset`
+     * @param bool          $notEmpty If true the source image is always added to the `srcset`
+     * @param callable|null $url      Optional URL builder, called with each Asset (e.g.: to handle base URL)
      */
     public static function buildHtmlSrcset(Asset $asset, array $widths, $notEmpty = false, ?callable $url = null): string
     {
@@ -664,9 +668,9 @@ class Image
      * Build the `srcset` HTML attribute for responsive images, based on pixel ratios.
      * e.g.: `srcset="/img-1x.jpg 1.0x, /img-2x.jpg 2.0x"`.
      *
-     * @param int           $width1x The width of the 1x image
-     * @param array         $ratios  An array of pixel ratios to include in the `srcset`
-     * @param callable|null $url     Optional URL builder, called with each Asset (e.g.: to handle base URL)
+     * @param int              $width1x The width of the 1x image
+     * @param array<int|float> $ratios  An array of pixel ratios to include in the `srcset`
+     * @param callable|null    $url     Optional URL builder, called with each Asset (e.g.: to handle base URL)
      *
      * @throws RuntimeException
      */
@@ -706,6 +710,8 @@ class Image
 
     /**
      * Returns the value from the `$sizes` array if the class exists, otherwise returns the default size.
+     *
+     * @param array<string, string> $sizes Sizes indexed by class name (and 'default')
      */
     public static function getHtmlSizes(string $class, array $sizes = []): string
     {

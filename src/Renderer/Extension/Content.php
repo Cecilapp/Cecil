@@ -104,6 +104,8 @@ class Content extends AbstractExtension
      * Options:
      *  - separator: string to use as separator (`excerpt|break` by default)
      *  - capture: part to capture, `before` or `after` the separator (`before` by default).
+     *
+     * @param array{separator?: string, capture?: string} $options
      */
     public function excerptHtml(?string $string, array $options = []): string
     {
@@ -156,6 +158,8 @@ class Content extends AbstractExtension
      * The `format` parameter defines the output format: `html` or `json`.
      * The `url` parameter is used to build links to headings.
      *
+     * @param array<string>|null $selectors
+     *
      * @throws RuntimeException
      */
     public function markdownToToc(?string $markdown, string $format = 'html', ?array $selectors = null, string $url = ''): ?string
@@ -180,6 +184,8 @@ class Content extends AbstractExtension
     /**
      * Converts a JSON string to an array.
      *
+     * @return array<mixed>|null
+     *
      * @throws RuntimeException
      */
     public function jsonDecode(?string $json): ?array
@@ -200,6 +206,8 @@ class Content extends AbstractExtension
 
     /**
      * Converts a YAML string to an array.
+     *
+     * @return array<mixed>|null
      *
      * @throws RuntimeException
      */
@@ -222,6 +230,8 @@ class Content extends AbstractExtension
     /**
      * Split a string into an array using a regular expression.
      *
+     * @return list<string>|null
+     *
      * @throws RuntimeException
      */
     public function pregSplit(?string $value, string $pattern, int $limit = 0): ?array
@@ -242,6 +252,8 @@ class Content extends AbstractExtension
 
     /**
      * Perform a regular expression match and return the group for all matches.
+     *
+     * @return list<string>|null
      *
      * @throws RuntimeException
      */
@@ -277,6 +289,8 @@ class Content extends AbstractExtension
     /**
      * Converts an hexadecimal color to RGB.
      *
+     * @return array{red: int, green: int, blue: int}
+     *
      * @throws RuntimeException
      */
     public function hexToRgb(?string $variable): array
@@ -301,6 +315,8 @@ class Content extends AbstractExtension
 
     /**
      * Split a string in multiple lines.
+     *
+     * @return list<string>
      */
     public function splitLine(?string $variable, int $max = 18): array
     {
@@ -311,6 +327,10 @@ class Content extends AbstractExtension
 
     /**
      * Converts a variable to an iterable (array).
+     *
+     * @param mixed $value
+     *
+     * @return array<mixed>
      */
     public function iterable($value): array
     {
@@ -345,6 +365,10 @@ class Content extends AbstractExtension
 
     /**
      * Returns an array with unique values.
+     *
+     * @param array<string> $array
+     *
+     * @return array<string>
      */
     public function unique(array $array): array
     {

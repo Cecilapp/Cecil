@@ -303,7 +303,7 @@ Builder::create($config)-&gt;build();
             <dt class="phpdocumentor-table-of-contents__entry -property -protected">
     <a class="" href="classes/Cecil-Builder.html#property_assets">$assets</a>
     <span>
-                        &nbsp;: array&lt;string|int, mixed&gt;            </span>
+                        &nbsp;: array&lt;int, string&gt;            </span>
 </dt>
 <dd>Assets path collection.</dd>
 
@@ -317,7 +317,7 @@ Builder::create($config)-&gt;build();
             <dt class="phpdocumentor-table-of-contents__entry -property -protected">
     <a class="" href="classes/Cecil-Builder.html#property_config">$config</a>
     <span>
-                        &nbsp;: <a href="classes/Cecil-Config.html"><abbr title="\Cecil\Config">Config</abbr></a>|array&lt;string|int, mixed&gt;|null            </span>
+                        &nbsp;: <a href="classes/Cecil-Config.html"><abbr title="\Cecil\Config">Config</abbr></a>|array&lt;string, mixed&gt;|null            </span>
 </dt>
 <dd>Configuration object.</dd>
 
@@ -331,7 +331,7 @@ Builder::create($config)-&gt;build();
             <dt class="phpdocumentor-table-of-contents__entry -property -protected">
     <a class="" href="classes/Cecil-Builder.html#property_data">$data</a>
     <span>
-                        &nbsp;: array&lt;string|int, mixed&gt;            </span>
+                        &nbsp;: array&lt;string, mixed&gt;            </span>
 </dt>
 <dd>Data collection.</dd>
 
@@ -373,21 +373,21 @@ Builder::create($config)-&gt;build();
             <dt class="phpdocumentor-table-of-contents__entry -property -protected">
     <a class="" href="classes/Cecil-Builder.html#property_menus">$menus</a>
     <span>
-                        &nbsp;: array&lt;string|int, mixed&gt;            </span>
+                        &nbsp;: array&lt;string, <a href="classes/Cecil-Collection-Menu-Collection.html"><abbr title="\Cecil\Collection\Menu\Collection">Collection</abbr></a>&gt;            </span>
 </dt>
 <dd>Menus collection.</dd>
 
             <dt class="phpdocumentor-table-of-contents__entry -property -protected">
     <a class="" href="classes/Cecil-Builder.html#property_metrics">$metrics</a>
     <span>
-                        &nbsp;: array&lt;string|int, mixed&gt;            </span>
+                        &nbsp;: array&lt;string, mixed&gt;            </span>
 </dt>
 <dd>Build metrics.</dd>
 
             <dt class="phpdocumentor-table-of-contents__entry -property -protected">
     <a class="" href="classes/Cecil-Builder.html#property_options">$options</a>
     <span>
-                        &nbsp;: array&lt;string|int, mixed&gt;            </span>
+                        &nbsp;: array{drafts?: bool, dry-run?: bool, page?: string, render-subset?: string}            </span>
 </dt>
 <dd>Build options.</dd>
 
@@ -408,14 +408,14 @@ Builder::create($config)-&gt;build();
             <dt class="phpdocumentor-table-of-contents__entry -property -protected">
     <a class="" href="classes/Cecil-Builder.html#property_static">$static</a>
     <span>
-                        &nbsp;: array&lt;string|int, mixed&gt;            </span>
+                        &nbsp;: array&lt;int, array&lt;string, mixed&gt;&gt;            </span>
 </dt>
 <dd>Static files collection.</dd>
 
             <dt class="phpdocumentor-table-of-contents__entry -property -protected">
     <a class="" href="classes/Cecil-Builder.html#property_taxonomies">$taxonomies</a>
     <span>
-                        &nbsp;: array&lt;string|int, mixed&gt;            </span>
+                        &nbsp;: array&lt;string, <a href="classes/Cecil-Collection-Taxonomy-Collection.html"><abbr title="\Cecil\Collection\Taxonomy\Collection">Collection</abbr></a>&gt;            </span>
 </dt>
 <dd>Taxonomies collection.</dd>
 
@@ -464,14 +464,14 @@ Builder::create($config)-&gt;build();
             <dt class="phpdocumentor-table-of-contents__entry -method -public">
     <a class="" href="classes/Cecil-Builder.html#method_getAssetRegistryStats">getAssetRegistryStats()</a>
     <span>
-                                &nbsp;: array&lt;string|int, mixed&gt;    </span>
+                                &nbsp;: array{hits: int, misses: int, total: int, deduplication_ratio: float}    </span>
 </dt>
 <dd>Returns asset registry deduplication statistics.</dd>
 
             <dt class="phpdocumentor-table-of-contents__entry -method -public">
     <a class="" href="classes/Cecil-Builder.html#method_getAssetsList">getAssetsList()</a>
     <span>
-                                &nbsp;: array&lt;string|int, mixed&gt;    </span>
+                                &nbsp;: array&lt;int, string&gt;    </span>
 </dt>
 <dd>Returns list of assets path.</dd>
 
@@ -485,7 +485,7 @@ Builder::create($config)-&gt;build();
             <dt class="phpdocumentor-table-of-contents__entry -method -public">
     <a class="" href="classes/Cecil-Builder.html#method_getBuildOptions">getBuildOptions()</a>
     <span>
-                                &nbsp;: array&lt;string|int, mixed&gt;    </span>
+                                &nbsp;: array{drafts?: bool, dry-run?: bool, page?: string, render-subset?: string}    </span>
 </dt>
 <dd>Returns build options.</dd>
 
@@ -499,14 +499,14 @@ Builder::create($config)-&gt;build();
             <dt class="phpdocumentor-table-of-contents__entry -method -public">
     <a class="" href="classes/Cecil-Builder.html#method_getData">getData()</a>
     <span>
-                                &nbsp;: array&lt;string|int, mixed&gt;    </span>
+                                &nbsp;: array&lt;string, mixed&gt;    </span>
 </dt>
 <dd>Returns data collection.</dd>
 
             <dt class="phpdocumentor-table-of-contents__entry -method -public">
     <a class="" href="classes/Cecil-Builder.html#method_getLayoutCacheStats">getLayoutCacheStats()</a>
     <span>
-                                &nbsp;: array&lt;string|int, mixed&gt;    </span>
+                                &nbsp;: array{hits: int, misses: int, total: int, hit_rate: float}    </span>
 </dt>
 <dd>Returns layout cache statistics.</dd>
 
@@ -527,7 +527,7 @@ Builder::create($config)-&gt;build();
             <dt class="phpdocumentor-table-of-contents__entry -method -public">
     <a class="" href="classes/Cecil-Builder.html#method_getMetrics">getMetrics()</a>
     <span>
-                                &nbsp;: array&lt;string|int, mixed&gt;    </span>
+                                &nbsp;: array&lt;string, mixed&gt;    </span>
 </dt>
 <dd>Returns metrics array.</dd>
 
@@ -555,7 +555,7 @@ Builder::create($config)-&gt;build();
             <dt class="phpdocumentor-table-of-contents__entry -method -public">
     <a class="" href="classes/Cecil-Builder.html#method_getStatic">getStatic()</a>
     <span>
-                                &nbsp;: array&lt;string|int, mixed&gt;    </span>
+                                &nbsp;: array&lt;int, array&lt;string, mixed&gt;&gt;    </span>
 </dt>
 <dd>Returns static files collection.</dd>
 
@@ -1127,7 +1127,7 @@ Each step is a class that implements the StepInterface.</p>
     
     <code class="phpdocumentor-code phpdocumentor-signature ">
         <span class="phpdocumentor-signature__visibility">protected</span>
-            <span class="phpdocumentor-signature__type">array&lt;string|int, mixed&gt;</span>
+            <span class="phpdocumentor-signature__type">array&lt;int, string&gt;</span>
     <span class="phpdocumentor-signature__name">$assets</span>
      = <span class="phpdocumentor-signature__default-value">[]</span></code>
 
@@ -1224,7 +1224,7 @@ It can be used to track builds, especially in environments where multiple builds
     
     <code class="phpdocumentor-code phpdocumentor-signature ">
         <span class="phpdocumentor-signature__visibility">protected</span>
-            <span class="phpdocumentor-signature__type"><a href="classes/Cecil-Config.html"><abbr title="\Cecil\Config">Config</abbr></a>|array&lt;string|int, mixed&gt;|null</span>
+            <span class="phpdocumentor-signature__type"><a href="classes/Cecil-Config.html"><abbr title="\Cecil\Config">Config</abbr></a>|array&lt;string, mixed&gt;|null</span>
     <span class="phpdocumentor-signature__name">$config</span>
     </code>
 
@@ -1319,7 +1319,7 @@ It can be set to an array or a Config instance.</p>
     
     <code class="phpdocumentor-code phpdocumentor-signature ">
         <span class="phpdocumentor-signature__visibility">protected</span>
-            <span class="phpdocumentor-signature__type">array&lt;string|int, mixed&gt;</span>
+            <span class="phpdocumentor-signature__type">array&lt;string, mixed&gt;</span>
     <span class="phpdocumentor-signature__name">$data</span>
      = <span class="phpdocumentor-signature__default-value">[]</span></code>
 
@@ -1572,7 +1572,7 @@ It can be set to any PSR-3 compliant logger.</p>
     
     <code class="phpdocumentor-code phpdocumentor-signature ">
         <span class="phpdocumentor-signature__visibility">protected</span>
-            <span class="phpdocumentor-signature__type">array&lt;string|int, mixed&gt;</span>
+            <span class="phpdocumentor-signature__type">array&lt;string, <a href="classes/Cecil-Collection-Menu-Collection.html"><abbr title="\Cecil\Collection\Menu\Collection">Collection</abbr></a>&gt;</span>
     <span class="phpdocumentor-signature__name">$menus</span>
     </code>
 
@@ -1629,7 +1629,7 @@ It is used to manage navigation menus across different languages in the website.
     
     <code class="phpdocumentor-code phpdocumentor-signature ">
         <span class="phpdocumentor-signature__visibility">protected</span>
-            <span class="phpdocumentor-signature__type">array&lt;string|int, mixed&gt;</span>
+            <span class="phpdocumentor-signature__type">array&lt;string, mixed&gt;</span>
     <span class="phpdocumentor-signature__name">$metrics</span>
      = <span class="phpdocumentor-signature__default-value">[]</span></code>
 
@@ -1670,7 +1670,7 @@ It is used to track the performance of the build and can be useful for debugging
     
     <code class="phpdocumentor-code phpdocumentor-signature ">
         <span class="phpdocumentor-signature__visibility">protected</span>
-            <span class="phpdocumentor-signature__type">array&lt;string|int, mixed&gt;</span>
+            <span class="phpdocumentor-signature__type">array{drafts?: bool, dry-run?: bool, page?: string, render-subset?: string}</span>
     <span class="phpdocumentor-signature__name">$options</span>
      = <span class="phpdocumentor-signature__default-value">[]</span></code>
 
@@ -1810,7 +1810,7 @@ It handles the rendering of templates and the application of data to those templ
     
     <code class="phpdocumentor-code phpdocumentor-signature ">
         <span class="phpdocumentor-signature__visibility">protected</span>
-            <span class="phpdocumentor-signature__type">array&lt;string|int, mixed&gt;</span>
+            <span class="phpdocumentor-signature__type">array&lt;int, array&lt;string, mixed&gt;&gt;</span>
     <span class="phpdocumentor-signature__name">$static</span>
      = <span class="phpdocumentor-signature__default-value">[]</span></code>
 
@@ -1850,7 +1850,7 @@ It handles the rendering of templates and the application of data to those templ
     
     <code class="phpdocumentor-code phpdocumentor-signature ">
         <span class="phpdocumentor-signature__visibility">protected</span>
-            <span class="phpdocumentor-signature__type">array&lt;string|int, mixed&gt;</span>
+            <span class="phpdocumentor-signature__type">array&lt;string, <a href="classes/Cecil-Collection-Taxonomy-Collection.html"><abbr title="\Cecil\Collection\Taxonomy\Collection">Collection</abbr></a>&gt;</span>
     <span class="phpdocumentor-signature__name">$taxonomies</span>
     </code>
 
@@ -1948,7 +1948,7 @@ It is used to manage taxonomies (like categories, tags) across different languag
     
     <code class="phpdocumentor-code phpdocumentor-signature ">
     <span class="phpdocumentor-signature__visibility">public</span>
-                    <span class="phpdocumentor-signature__name">__construct</span><span>(</span><span class="phpdocumentor-signature__argument"><span>[</span><span class="phpdocumentor-signature__argument__type"><a href="classes/Cecil-Config.html"><abbr title="\Cecil\Config">Config</abbr></a>|array&lt;string|int, mixed&gt;|null&nbsp;</span><span class="phpdocumentor-signature__argument__name">$config</span><span> = </span><span class="phpdocumentor-signature__argument__default-value">null</span><span> ]</span></span><span class="phpdocumentor-signature__argument"><span>[</span><span>, </span><span class="phpdocumentor-signature__argument__type"><abbr title="\Psr\Log\LoggerInterface">LoggerInterface</abbr>|null&nbsp;</span><span class="phpdocumentor-signature__argument__name">$logger</span><span> = </span><span class="phpdocumentor-signature__argument__default-value">null</span><span> ]</span></span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">mixed</span></code>
+                    <span class="phpdocumentor-signature__name">__construct</span><span>(</span><span class="phpdocumentor-signature__argument"><span>[</span><span class="phpdocumentor-signature__argument__type"><a href="classes/Cecil-Config.html"><abbr title="\Cecil\Config">Config</abbr></a>|array&lt;string, mixed&gt;|null&nbsp;</span><span class="phpdocumentor-signature__argument__name">$config</span><span> = </span><span class="phpdocumentor-signature__argument__default-value">null</span><span> ]</span></span><span class="phpdocumentor-signature__argument"><span>[</span><span>, </span><span class="phpdocumentor-signature__argument__type"><abbr title="\Psr\Log\LoggerInterface">LoggerInterface</abbr>|null&nbsp;</span><span class="phpdocumentor-signature__argument__name">$logger</span><span> = </span><span class="phpdocumentor-signature__argument__default-value">null</span><span> ]</span></span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">mixed</span></code>
 
     <div class="phpdocumentor-label-line">
         </div>
@@ -1958,7 +1958,7 @@ It is used to manage taxonomies (like categories, tags) across different languag
     <dl class="phpdocumentor-argument-list">
                     <dt class="phpdocumentor-argument-list__entry">
                 <span class="phpdocumentor-argument-list__argument__name">$config</span>
-                : <span class="phpdocumentor-argument-list__argument__type"><a href="classes/Cecil-Config.html"><abbr title="\Cecil\Config">Config</abbr></a>|array&lt;string|int, mixed&gt;|null</span>
+                : <span class="phpdocumentor-argument-list__argument__type"><a href="classes/Cecil-Config.html"><abbr title="\Cecil\Config">Config</abbr></a>|array&lt;string, mixed&gt;|null</span>
                  = <span class="phpdocumentor-argument-list__argument__default-value">null</span>            </dt>
             <dd class="phpdocumentor-argument-list__definition">
                 
@@ -1992,7 +1992,7 @@ It is used to manage taxonomies (like categories, tags) across different languag
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Builder.php"><a href="files/src-builder.html"><abbr title="src/Builder.php">Builder.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">523</span>
+    <span class="phpdocumentor-element-found-in__line">535</span>
 
     </aside>
 
@@ -2143,7 +2143,7 @@ It also collects metrics about the build process, such as duration and memory us
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Builder.php"><a href="files/src-builder.html"><abbr title="src/Builder.php">Builder.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">553</span>
+    <span class="phpdocumentor-element-found-in__line">567</span>
 
     </aside>
 
@@ -2151,7 +2151,7 @@ It also collects metrics about the build process, such as duration and memory us
 
     <code class="phpdocumentor-code phpdocumentor-signature ">
     <span class="phpdocumentor-signature__visibility">public</span>
-                    <span class="phpdocumentor-signature__name">getAssetRegistryStats</span><span>(</span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">array&lt;string|int, mixed&gt;</span></code>
+                    <span class="phpdocumentor-signature__name">getAssetRegistryStats</span><span>(</span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">array{hits: int, misses: int, total: int, deduplication_ratio: float}</span></code>
 
     <div class="phpdocumentor-label-line">
         </div>
@@ -2164,7 +2164,7 @@ It also collects metrics about the build process, such as duration and memory us
     
             <section>
         <h5 class="phpdocumentor-return-value__heading">Return values</h5>
-        <span class="phpdocumentor-signature__response_type">array&lt;string|int, mixed&gt;</span>
+        <span class="phpdocumentor-signature__response_type">array{hits: int, misses: int, total: int, deduplication_ratio: float}</span>
             </section>
 
 </article>
@@ -2182,7 +2182,7 @@ It also collects metrics about the build process, such as duration and memory us
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Builder.php"><a href="files/src-builder.html"><abbr title="src/Builder.php">Builder.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">597</span>
+    <span class="phpdocumentor-element-found-in__line">615</span>
 
     </aside>
 
@@ -2190,7 +2190,7 @@ It also collects metrics about the build process, such as duration and memory us
 
     <code class="phpdocumentor-code phpdocumentor-signature ">
     <span class="phpdocumentor-signature__visibility">public</span>
-                    <span class="phpdocumentor-signature__name">getAssetsList</span><span>(</span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">array&lt;string|int, mixed&gt;</span></code>
+                    <span class="phpdocumentor-signature__name">getAssetsList</span><span>(</span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">array&lt;int, string&gt;</span></code>
 
     <div class="phpdocumentor-label-line">
         </div>
@@ -2203,7 +2203,7 @@ It also collects metrics about the build process, such as duration and memory us
     
             <section>
         <h5 class="phpdocumentor-return-value__heading">Return values</h5>
-        <span class="phpdocumentor-signature__response_type">array&lt;string|int, mixed&gt;</span>
+        <span class="phpdocumentor-signature__response_type">array&lt;int, string&gt;</span>
             </section>
 
 </article>
@@ -2221,7 +2221,7 @@ It also collects metrics about the build process, such as duration and memory us
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Builder.php"><a href="files/src-builder.html"><abbr title="src/Builder.php">Builder.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">684</span>
+    <span class="phpdocumentor-element-found-in__line">708</span>
 
     </aside>
 
@@ -2260,7 +2260,7 @@ It also collects metrics about the build process, such as duration and memory us
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Builder.php"><a href="files/src-builder.html"><abbr title="src/Builder.php">Builder.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">442</span>
+    <span class="phpdocumentor-element-found-in__line">446</span>
 
     </aside>
 
@@ -2268,7 +2268,7 @@ It also collects metrics about the build process, such as duration and memory us
 
     <code class="phpdocumentor-code phpdocumentor-signature ">
     <span class="phpdocumentor-signature__visibility">public</span>
-                    <span class="phpdocumentor-signature__name">getBuildOptions</span><span>(</span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">array&lt;string|int, mixed&gt;</span></code>
+                    <span class="phpdocumentor-signature__name">getBuildOptions</span><span>(</span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">array{drafts?: bool, dry-run?: bool, page?: string, render-subset?: string}</span></code>
 
     <div class="phpdocumentor-label-line">
         </div>
@@ -2281,7 +2281,7 @@ It also collects metrics about the build process, such as duration and memory us
     
             <section>
         <h5 class="phpdocumentor-return-value__heading">Return values</h5>
-        <span class="phpdocumentor-signature__response_type">array&lt;string|int, mixed&gt;</span>
+        <span class="phpdocumentor-signature__response_type">array{drafts?: bool, dry-run?: bool, page?: string, render-subset?: string}</span>
             </section>
 
 </article>
@@ -2299,7 +2299,7 @@ It also collects metrics about the build process, such as duration and memory us
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Builder.php"><a href="files/src-builder.html"><abbr title="src/Builder.php">Builder.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">371</span>
+    <span class="phpdocumentor-element-found-in__line">373</span>
 
     </aside>
 
@@ -2338,7 +2338,7 @@ It also collects metrics about the build process, such as duration and memory us
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Builder.php"><a href="files/src-builder.html"><abbr title="src/Builder.php">Builder.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">474</span>
+    <span class="phpdocumentor-element-found-in__line">482</span>
 
     </aside>
 
@@ -2346,7 +2346,7 @@ It also collects metrics about the build process, such as duration and memory us
 
     <code class="phpdocumentor-code phpdocumentor-signature ">
     <span class="phpdocumentor-signature__visibility">public</span>
-                    <span class="phpdocumentor-signature__name">getData</span><span>(</span><span class="phpdocumentor-signature__argument"><span>[</span><span class="phpdocumentor-signature__argument__type">string|null&nbsp;</span><span class="phpdocumentor-signature__argument__name">$language</span><span> = </span><span class="phpdocumentor-signature__argument__default-value">null</span><span> ]</span></span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">array&lt;string|int, mixed&gt;</span></code>
+                    <span class="phpdocumentor-signature__name">getData</span><span>(</span><span class="phpdocumentor-signature__argument"><span>[</span><span class="phpdocumentor-signature__argument__type">string|null&nbsp;</span><span class="phpdocumentor-signature__argument__name">$language</span><span> = </span><span class="phpdocumentor-signature__argument__default-value">null</span><span> ]</span></span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">array&lt;string, mixed&gt;</span></code>
 
     <div class="phpdocumentor-label-line">
         </div>
@@ -2369,7 +2369,7 @@ It also collects metrics about the build process, such as duration and memory us
     
             <section>
         <h5 class="phpdocumentor-return-value__heading">Return values</h5>
-        <span class="phpdocumentor-signature__response_type">array&lt;string|int, mixed&gt;</span>
+        <span class="phpdocumentor-signature__response_type">array&lt;string, mixed&gt;</span>
             </section>
 
 </article>
@@ -2387,7 +2387,7 @@ It also collects metrics about the build process, such as duration and memory us
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Builder.php"><a href="files/src-builder.html"><abbr title="src/Builder.php">Builder.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">582</span>
+    <span class="phpdocumentor-element-found-in__line">598</span>
 
     </aside>
 
@@ -2395,7 +2395,7 @@ It also collects metrics about the build process, such as duration and memory us
 
     <code class="phpdocumentor-code phpdocumentor-signature ">
     <span class="phpdocumentor-signature__visibility">public</span>
-                    <span class="phpdocumentor-signature__name">getLayoutCacheStats</span><span>(</span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">array&lt;string|int, mixed&gt;</span></code>
+                    <span class="phpdocumentor-signature__name">getLayoutCacheStats</span><span>(</span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">array{hits: int, misses: int, total: int, hit_rate: float}</span></code>
 
     <div class="phpdocumentor-label-line">
         </div>
@@ -2408,7 +2408,7 @@ It also collects metrics about the build process, such as duration and memory us
     
             <section>
         <h5 class="phpdocumentor-return-value__heading">Return values</h5>
-        <span class="phpdocumentor-signature__response_type">array&lt;string|int, mixed&gt;</span>
+        <span class="phpdocumentor-signature__response_type">array{hits: int, misses: int, total: int, hit_rate: float}</span>
             </section>
 
 </article>
@@ -2426,7 +2426,7 @@ It also collects metrics about the build process, such as duration and memory us
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Builder.php"><a href="files/src-builder.html"><abbr title="src/Builder.php">Builder.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">426</span>
+    <span class="phpdocumentor-element-found-in__line">428</span>
 
     </aside>
 
@@ -2465,7 +2465,7 @@ It also collects metrics about the build process, such as duration and memory us
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Builder.php"><a href="files/src-builder.html"><abbr title="src/Builder.php">Builder.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">613</span>
+    <span class="phpdocumentor-element-found-in__line">633</span>
 
     </aside>
 
@@ -2514,7 +2514,7 @@ It also collects metrics about the build process, such as duration and memory us
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Builder.php"><a href="files/src-builder.html"><abbr title="src/Builder.php">Builder.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">653</span>
+    <span class="phpdocumentor-element-found-in__line">677</span>
 
     </aside>
 
@@ -2522,7 +2522,7 @@ It also collects metrics about the build process, such as duration and memory us
 
     <code class="phpdocumentor-code phpdocumentor-signature ">
     <span class="phpdocumentor-signature__visibility">public</span>
-                    <span class="phpdocumentor-signature__name">getMetrics</span><span>(</span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">array&lt;string|int, mixed&gt;</span></code>
+                    <span class="phpdocumentor-signature__name">getMetrics</span><span>(</span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">array&lt;string, mixed&gt;</span></code>
 
     <div class="phpdocumentor-label-line">
         </div>
@@ -2535,7 +2535,7 @@ It also collects metrics about the build process, such as duration and memory us
     
             <section>
         <h5 class="phpdocumentor-return-value__heading">Return values</h5>
-        <span class="phpdocumentor-signature__response_type">array&lt;string|int, mixed&gt;</span>
+        <span class="phpdocumentor-signature__response_type">array&lt;string, mixed&gt;</span>
             </section>
 
 </article>
@@ -2553,7 +2553,7 @@ It also collects metrics about the build process, such as duration and memory us
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Builder.php"><a href="files/src-builder.html"><abbr title="src/Builder.php">Builder.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">515</span>
+    <span class="phpdocumentor-element-found-in__line">527</span>
 
     </aside>
 
@@ -2592,7 +2592,7 @@ It also collects metrics about the build process, such as duration and memory us
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Builder.php"><a href="files/src-builder.html"><abbr title="src/Builder.php">Builder.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">458</span>
+    <span class="phpdocumentor-element-found-in__line">462</span>
 
     </aside>
 
@@ -2631,7 +2631,7 @@ It also collects metrics about the build process, such as duration and memory us
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Builder.php"><a href="files/src-builder.html"><abbr title="src/Builder.php">Builder.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">645</span>
+    <span class="phpdocumentor-element-found-in__line">667</span>
 
     </aside>
 
@@ -2670,7 +2670,7 @@ It also collects metrics about the build process, such as duration and memory us
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Builder.php"><a href="files/src-builder.html"><abbr title="src/Builder.php">Builder.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">499</span>
+    <span class="phpdocumentor-element-found-in__line">511</span>
 
     </aside>
 
@@ -2678,7 +2678,7 @@ It also collects metrics about the build process, such as duration and memory us
 
     <code class="phpdocumentor-code phpdocumentor-signature ">
     <span class="phpdocumentor-signature__visibility">public</span>
-                    <span class="phpdocumentor-signature__name">getStatic</span><span>(</span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">array&lt;string|int, mixed&gt;</span></code>
+                    <span class="phpdocumentor-signature__name">getStatic</span><span>(</span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">array&lt;int, array&lt;string, mixed&gt;&gt;</span></code>
 
     <div class="phpdocumentor-label-line">
         </div>
@@ -2691,7 +2691,7 @@ It also collects metrics about the build process, such as duration and memory us
     
             <section>
         <h5 class="phpdocumentor-return-value__heading">Return values</h5>
-        <span class="phpdocumentor-signature__response_type">array&lt;string|int, mixed&gt;</span>
+        <span class="phpdocumentor-signature__response_type">array&lt;int, array&lt;string, mixed&gt;&gt;</span>
             </section>
 
 </article>
@@ -2709,7 +2709,7 @@ It also collects metrics about the build process, such as duration and memory us
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Builder.php"><a href="files/src-builder.html"><abbr title="src/Builder.php">Builder.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">629</span>
+    <span class="phpdocumentor-element-found-in__line">651</span>
 
     </aside>
 
@@ -2758,7 +2758,7 @@ It also collects metrics about the build process, such as duration and memory us
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Builder.php"><a href="files/src-builder.html"><abbr title="src/Builder.php">Builder.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">663</span>
+    <span class="phpdocumentor-element-found-in__line">687</span>
 
     </aside>
 
@@ -2811,7 +2811,7 @@ It also collects metrics about the build process, such as duration and memory us
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Builder.php"><a href="files/src-builder.html"><abbr title="src/Builder.php">Builder.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">405</span>
+    <span class="phpdocumentor-element-found-in__line">407</span>
 
     </aside>
 
@@ -2846,7 +2846,7 @@ It also collects metrics about the build process, such as duration and memory us
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Builder.php"><a href="files/src-builder.html"><abbr title="src/Builder.php">Builder.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">434</span>
+    <span class="phpdocumentor-element-found-in__line">436</span>
 
     </aside>
 
@@ -2885,7 +2885,7 @@ It also collects metrics about the build process, such as duration and memory us
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Builder.php"><a href="files/src-builder.html"><abbr title="src/Builder.php">Builder.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">568</span>
+    <span class="phpdocumentor-element-found-in__line">582</span>
 
     </aside>
 
@@ -2930,7 +2930,7 @@ It also collects metrics about the build process, such as duration and memory us
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Builder.php"><a href="files/src-builder.html"><abbr title="src/Builder.php">Builder.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">534</span>
+    <span class="phpdocumentor-element-found-in__line">546</span>
 
     </aside>
 
@@ -2988,7 +2988,7 @@ It also collects metrics about the build process, such as duration and memory us
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Builder.php"><a href="files/src-builder.html"><abbr title="src/Builder.php">Builder.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">351</span>
+    <span class="phpdocumentor-element-found-in__line">353</span>
 
     </aside>
 
@@ -2996,7 +2996,7 @@ It also collects metrics about the build process, such as duration and memory us
 
     <code class="phpdocumentor-code phpdocumentor-signature ">
     <span class="phpdocumentor-signature__visibility">public</span>
-                    <span class="phpdocumentor-signature__name">setConfig</span><span>(</span><span class="phpdocumentor-signature__argument"><span class="phpdocumentor-signature__argument__type">array&lt;string|int, mixed&gt;|<a href="classes/Cecil-Config.html"><abbr title="\Cecil\Config">Config</abbr></a>&nbsp;</span><span class="phpdocumentor-signature__argument__name">$config</span></span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">self</span></code>
+                    <span class="phpdocumentor-signature__name">setConfig</span><span>(</span><span class="phpdocumentor-signature__argument"><span class="phpdocumentor-signature__argument__type">array&lt;string, mixed&gt;|<a href="classes/Cecil-Config.html"><abbr title="\Cecil\Config">Config</abbr></a>&nbsp;</span><span class="phpdocumentor-signature__argument__name">$config</span></span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">self</span></code>
 
     <div class="phpdocumentor-label-line">
         </div>
@@ -3006,7 +3006,7 @@ It also collects metrics about the build process, such as duration and memory us
     <dl class="phpdocumentor-argument-list">
                     <dt class="phpdocumentor-argument-list__entry">
                 <span class="phpdocumentor-argument-list__argument__name">$config</span>
-                : <span class="phpdocumentor-argument-list__argument__type">array&lt;string|int, mixed&gt;|<a href="classes/Cecil-Config.html"><abbr title="\Cecil\Config">Config</abbr></a></span>
+                : <span class="phpdocumentor-argument-list__argument__type">array&lt;string, mixed&gt;|<a href="classes/Cecil-Config.html"><abbr title="\Cecil\Config">Config</abbr></a></span>
                             </dt>
             <dd class="phpdocumentor-argument-list__definition">
                 
@@ -3037,7 +3037,7 @@ It also collects metrics about the build process, such as duration and memory us
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Builder.php"><a href="files/src-builder.html"><abbr title="src/Builder.php">Builder.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">466</span>
+    <span class="phpdocumentor-element-found-in__line">472</span>
 
     </aside>
 
@@ -3045,7 +3045,7 @@ It also collects metrics about the build process, such as duration and memory us
 
     <code class="phpdocumentor-code phpdocumentor-signature ">
     <span class="phpdocumentor-signature__visibility">public</span>
-                    <span class="phpdocumentor-signature__name">setData</span><span>(</span><span class="phpdocumentor-signature__argument"><span class="phpdocumentor-signature__argument__type">array&lt;string|int, mixed&gt;&nbsp;</span><span class="phpdocumentor-signature__argument__name">$data</span></span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">void</span></code>
+                    <span class="phpdocumentor-signature__name">setData</span><span>(</span><span class="phpdocumentor-signature__argument"><span class="phpdocumentor-signature__argument__type">array&lt;string, mixed&gt;&nbsp;</span><span class="phpdocumentor-signature__argument__name">$data</span></span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">void</span></code>
 
     <div class="phpdocumentor-label-line">
         </div>
@@ -3055,7 +3055,7 @@ It also collects metrics about the build process, such as duration and memory us
     <dl class="phpdocumentor-argument-list">
                     <dt class="phpdocumentor-argument-list__entry">
                 <span class="phpdocumentor-argument-list__argument__name">$data</span>
-                : <span class="phpdocumentor-argument-list__argument__type">array&lt;string|int, mixed&gt;</span>
+                : <span class="phpdocumentor-argument-list__argument__type">array&lt;string, mixed&gt;</span>
                             </dt>
             <dd class="phpdocumentor-argument-list__definition">
                 
@@ -3082,7 +3082,7 @@ It also collects metrics about the build process, such as duration and memory us
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Builder.php"><a href="files/src-builder.html"><abbr title="src/Builder.php">Builder.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">395</span>
+    <span class="phpdocumentor-element-found-in__line">397</span>
 
     </aside>
 
@@ -3131,7 +3131,7 @@ It also collects metrics about the build process, such as duration and memory us
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Builder.php"><a href="files/src-builder.html"><abbr title="src/Builder.php">Builder.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">418</span>
+    <span class="phpdocumentor-element-found-in__line">420</span>
 
     </aside>
 
@@ -3176,7 +3176,7 @@ It also collects metrics about the build process, such as duration and memory us
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Builder.php"><a href="files/src-builder.html"><abbr title="src/Builder.php">Builder.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">605</span>
+    <span class="phpdocumentor-element-found-in__line">625</span>
 
     </aside>
 
@@ -3184,7 +3184,7 @@ It also collects metrics about the build process, such as duration and memory us
 
     <code class="phpdocumentor-code phpdocumentor-signature ">
     <span class="phpdocumentor-signature__visibility">public</span>
-                    <span class="phpdocumentor-signature__name">setMenus</span><span>(</span><span class="phpdocumentor-signature__argument"><span class="phpdocumentor-signature__argument__type">array&lt;string|int, mixed&gt;&nbsp;</span><span class="phpdocumentor-signature__argument__name">$menus</span></span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">void</span></code>
+                    <span class="phpdocumentor-signature__name">setMenus</span><span>(</span><span class="phpdocumentor-signature__argument"><span class="phpdocumentor-signature__argument__type">array&lt;string, <a href="classes/Cecil-Collection-Menu-Collection.html"><abbr title="\Cecil\Collection\Menu\Collection">Collection</abbr></a>&gt;&nbsp;</span><span class="phpdocumentor-signature__argument__name">$menus</span></span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">void</span></code>
 
     <div class="phpdocumentor-label-line">
         </div>
@@ -3194,7 +3194,7 @@ It also collects metrics about the build process, such as duration and memory us
     <dl class="phpdocumentor-argument-list">
                     <dt class="phpdocumentor-argument-list__entry">
                 <span class="phpdocumentor-argument-list__argument__name">$menus</span>
-                : <span class="phpdocumentor-argument-list__argument__type">array&lt;string|int, mixed&gt;</span>
+                : <span class="phpdocumentor-argument-list__argument__type">array&lt;string, <a href="classes/Cecil-Collection-Menu-Collection.html"><abbr title="\Cecil\Collection\Menu\Collection">Collection</abbr></a>&gt;</span>
                             </dt>
             <dd class="phpdocumentor-argument-list__definition">
                 
@@ -3221,7 +3221,7 @@ It also collects metrics about the build process, such as duration and memory us
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Builder.php"><a href="files/src-builder.html"><abbr title="src/Builder.php">Builder.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">507</span>
+    <span class="phpdocumentor-element-found-in__line">519</span>
 
     </aside>
 
@@ -3266,7 +3266,7 @@ It also collects metrics about the build process, such as duration and memory us
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Builder.php"><a href="files/src-builder.html"><abbr title="src/Builder.php">Builder.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">450</span>
+    <span class="phpdocumentor-element-found-in__line">454</span>
 
     </aside>
 
@@ -3311,7 +3311,7 @@ It also collects metrics about the build process, such as duration and memory us
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Builder.php"><a href="files/src-builder.html"><abbr title="src/Builder.php">Builder.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">637</span>
+    <span class="phpdocumentor-element-found-in__line">659</span>
 
     </aside>
 
@@ -3356,7 +3356,7 @@ It also collects metrics about the build process, such as duration and memory us
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Builder.php"><a href="files/src-builder.html"><abbr title="src/Builder.php">Builder.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">383</span>
+    <span class="phpdocumentor-element-found-in__line">385</span>
 
     </aside>
 
@@ -3405,7 +3405,7 @@ It also collects metrics about the build process, such as duration and memory us
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Builder.php"><a href="files/src-builder.html"><abbr title="src/Builder.php">Builder.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">491</span>
+    <span class="phpdocumentor-element-found-in__line">501</span>
 
     </aside>
 
@@ -3413,7 +3413,7 @@ It also collects metrics about the build process, such as duration and memory us
 
     <code class="phpdocumentor-code phpdocumentor-signature ">
     <span class="phpdocumentor-signature__visibility">public</span>
-                    <span class="phpdocumentor-signature__name">setStatic</span><span>(</span><span class="phpdocumentor-signature__argument"><span class="phpdocumentor-signature__argument__type">array&lt;string|int, mixed&gt;&nbsp;</span><span class="phpdocumentor-signature__argument__name">$static</span></span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">void</span></code>
+                    <span class="phpdocumentor-signature__name">setStatic</span><span>(</span><span class="phpdocumentor-signature__argument"><span class="phpdocumentor-signature__argument__type">array&lt;int, array&lt;string, mixed&gt;&gt;&nbsp;</span><span class="phpdocumentor-signature__argument__name">$static</span></span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">void</span></code>
 
     <div class="phpdocumentor-label-line">
         </div>
@@ -3423,7 +3423,7 @@ It also collects metrics about the build process, such as duration and memory us
     <dl class="phpdocumentor-argument-list">
                     <dt class="phpdocumentor-argument-list__entry">
                 <span class="phpdocumentor-argument-list__argument__name">$static</span>
-                : <span class="phpdocumentor-argument-list__argument__type">array&lt;string|int, mixed&gt;</span>
+                : <span class="phpdocumentor-argument-list__argument__type">array&lt;int, array&lt;string, mixed&gt;&gt;</span>
                             </dt>
             <dd class="phpdocumentor-argument-list__definition">
                 
@@ -3450,7 +3450,7 @@ It also collects metrics about the build process, such as duration and memory us
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Builder.php"><a href="files/src-builder.html"><abbr title="src/Builder.php">Builder.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">621</span>
+    <span class="phpdocumentor-element-found-in__line">643</span>
 
     </aside>
 
@@ -3458,7 +3458,7 @@ It also collects metrics about the build process, such as duration and memory us
 
     <code class="phpdocumentor-code phpdocumentor-signature ">
     <span class="phpdocumentor-signature__visibility">public</span>
-                    <span class="phpdocumentor-signature__name">setTaxonomies</span><span>(</span><span class="phpdocumentor-signature__argument"><span class="phpdocumentor-signature__argument__type">array&lt;string|int, mixed&gt;&nbsp;</span><span class="phpdocumentor-signature__argument__name">$taxonomies</span></span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">void</span></code>
+                    <span class="phpdocumentor-signature__name">setTaxonomies</span><span>(</span><span class="phpdocumentor-signature__argument"><span class="phpdocumentor-signature__argument__type">array&lt;string, <a href="classes/Cecil-Collection-Taxonomy-Collection.html"><abbr title="\Cecil\Collection\Taxonomy\Collection">Collection</abbr></a>&gt;&nbsp;</span><span class="phpdocumentor-signature__argument__name">$taxonomies</span></span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">void</span></code>
 
     <div class="phpdocumentor-label-line">
         </div>
@@ -3468,7 +3468,7 @@ It also collects metrics about the build process, such as duration and memory us
     <dl class="phpdocumentor-argument-list">
                     <dt class="phpdocumentor-argument-list__entry">
                 <span class="phpdocumentor-argument-list__argument__name">$taxonomies</span>
-                : <span class="phpdocumentor-argument-list__argument__type">array&lt;string|int, mixed&gt;</span>
+                : <span class="phpdocumentor-argument-list__argument__type">array&lt;string, <a href="classes/Cecil-Collection-Taxonomy-Collection.html"><abbr title="\Cecil\Collection\Taxonomy\Collection">Collection</abbr></a>&gt;</span>
                             </dt>
             <dd class="phpdocumentor-argument-list__definition">
                 
@@ -3495,7 +3495,7 @@ It also collects metrics about the build process, such as duration and memory us
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Builder.php"><a href="files/src-builder.html"><abbr title="src/Builder.php">Builder.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">692</span>
+    <span class="phpdocumentor-element-found-in__line">716</span>
 
     </aside>
 

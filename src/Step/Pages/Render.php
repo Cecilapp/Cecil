@@ -40,7 +40,7 @@ class Render extends AbstractStep
     /**
      * Subset of pages to render.
      *
-     * @var array
+     * @var array<string, mixed>
      */
     protected $subset = [];
 
@@ -292,6 +292,8 @@ class Render extends AbstractStep
 
     /**
      * Returns an array of layouts directories.
+     *
+     * @return list<string>
      */
     protected function getAllLayoutsPaths(): array
     {
@@ -318,7 +320,7 @@ class Render extends AbstractStep
     /**
      * Adds global variables.
      */
-    protected function addGlobals()
+    protected function addGlobals(): void
     {
         $this->builder->getRenderer()->addGlobal('cecil', [
             'url'       => \sprintf('https://cecil.app/#%s', Builder::getVersion()),
@@ -329,6 +331,8 @@ class Render extends AbstractStep
 
     /**
      * Get available output formats.
+     *
+     * @return array<string>
      *
      * @throws RuntimeException
      */
@@ -366,6 +370,10 @@ class Render extends AbstractStep
 
     /**
      * Get alternates.
+     *
+     * @param array<string> $formats
+     *
+     * @return list<array<string, mixed>>
      */
     protected function getAlternates(array $formats): array
     {

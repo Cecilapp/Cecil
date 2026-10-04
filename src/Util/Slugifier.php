@@ -62,6 +62,11 @@ class Slugifier
         return ltrim(trim(strtr($path, array_flip($placeholders)), '-'), '/');
     }
 
+    /**
+     * Creates unique placeholders for characters to preserve during slugification.
+     *
+     * @return array<string, string>
+     */
     private static function createSlugifyPlaceholders(string $path): array
     {
         $placeholders = [];

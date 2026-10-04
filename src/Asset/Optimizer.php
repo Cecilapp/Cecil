@@ -40,9 +40,9 @@ class Optimizer
      * Minifies CSS or JS content in the given data array.
      * Returns the updated data array, unchanged if conditions are not met.
      *
-     * @param array $data Asset data array (must contain 'ext', 'path', 'content')
+     * @param array<string, mixed> $data Asset data array (must contain 'ext', 'path', 'content')
      *
-     * @return array Updated data array with minified content
+     * @return array<string, mixed> Updated data array with minified content
      *
      * @throws RuntimeException
      */

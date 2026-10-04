@@ -28,7 +28,7 @@ class Html
      *
      * @param string $html The HTML content to parse
      *
-     * @return array An associative array of Open Graph meta tags
+     * @return array<string, string> An associative array of Open Graph meta tags
      */
     public static function getOpenGraphMetaTags(string $html): array
     {
@@ -52,7 +52,7 @@ class Html
      *
      * @param string $html The HTML content to parse
      *
-     * @return array An associative array of Twitter meta tags
+     * @return array<string, string> An associative array of Twitter meta tags
      */
     public static function getTwitterMetaTags(string $html): array
     {
@@ -176,6 +176,8 @@ class Html
 
     /**
      * Extracts image URLs from JSON-LD data.
+     *
+     * @param array<mixed> $data Decoded JSON-LD data (object or list of objects)
      *
      * @return string[]
      */

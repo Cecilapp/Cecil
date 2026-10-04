@@ -160,13 +160,19 @@ EOF
         $this->writer->addDumper('po', new PoFileDumper());
     }
 
-    private function initTwigExtractor($layoutsPath = []): void
+    /**
+     * @param string|array<int, string> $layoutsPath
+     */
+    private function initTwigExtractor(string|array $layoutsPath = []): void
     {
         $twig = (new \Cecil\Renderer\Twig($this->getBuilder(), $layoutsPath))->getTwig();
         $this->extractor = new TwigExtractor($twig);
     }
 
-    private function extractMessages(string $locale, $layoutsPath, string $prefix): MessageCatalogue
+    /**
+     * @param string|array<int, string> $layoutsPath
+     */
+    private function extractMessages(string $locale, string|array $layoutsPath, string $prefix): MessageCatalogue
     {
         $extractedCatalogue = new MessageCatalogue($locale);
         $this->extractor->setPrefix($prefix);

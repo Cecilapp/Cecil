@@ -173,7 +173,7 @@ class PrefixSuffix
      * Matches string with prefix pattern.
      *
      * @param string     $string     String to test
-     * @param array|null $matches    Output parameter populated with preg_match() matches
+     * @param array<string>|null $matches    Output parameter populated with preg_match() matches
      * @param string[]   $separators Allowed separator characters
      *
      * @return bool True when the string matches the prefix pattern

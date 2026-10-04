@@ -30,6 +30,7 @@ use Symfony\Component\Finder\Finder;
  */
 class Copy extends AbstractStep
 {
+    /** @var int */
     protected $count = 0;
 
     /**
@@ -110,6 +111,8 @@ class Copy extends AbstractStep
     /**
      * Copying a file or files in a directory from $from (if exists) to $to (relative to output path).
      * Exclude files or directories with $exclude array.
+     *
+     * @param array<string>|null $exclude
      */
     protected function copy(string $from, ?string $to = null, ?array $exclude = null): void
     {

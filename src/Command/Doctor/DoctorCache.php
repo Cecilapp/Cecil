@@ -106,6 +106,8 @@ EOF
 
     /**
      * Returns files count and size for a directory.
+     *
+     * @return array{files: int, bytes: int}
      */
     private function getDirectoryStats(string $directory): array
     {

@@ -75,6 +75,8 @@ EOF
 
     /**
      * Converts an array to YAML.
+     *
+     * @param array<string, mixed> $array
      */
     private function arrayToYaml(array $array): string
     {

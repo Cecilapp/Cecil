@@ -34,7 +34,7 @@ use Cecil\Step\AbstractStep;
  */
 class Create extends AbstractStep
 {
-    /** @var array */
+    /** @var array<string, MenusCollection> */
     protected $menus;
 
     /**

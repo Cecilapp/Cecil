@@ -25,7 +25,7 @@ use Symfony\Component\Validator\Validation;
 class SiteDoctor
 {
     /**
-     * @param array<int, string> $configFiles
+     * @param array<string, string> $configFiles
      *
      * @return array{
      *   environment: array<int, array{0: string, 1: string}>,
@@ -191,7 +191,7 @@ class SiteDoctor
     }
 
     /**
-     * @param array<int, string> $configFiles
+     * @param array<string, string> $configFiles
      */
     private function formatConfigFiles(array $configFiles): string
     {

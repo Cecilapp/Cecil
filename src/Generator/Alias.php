@@ -59,6 +59,8 @@ class Alias extends AbstractGenerator implements GeneratorInterface
 
     /**
      * Returns aliases array.
+     *
+     * @return array<int|string, string>
      */
     protected function getPageAliases(Page $page): array
     {

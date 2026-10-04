@@ -15,6 +15,9 @@ namespace Cecil\Collection;
 
 /**
  * Collection interface.
+ *
+ * @extends \IteratorAggregate<int, ItemInterface>
+ * @extends \ArrayAccess<string, mixed>
  */
 interface CollectionInterface extends BaseInterface, \Countable, \IteratorAggregate, \ArrayAccess
 {
@@ -60,6 +63,8 @@ interface CollectionInterface extends BaseInterface, \Countable, \IteratorAggreg
 
     /**
      * Retrieves all keys.
+     *
+     * @return array<int, int>
      */
     public function keys(): array;
 
@@ -75,6 +80,8 @@ interface CollectionInterface extends BaseInterface, \Countable, \IteratorAggreg
 
     /**
      * Returns collection as array.
+     *
+     * @return array<int, ItemInterface>
      */
     public function toArray(): array;
 
@@ -85,6 +92,8 @@ interface CollectionInterface extends BaseInterface, \Countable, \IteratorAggreg
 
     /**
      * Implements \IteratorAggregate.
+     *
+     * @return \ArrayIterator<int, ItemInterface>
      */
     public function getIterator(): \ArrayIterator;
 

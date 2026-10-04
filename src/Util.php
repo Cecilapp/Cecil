@@ -26,7 +26,7 @@ class Util
 {
     /**
      * Formats a class name.
-     * @param array $options Options for formatting. Supported options:
+     * @param array{lowercase?: bool} $options Options for formatting. Supported options:
      *  - 'lowercase' (bool): Whether to convert the class name to lowercase. Default is false.
      *
      * ie: "Cecil\Step\OptimizeHtml" become "OptimizeHtml"
@@ -99,6 +99,8 @@ class Util
 
     /**
      * Converts memory size for human.
+     *
+     * @param int $size Memory size in bytes
      */
     public static function convertMemory($size): string
     {
@@ -214,7 +216,7 @@ class Util
      *
      * @param string $url The URL to check
      *
-     * @return array|false An associative array with 'type' and 'url' keys if a match is found, or false otherwise
+     * @return array{type: string, url: string}|false An associative array with 'type' and 'url' keys if a match is found, or false otherwise
      */
     public static function matchesUrlPattern(string $url): array|false
     {

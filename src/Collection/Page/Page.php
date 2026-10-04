@@ -55,7 +55,7 @@ class Page extends Item
     /** @var string */
     protected $frontmatter;
 
-    /** @var array Front matter before conversion. */
+    /** @var array<string, mixed> Front matter before conversion. */
     protected $fmVariables = [];
 
     /** @var string Body before conversion. */
@@ -64,13 +64,13 @@ class Page extends Item
     /** @var string Body after conversion. */
     protected $html;
 
-    /** @var array Output, by format. */
+    /** @var array<string, array{output: string, template: array{scope: string, file: string}}> Output, by format. */
     protected $rendered = [];
 
     /** @var Collection pages list. */
     protected $pages;
 
-    /** @var array */
+    /** @var array<string, mixed> */
     protected $paginator = [];
 
     /** @var \Cecil\Collection\Taxonomy\Vocabulary Terms of a vocabulary. */
@@ -508,6 +508,8 @@ class Page extends Item
 
     /**
      * Add rendered.
+     *
+     * @param array<string, array{output: string, template: array{scope: string, file: string}}> $rendered
      */
     public function addRendered(array $rendered): self
     {
@@ -518,6 +520,8 @@ class Page extends Item
 
     /**
      * Get rendered.
+     *
+     * @return array<string, array{output: string, template: array{scope: string, file: string}}>
      */
     public function getRendered(): array
     {
@@ -554,6 +558,8 @@ class Page extends Item
 
     /**
      * Set paginator.
+     *
+     * @param array<string, mixed> $paginator
      */
     public function setPaginator(array $paginator): self
     {
@@ -564,6 +570,8 @@ class Page extends Item
 
     /**
      * Get paginator.
+     *
+     * @return array<string, mixed>
      */
     public function getPaginator(): array
     {
@@ -572,6 +580,8 @@ class Page extends Item
 
     /**
      * Paginator backward compatibility.
+     *
+     * @return array<string, mixed>
      */
     public function getPagination(): array
     {
@@ -603,6 +613,8 @@ class Page extends Item
     /**
      * Set an array as variables.
      *
+     * @param array<string, mixed> $variables
+     *
      * @throws RuntimeException
      */
     public function setVariables(array $variables): self
@@ -616,6 +628,8 @@ class Page extends Item
 
     /**
      * Get all variables.
+     *
+     * @return array<string, mixed>
      */
     public function getVariables(): array
     {
@@ -725,6 +739,8 @@ class Page extends Item
 
     /**
      * Set front matter (only) variables.
+     *
+     * @param array<string, mixed> $variables
      */
     public function setFmVariables(array $variables): self
     {
@@ -735,6 +751,8 @@ class Page extends Item
 
     /**
      * Get front matter variables.
+     *
+     * @return array<string, mixed>
      */
     public function getFmVariables(): array
     {

@@ -42,7 +42,7 @@ class Url
      *
      * @param Builder                          $builder
      * @param Page|MenuEntry|Asset|string|null $value
-     * @param array|null                       $options Rendering options, e.g.: ['canonical' => true, 'format' => 'html', 'language' => 'fr']
+     * @param array<string, mixed>|null        $options Rendering options, e.g.: ['canonical' => true, 'format' => 'html', 'language' => 'fr']
      */
     public function __construct(Builder $builder, $value, ?array $options = null)
     {

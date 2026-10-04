@@ -182,6 +182,8 @@ class Cache implements CacheInterface
 
     /**
      * {@inheritdoc}
+     *
+     * @param iterable<string, mixed> $values
      */
     public function setMultiple($values, $ttl = null): bool
     {
@@ -204,6 +206,8 @@ class Cache implements CacheInterface
      * The $hash is generated from the $value and is used to identify the content. It is generated with a fast non-cryptographic hash function (xxh128) to ensure good performance.
      * The $version is the Cecil version, used to invalidate cache when Cecil is updated.
      * The key is sanitized to remove reserved characters and ensure it is a valid file name. It is also truncated to 200 characters to avoid issues with file system limits.
+     *
+     * @param array<string, mixed>|null $tags
      *
      * @throws \InvalidArgumentException if the $value type is not supported or if the generated key contains reserved characters.
      */
@@ -371,6 +375,8 @@ class Cache implements CacheInterface
 
     /**
      * Returns target cache directory and filename/key suffix according to sharding rules.
+     *
+     * @return array{string, string}
      */
     private function resolveShard(string $key): array
     {
