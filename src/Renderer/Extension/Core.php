@@ -991,7 +991,7 @@ class Core extends AbstractExtension
         $key = $name . ($value ? '-' . $this->hash($value) : '');
         $key = $key . '-' . $context['site']['language'] . '-' . $context['site']['build'];
 
-        return preg_replace('/[{}()\/\\\@:]/', '-', $key); // replace any of the reserved characters
+        return preg_replace('/[{}()\/\\\@:]/', '-', $key) ?? $key; // replace any of the reserved characters
     }
 
     /**

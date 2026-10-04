@@ -175,7 +175,7 @@ class AbstractCommand extends Command
     /**
      * Returns the working path.
      */
-    protected function getPath(bool $exist = true): ?string
+    protected function getPath(bool $exist = true): string
     {
         try {
             // get working directory by default
@@ -349,7 +349,7 @@ class AbstractCommand extends Command
     #[\Override]
     public function getProcessedHelp(): string
     {
-        $name = $this->getName();
+        $name = (string) $this->getName();
         $placeholders = [
             '%command.name%',
             '%command.full_name%',

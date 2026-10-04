@@ -51,9 +51,10 @@ EOF
     #[\Override]
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
-        $this->getApplication()->find('clear:output')->run($input, $output);
-        $this->getApplication()->find('clear:tmp')->run($input, $output);
-        $this->getApplication()->find('cache:clear')->run($input, $output);
+        $application = $this->getApplication() ?? throw new \LogicException('The command is not attached to an application.');
+        $application->find('clear:output')->run($input, $output);
+        $application->find('clear:tmp')->run($input, $output);
+        $application->find('cache:clear')->run($input, $output);
 
         return Command::SUCCESS;
     }

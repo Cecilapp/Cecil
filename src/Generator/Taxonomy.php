@@ -54,7 +54,7 @@ class Taxonomy extends AbstractGenerator implements GeneratorInterface
                                 $pageId = "$language/$pageId";
                             }
                             $pages = $term->sortByDate();
-                            $date = $pages->first()->getVariable('date');
+                            $date = $pages->first()?->getVariable('date');
                             // creates page for each term
                             $page = (new Page($pageId))
                                 ->setPath($path)

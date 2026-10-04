@@ -71,7 +71,7 @@ class Copy extends AbstractStep
         if ($this->builder->isDebug() && $this->config->isEnabled('assets.compile.sourcemap')) {
             // copying content of '<theme>/assets/' dir if exists
             if ($this->config->hasTheme()) {
-                $themes = array_reverse($this->config->getTheme());
+                $themes = array_reverse($this->config->getTheme() ?? []);
                 foreach ($themes as $theme) {
                     $this->copy($this->config->getThemeDirPath($theme, 'assets'));
                 }
@@ -84,7 +84,7 @@ class Copy extends AbstractStep
 
         // copying content of '<theme>/static/' dir if exists
         if ($this->config->hasTheme()) {
-            $themes = array_reverse($this->config->getTheme());
+            $themes = array_reverse($this->config->getTheme() ?? []);
             foreach ($themes as $theme) {
                 $this->copy($this->config->getThemeDirPath($theme, 'static'), $target, $exclude);
             }

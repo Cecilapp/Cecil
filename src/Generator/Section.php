@@ -45,7 +45,7 @@ class Section extends AbstractGenerator implements GeneratorInterface
         // identifying explicit sub-sections: nested folders containing an "index.md" file
         $subSections = [];
         /** @var Page $page */
-        foreach ($this->builder->getPages() ?? [] as $page) {
+        foreach ($this->builder->getPages() as $page) {
             if ($page->isVirtual() || !$page->isSectionIndex()) {
                 continue;
             }
@@ -58,7 +58,7 @@ class Section extends AbstractGenerator implements GeneratorInterface
 
         // identifying sections from all pages
         /** @var Page $page */
-        foreach ($this->builder->getPages() ?? [] as $page) {
+        foreach ($this->builder->getPages() as $page) {
             if (!$page->getSection()) {
                 continue;
             }
@@ -134,7 +134,7 @@ class Section extends AbstractGenerator implements GeneratorInterface
                         ->setSection($path)
                         ->setPages($pages)
                         ->setVariable('language', $language)
-                        ->setVariable('date', $pages->first()->getVariable('date'))
+                        ->setVariable('date', $pages->first()?->getVariable('date'))
                         ->setVariable('langref', $path)
                         ->setVariable('toplevel', $toplevel);
                     // human readable title

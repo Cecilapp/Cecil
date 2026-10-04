@@ -144,7 +144,7 @@ class Pagination extends AbstractGenerator implements GeneratorInterface
                 $alteredPage->setPaginator($paginator);
                 $alteredPage->setVariable('pagination', $paginator); // backward compatibility
                 // updates date with the first element of the collection
-                $alteredPage->setVariable('date', $pagesInPagination->first()->getVariable('date'));
+                $alteredPage->setVariable('date', $pagesInPagination->first()?->getVariable('date'));
 
                 $this->generatedPages->add($alteredPage);
             }

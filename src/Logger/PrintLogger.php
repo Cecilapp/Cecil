@@ -27,7 +27,7 @@ use Psr\Log\LogLevel;
  */
 class PrintLogger extends AbstractLogger
 {
-    /** @var int */
+    /** @var int|null */
     protected $printLevelMax = null;
 
     /** @var array<string, int> */

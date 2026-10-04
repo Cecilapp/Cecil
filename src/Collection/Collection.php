@@ -65,7 +65,7 @@ class Collection implements CollectionInterface
      *
      * @return array<int, T>
      */
-    protected function searchItem(string $id): ?array
+    protected function searchItem(string $id): array
     {
         return array_filter($this->items, function (ItemInterface $item) use ($id) {
             return $item->getId() == $id;
@@ -93,12 +93,7 @@ class Collection implements CollectionInterface
      */
     public function has(string $id): bool
     {
-        $result = $this->searchItem($id);
-        if (\is_array($result) && !empty($result)) {
-            return true;
-        }
-
-        return false;
+        return !empty($this->searchItem($id));
     }
 
     /**

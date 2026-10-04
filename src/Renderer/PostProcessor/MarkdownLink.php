@@ -52,7 +52,7 @@ class MarkdownLink extends AbstractPostProcessor
                 return \sprintf($hrefPattern, Util\Slugifier::slugify(PrefixSuffix::sub($matches[2])), $matches[3] ?? '');
             },
             $output
-        );
+        ) ?? $output;
 
         return $output;
     }

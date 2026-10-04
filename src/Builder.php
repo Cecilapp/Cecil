@@ -142,7 +142,7 @@ class Builder implements BuildContextInterface, LoggerAwareInterface
      * Pages collection.
      * This is a collection of pages that have been processed and are ready for rendering.
      * It is an instance of PagesCollection, which is a custom collection class for managing pages.
-     * @var PagesCollection
+     * @var PagesCollection|null
      */
     protected $pages;
     /**
@@ -522,11 +522,11 @@ class Builder implements BuildContextInterface, LoggerAwareInterface
     }
 
     /**
-     * Returns pages collection.
+     * Returns pages collection (empty until pages are created).
      */
-    public function getPages(): ?PagesCollection
+    public function getPages(): PagesCollection
     {
-        return $this->pages;
+        return $this->pages ??= new PagesCollection('all-pages');
     }
 
     /**

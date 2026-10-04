@@ -49,10 +49,6 @@ class Convert extends AbstractStep
     public function init(array $options): void
     {
         parent::init($options);
-
-        if (\is_null($this->builder->getPages())) {
-            $this->canProcess = false;
-        }
     }
 
     /**
@@ -60,7 +56,7 @@ class Convert extends AbstractStep
      */
     public function process(): void
     {
-        if (!is_iterable($this->builder->getPages()) || \count($this->builder->getPages()) == 0) {
+        if (\count($this->builder->getPages()) == 0) {
             return;
         }
 
@@ -83,7 +79,7 @@ class Convert extends AbstractStep
                     $this->builder->getPages()->remove($page->getId());
                     continue;
                 } catch (\Exception $e) {
-                    $this->builder->getLogger()->error(\sprintf('Unable to convert "%s": %s', Util::joinPath(Util\File::getFS()->makePathRelative($page->getFilePath(), $this->config->getPagesPath())), $e->getMessage()));
+                    $this->builder->getLogger()->error(\sprintf('Unable to convert "%s": %s', Util::joinPath(Util\File::getFS()->makePathRelative((string) $page->getFilePath(), $this->config->getPagesPath())), $e->getMessage()));
                     $this->builder->getPages()->remove($page->getId());
                     continue;
                 }
@@ -120,7 +116,7 @@ class Convert extends AbstractStep
             try {
                 $variables = $converter->convertFrontmatter($page->getFrontmatter(), $format);
             } catch (RuntimeException $e) {
-                throw new RuntimeException($e->getMessage(), file: $page->getFilePath(), line: $e->getLine());
+                throw new RuntimeException($e->getMessage(), file: (string) $page->getFilePath(), line: $e->getLine());
             }
             $page->setFmVariables($variables);
             $page->setVariables($variables);
@@ -132,9 +128,9 @@ class Convert extends AbstractStep
                 $language = $page->getVariable('language');
                 $isDefault = $language === $builder->getConfig()->getLanguageDefault();
                 $effectiveLanguage = $isDefault ? null : $language;
-                $html = $converter->convertBody($page->getBody(), $effectiveLanguage);
+                $html = $converter->convertBody($page->getBody() ?? '', $effectiveLanguage);
             } catch (RuntimeException $e) {
-                throw new RuntimeException($e->getMessage(), file: $page->getFilePath(), line: $e->getLine());
+                throw new RuntimeException($e->getMessage(), file: (string) $page->getFilePath(), line: $e->getLine());
             }
             $page->setBodyHtml($html);
         }

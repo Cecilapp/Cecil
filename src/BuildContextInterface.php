@@ -92,9 +92,9 @@ interface BuildContextInterface
     public function setPages(PagesCollection $pages): void;
 
     /**
-     * Returns pages collection.
+     * Returns pages collection (empty until pages are created).
      */
-    public function getPages(): ?PagesCollection;
+    public function getPages(): PagesCollection;
 
     /**
      * Returns list of assets path.

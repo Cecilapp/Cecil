@@ -145,7 +145,7 @@ class Html
         foreach (['//article//img/@src', '//main//img/@src', '//body//img/@src'] as $expression) {
             $img = $crawler->filterXPath($expression);
             if ($img->count() > 0) {
-                $candidates[] = $img->getNode(0)->nodeValue;
+                $candidates[] = $img->getNode(0)?->nodeValue;
                 break;
             }
         }
@@ -160,7 +160,7 @@ class Html
         // resolves relative URLs
         $base = $crawler->filterXPath('//base/@href');
         if ($base->count() > 0) {
-            $baseUrl = UriResolver::resolve((string) $base->getNode(0)->nodeValue, $baseUrl);
+            $baseUrl = UriResolver::resolve((string) $base->getNode(0)?->nodeValue, $baseUrl);
         }
         $urls = [];
         foreach ($candidates as $candidate) {

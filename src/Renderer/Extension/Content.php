@@ -127,7 +127,7 @@ class Content extends AbstractExtension
             $result = trim($matches[3]);
         }
         // removes footnotes and returns result
-        return preg_replace('/<sup[^>]*>[^u]*<\/sup>/', '', $result);
+        return preg_replace('/<sup[^>]*>[^u]*<\/sup>/', '', $result) ?? $result;
     }
 
     /**

@@ -61,7 +61,7 @@ class Page
      */
     public function getOutputFilePath(string $format): string
     {
-        $path = $this->page->getPath();
+        $path = $this->page->getPath() ?? '';
         $subpath = $this->getOutputFormatString($format, 'subpath');
         $filename = $this->getOutputFormatString($format, 'filename');
         $extension = $this->getOutputFormatString($format, 'extension');
