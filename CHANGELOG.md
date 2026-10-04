@@ -2,6 +2,16 @@
 
 All notable changes to this project will be documented in this file. Dates are displayed in UTC.
 
+#### [9.6.3](https://github.com/Cecilapp/Cecil/compare/9.6.2...9.6.3)
+
+> 4 October 2026
+
+- docs: fix pagination example and update data access syntax [`be069c2`](https://github.com/Cecilapp/Cecil/commit/be069c28fc8acf693a556f9d4eab05c23fa8138f)
+- fix(asset): better URL generation logic [`c0b4328`](https://github.com/Cecilapp/Cecil/commit/c0b43285f925703dabdfdec51aff6b9a4f999aa9)
+- chore(release): add SHA1 checksum to release workflow and fix echo output [`e159dd9`](https://github.com/Cecilapp/Cecil/commit/e159dd9b28b9bf325031d4934a2c51ad9464dfca)
+- chore(release): enable GPG signing with armor format [`6813ba4`](https://github.com/Cecilapp/Cecil/commit/6813ba4cf875649db053b3cf56053ab50c9e240c)
+- fix(release): check file existence instead of ignoring errors [`0ae553f`](https://github.com/Cecilapp/Cecil/commit/0ae553fe8b41f42ca9c520283ac28030fc19c161)
+
 #### [9.6.2](https://github.com/Cecilapp/Cecil/compare/9.6.1...9.6.2)
 
 > 3 October 2026
