@@ -101,7 +101,7 @@ EOF
             }
             // parse given path name
             $nameParts = pathinfo($name);
-            $dirname = trim($nameParts['dirname'], '.');
+            $dirname = trim($nameParts['dirname'] ?? '', '.');
             $basename = $nameParts['basename'];
             $extension = $nameParts['extension'] ?? '';
             $title = $extension !== '' ? substr($basename, 0, -\strlen(".$extension")) : $basename;

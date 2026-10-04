@@ -485,18 +485,19 @@ class Parsedown extends \ParsedownToc
                             $srcset = (string) new Url($this->builder, $assetConverted);
                         }
                         // add format to <sources>
-                        $sources[] = [
-                            'name'       => 'source',
-                            'attributes' => [
-                                'type'   => "image/$format",
-                                'srcset' => $srcset,
-                                'width'  => $InlineImage['element']['attributes']['width'],
-                                'height' => $InlineImage['element']['attributes']['height'],
-                            ],
+                        $sourceAttributes = [
+                            'type'   => "image/$format",
+                            'srcset' => $srcset,
+                            'width'  => $InlineImage['element']['attributes']['width'],
+                            'height' => $InlineImage['element']['attributes']['height'],
                         ];
                         if (!empty($sizes)) {
-                            $sources[\count($sources) - 1]['attributes']['sizes'] = $sizes;
+                            $sourceAttributes['sizes'] = $sizes;
                         }
+                        $sources[] = [
+                            'name'       => 'source',
+                            'attributes' => $sourceAttributes,
+                        ];
                     } catch (\Exception $e) {
                         $this->builder->getLogger()->warning($e->getMessage());
                         continue;
@@ -735,7 +736,11 @@ class Parsedown extends \ParsedownToc
             }
             if (!empty($HtmlAtt)) {
                 foreach ($HtmlAtt as $a => $v) {
-                    $Data[$a] = trim($v, '"');
+                    // ignores array values (e.g.: `a[]=b`)
+                    if (!\is_string($v)) {
+                        continue;
+                    }
+                    $Data[(string) $a] = trim($v, '"');
                 }
             }
         }

@@ -46,7 +46,7 @@ class Save extends AbstractStep
         // last build step: should clear cache?
         $this->clearCacheIfDisabled();
 
-        if ($options['dry-run']) {
+        if ($options['dry-run'] ?? false) {
             return;
         }
 

@@ -39,7 +39,7 @@ abstract class AbstractOptimize extends AbstractStep
      */
     public function init(array $options): void
     {
-        if ($options['dry-run']) {
+        if ($options['dry-run'] ?? false) {
             return;
         }
         if (!$this->config->isEnabled(\sprintf('optimize.%s', $this->type))) {

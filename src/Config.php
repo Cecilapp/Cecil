@@ -242,7 +242,7 @@ class Config
     public function getSourceDir(): string
     {
         if ($this->sourceDir === null) {
-            return getcwd();
+            return getcwd() ?: throw new ConfigException('Unable to get current working directory.');
         }
 
         return $this->sourceDir;

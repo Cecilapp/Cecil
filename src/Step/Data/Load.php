@@ -155,7 +155,7 @@ class Load extends AbstractStep
      * @param array<mixed> $arr       Target array
      * @param string       $path      Source path
      * @param array<mixed> $value     Source values
-     * @param string       $separator Path separator (ie: '/')
+     * @param non-empty-string $separator Path separator (ie: '/')
      */
     private function pathToArray(array &$arr, string $path, array $value, string $separator = DIRECTORY_SEPARATOR): void
     {

@@ -62,9 +62,9 @@ class Page
     public function getOutputFilePath(string $format): string
     {
         $path = $this->page->getPath();
-        $subpath = (string) $this->config->getOutputFormatProperty($format, 'subpath');
-        $filename = (string) $this->config->getOutputFormatProperty($format, 'filename');
-        $extension = (string) $this->config->getOutputFormatProperty($format, 'extension');
+        $subpath = $this->getOutputFormatString($format, 'subpath');
+        $filename = $this->getOutputFormatString($format, 'filename');
+        $extension = $this->getOutputFormatString($format, 'extension');
         $uglyurl = (bool) $this->page->getVariable('uglyurl');
         $language = $this->page->getVariable('language');
         // is ugly URL?
@@ -89,6 +89,16 @@ class Page
         }
 
         return \Cecil\Util::joinPath($language, $path, $subpath, $filename) . $extension;
+    }
+
+    /**
+     * Returns a string property of an output format (empty string if not defined).
+     */
+    private function getOutputFormatString(string $format, string $property): string
+    {
+        $value = $this->config->getOutputFormatProperty($format, $property);
+
+        return \is_string($value) ? $value : '';
     }
 
     /**

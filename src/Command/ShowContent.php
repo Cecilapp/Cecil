@@ -109,7 +109,7 @@ EOF
      * @param string $path
      * @param array<int, string> $allowedExtensions
      *
-     * @return array<string, mixed>
+     * @return array<int|string, mixed>
      *
      * @throws RuntimeException
      */
@@ -144,7 +144,7 @@ EOF
      * @param array<int, string> $allowedExtensions
      * @param array<int, string> $excludedDirs
      *
-     * @return array<string, mixed>
+     * @return array<int|string, mixed>
      */
     private function buildSubdirectoryStructure(string $path, array $allowedExtensions, array $excludedDirs): array
     {

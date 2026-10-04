@@ -324,7 +324,7 @@ class SiteDoctor
         $violations = $validator->validate($url, new Url());
         if (\count($violations) > 0) {
             foreach ($violations as $violation) {
-                throw new \RuntimeException($violation->getMessage());
+                throw new \RuntimeException((string) $violation->getMessage());
             }
         }
 

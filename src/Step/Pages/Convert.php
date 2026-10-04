@@ -36,7 +36,7 @@ class Convert extends AbstractStep
      */
     public function getName(): string
     {
-        if ($this->builder->getBuildOptions()['drafts']) {
+        if ($this->builder->getBuildOptions()['drafts'] ?? false) {
             return 'Converting pages (drafts included)';
         }
 
@@ -90,7 +90,7 @@ class Convert extends AbstractStep
                 $message = \sprintf('Page "%s" converted', $page->getId());
                 $statusMessage = ' (not published)';
                 // forces drafts convert?
-                if ($this->builder->getBuildOptions()['drafts']) {
+                if ($this->builder->getBuildOptions()['drafts'] ?? false) {
                     $page->setVariable('published', true);
                 }
                 // replaces page in collection
