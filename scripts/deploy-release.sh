@@ -8,6 +8,11 @@ if [ -z "${VERSION}" ]; then
   export VERSION=$(echo $GITHUB_REF | cut -d'/' -f 3)
 fi
 
+# SHA1
+if [ -z "${SHA1}" ]; then
+  export SHA1=$(sha1sum dist/cecil.phar | cut -d' ' -f 1)
+fi
+
 # pre-release
 if [ -z "${PRERELEASE}" ]; then
   export PRERELEASE="false"
@@ -50,7 +55,7 @@ mkdir -p $TARGET_RELEASE_DIR
 cp $HOME/$PHAR_FILE $TARGET_RELEASE_DIR/$PHAR_FILE
 # create `.sha1` file
 cd $TARGET_RELEASE_DIR
-$SHA1 > $PHAR_FILE_SHA1
+echo "$SHA1" > $PHAR_FILE_SHA1
 cd ../../..
 
 # create VERSION file and redirections (if not pre-release)

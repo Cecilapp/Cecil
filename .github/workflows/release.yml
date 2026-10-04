@@ -156,6 +156,7 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.REPOS_TOKEN }}
           VERSION: ${{ needs.build.outputs.version }}
+          SHA1: ${{ needs.build.outputs.sha1 }}
           PRERELEASE: ${{ github.event.release.prerelease }}
       - name: Summary
         run: echo "🌐 Deployed to [website](https://cecil.app)" >> $GITHUB_STEP_SUMMARY
