@@ -272,11 +272,7 @@ class Asset implements \ArrayAccess
             return $this->buildImageCdnUrl();
         }
 
-        if ($this->builder->getConfig()->isEnabled('canonicalurl')) {
-            return (string) new Url($this->builder, $this->data['path'], ['canonical' => true]);
-        }
-
-        return $this->data['path'];
+        return (string) new Url($this->builder, $this->data['path']);
     }
 
     /**

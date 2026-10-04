@@ -173,6 +173,19 @@ class AssetTest extends TestCase
         self::assertSame('/css/site.css', (string) $asset);
     }
 
+    public function testToStringPrefixesPathWithBaseurlPath(): void
+    {
+        ['asset' => $asset, 'cache' => $cache] = $this->createTestAsset([
+            'path' => '/css/site.css',
+            'content' => 'body{color:black;}',
+        ], [
+            'baseurl' => 'https://example.test/base/',
+        ]);
+        $this->filesystem->dumpFile($cache->getContentFile('/css/site.css'), 'body{color:black;}');
+
+        self::assertSame('/base/css/site.css', (string) $asset);
+    }
+
     public function testToStringReturnsCanonicalUrlWhenEnabled(): void
     {
         ['asset' => $asset, 'cache' => $cache] = $this->createTestAsset([
