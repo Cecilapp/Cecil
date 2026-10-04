@@ -185,7 +185,7 @@ jobs:
           asset_name: cecil.phar
           asset_content_type: application/octet-stream
       - name: Add `cecil.phar.asc` to release
-        continue-on-error: true
+        if: hashFiles('cecil.phar.asc') != ''
         uses: shogo82148/actions-upload-release-asset@v1
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
