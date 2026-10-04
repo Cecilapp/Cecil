@@ -3,7 +3,7 @@ name: Release
 env:
   PHP_VERSION: 8.3
   FORMULA_NAME: cecil
-  GPG_SIGNATURE: false
+  GPG_SIGNATURE: true
   GPG_EMAIL: arnaud@ligny.fr
 
 on:
@@ -107,7 +107,7 @@ jobs:
           gpg --local-user ${{ env.GPG_EMAIL }} \
               --batch \
               --yes \
-              --passphrase="${{ secrets.GPG_PASSPHRASE }}" \
+              --armor \
               --detach-sign \
               --output dist/cecil.phar.asc \
               dist/cecil.phar
