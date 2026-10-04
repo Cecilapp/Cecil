@@ -293,7 +293,7 @@ _Exemples :_
 
 - `data/authors.yml` : `site.data.authors`
 - `data/authors.fr.yml` : `site.data.authors` (si `site.language` = "fr")
-- `data/galleries/gallery-1.json` : `site.data.galleries.gallery-1`
+- `data/galleries/gallery-1.json` : `site.data.galleries['gallery-1']`
 
 ### page
 
@@ -1618,7 +1618,7 @@ Pluraliser :
 ### Fichiers de traduction
 
 Les fichiers de traduction doivent être nommés `messages.<locale>.<extension>` et stockés dans le répertoire [`translations`](4-Configuration.md#layouts).
-Les extensions prises en charge sont définies pour chaque format de traduction dans [`layouts.translations.formats`](4-Configuration.md#layoutstranslations).
+Les extensions prises en charge sont définies pour chaque format de traduction dans [`layouts.translations.formats`](4-Configuration.md#layouts-translations).
 
 Le code locale (ex. : `fr_FR`) d'une langue est défini dans les entrées [`languages`](4-Configuration.md#languages) de la configuration.
 

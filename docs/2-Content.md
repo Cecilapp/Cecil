@@ -857,7 +857,14 @@ _Example:_
 pagination:
   max: 5
   path: "page"
-  pagination: false
+---
+```
+
+Pagination can be disabled for a _Section_:
+
+```yaml
+---
+pagination: false
 ---
 ```
 

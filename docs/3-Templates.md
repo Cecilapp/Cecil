@@ -292,7 +292,7 @@ _Examples:_
 
 - `data/authors.yml` : `site.data.authors`
 - `data/authors.fr.yml` : `site.data.authors` (if `site.language` = "fr")
-- `data/galleries/gallery-1.json` : `site.data.galleries.gallery-1`
+- `data/galleries/gallery-1.json` : `site.data.galleries['gallery-1']`
 
 ### page
 
@@ -1617,7 +1617,7 @@ Pluralize:
 ### Translation files
 
 Translation files must be named `messages.<locale>.<extension>` and stored in the [`translations`](4-Configuration.md#layouts) directory.  
-Supported file extensions are defined by each translation format in [`layouts.translations.formats`](4-Configuration.md#layoutstranslations).
+Supported file extensions are defined by each translation format in [`layouts.translations.formats`](4-Configuration.md#layouts-translations).
 
 The locale code (e.g.: `fr_FR`) of a language is defined in the [`languages`](4-Configuration.md#languages) entries of the configuration.
 
