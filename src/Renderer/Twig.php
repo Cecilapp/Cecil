@@ -329,7 +329,7 @@ class Twig implements RendererInterface
             /**
              * Returns the current locale, set by `Twig::setLocale()`, instead of the creation time one.
              */
-            public function getLocale(int $type = \Locale::ACTUAL_LOCALE): string|false
+            public function getLocale(int $type = \Locale::ACTUAL_LOCALE): string
             {
                 return \Locale::getDefault();
             }
@@ -337,7 +337,7 @@ class Twig implements RendererInterface
             /**
              * Returns an empty pattern: the date and time formats must be resolved from the current locale.
              */
-            public function getPattern(): string|false
+            public function getPattern(): string
             {
                 return '';
             }

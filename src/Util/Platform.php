@@ -40,7 +40,7 @@ class Platform
         'Darwin'    => self::OS_OSX,
     ];
 
-    /** @var string */
+    /** @var string|null */
     protected static $pharPath;
 
     /**

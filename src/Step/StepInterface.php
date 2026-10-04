@@ -35,7 +35,7 @@ interface StepInterface
     /**
      * This method is called before the step is processed to initialize
      * the step with necessary options and to determine if it can be executed.
-     * @param \Cecil\Builder::OPTIONS $options
+     * @param array{drafts?: bool, dry-run?: bool, page?: string, render-subset?: string} $options See \Cecil\Builder::OPTIONS
      */
     public function init(array $options): void;
 

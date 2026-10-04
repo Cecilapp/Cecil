@@ -50,7 +50,7 @@ class ExternalBody extends AbstractGenerator implements GeneratorInterface
                 if ($language === $this->builder->getConfig()->getLanguageDefault()) {
                     $language = null;
                 }
-                $html = (new Converter($this->builder))->convertBody($pageContent, $language);
+                $html = (new Converter($this->getBuilder()))->convertBody($pageContent, $language);
                 $page->setBodyHtml($html);
 
                 $this->generatedPages->add($page);

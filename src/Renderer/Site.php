@@ -13,6 +13,7 @@ declare(strict_types=1);
 
 namespace Cecil\Renderer;
 
+use Cecil\BuildContextInterface;
 use Cecil\Builder;
 use Cecil\Collection\Page\Page as CollectionPage;
 
@@ -29,7 +30,7 @@ class Site implements \ArrayAccess
 {
     /**
      * Builder object.
-     * @var Builder
+     * @var BuildContextInterface
      */
     protected $builder;
     /**
@@ -43,7 +44,7 @@ class Site implements \ArrayAccess
      */
     protected $language;
 
-    public function __construct(Builder $builder, string $language)
+    public function __construct(BuildContextInterface $builder, string $language)
     {
         $this->builder = $builder;
         $this->config = $this->builder->getConfig();
@@ -143,7 +144,7 @@ class Site implements \ArrayAccess
         $pageId = $id;
         $language = $language ?? $this->language;
 
-        if ($language !== null && $language != $this->config->getLanguageDefault()) {
+        if ($language != $this->config->getLanguageDefault()) {
             $pageId = "$language/$id";
         }
 

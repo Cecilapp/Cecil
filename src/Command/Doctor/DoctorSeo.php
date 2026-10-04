@@ -166,7 +166,7 @@ EOF
     {
         $findings = array_values(array_filter(
             $result['findings'],
-            static fn (array $finding): bool => ($finding['level'] ?? '') !== $level
+            static fn (array $finding): bool => $finding['level'] !== $level
         ));
 
         return $this->buildFilteredResult($result, $findings);
@@ -195,13 +195,13 @@ EOF
         $pagesWithFindings = [];
         foreach ($findings as $finding) {
             $pagesWithFindings[$finding['page']] = true;
-            $findingLevel = (string) ($finding['level'] ?? '');
+            $findingLevel = $finding['level'];
             if (isset($counts[$findingLevel])) {
                 $counts[$findingLevel]++;
             }
         }
 
-        $pagesAudited = (int) ($result['summary']['pages_audited'] ?? 0);
+        $pagesAudited = $result['summary']['pages_audited'];
         $pagesWithoutFindings = $pagesAudited - \count($pagesWithFindings);
 
         return [

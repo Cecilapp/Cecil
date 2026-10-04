@@ -13,7 +13,7 @@ declare(strict_types=1);
 
 namespace Cecil\Renderer;
 
-use Cecil\Builder;
+use Cecil\BuildContextInterface;
 
 /**
  * Config renderer class.
@@ -27,7 +27,7 @@ class Config implements \ArrayAccess
 {
     /**
      * Builder object.
-     * @var Builder
+     * @var BuildContextInterface
      */
     protected $builder;
     /**
@@ -41,7 +41,7 @@ class Config implements \ArrayAccess
      */
     protected $language;
 
-    public function __construct(Builder $builder, string $language)
+    public function __construct(BuildContextInterface $builder, string $language)
     {
         $this->builder = $builder;
         $this->config = $this->builder->getConfig();

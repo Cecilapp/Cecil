@@ -13,7 +13,7 @@ declare(strict_types=1);
 
 namespace Cecil\Generator;
 
-use Cecil\Builder;
+use Cecil\BuildContextInterface;
 use Cecil\Collection\Page\Collection as PagesCollection;
 use Cecil\Util;
 
@@ -27,15 +27,15 @@ use Cecil\Util;
  */
 class GeneratorManager extends \SplPriorityQueue
 {
-    /** @var Builder */
+    /** @var BuildContextInterface */
     protected $builder;
 
     /**
-     * @param Builder $builder
+     * @param BuildContextInterface $builder
      *
      * @return void
      */
-    public function __construct(Builder $builder)
+    public function __construct(BuildContextInterface $builder)
     {
         $this->builder = $builder;
     }

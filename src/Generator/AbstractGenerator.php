@@ -14,7 +14,9 @@ declare(strict_types=1);
 namespace Cecil\Generator;
 
 use Cecil\BuildContextInterface;
+use Cecil\Builder;
 use Cecil\Collection\Page\Collection as PagesCollection;
+use Cecil\Exception\RuntimeException;
 use Cecil\Util;
 
 /**
@@ -41,6 +43,20 @@ abstract class AbstractGenerator implements GeneratorInterface
         $this->config = $builder->getConfig();
         // Creates a new empty collection
         $this->generatedPages = new PagesCollection('generator-' . Util::formatClassName($this, ['lowercase' => true]));
+    }
+
+    /**
+     * Returns the concrete Builder, required by components that depend on more than BuildContextInterface.
+     *
+     * @throws RuntimeException
+     */
+    protected function getBuilder(): Builder
+    {
+        if (!$this->builder instanceof Builder) {
+            throw new RuntimeException(\sprintf('"%s" requires an instance of "%s".', static::class, Builder::class));
+        }
+
+        return $this->builder;
     }
 
     /**

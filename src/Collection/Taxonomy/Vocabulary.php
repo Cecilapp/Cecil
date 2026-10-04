@@ -21,6 +21,8 @@ use Cecil\Collection\ItemInterface;
  * Vocabulary class.
  *
  * Represents a collection of terms, allowing for the addition and retrieval of terms by their ID.
+ *
+ * @extends CecilCollection<Term>
  */
 class Vocabulary extends CecilCollection implements ItemInterface
 {
@@ -35,9 +37,7 @@ class Vocabulary extends CecilCollection implements ItemInterface
             return $this;
         }
 
-        $this->items[] = $item;
-
-        return $this;
+        return parent::add($item);
     }
 
     /**

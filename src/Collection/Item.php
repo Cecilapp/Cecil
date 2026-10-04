@@ -40,7 +40,7 @@ class Item implements ItemInterface
     /**
      * {@inheritdoc}
      */
-    public function setId(string $id): BaseInterface
+    public function setId(string $id): static
     {
         $this->id = $id;
 

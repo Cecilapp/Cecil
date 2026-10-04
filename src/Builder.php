@@ -221,7 +221,7 @@ class Builder implements BuildContextInterface, LoggerAwareInterface
     protected $metrics = [];
     /**
      * Application version.
-     * @var string
+     * @var string|null
      */
     protected static $version;
     /**
@@ -271,7 +271,7 @@ class Builder implements BuildContextInterface, LoggerAwareInterface
      * This method processes the build steps in order, collects content, data, static files,
      * generates pages, renders them, and saves the output to the destination directory.
      * It also collects metrics about the build process, such as duration and memory usage.
-     * @param array<self::OPTIONS> $options
+     * @param array{drafts?: bool, dry-run?: bool, page?: string, render-subset?: string} $options
      * @see \Cecil\Builder::OPTIONS
      */
     public function build(array $options): self

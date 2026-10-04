@@ -14,7 +14,9 @@ declare(strict_types=1);
 namespace Cecil\Step;
 
 use Cecil\BuildContextInterface;
+use Cecil\Builder;
 use Cecil\Config;
+use Cecil\Exception\RuntimeException;
 
 /**
  * Abstract step class.
@@ -67,6 +69,20 @@ abstract class AbstractStep implements StepInterface
     public function canProcess(): bool
     {
         return $this->canProcess;
+    }
+
+    /**
+     * Returns the concrete Builder, required by components that depend on more than BuildContextInterface.
+     *
+     * @throws RuntimeException
+     */
+    protected function getBuilder(): Builder
+    {
+        if (!$this->builder instanceof Builder) {
+            throw new RuntimeException(\sprintf('"%s" requires an instance of "%s".', static::class, Builder::class));
+        }
+
+        return $this->builder;
     }
 
     /**

@@ -13,6 +13,7 @@ declare(strict_types=1);
 
 namespace Cecil;
 
+use Cecil\BuildContextInterface;
 use Cecil\Builder;
 use Cecil\Exception\RuntimeException;
 use Cecil\Util;
@@ -29,13 +30,13 @@ class Cache implements CacheInterface
     public const string RESERVED_CHARACTERS = '{}()/\@:';
     private const string SHARD_DELIMITER = '-';
 
-    /** @var Builder */
+    /** @var BuildContextInterface */
     protected $builder;
 
     /** @var string */
     protected $cacheDir;
 
-    public function __construct(Builder $builder, string $pool = '')
+    public function __construct(BuildContextInterface $builder, string $pool = '')
     {
         $this->builder = $builder;
         $this->cacheDir = Util::joinFile($builder->getConfig()->getCachePath(), $pool);
@@ -256,7 +257,7 @@ class Cache implements CacheInterface
 
         $name = self::sanitizeKey($name);
 
-        return \sprintf('%s__%s__%s', $name, $hash, $this->builder->getVersion());
+        return \sprintf('%s__%s__%s', $name, $hash, Builder::getVersion());
     }
 
     /**
@@ -394,11 +395,8 @@ class Cache implements CacheInterface
         if (\is_int($ttl)) {
             return $ttl;
         }
-        if ($ttl instanceof \DateInterval) {
-            return (int) $ttl->d * 86400 + $ttl->h * 3600 + $ttl->i * 60 + $ttl->s;
-        }
 
-        throw new \InvalidArgumentException('TTL values must be int or \DateInterval');
+        return (int) $ttl->d * 86400 + $ttl->h * 3600 + $ttl->i * 60 + $ttl->s;
     }
 
     /**

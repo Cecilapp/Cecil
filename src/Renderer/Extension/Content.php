@@ -356,10 +356,9 @@ class Content extends AbstractExtension
      */
     private static function isHex(string $hex): bool
     {
-        $valid = \is_string($hex);
         $hex = ltrim($hex, '#');
         $length = \strlen($hex);
-        $valid = $valid && ($length === 3 || $length === 6);
+        $valid = $length === 3 || $length === 6;
         $valid = $valid && ctype_xdigit($hex);
 
         return $valid;

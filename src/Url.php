@@ -50,10 +50,9 @@ class Url
         $this->config = $builder->getConfig();
 
         // handles options
-        $canonical = null; // if true prefix url with baseurl config
-        $format = null;    // output format
-        $language = null;  // force language
-        extract(\is_array($options) ? $options : [], EXTR_IF_EXISTS);
+        $canonical = $options['canonical'] ?? null; // if true prefix url with baseurl config
+        $format = $options['format'] ?? null;       // output format
+        $language = $options['language'] ?? null;   // force language
 
         // base URL
         $base = '';
@@ -113,7 +112,7 @@ class Url
                     $this->url = (string) $value;
                 }
                 break;
-            case \is_string($value): // others cases
+            default: // others cases (string)
                 /** @var non-falsy-string $value */
                 // $value is a potential Page ID
                 $pageId = Util\Slugifier::slugify($value);

@@ -556,6 +556,11 @@ Search.appendIndex(
             "summary": "Set\u0020collected\u0020static\u0020files.",
             "url": "classes/Cecil-BuildContextInterface.html#method_setStatic"
         },                {
+            "fqsen": "\\Cecil\\BuildContextInterface\u003A\u003AgetStatic\u0028\u0029",
+            "name": "getStatic",
+            "summary": "Returns\u0020static\u0020files\u0020collection.",
+            "url": "classes/Cecil-BuildContextInterface.html#method_getStatic"
+        },                {
             "fqsen": "\\Cecil\\BuildContextInterface\u003A\u003AsetPages\u0028\u0029",
             "name": "setPages",
             "summary": "Set\/update\u0020Pages\u0020collection.",
@@ -575,6 +580,11 @@ Search.appendIndex(
             "name": "setMenus",
             "summary": "Set\u0020menus\u0020collection.",
             "url": "classes/Cecil-BuildContextInterface.html#method_setMenus"
+        },                {
+            "fqsen": "\\Cecil\\BuildContextInterface\u003A\u003AgetMenus\u0028\u0029",
+            "name": "getMenus",
+            "summary": "Returns\u0020all\u0020menus,\u0020for\u0020a\u0020language.",
+            "url": "classes/Cecil-BuildContextInterface.html#method_getMenus"
         },                {
             "fqsen": "\\Cecil\\BuildContextInterface\u003A\u003AsetTaxonomies\u0028\u0029",
             "name": "setTaxonomies",
@@ -3701,6 +3711,11 @@ Search.appendIndex(
             "summary": "Gives\u0020the\u0020Builder\u0020to\u0020the\u0020object.",
             "url": "classes/Cecil-Generator-AbstractGenerator.html#method___construct"
         },                {
+            "fqsen": "\\Cecil\\Generator\\AbstractGenerator\u003A\u003AgetBuilder\u0028\u0029",
+            "name": "getBuilder",
+            "summary": "Returns\u0020the\u0020concrete\u0020Builder,\u0020required\u0020by\u0020components\u0020that\u0020depend\u0020on\u0020more\u0020than\u0020BuildContextInterface.",
+            "url": "classes/Cecil-Generator-AbstractGenerator.html#method_getBuilder"
+        },                {
             "fqsen": "\\Cecil\\Generator\\AbstractGenerator\u003A\u003ArunGenerate\u0028\u0029",
             "name": "runGenerate",
             "summary": "Run\u0020the\u0020\u0060generate\u0060\u0020method\u0020of\u0020the\u0020generator\u0020and\u0020returns\u0020pages.",
@@ -4805,6 +4820,11 @@ Search.appendIndex(
             "name": "canProcess",
             "summary": "",
             "url": "classes/Cecil-Step-AbstractStep.html#property_canProcess"
+        },                {
+            "fqsen": "\\Cecil\\Step\\AbstractStep\u003A\u003AgetBuilder\u0028\u0029",
+            "name": "getBuilder",
+            "summary": "Returns\u0020the\u0020concrete\u0020Builder,\u0020required\u0020by\u0020components\u0020that\u0020depend\u0020on\u0020more\u0020than\u0020BuildContextInterface.",
+            "url": "classes/Cecil-Step-AbstractStep.html#method_getBuilder"
         },                {
             "fqsen": "\\Cecil\\Step\\AbstractStep\u003A\u003Aprocess\u0028\u0029",
             "name": "process",

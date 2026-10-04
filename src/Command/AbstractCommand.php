@@ -202,7 +202,7 @@ class AbstractCommand extends Command
      */
     protected function getConfigFiles(): array
     {
-        return $this->configFiles ?? [];
+        return $this->configFiles;
     }
 
     /**

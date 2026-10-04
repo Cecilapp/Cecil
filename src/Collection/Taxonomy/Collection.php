@@ -19,6 +19,8 @@ use Cecil\Collection\Collection as CecilCollection;
  * Taxonomy collection class.
  *
  * Represents a collection of vocabularies, providing methods to retrieve vocabularies by their ID.
+ *
+ * @extends CecilCollection<Vocabulary>
  */
 class Collection extends CecilCollection
 {

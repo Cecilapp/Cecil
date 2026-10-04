@@ -20,6 +20,8 @@ use Cecil\Exception\RuntimeException;
  * Pages collection class.
  *
  * Represents a collection of pages, providing methods to filter and sort them.
+ *
+ * @extends CecilCollection<Page>
  */
 class Collection extends CecilCollection
 {
@@ -171,7 +173,7 @@ class Collection extends CecilCollection
     /**
      * {@inheritdoc}
      */
-    public function filter(\Closure $callback): self
+    public function filter(\Closure $callback): static
     {
         return parent::filter($callback);
     }
@@ -179,7 +181,7 @@ class Collection extends CecilCollection
     /**
      * {@inheritdoc}
      */
-    public function usort(?\Closure $callback = null): self
+    public function usort(?\Closure $callback = null): static
     {
         return parent::usort($callback);
     }
@@ -187,7 +189,7 @@ class Collection extends CecilCollection
     /**
      * {@inheritdoc}
      */
-    public function reverse(): self
+    public function reverse(): static
     {
         return parent::reverse();
     }

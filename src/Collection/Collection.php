@@ -17,6 +17,8 @@ namespace Cecil\Collection;
  * Class Collection.
  *
  * Represents a collection of items, providing methods to manage them.
+ *
+ * @template T of ItemInterface
  */
 class Collection implements CollectionInterface
 {
@@ -27,10 +29,13 @@ class Collection implements CollectionInterface
     protected $id;
     /**
      * Collection's items.
-     * @var array
+     * @var array<T>
      */
     protected $items = [];
 
+    /**
+     * @param array<T> $items
+     */
     public function __construct(string $id, array $items = [])
     {
         $this->setId($id);
@@ -40,7 +45,7 @@ class Collection implements CollectionInterface
     /**
      * {@inheritdoc}
      */
-    public function setId(string $id): BaseInterface
+    public function setId(string $id): static
     {
         $this->id = $id;
 
@@ -144,6 +149,8 @@ class Collection implements CollectionInterface
     /**
      * {@inheritdoc}
      *
+     * @return T
+     *
      * @throws \DomainException
      */
     public function get(string $id): ItemInterface
@@ -165,6 +172,8 @@ class Collection implements CollectionInterface
 
     /**
      * {@inheritdoc}
+     *
+     * @return T|null
      */
     public function first(): ?ItemInterface
     {
@@ -178,6 +187,8 @@ class Collection implements CollectionInterface
 
     /**
      * {@inheritdoc}
+     *
+     * @return T|null
      */
     public function last(): ?ItemInterface
     {
@@ -224,7 +235,7 @@ class Collection implements CollectionInterface
     /**
      * {@inheritdoc}
      */
-    public function usort(?\Closure $callback = null): CollectionInterface
+    public function usort(?\Closure $callback = null): static
     {
         $callback ? usort($this->items, $callback) : usort($this->items, function ($a, $b) {
             if ($a == $b) {
@@ -240,7 +251,7 @@ class Collection implements CollectionInterface
     /**
      * {@inheritdoc}
      */
-    public function reverse(): CollectionInterface
+    public function reverse(): static
     {
         return new static($this->getId(), array_reverse($this->items)); /** @phpstan-ignore-line */
     }
@@ -248,7 +259,7 @@ class Collection implements CollectionInterface
     /**
      * {@inheritdoc}
      */
-    public function filter(\Closure $callback): CollectionInterface
+    public function filter(\Closure $callback): static
     {
         return new static($this->getId(), array_filter($this->items, $callback)); /** @phpstan-ignore-line */
     }
@@ -256,7 +267,7 @@ class Collection implements CollectionInterface
     /**
      * {@inheritdoc}
      */
-    public function map(\Closure $callback): CollectionInterface
+    public function map(\Closure $callback): static
     {
         return new static($this->getId(), array_map($callback, $this->items)); /** @phpstan-ignore-line */
     }

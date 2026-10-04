@@ -170,7 +170,7 @@ EOF
      *
      * @param string $path
      *
-     * @return array<int, SplFileInfo>
+     * @return array<string, SplFileInfo>
      */
     private function getSortedItems(string $path): array
     {

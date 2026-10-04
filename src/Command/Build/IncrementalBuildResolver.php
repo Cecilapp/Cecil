@@ -225,9 +225,6 @@ class IncrementalBuildResolver
                 $content = $file->getContents();
                 if (preg_match_all('/\\{%\\s*(?:extends|include|embed|use|import|from)\\s+["\']([^"\']+)["\']/i', $content, $matches)) {
                     foreach ($matches[1] as $dependency) {
-                        if (!\is_string($dependency) || $dependency === '') {
-                            continue;
-                        }
                         if (!str_ends_with($dependency, '.' . Layout::EXT)) {
                             continue;
                         }
