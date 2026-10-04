@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. Dates are displayed in UTC.
 
+#### [9.6.2](https://github.com/Cecilapp/Cecil/compare/9.6.1...9.6.2)
+
+> 3 October 2026
+
+- fix(image): validate Imagick format support before using driver [`39f7c63`](https://github.com/Cecilapp/Cecil/commit/39f7c6395ec0d80ad1ab29ec861b65d34aa0d085)
+- fix(asset): disable animation in image resize operation [`305daa8`](https://github.com/Cecilapp/Cecil/commit/305daa8f2b6b583fd7eb9ea629c993d9bad83147)
+
 #### [9.6.1](https://github.com/Cecilapp/Cecil/compare/9.6.0...9.6.1)
 
 > 3 October 2026
