@@ -42,6 +42,11 @@ class Alias extends AbstractGenerator implements GeneratorInterface
                     if ($page->getVariable('language') != $this->config->getLanguageDefault()) {
                         $pageId = \sprintf('%s/%s', $page->getVariable('language'), $pageId);
                     }
+                    // the ID is already used by a page published at another path (i.e.: a page with a custom path):
+                    // uses a distinct ID to not override it
+                    if ($this->builder->getPages()->has($pageId) && $this->builder->getPages()->get($pageId)->getPath() != $path) {
+                        $pageId = \sprintf('%s#alias', $pageId);
+                    }
                     $aliasPage = (new Page($pageId))
                         ->setPath($path)
                         ->setVariables([
