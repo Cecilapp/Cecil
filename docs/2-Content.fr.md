@@ -180,6 +180,10 @@ _Exemple :_
 [Link to Cecil website](https://cecil.app)
 ```
 
+:::info
+Un lien relatif vers un fichier Markdown est résolu depuis le dossier du fichier courant (comme sur GitHub), puis remplacé par l’URL de la page ciblée.
+:::
+
 #### Lien vers une page
 
 Vous pouvez facilement créer un lien vers une page avec la syntaxe `[Titre de page](page:page-id)`.

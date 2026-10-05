@@ -178,6 +178,10 @@ _Example:_
 [Link to Cecil website](https://cecil.app)
 ```
 
+:::info
+A relative link to a Markdown file is resolved from the folder of the current file (as on GitHub), then replaced by the URL of the targeted page.
+:::
+
 #### Link to a page
 
 You can easily create a link to a page with the syntax `[Page title](page:page-id)`.
