@@ -516,7 +516,7 @@ class Image
     {
         $pathInfo = pathinfo($assetPath);
         // on Windows, `dirname` of a root file is "\"
-        $dirname = str_replace('\\', '/', $pathInfo['dirname']);
+        $dirname = str_replace('\\', '/', $pathInfo['dirname'] ?? '');
         $extension = empty($pathInfo['extension']) ? '' : '.' . $pathInfo['extension'];
 
         return rtrim($dirname, '/') . '/' . $pathInfo['filename'] . $darkSuffix . $extension;
@@ -645,7 +645,7 @@ class Image
             $widthMax = $width;
         }
         // adds source image
-        if ((!empty($srcset) || $notEmpty) && ($asset['width'] < max($widths) && $asset['width'] != $widthMax)) {
+        if ((!empty($srcset) || $notEmpty) && ($widths !== [] && $asset['width'] < max($widths) && $asset['width'] != $widthMax)) {
             $srcset[] = \sprintf('%s %sw', self::url($asset, $url), $asset['width']);
         }
 

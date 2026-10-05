@@ -177,6 +177,9 @@ class Content extends AbstractExtension
         } catch (\Exception) {
             throw new RuntimeException('"toc" filter can not convert supplied Markdown.');
         }
+        if (!\is_string($return)) {
+            throw new RuntimeException(\sprintf('"toc" filter can not render format "%s".', $format));
+        }
 
         return $return;
     }
@@ -322,7 +325,7 @@ class Content extends AbstractExtension
     {
         $variable = $variable ?? '';
 
-        return preg_split("/.{0,{$max}}\K(\s+|$)/", $variable, 0, PREG_SPLIT_NO_EMPTY);
+        return preg_split("/.{0,{$max}}\K(\s+|$)/", $variable, 0, PREG_SPLIT_NO_EMPTY) ?: [];
     }
 
     /**

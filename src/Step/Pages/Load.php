@@ -52,7 +52,7 @@ class Load extends AbstractStep
             return;
         }
 
-        $this->page = $options['page'];
+        $this->page = $options['page'] ?? '';
         $this->canProcess = true;
     }
 

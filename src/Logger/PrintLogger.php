@@ -87,8 +87,9 @@ class PrintLogger extends AbstractLogger
      *
      * @param array<mixed> $context
      */
-    protected function interpolate(string $message, array $context): string
+    protected function interpolate(string|\Stringable $message, array $context): string
     {
+        $message = (string) $message;
         if (false === strpos($message, '{')) {
             return $message;
         }

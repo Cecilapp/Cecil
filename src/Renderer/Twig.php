@@ -131,7 +131,7 @@ class Twig implements RendererInterface
         $translationsFormats = $this->getTranslationsFormatsConfig();
         if (\count($this->builder->getConfig()->getLanguages()) > 0) {
             foreach ($translationsFormats as $format => $config) {
-                if (class_exists($config['loader'])) {
+                if (is_a($config['loader'], \Symfony\Component\Translation\Loader\LoaderInterface::class, true)) {
                     $this->translator->addLoader($format, new $config['loader']());
                     $this->builder->getLogger()->debug(\sprintf('Translation loader for format "%s" found', $format));
                 }
@@ -189,6 +189,12 @@ class Twig implements RendererInterface
         if ($this->builder->getConfig()->has('layouts.extensions')) {
             foreach ((array) $this->builder->getConfig()->get('layouts.extensions') as $name => $class) {
                 try {
+                    if (!class_exists($class)) {
+                        throw new RuntimeException(\sprintf('Class "%s" not found', $class));
+                    }
+                    if (!is_a($class, \Twig\Extension\ExtensionInterface::class, true)) {
+                        throw new RuntimeException(\sprintf('Class "%s" must implement "%s".', $class, \Twig\Extension\ExtensionInterface::class));
+                    }
                     $this->twig->addExtension(new $class($this->builder));
                     $this->builder->getLogger()->debug(\sprintf('Twig extension "%s" added', $name));
                 } catch (RuntimeException | \Error $e) {

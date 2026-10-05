@@ -179,9 +179,10 @@ class AbstractCommand extends Command
     {
         try {
             // get working directory by default
-            if (false === $this->path = getcwd()) {
+            if (false === $cwd = getcwd()) {
                 throw new \Exception('Unable to get current working directory.');
             }
+            $this->path = $cwd;
             // ... or path
             if ($this->input->hasArgument('path') && $this->input->getArgument('path') !== null) {
                 $this->path = Path::canonicalize($this->input->getArgument('path'));
@@ -326,7 +327,7 @@ class AbstractCommand extends Command
         $violations = $validator->validate($url, new Url());
         if (\count($violations) > 0) {
             foreach ($violations as $violation) {
-                throw new RuntimeException($violation->getMessage());
+                throw new RuntimeException((string) $violation->getMessage());
             }
         }
         return rtrim($url, '/') . '/';

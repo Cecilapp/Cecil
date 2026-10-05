@@ -104,6 +104,8 @@ class Collection implements CollectionInterface
     /**
      * {@inheritdoc}
      *
+     * @param T $item
+     *
      * @throws \DomainException
      */
     public function add(ItemInterface $item): CollectionInterface
@@ -118,6 +120,8 @@ class Collection implements CollectionInterface
 
     /**
      * {@inheritdoc}
+     *
+     * @param T $item
      *
      * @throws \DomainException
      */
@@ -310,7 +314,7 @@ class Collection implements CollectionInterface
      * Implements \ArrayAccess.
      *
      * @param mixed         $offset
-     * @param ItemInterface $value
+     * @param T             $value
      *
      * @SuppressWarnings(UnusedFormalParameter)
      */

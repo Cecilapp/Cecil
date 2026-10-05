@@ -300,7 +300,9 @@ class SeoDoctor
             return '';
         }
 
-        return $this->normalizeText((string) $nodes->item(0)?->textContent);
+        $node = $nodes->item(0);
+
+        return $this->normalizeText($node instanceof \DOMNode ? $node->textContent : '');
     }
 
     private function countNodes(\DOMXPath $xpath, string $query): int

@@ -44,7 +44,7 @@ class Save extends AbstractStep
      */
     public function init(array $options): void
     {
-        if ($options['dry-run']) {
+        if ($options['dry-run'] ?? false) {
             return;
         }
 

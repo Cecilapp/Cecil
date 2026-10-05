@@ -518,8 +518,9 @@ class Core extends AbstractExtension
                 }
                 $attributes['sizes'] = Image::getHtmlSizes($attributes['class'] ?? '', $this->config->getAssetsImagesSizes());
                 // prevent oversized images
-                if ($asset['width'] > max($this->config->getAssetsImagesWidths())) {
-                    $asset = $asset->resize(max($this->config->getAssetsImagesWidths()));
+                $widths = $this->config->getAssetsImagesWidths();
+                if ($widths !== [] && $asset['width'] > max($widths)) {
+                    $asset = $asset->resize(max($widths));
                 }
             } elseif ($responsive == 'density') {
                 $width1x = isset($attributes['width']) && $attributes['width'] > 0 ? (int) $attributes['width'] : $asset['width'];

@@ -138,6 +138,9 @@ class Render extends AbstractStep
                 if (!class_exists($postprocessor)) {
                     throw new RuntimeException(\sprintf('Class "%s" not found', $postprocessor));
                 }
+                if (!is_a($postprocessor, \Cecil\Renderer\PostProcessor\PostProcessorInterface::class, true)) {
+                    throw new RuntimeException(\sprintf('Class "%s" must implement "%s"', $postprocessor, \Cecil\Renderer\PostProcessor\PostProcessorInterface::class));
+                }
                 $postprocessors[] = new $postprocessor($this->builder);
                 $this->builder->getLogger()->debug(\sprintf('Output post processor "%s" loaded', $name));
             } catch (\Exception $e) {

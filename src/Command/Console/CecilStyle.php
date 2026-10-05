@@ -14,6 +14,7 @@ declare(strict_types=1);
 namespace Cecil\Command\Console;
 
 use Symfony\Component\Console\Formatter\OutputFormatter;
+use Symfony\Component\Console\Output\TrimmedBufferOutput;
 use Symfony\Component\Console\Style\SymfonyStyle;
 
 final class CecilStyle extends SymfonyStyle
@@ -38,7 +39,7 @@ final class CecilStyle extends SymfonyStyle
         $this->newLine(2 - substr_count($chars, "\n"));
     }
 
-    private function getBufferedOutput(): object
+    private function getBufferedOutput(): TrimmedBufferOutput
     {
         static $property = null;
 

@@ -93,8 +93,8 @@ class Builder implements BuildContextInterface, LoggerAwareInterface
     /**
      * Configuration object.
      * This object holds all the configuration settings for the build process.
-     * It can be set to an array or a Config instance.
-     * @var Config|array<string, mixed>|null
+     * It can be set to an array or a Config instance (converted to Config).
+     * @var Config|null
      * @see \Cecil\Config
      */
     protected $config;

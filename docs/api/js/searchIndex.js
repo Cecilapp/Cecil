@@ -4521,6 +4521,11 @@ Search.appendIndex(
             "summary": "Returns\u0020the\u0020path\u0020of\u0020the\u0020rendered\u0020page,\u0020based\u0020on\u0020the\u0020output\u0020format\u0020properties.",
             "url": "classes/Cecil-Renderer-Page.html#method_getOutputFilePath"
         },                {
+            "fqsen": "\\Cecil\\Renderer\\Page\u003A\u003AgetOutputFormatString\u0028\u0029",
+            "name": "getOutputFormatString",
+            "summary": "Returns\u0020a\u0020string\u0020property\u0020of\u0020an\u0020output\u0020format\u0020\u0028empty\u0020string\u0020if\u0020not\u0020defined\u0029.",
+            "url": "classes/Cecil-Renderer-Page.html#method_getOutputFormatString"
+        },                {
             "fqsen": "\\Cecil\\Renderer\\Page\u003A\u003AgetPath\u0028\u0029",
             "name": "getPath",
             "summary": "Returns\u0020the\u0020public\u0020path\u0020of\u0020the\u0020page.",
