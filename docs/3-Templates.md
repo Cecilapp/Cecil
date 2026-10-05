@@ -1,7 +1,7 @@
 <!--
 description: "Work with Twig layouts, templates and components: files organization, lookup rules, variables, functions, sorts, filters, localization, cache and custom extensions."
 date: 2021-05-07
-updated: 2026-10-03
+updated: 2026-10-05
 alias: documentation/layouts
 -->
 # Templates
@@ -771,6 +771,8 @@ Since version ++8.42.0++, the `html` function replace the deprecated `html` filt
 You can define a global default behavior of images options (`formats`, `responsive` and `placeholder`) through the [layouts configuration](4-Configuration.md#layouts-images).
 
 When [`layouts.images.dark_suffix`](4-Configuration.md#layouts-images) is configured (e.g. `.dark`), Cecil automatically looks for a dark variant of each image (e.g. `photo.dark.jpg` alongside `photo.jpg`) and generates a `<picture>` element with a `<source media="(prefers-color-scheme: dark)">`.
+
+In the same way, when [`layouts.images.mobile_suffix`](4-Configuration.md#layouts-images) is configured (e.g. `.mobile`), Cecil looks for a mobile variant of each image (e.g. `photo.mobile.jpg`) and adds a `<source>` with the [`layouts.images.mobile_media_query`](4-Configuration.md#layouts-images) media query.
 :::
 
 _Examples:_

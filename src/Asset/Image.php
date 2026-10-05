@@ -526,6 +526,26 @@ class Image
     }
 
     /**
+     * Builds the asset path for a mobile image variant.
+     */
+    public static function buildMobileAssetPath(string $assetPath, string $mobileSuffix): string
+    {
+        if ($mobileSuffix === '') {
+            return $assetPath;
+        }
+        if (!str_starts_with($mobileSuffix, '.')) {
+            $mobileSuffix = ".{$mobileSuffix}";
+        }
+
+        $pathInfo = pathinfo($assetPath);
+        // on Windows, `dirname` of a root file is "\"
+        $dirname = str_replace('\\', '/', $pathInfo['dirname'] ?? '');
+        $extension = empty($pathInfo['extension']) ? '' : '.' . $pathInfo['extension'];
+
+        return rtrim($dirname, '/') . '/' . $pathInfo['filename'] . $mobileSuffix . $extension;
+    }
+
+    /**
      * Builds dark color-scheme source attributes for an image.
      *
      * @param array<string> $formats
@@ -617,6 +637,108 @@ class Image
         $darkSources[] = $darkFallbackSourceAttributes;
 
         return $darkSources;
+    }
+
+    /**
+     * Builds mobile source attributes for an image.
+     *
+     * @param array<string> $formats
+     * @param array{
+     *   responsive?: mixed,
+     *   widths?: array<int>,
+     *   densities?: array<float|int>,
+     *   sizes?: ?string,
+     *   width1x?: ?int,
+     *   assetOptions?: array<mixed>,
+     *   url?: ?callable,
+     *   media?: string
+     * } $options
+     *
+     * @return array<array<string, string>>
+     */
+    public static function buildMobileSourceAttributes(
+        Builder $builder,
+        Asset $asset,
+        string $mobileSuffix,
+        array $formats,
+        array $options = []
+    ): array {
+        if (empty($mobileSuffix) or $asset['url'] !== null) {
+            return [];
+        }
+
+        $responsive = $options['responsive'] ?? false;
+        $widths = $options['widths'] ?? [];
+        $densities = $options['densities'] ?? [];
+        $sizes = $options['sizes'] ?? null;
+        $width1x = $options['width1x'] ?? null;
+        $assetOptions = $options['assetOptions'] ?? [];
+        $url = $options['url'] ?? null;
+        $media = (string) ($options['media'] ?? '(max-width: 767px)');
+        if ($media === '') {
+            $media = '(max-width: 767px)';
+        }
+
+        $mobileAssetPath = self::buildMobileAssetPath($asset['_path'], $mobileSuffix);
+        $assetMobile = new Asset($builder, $mobileAssetPath, array_merge(['ignore_missing' => true], $assetOptions));
+        if ($assetMobile->isMissing()) {
+            $builder->getLogger()->warning(\sprintf(
+                'Mobile variant "%s" not found for image "%s".',
+                $mobileAssetPath,
+                $asset['_path']
+            ));
+
+            return [];
+        }
+
+        $mobileSources = [];
+        foreach ($formats as $format) {
+            try {
+                $assetMobileConverted = $assetMobile->convert($format);
+                if ($responsive === true || $responsive === 'width') {
+                    $mobileSrcset = !empty($widths) ? self::buildHtmlSrcsetW($assetMobileConverted, $widths, false, $url) : '';
+                } elseif ($responsive === 'density') {
+                    $mobileSrcset = !empty($densities)
+                        ? self::buildHtmlSrcsetX($assetMobileConverted, $width1x ?? $assetMobile['width'], $densities, $url)
+                        : '';
+                } else {
+                    $mobileSrcset = '';
+                }
+                $mobileSourceAttributes = [
+                    'media'  => $media,
+                    'type'   => "image/$format",
+                    'srcset' => empty($mobileSrcset) ? self::url($assetMobileConverted, $url) : $mobileSrcset,
+                ];
+                if (!empty($sizes)) {
+                    $mobileSourceAttributes['sizes'] = $sizes;
+                }
+                $mobileSources[] = $mobileSourceAttributes;
+            } catch (\Exception $e) {
+                $builder->getLogger()->warning($e->getMessage());
+            }
+        }
+
+        $mobileFallbackSrcset = self::url($assetMobile, $url);
+        if (($responsive === true || $responsive === 'width') && !empty($widths)) {
+            try {
+                $mobileResponsiveSrcset = self::buildHtmlSrcsetW($assetMobile, $widths, false, $url);
+                if (!empty($mobileResponsiveSrcset)) {
+                    $mobileFallbackSrcset = $mobileResponsiveSrcset;
+                }
+            } catch (\Exception $e) {
+                $builder->getLogger()->warning($e->getMessage());
+            }
+        }
+        $mobileFallbackSourceAttributes = [
+            'media'  => $media,
+            'srcset' => $mobileFallbackSrcset,
+        ];
+        if (!empty($sizes)) {
+            $mobileFallbackSourceAttributes['sizes'] = $sizes;
+        }
+        $mobileSources[] = $mobileFallbackSourceAttributes;
+
+        return $mobileSources;
     }
 
     /**
