@@ -2,6 +2,20 @@
 
 All notable changes to this project will be documented in this file. Dates are displayed in UTC.
 
+#### [9.7.0](https://github.com/Cecilapp/Cecil/compare/9.6.3...9.7.0)
+
+> 5 October 2026
+
+- feat: add mobile image variant sources to pictures [`#2433`](https://github.com/Cecilapp/Cecil/pull/2433)
+- chore: raise PHPStan level to 8 [`#2489`](https://github.com/Cecilapp/Cecil/pull/2489)
+- chore: raise PHPStan level to 7 [`#2488`](https://github.com/Cecilapp/Cecil/pull/2488)
+- chore: raise PHPStan level to 6 [`#2487`](https://github.com/Cecilapp/Cecil/pull/2487)
+- chore: raise PHPStan level to 5 [`#2486`](https://github.com/Cecilapp/Cecil/pull/2486)
+- refactor(release): decouple scoop manifest generation from deployment [`9610ed3`](https://github.com/Cecilapp/Cecil/commit/9610ed3f9fdbdfe2a7e2b8004a78d229e7c6b49c)
+- chore: update dependencies to latest versions [`b8ad5ca`](https://github.com/Cecilapp/Cecil/commit/b8ad5ca7a38cdcb2f6d859eebb82024ae13f0eea)
+- chore(deps): update composer.lock [`3b2517a`](https://github.com/Cecilapp/Cecil/commit/3b2517aaa1369e42b2ac79fe1a59d547cb0bbeae)
+- chore(release): verify GPG signature of PHAR archive [`770f0c3`](https://github.com/Cecilapp/Cecil/commit/770f0c3fc102586411fa9d0159bc8be0e76ae2f0)
+
 #### [9.6.3](https://github.com/Cecilapp/Cecil/compare/9.6.2...9.6.3)
 
 > 4 October 2026
