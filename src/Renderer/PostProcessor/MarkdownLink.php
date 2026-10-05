@@ -14,7 +14,7 @@ declare(strict_types=1);
 namespace Cecil\Renderer\PostProcessor;
 
 use Cecil\Collection\Page\Page;
-use Cecil\Collection\Page\PrefixSuffix;
+use Cecil\Url;
 use Cecil\Util;
 
 /**
@@ -22,6 +22,8 @@ use Cecil\Util;
  *
  * This class processes Markdown links in the output HTML,
  * replacing internal links to `.md` files with the correct URLs.
+ * Relative links are resolved from the folder of the source file (like on GitHub),
+ * then the URL of the targeted page is used (if it exists).
  * It handles links that may include a section anchor and adjusts the href attribute accordingly.
  */
 class MarkdownLink extends AbstractPostProcessor
@@ -38,22 +40,50 @@ class MarkdownLink extends AbstractPostProcessor
             // https://regex101.com/r/ycWMe4/1
             '/href="(\/|)([A-Za-z0-9_\.\-\/]+)\.md(\#[A-Za-z0-9_\-]+)?"/is',
             function ($matches) use ($page) {
-                // section spage
-                $hrefPattern = 'href="../%s/%s"';
-                // root page
-                if (empty($page->getFolder())) {
-                    $hrefPattern = 'href="%s/%s"';
+                $path = $matches[2] . '.md';
+                // relative link: resolved from the folder of the source file
+                if ($matches[1] != '/') {
+                    $path = Util::joinPath($this->getSourceFolder($page), $path);
                 }
-                // root link
-                if ($matches[1] == '/') {
-                    $hrefPattern = 'href="/%s/%s"';
-                }
+                // ignores parent folders beyond the pages directory
+                $path = (string) preg_replace('/^(\.\.\/)+/', '', $path);
 
-                return \sprintf($hrefPattern, Util\Slugifier::slugify(PrefixSuffix::sub($matches[2])), $matches[3] ?? '');
+                return \sprintf('href="%s%s"', $this->getUrl($page, Page::createIdFromPath($path)), $matches[3] ?? '');
             },
             $output
         ) ?? $output;
 
         return $output;
+    }
+
+    /**
+     * Returns the folder of the page source file, relative to the pages directory.
+     */
+    private function getSourceFolder(Page $page): string
+    {
+        if (empty($filepath = $page->getVariable('filepath'))) {
+            return (string) $page->getFolder();
+        }
+        $folder = \dirname(str_replace('\\', '/', (string) $filepath));
+
+        return $folder == '.' ? '' : $folder;
+    }
+
+    /**
+     * Returns the URL of the targeted page, preferring the page in the current language.
+     */
+    private function getUrl(Page $page, string $pageId): string
+    {
+        $pages = $this->builder->getPages();
+        $language = (string) $page->getVariable('language', $this->config->getLanguageDefault());
+        if ($language != $this->config->getLanguageDefault() && $pages->has("$language/$pageId")) {
+            $pageId = "$language/$pageId";
+        }
+        if ($pages->has($pageId)) {
+            return (string) new Url($this->builder, $pages->get($pageId));
+        }
+
+        // page not found: builds the URL from the page ID
+        return rtrim((string) new Url($this->builder, $pageId), '/') . '/';
     }
 }
