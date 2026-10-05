@@ -30,6 +30,7 @@ class GeneratorMetaTag extends AbstractPostProcessor
      *
      * Adds generator meta tag.
      */
+    #[\Override]
     public function process(Page $page, string $output, string $format): string
     {
         if ($format == 'html') {
@@ -37,7 +38,7 @@ class GeneratorMetaTag extends AbstractPostProcessor
                 $meta = \sprintf('<meta name="generator" content="Cecil %s">', Builder::getVersion());
                 $output = preg_replace_callback('/([[:blank:]]*)(<\/head>)/i', function ($matches) use ($meta) {
                     return str_repeat($matches[1] ?: ' ', 2) . $meta . "\n" . $matches[1] . $matches[2];
-                }, $output);
+                }, $output) ?? $output;
             }
         }
 

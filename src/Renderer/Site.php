@@ -13,6 +13,7 @@ declare(strict_types=1);
 
 namespace Cecil\Renderer;
 
+use Cecil\BuildContextInterface;
 use Cecil\Builder;
 use Cecil\Collection\Page\Page as CollectionPage;
 
@@ -24,12 +25,14 @@ use Cecil\Collection\Page\Page as CollectionPage;
  * properties such as pages, menus, taxonomies, and language settings.
  * It also provides methods to retrieve specific pages and collections of pages
  * based on the current language or all pages regardless of their translation.
+ *
+ * @implements \ArrayAccess<string, mixed>
  */
 class Site implements \ArrayAccess
 {
     /**
      * Builder object.
-     * @var Builder
+     * @var BuildContextInterface
      */
     protected $builder;
     /**
@@ -43,7 +46,7 @@ class Site implements \ArrayAccess
      */
     protected $language;
 
-    public function __construct(Builder $builder, string $language)
+    public function __construct(BuildContextInterface $builder, string $language)
     {
         $this->builder = $builder;
         $this->config = $this->builder->getConfig();
@@ -143,7 +146,7 @@ class Site implements \ArrayAccess
         $pageId = $id;
         $language = $language ?? $this->language;
 
-        if ($language !== null && $language != $this->config->getLanguageDefault()) {
+        if ($language != $this->config->getLanguageDefault()) {
             $pageId = "$language/$id";
         }
 
@@ -203,6 +206,8 @@ class Site implements \ArrayAccess
 
     /**
      * Returns the property value(s) of an output format.
+     *
+     * @return string|array<mixed>|null
      */
     public function getOutputProperty(string $name, string $property): string|array|null
     {

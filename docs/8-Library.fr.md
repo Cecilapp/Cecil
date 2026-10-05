@@ -1,8 +1,8 @@
 <!--
 title: "Bibliothèque"
-description: "Utilisez Cecil comme bibliothèque PHP."
+description: "Utilisez Cecil comme bibliothèque PHP : installez-la avec Composer, puis générez votre site web et lancez des diagnostics par programmation via son API."
 date: 2026-03-27
-updated: 2026-06-13
+updated: 2026-10-03
 slug: bibliotheque
 -->
 # Bibliothèque
@@ -16,6 +16,19 @@ Vous pouvez consulter la [documentation de l'API](https://cecil.app/documentatio
 ```bash
 composer require cecil/cecil
 ```
+
+### Support de libvips
+
+Pour traiter les images avec [libvips](https://www.libvips.org/) (optionnel), installez le driver libvips dans votre projet :
+
+```bash
+composer require intervention/image-driver-vips
+```
+
+:::important
+Ce driver nécessite [libvips](https://www.libvips.org/install.html) installé sur le système et l’extension PHP [FFI](https://www.php.net/manual/book.ffi.php) activée.  
+Sans lui, Cecil utilise [Imagick](https://www.php.net/manual/book.imagick.php) ou [GD](https://www.php.net/manual/book.image.php) à la place.
+:::
 
 ## Utilisation
 
@@ -39,7 +52,7 @@ exec('php -S localhost:8000 -t _site'); // prévisualisation locale
 ```
 
 :::info
-Le paramètre principal de la méthode `create` doit être un `array` PHP ou une instance de [`Cecil\Config`](https://github.com/Cecilapp/Cecil/blob/master/src/Config.php).
+Le paramètre principal de la méthode `create` doit être un `array` PHP ou une instance de [`Cecil\Config`](https://github.com/Cecilapp/Cecil/blob/main/src/Config.php).
 :::
 
 ### Diagnostic

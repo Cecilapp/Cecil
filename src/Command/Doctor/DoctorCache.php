@@ -31,6 +31,7 @@ class DoctorCache extends AbstractCommand
     /**
      * {@inheritdoc}
      */
+    #[\Override]
     protected function configure()
     {
         $this
@@ -49,6 +50,7 @@ EOF
     /**
      * {@inheritdoc}
      */
+    #[\Override]
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $config = $this->getBuilder()->getConfig();
@@ -104,6 +106,8 @@ EOF
 
     /**
      * Returns files count and size for a directory.
+     *
+     * @return array{files: int, bytes: int}
      */
     private function getDirectoryStats(string $directory): array
     {

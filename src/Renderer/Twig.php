@@ -62,6 +62,7 @@ class Twig implements RendererInterface
     /**
      * {@inheritdoc}
      */
+    #[\Override]
     public function __construct(Builder $builder, $templatesPath)
     {
         $this->builder = $builder;
@@ -130,7 +131,7 @@ class Twig implements RendererInterface
         $translationsFormats = $this->getTranslationsFormatsConfig();
         if (\count($this->builder->getConfig()->getLanguages()) > 0) {
             foreach ($translationsFormats as $format => $config) {
-                if (class_exists($config['loader'])) {
+                if (is_a($config['loader'], \Symfony\Component\Translation\Loader\LoaderInterface::class, true)) {
                     $this->translator->addLoader($format, new $config['loader']());
                     $this->builder->getLogger()->debug(\sprintf('Translation loader for format "%s" found', $format));
                 }
@@ -150,10 +151,12 @@ class Twig implements RendererInterface
         }
         $this->twig->addExtension(new TranslationExtension($this->translator));
         // intl
-        $this->twig->addExtension(new IntlExtension());
         if (\extension_loaded('intl')) {
             $this->builder->getLogger()->debug('PHP Intl extension is loaded');
         }
+        $this->twig->addExtension(new IntlExtension(
+            dateFormatterPrototype: $this->createDateFormatterPrototype(),
+        ));
         // filters fallback
         $this->twig->registerUndefinedFilterCallback(function ($name) {
             switch ($name) {
@@ -186,6 +189,12 @@ class Twig implements RendererInterface
         if ($this->builder->getConfig()->has('layouts.extensions')) {
             foreach ((array) $this->builder->getConfig()->get('layouts.extensions') as $name => $class) {
                 try {
+                    if (!class_exists($class)) {
+                        throw new RuntimeException(\sprintf('Class "%s" not found', $class));
+                    }
+                    if (!is_a($class, \Twig\Extension\ExtensionInterface::class, true)) {
+                        throw new RuntimeException(\sprintf('Class "%s" must implement "%s".', $class, \Twig\Extension\ExtensionInterface::class));
+                    }
                     $this->twig->addExtension(new $class($this->builder));
                     $this->builder->getLogger()->debug(\sprintf('Twig extension "%s" added', $name));
                 } catch (RuntimeException | \Error $e) {
@@ -198,6 +207,7 @@ class Twig implements RendererInterface
     /**
      * {@inheritdoc}
      */
+    #[\Override]
     public function addGlobal(string $name, $value): void
     {
         $this->twig->addGlobal($name, $value);
@@ -206,6 +216,7 @@ class Twig implements RendererInterface
     /**
      * {@inheritdoc}
      */
+    #[\Override]
     public function render(string $template, array $variables): string
     {
         return $this->twig->render($template, $variables);
@@ -214,6 +225,7 @@ class Twig implements RendererInterface
     /**
      * {@inheritdoc}
      */
+    #[\Override]
     public function setLocale(string $locale): void
     {
         if (\extension_loaded('intl')) {
@@ -225,6 +237,7 @@ class Twig implements RendererInterface
     /**
      * {@inheritdoc}
      */
+    #[\Override]
     public function addTransResource(string $translationsDir, string $locale, ?array $formatsConfig = null): void
     {
         $formatsConfig ??= $this->getTranslationsFormatsConfig();
@@ -244,6 +257,22 @@ class Twig implements RendererInterface
                 }
             }
         }
+    }
+
+    /**
+     * Returns the Twig instance.
+     */
+    public function getTwig(): \Twig\Environment
+    {
+        return $this->twig;
+    }
+
+    /**
+     * Returns debug profile.
+     */
+    public function getDebugProfile(): ?\Twig\Profiler\Profile
+    {
+        return $this->profile;
     }
 
     /**
@@ -290,18 +319,34 @@ class Twig implements RendererInterface
     }
 
     /**
-     * Returns the Twig instance.
+     * Creates the date formatter prototype used by the Intl extension: it defines the default date and time
+     * formats, and exposes the current locale (i.e. the locale of the language being rendered).
+     *
+     * @SuppressWarnings(UnusedFormalParameter)
      */
-    public function getTwig(): \Twig\Environment
+    private function createDateFormatterPrototype(): \IntlDateFormatter
     {
-        return $this->twig;
-    }
+        return new class (
+            // the ICU polyfill, used when the Intl extension is not loaded, only supports the "en" locale
+            \extension_loaded('intl') ? $this->builder->getConfig()->getLanguageProperty('locale') : null,
+            \IntlDateFormatter::MEDIUM,
+            \IntlDateFormatter::SHORT
+        ) extends \IntlDateFormatter {
+            /**
+             * Returns the current locale, set by `Twig::setLocale()`, instead of the creation time one.
+             */
+            public function getLocale(int $type = \Locale::ACTUAL_LOCALE): string
+            {
+                return \Locale::getDefault();
+            }
 
-    /**
-     * Returns debug profile.
-     */
-    public function getDebugProfile(): ?\Twig\Profiler\Profile
-    {
-        return $this->profile;
+            /**
+             * Returns an empty pattern: the date and time formats must be resolved from the current locale.
+             */
+            public function getPattern(): string
+            {
+                return '';
+            }
+        };
     }
 }

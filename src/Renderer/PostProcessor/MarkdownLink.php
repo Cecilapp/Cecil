@@ -15,6 +15,7 @@ namespace Cecil\Renderer\PostProcessor;
 
 use Cecil\Collection\Page\Page;
 use Cecil\Collection\Page\PrefixSuffix;
+use Cecil\Util;
 
 /**
  * MarkdownLink class.
@@ -30,6 +31,7 @@ class MarkdownLink extends AbstractPostProcessor
      *
      * Replaces internal link to *.md files with the right URL.
      */
+    #[\Override]
     public function process(Page $page, string $output, string $format): string
     {
         $output = preg_replace_callback(
@@ -47,10 +49,10 @@ class MarkdownLink extends AbstractPostProcessor
                     $hrefPattern = 'href="/%s/%s"';
                 }
 
-                return \sprintf($hrefPattern, Page::slugify(PrefixSuffix::sub($matches[2])), $matches[3] ?? '');
+                return \sprintf($hrefPattern, Util\Slugifier::slugify(PrefixSuffix::sub($matches[2])), $matches[3] ?? '');
             },
             $output
-        );
+        ) ?? $output;
 
         return $output;
     }

@@ -44,7 +44,7 @@ class Save extends AbstractStep
      */
     public function init(array $options): void
     {
-        if ($options['dry-run']) {
+        if ($options['dry-run'] ?? false) {
             return;
         }
 
@@ -71,9 +71,7 @@ class Save extends AbstractStep
             $files = [];
 
             foreach ($page->getRendered() as $format => $rendered) {
-                if (false === $pathname = (new PageRenderer($this->builder, $page))->getOutputFilePath($format)) {
-                    throw new RuntimeException(\sprintf("Unable to get pathname of page '%s' (format: '%s').", $page->getId(), $format));
-                }
+                $pathname = (new PageRenderer($this->builder, $page))->getOutputFilePath($format);
                 $pathname = $this->cleanPath(Util::joinFile($this->config->getOutputPath(), $pathname));
 
                 try {
@@ -84,6 +82,8 @@ class Save extends AbstractStep
 
                 $files[] = $this->builder->isDebug() ? $pathname : substr($pathname, \strlen($this->config->getOutputPath()) + 1);
             }
+            // frees memory: rendered output is no longer needed once saved
+            $page->clearRendered();
 
             $message = \sprintf('File(s) "%s" saved', implode(', ', $files));
             $this->builder->getLogger()->info($message, ['progress' => [$count, $total]]);
@@ -96,9 +96,9 @@ class Save extends AbstractStep
     private function cleanPath(string $pathname): string
     {
         if (DIRECTORY_SEPARATOR == '\\') {
-            $pathname = preg_replace('#\\\\+#', '\\', $pathname);
+            $pathname = preg_replace('#\\\\+#', '\\', $pathname) ?? $pathname;
         }
 
-        return preg_replace('#/+#', '/', $pathname);
+        return preg_replace('#/+#', '/', $pathname) ?? $pathname;
     }
 }

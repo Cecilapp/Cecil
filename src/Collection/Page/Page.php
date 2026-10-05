@@ -16,7 +16,6 @@ namespace Cecil\Collection\Page;
 use Cecil\Collection\Item;
 use Cecil\Exception\RuntimeException;
 use Cecil\Util;
-use Cecil\Util\Slugifier;
 use Symfony\Component\Finder\SplFileInfo;
 
 /**
@@ -27,7 +26,7 @@ use Symfony\Component\Finder\SplFileInfo;
  */
 class Page extends Item
 {
-    public const SLUGIFY_PATTERN = Slugifier::SLUGIFY_PATTERN;
+    public const string SLUGIFY_PATTERN = Util\Slugifier::SLUGIFY_PATTERN;
 
     /** @var bool True if page is not created from a file. */
     protected $virtual;
@@ -47,13 +46,16 @@ class Page extends Item
     /** @var string path = folder + slug. */
     protected $path;
 
-    /** @var string */
+    /** @var string|null */
     protected $section;
 
-    /** @var string */
+    /** @var bool True if page is a folder's index (created from an "index.md" file). */
+    protected $sectionIndex = false;
+
+    /** @var string|null */
     protected $frontmatter;
 
-    /** @var array Front matter before conversion. */
+    /** @var array<string, mixed> Front matter before conversion. */
     protected $fmVariables = [];
 
     /** @var string Body before conversion. */
@@ -62,13 +64,13 @@ class Page extends Item
     /** @var string Body after conversion. */
     protected $html;
 
-    /** @var array Output, by format. */
+    /** @var array<string, array{output: string, template: array{scope: string, file: string}}> Output, by format. */
     protected $rendered = [];
 
     /** @var Collection pages list. */
     protected $pages;
 
-    /** @var array */
+    /** @var array<string, mixed> */
     protected $paginator = [];
 
     /** @var \Cecil\Collection\Taxonomy\Vocabulary Terms of a vocabulary. */
@@ -87,7 +89,7 @@ class Page extends Item
 
         // default properties
         $this->setVirtual(true);
-        $this->setType(Type::PAGE->value);
+        $this->setType(Type::PAGE);
         $this->setVariables([
             'title'            => 'Page Title',
             'date'             => new \DateTime(),
@@ -106,7 +108,7 @@ class Page extends Item
         parent::__construct($id);
     }
 
-    public function setId(string $id): self
+    public function setId(string $id): static
     {
         return parent::setId($id);
     }
@@ -123,15 +125,12 @@ class Page extends Item
 
     /**
      * Turns a path (string) into a slug (URI).
-     */
-    /**
-     * Turns a path (string) into a slug (URI).
      *
      * @deprecated Use Slugifier::slugify() instead.
      */
     public static function slugify(string $path): string
     {
-        return Slugifier::slugify($path);
+        return Util\Slugifier::slugify($path);
     }
 
     /**
@@ -163,11 +162,21 @@ class Page extends Item
         $fileRelativePath = str_replace(DIRECTORY_SEPARATOR, '/', $this->file->getRelativePath());
         $fileExtension = $this->file->getExtension();
         $fileName = $this->file->getBasename('.' . $fileExtension);
-        // renames "README" to "index"
-        $fileName = strtolower($fileName) == 'readme' ? 'index' : $fileName;
+        // renames "README" to "index" (preserving an optional language suffix, e.g. "README.fr" -> "index.fr")
+        if (PrefixSuffix::hasSuffix($fileName)) {
+            if (strtolower(PrefixSuffix::sub($fileName, $separators)) == 'readme') {
+                $fileName = 'index.' . PrefixSuffix::getSuffix($fileName);
+            }
+        } elseif (strtolower($fileName) == 'readme') {
+            $fileName = 'index';
+        }
         // case of "index" = home page
         if (empty($this->file->getRelativePath()) && PrefixSuffix::sub($fileName, $separators) == 'index') {
             $this->setType(Type::HOMEPAGE->value);
+        }
+        // case of a folder's "index" = section index (i.e.: "section/index.md")
+        if (!empty($this->file->getRelativePath()) && PrefixSuffix::sub($fileName, $separators) == 'index') {
+            $this->sectionIndex = true;
         }
         /*
          * Set page properties and variables
@@ -281,9 +290,9 @@ class Page extends Item
     /**
      * Set page type.
      */
-    public function setType(string $type): self
+    public function setType(Type|string $type): self
     {
-        $this->type = Type::from($type);
+        $this->type = \is_string($type) ? Type::from($type) : $type;
 
         return $this;
     }
@@ -301,7 +310,7 @@ class Page extends Item
      */
     public function setFolder(string $folder): self
     {
-        $this->folder = self::slugify($folder);
+        $this->folder = Util\Slugifier::slugify($folder);
 
         return $this;
     }
@@ -320,7 +329,7 @@ class Page extends Item
     public function setSlug(string $slug): self
     {
         if (!$this->slug) {
-            $slug = self::slugify(PrefixSuffix::sub($slug));
+            $slug = Util\Slugifier::slugify(PrefixSuffix::sub($slug));
         }
         // force slug and update path
         if ($this->slug && $this->slug != $slug) {
@@ -424,6 +433,54 @@ class Page extends Item
     }
 
     /**
+     * Is the page a folder's index (created from an "index.md" file)?
+     */
+    public function isSectionIndex(): bool
+    {
+        return $this->sectionIndex;
+    }
+
+    /**
+     * Returns the parent section's page (`null` if there is none).
+     */
+    public function getParent(): ?self
+    {
+        $parent = $this->getVariable('parent');
+
+        return $parent instanceof self ? $parent : null;
+    }
+
+    /**
+     * Returns the collection of the page's ancestor sections, from the nearest to the farthest.
+     */
+    public function getAncestors(): Collection
+    {
+        $ancestors = new Collection($this->getId() . '-ancestors');
+        $page = $this;
+        $seen = [$this->getId() => true];
+        while (($parent = $page->getParent()) !== null) {
+            if (isset($seen[$parent->getId()])) {
+                break;
+            }
+            $seen[$parent->getId()] = true;
+            $ancestors->add($parent);
+            $page = $parent;
+        }
+
+        return $ancestors;
+    }
+
+    /**
+     * Returns the collection of the page's immediate descendant sections.
+     */
+    public function getSections(): Collection
+    {
+        $sections = $this->getVariable('sections');
+
+        return $sections instanceof Collection ? $sections : new Collection($this->getId() . '-sections');
+    }
+
+    /**
      * Set body as HTML.
      */
     public function setBodyHtml(string $html): self
@@ -451,6 +508,8 @@ class Page extends Item
 
     /**
      * Add rendered.
+     *
+     * @param array<string, array{output: string, template: array{scope: string, file: string}}> $rendered
      */
     public function addRendered(array $rendered): self
     {
@@ -461,10 +520,22 @@ class Page extends Item
 
     /**
      * Get rendered.
+     *
+     * @return array<string, array{output: string, template: array{scope: string, file: string}}>
      */
     public function getRendered(): array
     {
         return $this->rendered;
+    }
+
+    /**
+     * Clear rendered (e.g.: to free memory once saved).
+     */
+    public function clearRendered(): self
+    {
+        $this->rendered = [];
+
+        return $this;
     }
 
     /**
@@ -487,6 +558,8 @@ class Page extends Item
 
     /**
      * Set paginator.
+     *
+     * @param array<string, mixed> $paginator
      */
     public function setPaginator(array $paginator): self
     {
@@ -497,6 +570,8 @@ class Page extends Item
 
     /**
      * Get paginator.
+     *
+     * @return array<string, mixed>
      */
     public function getPaginator(): array
     {
@@ -505,6 +580,8 @@ class Page extends Item
 
     /**
      * Paginator backward compatibility.
+     *
+     * @return array<string, mixed>
      */
     public function getPagination(): array
     {
@@ -536,6 +613,8 @@ class Page extends Item
     /**
      * Set an array as variables.
      *
+     * @param array<string, mixed> $variables
+     *
      * @throws RuntimeException
      */
     public function setVariables(array $variables): self
@@ -549,6 +628,8 @@ class Page extends Item
 
     /**
      * Get all variables.
+     *
+     * @return array<string, mixed>
      */
     public function getVariables(): array
     {
@@ -601,7 +682,7 @@ class Page extends Item
                 break;
             case 'path':
             case 'slug':
-                $slugify = self::slugify((string) $value);
+                $slugify = Util\Slugifier::slugify((string) $value);
                 if ($value != $slugify) {
                     throw new RuntimeException(\sprintf('"%s" variable should be "%s" (not "%s") in "%s".', $name, $slugify, (string) $value, $this->getId()));
                 }
@@ -658,6 +739,8 @@ class Page extends Item
 
     /**
      * Set front matter (only) variables.
+     *
+     * @param array<string, mixed> $variables
      */
     public function setFmVariables(array $variables): self
     {
@@ -668,6 +751,8 @@ class Page extends Item
 
     /**
      * Get front matter variables.
+     *
+     * @return array<string, mixed>
      */
     public function getFmVariables(): array
     {
@@ -682,10 +767,16 @@ class Page extends Item
      */
     private static function createIdFromFile(SplFileInfo $file, array $separators = PrefixSuffix::DEFAULT_SEPARATORS): string
     {
-        $relativePath = self::slugify(str_replace(DIRECTORY_SEPARATOR, '/', $file->getRelativePath()));
-        $basename = self::slugify(PrefixSuffix::subPrefix($file->getBasename('.' . $file->getExtension()), $separators));
-        // if file is "README.md", ID is "index"
-        $basename = strtolower($basename) == 'readme' ? 'index' : $basename;
+        $relativePath = Util\Slugifier::slugify(str_replace(DIRECTORY_SEPARATOR, '/', $file->getRelativePath()));
+        $basename = Util\Slugifier::slugify(PrefixSuffix::subPrefix($file->getBasename('.' . $file->getExtension()), $separators));
+        // if file is "README.md", ID is "index" (preserving an optional language suffix, e.g. "README.fr" -> "index.fr")
+        if (PrefixSuffix::hasSuffix($basename)) {
+            if (strtolower(PrefixSuffix::sub($basename, $separators)) == 'readme') {
+                $basename = 'index.' . PrefixSuffix::getSuffix($basename);
+            }
+        } elseif (strtolower($basename) == 'readme') {
+            $basename = 'index';
+        }
         // if file is section's index: "section/index.md", ID is "section"
         if (!empty($relativePath) && PrefixSuffix::sub($basename, $separators) == 'index') {
             // case of a localized section's index: "section/index.fr.md", ID is "fr/section"
@@ -696,8 +787,8 @@ class Page extends Item
             return $relativePath;
         }
         // localized page
-        if (PrefixSuffix::hasSuffix($basename)) {
-            return trim(Util::joinPath(/** @scrutinizer ignore-type */ PrefixSuffix::getSuffix($basename), $relativePath, PrefixSuffix::sub($basename, $separators)), '/');
+        if (null !== $suffix = PrefixSuffix::getSuffix($basename)) {
+            return trim(Util::joinPath($suffix, $relativePath, PrefixSuffix::sub($basename, $separators)), '/');
         }
 
         return trim(Util::joinPath($relativePath, $basename), '/');
@@ -708,15 +799,17 @@ class Page extends Item
      *
      * @param mixed $value Value to filter
      *
-     * @return bool|mixed
-     *
      * @see strToBool()
      */
-    private function filterBool(&$value)
+    private function filterBool(&$value): void
     {
-        \Cecil\Util\Str::strToBool($value);
         if (\is_array($value)) {
-            array_walk_recursive($value, '\Cecil\Util\Str::strToBool');
+            array_walk_recursive($value, function (&$item) {
+                $item = \Cecil\Util\Str::strToBool($item);
+            });
+
+            return;
         }
+        $value = \Cecil\Util\Str::strToBool($value);
     }
 }

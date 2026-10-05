@@ -28,7 +28,7 @@ class Item implements ItemInterface
     protected $id;
     /**
      * Item's properties.
-     * @var array
+     * @var array<string, mixed>
      */
     protected $properties = [];
 
@@ -40,7 +40,7 @@ class Item implements ItemInterface
     /**
      * {@inheritdoc}
      */
-    public function setId(string $id): BaseInterface
+    public function setId(string $id): static
     {
         $this->id = $id;
 
@@ -106,6 +106,8 @@ class Item implements ItemInterface
 
     /**
      * {@inheritdoc}
+     *
+     * @return array<string, mixed>
      */
     public function toArray(): array
     {

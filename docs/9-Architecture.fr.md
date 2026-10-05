@@ -1,7 +1,7 @@
 <!--
-description: "Architecture de Cecil."
+description: "Vue d’ensemble de l’architecture de Cecil : diagramme du processus de génération, du Builder aux fichiers de sortie en passant par les Steps, Generators et Renderer, avec une légende des composants clés."
 date: 2026-05-27
-updated: 2026-06-08
+updated: 2026-10-02
 -->
 # Architecture
 
@@ -123,5 +123,5 @@ graph TD
 | **Steps**           | Pipeline modulaire (13 étapes), chacune avec `init()` / `canProcess()` / `process()` |
 | **Collections**     | Pages, Taxonomies, Menus — structures de données centrales                           |
 | **Generators**      | Créent des pages virtuelles (pagination, tags, redirections…)                        |
-| **Renderer (Twig)** | Applique les modèles + extensions + post-traitements                                |
+| **Renderer (Twig)** | Applique les modèles + extensions + post-traitements                                 |
 | **Assets**          | Compile SCSS, optimise images, fingerprinte les fichiers                             |

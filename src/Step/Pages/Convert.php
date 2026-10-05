@@ -36,7 +36,7 @@ class Convert extends AbstractStep
      */
     public function getName(): string
     {
-        if ($this->builder->getBuildOptions()['drafts']) {
+        if ($this->builder->getBuildOptions()['drafts'] ?? false) {
             return 'Converting pages (drafts included)';
         }
 
@@ -49,10 +49,6 @@ class Convert extends AbstractStep
     public function init(array $options): void
     {
         parent::init($options);
-
-        if (\is_null($this->builder->getPages())) {
-            $this->canProcess = false;
-        }
     }
 
     /**
@@ -60,20 +56,20 @@ class Convert extends AbstractStep
      */
     public function process(): void
     {
-        if (!is_iterable($this->builder->getPages()) || \count($this->builder->getPages()) == 0) {
+        if (\count($this->builder->getPages()) == 0) {
             return;
         }
 
         $total = \count($this->builder->getPages());
         $count = 0;
-        $converter = new Converter($this->builder);
+        $converter = new Converter($this->getBuilder());
         /** @var Page $page */
         foreach ($this->builder->getPages() as $page) {
             if (!$page->isVirtual()) {
                 $count++;
 
                 try {
-                    $convertedPage = $this->convertPage($this->builder, $page, converter: $converter);
+                    $convertedPage = $this->convertPage($this->getBuilder(), $page, converter: $converter);
                     // set default language (ex: "en") if necessary
                     if ($convertedPage->getVariable('language') === null) {
                         $convertedPage->setVariable('language', $this->config->getLanguageDefault());
@@ -83,14 +79,14 @@ class Convert extends AbstractStep
                     $this->builder->getPages()->remove($page->getId());
                     continue;
                 } catch (\Exception $e) {
-                    $this->builder->getLogger()->error(\sprintf('Unable to convert "%s": %s', Util::joinPath(Util\File::getFS()->makePathRelative($page->getFilePath(), $this->config->getPagesPath())), $e->getMessage()));
+                    $this->builder->getLogger()->error(\sprintf('Unable to convert "%s": %s', Util::joinPath(Util\File::getFS()->makePathRelative((string) $page->getFilePath(), $this->config->getPagesPath())), $e->getMessage()));
                     $this->builder->getPages()->remove($page->getId());
                     continue;
                 }
                 $message = \sprintf('Page "%s" converted', $page->getId());
                 $statusMessage = ' (not published)';
                 // forces drafts convert?
-                if ($this->builder->getBuildOptions()['drafts']) {
+                if ($this->builder->getBuildOptions()['drafts'] ?? false) {
                     $page->setVariable('published', true);
                 }
                 // replaces page in collection
@@ -120,7 +116,7 @@ class Convert extends AbstractStep
             try {
                 $variables = $converter->convertFrontmatter($page->getFrontmatter(), $format);
             } catch (RuntimeException $e) {
-                throw new RuntimeException($e->getMessage(), file: $page->getFilePath(), line: $e->getLine());
+                throw new RuntimeException($e->getMessage(), file: (string) $page->getFilePath(), line: $e->getLine());
             }
             $page->setFmVariables($variables);
             $page->setVariables($variables);
@@ -132,9 +128,9 @@ class Convert extends AbstractStep
                 $language = $page->getVariable('language');
                 $isDefault = $language === $builder->getConfig()->getLanguageDefault();
                 $effectiveLanguage = $isDefault ? null : $language;
-                $html = $converter->convertBody($page->getBody(), $effectiveLanguage);
+                $html = $converter->convertBody($page->getBody() ?? '', $effectiveLanguage);
             } catch (RuntimeException $e) {
-                throw new RuntimeException($e->getMessage(), file: $page->getFilePath(), line: $e->getLine());
+                throw new RuntimeException($e->getMessage(), file: (string) $page->getFilePath(), line: $e->getLine());
             }
             $page->setBodyHtml($html);
         }

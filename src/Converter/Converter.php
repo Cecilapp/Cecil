@@ -29,6 +29,10 @@ use Yosymfony\Toml\Toml;
  */
 class Converter implements ConverterInterface
 {
+    /**
+     * Supported front matter formats.
+     */
+    private const SUPPORTED_FORMATS = ['yaml', 'ini', 'toml', 'json'];
     /** @var Builder */
     protected $builder;
 
@@ -44,8 +48,11 @@ class Converter implements ConverterInterface
      */
     public function convertFrontmatter(string $string, string $format = 'yaml'): array
     {
-        if (!\in_array($format, ['yaml', 'ini', 'toml', 'json'])) {
-            throw new RuntimeException(\sprintf('The front matter format "%s" is not supported ("yaml", "ini", "toml" or "json").', $format));
+        if (!\in_array($format, self::SUPPORTED_FORMATS, true)) {
+            $supported = self::SUPPORTED_FORMATS;
+            $last = array_pop($supported);
+            $formatList = '"' . implode('", "', $supported) . '" or "' . $last . '"';
+            throw new RuntimeException(\sprintf('The front matter format "%s" is not supported (%s).', $format, $formatList));
         }
         $method = \sprintf('convert%sToArray', ucfirst($format));
 
@@ -66,6 +73,8 @@ class Converter implements ConverterInterface
      * Converts YAML string to array.
      *
      * @see https://wikipedia.org/wiki/YAML
+     *
+     * @return array<string, mixed>
      */
     private static function convertYamlToArray(string $string): array
     {
@@ -87,6 +96,8 @@ class Converter implements ConverterInterface
      * Converts INI string to array.
      *
      * @see https://wikipedia.org/wiki/INI_file
+     *
+     * @return array<string, mixed>
      */
     private static function convertIniToArray(string $string): array
     {
@@ -102,6 +113,8 @@ class Converter implements ConverterInterface
      * Converts TOML string to array.
      *
      * @see https://wikipedia.org/wiki/TOML
+     *
+     * @return array<string, mixed>
      */
     private static function convertTomlToArray(string $string): array
     {
@@ -113,7 +126,7 @@ class Converter implements ConverterInterface
 
             return $result;
         } catch (TomlParseException $e) {
-            throw new RuntimeException($e->getMessage(), file: $e->getParsedFile(), line: $e->getParsedLine());
+            throw new RuntimeException($e->getMessage(), line: $e->getParsedLine());
         } catch (\Exception $e) {
             throw new RuntimeException($e->getMessage());
         }
@@ -123,18 +136,16 @@ class Converter implements ConverterInterface
      * Converts JSON string to array.
      *
      * @see https://wikipedia.org/wiki/JSON
+     *
+     * @return array<string, mixed>
      */
     private static function convertJsonToArray(string $string): array
     {
-        try {
-            $result = json_decode($string, true);
-            if ($result === null && json_last_error() !== JSON_ERROR_NONE) {
-                throw new \Exception('JSON error.');
-            }
-
-            return $result;
-        } catch (\Exception) {
+        $result = json_decode($string, true);
+        if (!\is_array($result)) {
             throw new RuntimeException('Unable to parse JSON front matter.');
         }
+
+        return $result;
     }
 }

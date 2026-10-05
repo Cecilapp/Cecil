@@ -23,7 +23,7 @@ use Cecil\Renderer\Page as PageRenderer;
 class SeoDoctor
 {
     /** Default configuration thresholds */
-    private const DEFAULT_CONFIG = [
+    private const array DEFAULT_CONFIG = [
         'title' => ['min' => 30, 'max' => 60],
         'description' => ['min' => 120, 'max' => 160],
         'content' => ['min_words' => 300],
@@ -300,7 +300,9 @@ class SeoDoctor
             return '';
         }
 
-        return $this->normalizeText((string) $nodes->item(0)?->textContent);
+        $node = $nodes->item(0);
+
+        return $this->normalizeText($node instanceof \DOMNode ? $node->textContent : '');
     }
 
     private function countNodes(\DOMXPath $xpath, string $query): int

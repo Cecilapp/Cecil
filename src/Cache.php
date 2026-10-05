@@ -13,8 +13,8 @@ declare(strict_types=1);
 
 namespace Cecil;
 
+use Cecil\BuildContextInterface;
 use Cecil\Builder;
-use Cecil\Collection\Page\Page;
 use Cecil\Exception\RuntimeException;
 use Cecil\Util;
 use Psr\SimpleCache\CacheInterface;
@@ -27,16 +27,16 @@ use Psr\SimpleCache\CacheInterface;
 class Cache implements CacheInterface
 {
     /** Reserved characters that cannot be used in a key */
-    public const RESERVED_CHARACTERS = '{}()/\@:';
-    private const SHARD_DELIMITER = '-';
+    public const string RESERVED_CHARACTERS = '{}()/\@:';
+    private const string SHARD_DELIMITER = '-';
 
-    /** @var Builder */
+    /** @var BuildContextInterface */
     protected $builder;
 
     /** @var string */
     protected $cacheDir;
 
-    public function __construct(Builder $builder, string $pool = '')
+    public function __construct(BuildContextInterface $builder, string $pool = '')
     {
         $this->builder = $builder;
         $this->cacheDir = Util::joinFile($builder->getConfig()->getCachePath(), $pool);
@@ -88,6 +88,25 @@ class Cache implements CacheInterface
      */
     public function get($key, $default = null): mixed
     {
+        return $this->getValue($key, $default, true);
+    }
+
+    /**
+     * Gets a value without loading its dedicated content file (if any).
+     * Useful to handle large files (e.g.: audio, video) without keeping their content in memory.
+     *
+     * @see getContentFile() to retrieve the content file path
+     */
+    public function getWithoutContent(string $key, mixed $default = null): mixed
+    {
+        return $this->getValue($key, $default, false);
+    }
+
+    /**
+     * Gets a value, with or without its dedicated content file.
+     */
+    private function getValue(string $key, mixed $default, bool $withContent): mixed
+    {
         try {
             $key = self::sanitizeKey($key);
             // return default value if file doesn't exists
@@ -105,7 +124,7 @@ class Cache implements CacheInterface
                 return $default;
             }
             // get content from dedicated file
-            if (\is_array($data['value']) && isset($data['value']['path'])) {
+            if ($withContent && \is_array($data['value']) && isset($data['value']['path'])) {
                 if (false !== $content = Util\File::fileGetContents($this->getContentFile($data['value']['path']))) {
                     $data['value']['content'] = $content;
                 }
@@ -163,6 +182,8 @@ class Cache implements CacheInterface
 
     /**
      * {@inheritdoc}
+     *
+     * @param iterable<string, mixed> $values
      */
     public function setMultiple($values, $ttl = null): bool
     {
@@ -185,6 +206,8 @@ class Cache implements CacheInterface
      * The $hash is generated from the $value and is used to identify the content. It is generated with a fast non-cryptographic hash function (xxh128) to ensure good performance.
      * The $version is the Cecil version, used to invalidate cache when Cecil is updated.
      * The key is sanitized to remove reserved characters and ensure it is a valid file name. It is also truncated to 200 characters to avoid issues with file system limits.
+     *
+     * @param array<string, mixed>|null $tags
      *
      * @throws \InvalidArgumentException if the $value type is not supported or if the generated key contains reserved characters.
      */
@@ -238,7 +261,7 @@ class Cache implements CacheInterface
 
         $name = self::sanitizeKey($name);
 
-        return \sprintf('%s__%s__%s', $name, $hash, $this->builder->getVersion());
+        return \sprintf('%s__%s__%s', $name, $hash, Builder::getVersion());
     }
 
     /**
@@ -248,7 +271,7 @@ class Cache implements CacheInterface
     {
         try {
             if (!Util\File::getFS()->exists($this->cacheDir)) {
-                throw new RuntimeException(\sprintf('The cache directory "%s" does not exists.', $this->cacheDir));
+                throw new RuntimeException(\sprintf('The cache directory "%s" does not exist.', $this->cacheDir));
             }
             $fileCount = 0;
             $iterator = new \RecursiveIteratorIterator(
@@ -301,7 +324,7 @@ class Cache implements CacheInterface
     private static function sanitizeKey(string $key): string
     {
         $key = str_replace(['https://', 'http://'], '', $key); // remove protocol (if URL)
-        $key = Page::slugify($key);                            // slugify
+        $key = Util\Slugifier::slugify($key);                       // slugify
         $key = trim($key, '/');                                // remove leading/trailing slashes
         $key = str_replace(['\\', '/'], ['-', '-'], $key);     // replace slashes by hyphens
         $key = substr($key, 0, 200);                           // truncate to 200 characters (NTFS filename length limit is 255 characters)
@@ -352,6 +375,8 @@ class Cache implements CacheInterface
 
     /**
      * Returns target cache directory and filename/key suffix according to sharding rules.
+     *
+     * @return array{string, string}
      */
     private function resolveShard(string $key): array
     {
@@ -376,11 +401,8 @@ class Cache implements CacheInterface
         if (\is_int($ttl)) {
             return $ttl;
         }
-        if ($ttl instanceof \DateInterval) {
-            return (int) $ttl->d * 86400 + $ttl->h * 3600 + $ttl->i * 60 + $ttl->s;
-        }
 
-        throw new \InvalidArgumentException('TTL values must be int or \DateInterval');
+        return (int) $ttl->d * 86400 + $ttl->h * 3600 + $ttl->i * 60 + $ttl->s;
     }
 
     /**

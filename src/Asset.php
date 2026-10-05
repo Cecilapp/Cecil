@@ -31,10 +31,12 @@ use wapmorgan\Mp3Info\Mp3Info;
  * Represents an asset (file) in the Cecil project.
  * Handles file locating, content reading, compiling, minifying, fingerprinting,
  * resizing images, and more.
+ *
+ * @implements \ArrayAccess<string, mixed>
  */
 class Asset implements \ArrayAccess
 {
-    public const IMAGE_THUMB = 'thumbnails';
+    public const string IMAGE_THUMB = 'thumbnails';
 
     /** @var Builder */
     protected $builder;
@@ -44,10 +46,10 @@ class Asset implements \ArrayAccess
 
     protected Cache $cache;
 
-    /** @var array */
+    /** @var array<string, mixed> */
     protected $data = [];
 
-    /** @var array Cache tags */
+    /** @var array<string, mixed> Cache tags */
     protected $cacheTags = [];
 
     /**
@@ -64,9 +66,9 @@ class Asset implements \ArrayAccess
      *     'language' => <string|null>,
      * ]
      *
-     * @param Builder      $builder
-     * @param string|array $paths
-     * @param array|null   $options
+     * @param Builder                   $builder
+     * @param string|array<mixed>       $paths
+     * @param array<string, mixed>|null $options
      *
      * @throws RuntimeException
      */
@@ -202,7 +204,7 @@ class Asset implements \ArrayAccess
             }
             $this->cache->set($locateCacheKey, $this->data);
         }
-        $this->data = $this->cache->get($locateCacheKey);
+        $this->data = $this->cache->getWithoutContent($locateCacheKey);
 
         // missing
         if ($this->isMissing()) {
@@ -225,6 +227,8 @@ class Asset implements \ArrayAccess
         }
         $cacheKey = $this->cache->createKey($this, tags: $this->cacheTags);
         if (!$this->cache->has($cacheKey)) {
+            // loads content before processing (path may change)
+            $this->getContent();
             // fingerprinting
             if ($options['fingerprint']) {
                 $this->doFingerprint();
@@ -256,7 +260,7 @@ class Asset implements \ArrayAccess
                 $this->optimizeImage($this->cache->getContentFile($this->data['path']), $this->data['path'], $quality);
             }
         }
-        $this->data = $this->cache->get($cacheKey);
+        $this->data = $this->cache->getWithoutContent($cacheKey);
     }
 
     /**
@@ -270,11 +274,7 @@ class Asset implements \ArrayAccess
             return $this->buildImageCdnUrl();
         }
 
-        if ($this->builder->getConfig()->isEnabled('canonicalurl')) {
-            return (string) new Url($this->builder, $this->data['path'], ['canonical' => true]);
-        }
-
-        return $this->data['path'];
+        return (string) new Url($this->builder, $this->data['path']);
     }
 
     /**
@@ -292,6 +292,10 @@ class Asset implements \ArrayAccess
      */
     public function offsetExists($offset): bool
     {
+        if ($offset === 'content') {
+            return $this->getContent() !== null;
+        }
+
         return isset($this->data[$offset]);
     }
 
@@ -308,7 +312,26 @@ class Asset implements \ArrayAccess
      */
     public function offsetGet($offset): mixed
     {
+        if ($offset === 'content') {
+            return $this->getContent();
+        }
+
         return isset($this->data[$offset]) ? $this->data[$offset] : null;
+    }
+
+    /**
+     * Returns content, loaded on demand from the cache content file.
+     * Content is not kept in memory by default to avoid memory exhaustion with large files (e.g.: audio, video).
+     */
+    private function getContent(): ?string
+    {
+        if (!isset($this->data['content']) && !empty($this->data['path'])) {
+            if (false !== $content = Util\File::fileGetContents($this->cache->getContentFile($this->data['path']))) {
+                $this->data['content'] = $content;
+            }
+        }
+
+        return $this->data['content'] ?? null;
     }
 
     /**
@@ -405,7 +428,7 @@ class Asset implements \ArrayAccess
             $action();
             $this->cache->set($cacheKey, $this->data, $this->config->get('cache.assets.ttl'));
         }
-        $this->data = $this->cache->get($cacheKey);
+        $this->data = $this->cache->getWithoutContent($cacheKey);
 
         return $this;
     }
@@ -421,7 +444,7 @@ class Asset implements \ArrayAccess
             return Image::getDataUrl($this, (int) $this->config->get('assets.images.quality'));
         }
 
-        return \sprintf('data:%s;base64,%s', $this->data['subtype'], base64_encode($this->data['content']));
+        return \sprintf('data:%s;base64,%s', $this->data['subtype'], base64_encode((string) $this->getContent()));
     }
 
     /**
@@ -432,7 +455,7 @@ class Asset implements \ArrayAccess
      */
     public function integrity(string $algo = 'sha384'): string
     {
-        return \sprintf('%s-%s', $algo, base64_encode(hash($algo, $this->data['content'], true)));
+        return \sprintf('%s-%s', $algo, base64_encode(hash($algo, (string) $this->getContent(), true)));
     }
 
     /**
@@ -489,7 +512,17 @@ class Asset implements \ArrayAccess
         $assetResized->cacheTags['height'] = $height;
         $cacheKey = $this->cache->createKey($assetResized, tags: $assetResized->cacheTags);
         if (!$this->cache->has($cacheKey)) {
-            $assetResized->data['content'] = Image::resize($assetResized, $width, $height, $quality, $rmAnimation);
+            try {
+                $assetResized->data['content'] = Image::resize($assetResized, $width, $height, $quality, $rmAnimation);
+            } catch (RuntimeException $e) {
+                // an ICO file can't always be resized (e.g.: 8 bits BMP icon without Imagick): returns the original
+                if (!Image::isIco($this)) {
+                    throw $e;
+                }
+                $this->builder->getLogger()->warning($e->getMessage());
+
+                return $this;
+            }
             $assetResized->data['path'] = '/' . Util::joinPath(
                 (string) $this->config->get('assets.target'),
                 self::IMAGE_THUMB,
@@ -504,7 +537,7 @@ class Asset implements \ArrayAccess
             $this->cache->set($cacheKey, $assetResized->data, $this->config->get('cache.assets.ttl'));
             $this->builder->getLogger()->debug(\sprintf('Asset resized: "%s" (%sx%s)', $assetResized->data['path'], $width, $height));
         }
-        $assetResized->data = $this->cache->get($cacheKey);
+        $assetResized->data = $this->cache->getWithoutContent($cacheKey);
 
         return $assetResized;
     }
@@ -540,7 +573,7 @@ class Asset implements \ArrayAccess
             $this->cache->set($cacheKey, $assetMaskable->data, $this->config->get('cache.assets.ttl'));
             $this->builder->getLogger()->debug(\sprintf('Asset maskabled: "%s"', $assetMaskable->data['path']));
         }
-        $assetMaskable->data = $this->cache->get($cacheKey);
+        $assetMaskable->data = $this->cache->getWithoutContent($cacheKey);
 
         return $assetMaskable;
     }
@@ -580,7 +613,7 @@ class Asset implements \ArrayAccess
             $this->cache->set($cacheKey, $asset->data, $this->config->get('cache.assets.ttl'));
             $this->builder->getLogger()->debug(\sprintf('Asset converted: "%s" (%s -> %s)', $asset->data['path'], $this->data['ext'], $format));
         }
-        $asset->data = $this->cache->get($cacheKey);
+        $asset->data = $this->cache->getWithoutContent($cacheKey);
 
         return $asset;
     }
@@ -681,6 +714,8 @@ class Asset implements \ArrayAccess
      * - channel ('stereo', 'dual_mono', 'joint_stereo' or 'mono')
      *
      * @see https://github.com/wapmorgan/Mp3Info
+     *
+     * @return array{duration: float, bitrate: int, channel: string}
      */
     public function getAudio(): array
     {
@@ -700,6 +735,8 @@ class Asset implements \ArrayAccess
      * - height (in pixels)
      *
      * @see https://github.com/JamesHeinrich/getID3
+     *
+     * @return array{duration: float, width: int, height: int}
      */
     public function getVideo(): array
     {
@@ -742,7 +779,7 @@ class Asset implements \ArrayAccess
      */
     protected function doFingerprint(): self
     {
-        $hash = hash('xxh128', $this->data['content']);
+        $hash = hash('xxh128', (string) $this->getContent());
         $this->data['path'] = preg_replace(
             '/\.' . $this->data['ext'] . '$/m',
             ".$hash." . $this->data['ext'],
@@ -758,6 +795,7 @@ class Asset implements \ArrayAccess
      */
     protected function doCompile(): self
     {
+        $this->getContent();
         $this->data = (new AssetCompiler($this->builder))->compile($this->data);
 
         return $this;
@@ -772,6 +810,7 @@ class Asset implements \ArrayAccess
         if ($this->data['ext'] === 'scss') {
             $this->doCompile();
         }
+        $this->getContent();
         $this->data = (new AssetOptimizer($this->builder))->minify($this->data);
 
         return $this;
@@ -791,6 +830,8 @@ class Asset implements \ArrayAccess
      *
      * @see https://www.php.net/manual/function.getimagesize.php
      *
+     * @return array{0: int, 1: int, 2?: int, 3?: string, mime?: string, channels?: int, bits?: int}|false
+     *
      * @throws RuntimeException
      */
     private function getImageSize(): array|false
@@ -800,7 +841,11 @@ class Asset implements \ArrayAccess
         }
 
         try {
-            if (false === $size = getimagesizefromstring($this->data['content'])) {
+            // getimagesize() doesn't necessarily return the size of the largest icon of an ICO file
+            if (Image::isIco($this)) {
+                return Image::getIcoSize((string) $this->getContent());
+            }
+            if (false === $size = getimagesizefromstring((string) $this->getContent())) {
                 return false;
             }
         } catch (\Exception $e) {
@@ -824,11 +869,11 @@ class Asset implements \ArrayAccess
                 '%format%',
             ],
             [
-                $this->config->get('assets.images.cdn.account') ?? '',
+                (string) $this->config->get('assets.images.cdn.account'),
                 ltrim($this->data['url'] ?? (string) new Url($this->builder, $this->data['path'], ['canonical' => $this->config->get('assets.images.cdn.canonical') ?? true]), '/'),
-                $this->data['width'],
-                (int) $this->config->get('assets.images.quality'),
-                $this->data['ext'],
+                (string) $this->data['width'],
+                (string) (int) $this->config->get('assets.images.quality'),
+                (string) $this->data['ext'],
             ],
             (string) $this->config->get('assets.images.cdn.url')
         );

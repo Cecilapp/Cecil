@@ -33,6 +33,7 @@ class NewPage extends AbstractCommand
     /**
      * {@inheritdoc}
      */
+    #[\Override]
     protected function configure()
     {
         $this
@@ -76,6 +77,7 @@ EOF
      *
      * @throws RuntimeException
      */
+    #[\Override]
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $name = (string) $input->getOption('name');
@@ -99,12 +101,12 @@ EOF
             }
             // parse given path name
             $nameParts = pathinfo($name);
-            $dirname = trim($nameParts['dirname'], '.');
+            $dirname = trim($nameParts['dirname'] ?? '', '.');
             $basename = $nameParts['basename'];
             $extension = $nameParts['extension'] ?? '';
             $title = $extension !== '' ? substr($basename, 0, -\strlen(".$extension")) : $basename;
             // define file name (and slugify if needed)
-            $filename = $slugify ? \Cecil\Collection\Page\Page::slugify($basename) : $basename;
+            $filename = $slugify ? Util\Slugifier::slugify($basename) : $basename;
             // check extension
             if (!\in_array($extension, (array) $this->getBuilder()->getConfig()->get('pages.ext'))) {
                 $title = $filename;
@@ -166,14 +168,22 @@ EOF
 
     /**
      * Finds the page model and returns its [name, content].
+     *
+     * @return array{name: string, content: string}
+     *
+     * @throws RuntimeException
      */
     private function findModel(string $name): array
     {
         $name = strstr($name, DIRECTORY_SEPARATOR, true) ?: 'default';
         if (file_exists($model = Util::joinFile($this->getPath(), 'models', "$name.md"))) {
+            if (false === $content = Util\File::fileGetContents($model)) {
+                throw new RuntimeException(\sprintf('Unable to read model file "%s".', $model));
+            }
+
             return [
                 'name'    => $name,
-                'content' => Util\File::fileGetContents($model),
+                'content' => $content,
             ];
         }
 

@@ -26,6 +26,8 @@ class Util
 {
     /**
      * Formats a class name.
+     * @param array{lowercase?: bool} $options Options for formatting. Supported options:
+     *  - 'lowercase' (bool): Whether to convert the class name to lowercase. Default is false.
      *
      * ie: "Cecil\Step\OptimizeHtml" become "OptimizeHtml"
      *
@@ -33,10 +35,12 @@ class Util
      */
     public static function formatClassName($class, array $options = []): string
     {
-        $lowercase = false;
-        extract($options, EXTR_IF_EXISTS);
+        $lowercase = $options['lowercase'] ?? false;
 
-        $className = substr(strrchr(\get_class($class), '\\'), 1);
+        $className = \get_class($class);
+        if (($position = strrpos($className, '\\')) !== false) {
+            $className = substr($className, $position + 1);
+        }
         if ($lowercase) {
             $className = strtolower($className);
         }
@@ -64,7 +68,7 @@ class Util
     public static function joinPath(string ...$path): string
     {
         $path = array_filter($path, function ($path) {
-            return !empty($path) && !\is_null($path);
+            return !empty($path);
         });
         array_walk($path, function (&$value, $key) {
             $value = str_replace('\\', '/', $value);
@@ -95,6 +99,8 @@ class Util
 
     /**
      * Converts memory size for human.
+     *
+     * @param int $size Memory size in bytes
      */
     public static function convertMemory($size): string
     {
@@ -103,7 +109,9 @@ class Util
         }
         $unit = ['b', 'kb', 'mb', 'gb', 'tb', 'pb'];
 
-        return \sprintf('%s %s', round($size / pow(1024, $i = floor(log($size, 1024))), 2), $unit[$i]);
+        $i = (int) floor(log($size, 1024));
+
+        return \sprintf('%s %s', round($size / pow(1024, $i), 2), $unit[$i]);
     }
 
     /**
@@ -208,7 +216,7 @@ class Util
      *
      * @param string $url The URL to check
      *
-     * @return array|false An associative array with 'type' and 'url' keys if a match is found, or false otherwise
+     * @return array{type: string, url: string}|false An associative array with 'type' and 'url' keys if a match is found, or false otherwise
      */
     public static function matchesUrlPattern(string $url): array|false
     {

@@ -32,6 +32,7 @@ class ShowConfig extends AbstractCommand
     /**
      * {@inheritdoc}
      */
+    #[\Override]
     protected function configure()
     {
         $this
@@ -60,6 +61,7 @@ EOF
      *
      * @throws RuntimeException
      */
+    #[\Override]
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
         try {
@@ -73,6 +75,8 @@ EOF
 
     /**
      * Converts an array to YAML.
+     *
+     * @param array<string, mixed> $array
      */
     private function arrayToYaml(array $array): string
     {

@@ -152,10 +152,10 @@ class Load extends AbstractStep
     /**
      * Puts a path/value couple into an array.
      *
-     * @param array  $arr       Target array
-     * @param string $path      Source path
-     * @param array  $value     Source values
-     * @param string $separator Path separator (ie: '/')
+     * @param array<mixed> $arr       Target array
+     * @param string       $path      Source path
+     * @param array<mixed> $value     Source values
+     * @param non-empty-string $separator Path separator (ie: '/')
      */
     private function pathToArray(array &$arr, string $path, array $value, string $separator = DIRECTORY_SEPARATOR): void
     {

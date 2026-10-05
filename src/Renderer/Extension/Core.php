@@ -50,6 +50,7 @@ class Core extends AbstractExtension
         $this->config = $builder->getConfig();
     }
 
+    #[\Override]
     public function getFunctions()
     {
         return [
@@ -63,7 +64,7 @@ class Core extends AbstractExtension
             new \Twig\TwigFunction('image', [$this, 'htmlImage'], ['needs_context' => true]),
             new \Twig\TwigFunction('audio', [$this, 'htmlAudio'], ['needs_context' => true]),
             new \Twig\TwigFunction('video', [$this, 'htmlVideo'], ['needs_context' => true]),
-            new \Twig\TwigFunction('image_srcset', [$this, 'imageSrcset']),
+            new \Twig\TwigFunction('image_srcset', [$this, 'imageSrcset'], ['needs_context' => true]),
             new \Twig\TwigFunction('image_sizes', [$this, 'imageSizes']),
             new \Twig\TwigFunction('image_from_website', [$this, 'htmlImageFromWebsite'], ['needs_context' => true]),
             // utilities
@@ -91,6 +92,7 @@ class Core extends AbstractExtension
         ];
     }
 
+    #[\Override]
     public function getFilters(): array
     {
         return [
@@ -131,6 +133,7 @@ class Core extends AbstractExtension
         ];
     }
 
+    #[\Override]
     public function getTests()
     {
         return [
@@ -149,9 +152,9 @@ class Core extends AbstractExtension
      *     'language'  => null,
      * ];
      *
-     * @param array                                      $context
+     * @param array<string, mixed>                          $context
      * @param \Cecil\Collection\Page\Page|Asset|string|null $value
-     * @param array|null                                 $options
+     * @param array<string, mixed>|null                     $options
      */
     public function url(array $context, $value = null, ?array $options = null): string
     {
@@ -165,8 +168,8 @@ class Core extends AbstractExtension
     /**
      * Creates an Asset (CSS, JS, images, etc.) from a path or an array of paths.
      *
-     * @param string|array $path    File path or array of files path (relative from `assets/` or `static/` dir).
-     * @param array|null   $options
+     * @param mixed                     $path    File path or array of files path (relative from `assets/` or `static/` dir).
+     * @param array<string, mixed>|null $options
      *
      * @return Asset
      */
@@ -376,14 +379,15 @@ class Core extends AbstractExtension
     /**
      * Creates the HTML element of an asset.
      *
-     * @param array                                                                $context    Twig context
-     * @param Asset|array<int,array{asset:Asset,attributes:?array<string,string>}> $assets     Asset or array of assets + attributes
-     * @param array                                                                $attributes HTML attributes to add to the element
-     * @param array                                                                $options    Options:
+     * @param array<string, mixed>                                                 $context    Twig context
+     * @param Asset|array<int,array{asset:Asset|string|array<string>,attributes:?array<string,string>}> $assets Asset or array of assets + attributes
+     * @param array<string, mixed>                                                 $attributes HTML attributes to add to the element
+     * @param array<string, mixed>                                                 $options    Options:
      * [
-     *     'preload'    => false,
-     *     'responsive' => false,
-     *     'formats'    => [],
+     *     'preload'     => false,
+     *     'responsive'  => false,
+     *     'formats'     => [],
+     *     'placeholder' => '',
      * ];
      *
      * @return string HTML element
@@ -460,6 +464,10 @@ class Core extends AbstractExtension
 
     /**
      * Builds the HTML link element of a CSS Asset.
+     *
+     * @param array<string, mixed> $context
+     * @param array<string, mixed> $attributes
+     * @param array<string, mixed> $options
      */
     public function htmlCss(array $context, Asset $asset, array $attributes = [], array $options = []): string
     {
@@ -478,6 +486,10 @@ class Core extends AbstractExtension
 
     /**
      * Builds the HTML script element of a JS Asset.
+     *
+     * @param array<string, mixed> $context
+     * @param array<string, mixed> $attributes
+     * @param array<string, mixed> $options
      */
     public function htmlJs(array $context, Asset $asset, array $attributes = [], array $options = []): string
     {
@@ -486,26 +498,33 @@ class Core extends AbstractExtension
 
     /**
      * Builds the HTML img element of an image Asset.
+     *
+     * @param array<string, mixed> $context
+     * @param array<string, mixed> $attributes
+     * @param array<string, mixed> $options
      */
     public function htmlImage(array $context, Asset $asset, array $attributes = [], array $options = []): string
     {
         $responsive = $options['responsive'] ?? $this->config->get('layouts.images.responsive');
         $source = '';
+        // URL builder
+        $url = fn (Asset $asset): string => $this->url($context, $asset, $options);
         // build responsive attributes
         try {
             if ($responsive === true || $responsive == 'width') {
-                $srcset = Image::buildHtmlSrcsetW($asset, $this->config->getAssetsImagesWidths());
+                $srcset = Image::buildHtmlSrcsetW($asset, $this->config->getAssetsImagesWidths(), false, $url);
                 if (!empty($srcset)) {
                     $attributes['srcset'] = $srcset;
                 }
                 $attributes['sizes'] = Image::getHtmlSizes($attributes['class'] ?? '', $this->config->getAssetsImagesSizes());
                 // prevent oversized images
-                if ($asset['width'] > max($this->config->getAssetsImagesWidths())) {
-                    $asset = $asset->resize(max($this->config->getAssetsImagesWidths()));
+                $widths = $this->config->getAssetsImagesWidths();
+                if ($widths !== [] && $asset['width'] > max($widths)) {
+                    $asset = $asset->resize(max($widths));
                 }
             } elseif ($responsive == 'density') {
                 $width1x = isset($attributes['width']) && $attributes['width'] > 0 ? (int) $attributes['width'] : $asset['width'];
-                $srcset = Image::buildHtmlSrcsetX($asset, $width1x, $this->config->getAssetsImagesDensities());
+                $srcset = Image::buildHtmlSrcsetX($asset, $width1x, $this->config->getAssetsImagesDensities(), $url);
                 if (!empty($srcset)) {
                     $attributes['srcset'] = $srcset;
                 }
@@ -524,9 +543,9 @@ class Core extends AbstractExtension
                         $assetConverted = $asset->convert($format);
                         // responsive
                         if ($responsive === true || $responsive == 'width') {
-                            $srcset = Image::buildHtmlSrcsetW($assetConverted, $this->config->getAssetsImagesWidths());
+                            $srcset = Image::buildHtmlSrcsetW($assetConverted, $this->config->getAssetsImagesWidths(), false, $url);
                             if (empty($srcset)) {
-                                $source .= \sprintf("\n  <source type=\"image/$format\" srcset=\"%s\">", (string) $assetConverted);
+                                $source .= \sprintf("\n  <source type=\"image/$format\" srcset=\"%s\">", $url($assetConverted));
                                 continue;
                             }
                             $source .= \sprintf("\n  <source type=\"image/$format\" srcset=\"%s\" sizes=\"%s\">", $srcset, Image::getHtmlSizes($attributes['class'] ?? '', $this->config->getAssetsImagesSizes()));
@@ -534,14 +553,14 @@ class Core extends AbstractExtension
                         }
                         if ($responsive == 'density') {
                             $width1x = isset($attributes['width']) && $attributes['width'] > 0 ? (int) $attributes['width'] : $asset['width'];
-                            $srcset = Image::buildHtmlSrcsetX($assetConverted, $width1x, $this->config->getAssetsImagesDensities());
+                            $srcset = Image::buildHtmlSrcsetX($assetConverted, $width1x, $this->config->getAssetsImagesDensities(), $url);
                             if (empty($srcset)) {
-                                $srcset = (string) $assetConverted;
+                                $srcset = $url($assetConverted);
                             }
                             $source .= \sprintf("\n  <source type=\"image/$format\" srcset=\"%s\">", $srcset);
                             continue;
                         }
-                        $source .= \sprintf("\n  <source type=\"image/$format\" srcset=\"%s\">", $assetConverted);
+                        $source .= \sprintf("\n  <source type=\"image/$format\" srcset=\"%s\">", $url($assetConverted));
                     } catch (\Exception $e) {
                         $this->builder->getLogger()->warning($e->getMessage());
                         continue;
@@ -565,11 +584,36 @@ class Core extends AbstractExtension
         if (!isset($attributes['height'])) {
             $attributes['height'] = $asset['height'] ?: '';
         }
-        $img = \sprintf('<img src="%s"%s>', $this->url($context, $asset, $options), self::htmlAttributes($attributes));
-
+        // placeholder (`color` or `lqip`)
+        $placeholder = $options['placeholder'] ?? $this->config->get('layouts.images.placeholder');
+        if (!empty($placeholder) && \in_array($asset['subtype'], ['image/jpeg', 'image/png', 'image/gif'])) {
+            try {
+                $style = trim($attributes['style'] ?? '', ';');
+                switch ($placeholder) {
+                    case 'color':
+                        $style .= \sprintf(';max-width:100%%;height:auto;background-color:%s;', Image::getDominantColor($asset));
+                        break;
+                    case 'lqip':
+                        // aborts if animated GIF for performance reasons
+                        if (Image::isAnimatedGif($asset)) {
+                            break;
+                        }
+                        $style .= \sprintf(';max-width:100%%;height:auto;background-image:url(%s);background-repeat:no-repeat;background-position:center;background-size:cover;', Image::getLqip($asset));
+                        break;
+                    default:
+                        throw new RuntimeException(\sprintf('Image placeholder "%s" is not supported (use "color" or "lqip").', $placeholder));
+                }
+                if (!empty($style = trim($style, ';'))) {
+                    $attributes['style'] = $style;
+                }
+            } catch (\Exception $e) {
+                $this->builder->getLogger()->warning($e->getMessage());
+            }
+        }
+        $img = \sprintf('<img src="%s"%s>', $url($asset), self::htmlAttributes($attributes));
 
         // dark color-scheme variant: auto-detect `{filename}{suffix}.{ext}` alongside the source image
-        $darkSource = $this->buildDarkSourceHtml($asset, $formats, $responsive, $attributes);
+        $darkSource = $this->buildDarkSourceHtml($asset, $formats, $responsive, $attributes, $url);
         // mobile variant: auto-detect `{filename}{suffix}.{ext}` alongside the source image
         $mobileSource = $this->buildMobileSourceHtml($asset, $formats, $responsive, $attributes);
 
@@ -583,6 +627,10 @@ class Core extends AbstractExtension
 
     /**
      * Builds the HTML audio element of an audio Asset.
+     *
+     * @param array<string, mixed> $context
+     * @param array<string, mixed> $attributes
+     * @param array<string, mixed> $options
      */
     public function htmlAudio(array $context, Asset $asset, array $attributes = [], array $options = []): string
     {
@@ -596,11 +644,12 @@ class Core extends AbstractExtension
     /**
      * Builds HTML dark "source" elements for the dark color-scheme variant of an image Asset.
      *
-     * @param array $formats    Alternative formats (e.g. ['avif', 'webp'])
-     * @param mixed $responsive Responsive mode (true, 'width', 'density' or false)
-     * @param array $attributes Image attributes
+     * @param array<string>        $formats    Alternative formats (e.g. ['avif', 'webp'])
+     * @param mixed                $responsive Responsive mode (true, 'width', 'density' or false)
+     * @param array<string, mixed> $attributes Image attributes
+     * @param callable             $url        URL builder
      */
-    private function buildDarkSourceHtml(Asset $asset, array $formats, mixed $responsive, array $attributes): string
+    private function buildDarkSourceHtml(Asset $asset, array $formats, mixed $responsive, array $attributes, callable $url): string
     {
         $darkSuffix = (string) $this->config->get('layouts.images.dark_suffix');
         $sizes = null;
@@ -618,6 +667,7 @@ class Core extends AbstractExtension
                 'densities' => $this->config->getAssetsImagesDensities(),
                 'sizes' => $sizes,
                 'width1x' => isset($attributes['width']) && $attributes['width'] > 0 ? (int) $attributes['width'] : null,
+                'url' => $url,
             ]
         );
         if (empty($darkSourceAttributes)) {
@@ -673,6 +723,10 @@ class Core extends AbstractExtension
 
     /**
      * Builds the HTML video element of a video Asset.
+     *
+     * @param array<string, mixed> $context
+     * @param array<string, mixed> $attributes
+     * @param array<string, mixed> $options
      */
     public function htmlVideo(array $context, Asset $asset, array $attributes = [], array $options = []): string
     {
@@ -686,11 +740,13 @@ class Core extends AbstractExtension
     /**
      * Builds the HTML img `srcset` (responsive) attribute of an image Asset, based on configured widths.
      *
+     * @param array<string, mixed> $context
+     *
      * @throws RuntimeException
      */
-    public function imageSrcset(Asset $asset): string
+    public function imageSrcset(array $context, Asset $asset): string
     {
-        return Image::buildHtmlSrcsetW($asset, $this->config->getAssetsImagesWidths(), true);
+        return Image::buildHtmlSrcsetW($asset, $this->config->getAssetsImagesWidths(), true, fn (Asset $asset): string => $this->url($context, $asset));
     }
 
     /**
@@ -702,31 +758,102 @@ class Core extends AbstractExtension
     }
 
     /**
-     * Builds the HTML img element from a website URL by extracting the image from meta tags.
+     * Builds the HTML img element from a website URL by extracting its illustration image.
      * Returns null if no image found.
+     *
+     * The image is searched in the page HTML with several fallbacks (Open Graph, Twitter, `image_src`,
+     * microdata, JSON-LD, first content image, icons): the first candidate that can be downloaded
+     * as an image is used. The resolved image URL and the downloaded image are cached.
+     *
+     * $options[
+     *     'fallback' => <string>, // image path used if no image found
+     *     ...                     // other `image()` options (e.g.: 'responsive', 'formats', etc.)
+     * ]
+     *
+     * @param array<string, mixed> $context
+     * @param array<string, mixed> $attributes
+     * @param array<string, mixed> $options
      *
      * @throws RuntimeException
      */
     public function htmlImageFromWebsite(array $context, string $url, array $attributes = [], array $options = []): ?string
     {
-        $htmlAsset = new Asset($this->builder, $url, ['ignore_missing' => true]);
+        $fallback = $options['fallback'] ?? null;
+        unset($options['fallback']);
 
-        if ($htmlAsset->isMissing()) {
-            $this->builder->getLogger()->warning(\sprintf('Unable to fetch "%s" to extract image.', $url));
-
+        if (null === $asset = $this->getImageFromWebsite($url, $fallback)) {
             return null;
         }
 
-        if (!empty($html = $htmlAsset['content'])) {
-            $imageUrl = Util\Html::getImageFromMetaTags($html);
-            if ($imageUrl !== null) {
-                $asset = new Asset($this->builder, $imageUrl);
+        return $this->htmlImage($context, $asset, $attributes, $options);
+    }
 
-                return $this->htmlImage($context, $asset, $attributes, $options);
+    /**
+     * Returns the illustration image Asset of a web page, the fallback image Asset, or null if not found.
+     *
+     * @see Util\Html::getImageCandidates()
+     *
+     * @throws RuntimeException
+     */
+    private function getImageFromWebsite(string $url, ?string $fallback = null): ?Asset
+    {
+        $cache = new Cache($this->builder, 'assets/_remote');
+        $cacheKey = \sprintf('image-from-website_%s', Asset\Locator::buildPathFromUrl($url));
+        $ttl = $this->config->get('cache.assets.remote.ttl');
+
+        // resolved image URL in cache?
+        $imageUrl = $cache->get($cacheKey);
+        if (\is_string($imageUrl) && $imageUrl !== '') {
+            if (null !== $asset = $this->getImageAsset($imageUrl)) {
+                return $asset;
+            }
+            // cached image is not valid anymore: searches again
+            $cache->delete($cacheKey);
+            $imageUrl = null;
+        }
+
+        // searches image in the web page
+        if ($imageUrl === null) {
+            $htmlAsset = new Asset($this->builder, $url, ['ignore_missing' => true, 'fingerprint' => false, 'minify' => false]);
+            if ($htmlAsset->isMissing()) {
+                $this->builder->getLogger()->warning(\sprintf('Unable to fetch "%s" to extract image.', $url));
+            } else {
+                foreach (Util\Html::getImageCandidates((string) $htmlAsset['content'], $url) as $candidate) {
+                    if (null !== $asset = $this->getImageAsset($candidate)) {
+                        $cache->set($cacheKey, $candidate, $ttl);
+
+                        return $asset;
+                    }
+                    $this->builder->getLogger()->debug(\sprintf('Image candidate "%s" of "%s" is not valid.', $candidate, $url));
+                }
+                // caches "not found" to avoid searching again
+                $cache->set($cacheKey, '', $ttl);
             }
         }
 
+        if (!empty($fallback)) {
+            return new Asset($this->builder, $fallback);
+        }
+        $this->builder->getLogger()->debug(\sprintf('No image found for "%s".', $url));
+
         return null;
+    }
+
+    /**
+     * Returns an image Asset from a path or an URL, or null if missing or not an image.
+     */
+    private function getImageAsset(string $path): ?Asset
+    {
+        try {
+            $asset = new Asset($this->builder, $path, ['ignore_missing' => true]);
+        } catch (\Exception) {
+            return null;
+        }
+        if ($asset->isMissing() || $asset['type'] != 'image') {
+            return null;
+        }
+
+        return $asset;
     }
 
     /**
@@ -786,6 +913,10 @@ class Core extends AbstractExtension
 
     /**
      * Dump variable (or Twig context).
+     *
+     * @param array<string, mixed>      $context
+     * @param mixed                     $var
+     * @param array<string, mixed>|null $options
      */
     public function varDump(\Twig\Environment $env, array $context, $var = null, ?array $options = null): void
     {
@@ -813,6 +944,8 @@ class Core extends AbstractExtension
 
     /**
      * Tests if a variable is an Asset.
+     *
+     * @param mixed $variable
      */
     public function isAsset($variable): bool
     {
@@ -871,6 +1004,9 @@ class Core extends AbstractExtension
 
     /**
      * Hashing an object, an array or a string (with algo, xxh128 by default).
+     *
+     * @param object|array<mixed>|string $data
+     * @param string                     $algo
      */
     public function hash(object|array|string $data, $algo = 'xxh128'): string
     {
@@ -888,20 +1024,22 @@ class Core extends AbstractExtension
      * Builds a cache key from a variable.
      * The cache key is built from the name of the variable, its hash, the site language and build.
      *
-     * @param array                    $context Twig context, used to get the site language and build.
-     * @param string                   $name    Name of the variable to build the cache key from.
-     * @param object|array|string|null $value   The variable to build the cache key from.
+     * @param array<string, mixed>            $context Twig context, used to get the site language and build.
+     * @param string                          $name    Name of the variable to build the cache key from.
+     * @param object|array<mixed>|string|null $value   The variable to build the cache key from.
      */
     public function cacheKey(array $context, string $name, object|array|string|null $value = null): string
     {
         $key = $name . ($value ? '-' . $this->hash($value) : '');
         $key = $key . '-' . $context['site']['language'] . '-' . $context['site']['build'];
 
-        return preg_replace('/[{}()\/\\\@:]/', '-', $key); // replace any of the reserved characters
+        return preg_replace('/[{}()\/\\\@:]/', '-', $key) ?? $key; // replace any of the reserved characters
     }
 
     /**
      * Builds the HTML attributes string from an array.
+     *
+     * @param array<string, mixed> $attributes
      */
     private static function htmlAttributes(array $attributes): string
     {

@@ -1,8 +1,8 @@
 <!--
 title: Contenu
-description: "Créer du contenu et l’organiser."
+description: "Créez et organisez votre contenu : pages, assets, fichiers statiques et de données, variables du front matter, syntaxe et extensions Markdown, contenu multilingue et dynamique."
 date: 2026-03-27
-updated: 2026-07-23
+updated: 2026-10-03
 slug: contenu
 -->
 # Contenu
@@ -310,7 +310,27 @@ Le ratio est conservé (l’attribut `height` est calculé automatiquement), le 
 :::
 
 :::important
-Cette fonctionnalité nécessite [GD](https://www.php.net/manual/book.image.php). [Imagick](https://www.php.net/manual/book.imagick.php) et [libvips](https://www.libvips.org/) peuvent être utilisés en complément s’ils sont disponibles ; sinon, elle ajoute seulement un attribut HTML `width` à la balise `img`.
+Cette fonctionnalité nécessite une bibliothèque de traitement d’images : [Imagick](https://www.php.net/manual/book.imagick.php) est utilisé en priorité s’il est disponible (et capable de lire le JPEG et le PNG), puis [libvips](https://www.libvips.org/) (via l’extension PHP [FFI](https://www.php.net/manual/book.ffi.php)), et enfin [GD](https://www.php.net/manual/book.image.php) en dernier recours ; sinon, elle ajoute seulement un attribut HTML `width` à la balise `img`.
+:::
+
+:::info
+Le support de libvips est optionnel et n’est pas inclus dans `cecil.phar`. Pour l’utiliser, Cecil doit être installé avec [Composer](https://getcomposer.org) et il faut :
+
+1. [libvips](https://www.libvips.org/install.html) installé sur le système
+2. l’extension PHP [FFI](https://www.php.net/manual/book.ffi.php) activée
+3. le paquet `intervention/image-driver-vips` installé avec Cecil
+
+Si Cecil est une dépendance de votre projet (voir [Bibliothèque](8-Library.md#support-de-libvips)) :
+
+```bash
+composer require intervention/image-driver-vips
+```
+
+Si Cecil est installé globalement :
+
+```bash
+composer global require cecil/cecil intervention/image-driver-vips
+```
 :::
 
 #### Formats
@@ -576,16 +596,16 @@ Il doit se trouver au tout début du fichier et être un [YAML](https://en.wikip
 
 ### Variables prédéfinies
 
-| Variable    | Description       | Valeur par défaut                                  | Exemple       |
-| ----------- | ----------------- | -------------------------------------------------- | ------------- |
-| `title`     | Titre             | Nom de fichier sans extension.                     | `Post 1`      |
+| Variable    | Description       | Valeur par défaut                                   | Exemple       |
+| ----------- | ----------------- | --------------------------------------------------- | ------------- |
+| `title`     | Titre             | Nom de fichier sans extension.                      | `Post 1`      |
 | `layout`    | Template          | Voir [_Lookup rules_](3-Templates.md#lookup-rules). | `404`         |
 | `date`      | Date de création  | Date de création du fichier (objet PHP _DateTime_). | `2019/04/15`  |
-| `section`   | Section           | _Section_ de la page.                              | `blog`        |
-| `path`      | Chemin            | _Path_ de la page.                                 | `blog/post-1` |
-| `slug`      | Slug              | _Slug_ de la page.                                 | `post-1`      |
-| `published` | Publié ou non     | `true`.                                            | `false`       |
-| `draft`     | Brouillon ou non  | `false`.                                           | `true`        |
+| `section`   | Section           | _Section_ de la page.                               | `blog`        |
+| `path`      | Chemin            | _Path_ de la page.                                  | `blog/post-1` |
+| `slug`      | Slug              | _Slug_ de la page.                                  | `post-1`      |
+| `published` | Publié ou non     | `true`.                                             | `false`       |
+| `draft`     | Brouillon ou non  | `false`.                                            | `true`        |
 
 :::info
 Toutes les variables prédéfinies peuvent être surchargées, sauf `section`.
@@ -672,6 +692,13 @@ tags: ["Développement", "PHP"]
 ---
 ```
 
+Cecil génère ensuite, pour chaque vocabulaire :
+
+- une page listant ses termes, ex. : `/tags/`
+- une page par terme listant ses pages, ex. : `/tags/developpement/` et `/tags/php/`
+
+Voir les [règles de recherche des templates](3-Templates.md#type-vocabulary) et les [variables de taxonomie](3-Templates.md#taxonomie) pour personnaliser ces pages.
+
 ### Planification
 
 Planifie la publication des pages.
@@ -705,7 +732,7 @@ redirect: "https://arnaudligny.fr"
 ```
 
 :::info
-La redirection fonctionne avec le template [`redirect.html.twig`](https://github.com/Cecilapp/Cecil/blob/master/resources/layouts/_default/redirect.html.twig).
+La redirection fonctionne avec le template [`redirect.html.twig`](https://github.com/Cecilapp/Cecil/blob/main/resources/layouts/_default/redirect.html.twig).
 :::
 
 ### alias
@@ -749,7 +776,7 @@ _Exemple :_
 
 ```yaml
 ---
-external: "https://raw.githubusercontent.com/Cecilapp/Cecil/master/README.md"
+external: "https://raw.githubusercontent.com/Cecilapp/Cecil/main/README.md"
 ---
 ```
 
@@ -831,7 +858,14 @@ _Exemple :_
 pagination:
   max: 5
   path: "page"
-  pagination: false
+---
+```
+
+La pagination peut être désactivée pour une _Section_ :
+
+```yaml
+---
+pagination: false
 ---
 ```
 
@@ -863,6 +897,32 @@ _Exemple :_
 circular: true
 ---
 ```
+
+#### Sous-section
+
+Un dossier imbriqué qui contient explicitement un fichier `index.md` devient une _sous-section_ de sa _Section_ parente.
+
+```plaintext
+<monsiteweb>
+└─ pages
+   └─ blog                 <- Section
+      ├─ index.md
+      ├─ post-1.md         <- Page de la Section « blog »
+      └─ 2024              <- Sous-section (contient un « index.md »)
+         ├─ index.md
+         └─ post-2.md      <- Page de la Section « blog » *et* de la sous-section « blog/2024 »
+```
+
+Une _sous-section_ :
+
+- est une _Section_ (même type, mêmes variables et même résolution de [gabarit](3-Templates.md)) accessible à sa propre URL (ex. : `/blog/2024/`)
+- peut être imbriquée à n'importe quelle profondeur (ex. : `blog/2024/06/`)
+- liste ses propres pages, et ses pages appartiennent aussi à chacune de leurs _Sections_ parentes
+- n'est **pas** listée dans sa _Section_ parente
+
+:::info
+Un dossier imbriqué **sans** fichier `index.md` n'est pas une _sous-section_ : ses pages appartiennent simplement à la _Section_ parente.
+:::
 
 ### Page d'accueil
 

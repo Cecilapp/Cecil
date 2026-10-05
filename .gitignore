@@ -7,6 +7,7 @@ phpdoc
 .php-cs-fixer.cache
 .phpmd.result-cache.php
 .phpunit.result.cache
+.twig-cs-fixer.cache
 # If you run Cecil here
 _site/
 .cache/

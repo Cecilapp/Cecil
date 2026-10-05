@@ -20,6 +20,8 @@ use Cecil\Collection\ItemInterface;
  * Menu collection class.
  *
  * Represents a collection of menus, providing methods to retrieve and check for existence of menus.
+ *
+ * @extends CecilCollection<Menu>
  */
 class Collection extends CecilCollection
 {

@@ -15,6 +15,10 @@ namespace Cecil;
 
 use Cecil\Exception\ConfigException;
 use Dflydev\DotAccessData\Data;
+use Nette\Schema\Expect;
+use Nette\Schema\Processor;
+use Nette\Schema\Schema;
+use Nette\Schema\ValidationException;
 use Symfony\Component\Yaml\Exception\ParseException;
 use Symfony\Component\Yaml\Yaml;
 
@@ -27,11 +31,11 @@ use Symfony\Component\Yaml\Yaml;
  */
 class Config
 {
-    public const IMPORT_PRESERVE = 0;
-    public const IMPORT_REPLACE = 1;
-    public const IMPORT_MERGE = 2;
-    public const LANG_CODE_PATTERN = '([a-z]{2}(-[A-Z]{2})?)'; // "fr" or "fr-FR"
-    public const LANG_LOCALE_PATTERN = '[a-z]{2}(_[A-Z]{2})?(_[A-Z]{2})?'; // "fr" or "fr_FR" or "no_NO_NY"
+    public const int IMPORT_PRESERVE = 0;
+    public const int IMPORT_REPLACE = 1;
+    public const int IMPORT_MERGE = 2;
+    public const string LANG_CODE_PATTERN = '([a-z]{2}(-[A-Z]{2})?)'; // "fr" or "fr-FR"
+    public const string LANG_LOCALE_PATTERN = '[a-z]{2}(_[A-Z]{2})?(_[A-Z]{2})?'; // "fr" or "fr_FR" or "no_NO_NY"
 
     /**
      * Configuration is a Data object.
@@ -64,7 +68,7 @@ class Config
      * Languages list as array.
      * This is used to store the languages defined in the configuration.
      * It is initialized to null and will be populated when the languages are requested.
-     * @var array|null
+     * @var array<int, array<string, mixed>>|null
      * @see Config::getLanguages()
      * @see Config::getLanguageDefault()
      */
@@ -72,6 +76,8 @@ class Config
 
     /**
      * Build the Config object with the default config + the optional given array.
+     *
+     * @param array<string, mixed>|null $config
      */
     public function __construct(?array $config = null)
     {
@@ -93,8 +99,8 @@ class Config
      * - Config::IMPORT_PRESERVE: preserves existing configuration and adds new keys.
      * - Config::IMPORT_REPLACE: replaces existing configuration with new keys.
      * - Config::IMPORT_MERGE: merges existing configuration with new keys, overriding existing keys.
-     * @param array $config Configuration array to import
-     * @param int   $mode   Import mode (default: Config::IMPORT_MERGE)
+     * @param array<string, mixed> $config Configuration array to import
+     * @param self::IMPORT_* $mode Import mode (default: Config::IMPORT_MERGE)
      */
     public function import(array $config, int $mode = self::IMPORT_MERGE): void
     {
@@ -105,6 +111,8 @@ class Config
 
     /**
      * Get configuration as an array.
+     *
+     * @return array<string, mixed>
      */
     public function export(): array
     {
@@ -113,6 +121,8 @@ class Config
 
     /**
      * Loads and parse a YAML file.
+     *
+     * @return array<string, mixed>
      */
     public static function loadFile(string $file, bool $ignore = false): array
     {
@@ -232,7 +242,7 @@ class Config
     public function getSourceDir(): string
     {
         if ($this->sourceDir === null) {
-            return getcwd();
+            return getcwd() ?: throw new ConfigException('Unable to get current working directory.');
         }
 
         return $this->sourceDir;
@@ -422,6 +432,8 @@ class Config
     /**
      * Returns the property value of an output format.
      *
+     * @return string|array<int, string>|null
+     *
      * @throws ConfigException
      */
     public function getOutputFormatProperty(string $name, string $property): string|array|null
@@ -440,6 +452,8 @@ class Config
 
     /**
      * Returns asset image widths.
+     *
+     * @return array<int, int>
      */
     public function getAssetsImagesWidths(): array
     {
@@ -448,6 +462,8 @@ class Config
 
     /**
      * Returns asset image sizes.
+     *
+     * @return array<string, string>
      */
     public function getAssetsImagesSizes(): array
     {
@@ -456,6 +472,8 @@ class Config
 
     /**
      * Returns asset image densities.
+     *
+     * @return array<int, int|float>
      */
     public function getAssetsImagesDensities(): array
     {
@@ -468,6 +486,8 @@ class Config
 
     /**
      * Returns theme(s) as an array.
+     *
+     * @return array<int, string>|null
      */
     public function getTheme(): ?array
     {
@@ -517,6 +537,8 @@ class Config
 
     /**
      * Returns an array of available languages.
+     *
+     * @return array<int, array<string, mixed>>
      *
      * @throws ConfigException
      */
@@ -648,22 +670,13 @@ class Config
      */
     private function validate(): void
     {
+        // structural validation of well-defined sections
+        $this->validateSchema();
+
         // default language must be valid
         if (!preg_match('/^' . Config::LANG_CODE_PATTERN . '$/', $this->getLanguageDefault())) {
             throw new ConfigException(\sprintf('Default language code "%s" is not valid (e.g.: "language: fr-FR").', $this->getLanguageDefault()));
         }
-        // if language is set then the locale is required and must be valid
-        foreach ((array) $this->get('languages') as $lang) {
-            if (!isset($lang['locale'])) {
-                throw new ConfigException('A language locale is not defined.');
-            }
-            if (!preg_match('/^' . Config::LANG_LOCALE_PATTERN . '$/', $lang['locale'])) {
-                throw new ConfigException(\sprintf('The language locale "%s" is not valid (e.g.: "locale: fr_FR").', $lang['locale']));
-            }
-        }
-
-        $this->validateCacheConfiguration();
-        $this->validateOutputFormats();
 
         // check for deprecated options
         $deprecatedConfigFile = Util\File::getRealPath('../config/deprecated.php');
@@ -687,42 +700,136 @@ class Config
     }
 
     /**
-     * Validate cache-related options.
+     * Validates well-defined configuration sections against a schema.
+     * Only targeted sections are processed: the rest of the configuration stays open
+     * (menus, taxonomies, custom variables, etc.).
      *
      * @throws ConfigException
      */
-    private function validateCacheConfiguration(): void
+    private function validateSchema(): void
     {
-        if ($this->isEnabled('cache') && trim((string) $this->get('cache.dir')) === '') {
-            throw new ConfigException('The cache directory (`cache.dir`) must not be empty when cache is enabled.');
+        $processor = new Processor();
+        foreach ($this->getSchemas() as $key => $schema) {
+            if (!$this->has($key)) {
+                continue;
+            }
+            try {
+                $processor->process($schema, $this->get($key));
+            } catch (ValidationException $e) {
+                throw new ConfigException($e->getMessage(), previous: $e);
+            }
         }
     }
 
     /**
-     * Validate output format configuration.
+     * Returns the validation schemas indexed by configuration key.
      *
-     * @throws ConfigException
+     * @return array<string, Schema>
      */
-    private function validateOutputFormats(): void
+    private function getSchemas(): array
     {
-        $formats = $this->get('output.formats');
-        if (!\is_array($formats)) {
-            throw new ConfigException('The "output.formats" configuration must be an array.');
-        }
-
-        foreach ($formats as $index => $format) {
-            $position = $index + 1;
-            if (!\is_array($format)) {
-                throw new ConfigException(\sprintf('Output format #%d must be an array.', $position));
-            }
-
-            foreach (['name', 'mediatype'] as $property) {
-                if (!isset($format[$property]) || !\is_string($format[$property]) || trim($format[$property]) === '') {
-                    $label = $format['name'] ?? \sprintf('#%d', $position);
-
-                    throw new ConfigException(\sprintf('Output format "%s" is missing "%s".', $label, $property));
-                }
-            }
-        }
+        return [
+            // main site options
+            'title'        => Expect::string(),
+            'baseline'     => Expect::string(),
+            'baseurl'      => Expect::string(),
+            'canonicalurl' => Expect::bool(),
+            'description'  => Expect::string(),
+            // `theme: <name>` shorthand or a list of theme names
+            'theme' => Expect::anyOf(
+                Expect::string(),
+                Expect::listOf('string')
+            ),
+            // `cache: true|false` shorthand or a structure with a non-empty `dir` when enabled
+            'cache' => Expect::anyOf(
+                Expect::bool(),
+                Expect::structure([
+                    'dir' => Expect::string(),
+                ])->otherItems(Expect::mixed())->assert(
+                    fn ($cache) => !$this->isEnabled('cache') || trim((string) ($cache->dir ?? '')) !== '',
+                    'The cache directory (`cache.dir`) must not be empty when cache is enabled.'
+                )
+            ),
+            // each output format must define a `name` and a `mediatype`
+            'output.formats' => Expect::arrayOf(
+                Expect::structure([
+                    'name'      => Expect::string()->required()->assert(fn ($value) => trim((string) $value) !== '', 'Output format "name" must not be empty.'),
+                    'mediatype' => Expect::string()->required()->assert(fn ($value) => trim((string) $value) !== '', 'Output format "mediatype" must not be empty.'),
+                ])->otherItems(Expect::mixed())
+            ),
+            // formats applied by page type (each type accepts a list of format names)
+            'output.pagetypeformats' => Expect::structure([
+                'page'       => Expect::listOf('string'),
+                'homepage'   => Expect::listOf('string'),
+                'section'    => Expect::listOf('string'),
+                'vocabulary' => Expect::listOf('string'),
+                'term'       => Expect::listOf('string'),
+            ])->otherItems(Expect::mixed()),
+            // each language must define a `code` and a valid `locale`
+            'languages' => Expect::listOf(
+                Expect::structure([
+                    'code'   => Expect::string()->required(),
+                    'locale' => Expect::string()->required()->pattern(Config::LANG_LOCALE_PATTERN),
+                ])->otherItems(Expect::mixed())
+            ),
+            // date formatting options
+            'date' => Expect::structure([
+                'format'   => Expect::string(),
+                'timezone' => Expect::string(),
+            ])->otherItems(Expect::mixed()),
+            // pages management options
+            'pages' => Expect::structure([
+                'dir'         => Expect::string(),
+                'ext'         => Expect::listOf('string'),
+                'frontmatter' => Expect::anyOf('yaml', 'ini', 'toml', 'json'),
+            ])->otherItems(Expect::mixed()),
+            // data files options
+            'data' => Expect::structure([
+                'dir'  => Expect::string(),
+                'ext'  => Expect::listOf('string'),
+                'load' => Expect::bool(),
+            ])->otherItems(Expect::mixed()),
+            // static files options
+            'static' => Expect::structure([
+                'dir'    => Expect::string(),
+                'target' => Expect::string(),
+                'load'   => Expect::bool(),
+            ])->otherItems(Expect::mixed()),
+            // `optimize: true|false` shorthand or a structure enabling optimization by file type
+            'optimize' => Expect::anyOf(
+                Expect::bool(),
+                Expect::structure([
+                    'enabled' => Expect::bool(),
+                    'html'    => Expect::structure([
+                        'enabled' => Expect::bool(),
+                        'ext'     => Expect::listOf('string'),
+                    ])->otherItems(Expect::mixed()),
+                    'css' => Expect::structure([
+                        'enabled' => Expect::bool(),
+                        'ext'     => Expect::listOf('string'),
+                    ])->otherItems(Expect::mixed()),
+                    'js' => Expect::structure([
+                        'enabled' => Expect::bool(),
+                        'ext'     => Expect::listOf('string'),
+                    ])->otherItems(Expect::mixed()),
+                    'images' => Expect::structure([
+                        'enabled' => Expect::bool(),
+                        'ext'     => Expect::listOf('string'),
+                    ])->otherItems(Expect::mixed()),
+                ])->otherItems(Expect::mixed())
+            ),
+            // local preview server custom HTTP headers
+            'server.headers' => Expect::listOf(
+                Expect::structure([
+                    'path'    => Expect::string()->required(),
+                    'headers' => Expect::listOf(
+                        Expect::structure([
+                            'key'   => Expect::string()->required(),
+                            'value' => Expect::scalar()->required(),
+                        ])->otherItems(Expect::mixed())
+                    )->required(),
+                ])->otherItems(Expect::mixed())
+            ),
+        ];
     }
 }

@@ -37,10 +37,10 @@ use Symfony\Component\Validator\Validation;
  */
 class AbstractCommand extends Command
 {
-    public const CONFIG_FILE = ['cecil.yml', 'config.yml'];
-    public const EXCLUDED_CMD = ['about', 'new:site', 'self-update', 'serve:stop'];
-    public const SERVE_OUTPUT = Builder::TMP_DIR . '/preview';
-    public const PID_FILE = Builder::TMP_DIR . '/server.pid';
+    public const array CONFIG_FILE = ['cecil.yml', 'config.yml'];
+    public const array EXCLUDED_CMD = ['about', 'new:site', 'self-update', 'serve:stop'];
+    public const string SERVE_OUTPUT = Builder::TMP_DIR . '/preview';
+    public const string PID_FILE = Builder::TMP_DIR . '/server.pid';
 
     /** @var InputInterface */
     protected $input;
@@ -57,7 +57,7 @@ class AbstractCommand extends Command
     /** @var null|string */
     private $path = null;
 
-    /** @var array */
+    /** @var array<string, string> Config files path, indexed by file name */
     private $configFiles = [];
 
     /** @var Config */
@@ -69,6 +69,7 @@ class AbstractCommand extends Command
     /**
      * {@inheritdoc}
      */
+    #[\Override]
     protected function initialize(InputInterface $input, OutputInterface $output)
     {
         $this->input = $input;
@@ -81,19 +82,22 @@ class AbstractCommand extends Command
 
         // prepare configuration files list
         if (!\in_array($this->getName(), self::EXCLUDED_CMD)) {
+            $configFiles = $this->configFiles;
             // site config file
-            $this->configFiles[$this->locateConfigFile($this->getPath())['name']] = $this->locateConfigFile($this->getPath())['path'];
+            $configFiles[$this->locateConfigFile($this->getPath())['name']] = $this->locateConfigFile($this->getPath())['path'];
             // additional config file(s) from --config=<file>
             if ($input->hasOption('config') && $input->getOption('config') !== null) {
-                $this->configFiles += $this->locateAdditionalConfigFiles($this->getPath(), (string) $input->getOption('config'));
+                $configFiles += $this->locateAdditionalConfigFiles($this->getPath(), (string) $input->getOption('config'));
             }
             // checks file(s)
-            $this->configFiles = array_unique($this->configFiles);
-            foreach ($this->configFiles as $fileName => $filePath) {
+            $this->configFiles = [];
+            foreach (array_unique($configFiles) as $fileName => $filePath) {
                 if ($filePath === false) {
-                    unset($this->configFiles[$fileName]);
                     $this->io->warning(\sprintf('Could not find configuration file "%s".', $fileName));
+
+                    continue;
                 }
+                $this->configFiles[$fileName] = $filePath;
             }
         }
 
@@ -103,6 +107,7 @@ class AbstractCommand extends Command
     /**
      * {@inheritdoc}
      */
+    #[\Override]
     public function run(InputInterface $input, OutputInterface $output): int
     {
         // disable debug mode if a verbosity level is specified
@@ -170,13 +175,14 @@ class AbstractCommand extends Command
     /**
      * Returns the working path.
      */
-    protected function getPath(bool $exist = true): ?string
+    protected function getPath(bool $exist = true): string
     {
         try {
             // get working directory by default
-            if (false === $this->path = getcwd()) {
+            if (false === $cwd = getcwd()) {
                 throw new \Exception('Unable to get current working directory.');
             }
+            $this->path = $cwd;
             // ... or path
             if ($this->input->hasArgument('path') && $this->input->getArgument('path') !== null) {
                 $this->path = Path::canonicalize($this->input->getArgument('path'));
@@ -197,14 +203,18 @@ class AbstractCommand extends Command
 
     /**
      * Returns config file(s) path.
+     *
+     * @return array<string, string>
      */
     protected function getConfigFiles(): array
     {
-        return $this->configFiles ?? [];
+        return $this->configFiles;
     }
 
     /**
      * Creates or returns a Builder instance.
+     *
+     * @param array<string, mixed> $config
      *
      * @throws RuntimeException
      */
@@ -236,6 +246,8 @@ class AbstractCommand extends Command
 
     /**
      * Locates the configuration in the given path, as an array of the file name and path, if file exists, otherwise default name and false.
+     *
+     * @return array{name: string, path: string|false}
      */
     protected function locateConfigFile(string $path): array
     {
@@ -257,6 +269,8 @@ class AbstractCommand extends Command
 
     /**
      * Locates additional configuration file(s) from the given list of files, relative to the given path or absolute.
+     *
+     * @return array<string, string|false>
      */
     protected function locateAdditionalConfigFiles(string $path, string $configFilesList): array
     {
@@ -313,7 +327,7 @@ class AbstractCommand extends Command
         $violations = $validator->validate($url, new Url());
         if (\count($violations) > 0) {
             foreach ($violations as $violation) {
-                throw new RuntimeException($violation->getMessage());
+                throw new RuntimeException((string) $violation->getMessage());
             }
         }
         return rtrim($url, '/') . '/';
@@ -332,9 +346,10 @@ class AbstractCommand extends Command
      *
      * @return string
      */
+    #[\Override]
     public function getProcessedHelp(): string
     {
-        $name = $this->getName();
+        $name = (string) $this->getName();
         $placeholders = [
             '%command.name%',
             '%command.full_name%',

@@ -25,7 +25,7 @@ use Symfony\Component\Validator\Validation;
 class SiteDoctor
 {
     /**
-     * @param array<int, string> $configFiles
+     * @param array<string, string> $configFiles
      *
      * @return array{
      *   environment: array<int, array{0: string, 1: string}>,
@@ -191,7 +191,7 @@ class SiteDoctor
     }
 
     /**
-     * @param array<int, string> $configFiles
+     * @param array<string, string> $configFiles
      */
     private function formatConfigFiles(array $configFiles): string
     {
@@ -324,7 +324,7 @@ class SiteDoctor
         $violations = $validator->validate($url, new Url());
         if (\count($violations) > 0) {
             foreach ($violations as $violation) {
-                throw new \RuntimeException($violation->getMessage());
+                throw new \RuntimeException((string) $violation->getMessage());
             }
         }
 

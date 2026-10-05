@@ -35,6 +35,7 @@ class Collection extends AbstractExtension
         $this->builder = $builder;
     }
 
+    #[\Override]
     public function getFilters(): array
     {
         return [
@@ -62,11 +63,11 @@ class Collection extends AbstractExtension
             // is a dedicated getter exists?
             $method = 'get' . ucfirst($variable);
             if (method_exists($page, $method) && $page->$method() == $value) {
-                return $page->getType() == Type::PAGE->value && !$page->isVirtual() && true;
+                return $page->getType() == Type::PAGE->value && !$page->isVirtual();
             }
             // or a classic variable
             if ($page->getVariable($variable) == $value) {
-                return $page->getType() == Type::PAGE->value && !$page->isVirtual() && true;
+                return $page->getType() == Type::PAGE->value && !$page->isVirtual();
             }
         });
 
@@ -75,13 +76,17 @@ class Collection extends AbstractExtension
 
     /**
      * Sorts a collection by title.
+     *
+     * @param \Traversable<string, mixed> $collection
+     *
+     * @return array<string, mixed>
      */
     public function sortByTitle(\Traversable $collection): array
     {
         $sort = \SORT_ASC;
 
         $collection = iterator_to_array($collection);
-        array_multisort(array_keys(/** @scrutinizer ignore-type */ $collection), $sort, \SORT_NATURAL | \SORT_FLAG_CASE, $collection);
+        array_multisort(array_keys($collection), $sort, \SORT_NATURAL | \SORT_FLAG_CASE, $collection);
 
         return $collection;
     }
@@ -89,7 +94,9 @@ class Collection extends AbstractExtension
     /**
      * Sorts a collection by weight.
      *
-     * @param \Traversable|array $collection
+     * @param \Traversable<mixed>|array<mixed> $collection
+     *
+     * @return list<mixed>
      */
     public function sortByWeight($collection): array
     {
@@ -110,13 +117,17 @@ class Collection extends AbstractExtension
         if (!\is_array($collection)) {
             $collection = iterator_to_array($collection);
         }
-        usort(/** @scrutinizer ignore-type */ $collection, $callback);
+        usort($collection, $callback);
 
         return $collection;
     }
 
     /**
      * Sorts by creation date (or 'updated' date): the most recent first.
+     *
+     * @param \Traversable<mixed> $collection
+     *
+     * @return list<mixed>
      */
     public function sortByDate(\Traversable $collection, string $variable = 'date', bool $descTitle = false): array
     {
@@ -134,7 +145,7 @@ class Collection extends AbstractExtension
         };
 
         $collection = iterator_to_array($collection);
-        usort(/** @scrutinizer ignore-type */ $collection, $callback);
+        usort($collection, $callback);
 
         return $collection;
     }

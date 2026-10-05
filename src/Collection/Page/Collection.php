@@ -20,11 +20,15 @@ use Cecil\Exception\RuntimeException;
  * Pages collection class.
  *
  * Represents a collection of pages, providing methods to filter and sort them.
+ *
+ * @extends CecilCollection<Page>
  */
 class Collection extends CecilCollection
 {
     /**
      * Returns all "showable" pages.
+     *
+     * @param array<int, string> $includeStatus Statuses of pages to explicitly include
      */
     public function showable(array $includeStatus = []): self
     {
@@ -53,6 +57,8 @@ class Collection extends CecilCollection
 
     /**
      * Alias of showable().
+     *
+     * @param array<int, string> $includeStatus
      */
     public function all(array $includeStatus = []): self
     {
@@ -61,6 +67,8 @@ class Collection extends CecilCollection
 
     /**
      * Alias of showable().
+     *
+     * @param array<int, string> $includeStatus
      */
     public function public(array $includeStatus = []): self
     {
@@ -78,6 +86,8 @@ class Collection extends CecilCollection
      *   desc_title => false|true
      *   reverse    => false|true
      * ]
+     *
+     * @param string|array{variable?: string, descTitle?: bool, reverse?: bool}|null $options
      */
     public function sortBy(string|array|null $options): self
     {
@@ -92,16 +102,14 @@ class Collection extends CecilCollection
 
     /**
      * Sorts pages by date (or 'updated'): the most recent first.
+     *
+     * @param string|array{variable?: string, descTitle?: bool, reverse?: bool}|null $options
      */
     public function sortByDate(string|array|null $options = null): self
     {
         $opt = [];
-        // backward compatibility (i.e. $options = 'updated')
-        if (\is_string($options)) {
-            $opt['variable'] = $options;
-        }
-        // options
-        $opt['variable'] = $options['variable'] ?? 'date';
+        // options (backward compatibility: $options can be a string, i.e. 'updated')
+        $opt['variable'] = \is_string($options) ? $options : ($options['variable'] ?? 'date');
         $opt['descTitle'] = $options['descTitle'] ?? false;
         $opt['reverse'] = $options['reverse'] ?? false;
         // sort
@@ -126,6 +134,8 @@ class Collection extends CecilCollection
 
     /**
      * Sorts pages by title (natural sort).
+     *
+     * @param string|array{variable?: string, descTitle?: bool, reverse?: bool}|null $options
      */
     public function sortByTitle(string|array|null $options = null): self
     {
@@ -140,6 +150,8 @@ class Collection extends CecilCollection
 
     /**
      * Sorts by weight (the heaviest first).
+     *
+     * @param string|array{variable?: string, descTitle?: bool, reverse?: bool}|null $options
      */
     public function sortByWeight(string|array|null $options = null): self
     {
@@ -175,7 +187,7 @@ class Collection extends CecilCollection
     /**
      * {@inheritdoc}
      */
-    public function filter(\Closure $callback): self
+    public function filter(\Closure $callback): static
     {
         return parent::filter($callback);
     }
@@ -183,7 +195,7 @@ class Collection extends CecilCollection
     /**
      * {@inheritdoc}
      */
-    public function usort(?\Closure $callback = null): self
+    public function usort(?\Closure $callback = null): static
     {
         return parent::usort($callback);
     }
@@ -191,7 +203,7 @@ class Collection extends CecilCollection
     /**
      * {@inheritdoc}
      */
-    public function reverse(): self
+    public function reverse(): static
     {
         return parent::reverse();
     }

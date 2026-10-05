@@ -1,8 +1,8 @@
 <!--
 title: Configuration
-description: "Configurez votre site web."
+description: "Configurez votre site web avec cecil.yml : options du site, pages, données, fichiers statiques, assets, layouts, formats de sortie, cache, serveur local, optimisation et surcharge par variables d’environnement."
 date: 2026-03-27
-updated: 2026-08-17
+updated: 2026-10-02
 slug: configuration
 -->
 # Configuration
@@ -16,7 +16,7 @@ La configuration du site web est définie dans un fichier [YAML](https://en.wiki
 └─ cecil.yml
 ```
 
-Cecil propose de nombreuses options de configuration, mais ses [valeurs par défaut](https://github.com/Cecilapp/Cecil/blob/master/config/default.php) sont souvent suffisantes. Un nouveau site ne nécessite que ces paramètres :
+Cecil propose de nombreuses options de configuration, mais ses [valeurs par défaut](https://github.com/Cecilapp/Cecil/blob/main/config/default.php) sont souvent suffisantes. Un nouveau site ne nécessite que ces paramètres :
 
 ```yaml
 title: "My new Cecil site"
@@ -300,7 +300,7 @@ Si une option n’est pas disponible dans la langue actuelle (ex. : `fr`), elle 
 
 ### metatags
 
-Les _metatags_ sont des aides SEO et réseaux sociaux qui peuvent être injectées automatiquement dans le `<head>`, via le template [`partials/metatags.html.twig`](https://github.com/Cecilapp/Cecil/blob/master/resources/layouts/partials/metatags.html.twig).
+Les _metatags_ sont des aides SEO et réseaux sociaux qui peuvent être injectées automatiquement dans le `<head>`, via le template [`partials/metatags.html.twig`](https://github.com/Cecilapp/Cecil/blob/main/resources/layouts/partials/metatags.html.twig).
 
 *[SEO]: Optimisation pour les moteurs de recherche
 
@@ -1033,6 +1033,7 @@ layouts:
   images:
     formats: []       # utilisé par la fonction `html` : ajoute des formats d’image alternatifs comme `source` (ex. `[avif, webp]`, tableau vide par défaut)
     responsive: false # utilisé par la fonction `html` : ajoute des images responsives ('width' ou 'density', `false` par défaut)
+    placeholder: ''   # utilisé par la fonction `html` : remplit l’arrière-plan de l’image avant son chargement (`color` ou `lqip`, désactivé par défaut)
     dark_suffix: ''   # suffixe de l’image variante sombre (ex. `.dark`), désactivé par défaut
 ```
 
@@ -1103,7 +1104,7 @@ Ces formats sont utilisés dans la configuration [`output.pagetypeformats`](#out
 
 #### Formats par défaut
 
-Cecil fournit quelques [formats par défaut](https://github.com/Cecilapp/Cecil/blob/master/config/base.php#L81-L162), qui peuvent être surchargés dans le fichier de configuration : `html` (par défaut), `atom`, `rss`, `json`, `xml`, `txt`, `amp`, `js`, `webmanifest`, `xsl`, `jsonfeed`, `iframe`, `oembed`.
+Cecil fournit quelques [formats par défaut](https://github.com/Cecilapp/Cecil/blob/main/config/base.php#L81-L162), qui peuvent être surchargés dans le fichier de configuration : `html` (par défaut), `atom`, `rss`, `json`, `xml`, `txt`, `amp`, `js`, `webmanifest`, `xsl`, `jsonfeed`, `iframe`, `oembed`.
 
 ### output.pagetypeformats
 

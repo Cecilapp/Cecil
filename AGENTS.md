@@ -18,6 +18,7 @@ Short, actionable instructions for coding agents working in this repository.
 - Style checks: `composer code:style`
 - Integration tests: `composer test`
 - CLI tests: `composer test:cli`
+- If `composer code` or `composer test` fails, stop, report the failing output to the user, and do not commit or continue until all checks pass.
 
 ## Architecture At A Glance
 
@@ -32,9 +33,8 @@ Short, actionable instructions for coding agents working in this repository.
 
 ## Coding Conventions
 
-- PHP 8.2+, strict types, PSR-12 style
+- PHP 8.3+, strict types, PSR-12 style
 - Use 4 spaces in PHP files
-- Prefix PHP native functions with `\` (example: `\count()`)
 - Twig/YAML/JS use 2 spaces
 - All Twig template files (*.twig) anywhere in the repository must not end with a trailing newline. Remove any trailing newline when creating or editing these files.
 - Markdown trailing spaces are semantically meaningful (they produce line breaks). Never remove trailing spaces from Markdown files, even when reformatting or cleaning up content, unless the user explicitly confirms the spaces are unintentional.
@@ -53,6 +53,6 @@ Short, actionable instructions for coding agents working in this repository.
 - Generator ordering is priority-sensitive. Keep configured generator priorities coherent with expected extraction order.
 - Page section assignment relies on original `filepath`, not transformed page path.
 - Keep docs updated when behavior or architecture changes, especially in [docs/](docs/) and [README.md](README.md).
-- When updating documentation in [docs/](docs/), always keep both English and French versions aligned (for example, `.md` and `.fr.md` counterparts).
+- When editing a `.md` documentation file, apply equivalent changes to its `.fr.md` counterpart. If the `.fr.md` counterpart does not exist, notify the user before proceeding.
 - When editing a documentation file with frontmatter, always update the `updated` date to reflect the change.
 - When updating code in `src/`, update API documentation with `php phpdoc` command (download `phpdoc` binary with `curl -Lo phpdoc https://phpdoc.org/phpDocumentor.phar` if necessary).

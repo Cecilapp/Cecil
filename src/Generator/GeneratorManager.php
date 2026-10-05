@@ -13,7 +13,7 @@ declare(strict_types=1);
 
 namespace Cecil\Generator;
 
-use Cecil\Builder;
+use Cecil\BuildContextInterface;
 use Cecil\Collection\Page\Collection as PagesCollection;
 use Cecil\Util;
 
@@ -24,18 +24,20 @@ use Cecil\Util;
  * It extends \SplPriorityQueue to allow generators to be processed in order of priority.
  * Generators can be added with a specific priority, and the process method will run each generator
  * in order, collecting the pages they generate.
+ *
+ * @extends \SplPriorityQueue<int, GeneratorInterface>
  */
 class GeneratorManager extends \SplPriorityQueue
 {
-    /** @var Builder */
+    /** @var BuildContextInterface */
     protected $builder;
 
     /**
-     * @param Builder $builder
+     * @param BuildContextInterface $builder
      *
      * @return void
      */
-    public function __construct(Builder $builder)
+    public function __construct(BuildContextInterface $builder)
     {
         $this->builder = $builder;
     }

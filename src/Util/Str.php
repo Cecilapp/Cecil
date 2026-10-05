@@ -23,9 +23,10 @@ class Str
     /**
      * Combines an array into a string.
      *
-     * @param string $keyToKey   The key that become the key of the new array
-     * @param string $keyToValue The key that become the value of the new array
-     * @param string $separator  The separtor between the key and the value in the result string
+     * @param array<array<string, mixed>> $array      An array of arrays
+     * @param string                      $keyToKey   The key that become the key of the new array
+     * @param string                      $keyToValue The key that become the value of the new array
+     * @param string                      $separator  The separtor between the key and the value in the result string
      */
     public static function combineArrayToString(
         array $array,
@@ -44,6 +45,8 @@ class Str
 
     /**
      * Returns a string representation of an array.
+     *
+     * @param array<string> $array
      */
     public static function arrayToList(array $array): string
     {

@@ -37,6 +37,7 @@ class TwigCacheRuntimeLoader implements RuntimeLoaderInterface
         $this->cacheDir = $cacheDir;
     }
 
+    #[\Override]
     public function load(string $class)
     {
         if (CacheRuntime::class === $class) {

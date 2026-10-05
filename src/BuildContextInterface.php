@@ -43,6 +43,8 @@ interface BuildContextInterface
 
     /**
      * Returns build options.
+     *
+     * @return array{drafts?: bool, dry-run?: bool, page?: string, render-subset?: string}
      */
     public function getBuildOptions(): array;
 
@@ -58,18 +60,31 @@ interface BuildContextInterface
 
     /**
      * Set collected data.
+     *
+     * @param array<string, mixed> $data
      */
     public function setData(array $data): void;
 
     /**
      * Returns data collection.
+     *
+     * @return array<string, mixed>
      */
     public function getData(?string $language = null): array;
 
     /**
      * Set collected static files.
+     *
+     * @param array<int, array<string, mixed>> $static
      */
     public function setStatic(array $static): void;
+
+    /**
+     * Returns static files collection.
+     *
+     * @return array<int, array<string, mixed>>
+     */
+    public function getStatic(): array;
 
     /**
      * Set/update Pages collection.
@@ -77,22 +92,33 @@ interface BuildContextInterface
     public function setPages(PagesCollection $pages): void;
 
     /**
-     * Returns pages collection.
+     * Returns pages collection (empty until pages are created).
      */
-    public function getPages(): ?PagesCollection;
+    public function getPages(): PagesCollection;
 
     /**
      * Returns list of assets path.
+     *
+     * @return array<int, string>
      */
     public function getAssetsList(): array;
 
     /**
      * Set menus collection.
+     *
+     * @param array<string, \Cecil\Collection\Menu\Collection> $menus
      */
     public function setMenus(array $menus): void;
 
     /**
+     * Returns all menus, for a language.
+     */
+    public function getMenus(string $language): \Cecil\Collection\Menu\Collection;
+
+    /**
      * Set taxonomies collection.
+     *
+     * @param array<string, \Cecil\Collection\Taxonomy\Collection> $taxonomies
      */
     public function setTaxonomies(array $taxonomies): void;
 

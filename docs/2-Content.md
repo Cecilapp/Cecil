@@ -1,7 +1,7 @@
 <!--
-description: "Create content and organize it."
+description: "Create and organize your content: pages, assets, static and data files, front matter variables, Markdown syntax and extensions, multilingual and dynamic content."
 date: 2021-05-07
-updated: 2026-07-23
+updated: 2026-10-03
 -->
 # Content
 
@@ -308,7 +308,27 @@ Ratio is preserved (`height` attribute is calculated automatically), the origina
 :::
 
 :::important
-This feature requires [GD](https://www.php.net/manual/book.image.php). [Imagick](https://www.php.net/manual/book.imagick.php) and [libvips](https://www.libvips.org/) can also be used as optional backends when available; otherwise it only adds a `width` HTML attribute to the `img` tag.
+This feature requires an image processing library: [Imagick](https://www.php.net/manual/book.imagick.php) is used first if available (and able to read JPEG and PNG), then [libvips](https://www.libvips.org/) (through the PHP [FFI](https://www.php.net/manual/book.ffi.php) extension), and finally [GD](https://www.php.net/manual/book.image.php) as fallback; otherwise it only adds a `width` HTML attribute to the `img` tag.
+:::
+
+:::info
+libvips support is optional and is not bundled with `cecil.phar`. To use it, Cecil must be installed with [Composer](https://getcomposer.org), and you need:
+
+1. [libvips](https://www.libvips.org/install.html) installed on your system
+2. the PHP [FFI](https://www.php.net/manual/book.ffi.php) extension enabled
+3. the `intervention/image-driver-vips` package installed alongside Cecil
+
+If Cecil is a dependency of your project (see [Library](8-Library.md#libvips-support)):
+
+```bash
+composer require intervention/image-driver-vips
+```
+
+If Cecil is installed globally:
+
+```bash
+composer global require cecil/cecil intervention/image-driver-vips
+```
 :::
 
 #### Formats
@@ -670,6 +690,13 @@ tags: ["Development", "PHP"]
 ---
 ```
 
+Cecil then generates, for each vocabulary:
+
+- a page listing its terms, e.g.: `/tags/`
+- a page per term listing its pages, e.g.: `/tags/development/` and `/tags/php/`
+
+See [templates lookup rules](3-Templates.md#type-vocabulary) and [taxonomy variables](3-Templates.md#taxonomy) to customize those pages.
+
 ### Schedule
 
 Schedules pages’ publication.
@@ -703,7 +730,7 @@ redirect: "https://arnaudligny.fr"
 ```
 
 :::info
-Redirect works with the [`redirect.html.twig`](https://github.com/Cecilapp/Cecil/blob/master/resources/layouts/_default/redirect.html.twig) template.
+Redirect works with the [`redirect.html.twig`](https://github.com/Cecilapp/Cecil/blob/main/resources/layouts/_default/redirect.html.twig) template.
 :::
 
 ### alias
@@ -747,7 +774,7 @@ _Example:_
 
 ```yaml
 ---
-external: "https://raw.githubusercontent.com/Cecilapp/Cecil/master/README.md"
+external: "https://raw.githubusercontent.com/Cecilapp/Cecil/main/README.md"
 ---
 ```
 
@@ -830,7 +857,14 @@ _Example:_
 pagination:
   max: 5
   path: "page"
-  pagination: false
+---
+```
+
+Pagination can be disabled for a _Section_:
+
+```yaml
+---
+pagination: false
 ---
 ```
 
@@ -862,6 +896,32 @@ _Example:_
 circular: true
 ---
 ```
+
+#### Sub-section
+
+A nested folder that explicitly contains an `index.md` file is turned into a _sub-section_ of its parent _Section_.
+
+```plaintext
+<mywebsite>
+└─ pages
+   └─ blog                 <- Section
+      ├─ index.md
+      ├─ post-1.md         <- Page in Section "blog"
+      └─ 2024              <- Sub-section (contains an "index.md")
+         ├─ index.md
+         └─ post-2.md      <- Page in Section "blog" *and* sub-section "blog/2024"
+```
+
+A _sub-section_:
+
+- is a _Section_ (same type, variables and [layout](3-Templates.md) resolution) available at its own URL (e.g.: `/blog/2024/`)
+- can be nested at any depth (e.g.: `blog/2024/06/`)
+- lists its own pages, and its pages also belong to each of their parent _Sections_
+- is **not** listed in its parent _Section_
+
+:::info
+A nested folder **without** an `index.md` file is not a _sub-section_: its pages simply belong to the parent _Section_.
+:::
 
 ### Home page
 

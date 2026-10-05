@@ -1,7 +1,7 @@
 <!--
-description: "Working with layouts, templates and components."
+description: "Work with Twig layouts, templates and components: files organization, lookup rules, variables, functions, sorts, filters, localization, cache and custom extensions."
 date: 2021-05-07
-updated: 2026-07-10
+updated: 2026-10-03
 alias: documentation/layouts
 -->
 # Templates
@@ -72,9 +72,12 @@ layouts/blog/list.rss.twig   # `section` is "blog" and `format` is "rss"
 ├─ ...
 ├─ layouts
 |  ├─ index.html.twig      # Used by type "homepage"
-|  ├─ list.html.twig       # Used by types "homepage", "section" and "term"
-|  ├─ list.rss.twig        # Used by types "homepage", "section" and "term", for RSS output format
+|  ├─ list.html.twig       # Used by types "homepage" and "section"
+|  ├─ list.rss.twig        # Used by types "homepage" and "section", for RSS output format
 |  ├─ page.html.twig       # Used by type "page"
+|  ├─ taxonomy
+|  |  ├─ tags.html.twig    # Used by type "vocabulary" of `tags` (list of terms)
+|  |  └─ tag.html.twig     # Used by type "term" of `tags` (list of pages)
 |  ├─ my-layout.html.twig  # Used by pages with `layout: my-layout` in the front matter
 |  ├─ ...
 |  └─ partials             # Included templates
@@ -86,7 +89,7 @@ layouts/blog/list.rss.twig   # `section` is "blog" and `format` is "rss"
 
 ### Built-in templates
 
-Cecil comes with a set of [built-in templates](https://github.com/Cecilapp/Cecil/tree/master/resources/layouts).
+Cecil comes with a set of [built-in templates](https://github.com/Cecilapp/Cecil/tree/main/resources/layouts).
 
 :::tip
 If you need to modify built-in templates, you can easily extract them via the following command: they will be copied in the `layouts` directory of your site.
@@ -149,14 +152,22 @@ All rules are detailed below, for each page type, in the priority order.
 
 ### Type _term_
 
-1. `taxonomy/<term>.<format>.twig`
+1. `taxonomy/<plural>/<term>.<format>.twig`
 2. `taxonomy/<singular>.<format>.twig`
 3. `term.<format>.twig`
 4. `_default/term.<format>.twig`
 5. `_default/list.<format>.twig`
 
+:::important
+The **vocabulary** template is named after the **plural** (e.g.: `taxonomy/categories.html.twig` for `/categories/`), whereas the **term** template is named after the **singular** (e.g.: `taxonomy/category.html.twig` for `/categories/data-sovereignty/`).
+:::
+
+:::tip
+`<term>` is the slugified term name: a dedicated template for the term "Data Sovereignty" of the `categories` vocabulary is `taxonomy/categories/data-sovereignty.html.twig`.
+:::
+
 :::info
-Most of those layouts are available by default, see [built-in templates](https://github.com/Cecilapp/Cecil/tree/master/resources/layouts).
+Most of those layouts are available by default, see [built-in templates](https://github.com/Cecilapp/Cecil/tree/main/resources/layouts).
 :::
 
 ## Variables
@@ -243,12 +254,12 @@ _Example:_
 
 Information about the current language.
 
-| Variable               | Description                                                  |
-| ---------------------- | ------------------------------------------------------------ |
-| `site.language`        | Language code (e.g.: `en`).                                  |
-| `site.language.name`   | Language name (e.g.: `English`).                             |
+| Variable               | Description                                                            |
+| ---------------------- | ---------------------------------------------------------------------- |
+| `site.language`        | Language code (e.g.: `en`).                                            |
+| `site.language.name`   | Language name (e.g.: `English`).                                       |
 | `site.language.locale` | Language [locale code](configuration/locale-codes.md) (e.g.: `en_US`). |
-| `site.language.weight` | Language position in the `languages` list.                   |
+| `site.language.weight` | Language position in the `languages` list.                             |
 
 :::tip
 You can retrieve `name`, `locale` and `weight` of a specific language by passing its code as a parameter.  
@@ -281,26 +292,26 @@ _Examples:_
 
 - `data/authors.yml` : `site.data.authors`
 - `data/authors.fr.yml` : `site.data.authors` (if `site.language` = "fr")
-- `data/galleries/gallery-1.json` : `site.data.galleries.gallery-1`
+- `data/galleries/gallery-1.json` : `site.data.galleries['gallery-1']`
 
 ### page
 
 The `page` variable contains built-in variables of a page **and** those set in the [front matter](2-Content.md#front-matter).
 
-| Variable              | Description                                            | Example                    |
-| --------------------- | ------------------------------------------------------ | -------------------------- |
-| `page.id`             | Unique identifier.                                     | `blog/post-1`              |
-| `page.title`          | File name (without extension).                         | `Post 1`                   |
-| `page.date`           | File creation date.                                    | _DateTime_                 |
-| `page.body`           | File body.                                             | _Markdown_                 |
-| `page.content`        | File body converted in HTML.                           | _HTML_                     |
-| `page.section`        | File root folder (_slugified_).                        | `blog`                     |
-| `page.path`           | File path (_slugified_).                               | `blog/post-1`              |
-| `page.slug`           | File name (_slugified_).                               | `post-1`                   |
-| `page.filepath`       | File system path.                                      | `Blog/Post 1.md`           |
-| `page.type`           | `homepage`, `page`, `section`, `vocabulary` or `term`. | `page`                     |
-| `page.pages`          | Collection of all sub pages.                           | _Collection_               |
-| `page.translations`   | Collection of translated pages.                        | _Collection_               |
+| Variable            | Description                                            | Example          |
+| ------------------- | ------------------------------------------------------ | ---------------- |
+| `page.id`           | Unique identifier.                                     | `blog/post-1`    |
+| `page.title`        | File name (without extension).                         | `Post 1`         |
+| `page.date`         | File creation date.                                    | _DateTime_       |
+| `page.body`         | File body.                                             | _Markdown_       |
+| `page.content`      | File body converted in HTML.                           | _HTML_           |
+| `page.section`      | File root folder (_slugified_).                        | `blog`           |
+| `page.path`         | File path (_slugified_).                               | `blog/post-1`    |
+| `page.slug`         | File name (_slugified_).                               | `post-1`         |
+| `page.filepath`     | File system path.                                      | `Blog/Post 1.md` |
+| `page.type`         | `homepage`, `page`, `section`, `vocabulary` or `term`. | `page`           |
+| `page.pages`        | Collection of all sub pages.                           | _Collection_     |
+| `page.translations` | Collection of translated pages.                        | _Collection_     |
 
 :::important
 Use `showable` method on pages collection to return only published and not _virtual/redirect/excluded_ pages.
@@ -315,14 +326,80 @@ _Example:_
 
 :::
 
+#### Nested sections
+
+In a [nested sections](2-Content.md#sub-section) context, `page.parent`, `page.ancestors`, `page.sections` and `page.toplevel` help you build navigation.
+
+| Variable         | Description                                        | Example      |
+| ---------------- | -------------------------------------------------- | ------------ |
+| `page.parent`    | Parent _section_'s page (`null` if none).          | _Page_       |
+| `page.ancestors` | Collection of ancestor _sections_ (nearest first). | _Collection_ |
+| `page.sections`  | Collection of immediate descendant _sections_.     | _Collection_ |
+| `page.toplevel`  | `true` if the page is a top level _section_.       | _Boolean_    |
+
+_Breadcrumb (from the home page to the current page):_
+
+```twig
+<nav aria-label="breadcrumb">
+  <ul>
+    <li><a href="{{ url(site.home) }}">{{ site.title }}</a></li>
+    {% for section in page.ancestors|reverse %}
+    <li><a href="{{ url(section) }}">{{ section.title }}</a></li>
+    {% endfor %}
+    {% if page.id != site.home %}
+    <li><a href="{{ url(page) }}" aria-current="page">{{ page.title }}</a></li>
+    {% endif %}
+  </ul>
+</nav>
+```
+
+:::tip
+A ready-to-use [`breadcrumb.html.twig`](https://github.com/Cecilapp/Cecil/blob/main/resources/layouts/partials/breadcrumb.html.twig) partial is available:
+
+```twig
+{{ include('partials/breadcrumb.html.twig') }}
+```
+
+:::
+
+_Sub-sections menu (immediate descendant sections of the current section):_
+
+```twig
+{% if page.sections|length %}
+<ul>
+  {% for section in page.sections|sort_by_title %}
+  <li><a href="{{ url(section) }}">{{ section.title }}</a></li>
+  {% endfor %}
+</ul>
+{% endif %}
+```
+
+_Main navigation limited to top level sections (from any page):_
+
+```twig
+<nav>
+  {% for section in site.page(site.home).sections|sort_by_title %}
+  <a href="{{ url(section) }}">{{ section.title }}</a>
+  {% endfor %}
+</nav>
+```
+
+_Link to the parent section:_
+
+```twig
+{% if page.parent %}
+<a href="{{ url(page.parent) }}">← {{ page.parent.title }}</a>
+{% endif %}
+```
+
 #### page.<prev/next>
 
 Navigation between pages within the same _section_.
 
-| Variable              | Description                                            | Example                    |
-| --------------------- | ------------------------------------------------------ | -------------------------- |
-| `page.prev`           | Previous page.                                         | _Page_                     |
-| `page.next`           | Next page.                                             | _Page_                     |
+| Variable    | Description    | Example |
+| ----------- | -------------- | ------- |
+| `page.prev` | Previous page. | _Page_  |
+| `page.next` | Next page.     | _Page_  |
 
 _Example:_
 
@@ -393,18 +470,89 @@ Variables available in _vocabulary_ and _term_ templates.
 
 ##### Vocabulary
 
+Page `/<plural>/` (e.g.: `/categories/`).
+
 | Variable        | Description                       |
 | --------------- | --------------------------------- |
 | `page.plural`   | Vocabulary name in plural form.   |
 | `page.singular` | Vocabulary name in singular form. |
 | `page.terms`    | List of terms (_Collection_).     |
 
+Each term of `page.terms` provides `term.id` (term ID, e.g.: `categories/php`), `term.name` (term name, e.g.: `PHP`) and the number of its pages with `term|length`.
+
 ##### Term
 
-| Variable     | Description                                |
-| ------------ | ------------------------------------------ |
-| `page.term`  | Term ID.                                   |
-| `page.pages` | List of pages in this term (_Collection_). |
+Page `/<plural>/<term>/` (e.g.: `/categories/php/`).
+
+| Variable        | Description                                                |
+| --------------- | ---------------------------------------------------------- |
+| `page.title`    | Term name.                                                 |
+| `page.term`     | Term ID (e.g.: `categories/php`).                          |
+| `page.plural`   | Vocabulary name in plural form.                            |
+| `page.singular` | Vocabulary name in singular form.                          |
+| `page.pages`    | List of pages in this term, sorted by date (_Collection_). |
+
+##### Taxonomy example
+
+Configuration:
+
+```yaml
+taxonomies:
+  categories: category
+```
+
+Page front matter:
+
+```yaml
+---
+categories: ["Data Sovereignty"]
+---
+```
+
+List of terms (`/categories/`), in `layouts/taxonomy/categories.html.twig`:
+
+```twig
+{% extends 'page.html.twig' %}
+
+{% block content %}
+  <h1>{{ page.title }}</h1>
+  <ul>
+  {% for term in page.terms %}
+    <li><a href="{{ url(term.id) }}">{{ term.name }}</a> ({{ term|length }})</li>
+  {% endfor %}
+  </ul>
+{% endblock %}
+```
+
+List of pages of a term (`/categories/data-sovereignty/`), in `layouts/taxonomy/category.html.twig`:
+
+```twig
+{% extends 'page.html.twig' %}
+
+{% block content %}
+  <h1>{{ page.title }}</h1>
+  {% for p in page.paginator.pages ?? page.pages %}
+    <article>
+      <h2><a href="{{ url(p) }}">{{ p.title }}</a></h2>
+    </article>
+  {% endfor %}
+  <a href="{{ url(page.plural) }}">All {{ page.plural }}</a>
+{% endblock %}
+```
+
+Links to the terms of the current page, in a page template:
+
+```twig
+{% for category in page.categories ?? [] %}
+  <a href="{{ url('categories/' ~ category) }}">{{ category }}</a>
+{% endfor %}
+```
+
+:::tip
+The [`url()`](#url) function slugifies the given string to find the matching page: `url('categories/Data Sovereignty')` returns `/categories/data-sovereignty/`.
+
+You can also use the built-in partial `{{ include('partials/terms-list.html.twig', {vocabulary: 'categories'}) }}`.
+:::
 
 ### cecil
 
@@ -426,11 +574,11 @@ Creates a valid URL for a page, a menu entry, an asset, a page ID or a path.
 {{ url(value, {options}) }}
 ```
 
-| Option    | Description                                                                | Type    | Default |
-| --------- | -------------------------------------------------------------------------- | ------- | ------- |
+| Option    | Description                                                                                                                      | Type    | Default |
+| --------- | -------------------------------------------------------------------------------------------------------------------------------- | ------- | ------- |
 | canonical | Prefix URL with [`baseurl`](4-Configuration.md#baseurl) or use [`canonical.url`](4-Configuration.md#metatags-options) if exists. | boolean | `false` |
-| format    | Defines page [output format](4-Configuration.md#output-formats) (e.g.: `json`).   | string  | `html`  |
-| language  | Defines page [language](4-Configuration.md#language) (e.g.: `fr`). | string  | null    |
+| format    | Defines page [output format](4-Configuration.md#output-formats) (e.g.: `json`).                                                  | string  | `html`  |
+| language  | Defines page [language](4-Configuration.md#language) (e.g.: `fr`).                                                               | string  | null    |
 
 _Examples:_
 
@@ -462,6 +610,10 @@ For convenience the `url` function is also available as a filter:
 {{ asset('styles.css')|url }}
 ```
 
+:::
+
+:::tip
+When the value is a string, `url()` slugifies it to find a matching page ID (e.g.: `url('tags/My Tag')` returns the URL of the page `tags/my-tag`). If no page matches, the string is kept as a path, with invalid characters (e.g.: spaces) percent-encoded.
 :::
 
 ### asset
@@ -606,17 +758,17 @@ Creates an HTML element from an asset (or an array of assets with custom attribu
 {{ video(asset) }}
 ```
 
-| Option     | Description                                     | Type  |
-| ---------- | ----------------------------------------------- | ----- |
-| attributes | Adds `name="value"` couple to the HTML element. | array |
-| options    | `{preload: boolean}`: preloads.<br>For images:<br>`{formats: array}`: adds alternative formats.<br>`{responsive: bool|string}`: adds responsive images (based on `width` or pixels `density`). | array |
+| Option     | Description                                                                                                                                                                                    | Type  |
+| ---------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ----- |
+| attributes | Adds `name="value"` couple to the HTML element.                                                                                                                                                | array |
+| options    | `{preload: boolean}`: preloads.<br>For images:<br>`{formats: array}`: adds alternative formats.<br>`{responsive: bool|string}`: adds responsive images (based on `width` or pixels `density`).<br>`{placeholder: string}`: fills the image background before loading (`color` or `lqip`). | array |
 
 :::warning
 Since version ++8.42.0++, the `html` function replace the deprecated `html` filter.
 :::
 
 :::tip
-You can define a global default behavior of images options (`formats` and `responsive`) through the [layouts configuration](4-Configuration.md#layouts-images).
+You can define a global default behavior of images options (`formats`, `responsive` and `placeholder`) through the [layouts configuration](4-Configuration.md#layouts-images).
 
 When [`layouts.images.dark_suffix`](4-Configuration.md#layouts-images) is configured (e.g. `.dark`), Cecil automatically looks for a dark variant of each image (e.g. `photo.dark.jpg` alongside `photo.jpg`) and generates a `<picture>` element with a `<source media="(prefers-color-scheme: dark)">`.
 :::
@@ -641,6 +793,8 @@ _Examples:_
 {{ html(asset('image.jpg'), {alt: 'Description', loading: 'lazy'}, {responsive: true, formats: ['avif', 'webp']}) }}
 {# image with responsive pixels density images #}
 {{ html(asset('image.jpg'), options={responsive: 'density'}, attributes={width: 256}) }}
+{# image with a Low-Quality Image Placeholder #}
+{{ html(asset('image.jpg'), {alt: 'Description', loading: 'lazy'}, {placeholder: 'lqip'}) }}
 {# Audio #}
 {{ html(asset('audio.mp3')) }}
 {# Video #}
@@ -689,16 +843,40 @@ _Examples:_
 
 ### image_from_website
 
-Builds the HTML img element from a website URL by extracting the image from meta tags.
+Builds the HTML img element from a website URL by extracting its illustration image.
+Returns `null` if no image is found.
 
 ```twig
-{{ image_from_website('url') }}
+{{ image_from_website('url', {attributes}, {options}) }}
 ```
+
+The image is searched in the page HTML with the following fallbacks, the first candidate that can be downloaded as an image is used:
+
+1. Open Graph: `og:image:secure_url`, `og:image`, `og:image:url`
+2. Twitter: `twitter:image`, `twitter:image:src`
+3. `<link rel="image_src">`
+4. Microdata: `itemprop="image"`
+5. JSON-LD: `image` property
+6. First `<img>` of `<article>`, `<main>` or `<body>`
+7. `<link rel="apple-touch-icon">`
+8. `<link rel="icon">`
+
+Relative URLs are resolved against `<base href>` or the page URL.
+
+The resolved image URL and the downloaded image are cached (see [`cache.assets.remote.ttl`](4-Configuration.md#cache)).
+
+Options:
+
+- `fallback`: image path (or URL) used if no image is found
+- other [`image`](#html) options (e.g.: `responsive`, `formats`)
 
 _Examples:_
 
 ```twig
 {{ image_from_website('https://example.com/page-with-image.html') }}
+
+{# with a fallback image #}
+{{ image_from_website('https://example.com/', {alt: 'Illustration'}, {fallback: 'images/default.png'}) }}
 ```
 
 ### readtime
@@ -1052,10 +1230,10 @@ See [Content documentation](2-Content.md#excerpt) for details.
 {{ string|excerpt_html({separator, capture}) }}
 ```
 
-| Option    | Description                                           | Type    | Default         |
-| --------- | ----------------------------------------------------- | ------- | --------------- |
-| separator | String to use as separator.                           | string  | `excerpt|break` |
-| capture   | Part to capture, `before` or `after` the separator.   | string  | `before`        |
+| Option    | Description                                         | Type   | Default         |
+| --------- | --------------------------------------------------- | ------ | --------------- |
+| separator | String to use as separator.                         | string | `excerpt|break` |
+| capture   | Part to capture, `before` or `after` the separator. | string | `before`        |
 
 _Examples:_
 
@@ -1235,6 +1413,10 @@ Resizes an image to a specified width (in pixels) or/and height (in pixels).
 
 :::info
 The original file is not altered and the resized version is saved at `/thumbnails/<width>x<height>/image.jpg`.
+:::
+
+:::tip
+ICO files are supported: the largest icon is resized and saved as a single icon ICO file (PNG compressed). Icons stored as BMP with a color depth other than 24 or 32 bits require the [Imagick](https://www.php.net/manual/book.imagick.php) PHP extension: otherwise, the original ICO file is kept and a warning is logged.
 :::
 
 _Examples:_
@@ -1435,7 +1617,7 @@ Pluralize:
 ### Translation files
 
 Translation files must be named `messages.<locale>.<extension>` and stored in the [`translations`](4-Configuration.md#layouts) directory.  
-Supported file extensions are defined by each translation format in [`layouts.translations.formats`](4-Configuration.md#layoutstranslations).
+Supported file extensions are defined by each translation format in [`layouts.translations.formats`](4-Configuration.md#layouts-translations).
 
 The locale code (e.g.: `fr_FR`) of a language is defined in the [`languages`](4-Configuration.md#languages) entries of the configuration.
 

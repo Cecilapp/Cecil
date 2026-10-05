@@ -26,7 +26,7 @@ use Symfony\Component\Mime\MimeTypes;
  */
 class File
 {
-    /** @var Filesystem */
+    /** @var Filesystem|null */
     protected static $fs;
 
     /**
@@ -80,6 +80,8 @@ class File
      * Returns the media type and subtype of a file.
      *
      * ie: ['text', 'text/plain']
+     *
+     * @return array{string, string}
      */
     public static function getMediaType(string $filename): array
     {
@@ -128,6 +130,8 @@ class File
 
     /**
      * exif_read_data() function with error handler.
+     *
+     * @return array<string, mixed>
      */
     public static function readExif(string $filename): array
     {
@@ -182,28 +186,5 @@ class File
     public static function isRemote(string $path): bool
     {
         return (bool) preg_match('~^(?:f|ht)tps?://~i', $path);
-    }
-
-    /**
-     * Tests if a remote file exists.
-     */
-    public static function isRemoteExists(string $path): bool
-    {
-        if (self::isRemote($path)) {
-            if (str_starts_with($path, 'https://') && !\extension_loaded('openssl')) {
-                throw new RuntimeException('The OpenSSL PHP extension is required to get HTTPS remote files.');
-            }
-            $handle = @fopen($path, 'r');
-            if (!empty(get_headers($path))) {
-                if (400 < (int) explode(' ', get_headers($path)[0])[1]) {
-                    return false;
-                }
-            }
-            if (\is_resource($handle)) {
-                return true;
-            }
-        }
-
-        return false;
     }
 }

@@ -30,6 +30,7 @@ use Symfony\Component\Finder\Finder;
  */
 class Copy extends AbstractStep
 {
+    /** @var int */
     protected $count = 0;
 
     /**
@@ -45,7 +46,7 @@ class Copy extends AbstractStep
      */
     public function init(array $options): void
     {
-        if ($options['dry-run']) {
+        if ($options['dry-run'] ?? false) {
             return;
         }
 
@@ -70,7 +71,7 @@ class Copy extends AbstractStep
         if ($this->builder->isDebug() && $this->config->isEnabled('assets.compile.sourcemap')) {
             // copying content of '<theme>/assets/' dir if exists
             if ($this->config->hasTheme()) {
-                $themes = array_reverse($this->config->getTheme());
+                $themes = array_reverse($this->config->getTheme() ?? []);
                 foreach ($themes as $theme) {
                     $this->copy($this->config->getThemeDirPath($theme, 'assets'));
                 }
@@ -83,7 +84,7 @@ class Copy extends AbstractStep
 
         // copying content of '<theme>/static/' dir if exists
         if ($this->config->hasTheme()) {
-            $themes = array_reverse($this->config->getTheme());
+            $themes = array_reverse($this->config->getTheme() ?? []);
             foreach ($themes as $theme) {
                 $this->copy($this->config->getThemeDirPath($theme, 'static'), $target, $exclude);
             }
@@ -110,6 +111,8 @@ class Copy extends AbstractStep
     /**
      * Copying a file or files in a directory from $from (if exists) to $to (relative to output path).
      * Exclude files or directories with $exclude array.
+     *
+     * @param array<string>|null $exclude
      */
     protected function copy(string $from, ?string $to = null, ?array $exclude = null): void
     {

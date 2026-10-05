@@ -15,7 +15,9 @@ namespace Cecil\Step\Pages;
 
 use Cecil\Collection\Page\Collection as PagesCollection;
 use Cecil\Collection\Page\Page;
+use Cecil\Exception\RuntimeException;
 use Cecil\Step\AbstractStep;
+use Cecil\Util;
 
 /**
  * Create pages step.
@@ -69,6 +71,13 @@ class Create extends AbstractStep
             // parse frontmatter and body
             $page->parse();
 
+            // skip pages whose language is not active (i.e. `enabled` is not `false`) in configuration
+            if (!\in_array($page->getVariable('language', $this->config->getLanguageDefault()), $validLanguages)) {
+                $message = \sprintf('Page "%s" skipped (language not enabled)', $page->getId());
+                $this->builder->getLogger()->info($message, ['progress' => [$count, $total]]);
+                continue;
+            }
+
             /*
              * Apply a custom path to pages of a section.
              *
@@ -82,8 +91,12 @@ class Create extends AbstractStep
                 foreach ($this->config->get('pages.paths', $page->getVariable('language')) as $entry) {
                     if (isset($entry['section'])) {
                         /** @var Page $page */
-                        if ($page->getSection() == Page::slugify($entry['section'])) {
+                        if ($page->getSection() == Util\Slugifier::slugify($entry['section'])) {
                             if (isset($entry['path'])) {
+                                $date = $page->getVariable('date');
+                                if (!$date instanceof \DateTimeInterface) {
+                                    throw new RuntimeException(\sprintf('Unable to apply path "%s" to page "%s": its date is not valid.', $entry['path'], $page->getId()));
+                                }
                                 $path = str_replace(
                                     [
                                         ':year',
@@ -93,10 +106,10 @@ class Create extends AbstractStep
                                         ':slug',
                                     ],
                                     [
-                                        $page->getVariable('date')->format('Y'),
-                                        $page->getVariable('date')->format('m'),
-                                        $page->getVariable('date')->format('d'),
-                                        $page->getSection(),
+                                        $date->format('Y'),
+                                        $date->format('m'),
+                                        $date->format('d'),
+                                        (string) $page->getSection(),
                                         $page->getSlug(),
                                     ],
                                     $entry['path']
@@ -108,10 +121,8 @@ class Create extends AbstractStep
                 }
             }
 
-            // add the page to pages collection only if its language is defined in configuration
-            if (\in_array($page->getVariable('language', $this->config->getLanguageDefault()), $validLanguages)) {
-                $this->builder->getPages()->add($page);
-            }
+            // add the page to pages collection
+            $this->builder->getPages()->add($page);
 
             $message = \sprintf('Page "%s" created', $page->getId());
             $this->builder->getLogger()->info($message, ['progress' => [$count, $total]]);

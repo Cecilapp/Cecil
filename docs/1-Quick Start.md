@@ -1,7 +1,7 @@
 <!--
-description: "Create a new website and preview it locally."
+description: "Install Cecil, create a new website, add pages, preview it locally with the built-in server, then build and deploy it, or get started quickly with a starter kit."
 date: 2020-12-19
-updated: 2026-06-18
+updated: 2026-10-02
 menu: home
 -->
 # Quick Start
@@ -22,7 +22,7 @@ Demo of the expected result: <https://cecilapp.github.io/skeleton/>.
 
 ### Prerequisites
 
-- [PHP](https://php.net/manual/en/install.php) 8.2+
+- [PHP](https://php.net/manual/en/install.php) 8.3+
 - Terminal (a basic understanding of [terminal](https://wikipedia.org/wiki/Terminal_emulator))
 - Text editor, like [VS Code](https://code.visualstudio.com) and/or [Typora](https://typora.io)
 

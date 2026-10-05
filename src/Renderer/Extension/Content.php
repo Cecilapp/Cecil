@@ -14,8 +14,8 @@ declare(strict_types=1);
 namespace Cecil\Renderer\Extension;
 
 use Cecil\Builder;
-use Cecil\Collection\Page\Page;
 use Cecil\Config;
+use Cecil\Util;
 use Cecil\Converter\Parsedown;
 use Cecil\Exception\RuntimeException;
 use Highlight\Highlighter;
@@ -43,6 +43,7 @@ class Content extends AbstractExtension
         $this->config = $builder->getConfig();
     }
 
+    #[\Override]
     public function getFunctions(): array
     {
         return [
@@ -50,6 +51,7 @@ class Content extends AbstractExtension
         ];
     }
 
+    #[\Override]
     public function getFilters(): array
     {
         return [
@@ -77,7 +79,7 @@ class Content extends AbstractExtension
      */
     public function slugifyFilter(string $string): string
     {
-        return Page::slugify($string);
+        return Util\Slugifier::slugify($string);
     }
 
     /**
@@ -102,6 +104,8 @@ class Content extends AbstractExtension
      * Options:
      *  - separator: string to use as separator (`excerpt|break` by default)
      *  - capture: part to capture, `before` or `after` the separator (`before` by default).
+     *
+     * @param array{separator?: string, capture?: string} $options
      */
     public function excerptHtml(?string $string, array $options = []): string
     {
@@ -123,7 +127,7 @@ class Content extends AbstractExtension
             $result = trim($matches[3]);
         }
         // removes footnotes and returns result
-        return preg_replace('/<sup[^>]*>[^u]*<\/sup>/', '', $result);
+        return preg_replace('/<sup[^>]*>[^u]*<\/sup>/', '', $result) ?? $result;
     }
 
     /**
@@ -154,10 +158,15 @@ class Content extends AbstractExtension
      * The `format` parameter defines the output format: `html` or `json`.
      * The `url` parameter is used to build links to headings.
      *
+     * @param array<string>|null $selectors
+     *
      * @throws RuntimeException
      */
-    public function markdownToToc(?string $markdown, $format = 'html', ?array $selectors = null, string $url = ''): ?string
+    public function markdownToToc(?string $markdown, string $format = 'html', ?array $selectors = null, string $url = ''): ?string
     {
+        if (!\in_array(strtolower($format), ['html', 'json'], true)) {
+            throw new RuntimeException(\sprintf('"toc" filter format "%s" is not supported (use "html" or "json").', $format));
+        }
         $markdown = $markdown ?? '';
         $selectors = $selectors ?? (array) $this->config->get('pages.body.toc');
 
@@ -168,12 +177,17 @@ class Content extends AbstractExtension
         } catch (\Exception) {
             throw new RuntimeException('"toc" filter can not convert supplied Markdown.');
         }
+        if (!\is_string($return)) {
+            throw new RuntimeException(\sprintf('"toc" filter can not render format "%s".', $format));
+        }
 
         return $return;
     }
 
     /**
      * Converts a JSON string to an array.
+     *
+     * @return array<mixed>|null
      *
      * @throws RuntimeException
      */
@@ -196,6 +210,8 @@ class Content extends AbstractExtension
     /**
      * Converts a YAML string to an array.
      *
+     * @return array<mixed>|null
+     *
      * @throws RuntimeException
      */
     public function yamlParse(?string $yaml): ?array
@@ -216,6 +232,8 @@ class Content extends AbstractExtension
 
     /**
      * Split a string into an array using a regular expression.
+     *
+     * @return list<string>|null
      *
      * @throws RuntimeException
      */
@@ -238,6 +256,8 @@ class Content extends AbstractExtension
     /**
      * Perform a regular expression match and return the group for all matches.
      *
+     * @return list<string>|null
+     *
      * @throws RuntimeException
      */
     public function pregMatchAll(?string $value, string $pattern, int $group = 0): ?array
@@ -257,23 +277,22 @@ class Content extends AbstractExtension
     }
 
     /**
-     * Calculates estimated time to read a text.
+     * Calculates estimated time to read a text, in minutes (1 minute minimum).
      */
     public function readtime(?string $text): string
     {
         $text = $text ?? '';
 
         $words = str_word_count(strip_tags($text));
-        $min = floor($words / 200);
-        if ($min === 0) {
-            return '1';
-        }
+        $min = (int) floor($words / 200);
 
-        return (string) $min;
+        return (string) max($min, 1);
     }
 
     /**
      * Converts an hexadecimal color to RGB.
+     *
+     * @return array{red: int, green: int, blue: int}
      *
      * @throws RuntimeException
      */
@@ -299,16 +318,22 @@ class Content extends AbstractExtension
 
     /**
      * Split a string in multiple lines.
+     *
+     * @return list<string>
      */
     public function splitLine(?string $variable, int $max = 18): array
     {
         $variable = $variable ?? '';
 
-        return preg_split("/.{0,{$max}}\K(\s+|$)/", $variable, 0, PREG_SPLIT_NO_EMPTY);
+        return preg_split("/.{0,{$max}}\K(\s+|$)/", $variable, 0, PREG_SPLIT_NO_EMPTY) ?: [];
     }
 
     /**
      * Converts a variable to an iterable (array).
+     *
+     * @param mixed $value
+     *
+     * @return array<mixed>
      */
     public function iterable($value): array
     {
@@ -343,6 +368,10 @@ class Content extends AbstractExtension
 
     /**
      * Returns an array with unique values.
+     *
+     * @param array<string> $array
+     *
+     * @return array<string>
      */
     public function unique(array $array): array
     {
@@ -354,10 +383,9 @@ class Content extends AbstractExtension
      */
     private static function isHex(string $hex): bool
     {
-        $valid = \is_string($hex);
         $hex = ltrim($hex, '#');
         $length = \strlen($hex);
-        $valid = $valid && ($length === 3 || $length === 6);
+        $valid = $length === 3 || $length === 6;
         $valid = $valid && ctype_xdigit($hex);
 
         return $valid;

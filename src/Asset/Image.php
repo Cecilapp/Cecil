@@ -16,12 +16,13 @@ namespace Cecil\Asset;
 use Cecil\Asset;
 use Cecil\Builder;
 use Cecil\Exception\RuntimeException;
-use Cecil\Url;
 use Intervention\Image\Drivers\Gd\Driver as GdDriver;
 use Intervention\Image\Drivers\Imagick\Driver as ImagickDriver;
 use Intervention\Image\Drivers\Vips\Driver as VipsDriver;
-use Intervention\Image\Encoders\AutoEncoder;
+use Intervention\Image\Alignment;
+use Intervention\Image\Format;
 use Intervention\Image\ImageManager;
+use Intervention\Image\Interfaces\ImageManagerInterface;
 
 /**
  * Image Asset class.
@@ -35,35 +36,89 @@ use Intervention\Image\ImageManager;
 class Image
 {
     /**
-     * Create new manager instance with available driver.
+     * Returns the name of the available image driver (e.g.: "Imagick"), or null if none.
      */
-    private static function manager(): ImageManager
+    public static function getDriverName(): ?string
     {
-        $driver = null;
-        // Use GD first to keep driver capabilities aligned with GD-based format checks in convert().
+        return self::driver()[0] ?? null;
+    }
+
+    /**
+     * Returns the available driver as [name, class], or null if none.
+     *
+     * @return array{string, class-string}|null
+     */
+    private static function driver(): ?array
+    {
+        // Use Imagick first (fast and widely available), then libvips (fast), then GD as fallback.
+        if (\extension_loaded('imagick') && class_exists('Imagick') && self::isImagickUsable()) {
+            return ['Imagick', ImagickDriver::class];
+        }
+        if (\extension_loaded('ffi') && class_exists(VipsDriver::class) && self::isVipsAvailable()) {
+            return ['Vips', VipsDriver::class];
+        }
         if (\extension_loaded('gd') && \function_exists('gd_info')) {
-            $driver = GdDriver::class;
-        } elseif (\extension_loaded('imagick') && class_exists('Imagick')) {
-            // ImageMagick fallback.
-            $driver = ImagickDriver::class;
-        } elseif (\extension_loaded('vips') && class_exists('Jcupitt\Vips\Config') && class_exists(VipsDriver::class)) {
-            // libvips fallback.
-            $driver = VipsDriver::class;
+            return ['GD', GdDriver::class];
         }
 
-        if ($driver) {
-            return ImageManager::withDriver(
+        return null;
+    }
+
+    /**
+     * Checks if ImageMagick can read common formats (e.g.: Alpine images can ship Imagick without JPEG coder).
+     */
+    private static function isImagickUsable(): bool
+    {
+        static $usable = null;
+
+        if ($usable === null) {
+            try {
+                $usable = !empty(\Imagick::queryFormats('JPEG')) && !empty(\Imagick::queryFormats('PNG'));
+            } catch (\Throwable) {
+                $usable = false;
+            }
+        }
+
+        return $usable;
+    }
+
+    /**
+     * Checks if libvips can be loaded through FFI (php-vips v2+ does not rely on ext-vips).
+     */
+    private static function isVipsAvailable(): bool
+    {
+        static $available = null;
+
+        if ($available === null) {
+            try {
+                \Jcupitt\Vips\Config::version();
+                $available = true;
+            } catch (\Throwable) {
+                $available = false;
+            }
+        }
+
+        return $available;
+    }
+
+    /**
+     * Create new manager instance with available driver.
+     */
+    private static function manager(): ImageManagerInterface
+    {
+        if (null !== $driver = self::driver()[1] ?? null) {
+            return ImageManager::usingDriver(
                 $driver,
                 [
                     'autoOrientation' => true,
                     'decodeAnimation' => true,
-                    'blendingColor' => 'ffffff',
+                    'backgroundColor' => 'ffffff',
                     'strip' => true, // remove metadata
                 ]
             );
         }
 
-        throw new RuntimeException('PHP GD or Imagick extension is required, or Vips support via ext-vips/jcupitt-vips and intervention/image-driver-vips.');
+        throw new RuntimeException('PHP Imagick or GD extension is required, or libvips with PHP FFI extension enabled.');
     }
 
     /**
@@ -77,8 +132,12 @@ class Image
      */
     public static function resize(Asset $asset, ?int $width = null, ?int $height = null, int $quality = 75, bool $rmAnimation = false): string
     {
+        if (self::isIco($asset)) {
+            return self::resizeIco($asset, $width, $height);
+        }
+
         try {
-            $image = self::manager()->read($asset['content']);
+            $image = self::manager()->decodeBinary($asset['content']);
 
             if ($rmAnimation && $image->isAnimated()) {
                 $image = $image->removeAnimation('25%'); // use 25% to avoid an "empty" frame
@@ -86,7 +145,7 @@ class Image
 
             $resize = function (?int $width, ?int $height) use ($image) {
                 if ($width !== null && $height !== null) {
-                    return $image->cover(width: $width, height: $height, position: 'center');
+                    return $image->cover(width: $width, height: $height, alignment: Alignment::CENTER);
                 }
                 if ($width !== null) {
                     return $image->scale(width: $width);
@@ -98,17 +157,231 @@ class Image
             };
             $image = $resize($width, $height);
 
-            return (string) $image->encodeByMediaType(
-                $asset['subtype'],
-                /** @scrutinizer ignore-type */
+            $format = Format::create($asset['ext'] ?? str_replace('image/', '', (string) $asset['subtype']));
+
+            return (string) $image->encodeUsingFormat(
+                $format,
                 progressive: true,
-                /** @scrutinizer ignore-type */
                 interlaced: false,
                 quality: $quality
             );
         } catch (\Exception $e) {
             throw new RuntimeException(\sprintf('Asset "%s" can\'t be resized: %s.', $asset['path'], $e->getMessage()));
         }
+    }
+
+    /**
+     * Resizes an ICO Asset to the given width or/and height.
+     *
+     * The largest icon of the ICO file is resized and returned as a single PNG-compressed icon.
+     * PNG icons and 24/32 bits BMP icons are handled by any driver, other BMP icons require the Imagick extension.
+     *
+     * @throws RuntimeException
+     */
+    public static function resizeIco(Asset $asset, ?int $width = null, ?int $height = null): string
+    {
+        try {
+            $icon = self::extractIcoLargestIcon((string) $asset['content']);
+            if (str_starts_with($icon, "\x89PNG")) {
+                $image = self::manager()->decodeBinary($icon);
+            } elseif (null !== $png = self::dibToPng($icon)) {
+                $image = self::manager()->decodeBinary($png);
+            } else {
+                // other BMP icon: decode a single icon ICO file with Imagick
+                if (!\extension_loaded('imagick') || !class_exists('Imagick')) {
+                    throw new RuntimeException('BMP icons require the PHP Imagick extension');
+                }
+                $image = ImageManager::usingDriver(ImagickDriver::class)->decodeBinary(self::buildIco($icon, 0, 0, 32));
+            }
+
+            if ($width !== null && $height !== null) {
+                $image = $image->cover(width: $width, height: $height, alignment: Alignment::CENTER);
+            } elseif ($width !== null || $height !== null) {
+                $image = $image->scale(width: $width, height: $height);
+            } else {
+                throw new RuntimeException('Width or height must be specified');
+            }
+
+            return self::buildIco((string) $image->encodeUsingFormat(Format::PNG), $image->width(), $image->height());
+        } catch (\Exception $e) {
+            throw new RuntimeException(\sprintf('Asset "%s" can\'t be resized: %s.', $asset['path'], $e->getMessage()));
+        }
+    }
+
+    /**
+     * Returns the binary data (PNG or BMP DIB) of the largest icon of an ICO file.
+     *
+     * A PNG file (e.g.: renamed in ".ico") is returned as is.
+     *
+     * @throws RuntimeException
+     */
+    public static function extractIcoLargestIcon(string $data): string
+    {
+        if (str_starts_with($data, "\x89PNG")) {
+            return $data;
+        }
+
+        $largest = self::getIcoLargestEntry($data);
+        $icon = substr($data, $largest['offset'], $largest['size']);
+        if (\strlen($icon) !== $largest['size'] || $largest['size'] === 0) {
+            throw new RuntimeException('Invalid ICO file');
+        }
+
+        return $icon;
+    }
+
+    /**
+     * Returns the size (width and height) of the largest icon of an ICO file.
+     *
+     * Unlike getimagesize(), which doesn't necessarily return the size of the largest icon.
+     *
+     * @return array{int, int}
+     *
+     * @throws RuntimeException
+     */
+    public static function getIcoSize(string $data): array
+    {
+        if (str_starts_with($data, "\x89PNG")) {
+            if (false === $size = getimagesizefromstring($data)) {
+                throw new RuntimeException('Invalid ICO file');
+            }
+
+            return [$size[0], $size[1]];
+        }
+
+        $largest = self::getIcoLargestEntry($data);
+
+        return [$largest['width'], $largest['height']];
+    }
+
+    /**
+     * Returns the directory entry of the largest icon of an ICO file.
+     *
+     * @return array<string, int>
+     *
+     * @throws RuntimeException
+     */
+    private static function getIcoLargestEntry(string $data): array
+    {
+        // ICONDIR: reserved (2 bytes), type (2 bytes, 1 = icon), count (2 bytes)
+        $header = \strlen($data) >= 6 ? unpack('vreserved/vtype/vcount', $data) : false;
+        if ($header === false || $header['reserved'] !== 0 || $header['type'] !== 1 || $header['count'] < 1) {
+            throw new RuntimeException('Invalid ICO file');
+        }
+
+        $largest = null;
+        for ($i = 0; $i < $header['count']; $i++) {
+            // ICONDIRENTRY (16 bytes): width, height, colors, reserved, planes, bpp, size, offset
+            $entry = substr($data, 6 + $i * 16, 16);
+            if (\strlen($entry) < 16 || false === $entry = unpack('Cwidth/Cheight/Ccolors/Creserved/vplanes/vbpp/Vsize/Voffset', $entry)) {
+                throw new RuntimeException('Invalid ICO file');
+            }
+            // 0 means 256 pixels
+            $entry['width'] = $entry['width'] ?: 256;
+            $entry['height'] = $entry['height'] ?: 256;
+            // the largest one, with the highest color depth
+            if (
+                $largest === null
+                || $entry['width'] * $entry['height'] > $largest['width'] * $largest['height']
+                || ($entry['width'] * $entry['height'] == $largest['width'] * $largest['height'] && $entry['bpp'] > $largest['bpp'])
+            ) {
+                $largest = $entry;
+            }
+        }
+        if ($largest === null) {
+            throw new RuntimeException('Invalid ICO file');
+        }
+
+        return $largest;
+    }
+
+    /**
+     * Converts a 24 or 32 bits BMP icon (DIB data of an ICO file) to PNG.
+     *
+     * Returns null if the BMP icon format is not supported (other color depth or compression).
+     *
+     * @throws RuntimeException
+     */
+    public static function dibToPng(string $dib): ?string
+    {
+        // BITMAPINFOHEADER: size, width, height (x2: XOR + AND masks), planes, bpp, compression
+        $header = \strlen($dib) >= 40 ? unpack('Vsize/Vwidth/Vheight/vplanes/vbpp/Vcompression', $dib) : false;
+        if ($header === false || $header['size'] < 40) {
+            throw new RuntimeException('Invalid BMP icon');
+        }
+        if (!\in_array($header['bpp'], [24, 32], true) || $header['compression'] !== 0) {
+            return null;
+        }
+        // height is signed: negative means top-down rows
+        $topDown = $header['height'] > 0x7FFFFFFF;
+        $width = $header['width'];
+        $height = intdiv($topDown ? 0x100000000 - $header['height'] : $header['height'], 2);
+        if ($width < 1 || $width > 1024 || $height < 1 || $height > 1024) {
+            throw new RuntimeException('Invalid BMP icon');
+        }
+
+        $bytesPerPixel = $header['bpp'] / 8;
+        $rowSize = (($width * $header['bpp'] + 31) >> 5) << 2; // rows are 4 bytes aligned
+        $maskRowSize = (($width + 31) >> 5) << 2;
+        $maskOffset = $header['size'] + $rowSize * $height;
+        if (\strlen($dib) < $maskOffset) {
+            throw new RuntimeException('Invalid BMP icon');
+        }
+        $hasMask = \strlen($dib) >= $maskOffset + $maskRowSize * $height;
+        // 32 bits icons have an alpha channel, but it can be empty (transparency is then defined by the AND mask)
+        $hasAlpha = false;
+        if ($header['bpp'] == 32) {
+            for ($i = $header['size'] + 3; $i < $maskOffset; $i += 4) {
+                if ($dib[$i] !== "\0") {
+                    $hasAlpha = true;
+                    break;
+                }
+            }
+        }
+
+        // RGBA scanlines, each one prefixed by the PNG filter type (0 = none)
+        $raw = '';
+        for ($y = 0; $y < $height; $y++) {
+            $row = $topDown ? $y : $height - 1 - $y; // BMP rows are bottom-up
+            $raw .= "\0";
+            for ($x = 0; $x < $width; $x++) {
+                $offset = $header['size'] + $row * $rowSize + $x * $bytesPerPixel;
+                $alpha = "\xff";
+                if ($hasAlpha) {
+                    $alpha = $dib[$offset + 3];
+                } elseif ($hasMask && (\ord($dib[$maskOffset + $row * $maskRowSize + ($x >> 3)]) >> (7 - ($x & 7))) & 1) {
+                    $alpha = "\0";
+                }
+                $raw .= $dib[$offset + 2] . $dib[$offset + 1] . $dib[$offset] . $alpha; // BGR(A) -> RGBA
+            }
+        }
+
+        $chunk = fn (string $type, string $data): string => pack('N', \strlen($data)) . $type . $data . pack('N', crc32($type . $data));
+
+        return "\x89PNG\r\n\x1a\n"
+            . $chunk('IHDR', pack('NNCCCCC', $width, $height, 8, 6, 0, 0, 0)) // 8 bits RGBA
+            . $chunk('IDAT', (string) gzcompress($raw))
+            . $chunk('IEND', '');
+    }
+
+    /**
+     * Builds an ICO file containing a single icon (PNG or BMP DIB data).
+     */
+    public static function buildIco(string $icon, int $width, int $height, int $bpp = 32): string
+    {
+        return pack('vvv', 0, 1, 1)
+            . pack(
+                'CCCCvvVV',
+                $width >= 256 ? 0 : $width,
+                $height >= 256 ? 0 : $height,
+                0,
+                0,
+                1,
+                $bpp,
+                \strlen($icon),
+                6 + 16
+            )
+            . $icon;
     }
 
     /**
@@ -119,24 +392,24 @@ class Image
     public static function maskable(Asset $asset, int $quality, int $padding): string
     {
         try {
-            $source = self::manager()->read($asset['content']);
+            $source = self::manager()->decodeBinary($asset['content']);
 
             // creates a new image with the dominant color as background
             // and the size of the original image plus the padding
-            $image = self::manager()->create(
+            $image = self::manager()->createImage(
                 width: (int) round($asset['width'] * (1 + $padding / 100), 0),
                 height: (int) round($asset['height'] * (1 + $padding / 100), 0)
             )->fill(self::getBackgroundColor($asset));
             // inserts the original image in the center
-            $image->place($source, position: 'center');
+            $image->insert($source, alignment: Alignment::CENTER);
 
             $image->scaleDown(width: $asset['width']);
 
-            return (string) $image->encodeByMediaType(
-                $asset['subtype'],
-                /** @scrutinizer ignore-type */
+            $format = Format::create($asset['ext'] ?? str_replace('image/', '', (string) $asset['subtype']));
+
+            return (string) $image->encodeUsingFormat(
+                $format,
                 progressive: true,
-                /** @scrutinizer ignore-type */
                 interlaced: false,
                 quality: $quality
             );
@@ -153,17 +426,16 @@ class Image
     public static function convert(Asset $asset, string $format, int $quality): string
     {
         try {
-            if (!\function_exists("image$format")) {
-                throw new RuntimeException(\sprintf('Function "image%s" is not available.', $format));
+            $image = self::manager()->decodeBinary($asset['content']);
+
+            $targetFormat = Format::create($format);
+            if (!$image->driver()->supports($targetFormat)) {
+                throw new RuntimeException(\sprintf('Format "%s" is not supported by the image driver.', $format));
             }
 
-            $image = self::manager()->read($asset['content']);
-
-            return (string) $image->encodeByExtension(
-                $format,
-                /** @scrutinizer ignore-type */
+            return (string) $image->encodeUsingFormat(
+                $targetFormat,
                 progressive: true,
-                /** @scrutinizer ignore-type */
                 interlaced: false,
                 quality: $quality
             );
@@ -180,9 +452,11 @@ class Image
     public static function getDataUrl(Asset $asset, int $quality): string
     {
         try {
-            $image = self::manager()->read($asset['content']);
+            $image = self::manager()->decodeBinary($asset['content']);
 
-            return (string) $image->encode(new AutoEncoder(quality: $quality))->toDataUri();
+            $format = Format::create($asset['ext'] ?? str_replace('image/', '', (string) $asset['subtype']));
+
+            return (string) $image->encodeUsingFormat($format, quality: $quality)->toDataUri();
         } catch (\Exception $e) {
             throw new RuntimeException(\sprintf('Unable to get Data URL of "%s": %s.', $asset['path'], $e->getMessage()));
         }
@@ -196,9 +470,11 @@ class Image
     public static function getDominantColor(Asset $asset): string
     {
         try {
-            $image = self::manager()->read(self::resize($asset, 100, 50));
+            $image = self::manager()->decodeBinary(self::resize($asset, 100, 50));
+            // @phpstan-ignore method.notFound
+            $palette = $image->colors()->dominant();
 
-            return $image->reduceColors(1)->pickColor(0, 0)->toString();
+            return $palette->first()->toString();
         } catch (\Exception $e) {
             throw new RuntimeException(\sprintf('Unable to get dominant color of "%s": %s.', $asset['_path'], $e->getMessage()));
         }
@@ -212,9 +488,9 @@ class Image
     public static function getBackgroundColor(Asset $asset): string
     {
         try {
-            $image = self::manager()->read(self::resize($asset, 100, 50));
+            $image = self::manager()->decodeBinary(self::resize($asset, 100, 50));
 
-            return $image->pickColor(0, 0)->toString();
+            return $image->colorAt(0, 0)->toString();
         } catch (\Exception $e) {
             throw new RuntimeException(\sprintf('Unable to get background color of "%s": %s.', $asset['path'], $e->getMessage()));
         }
@@ -228,7 +504,7 @@ class Image
     public static function getLqip(Asset $asset): string
     {
         try {
-            $image = self::manager()->read(self::resize($asset, 100, 50));
+            $image = self::manager()->decodeBinary(self::resize($asset, 100, 50, rmAnimation: true));
 
             return (string) $image->blur(50)->encode()->toDataUri();
         } catch (\Exception $e) {
@@ -242,9 +518,11 @@ class Image
     public static function buildDarkAssetPath(string $assetPath, string $darkSuffix): string
     {
         $pathInfo = pathinfo($assetPath);
+        // on Windows, `dirname` of a root file is "\"
+        $dirname = str_replace('\\', '/', $pathInfo['dirname'] ?? '');
         $extension = empty($pathInfo['extension']) ? '' : '.' . $pathInfo['extension'];
 
-        return rtrim($pathInfo['dirname'], '/') . '/' . $pathInfo['filename'] . $darkSuffix . $extension;
+        return rtrim($dirname, '/') . '/' . $pathInfo['filename'] . $darkSuffix . $extension;
     }
 
     /**
@@ -276,7 +554,7 @@ class Image
      *   sizes?: ?string,
      *   width1x?: ?int,
      *   assetOptions?: array<mixed>,
-     *   fallbackAsUrl?: bool
+     *   url?: ?callable
      * } $options
      *
      * @return array<array<string, string>>
@@ -298,7 +576,7 @@ class Image
         $sizes = $options['sizes'] ?? null;
         $width1x = $options['width1x'] ?? null;
         $assetOptions = $options['assetOptions'] ?? [];
-        $fallbackAsUrl = (bool) ($options['fallbackAsUrl'] ?? false);
+        $url = $options['url'] ?? null;
         $darkAssetPath = self::buildDarkAssetPath($asset['_path'], $darkSuffix);
         $assetDark = new Asset($builder, $darkAssetPath, array_merge(['ignore_missing' => true], $assetOptions));
         if ($assetDark->isMissing()) {
@@ -315,10 +593,10 @@ class Image
             try {
                 $assetDarkConverted = $assetDark->convert($format);
                 if ($responsive === true || $responsive === 'width') {
-                    $darkSrcset = !empty($widths) ? self::buildHtmlSrcsetW($assetDarkConverted, $widths) : '';
+                    $darkSrcset = !empty($widths) ? self::buildHtmlSrcsetW($assetDarkConverted, $widths, false, $url) : '';
                 } elseif ($responsive === 'density') {
                     $darkSrcset = !empty($densities)
-                        ? self::buildHtmlSrcsetX($assetDarkConverted, $width1x ?? $assetDark['width'], $densities)
+                        ? self::buildHtmlSrcsetX($assetDarkConverted, $width1x ?? $assetDark['width'], $densities, $url)
                         : '';
                 } else {
                     $darkSrcset = '';
@@ -326,7 +604,7 @@ class Image
                 $darkSourceAttributes = [
                     'media'  => '(prefers-color-scheme: dark)',
                     'type'   => "image/$format",
-                    'srcset' => empty($darkSrcset) ? (string) $assetDarkConverted : $darkSrcset,
+                    'srcset' => empty($darkSrcset) ? self::url($assetDarkConverted, $url) : $darkSrcset,
                 ];
                 if (!empty($sizes)) {
                     $darkSourceAttributes['sizes'] = $sizes;
@@ -336,10 +614,10 @@ class Image
                 $builder->getLogger()->warning($e->getMessage());
             }
         }
-        $darkFallbackSrcset = $fallbackAsUrl ? (string) new Url($builder, $assetDark) : (string) $assetDark;
+        $darkFallbackSrcset = self::url($assetDark, $url);
         if (($responsive === true || $responsive === 'width') && !empty($widths)) {
             try {
-                $darkResponsiveSrcset = self::buildHtmlSrcsetW($assetDark, $widths);
+                $darkResponsiveSrcset = self::buildHtmlSrcsetW($assetDark, $widths, false, $url);
                 if (!empty($darkResponsiveSrcset)) {
                     $darkFallbackSrcset = $darkResponsiveSrcset;
                 }
@@ -465,12 +743,13 @@ class Image
      * Build the `srcset` HTML attribute for responsive images, based on widths.
      * e.g.: `srcset="/img-480.jpg 480w, /img-800.jpg 800w"`.
      *
-     * @param array $widths   An array of widths to include in the `srcset`
-     * @param bool  $notEmpty If true the source image is always added to the `srcset`
+     * @param array<int>    $widths   An array of widths to include in the `srcset`
+     * @param bool          $notEmpty If true the source image is always added to the `srcset`
+     * @param callable|null $url      Optional URL builder, called with each Asset (e.g.: to handle base URL)
      *
      * @throws RuntimeException
      */
-    public static function buildHtmlSrcsetW(Asset $asset, array $widths, $notEmpty = false): string
+    public static function buildHtmlSrcsetW(Asset $asset, array $widths, $notEmpty = false, ?callable $url = null): string
     {
         if (!self::isImage($asset)) {
             throw new RuntimeException(\sprintf('Unable to build "srcset" of "%s": it\'s not an image file.', $asset['path']));
@@ -485,12 +764,12 @@ class Image
                 continue;
             }
             $img = $asset->resize($width);
-            array_unshift($srcset, \sprintf('%s %sw', (string) $img, $width));
+            array_unshift($srcset, \sprintf('%s %sw', self::url($img, $url), $width));
             $widthMax = $width;
         }
         // adds source image
-        if ((!empty($srcset) || $notEmpty) && ($asset['width'] < max($widths) && $asset['width'] != $widthMax)) {
-            $srcset[] = \sprintf('%s %sw', (string) $asset, $asset['width']);
+        if ((!empty($srcset) || $notEmpty) && ($widths !== [] && $asset['width'] < max($widths) && $asset['width'] != $widthMax)) {
+            $srcset[] = \sprintf('%s %sw', self::url($asset, $url), $asset['width']);
         }
 
         return implode(', ', $srcset);
@@ -498,22 +777,27 @@ class Image
 
     /**
      * Alias of buildHtmlSrcsetW for backward compatibility.
+     *
+     * @param array<int>    $widths   An array of widths to include in the `srcset`
+     * @param bool          $notEmpty If true the source image is always added to the `srcset`
+     * @param callable|null $url      Optional URL builder, called with each Asset (e.g.: to handle base URL)
      */
-    public static function buildHtmlSrcset(Asset $asset, array $widths, $notEmpty = false): string
+    public static function buildHtmlSrcset(Asset $asset, array $widths, $notEmpty = false, ?callable $url = null): string
     {
-        return self::buildHtmlSrcsetW($asset, $widths, $notEmpty);
+        return self::buildHtmlSrcsetW($asset, $widths, $notEmpty, $url);
     }
 
     /**
      * Build the `srcset` HTML attribute for responsive images, based on pixel ratios.
      * e.g.: `srcset="/img-1x.jpg 1.0x, /img-2x.jpg 2.0x"`.
      *
-     * @param int   $width1x  The width of the 1x image
-     * @param array $ratios   An array of pixel ratios to include in the `srcset`
+     * @param int              $width1x The width of the 1x image
+     * @param array<int|float> $ratios  An array of pixel ratios to include in the `srcset`
+     * @param callable|null    $url     Optional URL builder, called with each Asset (e.g.: to handle base URL)
      *
      * @throws RuntimeException
      */
-    public static function buildHtmlSrcsetX(Asset $asset, int $width1x, array $ratios): string
+    public static function buildHtmlSrcsetX(Asset $asset, int $width1x, array $ratios, ?callable $url = null): string
     {
         if (!self::isImage($asset)) {
             throw new RuntimeException(\sprintf('Unable to build "srcset" of "%s": it\'s not an image file.', $asset['path']));
@@ -531,16 +815,26 @@ class Image
                 continue;
             }
             $img = $asset->resize($width);
-            array_unshift($srcset, \sprintf('%s %dx', (string) $img, $ratio));
+            array_unshift($srcset, \sprintf('%s %dx', self::url($img, $url), $ratio));
         }
         // adds 1x image
-        array_unshift($srcset, \sprintf('%s 1x', (string) $asset->resize($width1x)));
+        array_unshift($srcset, \sprintf('%s 1x', self::url($asset->resize($width1x), $url)));
 
         return implode(', ', $srcset);
     }
 
     /**
+     * Returns the URL of an Asset, built with the URL builder if provided.
+     */
+    private static function url(Asset $asset, ?callable $url = null): string
+    {
+        return $url !== null ? (string) $url($asset) : (string) $asset;
+    }
+
+    /**
      * Returns the value from the `$sizes` array if the class exists, otherwise returns the default size.
+     *
+     * @param array<string, string> $sizes Sizes indexed by class name (and 'default')
      */
     public static function getHtmlSizes(string $class, array $sizes = []): string
     {

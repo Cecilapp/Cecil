@@ -24,6 +24,10 @@ class ProgressConsoleLogger extends ConsoleLogger
     private ProgressBar $progressBar;
     private int $lastAdvancedStep = 0;
 
+    /**
+     * @param array<string, int>    $verbosityLevelMap
+     * @param array<string, string> $formatLevelMap
+     */
     public function __construct(OutputInterface $output, ProgressBar $progressBar, array $verbosityLevelMap = [], array $formatLevelMap = [])
     {
         parent::__construct($output, $verbosityLevelMap, $formatLevelMap);

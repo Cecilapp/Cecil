@@ -39,7 +39,7 @@ abstract class AbstractOptimize extends AbstractStep
      */
     public function init(array $options): void
     {
-        if ($options['dry-run']) {
+        if ($options['dry-run'] ?? false) {
             return;
         }
         if (!$this->config->isEnabled(\sprintf('optimize.%s', $this->type))) {
@@ -106,6 +106,10 @@ abstract class AbstractOptimize extends AbstractStep
                 $this->builder->getLogger()->info($message, ['progress' => [$count, $max]]);
             }
             $processed = $this->decode($cache->get($cacheKey));
+            if ($processed === null) {
+                $this->builder->getLogger()->error(\sprintf('Unable to decode optimized content of "%s".', $file->getRelativePathname()));
+                continue;
+            }
             Util\File::getFS()->dumpFile($file->getPathname(), $processed);
         }
         if ($optimized == 0) {

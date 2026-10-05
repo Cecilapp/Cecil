@@ -44,6 +44,7 @@ class UtilTranslationsExtract extends AbstractCommand
     private TranslationReader $reader;
     private TwigExtractor $extractor;
 
+    #[\Override]
     protected function configure(): void
     {
         $this
@@ -79,6 +80,7 @@ EOF
             );
     }
 
+    #[\Override]
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $config = $this->getBuilder()->getConfig();
@@ -158,13 +160,19 @@ EOF
         $this->writer->addDumper('po', new PoFileDumper());
     }
 
-    private function initTwigExtractor($layoutsPath = []): void
+    /**
+     * @param string|array<int, string> $layoutsPath
+     */
+    private function initTwigExtractor(string|array $layoutsPath = []): void
     {
         $twig = (new \Cecil\Renderer\Twig($this->getBuilder(), $layoutsPath))->getTwig();
         $this->extractor = new TwigExtractor($twig);
     }
 
-    private function extractMessages(string $locale, $layoutsPath, string $prefix): MessageCatalogue
+    /**
+     * @param string|array<int, string> $layoutsPath
+     */
+    private function extractMessages(string $locale, string|array $layoutsPath, string $prefix): MessageCatalogue
     {
         $extractedCatalogue = new MessageCatalogue($locale);
         $this->extractor->setPrefix($prefix);
@@ -188,6 +196,9 @@ EOF
 
     private function saveDump(MessageCatalogueInterface $messageCatalogue, string $format, string $translationsPath): void
     {
+        if (!$messageCatalogue instanceof MessageCatalogue) {
+            throw new RuntimeException(\sprintf('Unable to write catalogue of type "%s".', $messageCatalogue::class));
+        }
         $this->io->writeln('Writing file...');
         $this->writer->write($messageCatalogue, $format, ['path' => $translationsPath]);
         $this->io->success('Translation file have been successfully updated.');

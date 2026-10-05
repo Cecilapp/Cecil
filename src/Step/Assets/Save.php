@@ -46,7 +46,7 @@ class Save extends AbstractStep
         // last build step: should clear cache?
         $this->clearCacheIfDisabled();
 
-        if ($options['dry-run']) {
+        if ($options['dry-run'] ?? false) {
             return;
         }
 
@@ -73,7 +73,14 @@ class Save extends AbstractStep
                     break;
                 }
                 $count++;
-                Util\File::getFS()->copy($this->cache->getContentFile($path), Util::joinFile($this->config->getOutputPath(), $path), false);
+                $target = Util::joinFile($this->config->getOutputPath(), $path);
+                // if file already exists in output (i.e.: copied from `static/`)
+                if (Util\File::getFS()->exists($target)) {
+                    $message = \sprintf('Asset "%s" skipped (file already exists in output)', $path);
+                    $this->builder->getLogger()->info($message, ['progress' => [$count, $total]]);
+                    continue;
+                }
+                Util\File::getFS()->copy($this->cache->getContentFile($path), $target);
                 $message = \sprintf('Asset "%s" saved', $path);
                 $this->builder->getLogger()->info($message, ['progress' => [$count, $total]]);
             }

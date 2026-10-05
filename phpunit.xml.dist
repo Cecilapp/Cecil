@@ -18,6 +18,7 @@
   </source>
   <php>
     <ini name="error_reporting" value="-1"/>
+    <ini name="memory_limit" value="1G"/>
     <ini name="date.timezone" value="Europe/Paris"/>
   </php>
   <testsuites>
@@ -31,5 +32,5 @@
       <file>./tests/IntegrationCliTests.php</file>
     </testsuite>
   </testsuites>
-  <coverage includeUncoveredFiles="false"></coverage>
+  <coverage includeUncoveredFiles="true"></coverage>
 </phpunit>

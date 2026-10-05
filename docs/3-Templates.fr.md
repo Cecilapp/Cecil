@@ -1,8 +1,8 @@
 <!--
 title: Templates
-description: "Travailler avec les layouts, les templates et les composants."
+description: "Travaillez avec les layouts, templates et composants Twig : organisation des fichiers, règles de recherche, variables, fonctions, tris, filtres, localisation, cache et extensions personnalisées."
 date: 2026-05-26
-updated: 2026-07-10
+updated: 2026-10-03
 slug: templates
 -->
 # Templates
@@ -73,9 +73,12 @@ layouts/blog/list.rss.twig   # `section` est "blog" et `format` est "rss"
 ├─ ...
 ├─ layouts
 |  ├─ index.html.twig      # Utilisé par le type "homepage"
-|  ├─ list.html.twig       # Utilisé par les types "homepage", "section" et "term"
-|  ├─ list.rss.twig        # Utilisé par les types "homepage", "section" et "term", pour le format de sortie RSS
+|  ├─ list.html.twig       # Utilisé par les types "homepage" et "section"
+|  ├─ list.rss.twig        # Utilisé par les types "homepage" et "section", pour le format de sortie RSS
 |  ├─ page.html.twig       # Utilisé par le type "page"
+|  ├─ taxonomy
+|  |  ├─ tags.html.twig    # Utilisé par le type "vocabulary" de `tags` (liste des termes)
+|  |  └─ tag.html.twig     # Utilisé par le type "term" de `tags` (liste des pages)
 |  ├─ my-layout.html.twig  # Utilisé par les pages avec `layout: my-layout` dans le front-matter
 |  ├─ ...
 |  └─ partials
@@ -87,7 +90,7 @@ layouts/blog/list.rss.twig   # `section` est "blog" et `format` est "rss"
 
 ### Templates intégrés
 
-Cecil est livré avec un ensemble de [templates intégrés](https://github.com/Cecilapp/Cecil/tree/master/resources/layouts).
+Cecil est livré avec un ensemble de [templates intégrés](https://github.com/Cecilapp/Cecil/tree/main/resources/layouts).
 
 :::tip
 Si vous avez besoin de modifier des templates intégrés, vous pouvez facilement les extraire via la commande suivante : ils seront copiés dans le répertoire `layouts` de votre site.
@@ -150,11 +153,19 @@ Toutes les règles sont détaillées ci-dessous, pour chaque type de page, par o
 
 ### Type _term_
 
-1. `taxonomy/<term>.<format>.twig`
+1. `taxonomy/<plural>/<term>.<format>.twig`
 2. `taxonomy/<singular>.<format>.twig`
 3. `term.<format>.twig`
 4. `_default/term.<format>.twig`
 5. `_default/list.<format>.twig`
+
+:::important
+Le template du **vocabulaire** est nommé d’après le **pluriel** (ex. : `taxonomy/categories.html.twig` pour `/categories/`), tandis que le template d’un **terme** est nommé d’après le **singulier** (ex. : `taxonomy/category.html.twig` pour `/categories/data-sovereignty/`).
+:::
+
+:::tip
+`<term>` est le nom du terme « slugifié » : un template dédié au terme « Data Sovereignty » du vocabulaire `categories` est `taxonomy/categories/data-sovereignty.html.twig`.
+:::
 
 :::info
 La plupart de ces layouts sont disponibles par défaut, voir [templates intégrés](#templates-intégrés).
@@ -171,16 +182,16 @@ Vous pouvez utiliser des variables de différentes portées : [`site`](#site), 
 
 La variable `site` contient des variables intégrées **et** celles définies dans la [configuration](4-Configuration.md).
 
-| Variables | Descriptif |
-| --------------------- | ------------------------------------------------------------ |
-| `site.pages` | Collection de toutes les pages, dans la langue actuelle.            |
-| `site.allpages` | Collection de toutes les pages, dans toutes les langues.                   |
-| `site.page(id)` | Une page avec l'ID donné.                                    |
-| `site.taxonomies` | Recueil de vocabulaires.                                  |
-| `site.home` | ID de la page d'accueil.                                         |
-| `site.time` | Actuel [_Timestamp_](https://wikipedia.org/wiki/Unix_time). |
-| `site.debug` | État du mode débogage (`true` ou `false`).                       |
-| `site.build` | ID de build actuel.                                            |
+| Variables         | Descriptif                                                  |
+| ----------------- | ----------------------------------------------------------- |
+| `site.pages`      | Collection de toutes les pages, dans la langue actuelle.    |
+| `site.allpages`   | Collection de toutes les pages, dans toutes les langues.    |
+| `site.page(id)`   | Une page avec l'ID donné.                                   |
+| `site.taxonomies` | Recueil de vocabulaires.                                    |
+| `site.home`       | ID de la page d'accueil.                                    |
+| `site.time`       | Actuel [_Timestamp_](https://wikipedia.org/wiki/Unix_time). |
+| `site.debug`      | État du mode débogage (`true` ou `false`).                  |
+| `site.build`      | ID de build actuel.                                         |
 
 _Exemple:_
 
@@ -222,10 +233,10 @@ Exemple:
 
 Bouclez sur `site.menus.<menu>` pour obtenir chaque entrée de la collection `<menu>` (par exemple : `main`).
 
-| Variables | Descriptif |
-| ---------------- | ------------------------------------------- |
-| `<entry>.name` | Nom de l'entrée.                                 |
-| `<entry>.url` | URL d'entrée.                                  |
+| Variables        | Descriptif                                             |
+| ---------------- | ------------------------------------------------------ |
+| `<entry>.name`   | Nom de l'entrée.                                       |
+| `<entry>.url`    | URL d'entrée.                                          |
 | `<entry>.weight` | Poids d'entrée (utile pour trier les entrées de menu). |
 
 _Exemple:_
@@ -244,12 +255,12 @@ _Exemple:_
 
 Informations sur la langue actuelle.
 
-| Variables | Descriptif |
-| ---------------------- | ------------------------------------------------------------ |
-| `site.language` | Code de langue (ex. : `en`).                                  |
-| `site.language.name` | Nom de la langue (par exemple : `English`).                             |
+| Variables              | Descriptif                                                                  |
+| ---------------------- | --------------------------------------------------------------------------- |
+| `site.language`        | Code de langue (ex. : `en`).                                                |
+| `site.language.name`   | Nom de la langue (par exemple : `English`).                                 |
 | `site.language.locale` | Langue [code local](configuration/locale-codes.md) (par exemple : `en_US`). |
-| `site.language.weight` | Position de la langue dans la liste `languages`.                   |
+| `site.language.weight` | Position de la langue dans la liste `languages`.                            |
 
 :::tip
 Vous pouvez récupérer `name`, `locale` et `weight` d'un langage spécifique en passant son code en paramètre.
@@ -282,26 +293,26 @@ _Exemples :_
 
 - `data/authors.yml` : `site.data.authors`
 - `data/authors.fr.yml` : `site.data.authors` (si `site.language` = "fr")
-- `data/galleries/gallery-1.json` : `site.data.galleries.gallery-1`
+- `data/galleries/gallery-1.json` : `site.data.galleries['gallery-1']`
 
 ### page
 
 La variable `page` contient les variables intégrées d'une page **et** celles définies dans le [avant-plan](2-Content.md#front-matter).
 
-| Variables | Descriptif | Exemple |
-| --------------------- | ------------------------------------------------------ | -------------------------- |
-| `page.id` | Identifiant unique.                                     | `blog/post-1` |
-| `page.title` | Nom du fichier (sans extension).                         | `Post 1` |
-| `page.date` | Date de création du fichier.                                    | _DateHeure_ |
-| `page.body` | Corps du fichier.                                             | _Marquage_ |
-| `page.content` | Corps du fichier converti en HTML.                           | _HTML_ |
-| `page.section` | Dossier racine du fichier (_slugified_).                        | `blog` |
-| `page.path` | Chemin du fichier (_slugified_).                               | `blog/post-1` |
-| `page.slug` | Nom du fichier (_slugified_).                               | `post-1` |
-| `page.filepath` | Chemin du système de fichiers.                                      | `Blog/Post 1.md` |
-| `page.type` | `homepage`, `page`, `section`, `vocabulary` ou `term`. | `page` |
-| `page.pages` | Collection de toutes les sous-pages.                           | _Collection_ |
-| `page.translations` | Collection de pages traduites.                        | _Collection_ |
+| Variables           | Descriptif                                             | Exemple          |
+| ------------------- | ------------------------------------------------------ | ---------------- |
+| `page.id`           | Identifiant unique.                                    | `blog/post-1`    |
+| `page.title`        | Nom du fichier (sans extension).                       | `Post 1`         |
+| `page.date`         | Date de création du fichier.                           | _DateHeure_      |
+| `page.body`         | Corps du fichier.                                      | _Marquage_       |
+| `page.content`      | Corps du fichier converti en HTML.                     | _HTML_           |
+| `page.section`      | Dossier racine du fichier (_slugified_).               | `blog`           |
+| `page.path`         | Chemin du fichier (_slugified_).                       | `blog/post-1`    |
+| `page.slug`         | Nom du fichier (_slugified_).                          | `post-1`         |
+| `page.filepath`     | Chemin du système de fichiers.                         | `Blog/Post 1.md` |
+| `page.type`         | `homepage`, `page`, `section`, `vocabulary` ou `term`. | `page`           |
+| `page.pages`        | Collection de toutes les sous-pages.                   | _Collection_     |
+| `page.translations` | Collection de pages traduites.                         | _Collection_     |
 
 :::important
 Utilisez la méthode `showable` sur la collection de pages pour renvoyer uniquement les pages publiées et non les pages _virtuelles/redirectes/exclues_.
@@ -316,14 +327,80 @@ _Exemple:_
 
 :::
 
+#### Sections imbriquées
+
+Dans un contexte de [sections imbriquées](2-Content.md#sub-section), les propriétés `page.parent`, `page.ancestors`, `page.sections` et `page.toplevel` facilitent la construction de la navigation.
+
+| Variables        | Descriptif                                                      | Exemple      |
+| ---------------- | --------------------------------------------------------------- | ------------ |
+| `page.parent`    | Page de la _section_ parente (`null` si aucune).                | _Page_       |
+| `page.ancestors` | Collection des _sections_ ancêtres (la plus proche en premier). | _Collection_ |
+| `page.sections`  | Collection des _sections_ descendantes immédiates.              | _Collection_ |
+| `page.toplevel`  | `true` si la page est une _section_ de premier niveau.          | _Boolean_    |
+
+_Fil d'Ariane (de la page d'accueil à la page courante) :_
+
+```twig
+<nav aria-label="breadcrumb">
+  <ul>
+    <li><a href="{{ url(site.home) }}">{{ site.title }}</a></li>
+    {% for section in page.ancestors|reverse %}
+    <li><a href="{{ url(section) }}">{{ section.title }}</a></li>
+    {% endfor %}
+    {% if page.id != site.home %}
+    <li><a href="{{ url(page) }}" aria-current="page">{{ page.title }}</a></li>
+    {% endif %}
+  </ul>
+</nav>
+```
+
+:::tip
+Un partial [`breadcrumb.html.twig`](https://github.com/Cecilapp/Cecil/blob/main/resources/layouts/partials/breadcrumb.html.twig) prêt à l'emploi est disponible :
+
+```twig
+{{ include('partials/breadcrumb.html.twig') }}
+```
+
+:::
+
+_Menu des sous-sections (sections descendantes immédiates de la section courante) :_
+
+```twig
+{% if page.sections|length %}
+<ul>
+  {% for section in page.sections|sort_by_title %}
+  <li><a href="{{ url(section) }}">{{ section.title }}</a></li>
+  {% endfor %}
+</ul>
+{% endif %}
+```
+
+_Navigation principale limitée aux sections de premier niveau (depuis n'importe quelle page) :_
+
+```twig
+<nav>
+  {% for section in site.page(site.home).sections|sort_by_title %}
+  <a href="{{ url(section) }}">{{ section.title }}</a>
+  {% endfor %}
+</nav>
+```
+
+_Lien vers la section parente :_
+
+```twig
+{% if page.parent %}
+<a href="{{ url(page.parent) }}">← {{ page.parent.title }}</a>
+{% endif %}
+```
+
 #### page.<prev/next>
 
 Navigation entre les pages d'une même _Section_.
 
-| Variables | Descriptif | Exemple |
-| --------------------- | ------------------------------------------------------ | -------------------------- |
-| `page.prev` | Page précédente.                                         | _Page_ |
-| `page.next` | Page suivante.                                             | _Page_ |
+| Variables   | Descriptif       | Exemple |
+| ----------- | ---------------- | ------- |
+| `page.prev` | Page précédente. | _Page_  |
+| `page.next` | Page suivante.   | _Page_  |
 
 _Exemple:_
 
@@ -335,18 +412,18 @@ _Exemple:_
 
 _Paginator_ vous aide à créer une navigation pour les pages de la liste : page d'accueil, sections et taxonomies.
 
-| Variables | Descriptif |
-| ---------------------------- | ----------------------------------- |
-| `page.paginator.pages` | Collection de pages.                   |
-| `page.paginator.pages_total` | Nombre total de pages.              |
-| `page.paginator.count` | Nombre de pages du paginateur.        |
-| `page.paginator.current` | Index de position de la page actuelle. |
-| `page.paginator.links.first` | ID de page de la première page.          |
-| `page.paginator.links.prev` | ID de page de la page précédente.       |
-| `page.paginator.links.self` | ID de page de la page actuelle.        |
-| `page.paginator.links.next` | ID de page de la page suivante.           |
-| `page.paginator.links.last` | ID de page de la dernière page.           |
-| `page.paginator.links.path` | ID de page sans l'index de position. |
+| Variables                    | Descriptif                             |
+| ---------------------------- | -------------------------------------- |
+| `page.paginator.pages`       | Collection de pages.                   |
+| `page.paginator.pages_total` | Nombre total de pages.                 |
+| `page.paginator.count`       | Nombre de pages du paginateur.         |
+| `page.paginator.current`     | Index de position de la page actuelle. |
+| `page.paginator.links.first` | ID de page de la première page.        |
+| `page.paginator.links.prev`  | ID de page de la page précédente.      |
+| `page.paginator.links.self`  | ID de page de la page actuelle.        |
+| `page.paginator.links.next`  | ID de page de la page suivante.        |
+| `page.paginator.links.last`  | ID de page de la dernière page.        |
+| `page.paginator.links.path`  | ID de page sans l'index de position.   |
 
 :::important
 Étant donné que les entrées de liens sont des ID de page, vous devez utiliser la fonction `url()` pour créer des liens fonctionnels.
@@ -394,25 +471,96 @@ Variables disponibles dans les templates _vocabulary_ et _term_.
 
 ##### Vocabulaire
 
-| Variables | Descriptif |
-| --------------- | --------------------------------- |
-| `page.plural` | Nom de vocabulaire au pluriel.   |
+Page `/<plural>/` (ex. : `/categories/`).
+
+| Variables       | Descriptif                       |
+| --------------- | -------------------------------- |
+| `page.plural`   | Nom de vocabulaire au pluriel.   |
 | `page.singular` | Nom de vocabulaire au singulier. |
-| `page.terms` | Liste de termes (_Collection_).     |
+| `page.terms`    | Liste de termes (_Collection_).  |
+
+Chaque terme de `page.terms` fournit `term.id` (identifiant du terme, ex. : `categories/php`), `term.name` (nom du terme, ex. : `PHP`) et le nombre de ses pages avec `term|length`.
 
 ##### Terme
 
-| Variables | Descriptif |
-| ------------ | ------------------------------------------ |
-| `page.term` | Identifiant du terme.                                   |
-| `page.pages` | Liste des pages dans ce terme (_Collection_). |
+Page `/<plural>/<term>/` (ex. : `/categories/php/`).
+
+| Variables       | Descriptif                                                       |
+| --------------- | ---------------------------------------------------------------- |
+| `page.title`    | Nom du terme.                                                    |
+| `page.term`     | Identifiant du terme (ex. : `categories/php`).                   |
+| `page.plural`   | Nom de vocabulaire au pluriel.                                   |
+| `page.singular` | Nom de vocabulaire au singulier.                                 |
+| `page.pages`    | Liste des pages dans ce terme, triées par date (_Collection_).   |
+
+##### Exemple de taxonomie
+
+Configuration :
+
+```yaml
+taxonomies:
+  categories: category
+```
+
+Front matter d’une page :
+
+```yaml
+---
+categories: ["Data Sovereignty"]
+---
+```
+
+Liste des termes (`/categories/`), dans `layouts/taxonomy/categories.html.twig` :
+
+```twig
+{% extends 'page.html.twig' %}
+
+{% block content %}
+  <h1>{{ page.title }}</h1>
+  <ul>
+  {% for term in page.terms %}
+    <li><a href="{{ url(term.id) }}">{{ term.name }}</a> ({{ term|length }})</li>
+  {% endfor %}
+  </ul>
+{% endblock %}
+```
+
+Liste des pages d’un terme (`/categories/data-sovereignty/`), dans `layouts/taxonomy/category.html.twig` :
+
+```twig
+{% extends 'page.html.twig' %}
+
+{% block content %}
+  <h1>{{ page.title }}</h1>
+  {% for p in page.paginator.pages ?? page.pages %}
+    <article>
+      <h2><a href="{{ url(p) }}">{{ p.title }}</a></h2>
+    </article>
+  {% endfor %}
+  <a href="{{ url(page.plural) }}">Toutes les {{ page.plural }}</a>
+{% endblock %}
+```
+
+Liens vers les termes de la page courante, dans un template de page :
+
+```twig
+{% for category in page.categories ?? [] %}
+  <a href="{{ url('categories/' ~ category) }}">{{ category }}</a>
+{% endfor %}
+```
+
+:::tip
+La fonction [`url()`](#url) « slugifie » la chaîne fournie pour trouver la page correspondante : `url('categories/Data Sovereignty')` retourne `/categories/data-sovereignty/`.
+
+Vous pouvez aussi utiliser le partial intégré `{{ include('partials/terms-list.html.twig', {vocabulary: 'categories'}) }}`.
+:::
 
 ### cecil
 
-| Variables | Descriptif |
-| ----------------- | ---------------------------------------------------- |
-| `cecil.url` | URL du site Cecil.                            |
-| `cecil.version` | Version actuelle de Cecil.                               |
+| Variables         | Descriptif                                               |
+| ----------------- | -------------------------------------------------------- |
+| `cecil.url`       | URL du site Cecil.                                       |
+| `cecil.version`   | Version actuelle de Cecil.                               |
 | `cecil.poweredby` | Imprimez `Cecil v%s`, avec `%s` est la version actuelle. |
 
 ## Fonctions
@@ -427,11 +575,11 @@ Crée une URL valide pour une page, une entrée de menu, un actif, un ID de page
 {{ url(value, {options}) }}
 ```
 
-| Options | Descriptif | Tapez | Par défaut |
-| --------- | -------------------------------------------------------------------------- | ------- | ------- |
-| canonique | Préfixez l'URL avec [`baseurl`](4-Configuration.md#baseurl) ou utilisez [`canonical.url`](4-Configuration.md#metatags-options) s'il existe. | booléen | `false` |
-| formats | Définit la page [format de sortie](4-Configuration.md#output-formats) (par exemple : `json`).   | chaîne | `html` |
-| langue | Définit la page [langue](4-Configuration.md#language) (ex. : `fr`). | chaîne | nul |
+| Options   | Descriptif                                                                                                                                  | Tapez   | Par défaut |
+| --------- | ------------------------------------------------------------------------------------------------------------------------------------------- | ------- | ---------- |
+| canonique | Préfixez l'URL avec [`baseurl`](4-Configuration.md#baseurl) ou utilisez [`canonical.url`](4-Configuration.md#metatags-options) s'il existe. | booléen | `false`    |
+| formats   | Définit la page [format de sortie](4-Configuration.md#output-formats) (par exemple : `json`).                                               | chaîne  | `html`     |
+| langue    | Définit la page [langue](4-Configuration.md#language) (ex. : `fr`).                                                                         | chaîne  | nul        |
 
 _Exemples :_
 
@@ -465,6 +613,10 @@ Pour plus de commodité, la fonction `url` est également disponible sous forme 
 
 :::
 
+:::tip
+Lorsque la valeur est une chaîne, `url()` la « slugifie » pour trouver un ID de page correspondant (ex. : `url('tags/My Tag')` retourne l’URL de la page `tags/my-tag`). Si aucune page ne correspond, la chaîne est conservée comme chemin, avec les caractères invalides (ex. : espaces) encodés.
+:::
+
 ### asset
 
 Un actif est une ressource utilisable dans des templates, comme CSS, JavaScript, image, audio, vidéo, etc.
@@ -477,15 +629,15 @@ Les fichiers de ressources doivent être stockés dans le répertoire `assets/` 
 {{ asset(path, {options}) }}
 ```
 
-| Options | Descriptif | Tapez | Par défaut |
-| -------------- | ---------------------------------------------------------------------------------------- | ------- | ---------------------------- |
-| nom de fichier | Enregistrez le bundle sous un nom de fichier personnalisé.                                                       | chaîne | `styles.css` ou `scripts.js` |
-| ignore_missing | N'arrêtez pas la construction si le fichier n'est pas trouvé.                                                  | booléen | `false` |
-| empreinte digitale | Ajoutez un hachage de contenu au nom du fichier.                                                       | booléen | `true` |
-| réduire | Compressez CSS ou JavaScript.                                                              | booléen | `true` |
-| optimiser | Compresser l'image.                                                                          | booléen | `false` |
-| repli | Chargez un actif local si le fichier distant est introuvable.                                          | chaîne | `` |
-| agent utilisateur | Clé de l'agent utilisateur (Voir [Configuration des actifs](4-Configuration.md#assets-remote-useragent)). | chaîne | `default` |
+| Options            | Descriptif                                                                                                | Tapez   | Par défaut                   |
+| ------------------ | --------------------------------------------------------------------------------------------------------- | ------- | ---------------------------- |
+| nom de fichier     | Enregistrez le bundle sous un nom de fichier personnalisé.                                                | chaîne  | `styles.css` ou `scripts.js` |
+| ignore_missing     | N'arrêtez pas la construction si le fichier n'est pas trouvé.                                             | booléen | `false`                      |
+| empreinte digitale | Ajoutez un hachage de contenu au nom du fichier.                                                          | booléen | `true`                       |
+| réduire            | Compressez CSS ou JavaScript.                                                                             | booléen | `true`                       |
+| optimiser          | Compresser l'image.                                                                                       | booléen | `false`                      |
+| repli              | Chargez un actif local si le fichier distant est introuvable.                                             | chaîne  | ``                           |
+| agent utilisateur  | Clé de l'agent utilisateur (Voir [Configuration des actifs](4-Configuration.md#assets-remote-useragent)). | chaîne  | `default`                    |
 
 :::tip
 Vous pouvez utiliser [filters](#filters) pour manipuler les actifs.
@@ -607,17 +759,17 @@ Crée un élément HTML à partir d'un actif (ou d'un tableau d'actifs avec des 
 {{ video(asset) }}
 ```
 
-| Options | Descriptif | Tapez |
-| ---------- | ----------------------------------------------- | ----- |
-| attributs | Ajoute le couple `name="value"` à l'élément HTML. | tableau |
-| options | `{preload: boolean}` : préchargements.<br>Pour les images :<br>`{formats: array}` : ajoute des formats alternatifs.<br>`{responsive: bool|string}` : ajoute des images réactives (basées sur `width` ou des pixels `density`). | tableau |
+| Options   | Descriptif                                                                                                                                                                                                                     | Tapez   |
+| --------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ------- |
+| attributs | Ajoute le couple `name="value"` à l'élément HTML.                                                                                                                                                                              | tableau |
+| options   | `{preload: boolean}` : préchargements.<br>Pour les images :<br>`{formats: array}` : ajoute des formats alternatifs.<br>`{responsive: bool|string}` : ajoute des images réactives (basées sur `width` ou des pixels `density`).<br>`{placeholder: string}` : remplit l'arrière-plan de l'image avant son chargement (`color` ou `lqip`). | tableau |
 
 :::warning
 Depuis la version ++8.42.0++, la fonction `html` remplace le filtre `html` obsolète.
 :::
 
 :::tip
-Vous pouvez définir un comportement global par défaut des options d'images (`formats` et `responsive`) via la [configuration des layouts](4-Configuration.md#layouts-images).
+Vous pouvez définir un comportement global par défaut des options d'images (`formats`, `responsive` et `placeholder`) via la [configuration des layouts](4-Configuration.md#layouts-images).
 
 Lorsque [`layouts.images.dark_suffix`](4-Configuration.md#layouts-images) est configuré (par exemple `.dark`), Cecil recherche automatiquement une variante sombre de chaque image (par exemple `photo.dark.jpg` aux côtés de `photo.jpg`) et génère un élément `<picture>` avec un `<source media="(prefers-color-scheme: dark)">`.
 :::
@@ -642,6 +794,8 @@ _Exemples :_
 {{ html(asset('image.jpg'), {alt: 'Description', loading: 'lazy'}, {responsive: true, formats: ['avif', 'webp']}) }}
 {# image with responsive pixels density images #}
 {{ html(asset('image.jpg'), options={responsive: 'density'}, attributes={width: 256}) }}
+{# image with a Low-Quality Image Placeholder #}
+{{ html(asset('image.jpg'), {alt: 'Description', loading: 'lazy'}, {placeholder: 'lqip'}) }}
 {# Audio #}
 {{ html(asset('audio.mp3')) }}
 {# Video #}
@@ -690,16 +844,40 @@ _Exemples :_
 
 ### image_from_website
 
-Construit l'élément HTML img à partir d'une URL de site Web en extrayant l'image des balises méta.
+Construit l'élément HTML img à partir d'une URL de site Web en extrayant son image d'illustration.
+Retourne `null` si aucune image n'est trouvée.
 
 ```twig
-{{ image_from_website('url') }}
+{{ image_from_website('url', {attributs}, {options}) }}
 ```
+
+L'image est recherchée dans le HTML de la page avec les fallbacks suivants, le premier candidat pouvant être téléchargé en tant qu'image est utilisé :
+
+1. Open Graph : `og:image:secure_url`, `og:image`, `og:image:url`
+2. Twitter : `twitter:image`, `twitter:image:src`
+3. `<link rel="image_src">`
+4. Microdata : `itemprop="image"`
+5. JSON-LD : propriété `image`
+6. Première `<img>` de `<article>`, `<main>` ou `<body>`
+7. `<link rel="apple-touch-icon">`
+8. `<link rel="icon">`
+
+Les URL relatives sont résolues par rapport à `<base href>` ou à l'URL de la page.
+
+L'URL de l'image trouvée et l'image téléchargée sont mises en cache (voir [`cache.assets.remote.ttl`](4-Configuration.fr.md#cache)).
+
+Options :
+
+- `fallback` : chemin (ou URL) de l'image utilisée si aucune image n'est trouvée
+- autres options de [`image`](#html) (ex. : `responsive`, `formats`)
 
 _Exemples :_
 
 ```twig
 {{ image_from_website('https://example.com/page-with-image.html') }}
+
+{# avec une image de fallback #}
+{{ image_from_website('https://example.com/', {alt: 'Illustration'}, {fallback: 'images/default.png'}) }}
 ```
 
 ### readtime
@@ -1032,10 +1210,10 @@ Tronque une chaîne et ajoute un suffixe.
 {{ string|excerpt(length, suffix) }}
 ```
 
-| Options | Descriptif | Tapez | Par défaut |
-| ------ | ------------------------------------------ | ------- | ------- |
-| longueur | Tronque après ce nombre de caractères. | entier | 450 |
-| suffixe | Ajoute des caractères.                        | chaîne | `…` |
+| Options  | Descriptif                             | Tapez   | Par défaut |
+| -------- | -------------------------------------- | ------- | ---------- |
+| longueur | Tronque après ce nombre de caractères. | entier  | 450        |
+| suffixe  | Ajoute des caractères.                 | chaîne  | `…`        |
 
 _Exemples :_
 
@@ -1053,10 +1231,10 @@ Voir [Documentation de contenu](2-Content.md#excerpt) pour plus de détails.
 {{ string|excerpt_html({separator, capture}) }}
 ```
 
-| Options | Descriptif | Tapez | Par défaut |
-| --------- | ----------------------------------------------------- | ------- | --------------- |
-| séparateur | Chaîne à utiliser comme séparateur.                           | chaîne | `excerpt|break` |
-| capturer | Pièce à capturer, `before` ou `after` le séparateur.   | chaîne | `before` |
+| Options    | Descriptif                                           | Tapez   | Par défaut      |
+| ---------- | ---------------------------------------------------- | ------- | --------------- |
+| séparateur | Chaîne à utiliser comme séparateur.                  | chaîne  | `excerpt|break` |
+| capturer   | Pièce à capturer, `before` ou `after` le séparateur. | chaîne  | `before`        |
 
 _Exemples :_
 
@@ -1236,6 +1414,10 @@ Redimensionne une image à une largeur (en pixels) ou/et une hauteur (en pixels)
 
 :::info
 Le fichier original n'est pas modifié et la version redimensionnée est enregistrée sous `/thumbnails/<width>x<height>/image.jpg`.
+:::
+
+:::tip
+Les fichiers ICO sont supportés : la plus grande icône est redimensionnée et enregistrée dans un fichier ICO à icône unique (compressée en PNG). Les icônes stockées en BMP avec une profondeur de couleur autre que 24 ou 32 bits nécessitent l'extension PHP [Imagick](https://www.php.net/manual/fr/book.imagick.php) : à défaut, le fichier ICO original est conservé et un avertissement est journalisé.
 :::
 
 _Exemples :_
@@ -1436,7 +1618,7 @@ Pluraliser :
 ### Fichiers de traduction
 
 Les fichiers de traduction doivent être nommés `messages.<locale>.<extension>` et stockés dans le répertoire [`translations`](4-Configuration.md#layouts).
-Les extensions prises en charge sont définies pour chaque format de traduction dans [`layouts.translations.formats`](4-Configuration.md#layoutstranslations).
+Les extensions prises en charge sont définies pour chaque format de traduction dans [`layouts.translations.formats`](4-Configuration.md#layouts-translations).
 
 Le code locale (ex. : `fr_FR`) d'une langue est défini dans les entrées [`languages`](4-Configuration.md#languages) de la configuration.
 

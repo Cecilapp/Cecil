@@ -36,6 +36,7 @@ class ShowContent extends AbstractCommand
     /**
      * {@inheritdoc}
      */
+    #[\Override]
     protected function configure()
     {
         $this
@@ -64,6 +65,7 @@ EOF
      *
      * @throws RuntimeException
      */
+    #[\Override]
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $contentTypes = ['pages', 'data'];
@@ -105,9 +107,9 @@ EOF
      * Build a tree structure (array) from the directory, filtering by file extensions.
      *
      * @param string $path
-     * @param array  $allowedExtensions
+     * @param array<int, string> $allowedExtensions
      *
-     * @return array<string, mixed>
+     * @return array<int|string, mixed>
      *
      * @throws RuntimeException
      */
@@ -139,10 +141,10 @@ EOF
      * Build subdirectory tree structure recursively.
      *
      * @param string $path
-     * @param array  $allowedExtensions
-     * @param array  $excludedDirs
+     * @param array<int, string> $allowedExtensions
+     * @param array<int, string> $excludedDirs
      *
-     * @return array<string, mixed>
+     * @return array<int|string, mixed>
      */
     private function buildSubdirectoryStructure(string $path, array $allowedExtensions, array $excludedDirs): array
     {
@@ -168,7 +170,7 @@ EOF
      *
      * @param string $path
      *
-     * @return array<int, SplFileInfo>
+     * @return array<string, SplFileInfo>
      */
     private function getSortedItems(string $path): array
     {

@@ -62,6 +62,7 @@ class Serve extends AbstractCommand
     /**
      * {@inheritdoc}
      */
+    #[\Override]
     protected function configure()
     {
         $this
@@ -140,6 +141,7 @@ EOF
      *
      * @throws RuntimeException
      */
+    #[\Override]
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $open = $input->getOption('open');
@@ -404,6 +406,11 @@ EOF
         return (int) ($pidOutput[0] ?? 0);
     }
 
+    /**
+     * Runs the server in foreground and watches for changes.
+     *
+     * @param array{notify?: bool, open?: bool} $options
+     */
     private function runForegroundServer(
         Process $process,
         bool $noignorevcs,
@@ -434,8 +441,8 @@ EOF
         try {
             if (\function_exists('\pcntl_signal')) {
                 pcntl_async_signals(true);
-                pcntl_signal(SIGINT, [$this, 'tearDownServer']);
-                pcntl_signal(SIGTERM, [$this, 'tearDownServer']);
+                pcntl_signal(SIGINT, $this->tearDownServer(...));
+                pcntl_signal(SIGTERM, $this->tearDownServer(...));
             }
 
             $output->writeln(\sprintf('<comment>Server process: %s</comment>', $command), OutputInterface::VERBOSITY_DEBUG);
@@ -544,7 +551,7 @@ EOF
     {
         // writes `changes.flag` file
         if ($this->watcherEnabled) {
-            Util\File::getFS()->dumpFile(Util::joinFile($this->getPath(), Builder::TMP_DIR, 'changes.flag'), time());
+            Util\File::getFS()->dumpFile(Util::joinFile($this->getPath(), Builder::TMP_DIR, 'changes.flag'), (string) time());
         }
         // writes `headers.ini` file
         $headers = $this->getBuilder()->getConfig()->get('server.headers');

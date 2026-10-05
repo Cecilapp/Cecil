@@ -24,11 +24,13 @@ namespace Cecil\Generator;
  */
 class DefaultPages extends VirtualPages
 {
+    /** @var string */
     protected $configKey = 'pages.default';
 
     /**
      * {@inheritdoc}
      */
+    #[\Override]
     public function generate(): void
     {
         parent::generate();

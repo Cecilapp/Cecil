@@ -39,7 +39,7 @@ use Symfony\Component\Finder\Finder;
  */
 class Builder implements BuildContextInterface, LoggerAwareInterface
 {
-    public const VERSION = '8.x-dev';
+    public const VERSION = '9.x-dev';
     public const VERBOSITY_QUIET = -1;
     public const VERBOSITY_NORMAL = 0;
     public const VERBOSITY_VERBOSE = 1;
@@ -54,7 +54,7 @@ class Builder implements BuildContextInterface, LoggerAwareInterface
      * @var array<string, bool|string>
      * @see \Cecil\Builder::build()
      */
-    public const OPTIONS = [
+    public const array OPTIONS = [
         'drafts'  => false,
         'dry-run' => false,
         'page'    => '',
@@ -67,7 +67,7 @@ class Builder implements BuildContextInterface, LoggerAwareInterface
      * @var array<string>
      * @see \Cecil\Step\StepInterface
      */
-    public const STEPS = [
+    public const array STEPS = [
         'Cecil\Step\Pages\Load',
         'Cecil\Step\Data\Load',
         'Cecil\Step\StaticFiles\Load',
@@ -88,13 +88,13 @@ class Builder implements BuildContextInterface, LoggerAwareInterface
     /**
      * Temporary directory name.
      */
-    public const TMP_DIR = '.cecil';
+    public const string TMP_DIR = '.cecil';
 
     /**
      * Configuration object.
      * This object holds all the configuration settings for the build process.
-     * It can be set to an array or a Config instance.
-     * @var Config|array|null
+     * It can be set to an array or a Config instance (converted to Config).
+     * @var Config|null
      * @see \Cecil\Config
      */
     protected $config;
@@ -115,7 +115,7 @@ class Builder implements BuildContextInterface, LoggerAwareInterface
     /**
      * Build options.
      * These options can be passed to the build() method to customize the build process.
-     * @var array
+     * @var array{drafts?: bool, dry-run?: bool, page?: string, render-subset?: string}
      * @see \Cecil\Builder::OPTIONS
      * @see \Cecil\Builder::build()
      */
@@ -129,27 +129,27 @@ class Builder implements BuildContextInterface, LoggerAwareInterface
     /**
      * Data collection.
      * This is an associative array that holds data loaded from YAML files in the data directory.
-     * @var array
+     * @var array<string, mixed>
      */
     protected $data = [];
     /**
      * Static files collection.
      * This is an associative array that holds static files (like images, CSS, JS) that are copied to the destination directory.
-     * @var array
+     * @var array<int, array<string, mixed>>
      */
     protected $static = [];
     /**
      * Pages collection.
      * This is a collection of pages that have been processed and are ready for rendering.
      * It is an instance of PagesCollection, which is a custom collection class for managing pages.
-     * @var PagesCollection
+     * @var PagesCollection|null
      */
     protected $pages;
     /**
      * Assets path collection.
      * This is an array that holds paths to assets (like CSS, JS, images) that are used in the build process.
      * It is used to keep track of assets that need to be processed or copied.
-     * @var array
+     * @var array<int, string>
      */
     protected $assets = [];
     /**
@@ -183,7 +183,7 @@ class Builder implements BuildContextInterface, LoggerAwareInterface
      * Each key is a language code, and the value is a Collection\Menu\Collection instance
      * that contains the menu items for that language.
      * It is used to manage navigation menus across different languages in the website.
-     * @var array
+     * @var array<string, Collection\Menu\Collection>
      * @see \Cecil\Collection\Menu\Collection
      */
     protected $menus;
@@ -193,7 +193,7 @@ class Builder implements BuildContextInterface, LoggerAwareInterface
      * Each key is a language code, and the value is a Collection\Taxonomy\Collection instance
      * that contains the taxonomy terms for that language.
      * It is used to manage taxonomies (like categories, tags) across different languages in the website.
-     * @var array
+     * @var array<string, Collection\Taxonomy\Collection>
      * @see \Cecil\Collection\Taxonomy\Collection
      */
     protected $taxonomies;
@@ -216,12 +216,12 @@ class Builder implements BuildContextInterface, LoggerAwareInterface
      * Build metrics.
      * This array holds metrics about the build process, such as duration and memory usage for each step.
      * It is used to track the performance of the build and can be useful for debugging and optimization.
-     * @var array
+     * @var array<string, mixed>
      */
     protected $metrics = [];
     /**
      * Application version.
-     * @var string
+     * @var string|null
      */
     protected static $version;
     /**
@@ -235,7 +235,7 @@ class Builder implements BuildContextInterface, LoggerAwareInterface
     protected static $buildId;
 
     /**
-     * @param Config|array|null    $config
+     * @param Config|array<string, mixed>|null $config
      * @param LoggerInterface|null $logger
      */
     public function __construct($config = null, ?LoggerInterface $logger = null)
@@ -271,7 +271,7 @@ class Builder implements BuildContextInterface, LoggerAwareInterface
      * This method processes the build steps in order, collects content, data, static files,
      * generates pages, renders them, and saves the output to the destination directory.
      * It also collects metrics about the build process, such as duration and memory usage.
-     * @param array<self::OPTIONS> $options
+     * @param array{drafts?: bool, dry-run?: bool, page?: string, render-subset?: string} $options
      * @see \Cecil\Builder::OPTIONS
      */
     public function build(array $options): self
@@ -347,6 +347,8 @@ class Builder implements BuildContextInterface, LoggerAwareInterface
 
     /**
      * Set configuration.
+     *
+     * @param array<string, mixed>|Config $config
      */
     public function setConfig(array|Config $config): self
     {
@@ -438,6 +440,8 @@ class Builder implements BuildContextInterface, LoggerAwareInterface
 
     /**
      * Returns build options.
+     *
+     * @return array{drafts?: bool, dry-run?: bool, page?: string, render-subset?: string}
      */
     public function getBuildOptions(): array
     {
@@ -462,6 +466,8 @@ class Builder implements BuildContextInterface, LoggerAwareInterface
 
     /**
      * Set collected data.
+     *
+     * @param array<string, mixed> $data
      */
     public function setData(array $data): void
     {
@@ -470,6 +476,8 @@ class Builder implements BuildContextInterface, LoggerAwareInterface
 
     /**
      * Returns data collection.
+     *
+     * @return array<string, mixed>
      */
     public function getData(?string $language = null): array
     {
@@ -487,6 +495,8 @@ class Builder implements BuildContextInterface, LoggerAwareInterface
 
     /**
      * Set collected static files.
+     *
+     * @param array<int, array<string, mixed>> $static
      */
     public function setStatic(array $static): void
     {
@@ -495,6 +505,8 @@ class Builder implements BuildContextInterface, LoggerAwareInterface
 
     /**
      * Returns static files collection.
+     *
+     * @return array<int, array<string, mixed>>
      */
     public function getStatic(): array
     {
@@ -510,11 +522,11 @@ class Builder implements BuildContextInterface, LoggerAwareInterface
     }
 
     /**
-     * Returns pages collection.
+     * Returns pages collection (empty until pages are created).
      */
-    public function getPages(): ?PagesCollection
+    public function getPages(): PagesCollection
     {
-        return $this->pages;
+        return $this->pages ??= new PagesCollection('all-pages');
     }
 
     /**
@@ -549,6 +561,8 @@ class Builder implements BuildContextInterface, LoggerAwareInterface
 
     /**
      * Returns asset registry deduplication statistics.
+     *
+     * @return array{hits: int, misses: int, total: int, deduplication_ratio: float}
      */
     public function getAssetRegistryStats(): array
     {
@@ -578,6 +592,8 @@ class Builder implements BuildContextInterface, LoggerAwareInterface
 
     /**
      * Returns layout cache statistics.
+     *
+     * @return array{hits: int, misses: int, total: int, hit_rate: float}
      */
     public function getLayoutCacheStats(): array
     {
@@ -593,6 +609,8 @@ class Builder implements BuildContextInterface, LoggerAwareInterface
 
     /**
      * Returns list of assets path.
+     *
+     * @return array<int, string>
      */
     public function getAssetsList(): array
     {
@@ -601,6 +619,8 @@ class Builder implements BuildContextInterface, LoggerAwareInterface
 
     /**
      * Set menus collection.
+     *
+     * @param array<string, Collection\Menu\Collection> $menus
      */
     public function setMenus(array $menus): void
     {
@@ -617,6 +637,8 @@ class Builder implements BuildContextInterface, LoggerAwareInterface
 
     /**
      * Set taxonomies collection.
+     *
+     * @param array<string, Collection\Taxonomy\Collection> $taxonomies
      */
     public function setTaxonomies(array $taxonomies): void
     {
@@ -649,6 +671,8 @@ class Builder implements BuildContextInterface, LoggerAwareInterface
 
     /**
      * Returns metrics array.
+     *
+     * @return array<string, mixed>
      */
     public function getMetrics(): array
     {

@@ -1,8 +1,8 @@
 <!--
 title: Démarrage rapide
-description: "Créez un nouveau site web et prévisualiser le localement."
+description: "Installez Cecil, créez un nouveau site web, ajoutez des pages, prévisualisez-le localement avec le serveur intégré, puis générez-le et déployez-le, ou démarrez rapidement avec un kit de démarrage."
 date: 2021-11-03
-updated: 2026-06-18
+updated: 2026-10-02
 slug: demarrage-rapide
 menu: home
 -->
@@ -24,7 +24,7 @@ Démo du résultat attendu : <https://cecilapp.github.io/skeleton/>.
 
 ### Prérequis
 
-- [PHP](https://php.net/manual/fr/install.php) 8.2+
+- [PHP](https://php.net/manual/fr/install.php) 8.3+
 - Terminal (une compréhension de base du [terminal](https://fr.wikipedia.org/wiki/%C3%89mulateur_de_terminal))
 - Éditeur de texte, comme [VS Code](https://code.visualstudio.com) et/ou [Typora](https://typora.io)
 

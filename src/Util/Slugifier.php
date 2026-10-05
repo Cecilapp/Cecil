@@ -26,7 +26,7 @@ use Symfony\Component\String\Slugger\AsciiSlugger;
 class Slugifier
 {
     /** @see https://regex101.com/r/... */
-    public const SLUGIFY_PATTERN = '/(^\/|[^._a-z0-9\/]|-)+/';
+    public const string SLUGIFY_PATTERN = '/(^\/|[^._a-z0-9\/]|-)+/';
 
     /** @var AsciiSlugger|null */
     private static $slugifier;
@@ -38,17 +38,15 @@ class Slugifier
      */
     public static function slugify(string $path): string
     {
-        if (!self::$slugifier instanceof AsciiSlugger) {
-            self::$slugifier = new AsciiSlugger();
-        }
+        $slugifier = self::$slugifier ??= new AsciiSlugger();
 
         $placeholders = self::createSlugifyPlaceholders($path);
         $path = strtr($path, $placeholders);
 
-        $path = preg_replace_callback('/[^\x00-\x7F]+/u', static function (array $matches): string {
+        $path = preg_replace_callback('/[^\x00-\x7F]+/u', static function (array $matches) use ($slugifier): string {
             $locale = preg_match('/\p{Han}/u', $matches[0]) ? 'zh' : null;
 
-            return self::$slugifier->slug($matches[0], '-', $locale)->lower()->toString();
+            return $slugifier->slug($matches[0], '-', $locale)->lower()->toString();
         }, $path);
         if ($path === null) {
             throw new RuntimeException('Unable to slugify path.');
@@ -62,6 +60,11 @@ class Slugifier
         return ltrim(trim(strtr($path, array_flip($placeholders)), '-'), '/');
     }
 
+    /**
+     * Creates unique placeholders for characters to preserve during slugification.
+     *
+     * @return array<string, string>
+     */
     private static function createSlugifyPlaceholders(string $path): array
     {
         $placeholders = [];

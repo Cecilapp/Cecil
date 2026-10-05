@@ -32,10 +32,12 @@ class Layout
      * Twig template extension.
      * @var string
      */
-    public const EXT = 'twig';
+    public const string EXT = 'twig';
 
     /**
      * Layout files finder.
+     *
+     * @return array{scope: string, file: string}
      *
      * @throws RuntimeException
      */
@@ -82,6 +84,8 @@ class Layout
 
     /**
      * Templates lookup rules.
+     *
+     * @return list<string>
      *
      * @see self::finder()
      */
@@ -144,17 +148,18 @@ class Layout
                 break;
             case PageType::TERM->value:
                 $layouts = [
-                    // "taxonomy/$term.$format.$ext",     // e.g.: taxonomy/velo.html.twig
+                    // "taxonomy/$term.$format.$ext",     // e.g.: taxonomy/tags/velo.html.twig
                     // "taxonomy/$singular.$format.$ext", // e.g.: taxonomy/tag.html.twig
                     "term.$format.$ext",                  // e.g.: term.html.twig
                     "_default/term.$format.$ext",         // e.g.: _default/term.html.twig
                     "_default/list.$format.$ext",         // e.g.: _default/list.html.twig
                 ];
-                if ($page->hasVariable('term')) {
-                    $layouts = array_merge(["taxonomy/{$page->getVariable('term')}.$format.$ext"], $layouts);
-                }
                 if ($page->hasVariable('singular')) {
                     $layouts = array_merge(["taxonomy/{$page->getVariable('singular')}.$format.$ext"], $layouts);
+                }
+                // term ID is "<plural>/<term>", so the term template has priority over the singular one
+                if ($page->hasVariable('term')) {
+                    $layouts = array_merge(["taxonomy/{$page->getVariable('term')}.$format.$ext"], $layouts);
                 }
                 break;
             default:

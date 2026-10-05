@@ -12,6 +12,27 @@
         <title><xsl:value-of select="rss/channel/title" /> (RSS)</title>
         {%- endif ~%}
         <style type="text/css">
+          :root {
+            color-scheme: light dark;
+            --background-color: #EFF0F4;
+            --text-color: #586069;
+            --heading-color: #24292E;
+            --link-color: #0366D6;
+            --border-color: #C7C7C7;
+            --input-background-color: #FFFFFF;
+            --input-color: #24292E;
+          }
+          @media (prefers-color-scheme: dark) {
+            :root {
+              --background-color: #16181D;
+              --text-color: #9DA5B4;
+              --heading-color: #E6EDF3;
+              --link-color: #58A6FF;
+              --border-color: #30363D;
+              --input-background-color: #21262D;
+              --input-color: #E6EDF3;
+            }
+          }
           html {
             margin: 0;
             padding: 0;
@@ -20,8 +41,8 @@
             margin: 1rem auto;
             padding: 1rem;
             max-width: 40rem;
-            background-color: #EFF0F4;
-            color: #586069;
+            background-color: var(--background-color);
+            color: var(--text-color);
             font-family: Helvetica, Arial, sans-serif;
             font-size: 1rem;
             line-height: 1.5rem;
@@ -31,6 +52,9 @@
             margin-left: .2rem;
             padding-left: .2rem;
             padding-right: .2rem;
+            border: 1px solid var(--border-color);
+            background-color: var(--input-background-color);
+            color: var(--input-color);
           }
           ol {
             list-style-type: none;
@@ -41,22 +65,22 @@
           }
           h2, h3 {
             margin: 0;
-            color: #24292E;
+            color: var(--heading-color);
             font-weight: inherit;
           }
           a {
-            color: #0366d6;
+            color: var(--link-color);
             text-decoration: none;
           }
           small {
-            color: #586069;
+            color: var(--text-color);
           }
           #RSSicon {
             margin-right: .5rem;
           }
           header {
             margin-bottom: 1rem;
-            border-bottom: 1px solid #c7c7c7;
+            border-bottom: 1px solid var(--border-color);
           }
           @-moz-document url-prefix() {
             form {
@@ -64,7 +88,7 @@
             }
           }
           footer {
-            border-top: 1px solid #c7c7c7;
+            border-top: 1px solid var(--border-color);
           }
           @media (min-width: 768px) {
             input {

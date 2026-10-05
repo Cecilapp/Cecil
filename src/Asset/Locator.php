@@ -15,7 +15,6 @@ namespace Cecil\Asset;
 
 use Cecil\Builder;
 use Cecil\Cache;
-use Cecil\Collection\Page\Page;
 use Cecil\Config;
 use Cecil\Exception\RuntimeException;
 use Cecil\Util;
@@ -32,6 +31,9 @@ use Cecil\Util;
  */
 class Locator
 {
+    /** Max length of a remote file name (file systems limit is 255 characters). */
+    public const MAX_FILENAME_LENGTH = 200;
+
     /** @var Builder */
     protected $builder;
 
@@ -127,7 +129,22 @@ class Locator
             $ext = 'css';
         }
 
-        return Page::slugify(\sprintf('%s%s%s%s', $host, self::sanitize($path), $query ? "-$query" : '', $query && $ext ? ".$ext" : ''));
+        $filePath = Util\Slugifier::slugify(\sprintf('%s%s%s%s', $host, self::sanitize($path), $query ? "-$query" : '', $query && $ext ? ".$ext" : ''));
+
+        // shortens too long file name (e.g.: long query string), as file systems limit it to 255 characters
+        $pos = strrpos($filePath, '/');
+        $dir = $pos === false ? '' : substr($filePath, 0, $pos + 1);
+        $name = $pos === false ? $filePath : substr($filePath, $pos + 1);
+        if (\strlen($name) > self::MAX_FILENAME_LENGTH) {
+            $ext = $ext ? '.' . Util\Slugifier::slugify($ext) : '';
+            if ($ext === '.' || !Util\Str::endsWith($name, $ext)) {
+                $ext = '';
+            }
+            $suffix = '-' . hash('xxh32', $url) . $ext;
+            $name = rtrim(substr($name, 0, self::MAX_FILENAME_LENGTH - \strlen($suffix)), '-') . $suffix;
+        }
+
+        return $dir . $name;
     }
 
     /**
@@ -197,8 +214,8 @@ class Locator
     {
         $timeout = (int) ($this->config->get('assets.remote.timeout') ?? 30);
 
-        if (!Util\File::isRemoteExists($path)) {
-            throw new RuntimeException(\sprintf('Unable to get remote file "%s".', $path));
+        if (str_starts_with($path, 'https://') && !\extension_loaded('openssl')) {
+            throw new RuntimeException('The OpenSSL PHP extension is required to get HTTPS remote files.');
         }
         if (false === $content = Util\File::fileGetContents($path, $userAgent, $timeout)) {
             throw new RuntimeException(\sprintf('Unable to get content of remote file "%s".', $path));

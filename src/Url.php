@@ -42,7 +42,7 @@ class Url
      *
      * @param Builder                          $builder
      * @param Page|MenuEntry|Asset|string|null $value
-     * @param array|null                       $options Rendering options, e.g.: ['canonical' => true, 'format' => 'html', 'language' => 'fr']
+     * @param array<string, mixed>|null        $options Rendering options, e.g.: ['canonical' => true, 'format' => 'html', 'language' => 'fr']
      */
     public function __construct(Builder $builder, $value, ?array $options = null)
     {
@@ -50,10 +50,9 @@ class Url
         $this->config = $builder->getConfig();
 
         // handles options
-        $canonical = null; // if true prefix url with baseurl config
-        $format = null;    // output format
-        $language = null;  // force language
-        extract(\is_array($options) ? $options : [], EXTR_IF_EXISTS);
+        $canonical = $options['canonical'] ?? null; // if true prefix url with baseurl config
+        $format = $options['format'] ?? null;       // output format
+        $language = $options['language'] ?? null;   // force language
 
         // base URL
         $base = '';
@@ -113,10 +112,10 @@ class Url
                     $this->url = (string) $value;
                 }
                 break;
-            case \is_string($value): // others cases
+            default: // others cases (string)
                 /** @var non-falsy-string $value */
                 // $value is a potential Page ID
-                $pageId = Page::slugify($value);
+                $pageId = Util\Slugifier::slugify($value);
                 // should force language?
                 $lang = '';
                 if ($language !== null && $language != $this->config->getLanguageDefault()) {
@@ -135,7 +134,7 @@ class Url
                         if ($lang && Util\Str::startsWith($value, $lang)) {
                             $value = substr($value, \strlen($lang));
                         }
-                        $this->url = $base . '/' . $lang . ltrim($value, '/');
+                        $this->url = $base . '/' . $lang . self::encode(ltrim($value, '/'));
                 }
         }
     }
@@ -154,5 +153,18 @@ class Url
     public function getUrl(): string
     {
         return (string) $this->url ?: '/';
+    }
+
+    /**
+     * Percent-encodes characters not allowed in an URL (e.g.: spaces),
+     * preserving reserved characters and already encoded sequences.
+     */
+    public static function encode(string $url): string
+    {
+        return (string) preg_replace_callback(
+            '/%(?![0-9A-Fa-f]{2})|[^A-Za-z0-9\-._~!$&\'()*+,;=:@\/?#\[\]%]+/',
+            fn (array $matches) => rawurlencode($matches[0]),
+            $url
+        );
     }
 }

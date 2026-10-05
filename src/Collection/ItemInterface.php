@@ -15,6 +15,8 @@ namespace Cecil\Collection;
 
 /**
  * Item interface.
+ *
+ * @extends \ArrayAccess<string, mixed>
  */
 interface ItemInterface extends BaseInterface, \ArrayAccess
 {
@@ -30,6 +32,8 @@ interface ItemInterface extends BaseInterface, \ArrayAccess
 
     /**
      * Returns properties as array.
+     *
+     * @return array<mixed>
      */
     public function toArray(): array;
 }

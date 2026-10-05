@@ -1,28 +1,18 @@
-version: 2
+version: 2.1
 jobs:
   build:
     docker:
-    - image: circleci/php:8.2-cli
+    - image: cimg/php:8.3
     steps:
     - run:
         name: Switch timezone to Europe/Paris
         command: sudo cp /usr/share/zoneinfo/Europe/Paris /etc/localtime
     - run:
-        name: Install system dependencies
+        name: Checkout code
         command: |
-          sudo apt-get update
-          sudo apt-get install -y libfreetype6-dev libjpeg62-turbo-dev libpng-dev zlib1g-dev libwebp-dev
-    - run:
-        name: Install PHP extensions
-        command: |
-          #sudo docker-php-ext-install gettext
-          #sudo docker-php-ext-configure gd --with-freetype-dir=/usr/include/ --with-jpeg-dir=/usr/include/ --with-webp-dir=/usr/include
-          #sudo docker-php-ext-install -j$(nproc) iconv mcrypt gd zip pdo_mysql pdo_sqlite
-          sudo -E docker-php-ext-configure gd --with-freetype --with-jpeg
-          sudo -E docker-php-ext-install gettext
-          sudo -E docker-php-ext-install -j$(nproc) iconv gd zip
-          sudo rm /usr/local/etc/php/conf.d/docker-php-ext-xdebug.ini
-    - checkout
+          git clone "https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME" .
+          git checkout -q "$CIRCLE_SHA1"
+        no_output_timeout: 5m
     - restore_cache:
         keys:
           - composer-{{ checksum "composer.lock" }}
@@ -32,6 +22,7 @@ jobs:
         command: |
           sudo composer self-update
           composer install -n --prefer-source
+        no_output_timeout: 10m
     - save_cache:
         key: composer-{{ checksum "composer.lock" }}
         paths:
@@ -42,6 +33,7 @@ jobs:
           mkdir -p ~/phpunit
           vendor/bin/phpunit --testsuite=IntegrationTests --log-junit=~/phpunit/junit.xml
         when: always
+        no_output_timeout: 20m
     - store_test_results:
         path: ~/phpunit
     - store_artifacts:

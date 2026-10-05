@@ -67,7 +67,9 @@ class Html extends AbstractOptimize
      */
     public function encode(?string $content = null): ?string
     {
-        return json_encode($content);
+        $encoded = json_encode($content);
+
+        return $encoded === false ? null : $encoded;
     }
 
     /**

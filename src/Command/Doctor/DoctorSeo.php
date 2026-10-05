@@ -31,7 +31,7 @@ use Symfony\Component\Console\Output\OutputInterface;
  */
 class DoctorSeo extends AbstractCommand
 {
-    private const PAGE_LABEL_MAX_LENGTH = 60;
+    private const int PAGE_LABEL_MAX_LENGTH = 60;
 
     private bool $includeVirtual = false;
     private bool $includeFeedback = false;
@@ -40,6 +40,7 @@ class DoctorSeo extends AbstractCommand
     /**
      * {@inheritdoc}
      */
+    #[\Override]
     protected function configure()
     {
         $this
@@ -105,6 +106,7 @@ EOF
     /**
      * {@inheritdoc}
      */
+    #[\Override]
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $this->format = (string) ($input->getOption('format') ?? 'text');
@@ -142,10 +144,15 @@ EOF
 
     /**
      * Output results in JSON format.
+     *
+     * @param array{
+     *   summary: array{pages_audited: int, pages_without_findings: int, bad_count: int, ok_count: int, feedback_count: int},
+     *   findings: array<int, array{page: string, level: string, check: string, details: string}>
+     * } $result
      */
     private function outputJson(OutputInterface $output, array $result): void
     {
-        $output->writeln(json_encode($result, JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES));
+        $output->writeln(json_encode($result, JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES | JSON_THROW_ON_ERROR));
     }
 
     /**
@@ -164,7 +171,7 @@ EOF
     {
         $findings = array_values(array_filter(
             $result['findings'],
-            static fn (array $finding): bool => ($finding['level'] ?? '') !== $level
+            static fn (array $finding): bool => $finding['level'] !== $level
         ));
 
         return $this->buildFilteredResult($result, $findings);
@@ -193,13 +200,13 @@ EOF
         $pagesWithFindings = [];
         foreach ($findings as $finding) {
             $pagesWithFindings[$finding['page']] = true;
-            $findingLevel = (string) ($finding['level'] ?? '');
+            $findingLevel = $finding['level'];
             if (isset($counts[$findingLevel])) {
                 $counts[$findingLevel]++;
             }
         }
 
-        $pagesAudited = (int) ($result['summary']['pages_audited'] ?? 0);
+        $pagesAudited = $result['summary']['pages_audited'];
         $pagesWithoutFindings = $pagesAudited - \count($pagesWithFindings);
 
         return [
@@ -216,6 +223,11 @@ EOF
 
     /**
      * Output results in text format (tables).
+     *
+     * @param array{
+     *   summary: array{pages_audited: int, pages_without_findings: int, bad_count: int, ok_count: int, feedback_count: int},
+     *   findings: array<int, array{page: string, level: string, check: string, details: string}>
+     * } $result
      */
     private function outputText(OutputInterface $output, array $result): void
     {

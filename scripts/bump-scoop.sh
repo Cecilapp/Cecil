@@ -1,7 +1,7 @@
 #!/bin/bash
 set -e
 
-# Bump Scoop file
+# Generate Scoop manifest (to be deployed with release files)
 
 # version
 if [ -z "${VERSION}" ]; then
@@ -13,40 +13,31 @@ if [ -z "${PRERELEASE}" ]; then
   export PRERELEASE="false"
 fi
 
-# target
-TARGET_REPO="Cecilapp/website"
-TARGET_BRANCH="master"
-TARGET_STATIC_DIR="static"
+# SHA1
+if [ -z "${SHA1}" ]; then
+  if [ ! -f dist/cecil.phar ]; then
+    echo "SHA1 is required"
+    exit 1
+  fi
+  export SHA1=$(sha1sum dist/cecil.phar | cut -d' ' -f 1)
+fi
+
+# output (copied to website's static dir by deploy-release.sh)
+OUTPUT_DIR="${OUTPUT_DIR:-dist/scoop}"
 
 # Scoop
-SCOOP_FILE_JSON="scoop/cecil.json"
-SCOOP_FILE_JSON_PREVIEW="scoop/cecil-preview.json"
+SCOOP_FILE_JSON="cecil.json"
+SCOOP_FILE_JSON_PREVIEW="cecil-preview.json"
 
-# GitHub
-USER_NAME=$GITHUB_ACTOR
-USER_NAME="cecil-bot" # override for better commit history
-USER_EMAIL="${GITHUB_ACTOR_ID}+${USER_NAME}@users.noreply.github.com"
-HOME="${GITHUB_WORKSPACE}/HOME"
-
-echo "Starting deploy Scoop file..."
-mkdir -p $HOME
-
-# clone target repo
-cd $HOME
-git config --global user.name "${USER_NAME}"
-git config --global user.email "${USER_EMAIL}"
-git clone --depth=1 --quiet --branch=$TARGET_BRANCH https://${GITHUB_TOKEN}@github.com/${TARGET_REPO}.git ${TARGET_REPO} > /dev/null
-cd $TARGET_REPO
+echo "Starting generate Scoop file..."
 
 # Scoop manifest
 if [ "${PRERELEASE}" == 'true' ]; then
   SCOOP_FILE_JSON="$SCOOP_FILE_JSON_PREVIEW"
 fi
-# remove and recreate manifest in static
-cd $TARGET_STATIC_DIR
-rm -f $SCOOP_FILE_JSON
-mkdir -p $(dirname "$SCOOP_FILE_JSON") && touch $SCOOP_FILE_JSON
-cat <<EOT > $SCOOP_FILE_JSON
+# create manifest in output dir
+mkdir -p "$OUTPUT_DIR"
+cat <<EOT > "$OUTPUT_DIR/$SCOOP_FILE_JSON"
 {
   "description": "A simple and powerful content-driven static site generator.",
   "homepage": "https://cecil.app",
@@ -74,14 +65,5 @@ cat <<EOT > $SCOOP_FILE_JSON
   }
 }
 EOT
-cd ..
-
-# commit and push
-if [[ -n $(git status -s) ]]; then
-  git add -Af .
-  git commit -m "Build $GITHUB_RUN_NUMBER: bump Scoop with version ${VERSION}."
-  git push -fq origin $TARGET_BRANCH > /dev/null
-else
-  echo "Nothing to update"
-fi
+echo "Scoop file generated: $OUTPUT_DIR/$SCOOP_FILE_JSON"
 exit 0

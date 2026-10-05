@@ -158,7 +158,6 @@
   </p>
 
   <h2 id="image">Image</h2>
-  {# commented for Scrutinizer
   <h3>Image PNG to WebP</h3>
   <p>
     <pre>asset('images/cecil-logo.png')|webp</pre>
@@ -166,7 +165,6 @@
       {{- asset('images/cecil-logo.png')|webp }}
     </blockquote>
   </p>
-  #}
   <h3>Image properties</h3>
   <p>
     <pre>{% verbatim %}{{ asset('images/cecil-logo.png').width x asset('images/cecil-logo.png').height }}{% endverbatim %}</pre>
@@ -222,6 +220,15 @@
       {{ html(asset('images/cecil-logo.png')|resize(width: 300, height: 100), {alt: 'Cecil Logo resized to 300x100px'}) }}
     </blockquote>
     <pre>{{ asset('images/cecil-logo.png')|resize(width: 300, height: 100) }}</pre>
+  </p>
+  <h4>Resize ICO</h4>
+  <p>
+    <pre>{% verbatim %}{{ asset('images/favicon.ico')|resize(32) }}{% endverbatim %}</pre>
+    <blockquote>
+      {%- set favicon_resized = asset('images/favicon.ico')|resize(32) -%}
+      <img src="{{ url(favicon_resized) }}" width="{{ favicon_resized.width }}" height="{{ favicon_resized.height }}" alt="Favicon resized to 32px">
+    </blockquote>
+    <pre>{{ asset('images/favicon.ico')|resize(32) }}</pre>
   </p>
   <h3>Image dominant color</h3>
   <p>
@@ -428,6 +435,19 @@
     </blockquote>
     <pre>{{ image(asset('cecil-logo-big.png'), {title: 'title', alt: 'alternative', loading: 'lazy'}, {responsive: false, formats: []})|e }}</pre>
   </p>
+  <h4>Placeholder</h4>
+  <p>
+    <pre>html(asset('cecil-logo-big.png'), {alt: 'LQIP placeholder', style: 'border:1px solid'}, {placeholder: 'lqip'})</pre>
+    <blockquote>
+      {{ html(asset('cecil-logo-big.png'), {alt: 'LQIP placeholder', style: 'border:1px solid'}, {responsive: false, formats: [], placeholder: 'lqip'}) }}
+    </blockquote>
+    <pre>{{ html(asset('cecil-logo-big.png'), {alt: 'LQIP placeholder', style: 'border:1px solid'}, {responsive: false, formats: [], placeholder: 'lqip'})|e }}</pre>
+    <pre>html(asset('cecil-logo-big.png'), {alt: 'Color placeholder'}, {placeholder: 'color'})</pre>
+    <blockquote>
+      {{ html(asset('cecil-logo-big.png'), {alt: 'Color placeholder'}, {responsive: false, formats: [], placeholder: 'color'}) }}
+    </blockquote>
+    <pre>{{ html(asset('cecil-logo-big.png'), {alt: 'Color placeholder'}, {responsive: false, formats: [], placeholder: 'color'})|e }}</pre>
+  </p>
   <h4>Alternative formats</h4>
   <p>
     <pre>html(asset('cecil-logo-big.png'), options={formats: ['webp', 'avif']})</pre>
@@ -490,6 +510,13 @@
       {{ image_from_website('https://example.com/', {alt: 'No image found case'}) }}
     </blockquote>
     <pre>{{ image_from_website('https://cecil.app', {alt: 'Example Image from URL', loading: 'lazy'})|e }}</pre>
+  </p>
+  <h3>HTML image from URL with fallback image</h3>
+  <p>
+    <pre>{% verbatim %}{{ image_from_website('https://example.com/', {alt: 'Fallback image'}, {fallback: 'images/cecil-logo.png'}) }}{% endverbatim %}</pre>
+    <blockquote>
+      {{ image_from_website('https://example.com/', {alt: 'Fallback image'}, {fallback: 'images/cecil-logo.png'}) }}
+    </blockquote>
   </p>
 
 {% endblock content %}

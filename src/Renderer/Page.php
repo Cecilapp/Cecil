@@ -13,7 +13,7 @@ declare(strict_types=1);
 
 namespace Cecil\Renderer;
 
-use Cecil\Builder;
+use Cecil\BuildContextInterface;
 use Cecil\Collection\Page\Page as PageItem;
 
 /**
@@ -27,7 +27,7 @@ class Page
 {
     /**
      * Builder object.
-     * @var Builder
+     * @var BuildContextInterface
      */
     protected $builder;
     /**
@@ -41,7 +41,7 @@ class Page
      */
     protected $page;
 
-    public function __construct(Builder $builder, PageItem $page)
+    public function __construct(BuildContextInterface $builder, PageItem $page)
     {
         $this->builder = $builder;
         $this->config = $this->builder->getConfig();
@@ -61,10 +61,10 @@ class Page
      */
     public function getOutputFilePath(string $format): string
     {
-        $path = $this->page->getPath();
-        $subpath = (string) $this->config->getOutputFormatProperty($format, 'subpath');
-        $filename = (string) $this->config->getOutputFormatProperty($format, 'filename');
-        $extension = (string) $this->config->getOutputFormatProperty($format, 'extension');
+        $path = $this->page->getPath() ?? '';
+        $subpath = $this->getOutputFormatString($format, 'subpath');
+        $filename = $this->getOutputFormatString($format, 'filename');
+        $extension = $this->getOutputFormatString($format, 'extension');
         $uglyurl = (bool) $this->page->getVariable('uglyurl');
         $language = $this->page->getVariable('language');
         // is ugly URL?
@@ -89,6 +89,16 @@ class Page
         }
 
         return \Cecil\Util::joinPath($language, $path, $subpath, $filename) . $extension;
+    }
+
+    /**
+     * Returns a string property of an output format (empty string if not defined).
+     */
+    private function getOutputFormatString(string $format, string $property): string
+    {
+        $value = $this->config->getOutputFormatProperty($format, $property);
+
+        return \is_string($value) ? $value : '';
     }
 
     /**

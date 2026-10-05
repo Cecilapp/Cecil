@@ -51,7 +51,7 @@ class Generate extends AbstractStep
         $generatorManager = new GeneratorManager($this->builder);
         $generators = (array) $this->config->get('pages.generators');
         array_walk($generators, function ($generator, $priority) use ($generatorManager) {
-            if (!class_exists($generator)) {
+            if (!is_a($generator, \Cecil\Generator\GeneratorInterface::class, true)) {
                 $message = \sprintf('Unable to load generator "%s" (priority: %s).', $generator, $priority);
                 $this->builder->getLogger()->error($message);
 

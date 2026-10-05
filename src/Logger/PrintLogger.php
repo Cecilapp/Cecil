@@ -27,10 +27,10 @@ use Psr\Log\LogLevel;
  */
 class PrintLogger extends AbstractLogger
 {
-    /** @var int */
+    /** @var int|null */
     protected $printLevelMax = null;
 
-    /** @var array */
+    /** @var array<string, int> */
     protected $verbosityLevelMap = [
         LogLevel::EMERGENCY => Builder::VERBOSITY_NORMAL,
         LogLevel::ALERT     => Builder::VERBOSITY_NORMAL,
@@ -84,9 +84,12 @@ class PrintLogger extends AbstractLogger
      * Interpolates context values into the message placeholders.
      *
      * @author PHP Framework Interoperability Group
+     *
+     * @param array<mixed> $context
      */
-    protected function interpolate(string $message, array $context): string
+    protected function interpolate(string|\Stringable $message, array $context): string
     {
+        $message = (string) $message;
         if (false === strpos($message, '{')) {
             return $message;
         }
@@ -110,7 +113,7 @@ class PrintLogger extends AbstractLogger
     /**
      * Format expression to string.
      */
-    public static function format($expression): string
+    public static function format(mixed $expression): string
     {
         return str_replace(["\n", ' '], '', var_export($expression, true));
     }

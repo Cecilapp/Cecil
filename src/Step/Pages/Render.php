@@ -13,6 +13,7 @@ declare(strict_types=1);
 
 namespace Cecil\Step\Pages;
 
+use Cecil\Asset\Image;
 use Cecil\Builder;
 use Cecil\Collection\Page\Collection;
 use Cecil\Collection\Page\Page;
@@ -39,7 +40,7 @@ class Render extends AbstractStep
     /**
      * Subset of pages to render.
      *
-     * @var array
+     * @var array<string, mixed>
      */
     protected $subset = [];
 
@@ -61,6 +62,8 @@ class Render extends AbstractStep
             $this->builder->getLogger()->debug($message);
         }
 
+        $this->builder->getLogger()->debug(\sprintf('Image driver: %s', Image::getDriverName() ?? 'none'));
+
         // render a subset of pages?
         if (!empty($options['render-subset'])) {
             $subset = \sprintf('pages.subsets.%s', (string) $options['render-subset']);
@@ -81,7 +84,7 @@ class Render extends AbstractStep
     public function process(): void
     {
         // prepares renderer
-        $this->builder->setRenderer(new Twig($this->builder, $this->getAllLayoutsPaths()));
+        $this->builder->setRenderer(new Twig($this->getBuilder(), $this->getAllLayoutsPaths()));
 
         // adds global variables
         $this->addGlobals();
@@ -101,7 +104,7 @@ class Render extends AbstractStep
                 }
                 if (
                     !empty($subset['path'])
-                    && !((bool) preg_match('/' . (string) $subset['path'] . '/i', $page->getPath()))
+                    && !((bool) preg_match('/' . (string) $subset['path'] . '/i', $page->getPath() ?? ''))
                 ) {
                     return false;
                 }
@@ -134,6 +137,9 @@ class Render extends AbstractStep
             try {
                 if (!class_exists($postprocessor)) {
                     throw new RuntimeException(\sprintf('Class "%s" not found', $postprocessor));
+                }
+                if (!is_a($postprocessor, \Cecil\Renderer\PostProcessor\PostProcessorInterface::class, true)) {
+                    throw new RuntimeException(\sprintf('Class "%s" must implement "%s"', $postprocessor, \Cecil\Renderer\PostProcessor\PostProcessorInterface::class));
                 }
                 $postprocessors[] = new $postprocessor($this->builder);
                 $this->builder->getLogger()->debug(\sprintf('Output post processor "%s" loaded', $name));
@@ -217,10 +223,12 @@ class Render extends AbstractStep
                 // renders with Twig
                 try {
                     $deprecations = [];
-                    set_error_handler(function ($type, $msg) use (&$deprecations) {
+                    set_error_handler(function (int $type, string $msg) use (&$deprecations): bool {
                         if (E_USER_DEPRECATED === $type) {
                             $deprecations[] = $msg;
                         }
+
+                        return true;
                     });
                     try {
                         $output = $this->builder->getRenderer()->render($layout['file'], ['page' => $page]);
@@ -245,11 +253,11 @@ class Render extends AbstractStep
                     throw new RuntimeException(
                         \sprintf(
                             'Unable to render template "%s" for page "%s".',
-                            $e->getSourceContext()->getName(),
+                            $e->getSourceContext()?->getName() ?? $layout['file'],
                             $page->getFileName() ?? $page->getId()
                         ),
                         previous: $e,
-                        file: $e->getSourceContext()->getPath(),
+                        file: $e->getSourceContext()?->getPath() ?? '',
                         line: $e->getTemplateLine(),
                     );
                 } catch (\Exception $e) {
@@ -267,16 +275,16 @@ class Render extends AbstractStep
             $this->builder->getLogger()->info($message, ['progress' => [$count, $total]]);
         }
         // profiler
-        if ($this->builder->isDebug()) {
+        if ($this->builder->isDebug() && null !== $profile = $this->builder->getRenderer()->getDebugProfile()) {
             try {
                 // HTML
                 $htmlDumper = new \Twig\Profiler\Dumper\HtmlDumper();
                 $profileHtmlFile = Util::joinFile($this->config->getDestinationDir(), Builder::TMP_DIR, 'twig_profile.html');
-                Util\File::getFS()->dumpFile($profileHtmlFile, $htmlDumper->dump($this->builder->getRenderer()->getDebugProfile()));
+                Util\File::getFS()->dumpFile($profileHtmlFile, $htmlDumper->dump($profile));
                 // TXT
                 $textDumper = new \Twig\Profiler\Dumper\TextDumper();
                 $profileTextFile = Util::joinFile($this->config->getDestinationDir(), Builder::TMP_DIR, 'twig_profile.txt');
-                Util\File::getFS()->dumpFile($profileTextFile, $textDumper->dump($this->builder->getRenderer()->getDebugProfile()));
+                Util\File::getFS()->dumpFile($profileTextFile, $textDumper->dump($profile));
                 // log
                 $this->builder->getLogger()->debug(\sprintf('Twig profile dumped in "%s"', Util::joinFile($this->config->getDestinationDir(), Builder::TMP_DIR)));
             } catch (\Symfony\Component\Filesystem\Exception\IOException $e) {
@@ -287,6 +295,8 @@ class Render extends AbstractStep
 
     /**
      * Returns an array of layouts directories.
+     *
+     * @return list<string>
      */
     protected function getAllLayoutsPaths(): array
     {
@@ -313,7 +323,7 @@ class Render extends AbstractStep
     /**
      * Adds global variables.
      */
-    protected function addGlobals()
+    protected function addGlobals(): void
     {
         $this->builder->getRenderer()->addGlobal('cecil', [
             'url'       => \sprintf('https://cecil.app/#%s', Builder::getVersion()),
@@ -324,6 +334,8 @@ class Render extends AbstractStep
 
     /**
      * Get available output formats.
+     *
+     * @return array<string>
      *
      * @throws RuntimeException
      */
@@ -361,6 +373,10 @@ class Render extends AbstractStep
 
     /**
      * Get alternates.
+     *
+     * @param array<string> $formats
+     *
+     * @return list<array<string, mixed>>
      */
     protected function getAlternates(array $formats): array
     {
@@ -368,10 +384,9 @@ class Render extends AbstractStep
 
         if (\count($formats) > 1 || \in_array('html', $formats)) {
             foreach ($formats as $format) {
-                $format == 'html' ? $rel = 'canonical' : $rel = 'alternate';
                 $alternates[] = [
-                    'rel'    => $rel,
-                    'type'   => $this->config->getOutputFormatProperty($format, 'mediatype'),
+                    'rel'    => $this->config->getOutputFormatProperty($format, 'rel') ?? 'alternate',
+                    'type'   => $this->config->getOutputFormatProperty($format, 'mediatype') ?? 'application/octet-stream',
                     'title'  => strtoupper($format),
                     'format' => $format,
                 ];
