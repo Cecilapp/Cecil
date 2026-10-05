@@ -590,7 +590,7 @@ Remote images are downloaded and converted into _Assets_ to be manipulated. You 
 :::tip
 When `dark_suffix` is set (e.g. `dark_suffix: .dark`), Cecil automatically looks for a dark variant of each image (e.g. `photo.dark.jpg` alongside `photo.jpg`). If found, the image is wrapped in a `<picture>` element with a `<source media="(prefers-color-scheme: dark)">` for automatic light/dark theme switching. Works in combination with `formats` and `responsive`.
 
-In the same way, when `mobile_suffix` is set (e.g. `mobile_suffix: .mobile`), Cecil looks for a mobile variant of each image (e.g. `photo.mobile.jpg` alongside `photo.jpg`) and adds a `<source>` element with the `mobile_media_query` media query (`(max-width: 767px)` by default).
+In the same way, when `mobile_suffix` is set (e.g. `mobile_suffix: .mobile`), Cecil looks for a mobile variant of each image (e.g. `photo.mobile.jpg` alongside `photo.jpg`) and adds a `<source>` element with the `mobile_media_query` media query (`(max-width: 767px)` by default). If `dark_suffix` is also set, the dark variant of the mobile image (e.g. `photo.mobile.dark.jpg`) is used on mobile with dark color scheme. Mobile sources are placed before dark sources, so that a mobile variant takes precedence.
 :::
 
 #### pages.body.links

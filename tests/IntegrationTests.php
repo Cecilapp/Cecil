@@ -77,7 +77,9 @@ class IntegrationTests extends \PHPUnit\Framework\TestCase
         self::assertStringContainsStringIgnoringCase('/images/cecil-logo.dark.png', $htmlImages);
         self::assertStringContainsString('media="(max-width: 767px)"', $htmlImages);
         self::assertStringContainsStringIgnoringCase('/images/cecil-logo.mobile.png', $htmlImages);
-        self::assertMatchesRegularExpression('/media="\(prefers-color-scheme: dark\)".*media="\(max-width: 767px\)"/s', $htmlImages);
+        self::assertStringContainsStringIgnoringCase('/images/cecil-logo.mobile.dark.png', $htmlImages);
+        // the first matching `<source>` wins: mobile dark, then mobile, then dark
+        self::assertMatchesRegularExpression('/media="\(max-width: 767px\) and \(prefers-color-scheme: dark\)".*media="\(max-width: 767px\)".*media="\(prefers-color-scheme: dark\)"/s', $htmlImages);
         self::assertMatchesRegularExpression('/<code[^>]*translate="no"[^>]*>/', $htmlMarkdown);
 
         // a title containing a raw backslash must not break the JSON-LD block (see WebPage/BreadcrumbList `name`)

@@ -612,14 +612,15 @@ class Core extends AbstractExtension
         }
         $img = \sprintf('<img src="%s"%s>', $url($asset), self::htmlAttributes($attributes));
 
-        // dark color-scheme variant: auto-detect `{filename}{suffix}.{ext}` alongside the source image
-        $darkSource = $this->buildDarkSourceHtml($asset, $formats, $responsive, $attributes, $url);
         // mobile variant: auto-detect `{filename}{suffix}.{ext}` alongside the source image
         $mobileSource = $this->buildMobileSourceHtml($asset, $formats, $responsive, $attributes, $url);
+        // dark color-scheme variant: auto-detect `{filename}{suffix}.{ext}` alongside the source image
+        $darkSource = $this->buildDarkSourceHtml($asset, $formats, $responsive, $attributes, $url);
 
         // put `<source>` elements in `<picture>` if exists
-        if (!empty($darkSource) || !empty($mobileSource) || !empty($source)) {
-            return \sprintf("<picture>%s%s%s\n  %s\n</picture>", $darkSource, $mobileSource, $source, $img);
+        // (the first matching `<source>` wins: mobile sources must precede dark sources)
+        if (!empty($mobileSource) || !empty($darkSource) || !empty($source)) {
+            return \sprintf("<picture>%s%s%s\n  %s\n</picture>", $mobileSource, $darkSource, $source, $img);
         }
 
         return $img;
@@ -710,6 +711,7 @@ class Core extends AbstractExtension
                 'width1x' => isset($attributes['width']) && $attributes['width'] > 0 ? (int) $attributes['width'] : null,
                 'url' => $url,
                 'media' => $mobileMediaQuery,
+                'darkSuffix' => (string) $this->config->get('layouts.images.dark_suffix'),
             ]
         );
         if (empty($mobileSourceAttributes)) {

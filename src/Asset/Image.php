@@ -572,15 +572,8 @@ class Image
             return [];
         }
 
-        $responsive = $options['responsive'] ?? false;
-        $widths = $options['widths'] ?? [];
-        $densities = $options['densities'] ?? [];
-        $sizes = $options['sizes'] ?? null;
-        $width1x = $options['width1x'] ?? null;
-        $assetOptions = $options['assetOptions'] ?? [];
-        $url = $options['url'] ?? null;
         $darkAssetPath = self::buildDarkAssetPath($asset['_path'], $darkSuffix);
-        $assetDark = new Asset($builder, $darkAssetPath, array_merge(['ignore_missing' => true], $assetOptions));
+        $assetDark = new Asset($builder, $darkAssetPath, array_merge(['ignore_missing' => true], $options['assetOptions'] ?? []));
         if ($assetDark->isMissing()) {
             $builder->getLogger()->warning(\sprintf(
                 'Dark variant "%s" not found for image "%s".',
@@ -590,57 +583,13 @@ class Image
 
             return [];
         }
-        $darkSources = [];
-        foreach ($formats as $format) {
-            try {
-                $assetDarkConverted = $assetDark->convert($format);
-                if ($responsive === true || $responsive === 'width') {
-                    $darkSrcset = !empty($widths) ? self::buildHtmlSrcsetW($assetDarkConverted, $widths, false, $url) : '';
-                } elseif ($responsive === 'density') {
-                    $darkSrcset = !empty($densities)
-                        ? self::buildHtmlSrcsetX($assetDarkConverted, $width1x ?? $assetDark['width'], $densities, $url)
-                        : '';
-                } else {
-                    $darkSrcset = '';
-                }
-                $darkSourceAttributes = [
-                    'media'  => '(prefers-color-scheme: dark)',
-                    'type'   => "image/$format",
-                    'srcset' => empty($darkSrcset) ? self::url($assetDarkConverted, $url) : $darkSrcset,
-                ];
-                if (!empty($sizes)) {
-                    $darkSourceAttributes['sizes'] = $sizes;
-                }
-                $darkSources[] = $darkSourceAttributes;
-            } catch (\Exception $e) {
-                $builder->getLogger()->warning($e->getMessage());
-            }
-        }
-        $darkFallbackSrcset = self::url($assetDark, $url);
-        if (($responsive === true || $responsive === 'width') && !empty($widths)) {
-            try {
-                $darkResponsiveSrcset = self::buildHtmlSrcsetW($assetDark, $widths, false, $url);
-                if (!empty($darkResponsiveSrcset)) {
-                    $darkFallbackSrcset = $darkResponsiveSrcset;
-                }
-            } catch (\Exception $e) {
-                $builder->getLogger()->warning($e->getMessage());
-            }
-        }
-        $darkFallbackSourceAttributes = [
-            'media'  => '(prefers-color-scheme: dark)',
-            'srcset' => $darkFallbackSrcset,
-        ];
-        if (!empty($sizes)) {
-            $darkFallbackSourceAttributes['sizes'] = $sizes;
-        }
-        $darkSources[] = $darkFallbackSourceAttributes;
 
-        return $darkSources;
+        return self::buildVariantSourceAttributes($builder, $assetDark, '(prefers-color-scheme: dark)', $formats, $options);
     }
 
     /**
      * Builds mobile source attributes for an image.
+     * If `darkSuffix` option is set, the dark variant of the mobile image (e.g.: `image.mobile.dark.jpg`) is also looked up.
      *
      * @param array<string> $formats
      * @param array{
@@ -651,7 +600,8 @@ class Image
      *   width1x?: ?int,
      *   assetOptions?: array<mixed>,
      *   url?: ?callable,
-     *   media?: string
+     *   media?: string,
+     *   darkSuffix?: ?string
      * } $options
      *
      * @return array<array<string, string>>
@@ -667,17 +617,11 @@ class Image
             return [];
         }
 
-        $responsive = $options['responsive'] ?? false;
-        $widths = $options['widths'] ?? [];
-        $densities = $options['densities'] ?? [];
-        $sizes = $options['sizes'] ?? null;
-        $width1x = $options['width1x'] ?? null;
-        $assetOptions = $options['assetOptions'] ?? [];
-        $url = $options['url'] ?? null;
         $media = (string) ($options['media'] ?? '(max-width: 767px)');
         if ($media === '') {
             $media = '(max-width: 767px)';
         }
+        $assetOptions = $options['assetOptions'] ?? [];
 
         $mobileAssetPath = self::buildMobileAssetPath($asset['_path'], $mobileSuffix);
         $assetMobile = new Asset($builder, $mobileAssetPath, array_merge(['ignore_missing' => true], $assetOptions));
@@ -692,53 +636,102 @@ class Image
         }
 
         $mobileSources = [];
+        // dark variant of the mobile image (optional): must come first to take precedence over the light mobile image
+        $darkSuffix = (string) ($options['darkSuffix'] ?? '');
+        if ($darkSuffix !== '') {
+            $mobileDarkAssetPath = self::buildDarkAssetPath($mobileAssetPath, $darkSuffix);
+            $assetMobileDark = new Asset($builder, $mobileDarkAssetPath, array_merge(['ignore_missing' => true], $assetOptions));
+            if (!$assetMobileDark->isMissing()) {
+                $mobileSources = self::buildVariantSourceAttributes(
+                    $builder,
+                    $assetMobileDark,
+                    "$media and (prefers-color-scheme: dark)",
+                    $formats,
+                    $options
+                );
+            }
+        }
+
+        return array_merge($mobileSources, self::buildVariantSourceAttributes($builder, $assetMobile, $media, $formats, $options));
+    }
+
+    /**
+     * Builds source attributes (alternative formats + fallback) of an image variant for a given media query.
+     *
+     * @param array<string> $formats
+     * @param array{
+     *   responsive?: mixed,
+     *   widths?: array<int>,
+     *   densities?: array<float|int>,
+     *   sizes?: ?string,
+     *   width1x?: ?int,
+     *   url?: ?callable
+     * } $options
+     *
+     * @return array<array<string, string>>
+     */
+    private static function buildVariantSourceAttributes(
+        Builder $builder,
+        Asset $variant,
+        string $media,
+        array $formats,
+        array $options
+    ): array {
+        $responsive = $options['responsive'] ?? false;
+        $widths = $options['widths'] ?? [];
+        $densities = $options['densities'] ?? [];
+        $sizes = $options['sizes'] ?? null;
+        $width1x = $options['width1x'] ?? null;
+        $url = $options['url'] ?? null;
+
+        $sources = [];
         foreach ($formats as $format) {
             try {
-                $assetMobileConverted = $assetMobile->convert($format);
+                $variantConverted = $variant->convert($format);
                 if ($responsive === true || $responsive === 'width') {
-                    $mobileSrcset = !empty($widths) ? self::buildHtmlSrcsetW($assetMobileConverted, $widths, false, $url) : '';
+                    $srcset = !empty($widths) ? self::buildHtmlSrcsetW($variantConverted, $widths, false, $url) : '';
                 } elseif ($responsive === 'density') {
-                    $mobileSrcset = !empty($densities)
-                        ? self::buildHtmlSrcsetX($assetMobileConverted, $width1x ?? $assetMobile['width'], $densities, $url)
+                    $srcset = !empty($densities)
+                        ? self::buildHtmlSrcsetX($variantConverted, $width1x ?? $variant['width'], $densities, $url)
                         : '';
                 } else {
-                    $mobileSrcset = '';
+                    $srcset = '';
                 }
-                $mobileSourceAttributes = [
+                $sourceAttributes = [
                     'media'  => $media,
                     'type'   => "image/$format",
-                    'srcset' => empty($mobileSrcset) ? self::url($assetMobileConverted, $url) : $mobileSrcset,
+                    'srcset' => empty($srcset) ? self::url($variantConverted, $url) : $srcset,
                 ];
                 if (!empty($sizes)) {
-                    $mobileSourceAttributes['sizes'] = $sizes;
+                    $sourceAttributes['sizes'] = $sizes;
                 }
-                $mobileSources[] = $mobileSourceAttributes;
+                $sources[] = $sourceAttributes;
             } catch (\Exception $e) {
                 $builder->getLogger()->warning($e->getMessage());
             }
         }
 
-        $mobileFallbackSrcset = self::url($assetMobile, $url);
+        $fallbackSrcset = self::url($variant, $url);
         if (($responsive === true || $responsive === 'width') && !empty($widths)) {
             try {
-                $mobileResponsiveSrcset = self::buildHtmlSrcsetW($assetMobile, $widths, false, $url);
-                if (!empty($mobileResponsiveSrcset)) {
-                    $mobileFallbackSrcset = $mobileResponsiveSrcset;
+                $responsiveSrcset = self::buildHtmlSrcsetW($variant, $widths, false, $url);
+                if (!empty($responsiveSrcset)) {
+                    $fallbackSrcset = $responsiveSrcset;
                 }
             } catch (\Exception $e) {
                 $builder->getLogger()->warning($e->getMessage());
             }
         }
-        $mobileFallbackSourceAttributes = [
+        $fallbackSourceAttributes = [
             'media'  => $media,
-            'srcset' => $mobileFallbackSrcset,
+            'srcset' => $fallbackSrcset,
         ];
         if (!empty($sizes)) {
-            $mobileFallbackSourceAttributes['sizes'] = $sizes;
+            $fallbackSourceAttributes['sizes'] = $sizes;
         }
-        $mobileSources[] = $mobileFallbackSourceAttributes;
+        $sources[] = $fallbackSourceAttributes;
 
-        return $mobileSources;
+        return $sources;
     }
 
     /**

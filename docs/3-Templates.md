@@ -772,7 +772,7 @@ You can define a global default behavior of images options (`formats`, `responsi
 
 When [`layouts.images.dark_suffix`](4-Configuration.md#layouts-images) is configured (e.g. `.dark`), Cecil automatically looks for a dark variant of each image (e.g. `photo.dark.jpg` alongside `photo.jpg`) and generates a `<picture>` element with a `<source media="(prefers-color-scheme: dark)">`.
 
-In the same way, when [`layouts.images.mobile_suffix`](4-Configuration.md#layouts-images) is configured (e.g. `.mobile`), Cecil looks for a mobile variant of each image (e.g. `photo.mobile.jpg`) and adds a `<source>` with the [`layouts.images.mobile_media_query`](4-Configuration.md#layouts-images) media query.
+In the same way, when [`layouts.images.mobile_suffix`](4-Configuration.md#layouts-images) is configured (e.g. `.mobile`), Cecil looks for a mobile variant of each image (e.g. `photo.mobile.jpg`) and adds a `<source>` with the [`layouts.images.mobile_media_query`](4-Configuration.md#layouts-images) media query. If a dark variant of the mobile image exists (e.g. `photo.mobile.dark.jpg`), it is used on mobile with dark color scheme.
 :::
 
 _Examples:_

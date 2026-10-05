@@ -569,12 +569,14 @@ class Parsedown extends \ParsedownToc
                         : null,
                     'assetOptions' => ['language' => $this->language],
                     'media' => $mobileMediaQuery,
+                    'darkSuffix' => $darkSuffix,
                 ]
             );
             if (\count($mobileSourceAttributes) > 0) {
+                // the first matching `<source>` wins: mobile sources must precede dark sources
                 $variantSources = array_merge(
-                    $variantSources,
-                    array_map(static fn (array $attributes): array => ['name' => 'source', 'attributes' => $attributes], $mobileSourceAttributes)
+                    array_map(static fn (array $attributes): array => ['name' => 'source', 'attributes' => $attributes], $mobileSourceAttributes),
+                    $variantSources
                 );
             }
         }
@@ -967,7 +969,8 @@ class Parsedown extends \ParsedownToc
      *   sizes?: ?string,
      *   width1x?: ?int,
      *   assetOptions?: array<mixed>,
-     *   media?: string
+     *   media?: string,
+     *   darkSuffix?: ?string
      * } $options
      *
      * @return array<array<string, string>>

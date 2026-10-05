@@ -592,7 +592,7 @@ Les images distantes sont téléchargées et converties en _Assets_ pour être m
 :::tip
 Lorsque `dark_suffix` est défini (par ex. `dark_suffix: .dark`), Cecil cherche automatiquement une variante sombre de chaque image (par ex. `photo.dark.jpg` à côté de `photo.jpg`). Si elle est trouvée, l’image est entourée d’un élément `<picture>` avec une balise `<source media="(prefers-color-scheme: dark)">` pour un basculement automatique clair/sombre. Cela fonctionne avec `formats` et `responsive`.
 
-De la même manière, lorsque `mobile_suffix` est défini (par ex. `mobile_suffix: .mobile`), Cecil cherche une variante mobile de chaque image (par ex. `photo.mobile.jpg` à côté de `photo.jpg`) et ajoute une balise `<source>` avec la media query `mobile_media_query` (`(max-width: 767px)` par défaut).
+De la même manière, lorsque `mobile_suffix` est défini (par ex. `mobile_suffix: .mobile`), Cecil cherche une variante mobile de chaque image (par ex. `photo.mobile.jpg` à côté de `photo.jpg`) et ajoute une balise `<source>` avec la media query `mobile_media_query` (`(max-width: 767px)` par défaut). Si `dark_suffix` est également défini, la variante sombre de l’image mobile (par ex. `photo.mobile.dark.jpg`) est utilisée sur mobile en mode sombre. Les sources mobiles sont placées avant les sources sombres, afin que la variante mobile soit prioritaire.
 :::
 
 #### pages.body.links

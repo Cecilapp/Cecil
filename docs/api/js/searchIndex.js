@@ -166,6 +166,11 @@ Search.appendIndex(
             "summary": "Builds\u0020mobile\u0020source\u0020attributes\u0020for\u0020an\u0020image.",
             "url": "classes/Cecil-Asset-Image.html#method_buildMobileSourceAttributes"
         },                {
+            "fqsen": "\\Cecil\\Asset\\Image\u003A\u003AbuildVariantSourceAttributes\u0028\u0029",
+            "name": "buildVariantSourceAttributes",
+            "summary": "Builds\u0020source\u0020attributes\u0020\u0028alternative\u0020formats\u0020\u002B\u0020fallback\u0029\u0020of\u0020an\u0020image\u0020variant\u0020for\u0020a\u0020given\u0020media\u0020query.",
+            "url": "classes/Cecil-Asset-Image.html#method_buildVariantSourceAttributes"
+        },                {
             "fqsen": "\\Cecil\\Asset\\Image\u003A\u003AbuildHtmlSrcsetW\u0028\u0029",
             "name": "buildHtmlSrcsetW",
             "summary": "Build\u0020the\u0020\u0060srcset\u0060\u0020HTML\u0020attribute\u0020for\u0020responsive\u0020images,\u0020based\u0020on\u0020widths.",

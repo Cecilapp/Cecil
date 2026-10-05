@@ -773,7 +773,7 @@ Vous pouvez définir un comportement global par défaut des options d'images (`f
 
 Lorsque [`layouts.images.dark_suffix`](4-Configuration.md#layouts-images) est configuré (par exemple `.dark`), Cecil recherche automatiquement une variante sombre de chaque image (par exemple `photo.dark.jpg` aux côtés de `photo.jpg`) et génère un élément `<picture>` avec un `<source media="(prefers-color-scheme: dark)">`.
 
-De la même manière, lorsque [`layouts.images.mobile_suffix`](4-Configuration.md#layouts-images) est configuré (par exemple `.mobile`), Cecil recherche une variante mobile de chaque image (par exemple `photo.mobile.jpg`) et ajoute un `<source>` avec la media query [`layouts.images.mobile_media_query`](4-Configuration.md#layouts-images).
+De la même manière, lorsque [`layouts.images.mobile_suffix`](4-Configuration.md#layouts-images) est configuré (par exemple `.mobile`), Cecil recherche une variante mobile de chaque image (par exemple `photo.mobile.jpg`) et ajoute un `<source>` avec la media query [`layouts.images.mobile_media_query`](4-Configuration.md#layouts-images). Si une variante sombre de l’image mobile existe (par exemple `photo.mobile.dark.jpg`), elle est utilisée sur mobile en mode sombre.
 :::
 
 _Exemples :_

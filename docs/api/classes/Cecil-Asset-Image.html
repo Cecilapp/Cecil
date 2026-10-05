@@ -390,6 +390,13 @@ It supports GD, Imagick and libvips drivers, depending on available extensions.<
 <dd>Resizes an ICO Asset to the given width or/and height.</dd>
 
             <dt class="phpdocumentor-table-of-contents__entry -method -private">
+    <a class="" href="classes/Cecil-Asset-Image.html#method_buildVariantSourceAttributes">buildVariantSourceAttributes()</a>
+    <span>
+                                &nbsp;: array&lt;string|int, array&lt;string, string&gt;&gt;    </span>
+</dt>
+<dd>Builds source attributes (alternative formats + fallback) of an image variant for a given media query.</dd>
+
+            <dt class="phpdocumentor-table-of-contents__entry -method -private">
     <a class="" href="classes/Cecil-Asset-Image.html#method_driver">driver()</a>
     <span>
                                 &nbsp;: array{string, class-string}|null    </span>
@@ -592,7 +599,7 @@ It supports GD, Imagick and libvips drivers, depending on available extensions.<
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Asset/Image.php"><a href="files/src-asset-image.html"><abbr title="src/Asset/Image.php">Image.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">787</span>
+    <span class="phpdocumentor-element-found-in__line">780</span>
 
     </aside>
 
@@ -668,7 +675,7 @@ It supports GD, Imagick and libvips drivers, depending on available extensions.<
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Asset/Image.php"><a href="files/src-asset-image.html"><abbr title="src/Asset/Image.php">Image.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">754</span>
+    <span class="phpdocumentor-element-found-in__line">747</span>
 
     </aside>
 
@@ -760,7 +767,7 @@ It supports GD, Imagick and libvips drivers, depending on available extensions.<
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Asset/Image.php"><a href="files/src-asset-image.html"><abbr title="src/Asset/Image.php">Image.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">802</span>
+    <span class="phpdocumentor-element-found-in__line">795</span>
 
     </aside>
 
@@ -978,7 +985,7 @@ It supports GD, Imagick and libvips drivers, depending on available extensions.<
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Asset/Image.php"><a href="files/src-asset-image.html"><abbr title="src/Asset/Image.php">Image.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">659</span>
+    <span class="phpdocumentor-element-found-in__line">609</span>
 
     </aside>
 
@@ -986,12 +993,14 @@ It supports GD, Imagick and libvips drivers, depending on available extensions.<
 
     <code class="phpdocumentor-code phpdocumentor-signature ">
     <span class="phpdocumentor-signature__visibility">public</span>
-            <span class="phpdocumentor-signature__static">static</span>        <span class="phpdocumentor-signature__name">buildMobileSourceAttributes</span><span>(</span><span class="phpdocumentor-signature__argument"><span class="phpdocumentor-signature__argument__type"><a href="classes/Cecil-Builder.html"><abbr title="\Cecil\Builder">Builder</abbr></a>&nbsp;</span><span class="phpdocumentor-signature__argument__name">$builder</span></span><span class="phpdocumentor-signature__argument"><span>, </span><span class="phpdocumentor-signature__argument__type"><a href="classes/Cecil-Asset.html"><abbr title="\Cecil\Asset">Asset</abbr></a>&nbsp;</span><span class="phpdocumentor-signature__argument__name">$asset</span></span><span class="phpdocumentor-signature__argument"><span>, </span><span class="phpdocumentor-signature__argument__type">string&nbsp;</span><span class="phpdocumentor-signature__argument__name">$mobileSuffix</span></span><span class="phpdocumentor-signature__argument"><span>, </span><span class="phpdocumentor-signature__argument__type">array&lt;string|int, string&gt;&nbsp;</span><span class="phpdocumentor-signature__argument__name">$formats</span></span><span class="phpdocumentor-signature__argument"><span>[</span><span>, </span><span class="phpdocumentor-signature__argument__type">array{responsive?: mixed, widths?: int[], densities?: (float|int)[], sizes?: ?string, width1x?: ?int, assetOptions?: array, url?: ?callable, media?: string}&nbsp;</span><span class="phpdocumentor-signature__argument__name">$options</span><span> = </span><span class="phpdocumentor-signature__argument__default-value">[]</span><span> ]</span></span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">array&lt;string|int, array&lt;string, string&gt;&gt;</span></code>
+            <span class="phpdocumentor-signature__static">static</span>        <span class="phpdocumentor-signature__name">buildMobileSourceAttributes</span><span>(</span><span class="phpdocumentor-signature__argument"><span class="phpdocumentor-signature__argument__type"><a href="classes/Cecil-Builder.html"><abbr title="\Cecil\Builder">Builder</abbr></a>&nbsp;</span><span class="phpdocumentor-signature__argument__name">$builder</span></span><span class="phpdocumentor-signature__argument"><span>, </span><span class="phpdocumentor-signature__argument__type"><a href="classes/Cecil-Asset.html"><abbr title="\Cecil\Asset">Asset</abbr></a>&nbsp;</span><span class="phpdocumentor-signature__argument__name">$asset</span></span><span class="phpdocumentor-signature__argument"><span>, </span><span class="phpdocumentor-signature__argument__type">string&nbsp;</span><span class="phpdocumentor-signature__argument__name">$mobileSuffix</span></span><span class="phpdocumentor-signature__argument"><span>, </span><span class="phpdocumentor-signature__argument__type">array&lt;string|int, string&gt;&nbsp;</span><span class="phpdocumentor-signature__argument__name">$formats</span></span><span class="phpdocumentor-signature__argument"><span>[</span><span>, </span><span class="phpdocumentor-signature__argument__type">array{responsive?: mixed, widths?: int[], densities?: (float|int)[], sizes?: ?string, width1x?: ?int, assetOptions?: array, url?: ?callable, media?: string, darkSuffix?: ?string}&nbsp;</span><span class="phpdocumentor-signature__argument__name">$options</span><span> = </span><span class="phpdocumentor-signature__argument__default-value">[]</span><span> ]</span></span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">array&lt;string|int, array&lt;string, string&gt;&gt;</span></code>
 
     <div class="phpdocumentor-label-line">
         </div>
     
-    
+        <section class="phpdocumentor-description"><p>If <code class="prettyprint">darkSuffix</code> option is set, the dark variant of the mobile image (e.g.: <code class="prettyprint">image.mobile.dark.jpg</code>) is also looked up.</p>
+</section>
+
         <h5 class="phpdocumentor-argument-list__heading">Parameters</h5>
     <dl class="phpdocumentor-argument-list">
                     <dt class="phpdocumentor-argument-list__entry">
@@ -1024,7 +1033,7 @@ It supports GD, Imagick and libvips drivers, depending on available extensions.<
             </dd>
                     <dt class="phpdocumentor-argument-list__entry">
                 <span class="phpdocumentor-argument-list__argument__name">$options</span>
-                : <span class="phpdocumentor-argument-list__argument__type">array{responsive?: mixed, widths?: int[], densities?: (float|int)[], sizes?: ?string, width1x?: ?int, assetOptions?: array, url?: ?callable, media?: string}</span>
+                : <span class="phpdocumentor-argument-list__argument__type">array{responsive?: mixed, widths?: int[], densities?: (float|int)[], sizes?: ?string, width1x?: ?int, assetOptions?: array, url?: ?callable, media?: string, darkSuffix?: ?string}</span>
                  = <span class="phpdocumentor-argument-list__argument__default-value">[]</span>            </dt>
             <dd class="phpdocumentor-argument-list__definition">
                 
@@ -1497,7 +1506,7 @@ It supports GD, Imagick and libvips drivers, depending on available extensions.<
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Asset/Image.php"><a href="files/src-asset-image.html"><abbr title="src/Asset/Image.php">Image.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">841</span>
+    <span class="phpdocumentor-element-found-in__line">834</span>
 
     </aside>
 
@@ -1683,7 +1692,7 @@ It supports GD, Imagick and libvips drivers, depending on available extensions.<
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Asset/Image.php"><a href="files/src-asset-image.html"><abbr title="src/Asset/Image.php">Image.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">904</span>
+    <span class="phpdocumentor-element-found-in__line">897</span>
 
     </aside>
 
@@ -1732,7 +1741,7 @@ It supports GD, Imagick and libvips drivers, depending on available extensions.<
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Asset/Image.php"><a href="files/src-asset-image.html"><abbr title="src/Asset/Image.php">Image.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">860</span>
+    <span class="phpdocumentor-element-found-in__line">853</span>
 
     </aside>
 
@@ -1781,7 +1790,7 @@ It supports GD, Imagick and libvips drivers, depending on available extensions.<
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Asset/Image.php"><a href="files/src-asset-image.html"><abbr title="src/Asset/Image.php">Image.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">882</span>
+    <span class="phpdocumentor-element-found-in__line">875</span>
 
     </aside>
 
@@ -1830,7 +1839,7 @@ It supports GD, Imagick and libvips drivers, depending on available extensions.<
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Asset/Image.php"><a href="files/src-asset-image.html"><abbr title="src/Asset/Image.php">Image.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">890</span>
+    <span class="phpdocumentor-element-found-in__line">883</span>
 
     </aside>
 
@@ -1879,7 +1888,7 @@ It supports GD, Imagick and libvips drivers, depending on available extensions.<
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Asset/Image.php"><a href="files/src-asset-image.html"><abbr title="src/Asset/Image.php">Image.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">874</span>
+    <span class="phpdocumentor-element-found-in__line">867</span>
 
     </aside>
 
@@ -2172,6 +2181,83 @@ PNG icons and 24/32 bits BMP icons are handled by any driver, other BMP icons re
             -private
                                     -static                    "
 >
+    <h4 class="phpdocumentor-element__name" id="method_buildVariantSourceAttributes">
+        buildVariantSourceAttributes()
+        <a href="classes/Cecil-Asset-Image.html#method_buildVariantSourceAttributes" class="headerlink"><i class="fas fa-link"></i></a>
+
+    </h4>
+    <aside class="phpdocumentor-element-found-in">
+    <abbr class="phpdocumentor-element-found-in__file" title="src/Asset/Image.php"><a href="files/src-asset-image.html"><abbr title="src/Asset/Image.php">Image.php</abbr></a></abbr>
+    :
+    <span class="phpdocumentor-element-found-in__line">673</span>
+
+    </aside>
+
+        <p class="phpdocumentor-summary">Builds source attributes (alternative formats + fallback) of an image variant for a given media query.</p>
+
+    <code class="phpdocumentor-code phpdocumentor-signature ">
+    <span class="phpdocumentor-signature__visibility">private</span>
+            <span class="phpdocumentor-signature__static">static</span>        <span class="phpdocumentor-signature__name">buildVariantSourceAttributes</span><span>(</span><span class="phpdocumentor-signature__argument"><span class="phpdocumentor-signature__argument__type"><a href="classes/Cecil-Builder.html"><abbr title="\Cecil\Builder">Builder</abbr></a>&nbsp;</span><span class="phpdocumentor-signature__argument__name">$builder</span></span><span class="phpdocumentor-signature__argument"><span>, </span><span class="phpdocumentor-signature__argument__type"><a href="classes/Cecil-Asset.html"><abbr title="\Cecil\Asset">Asset</abbr></a>&nbsp;</span><span class="phpdocumentor-signature__argument__name">$variant</span></span><span class="phpdocumentor-signature__argument"><span>, </span><span class="phpdocumentor-signature__argument__type">string&nbsp;</span><span class="phpdocumentor-signature__argument__name">$media</span></span><span class="phpdocumentor-signature__argument"><span>, </span><span class="phpdocumentor-signature__argument__type">array&lt;string|int, string&gt;&nbsp;</span><span class="phpdocumentor-signature__argument__name">$formats</span></span><span class="phpdocumentor-signature__argument"><span>, </span><span class="phpdocumentor-signature__argument__type">array{responsive?: mixed, widths?: int[], densities?: (float|int)[], sizes?: ?string, width1x?: ?int, url?: ?callable}&nbsp;</span><span class="phpdocumentor-signature__argument__name">$options</span></span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">array&lt;string|int, array&lt;string, string&gt;&gt;</span></code>
+
+    <div class="phpdocumentor-label-line">
+        </div>
+    
+    
+        <h5 class="phpdocumentor-argument-list__heading">Parameters</h5>
+    <dl class="phpdocumentor-argument-list">
+                    <dt class="phpdocumentor-argument-list__entry">
+                <span class="phpdocumentor-argument-list__argument__name">$builder</span>
+                : <span class="phpdocumentor-argument-list__argument__type"><a href="classes/Cecil-Builder.html"><abbr title="\Cecil\Builder">Builder</abbr></a></span>
+                            </dt>
+            <dd class="phpdocumentor-argument-list__definition">
+                
+            </dd>
+                    <dt class="phpdocumentor-argument-list__entry">
+                <span class="phpdocumentor-argument-list__argument__name">$variant</span>
+                : <span class="phpdocumentor-argument-list__argument__type"><a href="classes/Cecil-Asset.html"><abbr title="\Cecil\Asset">Asset</abbr></a></span>
+                            </dt>
+            <dd class="phpdocumentor-argument-list__definition">
+                
+            </dd>
+                    <dt class="phpdocumentor-argument-list__entry">
+                <span class="phpdocumentor-argument-list__argument__name">$media</span>
+                : <span class="phpdocumentor-argument-list__argument__type">string</span>
+                            </dt>
+            <dd class="phpdocumentor-argument-list__definition">
+                
+            </dd>
+                    <dt class="phpdocumentor-argument-list__entry">
+                <span class="phpdocumentor-argument-list__argument__name">$formats</span>
+                : <span class="phpdocumentor-argument-list__argument__type">array&lt;string|int, string&gt;</span>
+                            </dt>
+            <dd class="phpdocumentor-argument-list__definition">
+                
+            </dd>
+                    <dt class="phpdocumentor-argument-list__entry">
+                <span class="phpdocumentor-argument-list__argument__name">$options</span>
+                : <span class="phpdocumentor-argument-list__argument__type">array{responsive?: mixed, widths?: int[], densities?: (float|int)[], sizes?: ?string, width1x?: ?int, url?: ?callable}</span>
+                            </dt>
+            <dd class="phpdocumentor-argument-list__definition">
+                
+            </dd>
+            </dl>
+
+    
+
+        
+    
+            <section>
+        <h5 class="phpdocumentor-return-value__heading">Return values</h5>
+        <span class="phpdocumentor-signature__response_type">array&lt;string|int, array&lt;string, string&gt;&gt;</span>
+            </section>
+
+</article>
+                    <article
+        class="phpdocumentor-element
+            -method
+            -private
+                                    -static                    "
+>
     <h4 class="phpdocumentor-element__name" id="method_driver">
         driver()
         <a href="classes/Cecil-Asset-Image.html#method_driver" class="headerlink"><i class="fas fa-link"></i></a>
@@ -2399,7 +2485,7 @@ PNG icons and 24/32 bits BMP icons are handled by any driver, other BMP icons re
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Asset/Image.php"><a href="files/src-asset-image.html"><abbr title="src/Asset/Image.php">Image.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">831</span>
+    <span class="phpdocumentor-element-found-in__line">824</span>
 
     </aside>
 
@@ -2489,6 +2575,7 @@ PNG icons and 24/32 bits BMP icons are handled by any driver, other BMP icons re
                                             <li class=""><a href="classes/Cecil-Asset-Image.html#method_maskable">maskable()</a></li>
                                             <li class=""><a href="classes/Cecil-Asset-Image.html#method_resize">resize()</a></li>
                                             <li class=""><a href="classes/Cecil-Asset-Image.html#method_resizeIco">resizeIco()</a></li>
+                                            <li class=""><a href="classes/Cecil-Asset-Image.html#method_buildVariantSourceAttributes">buildVariantSourceAttributes()</a></li>
                                             <li class=""><a href="classes/Cecil-Asset-Image.html#method_driver">driver()</a></li>
                                             <li class=""><a href="classes/Cecil-Asset-Image.html#method_getIcoLargestEntry">getIcoLargestEntry()</a></li>
                                             <li class=""><a href="classes/Cecil-Asset-Image.html#method_isImagickUsable">isImagickUsable()</a></li>
