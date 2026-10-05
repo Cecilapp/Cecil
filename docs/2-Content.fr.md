@@ -919,7 +919,8 @@ Un dossier imbriqué qui contient explicitement un fichier `index.md` devient un
 
 Une _sous-section_ :
 
-- est une _Section_ (même type, mêmes variables et même résolution de [gabarit](3-Templates.md)) accessible à sa propre URL (ex. : `/blog/2024/`)
+- est une _Section_ (même type, mêmes variables et même résolution de [gabarit](3-Templates.md#type-section)) accessible à sa propre URL (ex. : `/blog/2024/`)
+- est rendue avec les gabarits de ses _Sections_ parentes si elle n'a pas les siens (ex. : `blog/list.html.twig`)
 - peut être imbriquée à n'importe quelle profondeur (ex. : `blog/2024/06/`)
 - liste ses propres pages, et ses pages appartiennent aussi à chacune de leurs _Sections_ parentes
 - n'est **pas** listée dans sa _Section_ parente

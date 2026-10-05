@@ -141,9 +141,14 @@ Toutes les règles sont détaillées ci-dessous, pour chaque type de page, par o
 2. `<section>/index.<format>.twig`
 3. `<section>/list.<format>.twig`
 4. `section/<section>.<format>.twig`
-5. `_default/section.<format>.twig`
-6. `list.<format>.twig`
-7. `_default/list.<format>.twig`
+5. `<parent>/index.<format>.twig`, `<parent>/list.<format>.twig` et `section/<parent>.<format>.twig`, pour chaque section parente d’une sous-section (la plus proche en premier)
+6. `_default/section.<format>.twig`
+7. `list.<format>.twig`
+8. `_default/list.<format>.twig`
+
+:::tip
+La `<section>` d’une [sous-section](2-Content.md#sub-section) est son chemin complet (ex. : `blog/2024`), et une sous-section se replie sur les templates de ses sections parentes : si `blog/2024/list.html.twig` n’existe pas, la sous-section `blog/2024` est rendue avec `blog/list.html.twig`.
+:::
 
 ### Type _vocabulary_
 

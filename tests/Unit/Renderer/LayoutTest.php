@@ -54,9 +54,142 @@ class LayoutTest extends TestCase
         ], $this->lookup($page));
     }
 
-    private function lookup(Page $page): array
+    public function testSectionLookupOrder(): void
     {
-        $config = (new Builder())->getConfig();
+        $page = $this->section('documentation');
+
+        self::assertSame([
+            'documentation/index.html.twig',
+            'documentation/list.html.twig',
+            'section/documentation.html.twig',
+            '_default/section.html.twig',
+            'list.html.twig',
+            '_default/list.html.twig',
+        ], $this->lookup($page));
+    }
+
+    public function testSubSectionLookupOrderFallsBackToParentSection(): void
+    {
+        $page = $this->section('documentation/content');
+
+        self::assertSame([
+            'documentation/content/index.html.twig',
+            'documentation/content/list.html.twig',
+            'section/documentation/content.html.twig',
+            'documentation/index.html.twig',
+            'documentation/list.html.twig',
+            'section/documentation.html.twig',
+            '_default/section.html.twig',
+            'list.html.twig',
+            '_default/list.html.twig',
+        ], $this->lookup($page));
+    }
+
+    public function testNestedSubSectionLookupOrderFallsBackToAncestorSections(): void
+    {
+        $page = $this->section('documentation/templates/reference');
+
+        self::assertSame([
+            'documentation/templates/reference/index.html.twig',
+            'documentation/templates/reference/list.html.twig',
+            'section/documentation/templates/reference.html.twig',
+            'documentation/templates/index.html.twig',
+            'documentation/templates/list.html.twig',
+            'section/documentation/templates.html.twig',
+            'documentation/index.html.twig',
+            'documentation/list.html.twig',
+            'section/documentation.html.twig',
+            '_default/section.html.twig',
+            'list.html.twig',
+            '_default/list.html.twig',
+        ], $this->lookup($page));
+    }
+
+    public function testSubSectionLookupOrderWithLayoutsSectionsMapping(): void
+    {
+        // the mapping of the sub-section itself, then the mapping of its ancestor sections
+        $page = $this->section('documentation/templates/reference');
+
+        self::assertSame([
+            'reference/index.html.twig',
+            'reference/list.html.twig',
+            'section/reference.html.twig',
+            'documentation/templates/index.html.twig',
+            'documentation/templates/list.html.twig',
+            'section/documentation/templates.html.twig',
+            'docs/index.html.twig',
+            'docs/list.html.twig',
+            'section/docs.html.twig',
+            '_default/section.html.twig',
+            'list.html.twig',
+            '_default/list.html.twig',
+        ], $this->lookup($page, [
+            'documentation/templates/reference' => 'reference',
+            'documentation'                     => 'docs',
+        ]));
+
+        // a sub-section mapped to its parent section: no duplicate
+        $page = $this->section('documentation/content');
+
+        self::assertSame([
+            'documentation/index.html.twig',
+            'documentation/list.html.twig',
+            'section/documentation.html.twig',
+            '_default/section.html.twig',
+            'list.html.twig',
+            '_default/list.html.twig',
+        ], $this->lookup($page, ['documentation/content' => 'documentation']));
+    }
+
+    public function testSubSectionLookupOrderWithLayoutVariable(): void
+    {
+        $page = $this->section('documentation/content')
+            ->setVariable('layout', 'custom');
+
+        self::assertSame([
+            'custom.html.twig',
+            'documentation/content/index.html.twig',
+            'documentation/content/list.html.twig',
+            'section/documentation/content.html.twig',
+            'documentation/index.html.twig',
+            'documentation/list.html.twig',
+            'section/documentation.html.twig',
+            '_default/section.html.twig',
+            'list.html.twig',
+            '_default/list.html.twig',
+        ], $this->lookup($page));
+    }
+
+    public function testPageInSubSectionLookupOrder(): void
+    {
+        // a regular page located in a sub-section belongs to its top level section
+        $page = (new Page('documentation/content/pages'))
+            ->setSection('documentation')
+            ->setVariable('layout', 'custom')
+            ->setVariable('language', 'en');
+
+        self::assertSame([
+            'documentation/custom.html.twig',
+            'custom.html.twig',
+            'documentation/page.html.twig',
+            '_default/custom.html.twig',
+            'page.html.twig',
+            '_default/page.html.twig',
+        ], $this->lookup($page));
+    }
+
+    private function section(string $section): Page
+    {
+        return (new Page($section))
+            ->setType(Type::SECTION->value)
+            ->setPath($section)
+            ->setSection($section)
+            ->setVariable('language', 'en');
+    }
+
+    private function lookup(Page $page, array $sectionsMapping = []): array
+    {
+        $config = (new Builder($sectionsMapping ? ['layouts' => ['sections' => $sectionsMapping]] : null))->getConfig();
 
         return (new class () extends Layout {
             public function lookupPublic(Page $page, string $format, \Cecil\Config $config): array

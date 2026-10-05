@@ -111,6 +111,13 @@ class IntegrationTests extends \PHPUnit\Framework\TestCase
         self::assertNotEmpty($jsonLdMatches, 'JSON-LD script block not found on page with backslash in title');
         self::assertJson($jsonLdMatches[1], 'JSON-LD block is not valid JSON when the page title contains a backslash');
 
+        // a sub-section (nested or not) falls back to the layouts of its ancestor sections (here: `sub-sections/list.html.twig`)
+        foreach (['sub-sections', 'sub-sections/child', 'sub-sections/child/grandchild'] as $section) {
+            $htmlSection = Util\File::fileGetContents(Util::joinFile($this->destination, '_site', $section, 'index.html'));
+            self::assertNotFalse($htmlSection);
+            self::assertMatchesRegularExpression('~class="?sub-sections-list-layout"?>' . preg_quote($section, '~') . '<~', $htmlSection, \sprintf('Section "%s" is not rendered with the layout of its top level section', $section));
+        }
+
         // ICO resize
         $htmlAssets = Util\File::fileGetContents(Util::joinFile($this->destination, '_site/assets/assets/index.html'));
         self::assertNotFalse($htmlAssets);
