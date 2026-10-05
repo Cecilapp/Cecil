@@ -51,10 +51,6 @@ class Pagination extends AbstractGenerator implements GeneratorInterface
             $pages = $page->getPages()->filter(function (Page $page) {
                 return $page->getType() == Type::PAGE->value && $page->getVariable('published');
             });
-            // if no published pages: continue
-            if ($pages === null) {
-                continue;
-            }
             $path = $page->getPath();
             // site configuration
             $paginationPerPage = \intval($this->config->get('pages.pagination.max') ?? 5);

@@ -84,7 +84,7 @@ class Render extends AbstractStep
     public function process(): void
     {
         // prepares renderer
-        $this->builder->setRenderer(new Twig($this->builder, $this->getAllLayoutsPaths()));
+        $this->builder->setRenderer(new Twig($this->getBuilder(), $this->getAllLayoutsPaths()));
 
         // adds global variables
         $this->addGlobals();
@@ -220,10 +220,12 @@ class Render extends AbstractStep
                 // renders with Twig
                 try {
                     $deprecations = [];
-                    set_error_handler(function ($type, $msg) use (&$deprecations) {
+                    set_error_handler(function (int $type, string $msg) use (&$deprecations): bool {
                         if (E_USER_DEPRECATED === $type) {
                             $deprecations[] = $msg;
                         }
+
+                        return true;
                     });
                     try {
                         $output = $this->builder->getRenderer()->render($layout['file'], ['page' => $page]);

@@ -13,7 +13,7 @@ declare(strict_types=1);
 
 namespace Cecil\Renderer;
 
-use Cecil\Builder;
+use Cecil\BuildContextInterface;
 use Cecil\Collection\Page\Page as PageItem;
 
 /**
@@ -27,7 +27,7 @@ class Page
 {
     /**
      * Builder object.
-     * @var Builder
+     * @var BuildContextInterface
      */
     protected $builder;
     /**
@@ -41,7 +41,7 @@ class Page
      */
     protected $page;
 
-    public function __construct(Builder $builder, PageItem $page)
+    public function __construct(BuildContextInterface $builder, PageItem $page)
     {
         $this->builder = $builder;
         $this->config = $this->builder->getConfig();

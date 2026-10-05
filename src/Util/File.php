@@ -26,7 +26,7 @@ use Symfony\Component\Mime\MimeTypes;
  */
 class File
 {
-    /** @var Filesystem */
+    /** @var Filesystem|null */
     protected static $fs;
 
     /**

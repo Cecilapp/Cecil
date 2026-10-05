@@ -66,14 +66,14 @@ class Convert extends AbstractStep
 
         $total = \count($this->builder->getPages());
         $count = 0;
-        $converter = new Converter($this->builder);
+        $converter = new Converter($this->getBuilder());
         /** @var Page $page */
         foreach ($this->builder->getPages() as $page) {
             if (!$page->isVirtual()) {
                 $count++;
 
                 try {
-                    $convertedPage = $this->convertPage($this->builder, $page, converter: $converter);
+                    $convertedPage = $this->convertPage($this->getBuilder(), $page, converter: $converter);
                     // set default language (ex: "en") if necessary
                     if ($convertedPage->getVariable('language') === null) {
                         $convertedPage->setVariable('language', $this->config->getLanguageDefault());

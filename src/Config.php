@@ -98,7 +98,7 @@ class Config
      * - Config::IMPORT_REPLACE: replaces existing configuration with new keys.
      * - Config::IMPORT_MERGE: merges existing configuration with new keys, overriding existing keys.
      * @param array $config Configuration array to import
-     * @param int   $mode   Import mode (default: Config::IMPORT_MERGE)
+     * @param self::IMPORT_* $mode Import mode (default: Config::IMPORT_MERGE)
      */
     public function import(array $config, int $mode = self::IMPORT_MERGE): void
     {

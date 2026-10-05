@@ -35,8 +35,7 @@ class Util
      */
     public static function formatClassName($class, array $options = []): string
     {
-        $lowercase = false;
-        extract($options, EXTR_IF_EXISTS);
+        $lowercase = $options['lowercase'] ?? false;
 
         $className = \get_class($class);
         if (($position = strrpos($className, '\\')) !== false) {
@@ -69,7 +68,7 @@ class Util
     public static function joinPath(string ...$path): string
     {
         $path = array_filter($path, function ($path) {
-            return !empty($path) && !\is_null($path);
+            return !empty($path);
         });
         array_walk($path, function (&$value, $key) {
             $value = str_replace('\\', '/', $value);
@@ -108,7 +107,9 @@ class Util
         }
         $unit = ['b', 'kb', 'mb', 'gb', 'tb', 'pb'];
 
-        return \sprintf('%s %s', round($size / pow(1024, $i = floor(log($size, 1024))), 2), $unit[$i]);
+        $i = (int) floor(log($size, 1024));
+
+        return \sprintf('%s %s', round($size / pow(1024, $i), 2), $unit[$i]);
     }
 
     /**

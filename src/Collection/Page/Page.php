@@ -46,7 +46,7 @@ class Page extends Item
     /** @var string path = folder + slug. */
     protected $path;
 
-    /** @var string */
+    /** @var string|null */
     protected $section;
 
     /** @var bool True if page is a folder's index (created from an "index.md" file). */
@@ -108,7 +108,7 @@ class Page extends Item
         parent::__construct($id);
     }
 
-    public function setId(string $id): self
+    public function setId(string $id): static
     {
         return parent::setId($id);
     }
@@ -781,15 +781,17 @@ class Page extends Item
      *
      * @param mixed $value Value to filter
      *
-     * @return bool|mixed
-     *
      * @see strToBool()
      */
-    private function filterBool(&$value)
+    private function filterBool(&$value): void
     {
-        \Cecil\Util\Str::strToBool($value);
         if (\is_array($value)) {
-            array_walk_recursive($value, '\Cecil\Util\Str::strToBool');
+            array_walk_recursive($value, function (&$item) {
+                $item = \Cecil\Util\Str::strToBool($item);
+            });
+
+            return;
         }
+        $value = \Cecil\Util\Str::strToBool($value);
     }
 }

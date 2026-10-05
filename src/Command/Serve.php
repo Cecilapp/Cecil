@@ -546,7 +546,7 @@ EOF
     {
         // writes `changes.flag` file
         if ($this->watcherEnabled) {
-            Util\File::getFS()->dumpFile(Util::joinFile($this->getPath(), Builder::TMP_DIR, 'changes.flag'), time());
+            Util\File::getFS()->dumpFile(Util::joinFile($this->getPath(), Builder::TMP_DIR, 'changes.flag'), (string) time());
         }
         // writes `headers.ini` file
         $headers = $this->getBuilder()->getConfig()->get('server.headers');

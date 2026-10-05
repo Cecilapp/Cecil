@@ -63,11 +63,11 @@ class Collection extends AbstractExtension
             // is a dedicated getter exists?
             $method = 'get' . ucfirst($variable);
             if (method_exists($page, $method) && $page->$method() == $value) {
-                return $page->getType() == Type::PAGE->value && !$page->isVirtual() && true;
+                return $page->getType() == Type::PAGE->value && !$page->isVirtual();
             }
             // or a classic variable
             if ($page->getVariable($variable) == $value) {
-                return $page->getType() == Type::PAGE->value && !$page->isVirtual() && true;
+                return $page->getType() == Type::PAGE->value && !$page->isVirtual();
             }
         });
 

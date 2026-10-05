@@ -168,7 +168,7 @@ class Core extends AbstractExtension
     /**
      * Creates an Asset (CSS, JS, images, etc.) from a path or an array of paths.
      *
-     * @param string|array $path    File path or array of files path (relative from `assets/` or `static/` dir).
+     * @param mixed      $path    File path or array of files path (relative from `assets/` or `static/` dir).
      * @param array|null   $options
      *
      * @return Asset
@@ -380,7 +380,7 @@ class Core extends AbstractExtension
      * Creates the HTML element of an asset.
      *
      * @param array                                                                $context    Twig context
-     * @param Asset|array<int,array{asset:Asset,attributes:?array<string,string>}> $assets     Asset or array of assets + attributes
+     * @param Asset|array<int,array{asset:Asset|string|array<string>,attributes:?array<string,string>}> $assets Asset or array of assets + attributes
      * @param array                                                                $attributes HTML attributes to add to the element
      * @param array                                                                $options    Options:
      * [

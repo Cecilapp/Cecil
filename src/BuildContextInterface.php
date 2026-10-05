@@ -72,6 +72,11 @@ interface BuildContextInterface
     public function setStatic(array $static): void;
 
     /**
+     * Returns static files collection.
+     */
+    public function getStatic(): array;
+
+    /**
      * Set/update Pages collection.
      */
     public function setPages(PagesCollection $pages): void;
@@ -90,6 +95,11 @@ interface BuildContextInterface
      * Set menus collection.
      */
     public function setMenus(array $menus): void;
+
+    /**
+     * Returns all menus, for a language.
+     */
+    public function getMenus(string $language): \Cecil\Collection\Menu\Collection;
 
     /**
      * Set taxonomies collection.

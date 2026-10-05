@@ -861,11 +861,11 @@ class Asset implements \ArrayAccess
                 '%format%',
             ],
             [
-                $this->config->get('assets.images.cdn.account') ?? '',
+                (string) $this->config->get('assets.images.cdn.account'),
                 ltrim($this->data['url'] ?? (string) new Url($this->builder, $this->data['path'], ['canonical' => $this->config->get('assets.images.cdn.canonical') ?? true]), '/'),
-                $this->data['width'],
-                (int) $this->config->get('assets.images.quality'),
-                $this->data['ext'],
+                (string) $this->data['width'],
+                (string) (int) $this->config->get('assets.images.quality'),
+                (string) $this->data['ext'],
             ],
             (string) $this->config->get('assets.images.cdn.url')
         );

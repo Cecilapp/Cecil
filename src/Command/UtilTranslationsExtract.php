@@ -190,6 +190,9 @@ EOF
 
     private function saveDump(MessageCatalogueInterface $messageCatalogue, string $format, string $translationsPath): void
     {
+        if (!$messageCatalogue instanceof MessageCatalogue) {
+            throw new RuntimeException(\sprintf('Unable to write catalogue of type "%s".', $messageCatalogue::class));
+        }
         $this->io->writeln('Writing file...');
         $this->writer->write($messageCatalogue, $format, ['path' => $translationsPath]);
         $this->io->success('Translation file have been successfully updated.');
