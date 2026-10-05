@@ -52,7 +52,7 @@ class Page extends Item
     /** @var bool True if page is a folder's index (created from an "index.md" file). */
     protected $sectionIndex = false;
 
-    /** @var string */
+    /** @var string|null */
     protected $frontmatter;
 
     /** @var array<string, mixed> Front matter before conversion. */
@@ -787,8 +787,8 @@ class Page extends Item
             return $relativePath;
         }
         // localized page
-        if (PrefixSuffix::hasSuffix($basename)) {
-            return trim(Util::joinPath(PrefixSuffix::getSuffix($basename), $relativePath, PrefixSuffix::sub($basename, $separators)), '/');
+        if (null !== $suffix = PrefixSuffix::getSuffix($basename)) {
+            return trim(Util::joinPath($suffix, $relativePath, PrefixSuffix::sub($basename, $separators)), '/');
         }
 
         return trim(Util::joinPath($relativePath, $basename), '/');

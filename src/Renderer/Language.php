@@ -38,10 +38,7 @@ class Language
     public function __construct(\Cecil\Config $config, ?string $language = null)
     {
         $this->config = $config;
-        $this->language = $language;
-        if ($language === null) {
-            $this->language = $this->config->getLanguageDefault();
-        }
+        $this->language = $language ?? $this->config->getLanguageDefault();
     }
 
     /**

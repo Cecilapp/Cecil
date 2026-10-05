@@ -568,7 +568,7 @@ Search.appendIndex(
         },                {
             "fqsen": "\\Cecil\\BuildContextInterface\u003A\u003AgetPages\u0028\u0029",
             "name": "getPages",
-            "summary": "Returns\u0020pages\u0020collection.",
+            "summary": "Returns\u0020pages\u0020collection\u0020\u0028empty\u0020until\u0020pages\u0020are\u0020created\u0029.",
             "url": "classes/Cecil-BuildContextInterface.html#method_getPages"
         },                {
             "fqsen": "\\Cecil\\BuildContextInterface\u003A\u003AgetAssetsList\u0028\u0029",
@@ -713,7 +713,7 @@ Search.appendIndex(
         },                {
             "fqsen": "\\Cecil\\Builder\u003A\u003AgetPages\u0028\u0029",
             "name": "getPages",
-            "summary": "Returns\u0020pages\u0020collection.",
+            "summary": "Returns\u0020pages\u0020collection\u0020\u0028empty\u0020until\u0020pages\u0020are\u0020created\u0029.",
             "url": "classes/Cecil-Builder.html#method_getPages"
         },                {
             "fqsen": "\\Cecil\\Builder\u003A\u003AaddToAssetsList\u0028\u0029",

@@ -96,9 +96,9 @@ class Save extends AbstractStep
     private function cleanPath(string $pathname): string
     {
         if (DIRECTORY_SEPARATOR == '\\') {
-            $pathname = preg_replace('#\\\\+#', '\\', $pathname);
+            $pathname = preg_replace('#\\\\+#', '\\', $pathname) ?? $pathname;
         }
 
-        return preg_replace('#/+#', '/', $pathname);
+        return preg_replace('#/+#', '/', $pathname) ?? $pathname;
     }
 }

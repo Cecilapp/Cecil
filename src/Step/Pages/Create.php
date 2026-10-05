@@ -15,6 +15,7 @@ namespace Cecil\Step\Pages;
 
 use Cecil\Collection\Page\Collection as PagesCollection;
 use Cecil\Collection\Page\Page;
+use Cecil\Exception\RuntimeException;
 use Cecil\Step\AbstractStep;
 use Cecil\Util;
 
@@ -92,6 +93,10 @@ class Create extends AbstractStep
                         /** @var Page $page */
                         if ($page->getSection() == Util\Slugifier::slugify($entry['section'])) {
                             if (isset($entry['path'])) {
+                                $date = $page->getVariable('date');
+                                if (!$date instanceof \DateTimeInterface) {
+                                    throw new RuntimeException(\sprintf('Unable to apply path "%s" to page "%s": its date is not valid.', $entry['path'], $page->getId()));
+                                }
                                 $path = str_replace(
                                     [
                                         ':year',
@@ -101,10 +106,10 @@ class Create extends AbstractStep
                                         ':slug',
                                     ],
                                     [
-                                        $page->getVariable('date')->format('Y'),
-                                        $page->getVariable('date')->format('m'),
-                                        $page->getVariable('date')->format('d'),
-                                        $page->getSection(),
+                                        $date->format('Y'),
+                                        $date->format('m'),
+                                        $date->format('d'),
+                                        (string) $page->getSection(),
                                         $page->getSlug(),
                                     ],
                                     $entry['path']

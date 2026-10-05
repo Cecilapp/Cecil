@@ -69,7 +69,7 @@ EOF
     #[\Override]
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
-        $version = $this->getApplication()->getVersion();
+        $version = ($this->getApplication() ?? throw new \LogicException('The command is not attached to an application.'))->getVersion();
 
         $updater = new Updater(null, false, Updater::STRATEGY_GITHUB);
 

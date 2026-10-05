@@ -394,7 +394,7 @@ Builder::create($config)-&gt;build();
             <dt class="phpdocumentor-table-of-contents__entry -property -protected">
     <a class="" href="classes/Cecil-Builder.html#property_pages">$pages</a>
     <span>
-                        &nbsp;: <a href="classes/Cecil-Collection-Page-Collection.html"><abbr title="\Cecil\Collection\Page\Collection">Collection</abbr></a>            </span>
+                        &nbsp;: <a href="classes/Cecil-Collection-Page-Collection.html"><abbr title="\Cecil\Collection\Page\Collection">Collection</abbr></a>|null            </span>
 </dt>
 <dd>Pages collection.</dd>
 
@@ -534,9 +534,9 @@ Builder::create($config)-&gt;build();
             <dt class="phpdocumentor-table-of-contents__entry -method -public">
     <a class="" href="classes/Cecil-Builder.html#method_getPages">getPages()</a>
     <span>
-                                &nbsp;: <a href="classes/Cecil-Collection-Page-Collection.html"><abbr title="\Cecil\Collection\Page\Collection">Collection</abbr></a>|null    </span>
+                                &nbsp;: <a href="classes/Cecil-Collection-Page-Collection.html"><abbr title="\Cecil\Collection\Page\Collection">Collection</abbr></a>    </span>
 </dt>
-<dd>Returns pages collection.</dd>
+<dd>Returns pages collection (empty until pages are created).</dd>
 
             <dt class="phpdocumentor-table-of-contents__entry -method -public">
     <a class="" href="classes/Cecil-Builder.html#method_getPagesFiles">getPagesFiles()</a>
@@ -1728,7 +1728,7 @@ It is used to track the performance of the build and can be useful for debugging
     
     <code class="phpdocumentor-code phpdocumentor-signature ">
         <span class="phpdocumentor-signature__visibility">protected</span>
-            <span class="phpdocumentor-signature__type"><a href="classes/Cecil-Collection-Page-Collection.html"><abbr title="\Cecil\Collection\Page\Collection">Collection</abbr></a></span>
+            <span class="phpdocumentor-signature__type"><a href="classes/Cecil-Collection-Page-Collection.html"><abbr title="\Cecil\Collection\Page\Collection">Collection</abbr></a>|null</span>
     <span class="phpdocumentor-signature__name">$pages</span>
     </code>
 
@@ -2557,11 +2557,11 @@ It also collects metrics about the build process, such as duration and memory us
 
     </aside>
 
-        <p class="phpdocumentor-summary">Returns pages collection.</p>
+        <p class="phpdocumentor-summary">Returns pages collection (empty until pages are created).</p>
 
     <code class="phpdocumentor-code phpdocumentor-signature ">
     <span class="phpdocumentor-signature__visibility">public</span>
-                    <span class="phpdocumentor-signature__name">getPages</span><span>(</span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type"><a href="classes/Cecil-Collection-Page-Collection.html"><abbr title="\Cecil\Collection\Page\Collection">Collection</abbr></a>|null</span></code>
+                    <span class="phpdocumentor-signature__name">getPages</span><span>(</span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type"><a href="classes/Cecil-Collection-Page-Collection.html"><abbr title="\Cecil\Collection\Page\Collection">Collection</abbr></a></span></code>
 
     <div class="phpdocumentor-label-line">
         </div>
@@ -2574,7 +2574,7 @@ It also collects metrics about the build process, such as duration and memory us
     
             <section>
         <h5 class="phpdocumentor-return-value__heading">Return values</h5>
-        <span class="phpdocumentor-signature__response_type"><a href="classes/Cecil-Collection-Page-Collection.html"><abbr title="\Cecil\Collection\Page\Collection">Collection</abbr></a>|null</span>
+        <span class="phpdocumentor-signature__response_type"><a href="classes/Cecil-Collection-Page-Collection.html"><abbr title="\Cecil\Collection\Page\Collection">Collection</abbr></a></span>
             </section>
 
 </article>

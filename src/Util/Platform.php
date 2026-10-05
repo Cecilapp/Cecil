@@ -63,12 +63,10 @@ class Platform
     public static function getPharPath(): string
     {
         if (!isset(self::$pharPath)) {
-            if (!self::isPhar()) {
-                throw new \Exception('Unable to get Phar path.');
-            }
+            self::isPhar();
         }
 
-        return self::$pharPath;
+        return self::$pharPath ?? throw new \Exception('Unable to get Phar path.');
     }
 
     /**

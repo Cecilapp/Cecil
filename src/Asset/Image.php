@@ -288,6 +288,9 @@ class Image
                 $largest = $entry;
             }
         }
+        if ($largest === null) {
+            throw new RuntimeException('Invalid ICO file');
+        }
 
         return $largest;
     }
