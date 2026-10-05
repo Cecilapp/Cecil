@@ -53,6 +53,16 @@ class PageTest extends TestCase
         self::assertSame('my/page', (string) $page);
     }
 
+    public function testCreateIdFromPath(): void
+    {
+        self::assertSame('about', Page::createIdFromPath('About.md'));
+        self::assertSame('blog/post', Page::createIdFromPath('Blog/2017-10-19-post.md'));
+        self::assertSame('docs/guide', Page::createIdFromPath('docs/guide/index.md'));
+        self::assertSame('docs/guide', Page::createIdFromPath('docs\\guide\\README.md'));
+        self::assertSame('fr/docs/guide', Page::createIdFromPath('docs/guide/index.fr.md'));
+        self::assertSame('fr/about', Page::createIdFromPath('About.fr.md'));
+    }
+
     public function testSlugifyDelegatesToSlugifier(): void
     {
         $input = 'Hello World';
