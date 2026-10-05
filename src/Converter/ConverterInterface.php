@@ -20,6 +20,8 @@ interface ConverterInterface
 {
     /**
      * Converts front matter.
+     *
+     * @return array<string, mixed>
      */
     public function convertFrontmatter(string $string, string $format): array;
 

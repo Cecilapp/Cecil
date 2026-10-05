@@ -406,6 +406,11 @@ EOF
         return (int) ($pidOutput[0] ?? 0);
     }
 
+    /**
+     * Runs the server in foreground and watches for changes.
+     *
+     * @param array{notify?: bool, open?: bool} $options
+     */
     private function runForegroundServer(
         Process $process,
         bool $noignorevcs,

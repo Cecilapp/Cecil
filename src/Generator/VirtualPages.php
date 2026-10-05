@@ -33,6 +33,7 @@ use Cecil\Util;
  */
 class VirtualPages extends AbstractGenerator implements GeneratorInterface
 {
+    /** @var string */
     protected $configKey = 'pages.virtual';
 
     /**
@@ -81,6 +82,8 @@ class VirtualPages extends AbstractGenerator implements GeneratorInterface
 
     /**
      * Collects virtual pages configuration.
+     *
+     * @return array<int|string, array<string, mixed>>|null
      */
     private function collectPagesFromConfig(string $configKey): ?array
     {

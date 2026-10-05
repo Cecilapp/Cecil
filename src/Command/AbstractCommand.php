@@ -57,7 +57,7 @@ class AbstractCommand extends Command
     /** @var null|string */
     private $path = null;
 
-    /** @var array */
+    /** @var array<string, string> Config files path, indexed by file name */
     private $configFiles = [];
 
     /** @var Config */
@@ -82,19 +82,22 @@ class AbstractCommand extends Command
 
         // prepare configuration files list
         if (!\in_array($this->getName(), self::EXCLUDED_CMD)) {
+            $configFiles = $this->configFiles;
             // site config file
-            $this->configFiles[$this->locateConfigFile($this->getPath())['name']] = $this->locateConfigFile($this->getPath())['path'];
+            $configFiles[$this->locateConfigFile($this->getPath())['name']] = $this->locateConfigFile($this->getPath())['path'];
             // additional config file(s) from --config=<file>
             if ($input->hasOption('config') && $input->getOption('config') !== null) {
-                $this->configFiles += $this->locateAdditionalConfigFiles($this->getPath(), (string) $input->getOption('config'));
+                $configFiles += $this->locateAdditionalConfigFiles($this->getPath(), (string) $input->getOption('config'));
             }
             // checks file(s)
-            $this->configFiles = array_unique($this->configFiles);
-            foreach ($this->configFiles as $fileName => $filePath) {
+            $this->configFiles = [];
+            foreach (array_unique($configFiles) as $fileName => $filePath) {
                 if ($filePath === false) {
-                    unset($this->configFiles[$fileName]);
                     $this->io->warning(\sprintf('Could not find configuration file "%s".', $fileName));
+
+                    continue;
                 }
+                $this->configFiles[$fileName] = $filePath;
             }
         }
 
@@ -199,6 +202,8 @@ class AbstractCommand extends Command
 
     /**
      * Returns config file(s) path.
+     *
+     * @return array<string, string>
      */
     protected function getConfigFiles(): array
     {
@@ -207,6 +212,8 @@ class AbstractCommand extends Command
 
     /**
      * Creates or returns a Builder instance.
+     *
+     * @param array<string, mixed> $config
      *
      * @throws RuntimeException
      */
@@ -238,6 +245,8 @@ class AbstractCommand extends Command
 
     /**
      * Locates the configuration in the given path, as an array of the file name and path, if file exists, otherwise default name and false.
+     *
+     * @return array{name: string, path: string|false}
      */
     protected function locateConfigFile(string $path): array
     {
@@ -259,6 +268,8 @@ class AbstractCommand extends Command
 
     /**
      * Locates additional configuration file(s) from the given list of files, relative to the given path or absolute.
+     *
+     * @return array<string, string|false>
      */
     protected function locateAdditionalConfigFiles(string $path, string $configFilesList): array
     {

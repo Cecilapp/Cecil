@@ -41,9 +41,9 @@ class Compiler
      * Compiles SCSS to CSS.
      * Returns the updated data array, unchanged if not a SCSS file.
      *
-     * @param array $data Asset data array (must contain 'ext', 'path', 'file', 'content')
+     * @param array<string, mixed> $data Asset data array (must contain 'ext', 'path', 'file', 'content')
      *
-     * @return array Updated data array with CSS content
+     * @return array<string, mixed> Updated data array with CSS content
      *
      * @throws ConfigException
      */

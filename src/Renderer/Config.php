@@ -22,6 +22,8 @@ use Cecil\BuildContextInterface;
  * values using array syntax. It retrieves configuration values from the Builder's
  * configuration object, allowing for easy access to configuration settings in a
  * language-specific context.
+ *
+ * @implements \ArrayAccess<string, mixed>
  */
 class Config implements \ArrayAccess
 {

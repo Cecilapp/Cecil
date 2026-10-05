@@ -33,8 +33,9 @@ class ConsoleLogger extends PrintLogger
     public const string INFO = 'text';
     public const string DEBUG = 'debug';
 
-    protected $output;
+    protected OutputInterface $output;
 
+    /** @var array<string, int> */
     protected $verbosityLevelMap = [
         LogLevel::EMERGENCY => OutputInterface::VERBOSITY_NORMAL,
         LogLevel::ALERT     => OutputInterface::VERBOSITY_NORMAL,
@@ -46,7 +47,8 @@ class ConsoleLogger extends PrintLogger
         LogLevel::DEBUG     => OutputInterface::VERBOSITY_DEBUG,
     ];
 
-    protected $formatLevelMap = [
+    /** @var array<string, string> */
+    protected array $formatLevelMap = [
         LogLevel::EMERGENCY => self::ERROR,
         LogLevel::ALERT     => self::ERROR,
         LogLevel::CRITICAL  => self::ERROR,
@@ -57,6 +59,10 @@ class ConsoleLogger extends PrintLogger
         LogLevel::DEBUG     => self::DEBUG,
     ];
 
+    /**
+     * @param array<string, int>    $verbosityLevelMap
+     * @param array<string, string> $formatLevelMap
+     */
     public function __construct(OutputInterface $output, array $verbosityLevelMap = [], array $formatLevelMap = [])
     {
         $this->output = $output;

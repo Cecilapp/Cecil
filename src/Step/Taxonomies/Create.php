@@ -31,7 +31,7 @@ use Cecil\Util;
  */
 class Create extends AbstractStep
 {
-    /** @var array */
+    /** @var array<string, VocabulariesCollection> */
     protected $vocabCollection;
 
     /**

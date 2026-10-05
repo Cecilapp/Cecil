@@ -29,12 +29,12 @@ class Collection implements CollectionInterface
     protected $id;
     /**
      * Collection's items.
-     * @var array<T>
+     * @var array<int, T>
      */
     protected $items = [];
 
     /**
-     * @param array<T> $items
+     * @param array<int, T> $items
      */
     public function __construct(string $id, array $items = [])
     {
@@ -62,6 +62,8 @@ class Collection implements CollectionInterface
 
     /**
      * Search an item by ID.
+     *
+     * @return array<int, T>
      */
     protected function searchItem(string $id): ?array
     {
@@ -164,6 +166,8 @@ class Collection implements CollectionInterface
 
     /**
      * {@inheritdoc}
+     *
+     * @return array<int, int>
      */
     public function keys(): array
     {
@@ -210,6 +214,8 @@ class Collection implements CollectionInterface
 
     /**
      * {@inheritdoc}
+     *
+     * @return array<int, T>
      */
     public function toArray(): array
     {
@@ -226,6 +232,8 @@ class Collection implements CollectionInterface
 
     /**
      * {@inheritdoc}
+     *
+     * @return \ArrayIterator<int, T>
      */
     public function getIterator(): \ArrayIterator
     {

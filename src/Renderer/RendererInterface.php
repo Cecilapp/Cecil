@@ -22,17 +22,21 @@ interface RendererInterface
 {
     /**
      * @param Builder      $builder
-     * @param string|array $templatesPath
+     * @param string|array<string> $templatesPath
      */
     public function __construct(Builder $builder, $templatesPath);
 
     /**
      * Adds a global variable.
+     *
+     * @param mixed $value
      */
     public function addGlobal(string $name, $value): void;
 
     /**
      * Rendering.
+     *
+     * @param array<string, mixed> $variables
      */
     public function render(string $template, array $variables): string;
 
@@ -43,6 +47,8 @@ interface RendererInterface
 
     /**
      * Adds a translation file.
+     *
+     * @param array<string, array{loader: string, ext: array<string>}>|null $formatsConfig
      */
     public function addTransResource(string $translationsDir, string $locale, ?array $formatsConfig = null): void;
 }

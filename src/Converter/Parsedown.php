@@ -28,10 +28,10 @@ use Highlight\Highlighter;
  * with additional features such as inline insertions, image handling, note blocks,
  * and code highlighting.
  *
- * @property array $InlineTypes
+ * @property array<string, list<string>> $InlineTypes
  * @property string $inlineMarkerList
- * @property array $specialCharacters
- * @property array $BlockTypes
+ * @property list<string> $specialCharacters
+ * @property array<string, list<string>> $BlockTypes
  */
 class Parsedown extends \ParsedownToc
 {
@@ -67,6 +67,9 @@ class Parsedown extends \ParsedownToc
     /** @var string|null */
     protected $language;
 
+    /**
+     * @param array<string, mixed>|null $options Parsedown options (e.g. 'selectors', 'language')
+     */
     public function __construct(Builder $builder, ?array $options = null)
     {
         $this->builder = $builder;
@@ -117,11 +120,15 @@ class Parsedown extends \ParsedownToc
     /**
      * Insert inline.
      * e.g.: ++text++ -> <ins>text</ins>.
+     *
+     * @param array<string, mixed> $Excerpt
+     *
+     * @return array<string, mixed>|null
      */
     protected function inlineInsert($Excerpt)
     {
         if (!isset($Excerpt['text'][1])) {
-            return;
+            return null;
         }
 
         if ($Excerpt['text'][1] === '+' && preg_match('/^\+\+(?=\S)(.+?)(?<=\S)\+\+/', $Excerpt['text'], $matches)) {
@@ -134,10 +141,16 @@ class Parsedown extends \ParsedownToc
                 ],
             ];
         }
+
+        return null;
     }
 
     /**
      * {@inheritdoc}
+     *
+     * @param array<string, mixed> $Excerpt
+     *
+     * @return array<string, mixed>|null
      */
     protected function inlineLink($Excerpt)
     {
@@ -218,13 +231,17 @@ class Parsedown extends \ParsedownToc
 
     /**
      * {@inheritdoc}
+     *
+     * @param array<string, mixed> $Excerpt
+     *
+     * @return array<string, mixed>|null
      */
     protected function inlineUrl($Excerpt)
     {
         $link = parent::inlineUrl($Excerpt); // @phpstan-ignore staticMethod.notFound
 
         if (!isset($link)) {
-            return;
+            return null;
         }
 
         // External link
@@ -233,13 +250,17 @@ class Parsedown extends \ParsedownToc
 
     /**
      * {@inheritdoc}
+     *
+     * @param array<string, mixed> $Excerpt
+     *
+     * @return array<string, mixed>|null
      */
     protected function inlineUrlTag($Excerpt)
     {
         $link = parent::inlineUrlTag($Excerpt); // @phpstan-ignore staticMethod.notFound
 
         if (!isset($link)) {
-            return;
+            return null;
         }
 
         // External link
@@ -248,6 +269,10 @@ class Parsedown extends \ParsedownToc
 
     /**
      * {@inheritdoc}
+     *
+     * @param array<string, mixed> $Excerpt
+     *
+     * @return array<string, mixed>|null
      */
     protected function inlineCode($Excerpt)
     {
@@ -268,6 +293,10 @@ class Parsedown extends \ParsedownToc
 
     /**
      * {@inheritdoc}
+     *
+     * @param array<string, mixed> $Excerpt
+     *
+     * @return array<string, mixed>|null
      */
     protected function inlineImage($Excerpt)
     {
@@ -542,16 +571,20 @@ class Parsedown extends \ParsedownToc
 
     /**
      * Image block.
+     *
+     * @param array<string, mixed> $Excerpt
+     *
+     * @return array<string, mixed>|null
      */
     protected function blockImage($Excerpt)
     {
         if (1 !== preg_match($this->regexImage, $Excerpt['text'])) {
-            return;
+            return null;
         }
 
         $InlineImage = $this->inlineImage($Excerpt);
         if (!isset($InlineImage)) {
-            return;
+            return null;
         }
 
         return $InlineImage;
@@ -565,6 +598,10 @@ class Parsedown extends \ParsedownToc
      * :::
      *
      * Code inspired by https://github.com/sixlive/parsedown-alert from TJ Miller (@sixlive).
+     *
+     * @param array<string, mixed> $block
+     *
+     * @return array<string, mixed>|null
      */
     protected function blockNote($block)
     {
@@ -585,12 +622,22 @@ class Parsedown extends \ParsedownToc
 
             return $block;
         }
+
+        return null;
     }
 
+    /**
+     * Continues a note block.
+     *
+     * @param array<string, mixed> $line
+     * @param array<string, mixed> $block
+     *
+     * @return array<string, mixed>|null
+     */
     protected function blockNoteContinue($line, $block)
     {
         if (isset($block['complete'])) {
-            return;
+            return null;
         }
         if (preg_match('/:::/', $line['text'])) {
             $block['complete'] = true;
@@ -602,6 +649,13 @@ class Parsedown extends \ParsedownToc
         return $block;
     }
 
+    /**
+     * Completes a note block.
+     *
+     * @param array<string, mixed> $block
+     *
+     * @return array<string, mixed>
+     */
     protected function blockNoteComplete($block)
     {
         $block['element']['rawHtml'] = $this->text($block['element']['text']);
@@ -612,6 +666,10 @@ class Parsedown extends \ParsedownToc
 
     /**
      * Apply Highlight to code blocks.
+     *
+     * @param array<string, mixed> $block
+     *
+     * @return array<string, mixed>
      */
     protected function blockFencedCodeComplete($block)
     {
@@ -646,6 +704,10 @@ class Parsedown extends \ParsedownToc
 
     /**
      * {@inheritdoc}
+     *
+     * @param string $attributeString
+     *
+     * @return array<string, string>
      */
     protected function parseAttributeData($attributeString)
     {
@@ -700,6 +762,8 @@ class Parsedown extends \ParsedownToc
      *
      * Converts XHTML '<br />' tag to '<br>'.
      *
+     * @param string $text
+     *
      * @return string
      */
     protected function unmarkedText($text)
@@ -711,6 +775,8 @@ class Parsedown extends \ParsedownToc
      * {@inheritdoc}
      *
      * XHTML closing tag to HTML5 closing tag.
+     *
+     * @param array<string, mixed> $Element
      *
      * @return string
      */
@@ -742,6 +808,9 @@ class Parsedown extends \ParsedownToc
         return $matches[3];
     }
 
+    /**
+     * @param array<string, mixed> $assetOptions
+     */
     private function getCachedAsset(string $path, array $assetOptions): Asset
     {
         return $this->rememberAsset(
@@ -780,6 +849,9 @@ class Parsedown extends \ParsedownToc
         );
     }
 
+    /**
+     * @param array<int> $widths
+     */
     private function getCachedSrcsetW(Asset $asset, array $widths): string
     {
         return (string) $this->rememberImageProcessing(
@@ -789,6 +861,9 @@ class Parsedown extends \ParsedownToc
         );
     }
 
+    /**
+     * @param array<int> $widths
+     */
     private function getCachedSrcset(Asset $asset, array $widths): string
     {
         return (string) $this->rememberImageProcessing(
@@ -798,6 +873,9 @@ class Parsedown extends \ParsedownToc
         );
     }
 
+    /**
+     * @param array<string, string> $sizesConfig
+     */
     private function getCachedSizes(string $class, array $sizesConfig): string
     {
         return (string) $this->rememberImageProcessing(
@@ -807,6 +885,19 @@ class Parsedown extends \ParsedownToc
         );
     }
 
+    /**
+     * @param array<string> $formats
+     * @param array{
+     *   responsive?: mixed,
+     *   widths?: array<int>,
+     *   densities?: array<float|int>,
+     *   sizes?: ?string,
+     *   width1x?: ?int,
+     *   assetOptions?: array<mixed>
+     * } $options
+     *
+     * @return array<array<string, string>>
+     */
     private function getCachedDarkSourceAttributes(Asset $asset, string $darkSuffix, array $formats, array $options): array
     {
         return (array) $this->rememberImageProcessing(
@@ -847,6 +938,9 @@ class Parsedown extends \ParsedownToc
         );
     }
 
+    /**
+     * @param array<string, mixed> $payload
+     */
     private function getCacheKey(string $prefix, array $payload): string
     {
         return \sprintf('%s_%s', $prefix, hash('xxh128', serialize($payload)));
@@ -854,6 +948,8 @@ class Parsedown extends \ParsedownToc
 
     /**
      * Memoize an Asset instance across Parsedown instances.
+     *
+     * @param array<string, mixed> $payload
      */
     private function rememberAsset(array $payload, callable $factory): Asset
     {
@@ -864,6 +960,8 @@ class Parsedown extends \ParsedownToc
 
     /**
      * Memoize an image-processing result across Parsedown instances.
+     *
+     * @param array<string, mixed> $payload
      */
     private function rememberImageProcessing(string $prefix, array $payload, callable $factory): mixed
     {
@@ -877,6 +975,10 @@ class Parsedown extends \ParsedownToc
 
     /**
      * Create a media (video or audio) element from a link.
+     *
+     * @param array<string, mixed> $link
+     *
+     * @return array<string, mixed>
      */
     private function createMediaFromLink(array $link, string $type = 'video'): array
     {
@@ -925,6 +1027,10 @@ class Parsedown extends \ParsedownToc
 
     /**
      * Create an embedded video iframe element from a link element and an URL.
+     *
+     * @param array<string, mixed> $link
+     *
+     * @return array<string, mixed>
      */
     private function createEmbeddedVideoFromLink(array $link, string $url): array
     {
@@ -965,6 +1071,10 @@ class Parsedown extends \ParsedownToc
 
     /**
      * Create a script element from a link element and an URL.
+     *
+     * @param array<string, mixed> $link
+     *
+     * @return array<string, mixed>
      */
     private function createScriptFromLink(array $link, string $url): array
     {
@@ -983,6 +1093,10 @@ class Parsedown extends \ParsedownToc
 
     /**
      * Create a figure > figcaption element.
+     *
+     * @param array<string, mixed> $inline
+     *
+     * @return array<string, mixed>
      */
     private function createFigure(array $inline): array
     {
@@ -1021,6 +1135,10 @@ class Parsedown extends \ParsedownToc
 
     /**
      * Handle an external link.
+     *
+     * @param array<string, mixed> $link
+     *
+     * @return array<string, mixed>
      */
     private function handleExternalLink(array $link): array
     {

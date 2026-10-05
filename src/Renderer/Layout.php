@@ -37,6 +37,8 @@ class Layout
     /**
      * Layout files finder.
      *
+     * @return array{scope: string, file: string}
+     *
      * @throws RuntimeException
      */
     public static function finder(CollectionPage $page, string $format, \Cecil\Config $config): array
@@ -82,6 +84,8 @@ class Layout
 
     /**
      * Templates lookup rules.
+     *
+     * @return list<string>
      *
      * @see self::finder()
      */

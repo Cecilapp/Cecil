@@ -80,6 +80,8 @@ class File
      * Returns the media type and subtype of a file.
      *
      * ie: ['text', 'text/plain']
+     *
+     * @return array{string, string}
      */
     public static function getMediaType(string $filename): array
     {
@@ -128,6 +130,8 @@ class File
 
     /**
      * exif_read_data() function with error handler.
+     *
+     * @return array<string, mixed>
      */
     public static function readExif(string $filename): array
     {
