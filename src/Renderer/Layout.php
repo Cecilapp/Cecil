@@ -123,14 +123,22 @@ class Layout
                     // "$section/index.$format.$ext",
                     // "$section/list.$format.$ext",
                     // "section/$section.$format.$ext",
+                    // "$parent/index.$format.$ext",  // sub-section: each ancestor section, nearest first
+                    // "$parent/list.$format.$ext",
+                    // "section/$parent.$format.$ext",
                     "_default/section.$format.$ext",
                     "list.$format.$ext",
                     "_default/list.$format.$ext",
                 ];
                 if ($page->getPath()) {
-                    $layouts = array_merge(["section/{$section}.$format.$ext"], $layouts);
-                    $layouts = array_merge(["{$section}/list.$format.$ext"], $layouts);
-                    $layouts = array_merge(["{$section}/index.$format.$ext"], $layouts);
+                    $sectionsLayouts = [];
+                    // the section itself, then (for a sub-section) each of its ancestor sections
+                    foreach (self::sections((string) $page->getSection(), $config) as $sectionLayout) {
+                        $sectionsLayouts[] = "{$sectionLayout}/index.$format.$ext";
+                        $sectionsLayouts[] = "{$sectionLayout}/list.$format.$ext";
+                        $sectionsLayouts[] = "section/{$sectionLayout}.$format.$ext";
+                    }
+                    $layouts = array_merge($sectionsLayouts, $layouts);
                 }
                 if ($page->hasVariable('layout')) {
                     $layouts = array_merge(["$layout.$format.$ext"], $layouts);
@@ -194,5 +202,26 @@ class Layout
         }
 
         return $layouts;
+    }
+
+    /**
+     * Returns the layout section names of a section and of its ancestor sections, nearest first.
+     *
+     * e.g.: "a/b/c" -> ["a/b/c", "a/b", "a"]
+     *
+     * Each name is resolved through the `layouts.sections` mapping (if defined).
+     *
+     * @return list<string>
+     */
+    protected static function sections(string $section, \Cecil\Config $config): array
+    {
+        $sections = [];
+        while ($section !== '') {
+            $sections[] = (string) $config->getLayoutSection($section);
+            $pos = strrpos($section, '/');
+            $section = $pos === false ? '' : substr($section, 0, $pos);
+        }
+
+        return array_values(array_unique($sections));
     }
 }
