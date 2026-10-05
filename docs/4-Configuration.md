@@ -1,7 +1,7 @@
 <!--
 description: "Configure your website with cecil.yml: site options, pages, data, static files, assets, layouts, output formats, cache, local server, optimization and environment variables override."
 date: 2021-05-07
-updated: 2026-10-02
+updated: 2026-10-05
 -->
 # Configuration
 
@@ -569,6 +569,8 @@ pages:
       placeholder: ''   # fills the <img> background before loading ('color' or 'lqip', empty by default)
       class: ''         # sets a default class on each image (empty by default)
       dark_suffix: ''   # suffix of the dark variant image (e.g. `.dark`), disabled by default
+      mobile_suffix: '' # suffix of the mobile variant image (e.g. `.mobile`), disabled by default
+      mobile_media_query: '(max-width: 767px)' # media query of the mobile variant `<source>`
       remote:           # remote image handling (set to `false` to disable)
         fallback:         # path to the fallback image, stored in assets dir (empty by default)
 ```
@@ -587,6 +589,8 @@ Remote images are downloaded and converted into _Assets_ to be manipulated. You 
 
 :::tip
 When `dark_suffix` is set (e.g. `dark_suffix: .dark`), Cecil automatically looks for a dark variant of each image (e.g. `photo.dark.jpg` alongside `photo.jpg`). If found, the image is wrapped in a `<picture>` element with a `<source media="(prefers-color-scheme: dark)">` for automatic light/dark theme switching. Works in combination with `formats` and `responsive`.
+
+In the same way, when `mobile_suffix` is set (e.g. `mobile_suffix: .mobile`), Cecil looks for a mobile variant of each image (e.g. `photo.mobile.jpg` alongside `photo.jpg`) and adds a `<source>` element with the `mobile_media_query` media query (`(max-width: 767px)` by default).
 :::
 
 #### pages.body.links
@@ -1033,6 +1037,8 @@ layouts:
     responsive: false # used by `html` function: adds responsive images ('width' or 'density', `false` by default)
     placeholder: ''   # used by `html` function: fills image background before loading (`color` or `lqip`, disabled by default)
     dark_suffix: ''   # suffix of the dark variant image (e.g. `.dark`), disabled by default
+    mobile_suffix: '' # suffix of the mobile variant image (e.g. `.mobile`), disabled by default
+    mobile_media_query: '(max-width: 767px)' # media query of the mobile variant `<source>`
 ```
 
 ### layouts.translations

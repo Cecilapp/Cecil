@@ -2,7 +2,7 @@
 title: Configuration
 description: "Configurez votre site web avec cecil.yml : options du site, pages, données, fichiers statiques, assets, layouts, formats de sortie, cache, serveur local, optimisation et surcharge par variables d’environnement."
 date: 2026-03-27
-updated: 2026-10-02
+updated: 2026-10-05
 slug: configuration
 -->
 # Configuration
@@ -571,6 +571,8 @@ pages:
       placeholder: ''   # remplit l’arrière-plan de <img> avant le chargement ('color' ou 'lqip', vide par défaut)
       class: ''         # définit une classe par défaut sur chaque image (vide par défaut)
       dark_suffix: ''   # suffixe de l’image variante sombre (ex. `.dark`), désactivé par défaut
+      mobile_suffix: '' # suffixe de l’image variante mobile (ex. `.mobile`), désactivé par défaut
+      mobile_media_query: '(max-width: 767px)' # media query de la `<source>` de la variante mobile
       remote:           # traitement des images distantes (mettre à `false` pour désactiver)
         fallback:         # chemin de l’image de secours, stockée dans le répertoire assets (vide par défaut)
 ```
@@ -589,6 +591,8 @@ Les images distantes sont téléchargées et converties en _Assets_ pour être m
 
 :::tip
 Lorsque `dark_suffix` est défini (par ex. `dark_suffix: .dark`), Cecil cherche automatiquement une variante sombre de chaque image (par ex. `photo.dark.jpg` à côté de `photo.jpg`). Si elle est trouvée, l’image est entourée d’un élément `<picture>` avec une balise `<source media="(prefers-color-scheme: dark)">` pour un basculement automatique clair/sombre. Cela fonctionne avec `formats` et `responsive`.
+
+De la même manière, lorsque `mobile_suffix` est défini (par ex. `mobile_suffix: .mobile`), Cecil cherche une variante mobile de chaque image (par ex. `photo.mobile.jpg` à côté de `photo.jpg`) et ajoute une balise `<source>` avec la media query `mobile_media_query` (`(max-width: 767px)` par défaut).
 :::
 
 #### pages.body.links
@@ -1035,6 +1039,8 @@ layouts:
     responsive: false # utilisé par la fonction `html` : ajoute des images responsives ('width' ou 'density', `false` par défaut)
     placeholder: ''   # utilisé par la fonction `html` : remplit l’arrière-plan de l’image avant son chargement (`color` ou `lqip`, désactivé par défaut)
     dark_suffix: ''   # suffixe de l’image variante sombre (ex. `.dark`), désactivé par défaut
+    mobile_suffix: '' # suffixe de l’image variante mobile (ex. `.mobile`), désactivé par défaut
+    mobile_media_query: '(max-width: 767px)' # media query de la `<source>` de la variante mobile
 ```
 
 ### layouts.translations

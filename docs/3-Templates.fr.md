@@ -2,7 +2,7 @@
 title: Templates
 description: "Travaillez avec les layouts, templates et composants Twig : organisation des fichiers, règles de recherche, variables, fonctions, tris, filtres, localisation, cache et extensions personnalisées."
 date: 2026-05-26
-updated: 2026-10-03
+updated: 2026-10-05
 slug: templates
 -->
 # Templates
@@ -772,6 +772,8 @@ Depuis la version ++8.42.0++, la fonction `html` remplace le filtre `html` obsol
 Vous pouvez définir un comportement global par défaut des options d'images (`formats`, `responsive` et `placeholder`) via la [configuration des layouts](4-Configuration.md#layouts-images).
 
 Lorsque [`layouts.images.dark_suffix`](4-Configuration.md#layouts-images) est configuré (par exemple `.dark`), Cecil recherche automatiquement une variante sombre de chaque image (par exemple `photo.dark.jpg` aux côtés de `photo.jpg`) et génère un élément `<picture>` avec un `<source media="(prefers-color-scheme: dark)">`.
+
+De la même manière, lorsque [`layouts.images.mobile_suffix`](4-Configuration.md#layouts-images) est configuré (par exemple `.mobile`), Cecil recherche une variante mobile de chaque image (par exemple `photo.mobile.jpg`) et ajoute un `<source>` avec la media query [`layouts.images.mobile_media_query`](4-Configuration.md#layouts-images).
 :::
 
 _Exemples :_
