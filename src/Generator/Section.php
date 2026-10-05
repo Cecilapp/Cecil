@@ -44,12 +44,16 @@ class Section extends AbstractGenerator implements GeneratorInterface
 
         // identifying explicit sub-sections: nested folders containing an "index.md" file
         $subSections = [];
+        // registry of section index pages, by language then path
+        // (a translated index page with a custom path has an ID that differs from its path)
+        $sectionIndexes = [];
         /** @var Page $page */
         foreach ($this->builder->getPages() as $page) {
             if ($page->isVirtual() || !$page->isSectionIndex()) {
                 continue;
             }
             $path = (string) $page->getPath();
+            $sectionIndexes[$page->getVariable('language', $this->config->getLanguageDefault())][$path] = $page;
             // a sub-section is a section index located in a nested folder (its path contains a "/")
             if (str_contains($path, '/')) {
                 $subSections[$path] = true;
@@ -103,7 +107,13 @@ class Section extends AbstractGenerator implements GeneratorInterface
                     }
                     $page = (new Page($pageId))->setVariable('title', ucfirst($section))
                         ->setPath($path);
-                    if ($this->builder->getPages()->has($pageId)) {
+                    $langref = $path;
+                    if (isset($sectionIndexes[$language][$path])) {
+                        // the section index page is found by its path, which may be customized
+                        $page = clone $sectionIndexes[$language][$path];
+                        $pageId = $page->getId();
+                        $langref = $page->getVariable('langref') ?? $path;
+                    } elseif ($this->builder->getPages()->has($pageId)) {
                         $page = clone $this->builder->getPages()->get($pageId);
                     }
                     $pages = new PagesCollection("section-$pageId", $pagesAsArray);
@@ -130,12 +140,13 @@ class Section extends AbstractGenerator implements GeneratorInterface
                     }
                     // creates page for each section
                     $toplevel = !str_contains($path, '/');
+                    // the section name and the language reference are language-independent (i.e.: not the custom path)
                     $page->setType(Type::SECTION->value)
-                        ->setSection($path)
+                        ->setSection($langref)
                         ->setPages($pages)
                         ->setVariable('language', $language)
                         ->setVariable('date', $pages->first()?->getVariable('date'))
-                        ->setVariable('langref', $path)
+                        ->setVariable('langref', $langref)
                         ->setVariable('toplevel', $toplevel);
                     // human readable title
                     if ($page->getVariable('title') == 'index') {
