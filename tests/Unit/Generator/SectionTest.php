@@ -270,6 +270,35 @@ class SectionTest extends TestCase
         self::assertSame(['blog', 'projects'], $homeSections);
     }
 
+    public function testTranslatedSubSectionWithCustomPathUsesItsIndexPage(): void
+    {
+        $this->builder->setPages(new PagesCollection('all-pages', [
+            $this->page('blog', 'index.md'),
+            $this->page('blog/2024', 'index.md'),
+            $this->page('blog/2024', 'post.md'),
+            $this->page('blog/2024', 'index.fr.md', ['title' => 'Année', 'path' => 'blog/annee']),
+            $this->page('blog/2024', 'post.fr.md', ['path' => 'blog/annee/article']),
+        ]));
+
+        $generated = (new Section($this->builder))->runGenerate();
+
+        // the translated sub-section is generated from its index page, keeping its ID
+        self::assertTrue($generated->has('fr/blog/2024'));
+        self::assertFalse($generated->has('fr/blog/annee'));
+        $subSection = $generated->get('fr/blog/2024');
+        self::assertSame('section', $subSection->getType());
+        self::assertSame('blog/annee', $subSection->getPath());
+        self::assertSame('Année', $subSection->getVariable('title'));
+        // its section name and language reference are language-independent
+        self::assertSame('blog/2024', $subSection->getSection());
+        self::assertSame('blog/2024', $subSection->getVariable('langref'));
+        self::assertSame('blog/2024', $generated->get('blog/2024')->getVariable('langref'));
+        // its pages and parents are resolved
+        self::assertSame(['fr/blog/2024/post'], $this->pagesIds($subSection->getPages()));
+        self::assertSame('fr/blog', $subSection->getParent()->getId());
+        self::assertSame('fr/blog/2024', $this->builder->getPages()->get('fr/blog/2024/post')->getParent()->getId());
+    }
+
     /**
      * @return string[]
      */
@@ -278,7 +307,10 @@ class SectionTest extends TestCase
         return array_map(fn (Page $page): string => $page->getId(), $pages->toArray());
     }
 
-    private function page(string $relativePath, string $filename): Page
+    /**
+     * @param array<string, mixed> $variables Front matter variables to apply
+     */
+    private function page(string $relativePath, string $filename, array $variables = []): Page
     {
         $dir = $this->tmpDir . DIRECTORY_SEPARATOR . str_replace('/', DIRECTORY_SEPARATOR, $relativePath);
         $this->filesystem->mkdir($dir);
@@ -286,6 +318,6 @@ class SectionTest extends TestCase
         file_put_contents($filePath, "---\ntitle: Test\n---\nBody");
         $file = new SplFileInfo($filePath, $relativePath, $relativePath . '/' . $filename);
 
-        return (new Page($file))->parse();
+        return (new Page($file))->parse()->setVariables($variables);
     }
 }

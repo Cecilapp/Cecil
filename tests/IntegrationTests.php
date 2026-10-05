@@ -82,6 +82,30 @@ class IntegrationTests extends \PHPUnit\Framework\TestCase
         self::assertMatchesRegularExpression('/media="\(max-width: 767px\) and \(prefers-color-scheme: dark\)".*media="\(max-width: 767px\)".*media="\(prefers-color-scheme: dark\)"/s', $htmlImages);
         self::assertMatchesRegularExpression('/<code[^>]*translate="no"[^>]*>/', $htmlMarkdown);
 
+        // links to `*.md` files are resolved from the folder of the source file (quotes may be removed by HTML minification)
+        $htmlLinksIndex = Util\File::fileGetContents(Util::joinFile($this->destination, '_site/markdown/links/index.html'));
+        $htmlLinksChild = Util\File::fileGetContents(Util::joinFile($this->destination, '_site/markdown/links/child/index.html'));
+        $htmlLinksSub = Util\File::fileGetContents(Util::joinFile($this->destination, '_site/markdown/links/sub/page/index.html'));
+        self::assertNotFalse($htmlLinksIndex);
+        self::assertNotFalse($htmlLinksChild);
+        self::assertNotFalse($htmlLinksSub);
+        $markdownLinks = [
+            [$htmlMarkdown, '/others/external-body/'],
+            [$htmlMarkdown, '/about/'],
+            [$htmlLinksIndex, '/markdown/links/child/'],
+            [$htmlLinksIndex, '/markdown/links/sub/page/#anchor'],
+            [$htmlLinksIndex, '/markdown/images/'],
+            [$htmlLinksIndex, '/about/'],
+            [$htmlLinksChild, '/markdown/links/'],
+            [$htmlLinksChild, '/markdown/links/sub/page/'],
+            [$htmlLinksSub, '/markdown/links/child/'],
+            [$htmlLinksSub, '/markdown/links/'],
+            [$htmlLinksSub, '/markdown/images/'],
+        ];
+        foreach ($markdownLinks as [$html, $href]) {
+            self::assertMatchesRegularExpression('~href="?' . preg_quote($href, '~') . '[" >]~', $html, \sprintf('Link "%s" not found', $href));
+        }
+
         // a title containing a raw backslash must not break the JSON-LD block (see WebPage/BreadcrumbList `name`)
         preg_match('/<script[^>]*application\/ld\+json[^>]*>(.*?)<\/script>/s', $htmlBackslash, $jsonLdMatches);
         self::assertNotEmpty($jsonLdMatches, 'JSON-LD script block not found on page with backslash in title');

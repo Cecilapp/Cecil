@@ -761,14 +761,36 @@ class Page extends Item
 
     /**
      * Creates a page ID from a file (based on path).
-     */
-    /**
+     *
      * @param string[] $separators Allowed prefix separator characters
      */
     private static function createIdFromFile(SplFileInfo $file, array $separators = PrefixSuffix::DEFAULT_SEPARATORS): string
     {
-        $relativePath = Util\Slugifier::slugify(str_replace(DIRECTORY_SEPARATOR, '/', $file->getRelativePath()));
-        $basename = Util\Slugifier::slugify(PrefixSuffix::subPrefix($file->getBasename('.' . $file->getExtension()), $separators));
+        return self::createId($file->getRelativePath(), $file->getBasename('.' . $file->getExtension()), $separators);
+    }
+
+    /**
+     * Creates a page ID from a file path relative to the pages directory (e.g.: "blog/post.md").
+     *
+     * @param string[] $separators Allowed prefix separator characters
+     */
+    public static function createIdFromPath(string $path, array $separators = PrefixSuffix::DEFAULT_SEPARATORS): string
+    {
+        $path = str_replace('\\', '/', $path);
+        $relativePath = \dirname($path);
+
+        return self::createId($relativePath == '.' ? '' : $relativePath, pathinfo($path, PATHINFO_FILENAME), $separators);
+    }
+
+    /**
+     * Creates a page ID from a relative path and a file name (without extension).
+     *
+     * @param string[] $separators Allowed prefix separator characters
+     */
+    private static function createId(string $relativePath, string $fileName, array $separators = PrefixSuffix::DEFAULT_SEPARATORS): string
+    {
+        $relativePath = Util\Slugifier::slugify(str_replace(DIRECTORY_SEPARATOR, '/', $relativePath));
+        $basename = Util\Slugifier::slugify(PrefixSuffix::subPrefix($fileName, $separators));
         // if file is "README.md", ID is "index" (preserving an optional language suffix, e.g. "README.fr" -> "index.fr")
         if (PrefixSuffix::hasSuffix($basename)) {
             if (strtolower(PrefixSuffix::sub($basename, $separators)) == 'readme') {
