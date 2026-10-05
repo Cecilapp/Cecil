@@ -2,6 +2,12 @@
 
 All notable changes to this project will be documented in this file. Dates are displayed in UTC.
 
+#### [9.7.1](https://github.com/Cecilapp/Cecil/compare/9.7.0...9.7.1)
+
+> 5 October 2026
+
+- fix(renderer): reorder picture source elements for correct precedence [`57c26c1`](https://github.com/Cecilapp/Cecil/commit/57c26c1906330b0108382bfe98b8a81e2de65af0)
+
 #### [9.7.0](https://github.com/Cecilapp/Cecil/compare/9.6.3...9.7.0)
 
 > 5 October 2026
