@@ -2,6 +2,24 @@
 
 All notable changes to this project will be documented in this file. Dates are displayed in UTC.
 
+#### [9.7.4](https://github.com/Cecilapp/Cecil/compare/9.7.3...9.7.4)
+
+> 6 October 2026
+
+- fix(generator): do not override a page with a custom path by an alias [`#2492`](https://github.com/Cecilapp/Cecil/pull/2492)
+
+#### [9.7.3](https://github.com/Cecilapp/Cecil/compare/9.7.2...9.7.3)
+
+> 6 October 2026
+
+- fix(generator): resolve translated sub-section with a custom path [`#2491`](https://github.com/Cecilapp/Cecil/pull/2491)
+
+#### [9.7.2](https://github.com/Cecilapp/Cecil/compare/9.7.1...9.7.2)
+
+> 6 October 2026
+
+- fix: resolve relative Markdown links from the source file folder [`#2490`](https://github.com/Cecilapp/Cecil/pull/2490)
+
 #### [9.7.1](https://github.com/Cecilapp/Cecil/compare/9.7.0...9.7.1)
 
 > 5 October 2026
