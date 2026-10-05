@@ -538,9 +538,11 @@ class Image
         }
 
         $pathInfo = pathinfo($assetPath);
+        // on Windows, `dirname` of a root file is "\"
+        $dirname = str_replace('\\', '/', $pathInfo['dirname'] ?? '');
         $extension = empty($pathInfo['extension']) ? '' : '.' . $pathInfo['extension'];
 
-        return rtrim($pathInfo['dirname'], '/') . '/' . $pathInfo['filename'] . $mobileSuffix . $extension;
+        return rtrim($dirname, '/') . '/' . $pathInfo['filename'] . $mobileSuffix . $extension;
     }
 
     /**
@@ -648,7 +650,7 @@ class Image
      *   sizes?: ?string,
      *   width1x?: ?int,
      *   assetOptions?: array<mixed>,
-     *   fallbackAsUrl?: bool,
+     *   url?: ?callable,
      *   media?: string
      * } $options
      *
@@ -661,7 +663,7 @@ class Image
         array $formats,
         array $options = []
     ): array {
-        if (empty($mobileSuffix)) {
+        if (empty($mobileSuffix) or $asset['url'] !== null) {
             return [];
         }
 
@@ -671,7 +673,7 @@ class Image
         $sizes = $options['sizes'] ?? null;
         $width1x = $options['width1x'] ?? null;
         $assetOptions = $options['assetOptions'] ?? [];
-        $fallbackAsUrl = (bool) ($options['fallbackAsUrl'] ?? false);
+        $url = $options['url'] ?? null;
         $media = (string) ($options['media'] ?? '(max-width: 767px)');
         if ($media === '') {
             $media = '(max-width: 767px)';
@@ -694,10 +696,10 @@ class Image
             try {
                 $assetMobileConverted = $assetMobile->convert($format);
                 if ($responsive === true || $responsive === 'width') {
-                    $mobileSrcset = !empty($widths) ? self::buildHtmlSrcsetW($assetMobileConverted, $widths) : '';
+                    $mobileSrcset = !empty($widths) ? self::buildHtmlSrcsetW($assetMobileConverted, $widths, false, $url) : '';
                 } elseif ($responsive === 'density') {
                     $mobileSrcset = !empty($densities)
-                        ? self::buildHtmlSrcsetX($assetMobileConverted, $width1x ?? $assetMobile['width'], $densities)
+                        ? self::buildHtmlSrcsetX($assetMobileConverted, $width1x ?? $assetMobile['width'], $densities, $url)
                         : '';
                 } else {
                     $mobileSrcset = '';
@@ -705,7 +707,7 @@ class Image
                 $mobileSourceAttributes = [
                     'media'  => $media,
                     'type'   => "image/$format",
-                    'srcset' => empty($mobileSrcset) ? (string) $assetMobileConverted : $mobileSrcset,
+                    'srcset' => empty($mobileSrcset) ? self::url($assetMobileConverted, $url) : $mobileSrcset,
                 ];
                 if (!empty($sizes)) {
                     $mobileSourceAttributes['sizes'] = $sizes;
@@ -716,10 +718,10 @@ class Image
             }
         }
 
-        $mobileFallbackSrcset = $fallbackAsUrl ? (string) new Url($builder, $assetMobile) : (string) $assetMobile;
+        $mobileFallbackSrcset = self::url($assetMobile, $url);
         if (($responsive === true || $responsive === 'width') && !empty($widths)) {
             try {
-                $mobileResponsiveSrcset = self::buildHtmlSrcsetW($assetMobile, $widths);
+                $mobileResponsiveSrcset = self::buildHtmlSrcsetW($assetMobile, $widths, false, $url);
                 if (!empty($mobileResponsiveSrcset)) {
                     $mobileFallbackSrcset = $mobileResponsiveSrcset;
                 }

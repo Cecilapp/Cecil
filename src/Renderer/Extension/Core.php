@@ -615,7 +615,7 @@ class Core extends AbstractExtension
         // dark color-scheme variant: auto-detect `{filename}{suffix}.{ext}` alongside the source image
         $darkSource = $this->buildDarkSourceHtml($asset, $formats, $responsive, $attributes, $url);
         // mobile variant: auto-detect `{filename}{suffix}.{ext}` alongside the source image
-        $mobileSource = $this->buildMobileSourceHtml($asset, $formats, $responsive, $attributes);
+        $mobileSource = $this->buildMobileSourceHtml($asset, $formats, $responsive, $attributes, $url);
 
         // put `<source>` elements in `<picture>` if exists
         if (!empty($darkSource) || !empty($mobileSource) || !empty($source)) {
@@ -684,11 +684,12 @@ class Core extends AbstractExtension
     /**
      * Builds HTML mobile "source" elements for the mobile variant of an image Asset.
      *
-     * @param array $formats    Alternative formats (e.g. ['avif', 'webp'])
-     * @param mixed $responsive Responsive mode (true, 'width', 'density' or false)
-     * @param array $attributes Image attributes
+     * @param array<string>        $formats    Alternative formats (e.g. ['avif', 'webp'])
+     * @param mixed                $responsive Responsive mode (true, 'width', 'density' or false)
+     * @param array<string, mixed> $attributes Image attributes
+     * @param callable             $url        URL builder
      */
-    private function buildMobileSourceHtml(Asset $asset, array $formats, mixed $responsive, array $attributes): string
+    private function buildMobileSourceHtml(Asset $asset, array $formats, mixed $responsive, array $attributes, callable $url): string
     {
         $mobileSuffix = (string) $this->config->get('layouts.images.mobile_suffix');
         $mobileMediaQuery = (string) $this->config->get('layouts.images.mobile_media_query');
@@ -707,6 +708,7 @@ class Core extends AbstractExtension
                 'densities' => $this->config->getAssetsImagesDensities(),
                 'sizes' => $sizes,
                 'width1x' => isset($attributes['width']) && $attributes['width'] > 0 ? (int) $attributes['width'] : null,
+                'url' => $url,
                 'media' => $mobileMediaQuery,
             ]
         );

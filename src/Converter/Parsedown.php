@@ -568,7 +568,6 @@ class Parsedown extends \ParsedownToc
                         ? (int) $InlineImage['element']['attributes']['width']
                         : null,
                     'assetOptions' => ['language' => $this->language],
-                    'fallbackAsUrl' => true,
                     'media' => $mobileMediaQuery,
                 ]
             );
@@ -959,6 +958,20 @@ class Parsedown extends \ParsedownToc
         );
     }
 
+    /**
+     * @param array<string> $formats
+     * @param array{
+     *   responsive?: mixed,
+     *   widths?: array<int>,
+     *   densities?: array<float|int>,
+     *   sizes?: ?string,
+     *   width1x?: ?int,
+     *   assetOptions?: array<mixed>,
+     *   media?: string
+     * } $options
+     *
+     * @return array<array<string, string>>
+     */
     private function getCachedMobileSourceAttributes(Asset $asset, string $mobileSuffix, array $formats, array $options): array
     {
         return (array) $this->rememberImageProcessing(
@@ -974,7 +987,7 @@ class Parsedown extends \ParsedownToc
                 $asset,
                 $mobileSuffix,
                 $formats,
-                $options
+                $options + ['url' => $this->getUrlBuilder()]
             )
         );
     }

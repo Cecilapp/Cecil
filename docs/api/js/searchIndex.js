@@ -151,10 +151,20 @@ Search.appendIndex(
             "summary": "Builds\u0020the\u0020asset\u0020path\u0020for\u0020a\u0020dark\u0020color\u002Dscheme\u0020image\u0020variant.",
             "url": "classes/Cecil-Asset-Image.html#method_buildDarkAssetPath"
         },                {
+            "fqsen": "\\Cecil\\Asset\\Image\u003A\u003AbuildMobileAssetPath\u0028\u0029",
+            "name": "buildMobileAssetPath",
+            "summary": "Builds\u0020the\u0020asset\u0020path\u0020for\u0020a\u0020mobile\u0020image\u0020variant.",
+            "url": "classes/Cecil-Asset-Image.html#method_buildMobileAssetPath"
+        },                {
             "fqsen": "\\Cecil\\Asset\\Image\u003A\u003AbuildDarkSourceAttributes\u0028\u0029",
             "name": "buildDarkSourceAttributes",
             "summary": "Builds\u0020dark\u0020color\u002Dscheme\u0020source\u0020attributes\u0020for\u0020an\u0020image.",
             "url": "classes/Cecil-Asset-Image.html#method_buildDarkSourceAttributes"
+        },                {
+            "fqsen": "\\Cecil\\Asset\\Image\u003A\u003AbuildMobileSourceAttributes\u0028\u0029",
+            "name": "buildMobileSourceAttributes",
+            "summary": "Builds\u0020mobile\u0020source\u0020attributes\u0020for\u0020an\u0020image.",
+            "url": "classes/Cecil-Asset-Image.html#method_buildMobileSourceAttributes"
         },                {
             "fqsen": "\\Cecil\\Asset\\Image\u003A\u003AbuildHtmlSrcsetW\u0028\u0029",
             "name": "buildHtmlSrcsetW",
@@ -3456,6 +3466,11 @@ Search.appendIndex(
             "summary": "",
             "url": "classes/Cecil-Converter-Parsedown.html#method_getCachedDarkSourceAttributes"
         },                {
+            "fqsen": "\\Cecil\\Converter\\Parsedown\u003A\u003AgetCachedMobileSourceAttributes\u0028\u0029",
+            "name": "getCachedMobileSourceAttributes",
+            "summary": "",
+            "url": "classes/Cecil-Converter-Parsedown.html#method_getCachedMobileSourceAttributes"
+        },                {
             "fqsen": "\\Cecil\\Converter\\Parsedown\u003A\u003AgetUrlBuilder\u0028\u0029",
             "name": "getUrlBuilder",
             "summary": "Returns\u0020a\u0020callable\u0020that\u0020builds\u0020the\u0020URL\u0020of\u0020an\u0020Asset.",
@@ -4330,6 +4345,11 @@ Search.appendIndex(
             "name": "buildDarkSourceHtml",
             "summary": "Builds\u0020HTML\u0020dark\u0020\u0022source\u0022\u0020elements\u0020for\u0020the\u0020dark\u0020color\u002Dscheme\u0020variant\u0020of\u0020an\u0020image\u0020Asset.",
             "url": "classes/Cecil-Renderer-Extension-Core.html#method_buildDarkSourceHtml"
+        },                {
+            "fqsen": "\\Cecil\\Renderer\\Extension\\Core\u003A\u003AbuildMobileSourceHtml\u0028\u0029",
+            "name": "buildMobileSourceHtml",
+            "summary": "Builds\u0020HTML\u0020mobile\u0020\u0022source\u0022\u0020elements\u0020for\u0020the\u0020mobile\u0020variant\u0020of\u0020an\u0020image\u0020Asset.",
+            "url": "classes/Cecil-Renderer-Extension-Core.html#method_buildMobileSourceHtml"
         },                {
             "fqsen": "\\Cecil\\Renderer\\Extension\\Core\u003A\u003AhtmlVideo\u0028\u0029",
             "name": "htmlVideo",
