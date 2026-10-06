@@ -2,6 +2,15 @@
 
 All notable changes to this project will be documented in this file. Dates are displayed in UTC.
 
+#### [9.9.0](https://github.com/Cecilapp/Cecil/compare/9.8.0...9.9.0)
+
+> 6 October 2026
+
+- feat(generator): page navigation (prev/next) follows the sections tree [`#2495`](https://github.com/Cecilapp/Cecil/pull/2495)
+- Restructure documentation into sub-sections [`#2494`](https://github.com/Cecilapp/Cecil/pull/2494)
+- docs(api): regenerate API documentation with updated formatting [`231724a`](https://github.com/Cecilapp/Cecil/commit/231724a010dc9ed649e7948455c989de4db21a0b)
+- chore(deps): update composer dependencies [`bef1aad`](https://github.com/Cecilapp/Cecil/commit/bef1aadfa42773b224fb0e768cb9b6549a14d007)
+
 #### [9.8.0](https://github.com/Cecilapp/Cecil/compare/9.7.4...9.8.0)
 
 > 6 October 2026
