@@ -31,6 +31,10 @@ use Cecil\Util;
  * "index.md" file becomes its own (sub-)section. Pages located in a sub-section
  * belong to both their top level section and each of their ancestor sub-sections,
  * while a sub-section index page itself is not listed in its parent section.
+ *
+ * Navigation links follow the sections tree: pages of a root section and of all
+ * its sub-sections are chained depth-first, each sub-section index page being
+ * placed among the pages of its parent section, followed by its own pages.
  */
 class Section extends AbstractGenerator implements GeneratorInterface
 {
@@ -133,11 +137,6 @@ class Section extends AbstractGenerator implements GeneratorInterface
                     // sorts pages
                     $sortBy = $page->getVariable('sortby') ?? $this->config->get('pages.sortby');
                     $pages = $pages->sortBy($sortBy);
-                    // adds navigation links (excludes taxonomy pages)
-                    $sortBy = $page->getVariable('sortby')['variable'] ?? $page->getVariable('sortby') ?? $this->config->get('pages.sortby')['variable'] ?? $this->config->get('pages.sortby') ?? 'date';
-                    if (!\in_array($page->getId(), array_keys((array) $this->config->get('taxonomies')))) {
-                        $this->addNavigationLinks($pages, $sortBy, $page->getVariable('circular') ?? false);
-                    }
                     // creates page for each section
                     $toplevel = !str_contains($path, '/');
                     // the section name and the language reference are language-independent (i.e.: not the custom path)
@@ -186,18 +185,68 @@ class Section extends AbstractGenerator implements GeneratorInterface
                 }
                 $menuWeight += 10;
             }
+
+            // adds navigation links (prev/next), once per root section (i.e.: without parent),
+            // following the order of its sections tree (excludes taxonomy pages)
+            foreach ($sectionPages as $sectionPagesByPath) {
+                foreach ($sectionPagesByPath as $sectionPage) {
+                    if ($sectionPage->getParent() !== null || \in_array($sectionPage->getId(), array_keys((array) $this->config->get('taxonomies')))) {
+                        continue;
+                    }
+                    $this->addNavigationLinks($this->getNavigationPages($sectionPage), $sectionPage->getVariable('circular') ?? false);
+                }
+            }
         }
     }
 
     /**
-     * Adds navigation (next and prev) to each pages of a section.
+     * Returns the pages of a section in reading order, walking its sections tree depth-first:
+     * the section's own pages and sub-sections are sorted together (with the section's `sortby`),
+     * and each sub-section (its index page) is followed by its own pages and sub-sections.
+     *
+     * @return Page[]
      */
-    protected function addNavigationLinks(PagesCollection $pages, string|null $sortBy = null, bool $circular = false): void
+    protected function getNavigationPages(Page $section): array
     {
-        $pagesAsArray = $pages->toArray();
-        if ($sortBy === null || $sortBy == 'date' || $sortBy == 'updated') {
-            $pagesAsArray = array_reverse($pagesAsArray);
+        // immediate children: own pages (not those of a sub-section) and sub-sections
+        $children = new PagesCollection("navigation-{$section->getId()}");
+        foreach ($section->getPages() ?? [] as $page) {
+            if ($page->getParent() === $section) {
+                $children->add($page);
+            }
         }
+        $subSections = [];
+        foreach ($section->getSections() as $subSection) {
+            $subSections[$subSection->getId()] = true;
+            $children->add($subSection);
+        }
+        // sorts children (chronological order for dates)
+        $sortBy = $section->getVariable('sortby') ?? $this->config->get('pages.sortby');
+        $children = $children->sortBy($sortBy);
+        $sortByVariable = \is_array($sortBy) ? ($sortBy['variable'] ?? 'date') : ($sortBy ?? 'date');
+        $childrenAsArray = $children->toArray();
+        if ($sortByVariable == 'date' || $sortByVariable == 'updated') {
+            $childrenAsArray = array_reverse($childrenAsArray);
+        }
+        // flattens the tree
+        $pages = [];
+        foreach ($childrenAsArray as $child) {
+            $pages[] = $child;
+            if (isset($subSections[$child->getId()])) {
+                array_push($pages, ...$this->getNavigationPages($child));
+            }
+        }
+
+        return $pages;
+    }
+
+    /**
+     * Adds navigation (next and prev) to each pages of an ordered list.
+     *
+     * @param Page[] $pagesAsArray
+     */
+    protected function addNavigationLinks(array $pagesAsArray, bool $circular = false): void
+    {
         $count = \count($pagesAsArray);
         if ($count > 1) {
             foreach ($pagesAsArray as $position => $page) {

@@ -299,6 +299,107 @@ class SectionTest extends TestCase
         self::assertSame('fr/blog/2024', $this->builder->getPages()->get('fr/blog/2024/post')->getParent()->getId());
     }
 
+    public function testNavigationLinksWithoutSubSection(): void
+    {
+        $this->builder->setPages(new PagesCollection('all-pages', [
+            $this->page('docs', 'index.md', ['sortby' => 'weight']),
+            $this->page('docs', 'a.md', ['weight' => 1]),
+            $this->page('docs', 'b.md', ['weight' => 2]),
+            $this->page('docs', 'c.md', ['weight' => 3]),
+        ]));
+
+        (new Section($this->builder))->runGenerate();
+
+        self::assertSame(['docs/a', 'docs/b', 'docs/c'], $this->navigationOrder('docs/a'));
+        self::assertNull($this->builder->getPages()->get('docs/a')->getVariable('prev'));
+    }
+
+    public function testNavigationLinksFollowTheSectionsTree(): void
+    {
+        // weights are local to each (sub-)section: a flat sort would interleave sub-sections
+        $this->builder->setPages(new PagesCollection('all-pages', [
+            $this->page('docs', 'index.md', ['sortby' => 'weight']),
+            $this->page('docs', 'intro.md', ['weight' => 1]),
+            $this->page('docs/guide', 'index.md', ['sortby' => 'weight', 'weight' => 2]),
+            $this->page('docs/guide', 'install.md', ['weight' => 1]),
+            $this->page('docs/guide', 'usage.md', ['weight' => 3]),
+            $this->page('docs/guide/reference', 'index.md', ['sortby' => 'weight', 'weight' => 2]),
+            $this->page('docs/guide/reference', 'api.md', ['weight' => 1]),
+            $this->page('docs/guide/reference', 'cli.md', ['weight' => 2]),
+            $this->page('docs/faq', 'index.md', ['sortby' => 'weight', 'weight' => 3]),
+            $this->page('docs/faq', 'questions.md', ['weight' => 1]),
+            $this->page('docs', 'about.md', ['weight' => 4]),
+        ]));
+
+        $generated = (new Section($this->builder))->runGenerate();
+
+        // depth-first: each sub-section index page is followed by its own pages
+        self::assertSame([
+            'docs/intro',
+            'docs/guide',
+            'docs/guide/install',
+            'docs/guide/reference',
+            'docs/guide/reference/api',
+            'docs/guide/reference/cli',
+            'docs/guide/usage',
+            'docs/faq',
+            'docs/faq/questions',
+            'docs/about',
+        ], $this->navigationOrder('docs/intro', $generated));
+        // the root section index page is not part of the navigation
+        self::assertNull($generated->get('docs')->getVariable('next'));
+    }
+
+    public function testNavigationLinksAreCircularFromRootSection(): void
+    {
+        $this->builder->setPages(new PagesCollection('all-pages', [
+            $this->page('docs', 'index.md', ['sortby' => 'weight', 'circular' => true]),
+            $this->page('docs', 'a.md', ['weight' => 1]),
+            $this->page('docs/sub', 'index.md', ['sortby' => 'weight', 'weight' => 2]),
+            $this->page('docs/sub', 'b.md', ['weight' => 1]),
+        ]));
+
+        $generated = (new Section($this->builder))->runGenerate();
+
+        self::assertSame('docs/a', $this->builder->getPages()->get('docs/sub/b')->getVariable('next')->getId());
+        self::assertSame('docs/sub/b', $this->builder->getPages()->get('docs/a')->getVariable('prev')->getId());
+        self::assertSame('docs/a', $generated->get('docs/sub')->getVariable('prev')->getId());
+    }
+
+    public function testNavigationLinksAreChronologicalForDateSortedSections(): void
+    {
+        $this->builder->setPages(new PagesCollection('all-pages', [
+            $this->page('blog', 'index.md'),
+            $this->page('blog', 'old.md', ['date' => new \DateTime('2020-01-01')]),
+            $this->page('blog/2024', 'index.md'),
+            $this->page('blog/2024', 'a.md', ['date' => new \DateTime('2024-01-01')]),
+            $this->page('blog/2024', 'b.md', ['date' => new \DateTime('2024-06-01')]),
+            $this->page('blog', 'new.md', ['date' => new \DateTime('2025-01-01')]),
+        ]));
+
+        $generated = (new Section($this->builder))->runGenerate();
+
+        // the sub-section's date is the one of its most recent page
+        self::assertSame(['blog/old', 'blog/2024', 'blog/2024/a', 'blog/2024/b', 'blog/new'], $this->navigationOrder('blog/old', $generated));
+    }
+
+    /**
+     * Follows the `next` links from a page and returns the IDs of the visited pages.
+     *
+     * @return string[]
+     */
+    private function navigationOrder(string $firstId, ?PagesCollection $generated = null): array
+    {
+        $page = $generated?->has($firstId) ? $generated->get($firstId) : $this->builder->getPages()->get($firstId);
+        $ids = [];
+        while ($page instanceof Page && !\in_array($page->getId(), $ids, true)) {
+            $ids[] = $page->getId();
+            $page = $page->getVariable('next');
+        }
+
+        return $ids;
+    }
+
     /**
      * @return string[]
      */

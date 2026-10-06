@@ -2,7 +2,7 @@
 title: "Pages et sections"
 description: "Anatomie d’une page, préfixe de fichier, sections, sous-sections et page d’accueil."
 date: 2026-03-27
-updated: 2026-10-03
+updated: 2026-10-06
 path: documentation/contenu/pages
 -->
 # Pages et sections
@@ -166,6 +166,10 @@ Les variables existantes ne sont pas écrasées.
 
 Définissez `circular` à `true` pour activer la navigation circulaire avec [_page.<prev/next>_](../templates/11-variables.fr.md#page-prev-next).
 
+:::info
+Avec des [sous-sections](#sous-section), seule la valeur `circular` de la _Section_ de premier niveau est utilisée.
+:::
+
 _Exemple :_
 
 ```yaml
@@ -196,6 +200,7 @@ Une _sous-section_ :
 - peut être imbriquée à n'importe quelle profondeur (ex. : `blog/2024/06/`)
 - liste ses propres pages, et ses pages appartiennent aussi à chacune de leurs _Sections_ parentes
 - n'est **pas** listée dans sa _Section_ parente
+- est placée dans la navigation [_page.<prev/next>_](../templates/11-variables.fr.md#page-prev-next) de sa _Section_ parente (selon son `sortby`), suivie de ses propres pages
 
 :::info
 Un dossier imbriqué **sans** fichier `index.md` n'est pas une _sous-section_ : ses pages appartiennent simplement à la _Section_ parente.

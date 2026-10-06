@@ -118,6 +118,19 @@ class IntegrationTests extends \PHPUnit\Framework\TestCase
             self::assertMatchesRegularExpression('~class="?sub-sections-list-layout"?>' . preg_quote($section, '~') . '<~', $htmlSection, \sprintf('Section "%s" is not rendered with the layout of its top level section', $section));
         }
 
+        // navigation links (prev/next) follow the sections tree: each sub-section index page is followed by its own pages
+        $navigation = ['sub-sections/page', 'sub-sections/child', 'sub-sections/child/page', 'sub-sections/child/grandchild', 'sub-sections/child/grandchild/page'];
+        foreach ($navigation as $position => $path) {
+            $htmlNavigation = Util\File::fileGetContents(Util::joinFile($this->destination, '_site', $path, 'index.html'));
+            self::assertNotFalse($htmlNavigation);
+            if (isset($navigation[$position + 1])) {
+                self::assertMatchesRegularExpression('~<link (?=[^>]*rel="?next"?[ >])[^>]*href="?[^" >]*/' . preg_quote($navigation[$position + 1], '~') . '/[" >]~', $htmlNavigation, \sprintf('Next link of "%s" is not "%s"', $path, $navigation[$position + 1]));
+            }
+            if (isset($navigation[$position - 1])) {
+                self::assertMatchesRegularExpression('~<link (?=[^>]*rel="?prev"?[ >])[^>]*href="?[^" >]*/' . preg_quote($navigation[$position - 1], '~') . '/[" >]~', $htmlNavigation, \sprintf('Previous link of "%s" is not "%s"', $path, $navigation[$position - 1]));
+            }
+        }
+
         // ICO resize
         $htmlAssets = Util\File::fileGetContents(Util::joinFile($this->destination, '_site/assets/assets/index.html'));
         self::assertNotFalse($htmlAssets);
