@@ -165,7 +165,16 @@
       "login": "fmatsos",
       "name": "Franck Matsos",
       "avatar_url": "https://avatars.githubusercontent.com/u/805227?v=4",
-      "profile": "https://franck.matsos.fr",
+      "profile": "https://franck.matsos.dev",
+      "contributions": [
+        "code"
+      ]
+    },
+    {
+      "login": "odolbeau",
+      "name": "Olivier Dolbeau",
+      "avatar_url": "https://avatars.githubusercontent.com/u/680206?v=4",
+      "profile": "https://odolbeau.fr/",
       "contributions": [
         "code"
       ]
