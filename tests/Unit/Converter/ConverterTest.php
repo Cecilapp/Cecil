@@ -150,4 +150,22 @@ class ConverterTest extends TestCase
         self::assertStringContainsString('<strong>bold</strong>', $html);
         self::assertStringContainsString('<li>item</li>', $html);
     }
+
+    public function testNoteKeepsIndentationAndBlankLines(): void
+    {
+        // the build ID is normally set by Builder::build()
+        $setBuildId = \Closure::bind(static function (?string $id): void {
+            self::$buildId = $id;
+        }, null, Builder::class);
+        $setBuildId('test');
+        try {
+            $html = $this->converter->convertBody(":::tip\nFirst paragraph.\n\nSecond paragraph.\n\n```yaml\npages:\n  default:\n    published: true\n```\n:::", 'en');
+        } finally {
+            $setBuildId(null);
+        }
+
+        self::assertStringContainsString('<p>First paragraph.</p>', $html);
+        self::assertStringContainsString('<p>Second paragraph.</p>', $html);
+        self::assertStringContainsString("pages:\n  default:\n    published: true", strip_tags($html));
+    }
 }

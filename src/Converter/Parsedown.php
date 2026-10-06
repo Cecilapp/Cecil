@@ -682,7 +682,13 @@ class Parsedown extends \ParsedownToc
 
             return $block;
         }
-        $block['element']['text'] .= $line['text'] . "\n";
+        // restores blank lines (not passed to continue methods)
+        if (isset($block['interrupted'])) {
+            $block['element']['text'] .= str_repeat("\n", $block['interrupted']);
+            unset($block['interrupted']);
+        }
+        // keeps indentation (e.g.: in code blocks)
+        $block['element']['text'] .= $line['body'] . "\n";
 
         return $block;
     }
