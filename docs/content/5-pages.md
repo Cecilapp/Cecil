@@ -2,7 +2,7 @@
 title: "Pages and sections"
 description: "Anatomy of a page, file prefix, sections, sub-sections and home page."
 date: 2021-05-07
-updated: 2026-10-03
+updated: 2026-10-06
 -->
 # Pages and sections
 
@@ -166,6 +166,10 @@ Existing variables are not overridden.
 
 Set `circular` to `true` to enable circular navigation with [_page.<prev/next>_](../templates/11-variables.md#page-prev-next).
 
+:::info
+With [sub-sections](#sub-section), only the `circular` value of the top level _Section_ is used.
+:::
+
 _Example:_
 
 ```yaml
@@ -196,6 +200,7 @@ A _sub-section_:
 - can be nested at any depth (e.g.: `blog/2024/06/`)
 - lists its own pages, and its pages also belong to each of their parent _Sections_
 - is **not** listed in its parent _Section_
+- is placed in the [_page.<prev/next>_](../templates/11-variables.md#page-prev-next) navigation of its parent _Section_ (according to its `sortby`), followed by its own pages
 
 :::info
 A nested folder **without** an `index.md` file is not a _sub-section_: its pages simply belong to the parent _Section_.

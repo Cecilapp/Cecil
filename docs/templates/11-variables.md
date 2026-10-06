@@ -2,7 +2,7 @@
 title: "Variables"
 description: "Variables available in templates: site, page and cecil."
 date: 2021-05-07
-updated: 2026-10-05
+updated: 2026-10-06
 -->
 # Variables
 
@@ -228,7 +228,9 @@ _Link to the parent section:_
 
 ### page.<prev/next>
 
-Navigation between pages within the same _section_.
+Navigation between pages within the same _section_, sorted according to the section's `sortby` (chronological order for dates).
+
+With [sub-sections](../content/5-pages.md#sub-section), navigation follows the sections tree: the pages of a top level _Section_ and of all its sub-sections are chained, each sub-section (its index page) being placed among the pages of its parent _Section_ and followed by its own pages.
 
 | Variable    | Description    | Example |
 | ----------- | -------------- | ------- |

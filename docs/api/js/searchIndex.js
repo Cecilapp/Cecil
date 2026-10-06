@@ -3891,9 +3891,14 @@ Search.appendIndex(
             "summary": "Creates\u0020pages\u0020and\u0020adds\u0020it\u0020to\u0020collection.",
             "url": "classes/Cecil-Generator-Section.html#method_generate"
         },                {
+            "fqsen": "\\Cecil\\Generator\\Section\u003A\u003AgetNavigationPages\u0028\u0029",
+            "name": "getNavigationPages",
+            "summary": "Returns\u0020the\u0020pages\u0020of\u0020a\u0020section\u0020in\u0020reading\u0020order,\u0020walking\u0020its\u0020sections\u0020tree\u0020depth\u002Dfirst\u003A\nthe\u0020section\u0027s\u0020own\u0020pages\u0020and\u0020sub\u002Dsections\u0020are\u0020sorted\u0020together\u0020\u0028with\u0020the\u0020section\u0027s\u0020\u0060sortby\u0060\u0029,\nand\u0020each\u0020sub\u002Dsection\u0020\u0028its\u0020index\u0020page\u0029\u0020is\u0020followed\u0020by\u0020its\u0020own\u0020pages\u0020and\u0020sub\u002Dsections.",
+            "url": "classes/Cecil-Generator-Section.html#method_getNavigationPages"
+        },                {
             "fqsen": "\\Cecil\\Generator\\Section\u003A\u003AaddNavigationLinks\u0028\u0029",
             "name": "addNavigationLinks",
-            "summary": "Adds\u0020navigation\u0020\u0028next\u0020and\u0020prev\u0029\u0020to\u0020each\u0020pages\u0020of\u0020a\u0020section.",
+            "summary": "Adds\u0020navigation\u0020\u0028next\u0020and\u0020prev\u0029\u0020to\u0020each\u0020pages\u0020of\u0020an\u0020ordered\u0020list.",
             "url": "classes/Cecil-Generator-Section.html#method_addNavigationLinks"
         },                {
             "fqsen": "\\Cecil\\Generator\\Taxonomy",
