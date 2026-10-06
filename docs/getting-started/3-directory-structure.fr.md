@@ -53,7 +53,7 @@ Résultat de la génération.
 :::info
 Par défaut, chaque page est générée sous la forme `nomdufichier-sluglifié/index.html` pour obtenir une « belle » URL comme `https://monsiteweb.tld/section/nomdufichier-sluglifié/`.
 
-Pour obtenir une URL « ugly » (comme `404.html` au lieu de `404/`), définissez `uglyurl: true` dans le [front matter](../content/5-pages.fr.md#front-matter) de la page.
+Pour obtenir une URL « ugly » (comme `404.html` au lieu de `404/`), définissez `uglyurl: true` dans le [front matter](../content/1-pages.fr.md#front-matter) de la page.
 :::
 
 ## Routage basé sur les fichiers
@@ -71,5 +71,5 @@ URL :
 ```
 
 :::important
-Deux types de préfixes peuvent modifier l’URL, voir la section [Préfixe de fichier](../content/5-pages.fr.md#prefixe-de-fichier) ci-dessous.
+Deux types de préfixes peuvent modifier l’URL, voir la section [Préfixe de fichier](../content/1-pages.fr.md#prefixe-de-fichier) ci-dessous.
 :::

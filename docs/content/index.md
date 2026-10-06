@@ -11,7 +11,7 @@ sortby: weight
 There are different kinds of content in Cecil:
 
 **Pages**
-: Pages are the main content of the site, written in [Markdown](7-markdown.md).
+: Pages are the main content of the site, written in [Markdown](3-markdown.md).
 : Pages should be organized in a manner that reflects the rendered website.
 : Pages can be organized in _Sections_ (root folders) (e.g.: “Blog“, “Project“, etc.).
 
@@ -22,4 +22,4 @@ There are different kinds of content in Cecil:
 : Static files are copied as is in the built site (e.g.: `static/file.pdf` -> `file.pdf`).
 
 **Data files**
-: Data files are custom variables collections, exposed in [templates](../templates/index.md) with [`site.data`](../templates/11-variables.md#site-data).
+: Data files are custom variables collections, exposed in [templates](../templates/index.md) with [`site.data`](../templates/2-variables.md#site-data).

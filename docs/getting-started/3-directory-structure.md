@@ -52,7 +52,7 @@ Result of the build.
 :::info
 By default each page is generated as `slugified-filename/index.html` to get a “beautiful“ URL like `https://mywebsite.tld/section/slugified-filename/`.
 
-To get an “ugly” URL (like `404.html` instead of `404/`), set `uglyurl: true` in page [front matter](../content/5-pages.md#front-matter).
+To get an “ugly” URL (like `404.html` instead of `404/`), set `uglyurl: true` in page [front matter](../content/1-pages.md#front-matter).
 :::
 
 ## File based routing
@@ -70,5 +70,5 @@ URL:
 ```
 
 :::important
-Two kinds of prefixes can alter the URL. See the [File prefix section](../content/5-pages.md#file-prefix) below.
+Two kinds of prefixes can alter the URL. See the [File prefix section](../content/1-pages.md#file-prefix) below.
 :::

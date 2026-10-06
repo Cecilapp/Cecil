@@ -25,7 +25,7 @@ php -m
 
 | Extension | Usage |
 | --------- | ----- |
-| [`intl`](https://www.php.net/manual/fr/book.intl.php) | [Localisation](../templates/16-localization.fr.md) des dates avec d’autres locales que `en` (améliore les performances sinon). |
+| [`intl`](https://www.php.net/manual/fr/book.intl.php) | [Localisation](../templates/5-localization.fr.md) des dates avec d’autres locales que `en` (améliore les performances sinon). |
 | [`imagick`](https://www.php.net/manual/fr/book.imagick.php) | Traitement des images, préféré à GD si disponible. |
 | [`ffi`](https://www.php.net/manual/fr/book.ffi.php) | Traitement des images avec [libvips](https://www.libvips.org/) (nécessite une [installation via Composer](#composer)). |
 
@@ -102,7 +102,7 @@ Assurez-vous que le dossier des binaires globaux de Composer est dans votre `PAT
 :::
 
 :::tip
-Pour utiliser Cecil comme dépendance d’un projet PHP, voir [Bibliothèque](../developers/42-library.fr.md).
+Pour utiliser Cecil comme dépendance d’un projet PHP, voir [Bibliothèque](../developers/2-library.fr.md).
 :::
 
 ## Vérifier l’installation
@@ -154,4 +154,4 @@ Le PHP utilisé en ligne de commande peut différer de celui attendu (plusieurs 
 
 ### Diagnostiquer un site
 
-Une fois un site créé, exécutez la commande [`doctor`](../commands/37-doctor.fr.md) pour diagnostiquer sa configuration.
+Une fois un site créé, exécutez la commande [`doctor`](../commands/5-doctor.fr.md) pour diagnostiquer sa configuration.
