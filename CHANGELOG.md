@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. Dates are displayed in UTC.
 
+#### [9.9.1](https://github.com/Cecilapp/Cecil/compare/9.9.0...9.9.1)
+
+> 6 October 2026
+
+- fix(converter): keep indentation and blank lines in note blocks [`#2497`](https://github.com/Cecilapp/Cecil/pull/2497)
+- chore(docs): renumber documentation files for sequential ordering [`da6a986`](https://github.com/Cecilapp/Cecil/commit/da6a98606508bdcbb7721a628b0de0c14e4249af)
+
 #### [9.9.0](https://github.com/Cecilapp/Cecil/compare/9.8.0...9.9.0)
 
 > 6 October 2026
