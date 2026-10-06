@@ -153,6 +153,12 @@ class Builder implements BuildContextInterface, LoggerAwareInterface
      */
     protected $assets = [];
     /**
+     * Asset path index used to deduplicate entries in constant time.
+     * Keeps the public assets list order while avoiding repeated linear scans.
+     * @var array<string, true>
+     */
+    protected $assetPathIndex = [];
+    /**
      * In-memory registry used to deduplicate asset objects during a build.
      * @var array<string, Asset>
      */
@@ -287,6 +293,8 @@ class Builder implements BuildContextInterface, LoggerAwareInterface
         $this->options = array_merge(self::OPTIONS, $options);
 
         // reset in-memory registries for this build
+        $this->assets = [];
+        $this->assetPathIndex = [];
         $this->assetRegistry = [];
         $this->assetRegistryHits = 0;
         $this->assetRegistryMisses = 0;
@@ -534,9 +542,12 @@ class Builder implements BuildContextInterface, LoggerAwareInterface
      */
     public function addToAssetsList(string $path): void
     {
-        if (!\in_array($path, $this->assets, true)) {
-            $this->assets[] = $path;
+        if (isset($this->assetPathIndex[$path])) {
+            return;
         }
+
+        $this->assetPathIndex[$path] = true;
+        $this->assets[] = $path;
     }
 
     /**
