@@ -6,10 +6,7 @@
     
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <base href="../">
-    <link rel="icon" type="image/png" sizes="32x32" href="images/favicon-32x32.png"/>
-    <link rel="icon" type="image/png" sizes="16x16" href="images/favicon-16x16.png"/>
     <link rel="icon" href="images/favicon.ico"/>
-    <link rel="apple-touch-icon" href="images/apple-touch-icon.png"/>
     <link rel="stylesheet" href="css/normalize.css">
     <link rel="stylesheet" href="css/base.css">
             <link rel="preconnect" href="https://fonts.gstatic.com">
@@ -192,8 +189,10 @@ Builder::create($config)-&gt;build();
 
 
 
-    
-    
+
+
+
+
 <h3 id="toc">
     Table of Contents
     <a href="classes/Cecil-Builder.html#toc" class="headerlink"><i class="fas fa-link"></i></a>
@@ -222,52 +221,52 @@ Builder::create($config)-&gt;build();
             <dt class="phpdocumentor-table-of-contents__entry -constant -public">
     <a class="" href="classes/Cecil-Builder.html#constant_OPTIONS">OPTIONS</a>
     <span>
-        &nbsp;: array&lt;string|int, mixed&gt;&nbsp;= [&#039;drafts&#039; =&gt; false, &#039;dry-run&#039; =&gt; false, &#039;page&#039;...                            </span>
+        &nbsp;= [&#039;drafts&#039; =&gt; false, &#039;dry-run&#039; =&gt; false, &#039;page&#039; =&gt; &#039;&#039;, &#039;render-subset&#039; =&gt; &#039;&#039;]                            </span>
 </dt>
 <dd>Default options for the build process.</dd>
 
             <dt class="phpdocumentor-table-of-contents__entry -constant -public">
     <a class="" href="classes/Cecil-Builder.html#constant_STEPS">STEPS</a>
     <span>
-        &nbsp;: array&lt;string|int, mixed&gt;&nbsp;= [&#039;Cecil\Step\Pages\Load&#039;, &#039;Cecil\Step\Data\Load...                            </span>
+        &nbsp;= [&#039;Cecil\Step\Pages\Load&#039;, &#039;Cecil\Step\Data\Load&#039;, &#039;Cecil\Step\StaticFiles\Load&#039;, &#039;Cecil\Step\Pages\Create&#039;, &#039;Cecil\Step\Pages\Convert&#039;, &#039;Cecil\Step\Taxonomies\Create&#039;, &#039;Cecil\Step\Pages\Generate&#039;, &#039;Cecil\Step\Menus\Create&#039;, &#039;Cecil\Step\StaticFiles\Copy&#039;, &#039;Cecil\Step\Pages\Render&#039;, &#039;Cecil\Step\Pages\Save&#039;, &#039;Cecil\Step\Assets\Save&#039;, &#039;Cecil\Step\Optimize\Html&#039;, &#039;Cecil\Step\Optimize\Css&#039;, &#039;Cecil\Step\Optimize\Js&#039;, &#039;Cecil\Step\Optimize\Images&#039;]                            </span>
 </dt>
 <dd>Steps processed by build(), in order.</dd>
 
             <dt class="phpdocumentor-table-of-contents__entry -constant -public">
     <a class="" href="classes/Cecil-Builder.html#constant_TMP_DIR">TMP_DIR</a>
     <span>
-        &nbsp;: string&nbsp;= &#039;.cecil&#039;                            </span>
+        &nbsp;= &#039;.cecil&#039;                            </span>
 </dt>
 <dd>Temporary directory name.</dd>
 
             <dt class="phpdocumentor-table-of-contents__entry -constant -public">
     <a class="" href="classes/Cecil-Builder.html#constant_VERBOSITY_DEBUG">VERBOSITY_DEBUG</a>
     <span>
-        &nbsp;: mixed&nbsp;= 2                            </span>
+        &nbsp;= 2                            </span>
 </dt>
 
             <dt class="phpdocumentor-table-of-contents__entry -constant -public">
     <a class="" href="classes/Cecil-Builder.html#constant_VERBOSITY_NORMAL">VERBOSITY_NORMAL</a>
     <span>
-        &nbsp;: mixed&nbsp;= 0                            </span>
+        &nbsp;= 0                            </span>
 </dt>
 
             <dt class="phpdocumentor-table-of-contents__entry -constant -public">
     <a class="" href="classes/Cecil-Builder.html#constant_VERBOSITY_QUIET">VERBOSITY_QUIET</a>
     <span>
-        &nbsp;: mixed&nbsp;= -1                            </span>
+        &nbsp;= -1                            </span>
 </dt>
 
             <dt class="phpdocumentor-table-of-contents__entry -constant -public">
     <a class="" href="classes/Cecil-Builder.html#constant_VERBOSITY_VERBOSE">VERBOSITY_VERBOSE</a>
     <span>
-        &nbsp;: mixed&nbsp;= 1                            </span>
+        &nbsp;= 1                            </span>
 </dt>
 
             <dt class="phpdocumentor-table-of-contents__entry -constant -public">
     <a class="" href="classes/Cecil-Builder.html#constant_VERSION">VERSION</a>
     <span>
-        &nbsp;: mixed&nbsp;= &#039;9.x-dev&#039;                            </span>
+        &nbsp;= &#039;9.x-dev&#039;                            </span>
 </dt>
 
     </dl>
@@ -715,7 +714,7 @@ Builder::create($config)-&gt;build();
     
     <code class="phpdocumentor-signature phpdocumentor-code ">
     <span class="phpdocumentor-signature__visibility">public</span>
-        <span class="phpdocumentor-signature__type">array&lt;string|int, mixed&gt;</span>
+        <span class="phpdocumentor-signature__type">array&lt;string, bool|string&gt;</span>
     <span class="phpdocumentor-signature__name">OPTIONS</span>
     = <span class="phpdocumentor-signature__default-value">[&#039;drafts&#039; =&gt; false, &#039;dry-run&#039; =&gt; false, &#039;page&#039; =&gt; &#039;&#039;, &#039;render-subset&#039; =&gt; &#039;&#039;]</span>
 </code>
@@ -732,23 +731,25 @@ Builder::create($config)-&gt;build();
 
     
     
-    <h5 class="phpdocumentor-tag-list__heading" id="constant_OPTIONS_tags">
+    <h5 class="phpdocumentor-tag-list__heading" id="tags">
         Tags
-        <a href="classes/Cecil-Builder.html#constant_OPTIONS_tags" class="headerlink"><i class="fas fa-link"></i></a>
+        <a href="classes/Cecil-Builder.html#constant_OPTIONS#tags" class="headerlink"><i class="fas fa-link"></i></a>
 
     </h5>
     <dl class="phpdocumentor-tag-list">
-                    <dt class="phpdocumentor-tag-list__entry">
-                <span class="phpdocumentor-tag__name">see</span>
-            </dt>
-                            <dd class="phpdocumentor-tag-list__definition">
+                                    <dt class="phpdocumentor-tag-list__entry">
+                    <span class="phpdocumentor-tag__name">see</span>
+                </dt>
+                <dd class="phpdocumentor-tag-list__definition">
                                                                                     <span class="phpdocumentor-tag-link"><a href="classes/Cecil-Builder.html#method_build"><abbr title="\Cecil\Builder::build()">Builder::build()</abbr></a></span>
-                                                                
+                                        
+                                             
                                     </dd>
-                        </dl>
+                                            </dl>
 
-        
-    </article>
+    
+
+</article>
                     <article class="phpdocumentor-element -constant -public ">
     <h4 class="phpdocumentor-element__name" id="constant_STEPS">
         STEPS
@@ -768,7 +769,7 @@ Builder::create($config)-&gt;build();
     
     <code class="phpdocumentor-signature phpdocumentor-code ">
     <span class="phpdocumentor-signature__visibility">public</span>
-        <span class="phpdocumentor-signature__type">array&lt;string|int, mixed&gt;</span>
+        <span class="phpdocumentor-signature__type">array&lt;string|int, string&gt;</span>
     <span class="phpdocumentor-signature__name">STEPS</span>
     = <span class="phpdocumentor-signature__default-value">[&#039;Cecil\Step\Pages\Load&#039;, &#039;Cecil\Step\Data\Load&#039;, &#039;Cecil\Step\StaticFiles\Load&#039;, &#039;Cecil\Step\Pages\Create&#039;, &#039;Cecil\Step\Pages\Convert&#039;, &#039;Cecil\Step\Taxonomies\Create&#039;, &#039;Cecil\Step\Pages\Generate&#039;, &#039;Cecil\Step\Menus\Create&#039;, &#039;Cecil\Step\StaticFiles\Copy&#039;, &#039;Cecil\Step\Pages\Render&#039;, &#039;Cecil\Step\Pages\Save&#039;, &#039;Cecil\Step\Assets\Save&#039;, &#039;Cecil\Step\Optimize\Html&#039;, &#039;Cecil\Step\Optimize\Css&#039;, &#039;Cecil\Step\Optimize\Js&#039;, &#039;Cecil\Step\Optimize\Images&#039;]</span>
 </code>
@@ -780,23 +781,25 @@ Each step is a class that implements the StepInterface.</p>
 
     
     
-    <h5 class="phpdocumentor-tag-list__heading" id="constant_STEPS_tags">
+    <h5 class="phpdocumentor-tag-list__heading" id="tags">
         Tags
-        <a href="classes/Cecil-Builder.html#constant_STEPS_tags" class="headerlink"><i class="fas fa-link"></i></a>
+        <a href="classes/Cecil-Builder.html#constant_STEPS#tags" class="headerlink"><i class="fas fa-link"></i></a>
 
     </h5>
     <dl class="phpdocumentor-tag-list">
-                    <dt class="phpdocumentor-tag-list__entry">
-                <span class="phpdocumentor-tag__name">see</span>
-            </dt>
-                            <dd class="phpdocumentor-tag-list__definition">
+                                    <dt class="phpdocumentor-tag-list__entry">
+                    <span class="phpdocumentor-tag__name">see</span>
+                </dt>
+                <dd class="phpdocumentor-tag-list__definition">
                                                                                     <span class="phpdocumentor-tag-link"><a href="classes/Cecil-Step-StepInterface.html"><abbr title="\Cecil\Step\StepInterface">StepInterface</abbr></a></span>
-                                                                
+                                        
+                                             
                                     </dd>
-                        </dl>
+                                            </dl>
 
-        
-    </article>
+    
+
+</article>
                     <article class="phpdocumentor-element -constant -public ">
     <h4 class="phpdocumentor-element__name" id="constant_TMP_DIR">
         TMP_DIR
@@ -816,7 +819,7 @@ Each step is a class that implements the StepInterface.</p>
     
     <code class="phpdocumentor-signature phpdocumentor-code ">
     <span class="phpdocumentor-signature__visibility">public</span>
-        <span class="phpdocumentor-signature__type">string</span>
+        <span class="phpdocumentor-signature__type">mixed</span>
     <span class="phpdocumentor-signature__name">TMP_DIR</span>
     = <span class="phpdocumentor-signature__default-value">&#039;.cecil&#039;</span>
 </code>
@@ -826,8 +829,9 @@ Each step is a class that implements the StepInterface.</p>
     
     
 
-        
-    </article>
+    
+
+</article>
                     <article class="phpdocumentor-element -constant -public ">
     <h4 class="phpdocumentor-element__name" id="constant_VERBOSITY_DEBUG">
         VERBOSITY_DEBUG
@@ -856,8 +860,9 @@ Each step is a class that implements the StepInterface.</p>
     
     
 
-        
-    </article>
+    
+
+</article>
                     <article class="phpdocumentor-element -constant -public ">
     <h4 class="phpdocumentor-element__name" id="constant_VERBOSITY_NORMAL">
         VERBOSITY_NORMAL
@@ -886,8 +891,9 @@ Each step is a class that implements the StepInterface.</p>
     
     
 
-        
-    </article>
+    
+
+</article>
                     <article class="phpdocumentor-element -constant -public ">
     <h4 class="phpdocumentor-element__name" id="constant_VERBOSITY_QUIET">
         VERBOSITY_QUIET
@@ -916,8 +922,9 @@ Each step is a class that implements the StepInterface.</p>
     
     
 
-        
-    </article>
+    
+
+</article>
                     <article class="phpdocumentor-element -constant -public ">
     <h4 class="phpdocumentor-element__name" id="constant_VERBOSITY_VERBOSE">
         VERBOSITY_VERBOSE
@@ -946,8 +953,9 @@ Each step is a class that implements the StepInterface.</p>
     
     
 
-        
-    </article>
+    
+
+</article>
                     <article class="phpdocumentor-element -constant -public ">
     <h4 class="phpdocumentor-element__name" id="constant_VERSION">
         VERSION
@@ -976,8 +984,9 @@ Each step is a class that implements the StepInterface.</p>
     
     
 
-        
-    </article>
+    
+
+</article>
             </section>
 
         
@@ -1021,8 +1030,9 @@ Each step is a class that implements the StepInterface.</p>
     
     
 
-        
-        
+    
+
+    
 
 </article>
                     <article
@@ -1059,8 +1069,9 @@ Each step is a class that implements the StepInterface.</p>
     
     
 
-        
-        
+    
+
+    
 
 </article>
                     <article
@@ -1097,8 +1108,9 @@ Each step is a class that implements the StepInterface.</p>
     
     
 
-        
-        
+    
+
+    
 
 </article>
                     <article
@@ -1138,8 +1150,9 @@ It is used to keep track of assets that need to be processed or copied.</p>
     
     
 
-        
-        
+    
+
+    
 
 </article>
                     <article
@@ -1179,23 +1192,25 @@ It can be used to track builds, especially in environments where multiple builds
 
     
     
-    <h5 class="phpdocumentor-tag-list__heading" id="property_buildId_tags">
+    <h5 class="phpdocumentor-tag-list__heading" id="tags">
         Tags
-        <a href="classes/Cecil-Builder.html#property_buildId_tags" class="headerlink"><i class="fas fa-link"></i></a>
+        <a href="classes/Cecil-Builder.html#property_buildId#tags" class="headerlink"><i class="fas fa-link"></i></a>
 
     </h5>
     <dl class="phpdocumentor-tag-list">
-                    <dt class="phpdocumentor-tag-list__entry">
-                <span class="phpdocumentor-tag__name">see</span>
-            </dt>
-                            <dd class="phpdocumentor-tag-list__definition">
+                                    <dt class="phpdocumentor-tag-list__entry">
+                    <span class="phpdocumentor-tag__name">see</span>
+                </dt>
+                <dd class="phpdocumentor-tag-list__definition">
                                                                                     <span class="phpdocumentor-tag-link"><a href="classes/Cecil-Builder.html#method_build"><abbr title="\Cecil\Builder::build()">Builder::build()</abbr></a></span>
-                                                                
+                                        
+                                             
                                     </dd>
-                        </dl>
+                                            </dl>
 
-        
-        
+    
+
+    
 
 </article>
                     <article
@@ -1234,23 +1249,25 @@ It can be set to an array or a Config instance (converted to Config).</p>
 
     
     
-    <h5 class="phpdocumentor-tag-list__heading" id="property_config_tags">
+    <h5 class="phpdocumentor-tag-list__heading" id="tags">
         Tags
-        <a href="classes/Cecil-Builder.html#property_config_tags" class="headerlink"><i class="fas fa-link"></i></a>
+        <a href="classes/Cecil-Builder.html#property_config#tags" class="headerlink"><i class="fas fa-link"></i></a>
 
     </h5>
     <dl class="phpdocumentor-tag-list">
-                    <dt class="phpdocumentor-tag-list__entry">
-                <span class="phpdocumentor-tag__name">see</span>
-            </dt>
-                            <dd class="phpdocumentor-tag-list__definition">
+                                    <dt class="phpdocumentor-tag-list__entry">
+                    <span class="phpdocumentor-tag__name">see</span>
+                </dt>
+                <dd class="phpdocumentor-tag-list__definition">
                                                                                     <span class="phpdocumentor-tag-link"><a href="classes/Cecil-Config.html"><abbr title="\Cecil\Config">Config</abbr></a></span>
-                                                                
+                                        
+                                             
                                     </dd>
-                        </dl>
+                                            </dl>
 
-        
-        
+    
+
+    
 
 </article>
                     <article
@@ -1289,8 +1306,9 @@ It can be set to an array or a Config instance (converted to Config).</p>
     
     
 
-        
-        
+    
+
+    
 
 </article>
                     <article
@@ -1329,8 +1347,9 @@ It can be set to an array or a Config instance (converted to Config).</p>
     
     
 
-        
-        
+    
+
+    
 
 </article>
                     <article
@@ -1369,8 +1388,9 @@ It can be set to an array or a Config instance (converted to Config).</p>
     
     
 
-        
-        
+    
+
+    
 
 </article>
                     <article
@@ -1411,8 +1431,9 @@ It allows for the registration and execution of various generators that can exte
     
     
 
-        
-        
+    
+
+    
 
 </article>
                     <article
@@ -1449,8 +1470,9 @@ It allows for the registration and execution of various generators that can exte
     
     
 
-        
-        
+    
+
+    
 
 </article>
                     <article
@@ -1487,8 +1509,9 @@ It allows for the registration and execution of various generators that can exte
     
     
 
-        
-        
+    
+
+    
 
 </article>
                     <article
@@ -1527,23 +1550,25 @@ It can be set to any PSR-3 compliant logger.</p>
 
     
     
-    <h5 class="phpdocumentor-tag-list__heading" id="property_logger_tags">
+    <h5 class="phpdocumentor-tag-list__heading" id="tags">
         Tags
-        <a href="classes/Cecil-Builder.html#property_logger_tags" class="headerlink"><i class="fas fa-link"></i></a>
+        <a href="classes/Cecil-Builder.html#property_logger#tags" class="headerlink"><i class="fas fa-link"></i></a>
 
     </h5>
     <dl class="phpdocumentor-tag-list">
-                    <dt class="phpdocumentor-tag-list__entry">
-                <span class="phpdocumentor-tag__name">see</span>
-            </dt>
-                            <dd class="phpdocumentor-tag-list__definition">
+                                    <dt class="phpdocumentor-tag-list__entry">
+                    <span class="phpdocumentor-tag__name">see</span>
+                </dt>
+                <dd class="phpdocumentor-tag-list__definition">
                                                                                     <span class="phpdocumentor-tag-link"><abbr title="\Psr\Log\LoggerInterface">LoggerInterface</abbr></span>
-                                                                
+                                        
+                                             
                                     </dd>
-                        </dl>
+                                            </dl>
 
-        
-        
+    
+
+    
 
 </article>
                     <article
@@ -1584,23 +1609,25 @@ It is used to manage navigation menus across different languages in the website.
 
     
     
-    <h5 class="phpdocumentor-tag-list__heading" id="property_menus_tags">
+    <h5 class="phpdocumentor-tag-list__heading" id="tags">
         Tags
-        <a href="classes/Cecil-Builder.html#property_menus_tags" class="headerlink"><i class="fas fa-link"></i></a>
+        <a href="classes/Cecil-Builder.html#property_menus#tags" class="headerlink"><i class="fas fa-link"></i></a>
 
     </h5>
     <dl class="phpdocumentor-tag-list">
-                    <dt class="phpdocumentor-tag-list__entry">
-                <span class="phpdocumentor-tag__name">see</span>
-            </dt>
-                            <dd class="phpdocumentor-tag-list__definition">
+                                    <dt class="phpdocumentor-tag-list__entry">
+                    <span class="phpdocumentor-tag__name">see</span>
+                </dt>
+                <dd class="phpdocumentor-tag-list__definition">
                                                                                     <span class="phpdocumentor-tag-link"><a href="classes/Cecil-Collection-Menu-Collection.html"><abbr title="\Cecil\Collection\Menu\Collection">Collection</abbr></a></span>
-                                                                
+                                        
+                                             
                                     </dd>
-                        </dl>
+                                            </dl>
 
-        
-        
+    
+
+    
 
 </article>
                     <article
@@ -1640,8 +1667,9 @@ It is used to track the performance of the build and can be useful for debugging
     
     
 
-        
-        
+    
+
+    
 
 </article>
                     <article
@@ -1679,27 +1707,33 @@ It is used to track the performance of the build and can be useful for debugging
 
     
     
-    <h5 class="phpdocumentor-tag-list__heading" id="property_options_tags">
+    <h5 class="phpdocumentor-tag-list__heading" id="tags">
         Tags
-        <a href="classes/Cecil-Builder.html#property_options_tags" class="headerlink"><i class="fas fa-link"></i></a>
+        <a href="classes/Cecil-Builder.html#property_options#tags" class="headerlink"><i class="fas fa-link"></i></a>
 
     </h5>
     <dl class="phpdocumentor-tag-list">
-                    <dt class="phpdocumentor-tag-list__entry">
-                <span class="phpdocumentor-tag__name">see</span>
-            </dt>
-                            <dd class="phpdocumentor-tag-list__definition">
+                                    <dt class="phpdocumentor-tag-list__entry">
+                    <span class="phpdocumentor-tag__name">see</span>
+                </dt>
+                <dd class="phpdocumentor-tag-list__definition">
                                                                                     <span class="phpdocumentor-tag-link"><a href="classes/Cecil-Builder.html#constant_OPTIONS"><abbr title="\Cecil\Builder::OPTIONS">Builder::OPTIONS</abbr></a></span>
-                                                                
+                                        
+                                             
                                     </dd>
-                            <dd class="phpdocumentor-tag-list__definition">
+                            <dt class="phpdocumentor-tag-list__entry">
+                    <span class="phpdocumentor-tag__name">see</span>
+                </dt>
+                <dd class="phpdocumentor-tag-list__definition">
                                                                                     <span class="phpdocumentor-tag-link"><a href="classes/Cecil-Builder.html#method_build"><abbr title="\Cecil\Builder::build()">Builder::build()</abbr></a></span>
-                                                                
+                                        
+                                             
                                     </dd>
-                        </dl>
+                                            </dl>
 
-        
-        
+    
+
+    
 
 </article>
                     <article
@@ -1739,8 +1773,9 @@ It is an instance of PagesCollection, which is a custom collection class for man
     
     
 
-        
-        
+    
+
+    
 
 </article>
                     <article
@@ -1780,8 +1815,9 @@ It handles the rendering of templates and the application of data to those templ
     
     
 
-        
-        
+    
+
+    
 
 </article>
                     <article
@@ -1820,8 +1856,9 @@ It handles the rendering of templates and the application of data to those templ
     
     
 
-        
-        
+    
+
+    
 
 </article>
                     <article
@@ -1862,23 +1899,25 @@ It is used to manage taxonomies (like categories, tags) across different languag
 
     
     
-    <h5 class="phpdocumentor-tag-list__heading" id="property_taxonomies_tags">
+    <h5 class="phpdocumentor-tag-list__heading" id="tags">
         Tags
-        <a href="classes/Cecil-Builder.html#property_taxonomies_tags" class="headerlink"><i class="fas fa-link"></i></a>
+        <a href="classes/Cecil-Builder.html#property_taxonomies#tags" class="headerlink"><i class="fas fa-link"></i></a>
 
     </h5>
     <dl class="phpdocumentor-tag-list">
-                    <dt class="phpdocumentor-tag-list__entry">
-                <span class="phpdocumentor-tag__name">see</span>
-            </dt>
-                            <dd class="phpdocumentor-tag-list__definition">
+                                    <dt class="phpdocumentor-tag-list__entry">
+                    <span class="phpdocumentor-tag__name">see</span>
+                </dt>
+                <dd class="phpdocumentor-tag-list__definition">
                                                                                     <span class="phpdocumentor-tag-link"><a href="classes/Cecil-Collection-Taxonomy-Collection.html"><abbr title="\Cecil\Collection\Taxonomy\Collection">Collection</abbr></a></span>
-                                                                
+                                        
+                                             
                                     </dd>
-                        </dl>
+                                            </dl>
 
-        
-        
+    
+
+    
 
 </article>
                     <article
@@ -1915,8 +1954,9 @@ It is used to manage taxonomies (like categories, tags) across different languag
     
     
 
-        
-        
+    
+
+    
 
 </article>
             </section>
@@ -1948,7 +1988,7 @@ It is used to manage taxonomies (like categories, tags) across different languag
     
     <code class="phpdocumentor-code phpdocumentor-signature ">
     <span class="phpdocumentor-signature__visibility">public</span>
-                    <span class="phpdocumentor-signature__name">__construct</span><span>(</span><span class="phpdocumentor-signature__argument"><span>[</span><span class="phpdocumentor-signature__argument__type"><a href="classes/Cecil-Config.html"><abbr title="\Cecil\Config">Config</abbr></a>|array&lt;string, mixed&gt;|null&nbsp;</span><span class="phpdocumentor-signature__argument__name">$config</span><span> = </span><span class="phpdocumentor-signature__argument__default-value">null</span><span> ]</span></span><span class="phpdocumentor-signature__argument"><span>[</span><span>, </span><span class="phpdocumentor-signature__argument__type"><abbr title="\Psr\Log\LoggerInterface">LoggerInterface</abbr>|null&nbsp;</span><span class="phpdocumentor-signature__argument__name">$logger</span><span> = </span><span class="phpdocumentor-signature__argument__default-value">null</span><span> ]</span></span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">mixed</span></code>
+                    <span class="phpdocumentor-signature__name">__construct</span><span>(</span><span class="phpdocumentor-signature__argument"><span>[</span><span class="phpdocumentor-signature__argument__return-type"><a href="classes/Cecil-Config.html"><abbr title="\Cecil\Config">Config</abbr></a>|array&lt;string, mixed&gt;|null&nbsp;</span><span class="phpdocumentor-signature__argument__name">$config</span><span> = </span><span class="phpdocumentor-signature__argument__default-value">null</span><span> ]</span></span><span class="phpdocumentor-signature__argument"><span>[</span><span>, </span><span class="phpdocumentor-signature__argument__return-type"><abbr title="\Psr\Log\LoggerInterface">LoggerInterface</abbr>|null&nbsp;</span><span class="phpdocumentor-signature__argument__name">$logger</span><span> = </span><span class="phpdocumentor-signature__argument__default-value">null</span><span> ]</span></span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">mixed</span></code>
 
     <div class="phpdocumentor-label-line">
         </div>
@@ -1957,16 +1997,16 @@ It is used to manage taxonomies (like categories, tags) across different languag
         <h5 class="phpdocumentor-argument-list__heading">Parameters</h5>
     <dl class="phpdocumentor-argument-list">
                     <dt class="phpdocumentor-argument-list__entry">
-                <span class="phpdocumentor-argument-list__argument__name">$config</span>
-                : <span class="phpdocumentor-argument-list__argument__type"><a href="classes/Cecil-Config.html"><abbr title="\Cecil\Config">Config</abbr></a>|array&lt;string, mixed&gt;|null</span>
-                 = <span class="phpdocumentor-argument-list__argument__default-value">null</span>            </dt>
+                <span class="phpdocumentor-signature__argument__name">$config</span>
+                : <span class="phpdocumentor-signature__argument__return-type"><a href="classes/Cecil-Config.html"><abbr title="\Cecil\Config">Config</abbr></a>|array&lt;string, mixed&gt;|null</span>
+                 = <span class="phpdocumentor-signature__argument__default-value">null</span>            </dt>
             <dd class="phpdocumentor-argument-list__definition">
                 
             </dd>
                     <dt class="phpdocumentor-argument-list__entry">
-                <span class="phpdocumentor-argument-list__argument__name">$logger</span>
-                : <span class="phpdocumentor-argument-list__argument__type"><abbr title="\Psr\Log\LoggerInterface">LoggerInterface</abbr>|null</span>
-                 = <span class="phpdocumentor-argument-list__argument__default-value">null</span>            </dt>
+                <span class="phpdocumentor-signature__argument__name">$logger</span>
+                : <span class="phpdocumentor-signature__argument__return-type"><abbr title="\Psr\Log\LoggerInterface">LoggerInterface</abbr>|null</span>
+                 = <span class="phpdocumentor-signature__argument__default-value">null</span>            </dt>
             <dd class="phpdocumentor-argument-list__definition">
                 
             </dd>
@@ -1974,8 +2014,8 @@ It is used to manage taxonomies (like categories, tags) across different languag
 
     
 
-        
     
+
     
 </article>
                     <article
@@ -2000,7 +2040,7 @@ It is used to manage taxonomies (like categories, tags) across different languag
 
     <code class="phpdocumentor-code phpdocumentor-signature ">
     <span class="phpdocumentor-signature__visibility">public</span>
-                    <span class="phpdocumentor-signature__name">addToAssetsList</span><span>(</span><span class="phpdocumentor-signature__argument"><span class="phpdocumentor-signature__argument__type">string&nbsp;</span><span class="phpdocumentor-signature__argument__name">$path</span></span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">void</span></code>
+                    <span class="phpdocumentor-signature__name">addToAssetsList</span><span>(</span><span class="phpdocumentor-signature__argument"><span class="phpdocumentor-signature__argument__return-type">string&nbsp;</span><span class="phpdocumentor-signature__argument__name">$path</span></span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">void</span></code>
 
     <div class="phpdocumentor-label-line">
         </div>
@@ -2009,8 +2049,8 @@ It is used to manage taxonomies (like categories, tags) across different languag
         <h5 class="phpdocumentor-argument-list__heading">Parameters</h5>
     <dl class="phpdocumentor-argument-list">
                     <dt class="phpdocumentor-argument-list__entry">
-                <span class="phpdocumentor-argument-list__argument__name">$path</span>
-                : <span class="phpdocumentor-argument-list__argument__type">string</span>
+                <span class="phpdocumentor-signature__argument__name">$path</span>
+                : <span class="phpdocumentor-signature__argument__return-type">string</span>
                             </dt>
             <dd class="phpdocumentor-argument-list__definition">
                 
@@ -2019,8 +2059,8 @@ It is used to manage taxonomies (like categories, tags) across different languag
 
     
 
-        
     
+
     
 </article>
                     <article
@@ -2045,7 +2085,7 @@ It is used to manage taxonomies (like categories, tags) across different languag
 
     <code class="phpdocumentor-code phpdocumentor-signature ">
     <span class="phpdocumentor-signature__visibility">public</span>
-                    <span class="phpdocumentor-signature__name">build</span><span>(</span><span class="phpdocumentor-signature__argument"><span class="phpdocumentor-signature__argument__type">array{drafts?: bool, dry-run?: bool, page?: string, render-subset?: string}&nbsp;</span><span class="phpdocumentor-signature__argument__name">$options</span></span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">self</span></code>
+                    <span class="phpdocumentor-signature__name">build</span><span>(</span><span class="phpdocumentor-signature__argument"><span class="phpdocumentor-signature__argument__return-type">array{drafts?: bool, dry-run?: bool, page?: string, render-subset?: string}&nbsp;</span><span class="phpdocumentor-signature__argument__name">$options</span></span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">self</span></code>
 
     <div class="phpdocumentor-label-line">
         </div>
@@ -2058,8 +2098,8 @@ It also collects metrics about the build process, such as duration and memory us
         <h5 class="phpdocumentor-argument-list__heading">Parameters</h5>
     <dl class="phpdocumentor-argument-list">
                     <dt class="phpdocumentor-argument-list__entry">
-                <span class="phpdocumentor-argument-list__argument__name">$options</span>
-                : <span class="phpdocumentor-argument-list__argument__type">array{drafts?: bool, dry-run?: bool, page?: string, render-subset?: string}</span>
+                <span class="phpdocumentor-signature__argument__name">$options</span>
+                : <span class="phpdocumentor-signature__argument__return-type">array{drafts?: bool, dry-run?: bool, page?: string, render-subset?: string}</span>
                             </dt>
             <dd class="phpdocumentor-argument-list__definition">
                 
@@ -2067,23 +2107,24 @@ It also collects metrics about the build process, such as duration and memory us
             </dl>
 
     
-    <h5 class="phpdocumentor-tag-list__heading" id="method_build_tags">
+    <h5 class="phpdocumentor-tag-list__heading" id="tags">
         Tags
-        <a href="classes/Cecil-Builder.html#method_build_tags" class="headerlink"><i class="fas fa-link"></i></a>
+        <a href="classes/Cecil-Builder.html#method_build#tags" class="headerlink"><i class="fas fa-link"></i></a>
 
     </h5>
     <dl class="phpdocumentor-tag-list">
-                    <dt class="phpdocumentor-tag-list__entry">
-                <span class="phpdocumentor-tag__name">see</span>
-            </dt>
-                            <dd class="phpdocumentor-tag-list__definition">
+                                    <dt class="phpdocumentor-tag-list__entry">
+                    <span class="phpdocumentor-tag__name">see</span>
+                </dt>
+                <dd class="phpdocumentor-tag-list__definition">
                                                                                     <span class="phpdocumentor-tag-link"><a href="classes/Cecil-Builder.html#constant_OPTIONS"><abbr title="\Cecil\Builder::OPTIONS">Builder::OPTIONS</abbr></a></span>
-                                                                
+                                        
+                                             
                                     </dd>
-                        </dl>
+                                            </dl>
 
-        
     
+
             <section>
         <h5 class="phpdocumentor-return-value__heading">Return values</h5>
         <span class="phpdocumentor-signature__response_type">self</span>
@@ -2121,8 +2162,8 @@ It also collects metrics about the build process, such as duration and memory us
     
     
 
-        
     
+
             <section>
         <h5 class="phpdocumentor-return-value__heading">Return values</h5>
         <span class="phpdocumentor-signature__response_type">self</span>
@@ -2160,8 +2201,8 @@ It also collects metrics about the build process, such as duration and memory us
     
     
 
-        
     
+
             <section>
         <h5 class="phpdocumentor-return-value__heading">Return values</h5>
         <span class="phpdocumentor-signature__response_type">array{hits: int, misses: int, total: int, deduplication_ratio: float}</span>
@@ -2199,8 +2240,8 @@ It also collects metrics about the build process, such as duration and memory us
     
     
 
-        
     
+
             <section>
         <h5 class="phpdocumentor-return-value__heading">Return values</h5>
         <span class="phpdocumentor-signature__response_type">array&lt;int, string&gt;</span>
@@ -2238,8 +2279,8 @@ It also collects metrics about the build process, such as duration and memory us
     
     
 
-        
     
+
             <section>
         <h5 class="phpdocumentor-return-value__heading">Return values</h5>
         <span class="phpdocumentor-signature__response_type">string</span>
@@ -2277,8 +2318,8 @@ It also collects metrics about the build process, such as duration and memory us
     
     
 
-        
     
+
             <section>
         <h5 class="phpdocumentor-return-value__heading">Return values</h5>
         <span class="phpdocumentor-signature__response_type">array{drafts?: bool, dry-run?: bool, page?: string, render-subset?: string}</span>
@@ -2316,8 +2357,8 @@ It also collects metrics about the build process, such as duration and memory us
     
     
 
-        
     
+
             <section>
         <h5 class="phpdocumentor-return-value__heading">Return values</h5>
         <span class="phpdocumentor-signature__response_type"><a href="classes/Cecil-Config.html"><abbr title="\Cecil\Config">Config</abbr></a></span>
@@ -2346,7 +2387,7 @@ It also collects metrics about the build process, such as duration and memory us
 
     <code class="phpdocumentor-code phpdocumentor-signature ">
     <span class="phpdocumentor-signature__visibility">public</span>
-                    <span class="phpdocumentor-signature__name">getData</span><span>(</span><span class="phpdocumentor-signature__argument"><span>[</span><span class="phpdocumentor-signature__argument__type">string|null&nbsp;</span><span class="phpdocumentor-signature__argument__name">$language</span><span> = </span><span class="phpdocumentor-signature__argument__default-value">null</span><span> ]</span></span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">array&lt;string, mixed&gt;</span></code>
+                    <span class="phpdocumentor-signature__name">getData</span><span>(</span><span class="phpdocumentor-signature__argument"><span>[</span><span class="phpdocumentor-signature__argument__return-type">string|null&nbsp;</span><span class="phpdocumentor-signature__argument__name">$language</span><span> = </span><span class="phpdocumentor-signature__argument__default-value">null</span><span> ]</span></span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">array&lt;string, mixed&gt;</span></code>
 
     <div class="phpdocumentor-label-line">
         </div>
@@ -2355,9 +2396,9 @@ It also collects metrics about the build process, such as duration and memory us
         <h5 class="phpdocumentor-argument-list__heading">Parameters</h5>
     <dl class="phpdocumentor-argument-list">
                     <dt class="phpdocumentor-argument-list__entry">
-                <span class="phpdocumentor-argument-list__argument__name">$language</span>
-                : <span class="phpdocumentor-argument-list__argument__type">string|null</span>
-                 = <span class="phpdocumentor-argument-list__argument__default-value">null</span>            </dt>
+                <span class="phpdocumentor-signature__argument__name">$language</span>
+                : <span class="phpdocumentor-signature__argument__return-type">string|null</span>
+                 = <span class="phpdocumentor-signature__argument__default-value">null</span>            </dt>
             <dd class="phpdocumentor-argument-list__definition">
                 
             </dd>
@@ -2365,8 +2406,8 @@ It also collects metrics about the build process, such as duration and memory us
 
     
 
-        
     
+
             <section>
         <h5 class="phpdocumentor-return-value__heading">Return values</h5>
         <span class="phpdocumentor-signature__response_type">array&lt;string, mixed&gt;</span>
@@ -2404,8 +2445,8 @@ It also collects metrics about the build process, such as duration and memory us
     
     
 
-        
     
+
             <section>
         <h5 class="phpdocumentor-return-value__heading">Return values</h5>
         <span class="phpdocumentor-signature__response_type">array{hits: int, misses: int, total: int, hit_rate: float}</span>
@@ -2443,8 +2484,8 @@ It also collects metrics about the build process, such as duration and memory us
     
     
 
-        
     
+
             <section>
         <h5 class="phpdocumentor-return-value__heading">Return values</h5>
         <span class="phpdocumentor-signature__response_type"><abbr title="\Psr\Log\LoggerInterface">LoggerInterface</abbr></span>
@@ -2473,7 +2514,7 @@ It also collects metrics about the build process, such as duration and memory us
 
     <code class="phpdocumentor-code phpdocumentor-signature ">
     <span class="phpdocumentor-signature__visibility">public</span>
-                    <span class="phpdocumentor-signature__name">getMenus</span><span>(</span><span class="phpdocumentor-signature__argument"><span class="phpdocumentor-signature__argument__type">string&nbsp;</span><span class="phpdocumentor-signature__argument__name">$language</span></span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type"><a href="classes/Cecil-Collection-Menu-Collection.html"><abbr title="\Cecil\Collection\Menu\Collection">Collection</abbr></a></span></code>
+                    <span class="phpdocumentor-signature__name">getMenus</span><span>(</span><span class="phpdocumentor-signature__argument"><span class="phpdocumentor-signature__argument__return-type">string&nbsp;</span><span class="phpdocumentor-signature__argument__name">$language</span></span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type"><a href="classes/Cecil-Collection-Menu-Collection.html"><abbr title="\Cecil\Collection\Menu\Collection">Collection</abbr></a></span></code>
 
     <div class="phpdocumentor-label-line">
         </div>
@@ -2482,8 +2523,8 @@ It also collects metrics about the build process, such as duration and memory us
         <h5 class="phpdocumentor-argument-list__heading">Parameters</h5>
     <dl class="phpdocumentor-argument-list">
                     <dt class="phpdocumentor-argument-list__entry">
-                <span class="phpdocumentor-argument-list__argument__name">$language</span>
-                : <span class="phpdocumentor-argument-list__argument__type">string</span>
+                <span class="phpdocumentor-signature__argument__name">$language</span>
+                : <span class="phpdocumentor-signature__argument__return-type">string</span>
                             </dt>
             <dd class="phpdocumentor-argument-list__definition">
                 
@@ -2492,8 +2533,8 @@ It also collects metrics about the build process, such as duration and memory us
 
     
 
-        
     
+
             <section>
         <h5 class="phpdocumentor-return-value__heading">Return values</h5>
         <span class="phpdocumentor-signature__response_type"><a href="classes/Cecil-Collection-Menu-Collection.html"><abbr title="\Cecil\Collection\Menu\Collection">Collection</abbr></a></span>
@@ -2531,8 +2572,8 @@ It also collects metrics about the build process, such as duration and memory us
     
     
 
-        
     
+
             <section>
         <h5 class="phpdocumentor-return-value__heading">Return values</h5>
         <span class="phpdocumentor-signature__response_type">array&lt;string, mixed&gt;</span>
@@ -2570,8 +2611,8 @@ It also collects metrics about the build process, such as duration and memory us
     
     
 
-        
     
+
             <section>
         <h5 class="phpdocumentor-return-value__heading">Return values</h5>
         <span class="phpdocumentor-signature__response_type"><a href="classes/Cecil-Collection-Page-Collection.html"><abbr title="\Cecil\Collection\Page\Collection">Collection</abbr></a></span>
@@ -2609,8 +2650,8 @@ It also collects metrics about the build process, such as duration and memory us
     
     
 
-        
     
+
             <section>
         <h5 class="phpdocumentor-return-value__heading">Return values</h5>
         <span class="phpdocumentor-signature__response_type"><abbr title="\Symfony\Component\Finder\Finder">Finder</abbr>|null</span>
@@ -2648,8 +2689,8 @@ It also collects metrics about the build process, such as duration and memory us
     
     
 
-        
     
+
             <section>
         <h5 class="phpdocumentor-return-value__heading">Return values</h5>
         <span class="phpdocumentor-signature__response_type"><a href="classes/Cecil-Renderer-Twig.html"><abbr title="\Cecil\Renderer\Twig">Twig</abbr></a></span>
@@ -2687,8 +2728,8 @@ It also collects metrics about the build process, such as duration and memory us
     
     
 
-        
     
+
             <section>
         <h5 class="phpdocumentor-return-value__heading">Return values</h5>
         <span class="phpdocumentor-signature__response_type">array&lt;int, array&lt;string, mixed&gt;&gt;</span>
@@ -2717,7 +2758,7 @@ It also collects metrics about the build process, such as duration and memory us
 
     <code class="phpdocumentor-code phpdocumentor-signature ">
     <span class="phpdocumentor-signature__visibility">public</span>
-                    <span class="phpdocumentor-signature__name">getTaxonomies</span><span>(</span><span class="phpdocumentor-signature__argument"><span class="phpdocumentor-signature__argument__type">string&nbsp;</span><span class="phpdocumentor-signature__argument__name">$language</span></span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type"><a href="classes/Cecil-Collection-Taxonomy-Collection.html"><abbr title="\Cecil\Collection\Taxonomy\Collection">Collection</abbr></a>|null</span></code>
+                    <span class="phpdocumentor-signature__name">getTaxonomies</span><span>(</span><span class="phpdocumentor-signature__argument"><span class="phpdocumentor-signature__argument__return-type">string&nbsp;</span><span class="phpdocumentor-signature__argument__name">$language</span></span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type"><a href="classes/Cecil-Collection-Taxonomy-Collection.html"><abbr title="\Cecil\Collection\Taxonomy\Collection">Collection</abbr></a>|null</span></code>
 
     <div class="phpdocumentor-label-line">
         </div>
@@ -2726,8 +2767,8 @@ It also collects metrics about the build process, such as duration and memory us
         <h5 class="phpdocumentor-argument-list__heading">Parameters</h5>
     <dl class="phpdocumentor-argument-list">
                     <dt class="phpdocumentor-argument-list__entry">
-                <span class="phpdocumentor-argument-list__argument__name">$language</span>
-                : <span class="phpdocumentor-argument-list__argument__type">string</span>
+                <span class="phpdocumentor-signature__argument__name">$language</span>
+                : <span class="phpdocumentor-signature__argument__return-type">string</span>
                             </dt>
             <dd class="phpdocumentor-argument-list__definition">
                 
@@ -2736,8 +2777,8 @@ It also collects metrics about the build process, such as duration and memory us
 
     
 
-        
     
+
             <section>
         <h5 class="phpdocumentor-return-value__heading">Return values</h5>
         <span class="phpdocumentor-signature__response_type"><a href="classes/Cecil-Collection-Taxonomy-Collection.html"><abbr title="\Cecil\Collection\Taxonomy\Collection">Collection</abbr></a>|null</span>
@@ -2774,23 +2815,24 @@ It also collects metrics about the build process, such as duration and memory us
     
     
     
-    <h5 class="phpdocumentor-tag-list__heading" id="method_getVersion_tags">
+    <h5 class="phpdocumentor-tag-list__heading" id="tags">
         Tags
-        <a href="classes/Cecil-Builder.html#method_getVersion_tags" class="headerlink"><i class="fas fa-link"></i></a>
+        <a href="classes/Cecil-Builder.html#method_getVersion#tags" class="headerlink"><i class="fas fa-link"></i></a>
 
     </h5>
     <dl class="phpdocumentor-tag-list">
-                    <dt class="phpdocumentor-tag-list__entry">
-                <span class="phpdocumentor-tag__name">throws</span>
-            </dt>
-                            <dd class="phpdocumentor-tag-list__definition">
+                                    <dt class="phpdocumentor-tag-list__entry">
+                    <span class="phpdocumentor-tag__name">throws</span>
+                </dt>
+                <dd class="phpdocumentor-tag-list__definition">
                                                                 <span class="phpdocumentor-tag-link"><a href="classes/Cecil-Exception-RuntimeException.html"><abbr title="\Cecil\Exception\RuntimeException">RuntimeException</abbr></a></span>
-                                                                                    
+                                                            
+                                             
                                     </dd>
-                        </dl>
+                                            </dl>
 
-        
     
+
             <section>
         <h5 class="phpdocumentor-return-value__heading">Return values</h5>
         <span class="phpdocumentor-signature__response_type">string</span>
@@ -2828,8 +2870,8 @@ It also collects metrics about the build process, such as duration and memory us
     
     
 
-        
     
+
     
 </article>
                     <article
@@ -2863,8 +2905,8 @@ It also collects metrics about the build process, such as duration and memory us
     
     
 
-        
     
+
             <section>
         <h5 class="phpdocumentor-return-value__heading">Return values</h5>
         <span class="phpdocumentor-signature__response_type">bool</span>
@@ -2893,7 +2935,7 @@ It also collects metrics about the build process, such as duration and memory us
 
     <code class="phpdocumentor-code phpdocumentor-signature ">
     <span class="phpdocumentor-signature__visibility">public</span>
-                    <span class="phpdocumentor-signature__name">recordLayoutCacheAccess</span><span>(</span><span class="phpdocumentor-signature__argument"><span class="phpdocumentor-signature__argument__type">bool&nbsp;</span><span class="phpdocumentor-signature__argument__name">$hit</span></span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">void</span></code>
+                    <span class="phpdocumentor-signature__name">recordLayoutCacheAccess</span><span>(</span><span class="phpdocumentor-signature__argument"><span class="phpdocumentor-signature__argument__return-type">bool&nbsp;</span><span class="phpdocumentor-signature__argument__name">$hit</span></span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">void</span></code>
 
     <div class="phpdocumentor-label-line">
         </div>
@@ -2902,8 +2944,8 @@ It also collects metrics about the build process, such as duration and memory us
         <h5 class="phpdocumentor-argument-list__heading">Parameters</h5>
     <dl class="phpdocumentor-argument-list">
                     <dt class="phpdocumentor-argument-list__entry">
-                <span class="phpdocumentor-argument-list__argument__name">$hit</span>
-                : <span class="phpdocumentor-argument-list__argument__type">bool</span>
+                <span class="phpdocumentor-signature__argument__name">$hit</span>
+                : <span class="phpdocumentor-signature__argument__return-type">bool</span>
                             </dt>
             <dd class="phpdocumentor-argument-list__definition">
                 
@@ -2912,8 +2954,8 @@ It also collects metrics about the build process, such as duration and memory us
 
     
 
-        
     
+
     
 </article>
                     <article
@@ -2938,7 +2980,7 @@ It also collects metrics about the build process, such as duration and memory us
 
     <code class="phpdocumentor-code phpdocumentor-signature ">
     <span class="phpdocumentor-signature__visibility">public</span>
-                    <span class="phpdocumentor-signature__name">rememberAsset</span><span>(</span><span class="phpdocumentor-signature__argument"><span class="phpdocumentor-signature__argument__type">string&nbsp;</span><span class="phpdocumentor-signature__argument__name">$cacheKey</span></span><span class="phpdocumentor-signature__argument"><span>, </span><span class="phpdocumentor-signature__argument__type">callable&nbsp;</span><span class="phpdocumentor-signature__argument__name">$factory</span></span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type"><a href="classes/Cecil-Asset.html"><abbr title="\Cecil\Asset">Asset</abbr></a></span></code>
+                    <span class="phpdocumentor-signature__name">rememberAsset</span><span>(</span><span class="phpdocumentor-signature__argument"><span class="phpdocumentor-signature__argument__return-type">string&nbsp;</span><span class="phpdocumentor-signature__argument__name">$cacheKey</span></span><span class="phpdocumentor-signature__argument"><span>, </span><span class="phpdocumentor-signature__argument__return-type">callable&nbsp;</span><span class="phpdocumentor-signature__argument__name">$factory</span></span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type"><a href="classes/Cecil-Asset.html"><abbr title="\Cecil\Asset">Asset</abbr></a></span></code>
 
     <div class="phpdocumentor-label-line">
         </div>
@@ -2949,15 +2991,15 @@ It also collects metrics about the build process, such as duration and memory us
         <h5 class="phpdocumentor-argument-list__heading">Parameters</h5>
     <dl class="phpdocumentor-argument-list">
                     <dt class="phpdocumentor-argument-list__entry">
-                <span class="phpdocumentor-argument-list__argument__name">$cacheKey</span>
-                : <span class="phpdocumentor-argument-list__argument__type">string</span>
+                <span class="phpdocumentor-signature__argument__name">$cacheKey</span>
+                : <span class="phpdocumentor-signature__argument__return-type">string</span>
                             </dt>
             <dd class="phpdocumentor-argument-list__definition">
                 
             </dd>
                     <dt class="phpdocumentor-argument-list__entry">
-                <span class="phpdocumentor-argument-list__argument__name">$factory</span>
-                : <span class="phpdocumentor-argument-list__argument__type">callable</span>
+                <span class="phpdocumentor-signature__argument__name">$factory</span>
+                : <span class="phpdocumentor-signature__argument__return-type">callable</span>
                             </dt>
             <dd class="phpdocumentor-argument-list__definition">
                 
@@ -2966,8 +3008,8 @@ It also collects metrics about the build process, such as duration and memory us
 
     
 
-        
     
+
             <section>
         <h5 class="phpdocumentor-return-value__heading">Return values</h5>
         <span class="phpdocumentor-signature__response_type"><a href="classes/Cecil-Asset.html"><abbr title="\Cecil\Asset">Asset</abbr></a></span>
@@ -2996,7 +3038,7 @@ It also collects metrics about the build process, such as duration and memory us
 
     <code class="phpdocumentor-code phpdocumentor-signature ">
     <span class="phpdocumentor-signature__visibility">public</span>
-                    <span class="phpdocumentor-signature__name">setConfig</span><span>(</span><span class="phpdocumentor-signature__argument"><span class="phpdocumentor-signature__argument__type">array&lt;string, mixed&gt;|<a href="classes/Cecil-Config.html"><abbr title="\Cecil\Config">Config</abbr></a>&nbsp;</span><span class="phpdocumentor-signature__argument__name">$config</span></span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">self</span></code>
+                    <span class="phpdocumentor-signature__name">setConfig</span><span>(</span><span class="phpdocumentor-signature__argument"><span class="phpdocumentor-signature__argument__return-type">array&lt;string, mixed&gt;|<a href="classes/Cecil-Config.html"><abbr title="\Cecil\Config">Config</abbr></a>&nbsp;</span><span class="phpdocumentor-signature__argument__name">$config</span></span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">self</span></code>
 
     <div class="phpdocumentor-label-line">
         </div>
@@ -3005,8 +3047,8 @@ It also collects metrics about the build process, such as duration and memory us
         <h5 class="phpdocumentor-argument-list__heading">Parameters</h5>
     <dl class="phpdocumentor-argument-list">
                     <dt class="phpdocumentor-argument-list__entry">
-                <span class="phpdocumentor-argument-list__argument__name">$config</span>
-                : <span class="phpdocumentor-argument-list__argument__type">array&lt;string, mixed&gt;|<a href="classes/Cecil-Config.html"><abbr title="\Cecil\Config">Config</abbr></a></span>
+                <span class="phpdocumentor-signature__argument__name">$config</span>
+                : <span class="phpdocumentor-signature__argument__return-type">array&lt;string, mixed&gt;|<a href="classes/Cecil-Config.html"><abbr title="\Cecil\Config">Config</abbr></a></span>
                             </dt>
             <dd class="phpdocumentor-argument-list__definition">
                 
@@ -3015,8 +3057,8 @@ It also collects metrics about the build process, such as duration and memory us
 
     
 
-        
     
+
             <section>
         <h5 class="phpdocumentor-return-value__heading">Return values</h5>
         <span class="phpdocumentor-signature__response_type">self</span>
@@ -3045,7 +3087,7 @@ It also collects metrics about the build process, such as duration and memory us
 
     <code class="phpdocumentor-code phpdocumentor-signature ">
     <span class="phpdocumentor-signature__visibility">public</span>
-                    <span class="phpdocumentor-signature__name">setData</span><span>(</span><span class="phpdocumentor-signature__argument"><span class="phpdocumentor-signature__argument__type">array&lt;string, mixed&gt;&nbsp;</span><span class="phpdocumentor-signature__argument__name">$data</span></span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">void</span></code>
+                    <span class="phpdocumentor-signature__name">setData</span><span>(</span><span class="phpdocumentor-signature__argument"><span class="phpdocumentor-signature__argument__return-type">array&lt;string, mixed&gt;&nbsp;</span><span class="phpdocumentor-signature__argument__name">$data</span></span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">void</span></code>
 
     <div class="phpdocumentor-label-line">
         </div>
@@ -3054,8 +3096,8 @@ It also collects metrics about the build process, such as duration and memory us
         <h5 class="phpdocumentor-argument-list__heading">Parameters</h5>
     <dl class="phpdocumentor-argument-list">
                     <dt class="phpdocumentor-argument-list__entry">
-                <span class="phpdocumentor-argument-list__argument__name">$data</span>
-                : <span class="phpdocumentor-argument-list__argument__type">array&lt;string, mixed&gt;</span>
+                <span class="phpdocumentor-signature__argument__name">$data</span>
+                : <span class="phpdocumentor-signature__argument__return-type">array&lt;string, mixed&gt;</span>
                             </dt>
             <dd class="phpdocumentor-argument-list__definition">
                 
@@ -3064,8 +3106,8 @@ It also collects metrics about the build process, such as duration and memory us
 
     
 
-        
     
+
     
 </article>
                     <article
@@ -3090,7 +3132,7 @@ It also collects metrics about the build process, such as duration and memory us
 
     <code class="phpdocumentor-code phpdocumentor-signature ">
     <span class="phpdocumentor-signature__visibility">public</span>
-                    <span class="phpdocumentor-signature__name">setDestinationDir</span><span>(</span><span class="phpdocumentor-signature__argument"><span class="phpdocumentor-signature__argument__type">string&nbsp;</span><span class="phpdocumentor-signature__argument__name">$destinationDir</span></span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">self</span></code>
+                    <span class="phpdocumentor-signature__name">setDestinationDir</span><span>(</span><span class="phpdocumentor-signature__argument"><span class="phpdocumentor-signature__argument__return-type">string&nbsp;</span><span class="phpdocumentor-signature__argument__name">$destinationDir</span></span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">self</span></code>
 
     <div class="phpdocumentor-label-line">
         </div>
@@ -3099,8 +3141,8 @@ It also collects metrics about the build process, such as duration and memory us
         <h5 class="phpdocumentor-argument-list__heading">Parameters</h5>
     <dl class="phpdocumentor-argument-list">
                     <dt class="phpdocumentor-argument-list__entry">
-                <span class="phpdocumentor-argument-list__argument__name">$destinationDir</span>
-                : <span class="phpdocumentor-argument-list__argument__type">string</span>
+                <span class="phpdocumentor-signature__argument__name">$destinationDir</span>
+                : <span class="phpdocumentor-signature__argument__return-type">string</span>
                             </dt>
             <dd class="phpdocumentor-argument-list__definition">
                 
@@ -3109,8 +3151,8 @@ It also collects metrics about the build process, such as duration and memory us
 
     
 
-        
     
+
             <section>
         <h5 class="phpdocumentor-return-value__heading">Return values</h5>
         <span class="phpdocumentor-signature__response_type">self</span>
@@ -3139,7 +3181,7 @@ It also collects metrics about the build process, such as duration and memory us
 
     <code class="phpdocumentor-code phpdocumentor-signature ">
     <span class="phpdocumentor-signature__visibility">public</span>
-                    <span class="phpdocumentor-signature__name">setLogger</span><span>(</span><span class="phpdocumentor-signature__argument"><span class="phpdocumentor-signature__argument__type"><abbr title="\Psr\Log\LoggerInterface">LoggerInterface</abbr>&nbsp;</span><span class="phpdocumentor-signature__argument__name">$logger</span></span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">void</span></code>
+                    <span class="phpdocumentor-signature__name">setLogger</span><span>(</span><span class="phpdocumentor-signature__argument"><span class="phpdocumentor-signature__argument__return-type"><abbr title="\Psr\Log\LoggerInterface">LoggerInterface</abbr>&nbsp;</span><span class="phpdocumentor-signature__argument__name">$logger</span></span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">void</span></code>
 
     <div class="phpdocumentor-label-line">
         </div>
@@ -3148,8 +3190,8 @@ It also collects metrics about the build process, such as duration and memory us
         <h5 class="phpdocumentor-argument-list__heading">Parameters</h5>
     <dl class="phpdocumentor-argument-list">
                     <dt class="phpdocumentor-argument-list__entry">
-                <span class="phpdocumentor-argument-list__argument__name">$logger</span>
-                : <span class="phpdocumentor-argument-list__argument__type"><abbr title="\Psr\Log\LoggerInterface">LoggerInterface</abbr></span>
+                <span class="phpdocumentor-signature__argument__name">$logger</span>
+                : <span class="phpdocumentor-signature__argument__return-type"><abbr title="\Psr\Log\LoggerInterface">LoggerInterface</abbr></span>
                             </dt>
             <dd class="phpdocumentor-argument-list__definition">
                 
@@ -3158,8 +3200,8 @@ It also collects metrics about the build process, such as duration and memory us
 
     
 
-        
     
+
     
 </article>
                     <article
@@ -3184,7 +3226,7 @@ It also collects metrics about the build process, such as duration and memory us
 
     <code class="phpdocumentor-code phpdocumentor-signature ">
     <span class="phpdocumentor-signature__visibility">public</span>
-                    <span class="phpdocumentor-signature__name">setMenus</span><span>(</span><span class="phpdocumentor-signature__argument"><span class="phpdocumentor-signature__argument__type">array&lt;string, <a href="classes/Cecil-Collection-Menu-Collection.html"><abbr title="\Cecil\Collection\Menu\Collection">Collection</abbr></a>&gt;&nbsp;</span><span class="phpdocumentor-signature__argument__name">$menus</span></span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">void</span></code>
+                    <span class="phpdocumentor-signature__name">setMenus</span><span>(</span><span class="phpdocumentor-signature__argument"><span class="phpdocumentor-signature__argument__return-type">array&lt;string, <a href="classes/Cecil-Collection-Menu-Collection.html"><abbr title="\Cecil\Collection\Menu\Collection">Collection</abbr></a>&gt;&nbsp;</span><span class="phpdocumentor-signature__argument__name">$menus</span></span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">void</span></code>
 
     <div class="phpdocumentor-label-line">
         </div>
@@ -3193,8 +3235,8 @@ It also collects metrics about the build process, such as duration and memory us
         <h5 class="phpdocumentor-argument-list__heading">Parameters</h5>
     <dl class="phpdocumentor-argument-list">
                     <dt class="phpdocumentor-argument-list__entry">
-                <span class="phpdocumentor-argument-list__argument__name">$menus</span>
-                : <span class="phpdocumentor-argument-list__argument__type">array&lt;string, <a href="classes/Cecil-Collection-Menu-Collection.html"><abbr title="\Cecil\Collection\Menu\Collection">Collection</abbr></a>&gt;</span>
+                <span class="phpdocumentor-signature__argument__name">$menus</span>
+                : <span class="phpdocumentor-signature__argument__return-type">array&lt;string, <a href="classes/Cecil-Collection-Menu-Collection.html"><abbr title="\Cecil\Collection\Menu\Collection">Collection</abbr></a>&gt;</span>
                             </dt>
             <dd class="phpdocumentor-argument-list__definition">
                 
@@ -3203,8 +3245,8 @@ It also collects metrics about the build process, such as duration and memory us
 
     
 
-        
     
+
     
 </article>
                     <article
@@ -3229,7 +3271,7 @@ It also collects metrics about the build process, such as duration and memory us
 
     <code class="phpdocumentor-code phpdocumentor-signature ">
     <span class="phpdocumentor-signature__visibility">public</span>
-                    <span class="phpdocumentor-signature__name">setPages</span><span>(</span><span class="phpdocumentor-signature__argument"><span class="phpdocumentor-signature__argument__type"><a href="classes/Cecil-Collection-Page-Collection.html"><abbr title="\Cecil\Collection\Page\Collection">Collection</abbr></a>&nbsp;</span><span class="phpdocumentor-signature__argument__name">$pages</span></span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">void</span></code>
+                    <span class="phpdocumentor-signature__name">setPages</span><span>(</span><span class="phpdocumentor-signature__argument"><span class="phpdocumentor-signature__argument__return-type"><a href="classes/Cecil-Collection-Page-Collection.html"><abbr title="\Cecil\Collection\Page\Collection">Collection</abbr></a>&nbsp;</span><span class="phpdocumentor-signature__argument__name">$pages</span></span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">void</span></code>
 
     <div class="phpdocumentor-label-line">
         </div>
@@ -3238,8 +3280,8 @@ It also collects metrics about the build process, such as duration and memory us
         <h5 class="phpdocumentor-argument-list__heading">Parameters</h5>
     <dl class="phpdocumentor-argument-list">
                     <dt class="phpdocumentor-argument-list__entry">
-                <span class="phpdocumentor-argument-list__argument__name">$pages</span>
-                : <span class="phpdocumentor-argument-list__argument__type"><a href="classes/Cecil-Collection-Page-Collection.html"><abbr title="\Cecil\Collection\Page\Collection">Collection</abbr></a></span>
+                <span class="phpdocumentor-signature__argument__name">$pages</span>
+                : <span class="phpdocumentor-signature__argument__return-type"><a href="classes/Cecil-Collection-Page-Collection.html"><abbr title="\Cecil\Collection\Page\Collection">Collection</abbr></a></span>
                             </dt>
             <dd class="phpdocumentor-argument-list__definition">
                 
@@ -3248,8 +3290,8 @@ It also collects metrics about the build process, such as duration and memory us
 
     
 
-        
     
+
     
 </article>
                     <article
@@ -3274,7 +3316,7 @@ It also collects metrics about the build process, such as duration and memory us
 
     <code class="phpdocumentor-code phpdocumentor-signature ">
     <span class="phpdocumentor-signature__visibility">public</span>
-                    <span class="phpdocumentor-signature__name">setPagesFiles</span><span>(</span><span class="phpdocumentor-signature__argument"><span class="phpdocumentor-signature__argument__type"><abbr title="\Symfony\Component\Finder\Finder">Finder</abbr>&nbsp;</span><span class="phpdocumentor-signature__argument__name">$content</span></span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">void</span></code>
+                    <span class="phpdocumentor-signature__name">setPagesFiles</span><span>(</span><span class="phpdocumentor-signature__argument"><span class="phpdocumentor-signature__argument__return-type"><abbr title="\Symfony\Component\Finder\Finder">Finder</abbr>&nbsp;</span><span class="phpdocumentor-signature__argument__name">$content</span></span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">void</span></code>
 
     <div class="phpdocumentor-label-line">
         </div>
@@ -3283,8 +3325,8 @@ It also collects metrics about the build process, such as duration and memory us
         <h5 class="phpdocumentor-argument-list__heading">Parameters</h5>
     <dl class="phpdocumentor-argument-list">
                     <dt class="phpdocumentor-argument-list__entry">
-                <span class="phpdocumentor-argument-list__argument__name">$content</span>
-                : <span class="phpdocumentor-argument-list__argument__type"><abbr title="\Symfony\Component\Finder\Finder">Finder</abbr></span>
+                <span class="phpdocumentor-signature__argument__name">$content</span>
+                : <span class="phpdocumentor-signature__argument__return-type"><abbr title="\Symfony\Component\Finder\Finder">Finder</abbr></span>
                             </dt>
             <dd class="phpdocumentor-argument-list__definition">
                 
@@ -3293,8 +3335,8 @@ It also collects metrics about the build process, such as duration and memory us
 
     
 
-        
     
+
     
 </article>
                     <article
@@ -3319,7 +3361,7 @@ It also collects metrics about the build process, such as duration and memory us
 
     <code class="phpdocumentor-code phpdocumentor-signature ">
     <span class="phpdocumentor-signature__visibility">public</span>
-                    <span class="phpdocumentor-signature__name">setRenderer</span><span>(</span><span class="phpdocumentor-signature__argument"><span class="phpdocumentor-signature__argument__type"><a href="classes/Cecil-Renderer-Twig.html"><abbr title="\Cecil\Renderer\Twig">Twig</abbr></a>&nbsp;</span><span class="phpdocumentor-signature__argument__name">$renderer</span></span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">void</span></code>
+                    <span class="phpdocumentor-signature__name">setRenderer</span><span>(</span><span class="phpdocumentor-signature__argument"><span class="phpdocumentor-signature__argument__return-type"><a href="classes/Cecil-Renderer-Twig.html"><abbr title="\Cecil\Renderer\Twig">Twig</abbr></a>&nbsp;</span><span class="phpdocumentor-signature__argument__name">$renderer</span></span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">void</span></code>
 
     <div class="phpdocumentor-label-line">
         </div>
@@ -3328,8 +3370,8 @@ It also collects metrics about the build process, such as duration and memory us
         <h5 class="phpdocumentor-argument-list__heading">Parameters</h5>
     <dl class="phpdocumentor-argument-list">
                     <dt class="phpdocumentor-argument-list__entry">
-                <span class="phpdocumentor-argument-list__argument__name">$renderer</span>
-                : <span class="phpdocumentor-argument-list__argument__type"><a href="classes/Cecil-Renderer-Twig.html"><abbr title="\Cecil\Renderer\Twig">Twig</abbr></a></span>
+                <span class="phpdocumentor-signature__argument__name">$renderer</span>
+                : <span class="phpdocumentor-signature__argument__return-type"><a href="classes/Cecil-Renderer-Twig.html"><abbr title="\Cecil\Renderer\Twig">Twig</abbr></a></span>
                             </dt>
             <dd class="phpdocumentor-argument-list__definition">
                 
@@ -3338,8 +3380,8 @@ It also collects metrics about the build process, such as duration and memory us
 
     
 
-        
     
+
     
 </article>
                     <article
@@ -3364,7 +3406,7 @@ It also collects metrics about the build process, such as duration and memory us
 
     <code class="phpdocumentor-code phpdocumentor-signature ">
     <span class="phpdocumentor-signature__visibility">public</span>
-                    <span class="phpdocumentor-signature__name">setSourceDir</span><span>(</span><span class="phpdocumentor-signature__argument"><span class="phpdocumentor-signature__argument__type">string&nbsp;</span><span class="phpdocumentor-signature__argument__name">$sourceDir</span></span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">self</span></code>
+                    <span class="phpdocumentor-signature__name">setSourceDir</span><span>(</span><span class="phpdocumentor-signature__argument"><span class="phpdocumentor-signature__argument__return-type">string&nbsp;</span><span class="phpdocumentor-signature__argument__name">$sourceDir</span></span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">self</span></code>
 
     <div class="phpdocumentor-label-line">
         </div>
@@ -3373,8 +3415,8 @@ It also collects metrics about the build process, such as duration and memory us
         <h5 class="phpdocumentor-argument-list__heading">Parameters</h5>
     <dl class="phpdocumentor-argument-list">
                     <dt class="phpdocumentor-argument-list__entry">
-                <span class="phpdocumentor-argument-list__argument__name">$sourceDir</span>
-                : <span class="phpdocumentor-argument-list__argument__type">string</span>
+                <span class="phpdocumentor-signature__argument__name">$sourceDir</span>
+                : <span class="phpdocumentor-signature__argument__return-type">string</span>
                             </dt>
             <dd class="phpdocumentor-argument-list__definition">
                 
@@ -3383,8 +3425,8 @@ It also collects metrics about the build process, such as duration and memory us
 
     
 
-        
     
+
             <section>
         <h5 class="phpdocumentor-return-value__heading">Return values</h5>
         <span class="phpdocumentor-signature__response_type">self</span>
@@ -3413,7 +3455,7 @@ It also collects metrics about the build process, such as duration and memory us
 
     <code class="phpdocumentor-code phpdocumentor-signature ">
     <span class="phpdocumentor-signature__visibility">public</span>
-                    <span class="phpdocumentor-signature__name">setStatic</span><span>(</span><span class="phpdocumentor-signature__argument"><span class="phpdocumentor-signature__argument__type">array&lt;int, array&lt;string, mixed&gt;&gt;&nbsp;</span><span class="phpdocumentor-signature__argument__name">$static</span></span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">void</span></code>
+                    <span class="phpdocumentor-signature__name">setStatic</span><span>(</span><span class="phpdocumentor-signature__argument"><span class="phpdocumentor-signature__argument__return-type">array&lt;int, array&lt;string, mixed&gt;&gt;&nbsp;</span><span class="phpdocumentor-signature__argument__name">$static</span></span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">void</span></code>
 
     <div class="phpdocumentor-label-line">
         </div>
@@ -3422,8 +3464,8 @@ It also collects metrics about the build process, such as duration and memory us
         <h5 class="phpdocumentor-argument-list__heading">Parameters</h5>
     <dl class="phpdocumentor-argument-list">
                     <dt class="phpdocumentor-argument-list__entry">
-                <span class="phpdocumentor-argument-list__argument__name">$static</span>
-                : <span class="phpdocumentor-argument-list__argument__type">array&lt;int, array&lt;string, mixed&gt;&gt;</span>
+                <span class="phpdocumentor-signature__argument__name">$static</span>
+                : <span class="phpdocumentor-signature__argument__return-type">array&lt;int, array&lt;string, mixed&gt;&gt;</span>
                             </dt>
             <dd class="phpdocumentor-argument-list__definition">
                 
@@ -3432,8 +3474,8 @@ It also collects metrics about the build process, such as duration and memory us
 
     
 
-        
     
+
     
 </article>
                     <article
@@ -3458,7 +3500,7 @@ It also collects metrics about the build process, such as duration and memory us
 
     <code class="phpdocumentor-code phpdocumentor-signature ">
     <span class="phpdocumentor-signature__visibility">public</span>
-                    <span class="phpdocumentor-signature__name">setTaxonomies</span><span>(</span><span class="phpdocumentor-signature__argument"><span class="phpdocumentor-signature__argument__type">array&lt;string, <a href="classes/Cecil-Collection-Taxonomy-Collection.html"><abbr title="\Cecil\Collection\Taxonomy\Collection">Collection</abbr></a>&gt;&nbsp;</span><span class="phpdocumentor-signature__argument__name">$taxonomies</span></span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">void</span></code>
+                    <span class="phpdocumentor-signature__name">setTaxonomies</span><span>(</span><span class="phpdocumentor-signature__argument"><span class="phpdocumentor-signature__argument__return-type">array&lt;string, <a href="classes/Cecil-Collection-Taxonomy-Collection.html"><abbr title="\Cecil\Collection\Taxonomy\Collection">Collection</abbr></a>&gt;&nbsp;</span><span class="phpdocumentor-signature__argument__name">$taxonomies</span></span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">void</span></code>
 
     <div class="phpdocumentor-label-line">
         </div>
@@ -3467,8 +3509,8 @@ It also collects metrics about the build process, such as duration and memory us
         <h5 class="phpdocumentor-argument-list__heading">Parameters</h5>
     <dl class="phpdocumentor-argument-list">
                     <dt class="phpdocumentor-argument-list__entry">
-                <span class="phpdocumentor-argument-list__argument__name">$taxonomies</span>
-                : <span class="phpdocumentor-argument-list__argument__type">array&lt;string, <a href="classes/Cecil-Collection-Taxonomy-Collection.html"><abbr title="\Cecil\Collection\Taxonomy\Collection">Collection</abbr></a>&gt;</span>
+                <span class="phpdocumentor-signature__argument__name">$taxonomies</span>
+                : <span class="phpdocumentor-signature__argument__return-type">array&lt;string, <a href="classes/Cecil-Collection-Taxonomy-Collection.html"><abbr title="\Cecil\Collection\Taxonomy\Collection">Collection</abbr></a>&gt;</span>
                             </dt>
             <dd class="phpdocumentor-argument-list__definition">
                 
@@ -3477,8 +3519,8 @@ It also collects metrics about the build process, such as duration and memory us
 
     
 
-        
     
+
     
 </article>
                     <article
@@ -3512,13 +3554,104 @@ It also collects metrics about the build process, such as duration and memory us
     
     
 
-        
     
+
     
 </article>
             </section>
 
-        
+        <div class="phpdocumentor-modal" id="source-view">
+    <div class="phpdocumentor-modal-bg" data-exit-button></div>
+    <div class="phpdocumentor-modal-container">
+        <div class="phpdocumentor-modal-content">
+            <pre style="max-height: 500px; overflow-y: scroll" data-src="files/src/Builder.php.txt" class="language-php line-numbers linkable-line-numbers"></pre>
+        </div>
+        <button data-exit-button class="phpdocumentor-modal__close">&times;</button>
+    </div>
+</div>
+
+    <script type="text/javascript">
+        (function () {
+            function loadExternalCodeSnippet(el, url, line) {
+                Array.prototype.slice.call(el.querySelectorAll('pre[data-src]')).forEach((pre) => {
+                    const src = url || pre.getAttribute('data-src').replace(/\\/g, '/');
+                    const language = 'php';
+
+                    const code = document.createElement('code');
+                    code.className = 'language-' + language;
+                    pre.textContent = '';
+                    pre.setAttribute('data-line', line)
+                    code.textContent = 'Loading…';
+                    pre.appendChild(code);
+
+                    var xhr = new XMLHttpRequest();
+
+                    xhr.open('GET', src, true);
+
+                    xhr.onreadystatechange = function () {
+                        if (xhr.readyState !== 4) {
+                            return;
+                        }
+
+                        if (xhr.status < 400 && xhr.responseText) {
+                            code.textContent = xhr.responseText;
+                            Prism.highlightElement(code);
+                            return;
+                        }
+
+                        if (xhr.status === 404) {
+                            code.textContent = '✖ Error: File could not be found';
+                            return;
+                        }
+
+                        if (xhr.status >= 400) {
+                            code.textContent = '✖ Error ' + xhr.status + ' while fetching file: ' + xhr.statusText;
+                            return;
+                        }
+
+                        code.textContent = '✖ Error: An unknown error occurred';
+                    };
+
+                    xhr.send(null);
+                });
+            }
+
+            const modalButtons = document.querySelectorAll("[data-modal]");
+            const openedAsLocalFile = window.location.protocol === 'file:';
+            if (modalButtons.length > 0 && openedAsLocalFile) {
+                console.warn(
+                    'Viewing the source code is unavailable because you are opening this page from the file:// scheme; ' +
+                    'browsers block XHR requests when a page is opened this way'
+                );
+            }
+
+            modalButtons.forEach(function (trigger) {
+                if (openedAsLocalFile) {
+                    trigger.setAttribute("hidden", "hidden");
+                }
+
+                trigger.addEventListener("click", function (event) {
+                    event.preventDefault();
+                    const modal = document.getElementById(trigger.dataset.modal);
+                    if (!modal) {
+                        console.error(`Modal with id "${trigger.dataset.modal}" could not be found`);
+                        return;
+                    }
+                    modal.classList.add("phpdocumentor-modal__open");
+
+                    loadExternalCodeSnippet(modal, trigger.dataset.src || null, trigger.dataset.line)
+                    const exits = modal.querySelectorAll("[data-exit-button]");
+                    exits.forEach(function (exit) {
+                        exit.addEventListener("click", function (event) {
+                            event.preventDefault();
+                            modal.classList.remove("phpdocumentor-modal__open");
+                        });
+                    });
+                });
+            });
+        })();
+    </script>
+
     </article>
                                 </section>
                 <section class="phpdocumentor-on-this-page__sidebar">

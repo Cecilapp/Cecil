@@ -1803,8 +1803,18 @@ Search.appendIndex(
         },                {
             "fqsen": "\\Cecil\\Collection\\Page\\Page\u003A\u003AcreateIdFromFile\u0028\u0029",
             "name": "createIdFromFile",
-            "summary": "",
+            "summary": "Creates\u0020a\u0020page\u0020ID\u0020from\u0020a\u0020file\u0020\u0028based\u0020on\u0020path\u0029.",
             "url": "classes/Cecil-Collection-Page-Page.html#method_createIdFromFile"
+        },                {
+            "fqsen": "\\Cecil\\Collection\\Page\\Page\u003A\u003AcreateIdFromPath\u0028\u0029",
+            "name": "createIdFromPath",
+            "summary": "Creates\u0020a\u0020page\u0020ID\u0020from\u0020a\u0020file\u0020path\u0020relative\u0020to\u0020the\u0020pages\u0020directory\u0020\u0028e.g.\u003A\u0020\u0022blog\/post.md\u0022\u0029.",
+            "url": "classes/Cecil-Collection-Page-Page.html#method_createIdFromPath"
+        },                {
+            "fqsen": "\\Cecil\\Collection\\Page\\Page\u003A\u003AcreateId\u0028\u0029",
+            "name": "createId",
+            "summary": "Creates\u0020a\u0020page\u0020ID\u0020from\u0020a\u0020relative\u0020path\u0020and\u0020a\u0020file\u0020name\u0020\u0028without\u0020extension\u0029.",
+            "url": "classes/Cecil-Collection-Page-Page.html#method_createId"
         },                {
             "fqsen": "\\Cecil\\Collection\\Page\\Page\u003A\u003AfilterBool\u0028\u0029",
             "name": "filterBool",
@@ -4526,6 +4536,11 @@ Search.appendIndex(
             "summary": "Templates\u0020lookup\u0020rules.",
             "url": "classes/Cecil-Renderer-Layout.html#method_lookup"
         },                {
+            "fqsen": "\\Cecil\\Renderer\\Layout\u003A\u003Asections\u0028\u0029",
+            "name": "sections",
+            "summary": "Returns\u0020the\u0020layout\u0020section\u0020names\u0020of\u0020a\u0020section\u0020and\u0020of\u0020its\u0020ancestor\u0020sections,\u0020nearest\u0020first.",
+            "url": "classes/Cecil-Renderer-Layout.html#method_sections"
+        },                {
             "fqsen": "\\Cecil\\Renderer\\Layout\u003A\u003AEXT",
             "name": "EXT",
             "summary": "Twig\u0020template\u0020extension.",
@@ -4620,6 +4635,16 @@ Search.appendIndex(
             "name": "process",
             "summary": "Process\u0020output.",
             "url": "classes/Cecil-Renderer-PostProcessor-MarkdownLink.html#method_process"
+        },                {
+            "fqsen": "\\Cecil\\Renderer\\PostProcessor\\MarkdownLink\u003A\u003AgetSourceFolder\u0028\u0029",
+            "name": "getSourceFolder",
+            "summary": "Returns\u0020the\u0020folder\u0020of\u0020the\u0020page\u0020source\u0020file,\u0020relative\u0020to\u0020the\u0020pages\u0020directory.",
+            "url": "classes/Cecil-Renderer-PostProcessor-MarkdownLink.html#method_getSourceFolder"
+        },                {
+            "fqsen": "\\Cecil\\Renderer\\PostProcessor\\MarkdownLink\u003A\u003AgetUrl\u0028\u0029",
+            "name": "getUrl",
+            "summary": "Returns\u0020the\u0020URL\u0020of\u0020the\u0020targeted\u0020page,\u0020preferring\u0020the\u0020page\u0020in\u0020the\u0020current\u0020language.",
+            "url": "classes/Cecil-Renderer-PostProcessor-MarkdownLink.html#method_getUrl"
         },                {
             "fqsen": "\\Cecil\\Renderer\\PostProcessor\\PostProcessorInterface",
             "name": "PostProcessorInterface",
