@@ -2,6 +2,12 @@
 
 All notable changes to this project will be documented in this file. Dates are displayed in UTC.
 
+#### [9.8.0](https://github.com/Cecilapp/Cecil/compare/9.7.4...9.8.0)
+
+> 6 October 2026
+
+- feat(renderer): sub-section falls back to the layouts of its parent sections [`#2493`](https://github.com/Cecilapp/Cecil/pull/2493)
+
 #### [9.7.4](https://github.com/Cecilapp/Cecil/compare/9.7.3...9.7.4)
 
 > 6 October 2026
