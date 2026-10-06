@@ -14,6 +14,7 @@ if [ -z "${TARGET_BRANCH}" ]; then
 fi
 TARGET_DOCS_DIR="pages/documentation"
 TARGET_API_DIR="static/documentation/library/api"
+TARGET_CLONE_DIR="website" # not the branch name, which may contain a "/" (e.g. "docs/...")
 
 # GitHub
 USER_NAME=$GITHUB_ACTOR
@@ -32,8 +33,8 @@ git config --global user.name "${USER_NAME}"
 git config --global user.email "${USER_EMAIL}"
 if [ -z "$(git ls-remote --heads https://${GITHUB_ACTOR}:${GITHUB_TOKEN}@github.com/${TARGET_REPO}.git ${TARGET_BRANCH})" ]; then
   echo "Create branch '${TARGET_BRANCH}'"
-  git clone --depth=1 --quiet https://${GITHUB_ACTOR}:${GITHUB_TOKEN}@github.com/${TARGET_REPO}.git $TARGET_BRANCH > /dev/null
-  cd $TARGET_BRANCH
+  git clone --depth=1 --quiet https://${GITHUB_ACTOR}:${GITHUB_TOKEN}@github.com/${TARGET_REPO}.git $TARGET_CLONE_DIR > /dev/null
+  cd $TARGET_CLONE_DIR
   git checkout --orphan $TARGET_BRANCH
   echo "Deploy from https://github.com/$GITHUB_REPOSITORY/." > README.md
   git add README.md
@@ -42,11 +43,11 @@ if [ -z "$(git ls-remote --heads https://${GITHUB_ACTOR}:${GITHUB_TOKEN}@github.
   cd $HOME
 else
   echo "Clone branch '${TARGET_BRANCH}'"
-  git clone --depth=1 --quiet --branch=$TARGET_BRANCH https://${GITHUB_ACTOR}:${GITHUB_TOKEN}@github.com/${TARGET_REPO}.git $TARGET_BRANCH > /dev/null
+  git clone --depth=1 --quiet --branch=$TARGET_BRANCH https://${GITHUB_ACTOR}:${GITHUB_TOKEN}@github.com/${TARGET_REPO}.git $TARGET_CLONE_DIR > /dev/null
 fi
 
 # copy files to cloned repo
-cd $TARGET_BRANCH
+cd $TARGET_CLONE_DIR
 # docs dir: mirrors the source, so that moved or deleted files are removed
 # (the documentation index pages are owned by the website and kept)
 mkdir -p $TARGET_DOCS_DIR
