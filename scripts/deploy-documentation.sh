@@ -23,8 +23,7 @@ HOME="${GITHUB_WORKSPACE}/HOME"
 
 # prepare files
 mkdir -p $HOME
-cp -R $SOURCE_DOCS_DIR $HOME/$SOURCE_DOCS_DIR
-cp -R $SOURCE_API_DIR $HOME/$SOURCE_API_DIR
+cp -R $SOURCE_DOCS_DIR $HOME/$SOURCE_DOCS_DIR # includes the API dir
 
 # clone or create target repo
 echo "Starting to update documentation to ${TARGET_REPO}..."
@@ -48,13 +47,15 @@ fi
 
 # copy files to cloned repo
 cd $TARGET_BRANCH
-# docs dir
+# docs dir: mirrors the source, so that moved or deleted files are removed
+# (the documentation index pages are owned by the website and kept)
 mkdir -p $TARGET_DOCS_DIR
-cp -Rfv $HOME/$SOURCE_DOCS_DIR/* $TARGET_DOCS_DIR # copy too many files, so next line is to ensure we get only md and png
-#cp -Rfv $HOME/$SOURCE_DOCS_DIR/**/*.{md,png} $TARGET_DOCS_DIR --parents # parents works only at the root of docs dir
-# api dir
+find $TARGET_DOCS_DIR -mindepth 1 -maxdepth 1 ! -name 'index.md' ! -name 'index.fr.md' -exec rm -rf {} +
+cp -R $HOME/$SOURCE_DOCS_DIR/. $TARGET_DOCS_DIR
+# api dir: mirrors the source
+rm -rf $TARGET_API_DIR
 mkdir -p $TARGET_API_DIR
-cp -Rf $HOME/$SOURCE_API_DIR/* $TARGET_API_DIR
+cp -R $HOME/$SOURCE_API_DIR/. $TARGET_API_DIR
 
 # commit and push
 if [[ -n $(git status -s) ]]; then
