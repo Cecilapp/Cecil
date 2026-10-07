@@ -20,7 +20,7 @@ fi
 
 # target
 TARGET_REPO="Cecilapp/website"
-TARGET_BRANCH="master"
+TARGET_BRANCH="main"
 TARGET_STATIC_DIR="static"
 TARGET_RELEASE_DIR="download/$VERSION"
 TARGET_PAGES_DIR="pages"
