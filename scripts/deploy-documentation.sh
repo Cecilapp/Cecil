@@ -10,7 +10,7 @@ SOURCE_API_DIR="docs/api"
 # target
 TARGET_REPO="Cecilapp/website"
 if [ -z "${TARGET_BRANCH}" ]; then
-  export TARGET_BRANCH="master"
+  export TARGET_BRANCH="main"
 fi
 TARGET_DOCS_DIR="pages/documentation"
 TARGET_API_DIR="static/documentation/library/api"

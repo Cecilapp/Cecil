@@ -29,5 +29,5 @@ jobs:
         if: env.GITHUB_TOKEN != null
         run: bash ./scripts/deploy-documentation.sh
         env:
-          TARGET_BRANCH: ${{ github.head_ref || 'master' }} # 'master' is the default branch of the Cecilapp/website repository
+          TARGET_BRANCH: ${{ github.head_ref || 'main' }} # 'main' is the default branch of the Cecilapp/website repository
           GITHUB_TOKEN: ${{ secrets.REPOS_TOKEN }}
