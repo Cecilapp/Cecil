@@ -182,8 +182,7 @@ Cecil ships with an [agent skill](skills/cecil/SKILL.md) that teaches AI coding 
 Install them with the [GitHub CLI](https://cli.github.com):
 
 ```bash
-gh skill install Cecilapp/Cecil cecil
-gh skill install Cecilapp/Cecil cecil-theme
+gh skill install Cecilapp/Cecil
 ```
 
 Or with [`npx skills`](https://github.com/vercel-labs/skills):
