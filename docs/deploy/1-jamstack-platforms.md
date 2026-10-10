@@ -2,9 +2,11 @@
 title: "Jamstack platforms"
 description: "Netlify, Vercel, statichost, Cloudflare Pages, Render."
 date: 2020-12-19
-updated: 2026-10-02
+updated: 2026-10-10
 -->
 # Jamstack platforms
+
+Jamstack platforms can build and deploy your Cecil site automatically on each push to your Git repository.
 
 ## Netlify
 

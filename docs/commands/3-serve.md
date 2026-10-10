@@ -2,7 +2,7 @@
 title: "serve"
 description: "Preview the website with the built-in server."
 date: 2020-12-19
-updated: 2026-10-02
+updated: 2026-10-10
 -->
 # serve
 
@@ -11,6 +11,8 @@ Builds and serves the site locally.
 :::warning
 The web server is designed to aid website testing. It is not intended to be a full-featured web server and it should not be used on a public network.
 :::
+
+## Usage
 
 ```plaintext
 Description:

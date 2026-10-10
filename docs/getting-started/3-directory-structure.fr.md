@@ -2,10 +2,12 @@
 title: "Structure des dossiers"
 description: "Organisation des fichiers sources, arborescence du site généré et routage des fichiers vers les URL."
 date: 2026-03-27
-updated: 2026-10-03
+updated: 2026-10-10
 path: documentation/bien-demarrer/structure-des-dossiers
 -->
 # Structure des dossiers
+
+Cette page décrit l’organisation d’un projet Cecil, la structure du site construit et la façon dont les fichiers sont associés aux URL.
 
 ## Arborescence du système de fichiers
 

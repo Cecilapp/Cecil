@@ -2,11 +2,13 @@
 title: "new:site"
 description: "Create a new website."
 date: 2020-12-19
-updated: 2026-10-02
+updated: 2026-10-10
 -->
 # new:site
 
 Creates a new site.
+
+## Usage
 
 ```plaintext
 Description:

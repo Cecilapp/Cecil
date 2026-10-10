@@ -2,9 +2,11 @@
 title: "Pages"
 description: "Pages directory, sorting, pagination, paths, body, virtual pages, generators, etc."
 date: 2021-05-07
-updated: 2026-10-05
+updated: 2026-10-10
 -->
 # Pages
+
+These options control how pages are loaded, sorted, paginated, routed and generated.
 
 ## pages.dir
 

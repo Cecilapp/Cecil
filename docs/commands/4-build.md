@@ -2,11 +2,13 @@
 title: "build"
 description: "Build the website."
 date: 2020-12-19
-updated: 2026-10-02
+updated: 2026-10-10
 -->
 # build
 
 Builds the site.
+
+## Usage
 
 ```plaintext
 Description:

@@ -2,9 +2,11 @@
 title: "Override configuration"
 description: "Override the configuration with environment variables or a CLI option."
 date: 2021-05-07
-updated: 2026-10-05
+updated: 2026-10-10
 -->
 # Override configuration
+
+The configuration can be overridden without editing the configuration file, through environment variables or a CLI option.
 
 ## Environment variables
 

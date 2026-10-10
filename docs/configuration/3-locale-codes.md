@@ -2,11 +2,13 @@
 title: "Locale codes"
 description: "List of available locale codes to use with the languages option."
 date: 2020-12-19
-updated: 2026-10-02
+updated: 2026-10-10
 -->
 # Locale codes
 
 Available locale codes (`language_COUNTRY`) used by the [`languages`](2-languages.md#languages) option.
+
+## List of locale codes
 
 | Locale                           | Code     |
 | -------------------------------- | -------- |

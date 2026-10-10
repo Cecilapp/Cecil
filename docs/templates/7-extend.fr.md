@@ -2,10 +2,12 @@
 title: "Étendre"
 description: "Ajoutez des fonctions et filtres personnalisés, ou utilisez un thème."
 date: 2026-05-26
-updated: 2026-10-05
+updated: 2026-10-10
 path: documentation/templates/etendre
 -->
 # Étendre
+
+Les templates peuvent être étendus avec des fonctions et filtres personnalisés, ou regroupés dans un thème réutilisable.
 
 ## Fonctions et filtres
 

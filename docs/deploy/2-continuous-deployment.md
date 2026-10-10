@@ -2,9 +2,11 @@
 title: "Continuous build & deploy"
 description: "GitHub Pages and GitLab CI."
 date: 2020-12-19
-updated: 2026-10-02
+updated: 2026-10-10
 -->
 # Continuous build & deploy
+
+Continuous integration services can build your site with Cecil and deploy it on each change to your repository.
 
 ## GitHub Pages
 

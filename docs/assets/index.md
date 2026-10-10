@@ -2,11 +2,13 @@
 title: "Assets"
 description: "Handle assets (images, stylesheets, scripts, etc.) with the asset() function: process, optimize and fingerprint them."
 date: 2021-05-07
-updated: 2026-10-05
+updated: 2026-10-10
 weight: 4
 sortby: weight
 -->
 # Assets
+
+Assets are files (stylesheets, scripts, images, fonts, etc.) that Cecil can process and optimize from your templates.
 
 ## asset
 

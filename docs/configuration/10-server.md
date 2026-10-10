@@ -2,9 +2,11 @@
 title: "Server and optimization"
 description: "Local server headers and output optimization."
 date: 2021-05-07
-updated: 2026-10-05
+updated: 2026-10-10
 -->
 # Server and optimization
+
+These options configure the local preview server and the optimization of the generated files.
 
 ## Server
 

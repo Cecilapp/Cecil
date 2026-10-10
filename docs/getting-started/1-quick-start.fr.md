@@ -2,12 +2,14 @@
 title: "Démarrage rapide"
 description: "Installez Cecil, créez un site, ajoutez des pages, prévisualisez-le localement, puis générez-le et déployez-le."
 date: 2021-11-03
-updated: 2026-10-02
+updated: 2026-10-10
 alias: documentation/demarrage-rapide
 menu: home
 path: documentation/bien-demarrer/demarrage-rapide
 -->
 # Démarrage rapide
+
+Ce guide vous accompagne dans la création de votre premier site Cecil, sa prévisualisation en local, puis sa construction et son déploiement.
 
 ## Créer un site web
 

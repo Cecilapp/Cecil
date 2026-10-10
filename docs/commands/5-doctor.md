@@ -2,11 +2,13 @@
 title: "doctor"
 description: "Diagnose the configuration, front matter and SEO."
 date: 2020-12-19
-updated: 2026-10-02
+updated: 2026-10-10
 -->
 # doctor
 
 Diagnoses the current site and Cecil environment.
+
+## Usage
 
 ```plaintext
 Description:

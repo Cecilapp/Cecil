@@ -2,9 +2,11 @@
 title: "Images"
 description: "Resize, crop and convert images, generate responsive images and placeholders."
 date: 2021-05-07
-updated: 2026-10-05
+updated: 2026-10-10
 -->
 # Images
+
+Cecil provides Twig functions and filters to resize, crop and convert images, and to generate responsive images and placeholders.
 
 ## image_srcset
 

@@ -2,9 +2,11 @@
 title: "Data and static files"
 description: "Data files and static files options."
 date: 2021-05-07
-updated: 2026-10-05
+updated: 2026-10-10
 -->
 # Data and static files
+
+These options define where data files and static files are stored and how they are handled.
 
 ## Data
 

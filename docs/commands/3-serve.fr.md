@@ -2,7 +2,7 @@
 title: "serve"
 description: "Prévisualiser le site avec le serveur intégré."
 date: 2026-03-27
-updated: 2026-10-02
+updated: 2026-10-10
 path: documentation/commandes/serve
 -->
 # serve
@@ -12,6 +12,8 @@ Construit et sert le site en local.
 :::warning
 Le serveur web est conçu pour faciliter les tests d’un site. Il n’a pas vocation à être un serveur web complet et ne doit pas être utilisé sur un réseau public.
 :::
+
+## Utilisation
 
 ```plaintext
 Description:

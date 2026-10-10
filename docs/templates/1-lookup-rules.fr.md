@@ -2,10 +2,12 @@
 title: "Organisation et règles de recherche"
 description: "Types de templates, convention de nommage, templates intégrés et choix du template d’une page."
 date: 2026-05-26
-updated: 2026-10-05
+updated: 2026-10-10
 path: documentation/templates/regles-de-recherche
 -->
 # Organisation et règles de recherche
+
+Cecil génère les pages à l’aide de templates Twig : cette page explique comment les templates sont organisés et comment le bon template est choisi pour chaque page.
 
 ## Organisation des fichiers
 

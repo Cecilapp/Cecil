@@ -2,9 +2,11 @@
 title: "Organization and lookup rules"
 description: "Kinds of templates, naming convention, built-in templates and how a template is chosen for a page."
 date: 2021-05-07
-updated: 2026-10-05
+updated: 2026-10-10
 -->
 # Organization and lookup rules
+
+Cecil renders pages with Twig templates: this page explains how templates are organized and how the right one is chosen for each page.
 
 ## Files organization
 

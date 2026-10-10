@@ -2,11 +2,13 @@
 title: "Quick Start"
 description: "Install Cecil, create a new website, add pages, preview it locally, then build and deploy it."
 date: 2020-12-19
-updated: 2026-10-02
+updated: 2026-10-10
 alias: documentation/quick-start
 menu: home
 -->
 # Quick Start
+
+This guide walks you through creating your first Cecil website, previewing it locally, then building and deploying it.
 
 ## Create a website
 

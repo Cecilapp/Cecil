@@ -2,10 +2,12 @@
 title: "Build et déploiement continus"
 description: "GitHub Pages et GitLab CI."
 date: 2026-03-27
-updated: 2026-10-02
+updated: 2026-10-10
 path: documentation/deployer/deploiement-continu
 -->
 # Build et déploiement continus
+
+Les services d’intégration continue peuvent construire votre site avec Cecil et le déployer à chaque modification de votre dépôt.
 
 ## GitHub Pages
 

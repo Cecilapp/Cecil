@@ -2,9 +2,11 @@
 title: "Options du site"
 description: "title, baseurl, menus, taxonomies, theme, date, metatags, debug, etc."
 date: 2026-03-27
-updated: 2026-10-05
+updated: 2026-10-10
 -->
 # Options du site
+
+Ces options définissent les réglages principaux du site : titre, URL, description, menus, taxonomies, thème, métadonnées, etc.
 
 ## title
 

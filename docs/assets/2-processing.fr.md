@@ -2,10 +2,12 @@
 title: "CSS, JavaScript et traitements"
 description: "Compilez Sass, minifiez, ajoutez une empreinte, intégrez ou embarquez les assets."
 date: 2026-05-26
-updated: 2026-10-05
+updated: 2026-10-10
 path: documentation/assets/traitements
 -->
 # CSS, JavaScript et traitements
+
+Cecil fournit des filtres Twig pour compiler du Sass, minifier, ajouter une empreinte ou intégrer les assets CSS et JavaScript.
 
 ## fingerprint
 

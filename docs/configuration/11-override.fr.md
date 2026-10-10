@@ -2,10 +2,12 @@
 title: "Surcharge de configuration"
 description: "Surchargez la configuration avec des variables d’environnement ou une option CLI."
 date: 2026-03-27
-updated: 2026-10-05
+updated: 2026-10-10
 path: documentation/configuration/surcharge
 -->
 # Surcharge de configuration
+
+La configuration peut être surchargée sans modifier le fichier de configuration, via des variables d’environnement ou une option de la CLI.
 
 ## Variables d’environnement
 

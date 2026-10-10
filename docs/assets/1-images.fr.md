@@ -2,9 +2,11 @@
 title: "Images"
 description: "Redimensionnez, recadrez et convertissez les images, générez des images responsives et des placeholders."
 date: 2026-05-26
-updated: 2026-10-05
+updated: 2026-10-10
 -->
 # Images
+
+Cecil fournit des fonctions et filtres Twig pour redimensionner, recadrer et convertir des images, et pour générer des images responsives et des images de substitution.
 
 ## image_srcset
 

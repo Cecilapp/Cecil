@@ -2,10 +2,12 @@
 title: "Langues"
 description: "Langue principale et langues supplémentaires d’un site multilingue."
 date: 2026-03-27
-updated: 2026-10-05
+updated: 2026-10-10
 path: documentation/configuration/langues
 -->
 # Langues
+
+Ces options définissent la langue principale du site et, pour un site multilingue, ses langues supplémentaires.
 
 ## language
 

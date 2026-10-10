@@ -2,10 +2,12 @@
 title: "Architecture"
 description: "Diagram of the build pipeline and key components."
 date: 2026-05-27
-updated: 2026-10-02
+updated: 2026-10-10
 alias: documentation/architecture
 -->
 # Architecture
+
+This page gives an overview of Cecil’s build pipeline and its key components.
 
 ## Diagram
 

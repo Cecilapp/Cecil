@@ -2,9 +2,11 @@
 title: "Extend"
 description: "Add custom functions and filters, or use a theme."
 date: 2021-05-07
-updated: 2026-10-05
+updated: 2026-10-10
 -->
 # Extend
+
+Templates can be extended with custom functions and filters, or packaged as a reusable theme.
 
 ## Functions and filters
 

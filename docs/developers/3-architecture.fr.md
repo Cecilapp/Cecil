@@ -2,11 +2,13 @@
 title: "Architecture"
 description: "Diagramme du processus de génération et composants clés."
 date: 2026-05-27
-updated: 2026-10-02
+updated: 2026-10-10
 alias: documentation/architecture
 path: documentation/developpeurs/architecture
 -->
 # Architecture
+
+Cette page présente une vue d’ensemble du pipeline de construction de Cecil et de ses composants clés.
 
 ## Diagramme
 

@@ -2,9 +2,11 @@
 title: "Directory structure"
 description: "How source files are organized, how the built website looks like and how files are routed to URLs."
 date: 2021-05-07
-updated: 2026-10-03
+updated: 2026-10-10
 -->
 # Directory structure
+
+This page describes how a Cecil project is organized, what the built website looks like and how files are routed to URLs.
 
 ## File system tree
 

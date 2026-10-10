@@ -2,10 +2,12 @@
 title: "Serveur et optimisation"
 description: "En-têtes du serveur local et optimisation de la sortie."
 date: 2026-03-27
-updated: 2026-10-05
+updated: 2026-10-10
 path: documentation/configuration/serveur
 -->
 # Serveur et optimisation
+
+Ces options configurent le serveur de prévisualisation local et l’optimisation des fichiers générés.
 
 ## Serveur
 

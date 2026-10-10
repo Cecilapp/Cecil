@@ -2,10 +2,12 @@
 title: "Données et fichiers statiques"
 description: "Options des fichiers de données et des fichiers statiques."
 date: 2026-03-27
-updated: 2026-10-05
+updated: 2026-10-10
 path: documentation/configuration/donnees-et-statiques
 -->
 # Données et fichiers statiques
+
+Ces options définissent où sont stockés les fichiers de données et les fichiers statiques, et comment ils sont traités.
 
 ## Données
 

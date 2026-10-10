@@ -2,11 +2,13 @@
 title: "Assets"
 description: "Manipulez les assets (images, feuilles de style, scripts, etc.) avec la fonction asset() : traitement, optimisation et empreinte."
 date: 2026-05-26
-updated: 2026-10-05
+updated: 2026-10-10
 weight: 4
 sortby: weight
 -->
 # Assets
+
+Les assets sont des fichiers (feuilles de style, scripts, images, polices, etc.) que Cecil peut traiter et optimiser depuis vos templates.
 
 ## asset
 

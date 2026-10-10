@@ -2,12 +2,14 @@
 title: "doctor"
 description: "Diagnostiquer la configuration, le front matter et le SEO."
 date: 2026-03-27
-updated: 2026-10-02
+updated: 2026-10-10
 path: documentation/commandes/doctor
 -->
 # doctor
 
 Diagnostique le site courant et l'environnement Cecil.
+
+## Utilisation
 
 ```plaintext
 Description:

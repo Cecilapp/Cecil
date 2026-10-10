@@ -2,9 +2,11 @@
 title: "Pages"
 description: "Dossier des pages, tri, pagination, chemins, corps, pages virtuelles, générateurs, etc."
 date: 2026-03-27
-updated: 2026-10-05
+updated: 2026-10-10
 -->
 # Pages
+
+Ces options contrôlent la façon dont les pages sont chargées, triées, paginées, routées et générées.
 
 ## pages.dir
 

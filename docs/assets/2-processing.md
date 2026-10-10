@@ -2,9 +2,11 @@
 title: "CSS, JavaScript and processing"
 description: "Compile Sass, minify, fingerprint, inline or embed assets."
 date: 2021-05-07
-updated: 2026-10-05
+updated: 2026-10-10
 -->
 # CSS, JavaScript and processing
+
+Cecil provides Twig filters to compile Sass, minify, fingerprint, inline or embed CSS and JavaScript assets.
 
 ## fingerprint
 

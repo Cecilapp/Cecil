@@ -2,12 +2,14 @@
 title: "new:site"
 description: "Créer un nouveau site."
 date: 2026-03-27
-updated: 2026-10-02
+updated: 2026-10-10
 path: documentation/commandes/new-site
 -->
 # new:site
 
 Crée un nouveau site.
+
+## Utilisation
 
 ```plaintext
 Description:

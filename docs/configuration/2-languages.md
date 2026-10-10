@@ -2,9 +2,11 @@
 title: "Languages"
 description: "Main language and additional languages of a multilingual website."
 date: 2021-05-07
-updated: 2026-10-05
+updated: 2026-10-10
 -->
 # Languages
+
+These options define the main language of the site and, for a multilingual website, its additional languages.
 
 ## language
 
