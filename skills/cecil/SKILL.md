@@ -97,7 +97,8 @@ pages/
 
 A sub-section:
 
-- Is a full _Section_ (same `type`, variables, and [layout](../../docs/3-Templates.md) resolution) available at its own URL (e.g. `/blog/2024/`)
+- Is a full _Section_ (same `type`, variables, and [layout](../../docs/templates/1-lookup-rules.md) resolution) available at its own URL (e.g. `/blog/2024/`)
+- Falls back to the templates of its parent sections (e.g. `blog/list.html.twig` for `blog/2024` if `blog/2024/list.html.twig` doesn't exist)
 - Can be nested at any depth (e.g. `blog/2024/06/`)
 - Lists its own pages; those pages also belong to each parent section
 - Is **not** listed among the pages of its parent section
@@ -105,6 +106,8 @@ A sub-section:
 Sub-sections support the same front matter variables as any section (`sortby`, `pagination`, `cascade`, `circular`). Use `cascade` on a parent `index.md` to propagate variables down to sub-sections and their pages.
 
 In templates, use `page.parent`, `page.ancestors`, `page.sections` and `page.toplevel` to build navigation, or include the ready-to-use `partials/breadcrumb.html.twig` partial.
+
+Previous/next navigation (`page.prev` / `page.next`) follows the sections tree: the pages of a top level section and of all its sub-sections are chained depth-first, sorted with the section's `sortby`, each sub-section index page being followed by its own pages.
 
 ### Configuration
 
@@ -213,10 +216,16 @@ Output is generated in `_site/` directory.
 | `php cecil.phar build`               | Build the static site                                          |
 | `php cecil.phar serve`               | Start local server with live reload                            |
 | `php cecil.phar serve --incremental` | Serve with incremental builds (rebuild only changed pages)     |
+| `php cecil.phar serve:stop`          | Stop the local server                                          |
+| `php cecil.phar edit`                | Open pages directory with the configured editor                |
 | `php cecil.phar show:config`         | Display effective configuration                                |
+| `php cecil.phar show:content`        | Display content tree (pages, data, static files)               |
 | `php cecil.phar doctor`              | Diagnose site and environment (see also `doctor:frontmatter`, `doctor:seo`, `doctor:cache`) |
-| `php cecil.phar cache:clear`         | Clear all cache files                                          |
-| `php cecil.phar clear`               | Remove generated files                                         |
+| `php cecil.phar cache:clear`         | Clear all cache files (or only `cache:clear:assets`, `cache:clear:templates`, `cache:clear:translations`) |
+| `php cecil.phar clear`               | Remove generated files (or only `clear:output`, `clear:temporary`) |
+| `php cecil.phar util:templates:extract` | Extract built-in templates into `layouts/`                  |
+| `php cecil.phar util:translations:extract` | Extract translation strings from templates               |
+| `php cecil.phar self-update`         | Update Cecil to the latest version                             |
 
 ## Template Development
 
@@ -246,9 +255,19 @@ Cecil uses the first existing template, in priority order, for each page type. `
 |------------|--------------------------------------------------------------------------------------------------------------------------------------|
 | Homepage   | `<layout>` → `index` → `home` → `list` → `_default/<layout>` → `_default/index` → `_default/home` → `_default/list` → `_default/page` |
 | Page       | `<section>/<layout>` → `<layout>` → `<section>/page` → `_default/<layout>` → `page` → `_default/page`                                |
-| Section    | `<layout>` → `<section>/index` → `<section>/list` → `section/<section>` → `_default/section` → `list` → `_default/list`              |
+| Section    | `<layout>` → `<section>/index` → `<section>/list` → `section/<section>` → `<parent>/index` → `<parent>/list` → `section/<parent>` → `_default/section` → `list` → `_default/list` |
 | Vocabulary | `taxonomy/<plural>` → `vocabulary` → `_default/vocabulary`                                                                           |
 | Term       | `taxonomy/<term>` → `taxonomy/<singular>` → `term` → `_default/term` → `_default/list`                                               |
+
+For a sub-section, `<section>` is its full path (e.g. `blog/2024`) and the `<parent>` entries are repeated for each parent section, nearest first.
+
+To render a section with the templates of another section, map it with `layouts.sections` (applies to the section and its pages):
+
+```yaml
+layouts:
+  sections:
+    news: blog # "news" uses blog/list.html.twig and blog/page.html.twig
+```
 
 Each candidate is searched in `layouts/` (site), then in `themes/<theme>/layouts/`, then in Cecil's built-in templates (`resources/layouts/`). Most `_default/*` templates exist built-in, which is why a site renders without any custom layout.
 
@@ -262,7 +281,7 @@ In practice, you usually need only:
 
 Cecil embeds default templates in [`resources/layouts/`](https://github.com/Cecilapp/Cecil/tree/main/resources/layouts). They are always available to Twig (lowest priority, after site and theme layouts), so they can be rendered, included or extended **without being copied** into `layouts/`.
 
-- `_default/` - fallback layouts: `page.html.twig`, `list.html.twig`, `home.html.twig`, `vocabulary.html.twig`, `404.html.twig`, `redirect.html.twig`, feeds (`list.atom.twig`, `list.rss.twig`, `list.jsonfeed.twig`), JSON/Markdown/LLMs outputs, `sitemap.xml.twig`, `robots.txt.twig`, etc.
+- `_default/` - fallback layouts: `page.html.twig`, `list.html.twig`, `home.html.twig`, `vocabulary.html.twig`, `term.html.twig`, `404.html.twig`, `404.json.twig`, `redirect.html.twig`, feeds (`list.atom.twig`, `list.rss.twig`, `list.jsonfeed.twig`), embeds (`page.embed.twig`, `page.oembed.twig`), JSON/Markdown/LLMs outputs, `sitemap.xml.twig`, `robots.txt.twig`, etc.
 - `partials/` - reusable fragments (see [Built-in Partials](#built-in-partials-and-utilities))
 - `extended/` - advanced/alternative variants
 - `shortcodes.twig` - built-in shortcodes
@@ -341,7 +360,7 @@ Important:
 
 - Run `php cecil.phar doctor:seo` to check the generated metatags.
 
-See the [metatags documentation](https://cecil.app/documentation/configuration/#metatags) for all options.
+See the [metatags documentation](https://cecil.app/documentation/configuration/site/#metatags) for all options.
 
 ### Template Variables
 
@@ -435,13 +454,14 @@ Available in every site, without extraction (include them rather than rewriting 
 - `partials/feeds-from-section.html.twig` - section feeds links (included by metatags)
 - `partials/jsonld.js.twig` - JSON-LD structured data (included by metatags when `metatags.data` is enabled)
 - `partials/navigation.html.twig` - main menu navigation
-- `partials/page-navigation.html.twig` - previous/next page links
+- `partials/page-navigation.html.twig` - previous/next page links (follows the sections tree)
 - `partials/paginator.html.twig` - pagination links
 - `partials/languages.html.twig` - language switcher
 - `partials/breadcrumb.html.twig` - breadcrumb (nested sections aware)
 - `partials/terms-list.html.twig` - taxonomy terms list
 - `partials/theme-selector.html.twig` - light/dark theme toggle
 - `partials/googleanalytics.js.twig` - Google Analytics snippet
+- `partials/data.json.twig` - page data serialized as JSON (used by JSON outputs)
 - `partials/pico.css.twig`, `partials/highlight.css.twig` - CSS used by the default layouts
 
 If a built-in template really needs to be modified, extract them all into `layouts/` (last resort, see [Built-in Templates](#built-in-templates)):
@@ -490,6 +510,25 @@ assets:
   images:
     optimize: true
 ```
+
+### Image Variants (Dark and Mobile)
+
+Cecil can serve alternative versions of an image in a `<picture>` element, when files with a configured suffix exist next to the original image (e.g. `photo.dark.jpg`, `photo.mobile.jpg`, `photo.mobile.dark.jpg`):
+
+```yaml
+layouts:
+  images:                          # images rendered with the `html` Twig function
+    dark_suffix: .dark             # adds <source media="(prefers-color-scheme: dark)">
+    mobile_suffix: .mobile         # adds <source> with the mobile media query
+    mobile_media_query: "(max-width: 767px)"
+pages:
+  body:
+    images:                        # same options for images in Markdown content
+      dark_suffix: .dark
+      mobile_suffix: .mobile
+```
+
+Both are disabled by default (`null`).
 
 ### Performance Tips
 
@@ -627,6 +666,30 @@ When extending or contributing to Cecil:
 3. If needed, create a template in `layouts/` (preferably extending a built-in one, with `partials/metatags.html.twig` in `<head>`)
 4. Let lookup rules pick the template, or set `layout: <name>` in front matter
 5. Build to generate output
+
+### Use Dynamic Content (Twig in Page Body)
+
+By default, Twig syntax in a Markdown body is output as is. To evaluate it, create a dedicated layout and use it only for pages that need it:
+
+```twig
+{# layouts/dynamic.html.twig #}
+{% extends '_default/page.html.twig' %}
+
+{% block content %}
+{{ include(template_from_string(page.content, "dynamic content for page " ~ page.id)) }}
+{% endblock content %}
+```
+
+Then set `layout: dynamic` in the page front matter. The body can use `page.*`, `site.*`, functions, filters and Twig tags.
+
+Caveats (Markdown is converted to HTML **before** Twig rendering):
+
+- `<`, `>` and `=>` are escaped: comparisons and arrow functions fail (`Unexpected character "&"`)
+- Twig expressions inside HTML attributes (e.g. `href="{{ url(post) }}"`) are URL-encoded and not evaluated
+- An expression alone on its line is wrapped in `<p>`: wrap it in an HTML element separated by line breaks
+- Twig in code spans/blocks **is** evaluated: use `{% verbatim %}` to display it as is
+
+Keep the body simple and move complex logic into a partial template or a macro. See the [dynamic content documentation](https://cecil.app/documentation/content/dynamic-content/).
 
 ### Implement Search
 
