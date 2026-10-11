@@ -6,7 +6,10 @@
     
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <base href="../">
+    <link rel="icon" type="image/png" sizes="32x32" href="images/favicon-32x32.png"/>
+    <link rel="icon" type="image/png" sizes="16x16" href="images/favicon-16x16.png"/>
     <link rel="icon" href="images/favicon.ico"/>
+    <link rel="apple-touch-icon" href="images/apple-touch-icon.png"/>
     <link rel="stylesheet" href="css/normalize.css">
     <link rel="stylesheet" href="css/base.css">
             <link rel="preconnect" href="https://fonts.gstatic.com">
@@ -168,8 +171,16 @@
 
     </h4>
     <dl class="phpdocumentor-table-of-contents">
-                    <dt class="phpdocumentor-table-of-contents__entry -class"><a href="classes/Cecil-Command-Doctor-DoctorCache.html"><abbr title="\Cecil\Command\Doctor\DoctorCache">DoctorCache</abbr></a></dt><dd>Cache doctor command.</dd>            <dt class="phpdocumentor-table-of-contents__entry -class"><a href="classes/Cecil-Command-Doctor-DoctorFrontmatter.html"><abbr title="\Cecil\Command\Doctor\DoctorFrontmatter">DoctorFrontmatter</abbr></a></dt><dd>Front matter doctor command.</dd>            <dt class="phpdocumentor-table-of-contents__entry -class"><a href="classes/Cecil-Command-Doctor-DoctorSeo.html"><abbr title="\Cecil\Command\Doctor\DoctorSeo">DoctorSeo</abbr></a></dt><dd>SEO doctor command.</dd>    </dl>
+                    <dt class="phpdocumentor-table-of-contents__entry -class"><a href="classes/Cecil-Command-Doctor-DoctorCache.html"><abbr title="\Cecil\Command\Doctor\DoctorCache">DoctorCache</abbr></a></dt><dd>Cache doctor command.</dd>            <dt class="phpdocumentor-table-of-contents__entry -class"><a href="classes/Cecil-Command-Doctor-DoctorFrontmatter.html"><abbr title="\Cecil\Command\Doctor\DoctorFrontmatter">DoctorFrontmatter</abbr></a></dt><dd>Front matter doctor command.</dd>            <dt class="phpdocumentor-table-of-contents__entry -class"><a href="classes/Cecil-Command-Doctor-DoctorLinks.html"><abbr title="\Cecil\Command\Doctor\DoctorLinks">DoctorLinks</abbr></a></dt><dd>Links doctor command.</dd>            <dt class="phpdocumentor-table-of-contents__entry -class"><a href="classes/Cecil-Command-Doctor-DoctorSeo.html"><abbr title="\Cecil\Command\Doctor\DoctorSeo">DoctorSeo</abbr></a></dt><dd>SEO doctor command.</dd>    </dl>
 
+    <h4 id="toc-traits">
+        Traits
+        <a href="namespaces/cecil-command-doctor.html#toc-traits" class="headerlink"><i class="fas fa-link"></i></a>
+
+    </h4>
+    <dl class="phpdocumentor-table-of-contents">
+            <dt class="phpdocumentor-table-of-contents__entry -trait"><a href="classes/Cecil-Command-Doctor-FailOnTrait.html"><abbr title="\Cecil\Command\Doctor\FailOnTrait">FailOnTrait</abbr></a></dt><dd>Handles the `--fail-on` option of audit commands, to return a failure exit code
+when findings of a given level (or more severe) are found.</dd>    </dl>
 
 
 
@@ -180,98 +191,7 @@
         
 
         
-        <div class="phpdocumentor-modal" id="source-view">
-    <div class="phpdocumentor-modal-bg" data-exit-button></div>
-    <div class="phpdocumentor-modal-container">
-        <div class="phpdocumentor-modal-content">
-            <pre style="max-height: 500px; overflow-y: scroll" data-src="" class="language-php line-numbers linkable-line-numbers"></pre>
-        </div>
-        <button data-exit-button class="phpdocumentor-modal__close">&times;</button>
-    </div>
-</div>
-
-    <script type="text/javascript">
-        (function () {
-            function loadExternalCodeSnippet(el, url, line) {
-                Array.prototype.slice.call(el.querySelectorAll('pre[data-src]')).forEach((pre) => {
-                    const src = url || pre.getAttribute('data-src').replace(/\\/g, '/');
-                    const language = 'php';
-
-                    const code = document.createElement('code');
-                    code.className = 'language-' + language;
-                    pre.textContent = '';
-                    pre.setAttribute('data-line', line)
-                    code.textContent = 'Loading…';
-                    pre.appendChild(code);
-
-                    var xhr = new XMLHttpRequest();
-
-                    xhr.open('GET', src, true);
-
-                    xhr.onreadystatechange = function () {
-                        if (xhr.readyState !== 4) {
-                            return;
-                        }
-
-                        if (xhr.status < 400 && xhr.responseText) {
-                            code.textContent = xhr.responseText;
-                            Prism.highlightElement(code);
-                            return;
-                        }
-
-                        if (xhr.status === 404) {
-                            code.textContent = '✖ Error: File could not be found';
-                            return;
-                        }
-
-                        if (xhr.status >= 400) {
-                            code.textContent = '✖ Error ' + xhr.status + ' while fetching file: ' + xhr.statusText;
-                            return;
-                        }
-
-                        code.textContent = '✖ Error: An unknown error occurred';
-                    };
-
-                    xhr.send(null);
-                });
-            }
-
-            const modalButtons = document.querySelectorAll("[data-modal]");
-            const openedAsLocalFile = window.location.protocol === 'file:';
-            if (modalButtons.length > 0 && openedAsLocalFile) {
-                console.warn(
-                    'Viewing the source code is unavailable because you are opening this page from the file:// scheme; ' +
-                    'browsers block XHR requests when a page is opened this way'
-                );
-            }
-
-            modalButtons.forEach(function (trigger) {
-                if (openedAsLocalFile) {
-                    trigger.setAttribute("hidden", "hidden");
-                }
-
-                trigger.addEventListener("click", function (event) {
-                    event.preventDefault();
-                    const modal = document.getElementById(trigger.dataset.modal);
-                    if (!modal) {
-                        console.error(`Modal with id "${trigger.dataset.modal}" could not be found`);
-                        return;
-                    }
-                    modal.classList.add("phpdocumentor-modal__open");
-
-                    loadExternalCodeSnippet(modal, trigger.dataset.src || null, trigger.dataset.line)
-                    const exits = modal.querySelectorAll("[data-exit-button]");
-                    exits.forEach(function (exit) {
-                        exit.addEventListener("click", function (event) {
-                            event.preventDefault();
-                            modal.classList.remove("phpdocumentor-modal__open");
-                        });
-                    });
-                });
-            });
-        })();
-    </script>
-
+        
     </article>
                                 </section>
                 <section class="phpdocumentor-on-this-page__sidebar">
@@ -284,7 +204,8 @@
             <li>
                 <ul class="phpdocumentor-list -clean">
                                                                                                     <li><a href="namespaces/cecil-command-doctor.html#toc-classes">Classes</a></li>
-                                                                                                                    </ul>
+                                                            <li><a href="namespaces/cecil-command-doctor.html#toc-traits">Traits</a></li>
+                                                                                                </ul>
             </li>
 
             
