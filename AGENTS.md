@@ -6,8 +6,8 @@ Short, actionable instructions for coding agents working in this repository.
 
 - Project overview and usage: [README.md](README.md)
 - Contribution process: [CONTRIBUTING.md](CONTRIBUTING.md)
-- Command reference: [docs/5-Commands.md](docs/5-Commands.md)
-- Architecture: [docs/9-Architecture.fr.md](docs/9-Architecture.fr.md)
+- Command reference: [docs/commands/index.md](docs/commands/index.md)
+- Architecture: [docs/developers/3-architecture.md](docs/developers/3-architecture.md)
 - If any of the linked reference files are missing or unreadable, stop and notify the user before proceeding, as the missing document may contain requirements critical to the task.
 
 ## Critical Commands
@@ -16,7 +16,10 @@ Short, actionable instructions for coding agents working in this repository.
 - Run full quality checks: `composer code`
 - Static analysis: `composer code:analyse`
 - Style checks: `composer code:style`
-- Integration tests: `composer test`
+- Twig templates lint: `composer code:twig`
+- Tests (unit + integration): `composer test`
+- Unit tests only: `composer test:unit`
+- Integration tests only: `composer test:integration`
 - CLI tests: `composer test:cli`
 - If `composer code` or `composer test` fails, stop, report the failing output to the user, and do not commit or continue until all checks pass.
 
@@ -29,7 +32,8 @@ Short, actionable instructions for coding agents working in this repository.
 - Pipeline steps live in `src/Step/`
 - Page generators live in `src/Generator/` (priority-based execution)
 - Rendering stack lives in `src/Renderer/`
-- When adding a new Generator, Step, or Command, add a corresponding integration test under the relevant test directory and verify it passes with `composer test`. CLI-facing behavior must also be covered by `composer test:cli`.
+- Unit tests live in `tests/Unit/` (`*Test.php`), integration tests in `tests/IntegrationTests.php` and `tests/IntegrationCliTests.php`, fixtures in `tests/fixtures/`
+- When adding a new Generator, Step, or Command, add a corresponding test under the relevant test directory and verify it passes with `composer test`. CLI-facing behavior must also be covered by `composer test:cli`.
 
 ## Coding Conventions
 
@@ -52,7 +56,8 @@ Short, actionable instructions for coding agents working in this repository.
 
 - Generator ordering is priority-sensitive. Keep configured generator priorities coherent with expected extraction order.
 - Page section assignment relies on original `filepath`, not transformed page path.
-- Keep docs updated when behavior or architecture changes, especially in [docs/](docs/) and [README.md](README.md).
+- Keep docs updated when behavior or architecture changes, especially in [docs/](docs/) and [README.md](README.md). Docs are organized in sub-sections (`docs/<section>/<n>-<name>.md`, with an `index.md` per section).
+- Keep agent skills in [skills/](skills/) (`cecil`, `cecil-theme`) consistent with user-facing behavior changes.
 - When editing a `.md` documentation file, apply equivalent changes to its `.fr.md` counterpart. If the `.fr.md` counterpart does not exist, notify the user before proceeding.
 - When editing a documentation file with frontmatter, always update the `updated` date to reflect the change.
 - When updating code in `src/`, update API documentation with `php phpdoc` command (download `phpdoc` binary with `curl -Lo phpdoc https://phpdoc.org/phpDocumentor.phar` if necessary).
