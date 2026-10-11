@@ -44,6 +44,9 @@ class Core extends AbstractExtension
     /** @var Config */
     protected $config;
 
+    /** @var array<string, array{string, string}> Mobile and dark `<source>` elements of images, to avoid redundant lookups within a build. */
+    private array $imageVariantsCache = [];
+
     public function __construct(Builder $builder)
     {
         $this->builder = $builder;
@@ -612,10 +615,8 @@ class Core extends AbstractExtension
         }
         $img = \sprintf('<img src="%s"%s>', $url($asset), self::htmlAttributes($attributes));
 
-        // mobile variant: auto-detect `{filename}{suffix}.{ext}` alongside the source image
-        $mobileSource = $this->buildMobileSourceHtml($asset, $formats, $responsive, $attributes, $url);
-        // dark color-scheme variant: auto-detect `{filename}{suffix}.{ext}` alongside the source image
-        $darkSource = $this->buildDarkSourceHtml($asset, $formats, $responsive, $attributes, $url);
+        // mobile and dark color-scheme variants
+        [$mobileSource, $darkSource] = $this->getImageVariantsSourceHtml($context, $asset, $formats, $responsive, $attributes, $options, $url);
 
         // put `<source>` elements in `<picture>` if exists
         // (the first matching `<source>` wins: mobile sources must precede dark sources)
@@ -640,6 +641,45 @@ class Core extends AbstractExtension
         }
 
         return \sprintf('<audio%s src="%s" type="%s"></audio>', self::htmlAttributes($attributes), $this->url($context, $asset, $options), $asset['subtype']);
+    }
+
+    /**
+     * Returns HTML mobile and dark "source" elements of an image Asset.
+     * Variants are looked up once per build for a given image and rendering options.
+     *
+     * @param array<string, mixed> $context
+     * @param array<string>        $formats    Alternative formats (e.g. ['avif', 'webp'])
+     * @param mixed                $responsive Responsive mode (true, 'width', 'density' or false)
+     * @param array<string, mixed> $attributes Image attributes
+     * @param array<string, mixed> $options    Image options
+     * @param callable             $url        URL builder
+     *
+     * @return array{string, string}
+     */
+    private function getImageVariantsSourceHtml(array $context, Asset $asset, array $formats, mixed $responsive, array $attributes, array $options, callable $url): array
+    {
+        $cacheKey = hash('xxh128', serialize([
+            $asset['path'],
+            $asset['hash'],
+            $asset['width'],
+            $asset['height'],
+            (string) ($context['site']['language'] ?? ''),
+            $options,
+            $formats,
+            $responsive,
+            $attributes['width'] ?? null,
+            $attributes['class'] ?? null,
+        ]));
+        if (!isset($this->imageVariantsCache[$cacheKey])) {
+            $this->imageVariantsCache[$cacheKey] = [
+                // mobile variant: auto-detect `{filename}{suffix}.{ext}` alongside the source image
+                $this->buildMobileSourceHtml($asset, $formats, $responsive, $attributes, $url),
+                // dark color-scheme variant: auto-detect `{filename}{suffix}.{ext}` alongside the source image
+                $this->buildDarkSourceHtml($asset, $formats, $responsive, $attributes, $url),
+            ];
+        }
+
+        return $this->imageVariantsCache[$cacheKey];
     }
 
     /**

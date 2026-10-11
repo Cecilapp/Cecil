@@ -35,6 +35,12 @@ use Intervention\Image\Interfaces\ImageManagerInterface;
  */
 class Image
 {
+    /** @var array<string, true> Missing variants already logged during the current build (avoids duplicated warnings). */
+    private static array $missingVariantsLogged = [];
+
+    /** @var string|null Build ID of the missing variants log, so it can be reset between builds. */
+    private static ?string $missingVariantsBuildId = null;
+
     /**
      * Returns the name of the available image driver (e.g.: "Imagick"), or null if none.
      */
@@ -575,11 +581,7 @@ class Image
         $darkAssetPath = self::buildDarkAssetPath($asset['_path'], $darkSuffix);
         $assetDark = new Asset($builder, $darkAssetPath, array_merge(['ignore_missing' => true], $options['assetOptions'] ?? []));
         if ($assetDark->isMissing()) {
-            $builder->getLogger()->warning(\sprintf(
-                'Dark variant "%s" not found for image "%s".',
-                $darkAssetPath,
-                $asset['_path']
-            ));
+            self::logMissingVariant($builder, 'Dark', $darkAssetPath, $asset['_path']);
 
             return [];
         }
@@ -626,11 +628,7 @@ class Image
         $mobileAssetPath = self::buildMobileAssetPath($asset['_path'], $mobileSuffix);
         $assetMobile = new Asset($builder, $mobileAssetPath, array_merge(['ignore_missing' => true], $assetOptions));
         if ($assetMobile->isMissing()) {
-            $builder->getLogger()->warning(\sprintf(
-                'Mobile variant "%s" not found for image "%s".',
-                $mobileAssetPath,
-                $asset['_path']
-            ));
+            self::logMissingVariant($builder, 'Mobile', $mobileAssetPath, $asset['_path']);
 
             return [];
         }
@@ -653,6 +651,23 @@ class Image
         }
 
         return array_merge($mobileSources, self::buildVariantSourceAttributes($builder, $assetMobile, $media, $formats, $options));
+    }
+
+    /**
+     * Logs a missing image variant, once per build.
+     */
+    private static function logMissingVariant(Builder $builder, string $type, string $variantPath, string $sourcePath): void
+    {
+        $buildId = Builder::getBuildId();
+        if (self::$missingVariantsBuildId !== $buildId) {
+            self::$missingVariantsLogged = [];
+            self::$missingVariantsBuildId = $buildId;
+        }
+        if (isset(self::$missingVariantsLogged[$variantPath])) {
+            return;
+        }
+        self::$missingVariantsLogged[$variantPath] = true;
+        $builder->getLogger()->warning(\sprintf('%s variant "%s" not found for image "%s".', $type, $variantPath, $sourcePath));
     }
 
     /**
