@@ -169,7 +169,7 @@
         <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Doctor/LinksDoctor.php"><a href="files/src-doctor-linksdoctor.html"><abbr title="src/Doctor/LinksDoctor.php">LinksDoctor.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">36</span>
+    <span class="phpdocumentor-element-found-in__line">41</span>
 
     </aside>
 
@@ -183,9 +183,26 @@ HTML pages and in the linked CSS files:</p>
 and their fragment (if any) must match an element ID of the target page;</li>
 <li>external links are requested over HTTP.</li>
 </ul>
+<p>HTML/CSS parsing and generated files indexing are delegated to <code class="prettyprint">Links\LinkExtractor</code>
+and <code class="prettyprint">Links\TargetIndex</code>: the remaining complexity comes from the link checking rules.</p>
 </section>
 
 
+    <h5 class="phpdocumentor-tag-list__heading" id="tags">
+        Tags
+        <a href="classes/Cecil-Doctor-LinksDoctor.html#tags" class="headerlink"><i class="fas fa-link"></i></a>
+
+    </h5>
+    <dl class="phpdocumentor-tag-list">
+                    <dt class="phpdocumentor-tag-list__entry">
+                <span class="phpdocumentor-tag__name">SuppressWarnings</span>
+            </dt>
+                            <dd class="phpdocumentor-tag-list__definition">
+                                                                                                            <section class="phpdocumentor-description"><p>(ExcessiveClassComplexity)</p>
+</section>
+
+                                    </dd>
+                        </dl>
 
     
     
@@ -220,27 +237,6 @@ and their fragment (if any) must match an element ID of the target page;</li>
         &nbsp;: array&lt;string|int, mixed&gt;&nbsp;= [&#039;internal&#039; =&gt; true, &#039;external&#039; =&gt; false, &#039;time...                            </span>
 </dt>
 <dd>Default configuration</dd>
-
-            <dt class="phpdocumentor-table-of-contents__entry -constant -private">
-    <a class="" href="classes/Cecil-Doctor-LinksDoctor.html#constant_SKIPPED_LINK_RELS">SKIPPED_LINK_RELS</a>
-    <span>
-        &nbsp;: array&lt;string|int, mixed&gt;&nbsp;= [&#039;preconnect&#039;, &#039;dns-prefetch&#039;, &#039;webmention&#039;, &#039;p...                            </span>
-</dt>
-<dd>`&lt;link rel&gt;` values whose URL is not a resource to check</dd>
-
-            <dt class="phpdocumentor-table-of-contents__entry -constant -private">
-    <a class="" href="classes/Cecil-Doctor-LinksDoctor.html#constant_SRCSET_ELEMENTS">SRCSET_ELEMENTS</a>
-    <span>
-        &nbsp;: array&lt;string|int, mixed&gt;&nbsp;= [&#039;img&#039;, &#039;source&#039;]                            </span>
-</dt>
-<dd>HTML elements with a `srcset` attribute</dd>
-
-            <dt class="phpdocumentor-table-of-contents__entry -constant -private">
-    <a class="" href="classes/Cecil-Doctor-LinksDoctor.html#constant_URL_ATTRIBUTES">URL_ATTRIBUTES</a>
-    <span>
-        &nbsp;: array&lt;string|int, mixed&gt;&nbsp;= [&#039;a&#039; =&gt; [&#039;href&#039;], &#039;area&#039; =&gt; [&#039;href&#039;], &#039;link&#039; =&gt;...                            </span>
-</dt>
-<dd>HTML elements and attributes containing a single URL</dd>
 
     </dl>
 
@@ -294,15 +290,15 @@ and their fragment (if any) must match an element ID of the target page;</li>
 </dt>
 
             <dt class="phpdocumentor-table-of-contents__entry -property -private">
-    <a class="" href="classes/Cecil-Doctor-LinksDoctor.html#property_findings">$findings</a>
+    <a class="" href="classes/Cecil-Doctor-LinksDoctor.html#property_extractor">$extractor</a>
     <span>
-                        &nbsp;: array&lt;string, array{page: string, level: string, type: string, link: string, details: string}&gt;            </span>
+                        &nbsp;: <a href="classes/Cecil-Doctor-Links-LinkExtractor.html"><abbr title="\Cecil\Doctor\Links\LinkExtractor">LinkExtractor</abbr></a>            </span>
 </dt>
 
             <dt class="phpdocumentor-table-of-contents__entry -property -private">
-    <a class="" href="classes/Cecil-Doctor-LinksDoctor.html#property_ids">$ids</a>
+    <a class="" href="classes/Cecil-Doctor-LinksDoctor.html#property_findings">$findings</a>
     <span>
-                        &nbsp;: array&lt;string, array&lt;string, true&gt;&gt;            </span>
+                        &nbsp;: array&lt;string, array{page: string, level: string, type: string, link: string, details: string}&gt;            </span>
 </dt>
 
             <dt class="phpdocumentor-table-of-contents__entry -property -private">
@@ -314,7 +310,7 @@ and their fragment (if any) must match an element ID of the target page;</li>
             <dt class="phpdocumentor-table-of-contents__entry -property -private">
     <a class="" href="classes/Cecil-Doctor-LinksDoctor.html#property_targets">$targets</a>
     <span>
-                        &nbsp;: array&lt;string, <abbr title="array{type: string, source: string, page?: \Cecil\Collection\Page\Page, format?: string}">Page, format?: string}</abbr>&gt;            </span>
+                        &nbsp;: <a href="classes/Cecil-Doctor-Links-TargetIndex.html"><abbr title="\Cecil\Doctor\Links\TargetIndex">TargetIndex</abbr></a>            </span>
 </dt>
 
     </dl>
@@ -379,26 +375,6 @@ and their fragment (if any) must match an element ID of the target page;</li>
 <dd>Classifies a link and checks it (internal) or collects it (external).</dd>
 
             <dt class="phpdocumentor-table-of-contents__entry -method -private">
-    <a class="" href="classes/Cecil-Doctor-LinksDoctor.html#method_createXPath">createXPath()</a>
-    <span>
-                                &nbsp;: <abbr title="\DOMXPath">DOMXPath</abbr>|null    </span>
-</dt>
-
-            <dt class="phpdocumentor-table-of-contents__entry -method -private">
-    <a class="" href="classes/Cecil-Doctor-LinksDoctor.html#method_extractCssLinks">extractCssLinks()</a>
-    <span>
-                                &nbsp;: array&lt;int, string&gt;    </span>
-</dt>
-<dd>Extracts URLs from `url()` and `@import` CSS statements.</dd>
-
-            <dt class="phpdocumentor-table-of-contents__entry -method -private">
-    <a class="" href="classes/Cecil-Doctor-LinksDoctor.html#method_extractHtmlLinks">extractHtmlLinks()</a>
-    <span>
-                                &nbsp;: array&lt;int, string&gt;    </span>
-</dt>
-<dd>Extracts URLs from HTML attributes, inline styles and `&lt;style&gt;` elements.</dd>
-
-            <dt class="phpdocumentor-table-of-contents__entry -method -private">
     <a class="" href="classes/Cecil-Doctor-LinksDoctor.html#method_getAuditedPages">getAuditedPages()</a>
     <span>
                                 &nbsp;: array&lt;int, <a href="classes/Cecil-Collection-Page-Page.html"><abbr title="\Cecil\Collection\Page\Page">Page</abbr></a>&gt;    </span>
@@ -419,25 +395,11 @@ and their fragment (if any) must match an element ID of the target page;</li>
 <dd>Returns level and details of an external URL check result, or null if the URL is fine.</dd>
 
             <dt class="phpdocumentor-table-of-contents__entry -method -private">
-    <a class="" href="classes/Cecil-Doctor-LinksDoctor.html#method_getTargetContent">getTargetContent()</a>
+    <a class="" href="classes/Cecil-Doctor-LinksDoctor.html#method_getResolvedPath">getResolvedPath()</a>
     <span>
-                                &nbsp;: string|null    </span>
+                                &nbsp;: string    </span>
 </dt>
-<dd>Returns the content of a generated file, or null if not available.</dd>
-
-            <dt class="phpdocumentor-table-of-contents__entry -method -private">
-    <a class="" href="classes/Cecil-Doctor-LinksDoctor.html#method_getTargetIds">getTargetIds()</a>
-    <span>
-                                &nbsp;: array&lt;string, true&gt;|null    </span>
-</dt>
-<dd>Returns element IDs of a generated HTML page, or null if the target is not an HTML page.</dd>
-
-            <dt class="phpdocumentor-table-of-contents__entry -method -private">
-    <a class="" href="classes/Cecil-Doctor-LinksDoctor.html#method_indexTargets">indexTargets()</a>
-    <span>
-                                &nbsp;: void    </span>
-</dt>
-<dd>Indexes generated pages, static files and assets by output path.</dd>
+<dd>Resolves a relative URL path against the site path of the page (or CSS file) containing it.</dd>
 
             <dt class="phpdocumentor-table-of-contents__entry -method -private">
     <a class="" href="classes/Cecil-Doctor-LinksDoctor.html#method_isExcluded">isExcluded()</a>
@@ -452,27 +414,6 @@ and their fragment (if any) must match an element ID of the target page;</li>
                                 &nbsp;: array{internal: bool, external: bool, timeout: int, concurrency: int, cache_ttl: int, exclude: array<int,string>, useragent: string}    </span>
 </dt>
 <dd>Merges default configuration, site configuration and command options.</dd>
-
-            <dt class="phpdocumentor-table-of-contents__entry -method -private">
-    <a class="" href="classes/Cecil-Doctor-LinksDoctor.html#method_parseSrcset">parseSrcset()</a>
-    <span>
-                                &nbsp;: array&lt;int, string&gt;    </span>
-</dt>
-<dd>Returns URLs of a `srcset` attribute.</dd>
-
-            <dt class="phpdocumentor-table-of-contents__entry -method -private">
-    <a class="" href="classes/Cecil-Doctor-LinksDoctor.html#method_reset">reset()</a>
-    <span>
-                                &nbsp;: void    </span>
-</dt>
-<dd>Resets the state of a previous audit.</dd>
-
-            <dt class="phpdocumentor-table-of-contents__entry -method -private">
-    <a class="" href="classes/Cecil-Doctor-LinksDoctor.html#method_toRegex">toRegex()</a>
-    <span>
-                                &nbsp;: string    </span>
-</dt>
-<dd>Converts an exclusion pattern to a case-insensitive regular expression.</dd>
 
     </dl>
 
@@ -495,7 +436,7 @@ and their fragment (if any) must match an element ID of the target page;</li>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Doctor/LinksDoctor.php"><a href="files/src-doctor-linksdoctor.html"><abbr title="src/Doctor/LinksDoctor.php">LinksDoctor.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">72</span>
+    <span class="phpdocumentor-element-found-in__line">55</span>
 
     </aside>
 
@@ -526,7 +467,7 @@ and their fragment (if any) must match an element ID of the target page;</li>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Doctor/LinksDoctor.php"><a href="files/src-doctor-linksdoctor.html"><abbr title="src/Doctor/LinksDoctor.php">LinksDoctor.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">39</span>
+    <span class="phpdocumentor-element-found-in__line">44</span>
 
     </aside>
 
@@ -538,99 +479,6 @@ and their fragment (if any) must match an element ID of the target page;</li>
         <span class="phpdocumentor-signature__type">array&lt;string|int, mixed&gt;</span>
     <span class="phpdocumentor-signature__name">DEFAULT_CONFIG</span>
     = <span class="phpdocumentor-signature__default-value">[&#039;internal&#039; =&gt; true, &#039;external&#039; =&gt; false, &#039;timeout&#039; =&gt; 10, &#039;concurrency&#039; =&gt; 10, &#039;cache_ttl&#039; =&gt; 86400, &#039;exclude&#039; =&gt; [], &#039;useragent&#039; =&gt; null]</span>
-</code>
-
-
-    
-    
-    
-
-        
-    </article>
-                    <article class="phpdocumentor-element -constant -private ">
-    <h4 class="phpdocumentor-element__name" id="constant_SKIPPED_LINK_RELS">
-        SKIPPED_LINK_RELS
-        <a href="classes/Cecil-Doctor-LinksDoctor.html#constant_SKIPPED_LINK_RELS" class="headerlink"><i class="fas fa-link"></i></a>
-
-    </h4>
-
-    <aside class="phpdocumentor-element-found-in">
-    <abbr class="phpdocumentor-element-found-in__file" title="src/Doctor/LinksDoctor.php"><a href="files/src-doctor-linksdoctor.html"><abbr title="src/Doctor/LinksDoctor.php">LinksDoctor.php</abbr></a></abbr>
-    :
-    <span class="phpdocumentor-element-found-in__line">69</span>
-
-    </aside>
-
-        <p class="phpdocumentor-summary">`&lt;link rel&gt;` values whose URL is not a resource to check</p>
-
-    
-    <code class="phpdocumentor-signature phpdocumentor-code ">
-    <span class="phpdocumentor-signature__visibility">private</span>
-        <span class="phpdocumentor-signature__type">array&lt;string|int, mixed&gt;</span>
-    <span class="phpdocumentor-signature__name">SKIPPED_LINK_RELS</span>
-    = <span class="phpdocumentor-signature__default-value">[&#039;preconnect&#039;, &#039;dns-prefetch&#039;, &#039;webmention&#039;, &#039;pingback&#039;]</span>
-</code>
-
-
-    
-    
-    
-
-        
-    </article>
-                    <article class="phpdocumentor-element -constant -private ">
-    <h4 class="phpdocumentor-element__name" id="constant_SRCSET_ELEMENTS">
-        SRCSET_ELEMENTS
-        <a href="classes/Cecil-Doctor-LinksDoctor.html#constant_SRCSET_ELEMENTS" class="headerlink"><i class="fas fa-link"></i></a>
-
-    </h4>
-
-    <aside class="phpdocumentor-element-found-in">
-    <abbr class="phpdocumentor-element-found-in__file" title="src/Doctor/LinksDoctor.php"><a href="files/src-doctor-linksdoctor.html"><abbr title="src/Doctor/LinksDoctor.php">LinksDoctor.php</abbr></a></abbr>
-    :
-    <span class="phpdocumentor-element-found-in__line">66</span>
-
-    </aside>
-
-        <p class="phpdocumentor-summary">HTML elements with a `srcset` attribute</p>
-
-    
-    <code class="phpdocumentor-signature phpdocumentor-code ">
-    <span class="phpdocumentor-signature__visibility">private</span>
-        <span class="phpdocumentor-signature__type">array&lt;string|int, mixed&gt;</span>
-    <span class="phpdocumentor-signature__name">SRCSET_ELEMENTS</span>
-    = <span class="phpdocumentor-signature__default-value">[&#039;img&#039;, &#039;source&#039;]</span>
-</code>
-
-
-    
-    
-    
-
-        
-    </article>
-                    <article class="phpdocumentor-element -constant -private ">
-    <h4 class="phpdocumentor-element__name" id="constant_URL_ATTRIBUTES">
-        URL_ATTRIBUTES
-        <a href="classes/Cecil-Doctor-LinksDoctor.html#constant_URL_ATTRIBUTES" class="headerlink"><i class="fas fa-link"></i></a>
-
-    </h4>
-
-    <aside class="phpdocumentor-element-found-in">
-    <abbr class="phpdocumentor-element-found-in__file" title="src/Doctor/LinksDoctor.php"><a href="files/src-doctor-linksdoctor.html"><abbr title="src/Doctor/LinksDoctor.php">LinksDoctor.php</abbr></a></abbr>
-    :
-    <span class="phpdocumentor-element-found-in__line">50</span>
-
-    </aside>
-
-        <p class="phpdocumentor-summary">HTML elements and attributes containing a single URL</p>
-
-    
-    <code class="phpdocumentor-signature phpdocumentor-code ">
-    <span class="phpdocumentor-signature__visibility">private</span>
-        <span class="phpdocumentor-signature__type">array&lt;string|int, mixed&gt;</span>
-    <span class="phpdocumentor-signature__name">URL_ATTRIBUTES</span>
-    = <span class="phpdocumentor-signature__default-value">[&#039;a&#039; =&gt; [&#039;href&#039;], &#039;area&#039; =&gt; [&#039;href&#039;], &#039;link&#039; =&gt; [&#039;href&#039;], &#039;img&#039; =&gt; [&#039;src&#039;], &#039;script&#039; =&gt; [&#039;src&#039;], &#039;iframe&#039; =&gt; [&#039;src&#039;], &#039;embed&#039; =&gt; [&#039;src&#039;], &#039;source&#039; =&gt; [&#039;src&#039;], &#039;track&#039; =&gt; [&#039;src&#039;], &#039;audio&#039; =&gt; [&#039;src&#039;], &#039;video&#039; =&gt; [&#039;src&#039;, &#039;poster&#039;], &#039;object&#039; =&gt; [&#039;data&#039;]]</span>
 </code>
 
 
@@ -666,7 +514,7 @@ and their fragment (if any) must match an element ID of the target page;</li>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Doctor/LinksDoctor.php"><a href="files/src-doctor-linksdoctor.html"><abbr title="src/Doctor/LinksDoctor.php">LinksDoctor.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">96</span>
+    <span class="phpdocumentor-element-found-in__line">77</span>
 
     </aside>
 
@@ -703,7 +551,7 @@ and their fragment (if any) must match an element ID of the target page;</li>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Doctor/LinksDoctor.php"><a href="files/src-doctor-linksdoctor.html"><abbr title="src/Doctor/LinksDoctor.php">LinksDoctor.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">98</span>
+    <span class="phpdocumentor-element-found-in__line">79</span>
 
     </aside>
 
@@ -740,7 +588,7 @@ and their fragment (if any) must match an element ID of the target page;</li>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Doctor/LinksDoctor.php"><a href="files/src-doctor-linksdoctor.html"><abbr title="src/Doctor/LinksDoctor.php">LinksDoctor.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">76</span>
+    <span class="phpdocumentor-element-found-in__line">61</span>
 
     </aside>
 
@@ -777,7 +625,7 @@ and their fragment (if any) must match an element ID of the target page;</li>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Doctor/LinksDoctor.php"><a href="files/src-doctor-linksdoctor.html"><abbr title="src/Doctor/LinksDoctor.php">LinksDoctor.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">74</span>
+    <span class="phpdocumentor-element-found-in__line">57</span>
 
     </aside>
 
@@ -814,7 +662,7 @@ and their fragment (if any) must match an element ID of the target page;</li>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Doctor/LinksDoctor.php"><a href="files/src-doctor-linksdoctor.html"><abbr title="src/Doctor/LinksDoctor.php">LinksDoctor.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">79</span>
+    <span class="phpdocumentor-element-found-in__line">66</span>
 
     </aside>
 
@@ -827,7 +675,9 @@ and their fragment (if any) must match an element ID of the target page;</li>
     </code>
 
     
-    
+        <section class="phpdocumentor-description"><p>exclusion patterns are stored as regular expressions</p>
+</section>
+
     
 
         
@@ -851,7 +701,7 @@ and their fragment (if any) must match an element ID of the target page;</li>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Doctor/LinksDoctor.php"><a href="files/src-doctor-linksdoctor.html"><abbr title="src/Doctor/LinksDoctor.php">LinksDoctor.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">88</span>
+    <span class="phpdocumentor-element-found-in__line">69</span>
 
     </aside>
 
@@ -890,7 +740,7 @@ and their fragment (if any) must match an element ID of the target page;</li>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Doctor/LinksDoctor.php"><a href="files/src-doctor-linksdoctor.html"><abbr title="src/Doctor/LinksDoctor.php">LinksDoctor.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">91</span>
+    <span class="phpdocumentor-element-found-in__line">72</span>
 
     </aside>
 
@@ -919,6 +769,43 @@ and their fragment (if any) must match an element ID of the target page;</li>
             -private
                                                                     "
 >
+    <h4 class="phpdocumentor-element__name" id="property_extractor">
+        $extractor
+        <a href="classes/Cecil-Doctor-LinksDoctor.html#property_extractor" class="headerlink"><i class="fas fa-link"></i></a>
+
+        <span class="phpdocumentor-element__modifiers">
+                                            </span>
+    </h4>
+    <aside class="phpdocumentor-element-found-in">
+    <abbr class="phpdocumentor-element-found-in__file" title="src/Doctor/LinksDoctor.php"><a href="files/src-doctor-linksdoctor.html"><abbr title="src/Doctor/LinksDoctor.php">LinksDoctor.php</abbr></a></abbr>
+    :
+    <span class="phpdocumentor-element-found-in__line">59</span>
+
+    </aside>
+
+    
+    
+    <code class="phpdocumentor-code phpdocumentor-signature ">
+        <span class="phpdocumentor-signature__visibility">private</span>
+            <span class="phpdocumentor-signature__type"><a href="classes/Cecil-Doctor-Links-LinkExtractor.html"><abbr title="\Cecil\Doctor\Links\LinkExtractor">LinkExtractor</abbr></a></span>
+    <span class="phpdocumentor-signature__name">$extractor</span>
+    </code>
+
+    
+    
+    
+
+        
+        
+
+</article>
+                    <article
+        class="
+            phpdocumentor-element
+            -property
+            -private
+                                                                    "
+>
     <h4 class="phpdocumentor-element__name" id="property_findings">
         $findings
         <a href="classes/Cecil-Doctor-LinksDoctor.html#property_findings" class="headerlink"><i class="fas fa-link"></i></a>
@@ -929,7 +816,7 @@ and their fragment (if any) must match an element ID of the target page;</li>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Doctor/LinksDoctor.php"><a href="files/src-doctor-linksdoctor.html"><abbr title="src/Doctor/LinksDoctor.php">LinksDoctor.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">94</span>
+    <span class="phpdocumentor-element-found-in__line">75</span>
 
     </aside>
 
@@ -956,45 +843,6 @@ and their fragment (if any) must match an element ID of the target page;</li>
             -private
                                                                     "
 >
-    <h4 class="phpdocumentor-element__name" id="property_ids">
-        $ids
-        <a href="classes/Cecil-Doctor-LinksDoctor.html#property_ids" class="headerlink"><i class="fas fa-link"></i></a>
-
-        <span class="phpdocumentor-element__modifiers">
-                                            </span>
-    </h4>
-    <aside class="phpdocumentor-element-found-in">
-    <abbr class="phpdocumentor-element-found-in__file" title="src/Doctor/LinksDoctor.php"><a href="files/src-doctor-linksdoctor.html"><abbr title="src/Doctor/LinksDoctor.php">LinksDoctor.php</abbr></a></abbr>
-    :
-    <span class="phpdocumentor-element-found-in__line">85</span>
-
-    </aside>
-
-    
-    
-    <code class="phpdocumentor-code phpdocumentor-signature ">
-        <span class="phpdocumentor-signature__visibility">private</span>
-            <span class="phpdocumentor-signature__type">array&lt;string, array&lt;string, true&gt;&gt;</span>
-    <span class="phpdocumentor-signature__name">$ids</span>
-     = <span class="phpdocumentor-signature__default-value">[]</span></code>
-
-    
-        <section class="phpdocumentor-description"><p>element IDs indexed by output path</p>
-</section>
-
-    
-
-        
-        
-
-</article>
-                    <article
-        class="
-            phpdocumentor-element
-            -property
-            -private
-                                                                    "
->
     <h4 class="phpdocumentor-element__name" id="property_linksChecked">
         $linksChecked
         <a href="classes/Cecil-Doctor-LinksDoctor.html#property_linksChecked" class="headerlink"><i class="fas fa-link"></i></a>
@@ -1005,7 +853,7 @@ and their fragment (if any) must match an element ID of the target page;</li>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Doctor/LinksDoctor.php"><a href="files/src-doctor-linksdoctor.html"><abbr title="src/Doctor/LinksDoctor.php">LinksDoctor.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">100</span>
+    <span class="phpdocumentor-element-found-in__line">81</span>
 
     </aside>
 
@@ -1042,7 +890,7 @@ and their fragment (if any) must match an element ID of the target page;</li>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Doctor/LinksDoctor.php"><a href="files/src-doctor-linksdoctor.html"><abbr title="src/Doctor/LinksDoctor.php">LinksDoctor.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">82</span>
+    <span class="phpdocumentor-element-found-in__line">63</span>
 
     </aside>
 
@@ -1050,14 +898,12 @@ and their fragment (if any) must match an element ID of the target page;</li>
     
     <code class="phpdocumentor-code phpdocumentor-signature ">
         <span class="phpdocumentor-signature__visibility">private</span>
-            <span class="phpdocumentor-signature__type">array&lt;string, <abbr title="array{type: string, source: string, page?: \Cecil\Collection\Page\Page, format?: string}">Page, format?: string}</abbr>&gt;</span>
+            <span class="phpdocumentor-signature__type"><a href="classes/Cecil-Doctor-Links-TargetIndex.html"><abbr title="\Cecil\Doctor\Links\TargetIndex">TargetIndex</abbr></a></span>
     <span class="phpdocumentor-signature__name">$targets</span>
-     = <span class="phpdocumentor-signature__default-value">[]</span></code>
+    </code>
 
     
-        <section class="phpdocumentor-description"><p>generated files indexed by output path</p>
-</section>
-
+    
     
 
         
@@ -1086,7 +932,7 @@ and their fragment (if any) must match an element ID of the target page;</li>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Doctor/LinksDoctor.php"><a href="files/src-doctor-linksdoctor.html"><abbr title="src/Doctor/LinksDoctor.php">LinksDoctor.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">102</span>
+    <span class="phpdocumentor-element-found-in__line">83</span>
 
     </aside>
 
@@ -1130,7 +976,7 @@ and their fragment (if any) must match an element ID of the target page;</li>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Doctor/LinksDoctor.php"><a href="files/src-doctor-linksdoctor.html"><abbr title="src/Doctor/LinksDoctor.php">LinksDoctor.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">132</span>
+    <span class="phpdocumentor-element-found-in__line">114</span>
 
     </aside>
 
@@ -1185,7 +1031,7 @@ and their fragment (if any) must match an element ID of the target page;</li>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Doctor/LinksDoctor.php"><a href="files/src-doctor-linksdoctor.html"><abbr title="src/Doctor/LinksDoctor.php">LinksDoctor.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">683</span>
+    <span class="phpdocumentor-element-found-in__line">485</span>
 
     </aside>
 
@@ -1257,7 +1103,7 @@ and their fragment (if any) must match an element ID of the target page;</li>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Doctor/LinksDoctor.php"><a href="files/src-doctor-linksdoctor.html"><abbr title="src/Doctor/LinksDoctor.php">LinksDoctor.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">402</span>
+    <span class="phpdocumentor-element-found-in__line">250</span>
 
     </aside>
 
@@ -1292,7 +1138,7 @@ and their fragment (if any) must match an element ID of the target page;</li>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Doctor/LinksDoctor.php"><a href="files/src-doctor-linksdoctor.html"><abbr title="src/Doctor/LinksDoctor.php">LinksDoctor.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">572</span>
+    <span class="phpdocumentor-element-found-in__line">382</span>
 
     </aside>
 
@@ -1337,7 +1183,7 @@ and their fragment (if any) must match an element ID of the target page;</li>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Doctor/LinksDoctor.php"><a href="files/src-doctor-linksdoctor.html"><abbr title="src/Doctor/LinksDoctor.php">LinksDoctor.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">317</span>
+    <span class="phpdocumentor-element-found-in__line">239</span>
 
     </aside>
 
@@ -1382,7 +1228,7 @@ and their fragment (if any) must match an element ID of the target page;</li>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Doctor/LinksDoctor.php"><a href="files/src-doctor-linksdoctor.html"><abbr title="src/Doctor/LinksDoctor.php">LinksDoctor.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">483</span>
+    <span class="phpdocumentor-element-found-in__line">333</span>
 
     </aside>
 
@@ -1448,7 +1294,7 @@ and their fragment (if any) must match an element ID of the target page;</li>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Doctor/LinksDoctor.php"><a href="files/src-doctor-linksdoctor.html"><abbr title="src/Doctor/LinksDoctor.php">LinksDoctor.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">423</span>
+    <span class="phpdocumentor-element-found-in__line">271</span>
 
     </aside>
 
@@ -1503,152 +1349,6 @@ and their fragment (if any) must match an element ID of the target page;</li>
             -private
                                                         "
 >
-    <h4 class="phpdocumentor-element__name" id="method_createXPath">
-        createXPath()
-        <a href="classes/Cecil-Doctor-LinksDoctor.html#method_createXPath" class="headerlink"><i class="fas fa-link"></i></a>
-
-    </h4>
-    <aside class="phpdocumentor-element-found-in">
-    <abbr class="phpdocumentor-element-found-in__file" title="src/Doctor/LinksDoctor.php"><a href="files/src-doctor-linksdoctor.html"><abbr title="src/Doctor/LinksDoctor.php">LinksDoctor.php</abbr></a></abbr>
-    :
-    <span class="phpdocumentor-element-found-in__line">694</span>
-
-    </aside>
-
-    
-    <code class="phpdocumentor-code phpdocumentor-signature ">
-    <span class="phpdocumentor-signature__visibility">private</span>
-                    <span class="phpdocumentor-signature__name">createXPath</span><span>(</span><span class="phpdocumentor-signature__argument"><span class="phpdocumentor-signature__argument__type">string&nbsp;</span><span class="phpdocumentor-signature__argument__name">$html</span></span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type"><abbr title="\DOMXPath">DOMXPath</abbr>|null</span></code>
-
-    <div class="phpdocumentor-label-line">
-        </div>
-    
-    
-        <h5 class="phpdocumentor-argument-list__heading">Parameters</h5>
-    <dl class="phpdocumentor-argument-list">
-                    <dt class="phpdocumentor-argument-list__entry">
-                <span class="phpdocumentor-argument-list__argument__name">$html</span>
-                : <span class="phpdocumentor-argument-list__argument__type">string</span>
-                            </dt>
-            <dd class="phpdocumentor-argument-list__definition">
-                
-            </dd>
-            </dl>
-
-    
-
-        
-    
-            <section>
-        <h5 class="phpdocumentor-return-value__heading">Return values</h5>
-        <span class="phpdocumentor-signature__response_type"><abbr title="\DOMXPath">DOMXPath</abbr>|null</span>
-            </section>
-
-</article>
-                    <article
-        class="phpdocumentor-element
-            -method
-            -private
-                                                        "
->
-    <h4 class="phpdocumentor-element__name" id="method_extractCssLinks">
-        extractCssLinks()
-        <a href="classes/Cecil-Doctor-LinksDoctor.html#method_extractCssLinks" class="headerlink"><i class="fas fa-link"></i></a>
-
-    </h4>
-    <aside class="phpdocumentor-element-found-in">
-    <abbr class="phpdocumentor-element-found-in__file" title="src/Doctor/LinksDoctor.php"><a href="files/src-doctor-linksdoctor.html"><abbr title="src/Doctor/LinksDoctor.php">LinksDoctor.php</abbr></a></abbr>
-    :
-    <span class="phpdocumentor-element-found-in__line">390</span>
-
-    </aside>
-
-        <p class="phpdocumentor-summary">Extracts URLs from `url()` and `@import` CSS statements.</p>
-
-    <code class="phpdocumentor-code phpdocumentor-signature ">
-    <span class="phpdocumentor-signature__visibility">private</span>
-                    <span class="phpdocumentor-signature__name">extractCssLinks</span><span>(</span><span class="phpdocumentor-signature__argument"><span class="phpdocumentor-signature__argument__type">string&nbsp;</span><span class="phpdocumentor-signature__argument__name">$css</span></span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">array&lt;int, string&gt;</span></code>
-
-    <div class="phpdocumentor-label-line">
-        </div>
-    
-    
-        <h5 class="phpdocumentor-argument-list__heading">Parameters</h5>
-    <dl class="phpdocumentor-argument-list">
-                    <dt class="phpdocumentor-argument-list__entry">
-                <span class="phpdocumentor-argument-list__argument__name">$css</span>
-                : <span class="phpdocumentor-argument-list__argument__type">string</span>
-                            </dt>
-            <dd class="phpdocumentor-argument-list__definition">
-                
-            </dd>
-            </dl>
-
-    
-
-        
-    
-            <section>
-        <h5 class="phpdocumentor-return-value__heading">Return values</h5>
-        <span class="phpdocumentor-signature__response_type">array&lt;int, string&gt;</span>
-            </section>
-
-</article>
-                    <article
-        class="phpdocumentor-element
-            -method
-            -private
-                                                        "
->
-    <h4 class="phpdocumentor-element__name" id="method_extractHtmlLinks">
-        extractHtmlLinks()
-        <a href="classes/Cecil-Doctor-LinksDoctor.html#method_extractHtmlLinks" class="headerlink"><i class="fas fa-link"></i></a>
-
-    </h4>
-    <aside class="phpdocumentor-element-found-in">
-    <abbr class="phpdocumentor-element-found-in__file" title="src/Doctor/LinksDoctor.php"><a href="files/src-doctor-linksdoctor.html"><abbr title="src/Doctor/LinksDoctor.php">LinksDoctor.php</abbr></a></abbr>
-    :
-    <span class="phpdocumentor-element-found-in__line">335</span>
-
-    </aside>
-
-        <p class="phpdocumentor-summary">Extracts URLs from HTML attributes, inline styles and `&lt;style&gt;` elements.</p>
-
-    <code class="phpdocumentor-code phpdocumentor-signature ">
-    <span class="phpdocumentor-signature__visibility">private</span>
-                    <span class="phpdocumentor-signature__name">extractHtmlLinks</span><span>(</span><span class="phpdocumentor-signature__argument"><span class="phpdocumentor-signature__argument__type"><abbr title="\DOMXPath">DOMXPath</abbr>&nbsp;</span><span class="phpdocumentor-signature__argument__name">$xpath</span></span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">array&lt;int, string&gt;</span></code>
-
-    <div class="phpdocumentor-label-line">
-        </div>
-    
-    
-        <h5 class="phpdocumentor-argument-list__heading">Parameters</h5>
-    <dl class="phpdocumentor-argument-list">
-                    <dt class="phpdocumentor-argument-list__entry">
-                <span class="phpdocumentor-argument-list__argument__name">$xpath</span>
-                : <span class="phpdocumentor-argument-list__argument__type"><abbr title="\DOMXPath">DOMXPath</abbr></span>
-                            </dt>
-            <dd class="phpdocumentor-argument-list__definition">
-                
-            </dd>
-            </dl>
-
-    
-
-        
-    
-            <section>
-        <h5 class="phpdocumentor-return-value__heading">Return values</h5>
-        <span class="phpdocumentor-signature__response_type">array&lt;int, string&gt;</span>
-            </section>
-
-</article>
-                    <article
-        class="phpdocumentor-element
-            -method
-            -private
-                                                        "
->
     <h4 class="phpdocumentor-element__name" id="method_getAuditedPages">
         getAuditedPages()
         <a href="classes/Cecil-Doctor-LinksDoctor.html#method_getAuditedPages" class="headerlink"><i class="fas fa-link"></i></a>
@@ -1657,7 +1357,7 @@ and their fragment (if any) must match an element ID of the target page;</li>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Doctor/LinksDoctor.php"><a href="files/src-doctor-linksdoctor.html"><abbr title="src/Doctor/LinksDoctor.php">LinksDoctor.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">292</span>
+    <span class="phpdocumentor-element-found-in__line">214</span>
 
     </aside>
 
@@ -1713,7 +1413,7 @@ and their fragment (if any) must match an element ID of the target page;</li>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Doctor/LinksDoctor.php"><a href="files/src-doctor-linksdoctor.html"><abbr title="src/Doctor/LinksDoctor.php">LinksDoctor.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">656</span>
+    <span class="phpdocumentor-element-found-in__line">466</span>
 
     </aside>
 
@@ -1761,7 +1461,7 @@ and their fragment (if any) must match an element ID of the target page;</li>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Doctor/LinksDoctor.php"><a href="files/src-doctor-linksdoctor.html"><abbr title="src/Doctor/LinksDoctor.php">LinksDoctor.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">629</span>
+    <span class="phpdocumentor-element-found-in__line">439</span>
 
     </aside>
 
@@ -1809,23 +1509,23 @@ and their fragment (if any) must match an element ID of the target page;</li>
             -private
                                                         "
 >
-    <h4 class="phpdocumentor-element__name" id="method_getTargetContent">
-        getTargetContent()
-        <a href="classes/Cecil-Doctor-LinksDoctor.html#method_getTargetContent" class="headerlink"><i class="fas fa-link"></i></a>
+    <h4 class="phpdocumentor-element__name" id="method_getResolvedPath">
+        getResolvedPath()
+        <a href="classes/Cecil-Doctor-LinksDoctor.html#method_getResolvedPath" class="headerlink"><i class="fas fa-link"></i></a>
 
     </h4>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Doctor/LinksDoctor.php"><a href="files/src-doctor-linksdoctor.html"><abbr title="src/Doctor/LinksDoctor.php">LinksDoctor.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">555</span>
+    <span class="phpdocumentor-element-found-in__line">315</span>
 
     </aside>
 
-        <p class="phpdocumentor-summary">Returns the content of a generated file, or null if not available.</p>
+        <p class="phpdocumentor-summary">Resolves a relative URL path against the site path of the page (or CSS file) containing it.</p>
 
     <code class="phpdocumentor-code phpdocumentor-signature ">
     <span class="phpdocumentor-signature__visibility">private</span>
-                    <span class="phpdocumentor-signature__name">getTargetContent</span><span>(</span><span class="phpdocumentor-signature__argument"><span class="phpdocumentor-signature__argument__type">string&nbsp;</span><span class="phpdocumentor-signature__argument__name">$key</span></span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">string|null</span></code>
+                    <span class="phpdocumentor-signature__name">getResolvedPath</span><span>(</span><span class="phpdocumentor-signature__argument"><span class="phpdocumentor-signature__argument__type">string&nbsp;</span><span class="phpdocumentor-signature__argument__name">$path</span></span><span class="phpdocumentor-signature__argument"><span>, </span><span class="phpdocumentor-signature__argument__type">string&nbsp;</span><span class="phpdocumentor-signature__argument__name">$location</span></span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">string</span></code>
 
     <div class="phpdocumentor-label-line">
         </div>
@@ -1834,7 +1534,14 @@ and their fragment (if any) must match an element ID of the target page;</li>
         <h5 class="phpdocumentor-argument-list__heading">Parameters</h5>
     <dl class="phpdocumentor-argument-list">
                     <dt class="phpdocumentor-argument-list__entry">
-                <span class="phpdocumentor-argument-list__argument__name">$key</span>
+                <span class="phpdocumentor-argument-list__argument__name">$path</span>
+                : <span class="phpdocumentor-argument-list__argument__type">string</span>
+                            </dt>
+            <dd class="phpdocumentor-argument-list__definition">
+                
+            </dd>
+                    <dt class="phpdocumentor-argument-list__entry">
+                <span class="phpdocumentor-argument-list__argument__name">$location</span>
                 : <span class="phpdocumentor-argument-list__argument__type">string</span>
                             </dt>
             <dd class="phpdocumentor-argument-list__definition">
@@ -1848,93 +1555,9 @@ and their fragment (if any) must match an element ID of the target page;</li>
     
             <section>
         <h5 class="phpdocumentor-return-value__heading">Return values</h5>
-        <span class="phpdocumentor-signature__response_type">string|null</span>
+        <span class="phpdocumentor-signature__response_type">string</span>
             </section>
 
-</article>
-                    <article
-        class="phpdocumentor-element
-            -method
-            -private
-                                                        "
->
-    <h4 class="phpdocumentor-element__name" id="method_getTargetIds">
-        getTargetIds()
-        <a href="classes/Cecil-Doctor-LinksDoctor.html#method_getTargetIds" class="headerlink"><i class="fas fa-link"></i></a>
-
-    </h4>
-    <aside class="phpdocumentor-element-found-in">
-    <abbr class="phpdocumentor-element-found-in__file" title="src/Doctor/LinksDoctor.php"><a href="files/src-doctor-linksdoctor.html"><abbr title="src/Doctor/LinksDoctor.php">LinksDoctor.php</abbr></a></abbr>
-    :
-    <span class="phpdocumentor-element-found-in__line">534</span>
-
-    </aside>
-
-        <p class="phpdocumentor-summary">Returns element IDs of a generated HTML page, or null if the target is not an HTML page.</p>
-
-    <code class="phpdocumentor-code phpdocumentor-signature ">
-    <span class="phpdocumentor-signature__visibility">private</span>
-                    <span class="phpdocumentor-signature__name">getTargetIds</span><span>(</span><span class="phpdocumentor-signature__argument"><span class="phpdocumentor-signature__argument__type">string&nbsp;</span><span class="phpdocumentor-signature__argument__name">$key</span></span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">array&lt;string, true&gt;|null</span></code>
-
-    <div class="phpdocumentor-label-line">
-        </div>
-    
-    
-        <h5 class="phpdocumentor-argument-list__heading">Parameters</h5>
-    <dl class="phpdocumentor-argument-list">
-                    <dt class="phpdocumentor-argument-list__entry">
-                <span class="phpdocumentor-argument-list__argument__name">$key</span>
-                : <span class="phpdocumentor-argument-list__argument__type">string</span>
-                            </dt>
-            <dd class="phpdocumentor-argument-list__definition">
-                
-            </dd>
-            </dl>
-
-    
-
-        
-    
-            <section>
-        <h5 class="phpdocumentor-return-value__heading">Return values</h5>
-        <span class="phpdocumentor-signature__response_type">array&lt;string, true&gt;|null</span>
-            </section>
-
-</article>
-                    <article
-        class="phpdocumentor-element
-            -method
-            -private
-                                                        "
->
-    <h4 class="phpdocumentor-element__name" id="method_indexTargets">
-        indexTargets()
-        <a href="classes/Cecil-Doctor-LinksDoctor.html#method_indexTargets" class="headerlink"><i class="fas fa-link"></i></a>
-
-    </h4>
-    <aside class="phpdocumentor-element-found-in">
-    <abbr class="phpdocumentor-element-found-in__file" title="src/Doctor/LinksDoctor.php"><a href="files/src-doctor-linksdoctor.html"><abbr title="src/Doctor/LinksDoctor.php">LinksDoctor.php</abbr></a></abbr>
-    :
-    <span class="phpdocumentor-element-found-in__line">236</span>
-
-    </aside>
-
-        <p class="phpdocumentor-summary">Indexes generated pages, static files and assets by output path.</p>
-
-    <code class="phpdocumentor-code phpdocumentor-signature ">
-    <span class="phpdocumentor-signature__visibility">private</span>
-                    <span class="phpdocumentor-signature__name">indexTargets</span><span>(</span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">void</span></code>
-
-    <div class="phpdocumentor-label-line">
-        </div>
-    
-    
-    
-    
-
-        
-    
-    
 </article>
                     <article
         class="phpdocumentor-element
@@ -1950,7 +1573,7 @@ and their fragment (if any) must match an element ID of the target page;</li>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Doctor/LinksDoctor.php"><a href="files/src-doctor-linksdoctor.html"><abbr title="src/Doctor/LinksDoctor.php">LinksDoctor.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">664</span>
+    <span class="phpdocumentor-element-found-in__line">474</span>
 
     </aside>
 
@@ -1999,7 +1622,7 @@ and their fragment (if any) must match an element ID of the target page;</li>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Doctor/LinksDoctor.php"><a href="files/src-doctor-linksdoctor.html"><abbr title="src/Doctor/LinksDoctor.php">LinksDoctor.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">202</span>
+    <span class="phpdocumentor-element-found-in__line">175</span>
 
     </aside>
 
@@ -2041,149 +1664,6 @@ and their fragment (if any) must match an element ID of the target page;</li>
             </section>
 
 </article>
-                    <article
-        class="phpdocumentor-element
-            -method
-            -private
-                                                        "
->
-    <h4 class="phpdocumentor-element__name" id="method_parseSrcset">
-        parseSrcset()
-        <a href="classes/Cecil-Doctor-LinksDoctor.html#method_parseSrcset" class="headerlink"><i class="fas fa-link"></i></a>
-
-    </h4>
-    <aside class="phpdocumentor-element-found-in">
-    <abbr class="phpdocumentor-element-found-in__file" title="src/Doctor/LinksDoctor.php"><a href="files/src-doctor-linksdoctor.html"><abbr title="src/Doctor/LinksDoctor.php">LinksDoctor.php</abbr></a></abbr>
-    :
-    <span class="phpdocumentor-element-found-in__line">369</span>
-
-    </aside>
-
-        <p class="phpdocumentor-summary">Returns URLs of a `srcset` attribute.</p>
-
-    <code class="phpdocumentor-code phpdocumentor-signature ">
-    <span class="phpdocumentor-signature__visibility">private</span>
-                    <span class="phpdocumentor-signature__name">parseSrcset</span><span>(</span><span class="phpdocumentor-signature__argument"><span class="phpdocumentor-signature__argument__type">string&nbsp;</span><span class="phpdocumentor-signature__argument__name">$srcset</span></span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">array&lt;int, string&gt;</span></code>
-
-    <div class="phpdocumentor-label-line">
-        </div>
-    
-    
-        <h5 class="phpdocumentor-argument-list__heading">Parameters</h5>
-    <dl class="phpdocumentor-argument-list">
-                    <dt class="phpdocumentor-argument-list__entry">
-                <span class="phpdocumentor-argument-list__argument__name">$srcset</span>
-                : <span class="phpdocumentor-argument-list__argument__type">string</span>
-                            </dt>
-            <dd class="phpdocumentor-argument-list__definition">
-                
-            </dd>
-            </dl>
-
-    
-
-        
-    
-            <section>
-        <h5 class="phpdocumentor-return-value__heading">Return values</h5>
-        <span class="phpdocumentor-signature__response_type">array&lt;int, string&gt;</span>
-            </section>
-
-</article>
-                    <article
-        class="phpdocumentor-element
-            -method
-            -private
-                                                        "
->
-    <h4 class="phpdocumentor-element__name" id="method_reset">
-        reset()
-        <a href="classes/Cecil-Doctor-LinksDoctor.html#method_reset" class="headerlink"><i class="fas fa-link"></i></a>
-
-    </h4>
-    <aside class="phpdocumentor-element-found-in">
-    <abbr class="phpdocumentor-element-found-in__file" title="src/Doctor/LinksDoctor.php"><a href="files/src-doctor-linksdoctor.html"><abbr title="src/Doctor/LinksDoctor.php">LinksDoctor.php</abbr></a></abbr>
-    :
-    <span class="phpdocumentor-element-found-in__line">184</span>
-
-    </aside>
-
-        <p class="phpdocumentor-summary">Resets the state of a previous audit.</p>
-
-    <code class="phpdocumentor-code phpdocumentor-signature ">
-    <span class="phpdocumentor-signature__visibility">private</span>
-                    <span class="phpdocumentor-signature__name">reset</span><span>(</span><span class="phpdocumentor-signature__argument"><span class="phpdocumentor-signature__argument__type"><a href="classes/Cecil-Builder.html"><abbr title="\Cecil\Builder">Builder</abbr></a>&nbsp;</span><span class="phpdocumentor-signature__argument__name">$builder</span></span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">void</span></code>
-
-    <div class="phpdocumentor-label-line">
-        </div>
-    
-    
-        <h5 class="phpdocumentor-argument-list__heading">Parameters</h5>
-    <dl class="phpdocumentor-argument-list">
-                    <dt class="phpdocumentor-argument-list__entry">
-                <span class="phpdocumentor-argument-list__argument__name">$builder</span>
-                : <span class="phpdocumentor-argument-list__argument__type"><a href="classes/Cecil-Builder.html"><abbr title="\Cecil\Builder">Builder</abbr></a></span>
-                            </dt>
-            <dd class="phpdocumentor-argument-list__definition">
-                
-            </dd>
-            </dl>
-
-    
-
-        
-    
-    
-</article>
-                    <article
-        class="phpdocumentor-element
-            -method
-            -private
-                                                        "
->
-    <h4 class="phpdocumentor-element__name" id="method_toRegex">
-        toRegex()
-        <a href="classes/Cecil-Doctor-LinksDoctor.html#method_toRegex" class="headerlink"><i class="fas fa-link"></i></a>
-
-    </h4>
-    <aside class="phpdocumentor-element-found-in">
-    <abbr class="phpdocumentor-element-found-in__file" title="src/Doctor/LinksDoctor.php"><a href="files/src-doctor-linksdoctor.html"><abbr title="src/Doctor/LinksDoctor.php">LinksDoctor.php</abbr></a></abbr>
-    :
-    <span class="phpdocumentor-element-found-in__line">678</span>
-
-    </aside>
-
-        <p class="phpdocumentor-summary">Converts an exclusion pattern to a case-insensitive regular expression.</p>
-
-    <code class="phpdocumentor-code phpdocumentor-signature ">
-    <span class="phpdocumentor-signature__visibility">private</span>
-                    <span class="phpdocumentor-signature__name">toRegex</span><span>(</span><span class="phpdocumentor-signature__argument"><span class="phpdocumentor-signature__argument__type">string&nbsp;</span><span class="phpdocumentor-signature__argument__name">$pattern</span></span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">string</span></code>
-
-    <div class="phpdocumentor-label-line">
-        </div>
-    
-    
-        <h5 class="phpdocumentor-argument-list__heading">Parameters</h5>
-    <dl class="phpdocumentor-argument-list">
-                    <dt class="phpdocumentor-argument-list__entry">
-                <span class="phpdocumentor-argument-list__argument__name">$pattern</span>
-                : <span class="phpdocumentor-argument-list__argument__type">string</span>
-                            </dt>
-            <dd class="phpdocumentor-argument-list__definition">
-                
-            </dd>
-            </dl>
-
-    
-
-        
-    
-            <section>
-        <h5 class="phpdocumentor-return-value__heading">Return values</h5>
-        <span class="phpdocumentor-signature__response_type">string</span>
-            </section>
-
-</article>
             </section>
 
         
@@ -2208,9 +1688,6 @@ and their fragment (if any) must match an element ID of the target page;</li>
                     <ul class="phpdocumentor-list -clean">
                                                     <li class=""><a href="classes/Cecil-Doctor-LinksDoctor.html#constant_BLOCKED_STATUS">BLOCKED_STATUS</a></li>
                                                     <li class=""><a href="classes/Cecil-Doctor-LinksDoctor.html#constant_DEFAULT_CONFIG">DEFAULT_CONFIG</a></li>
-                                                    <li class=""><a href="classes/Cecil-Doctor-LinksDoctor.html#constant_SKIPPED_LINK_RELS">SKIPPED_LINK_RELS</a></li>
-                                                    <li class=""><a href="classes/Cecil-Doctor-LinksDoctor.html#constant_SRCSET_ELEMENTS">SRCSET_ELEMENTS</a></li>
-                                                    <li class=""><a href="classes/Cecil-Doctor-LinksDoctor.html#constant_URL_ATTRIBUTES">URL_ATTRIBUTES</a></li>
                                             </ul>
                 </li>
             
@@ -2224,8 +1701,8 @@ and their fragment (if any) must match an element ID of the target page;</li>
                                                     <li class=""><a href="classes/Cecil-Doctor-LinksDoctor.html#property_config">$config</a></li>
                                                     <li class=""><a href="classes/Cecil-Doctor-LinksDoctor.html#property_cssFiles">$cssFiles</a></li>
                                                     <li class=""><a href="classes/Cecil-Doctor-LinksDoctor.html#property_externalLinks">$externalLinks</a></li>
+                                                    <li class=""><a href="classes/Cecil-Doctor-LinksDoctor.html#property_extractor">$extractor</a></li>
                                                     <li class=""><a href="classes/Cecil-Doctor-LinksDoctor.html#property_findings">$findings</a></li>
-                                                    <li class=""><a href="classes/Cecil-Doctor-LinksDoctor.html#property_ids">$ids</a></li>
                                                     <li class=""><a href="classes/Cecil-Doctor-LinksDoctor.html#property_linksChecked">$linksChecked</a></li>
                                                     <li class=""><a href="classes/Cecil-Doctor-LinksDoctor.html#property_targets">$targets</a></li>
                                             </ul>
@@ -2242,20 +1719,12 @@ and their fragment (if any) must match an element ID of the target page;</li>
                                             <li class=""><a href="classes/Cecil-Doctor-LinksDoctor.html#method_auditPage">auditPage()</a></li>
                                             <li class=""><a href="classes/Cecil-Doctor-LinksDoctor.html#method_checkInternalLink">checkInternalLink()</a></li>
                                             <li class=""><a href="classes/Cecil-Doctor-LinksDoctor.html#method_checkLink">checkLink()</a></li>
-                                            <li class=""><a href="classes/Cecil-Doctor-LinksDoctor.html#method_createXPath">createXPath()</a></li>
-                                            <li class=""><a href="classes/Cecil-Doctor-LinksDoctor.html#method_extractCssLinks">extractCssLinks()</a></li>
-                                            <li class=""><a href="classes/Cecil-Doctor-LinksDoctor.html#method_extractHtmlLinks">extractHtmlLinks()</a></li>
                                             <li class=""><a href="classes/Cecil-Doctor-LinksDoctor.html#method_getAuditedPages">getAuditedPages()</a></li>
                                             <li class=""><a href="classes/Cecil-Doctor-LinksDoctor.html#method_getCacheKey">getCacheKey()</a></li>
                                             <li class=""><a href="classes/Cecil-Doctor-LinksDoctor.html#method_getExternalFinding">getExternalFinding()</a></li>
-                                            <li class=""><a href="classes/Cecil-Doctor-LinksDoctor.html#method_getTargetContent">getTargetContent()</a></li>
-                                            <li class=""><a href="classes/Cecil-Doctor-LinksDoctor.html#method_getTargetIds">getTargetIds()</a></li>
-                                            <li class=""><a href="classes/Cecil-Doctor-LinksDoctor.html#method_indexTargets">indexTargets()</a></li>
+                                            <li class=""><a href="classes/Cecil-Doctor-LinksDoctor.html#method_getResolvedPath">getResolvedPath()</a></li>
                                             <li class=""><a href="classes/Cecil-Doctor-LinksDoctor.html#method_isExcluded">isExcluded()</a></li>
                                             <li class=""><a href="classes/Cecil-Doctor-LinksDoctor.html#method_loadConfiguration">loadConfiguration()</a></li>
-                                            <li class=""><a href="classes/Cecil-Doctor-LinksDoctor.html#method_parseSrcset">parseSrcset()</a></li>
-                                            <li class=""><a href="classes/Cecil-Doctor-LinksDoctor.html#method_reset">reset()</a></li>
-                                            <li class=""><a href="classes/Cecil-Doctor-LinksDoctor.html#method_toRegex">toRegex()</a></li>
                                     </ul>
             </li>
                     </ul>
