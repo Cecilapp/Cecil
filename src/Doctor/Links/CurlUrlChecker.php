@@ -158,10 +158,11 @@ class CurlUrlChecker implements UrlCheckerInterface
         }
         if ($method === 'HEAD') {
             curl_setopt($handle, CURLOPT_NOBODY, true);
-        } else {
-            // abort the transfer as soon as the body starts: only the status code matters
-            curl_setopt($handle, CURLOPT_WRITEFUNCTION, static fn ($handle, string $data): int => 0);
+
+            return $handle;
         }
+        // abort the transfer as soon as the body starts: only the status code matters
+        curl_setopt($handle, CURLOPT_WRITEFUNCTION, static fn ($handle, string $data): int => 0);
 
         return $handle;
     }
