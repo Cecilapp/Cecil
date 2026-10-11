@@ -220,13 +220,13 @@ Cecil ships with an [agent skill](skills/cecil/SKILL.md) that teaches AI coding 
 Install them with the [GitHub CLI](https://cli.github.com):
 
 ```bash
-gh skill install Cecilapp/Cecil
+gh skill install cecilapp/cecil
 ```
 
 Or with [`npx skills`](https://github.com/vercel-labs/skills):
 
 ```bash
-npx skills add https://github.com/cecilapp/cecil/tree/main/skills
+npx skills add cecilapp/cecil
 ```
 
 Once installed, ask your agent to create, build, configure, or deploy a Cecil site and it will use the skill automatically.
