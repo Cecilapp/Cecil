@@ -17,12 +17,12 @@ use Cecil\Builder;
 use Cecil\Cache;
 use Cecil\Collection\Page\Page;
 use Cecil\Doctor\Links\CurlUrlChecker;
+use Cecil\Doctor\Links\LinkExtractor;
+use Cecil\Doctor\Links\TargetIndex;
 use Cecil\Doctor\Links\UrlCheckerInterface;
 use Cecil\Exception\RuntimeException;
 use Cecil\Renderer\Page as PageRenderer;
-use Cecil\Util;
 use Symfony\Component\Filesystem\Path;
-use Symfony\Component\Finder\Finder;
 
 /**
  * Links audit domain service.
@@ -32,6 +32,11 @@ use Symfony\Component\Finder\Finder;
  * - internal links must target a generated page, a static file or an asset,
  *   and their fragment (if any) must match an element ID of the target page;
  * - external links are requested over HTTP.
+ *
+ * HTML/CSS parsing and generated files indexing are delegated to `Links\LinkExtractor`
+ * and `Links\TargetIndex`: the remaining complexity comes from the link checking rules.
+ *
+ * @SuppressWarnings(ExcessiveClassComplexity)
  */
 class LinksDoctor
 {
@@ -46,43 +51,19 @@ class LinksDoctor
         'useragent'   => null,
     ];
 
-    /** HTML elements and attributes containing a single URL */
-    private const array URL_ATTRIBUTES = [
-        'a'      => ['href'],
-        'area'   => ['href'],
-        'link'   => ['href'],
-        'img'    => ['src'],
-        'script' => ['src'],
-        'iframe' => ['src'],
-        'embed'  => ['src'],
-        'source' => ['src'],
-        'track'  => ['src'],
-        'audio'  => ['src'],
-        'video'  => ['src', 'poster'],
-        'object' => ['data'],
-    ];
-
-    /** HTML elements with a `srcset` attribute */
-    private const array SRCSET_ELEMENTS = ['img', 'source'];
-
-    /** `<link rel>` values whose URL is not a resource to check */
-    private const array SKIPPED_LINK_RELS = ['preconnect', 'dns-prefetch', 'webmention', 'pingback'];
-
     /** HTTP status codes often returned by bot protections */
     private const array BLOCKED_STATUS = [401, 403, 429, 999];
 
     private UrlCheckerInterface $checker;
 
+    private LinkExtractor $extractor;
+
     private Builder $builder;
 
-    /** @var array{internal: bool, external: bool, timeout: int, concurrency: int, cache_ttl: int, exclude: array<int, string>, useragent: string} */
+    private TargetIndex $targets;
+
+    /** @var array{internal: bool, external: bool, timeout: int, concurrency: int, cache_ttl: int, exclude: array<int, string>, useragent: string} exclusion patterns are stored as regular expressions */
     private array $config;
-
-    /** @var array<string, array{type: string, source: string, page?: Page, format?: string}> generated files indexed by output path */
-    private array $targets = [];
-
-    /** @var array<string, array<string, true>> element IDs indexed by output path */
-    private array $ids = [];
 
     /** @var array<string, string> CSS files to check: output path => site path */
     private array $cssFiles = [];
@@ -102,6 +83,7 @@ class LinksDoctor
     public function __construct(?UrlCheckerInterface $checker = null)
     {
         $this->checker = $checker ?? new CurlUrlChecker();
+        $this->extractor = new LinkExtractor();
     }
 
     /**
@@ -131,7 +113,12 @@ class LinksDoctor
      */
     public function audit(Builder $builder, array $options = []): array
     {
-        $this->reset($builder);
+        // resets the state of a previous audit
+        $this->builder = $builder;
+        $this->cssFiles = [];
+        $this->externalLinks = [];
+        $this->findings = [];
+        $this->linksChecked = 0;
         $this->config = $this->loadConfiguration($builder, $options);
 
         // the whole site is always built: links of the audited page(s) may target any generated file
@@ -142,7 +129,7 @@ class LinksDoctor
             'drafts' => false,
         ]);
 
-        $this->indexTargets();
+        $this->targets = new TargetIndex($builder, $this->extractor);
         $pages = $this->getAuditedPages(
             str_replace('\\', '/', (string) ($options['page'] ?? '')),
             (bool) ($options['include_virtual'] ?? false)
@@ -179,20 +166,6 @@ class LinksDoctor
     }
 
     /**
-     * Resets the state of a previous audit.
-     */
-    private function reset(Builder $builder): void
-    {
-        $this->builder = $builder;
-        $this->targets = [];
-        $this->ids = [];
-        $this->cssFiles = [];
-        $this->externalLinks = [];
-        $this->findings = [];
-        $this->linksChecked = 0;
-    }
-
-    /**
      * Merges default configuration, site configuration and command options.
      *
      * @param array<string, mixed> $options
@@ -207,11 +180,14 @@ class LinksDoctor
                 $config[$key] = $options[$key];
             }
         }
-        $exclude = array_merge((array) $config['exclude'], (array) ($options['exclude'] ?? []));
-        foreach ($exclude as $pattern) {
-            if (@preg_match($this->toRegex((string) $pattern), '') === false) {
+        // exclusion patterns are converted to case-insensitive regular expressions
+        $exclude = [];
+        foreach (array_merge((array) $config['exclude'], (array) ($options['exclude'] ?? [])) as $pattern) {
+            $regex = '#' . str_replace('#', '\#', (string) $pattern) . '#i';
+            if (@preg_match($regex, '') === false) {
                 throw new RuntimeException(\sprintf('Invalid links exclusion pattern "%s".', $pattern));
             }
+            $exclude[] = $regex;
         }
 
         $baseurl = parse_url((string) $builder->getConfig()->get('baseurl'));
@@ -225,63 +201,9 @@ class LinksDoctor
             'timeout' => (int) $config['timeout'],
             'concurrency' => (int) $config['concurrency'],
             'cache_ttl' => (int) $config['cache_ttl'],
-            'exclude' => array_values(array_map('strval', $exclude)),
+            'exclude' => $exclude,
             'useragent' => (string) ($config['useragent'] ?? $builder->getConfig()->get('assets.remote.useragent.default') ?? 'Cecil'),
         ];
-    }
-
-    /**
-     * Indexes generated pages, static files and assets by output path.
-     */
-    private function indexTargets(): void
-    {
-        /** @var Page $page */
-        foreach ($this->builder->getPages() as $page) {
-            foreach (array_keys($page->getRendered()) as $format) {
-                $path = (new PageRenderer($this->builder, $page))->getOutputFilePath((string) $format);
-                $this->targets[ltrim($path, '/')] = ['type' => 'page', 'source' => '', 'page' => $page, 'format' => (string) $format];
-            }
-        }
-
-        $config = $this->builder->getConfig();
-        $target = (string) $config->get('static.target');
-        $exclude = (array) $config->get('static.exclude');
-        $sources = [];
-        if ($config->hasTheme()) {
-            foreach (array_reverse($config->getTheme() ?? []) as $theme) {
-                $sources[] = [$config->getThemeDirPath($theme, 'static'), $target, $exclude];
-            }
-        }
-        $sources[] = [$config->getStaticPath(), $target, $exclude];
-        foreach ((array) $config->get('static.mounts') as $source => $destination) {
-            $sources[] = [Util::joinFile($config->getStaticPath(), (string) $source), (string) $destination, []];
-        }
-        foreach ($sources as [$from, $to, $excluded]) {
-            if (is_file($from)) {
-                $this->targets[trim(str_replace('\\', '/', $to), '/')] = ['type' => 'static', 'source' => $from];
-
-                continue;
-            }
-            if (!is_dir($from)) {
-                continue;
-            }
-            $finder = Finder::create()->files()->in($from)->ignoreDotFiles(false);
-            if (!empty($excluded)) {
-                $finder->notPath($excluded)->notName($excluded);
-            }
-            foreach ($finder as $file) {
-                $this->targets[ltrim(Util::joinPath($to, $file->getRelativePathname()), '/')] = ['type' => 'static', 'source' => $file->getPathname()];
-            }
-        }
-
-        $cache = new Cache($this->builder, 'assets');
-        foreach ($this->builder->getAssetsList() as $path) {
-            $key = ltrim($path, '/');
-            // a file from `static/` is not overridden by an asset
-            if (!isset($this->targets[$key])) {
-                $this->targets[$key] = ['type' => 'asset', 'source' => $cache->getContentFile($path)];
-            }
-        }
     }
 
     /**
@@ -317,83 +239,9 @@ class LinksDoctor
     private function auditPage(Page $page): void
     {
         $label = '/' . ltrim((new PageRenderer($this->builder, $page))->getPath('html'), '/');
-        $xpath = $this->createXPath((string) $page->getRendered()['html']['output']);
-        if ($xpath === null) {
-            return;
-        }
-
-        foreach ($this->extractHtmlLinks($xpath) as $link) {
+        foreach ($this->extractor->extractHtmlLinks((string) $page->getRendered()['html']['output']) as $link) {
             $this->checkLink($label, $label, $link);
         }
-    }
-
-    /**
-     * Extracts URLs from HTML attributes, inline styles and `<style>` elements.
-     *
-     * @return array<int, string>
-     */
-    private function extractHtmlLinks(\DOMXPath $xpath): array
-    {
-        $links = [];
-        foreach (self::URL_ATTRIBUTES as $element => $attributes) {
-            foreach ($attributes as $attribute) {
-                /** @var \DOMElement $node */
-                foreach ($xpath->query(\sprintf('//%s[@%s]', $element, $attribute)) ?: [] as $node) {
-                    if ($element === 'link' && array_intersect(preg_split('/\s+/', strtolower($node->getAttribute('rel'))) ?: [], self::SKIPPED_LINK_RELS)) {
-                        continue;
-                    }
-                    $links[] = $node->getAttribute($attribute);
-                }
-            }
-        }
-        foreach (self::SRCSET_ELEMENTS as $element) {
-            /** @var \DOMElement $node */
-            foreach ($xpath->query(\sprintf('//%s[@srcset]', $element)) ?: [] as $node) {
-                array_push($links, ...$this->parseSrcset($node->getAttribute('srcset')));
-            }
-        }
-        foreach ($xpath->query('//style | //*[@style]/@style') ?: [] as $node) {
-            if ($node instanceof \DOMNode) {
-                array_push($links, ...$this->extractCssLinks($node->textContent));
-            }
-        }
-
-        return $links;
-    }
-
-    /**
-     * Returns URLs of a `srcset` attribute.
-     *
-     * @return array<int, string>
-     */
-    private function parseSrcset(string $srcset): array
-    {
-        if (str_starts_with(trim($srcset), 'data:')) {
-            return [];
-        }
-        $urls = [];
-        foreach (explode(',', $srcset) as $candidate) {
-            $url = preg_split('/\s+/', trim($candidate))[0] ?? '';
-            if ($url !== '') {
-                $urls[] = $url;
-            }
-        }
-
-        return $urls;
-    }
-
-    /**
-     * Extracts URLs from `url()` and `@import` CSS statements.
-     *
-     * @return array<int, string>
-     */
-    private function extractCssLinks(string $css): array
-    {
-        $css = (string) preg_replace('#/\*.*?\*/#s', '', $css);
-        preg_match_all('/url\(\s*([\'"]?)(.*?)\1\s*\)/i', $css, $urls);
-        preg_match_all('/@import\s+([\'"])(.*?)\1/i', $css, $imports);
-
-        return array_merge($urls[2], $imports[2]);
     }
 
     /**
@@ -404,11 +252,11 @@ class LinksDoctor
         $done = [];
         while (null !== $key = array_key_first(array_diff_key($this->cssFiles, $done))) {
             $done[$key] = true;
-            $content = $this->getTargetContent($key);
+            $content = $this->targets->getContent($key);
             if ($content === null) {
                 continue;
             }
-            foreach ($this->extractCssLinks($content) as $link) {
+            foreach ($this->extractor->extractCssLinks($content) as $link) {
                 $this->checkLink($this->cssFiles[$key], $this->cssFiles[$key], $link);
             }
         }
@@ -456,25 +304,27 @@ class LinksDoctor
         }
 
         // relative URL
-        $fragment = '';
-        $path = $link;
-        if (false !== $position = strpos($path, '#')) {
-            $fragment = substr($path, $position + 1);
-            $path = substr($path, 0, $position);
-        }
-        if (false !== $position = strpos($path, '?')) {
-            $path = substr($path, 0, $position);
-        }
+        [$path, $fragment] = explode('#', $link, 2) + [1 => ''];
+        $path = explode('?', $path, 2)[0];
+        $this->checkInternalLink($label, $link, $this->getResolvedPath($path, $location), $fragment);
+    }
+
+    /**
+     * Resolves a relative URL path against the site path of the page (or CSS file) containing it.
+     */
+    private function getResolvedPath(string $path, string $location): string
+    {
         if ($path === '') {
-            $path = $location;
-        } elseif (str_starts_with($path, '/')) {
-            if ($this->basePath !== '/' && str_starts_with($path . '/', $this->basePath)) {
-                $path = '/' . substr($path, \strlen($this->basePath));
-            }
-        } else {
-            $path = substr($location, 0, (int) strrpos($location, '/') + 1) . $path;
+            return $location;
         }
-        $this->checkInternalLink($label, $link, $path, $fragment);
+        if (!str_starts_with($path, '/')) {
+            return substr($location, 0, (int) strrpos($location, '/') + 1) . $path;
+        }
+        if ($this->basePath !== '/' && str_starts_with($path . '/', $this->basePath)) {
+            return '/' . substr($path, \strlen($this->basePath));
+        }
+
+        return $path;
     }
 
     /**
@@ -494,12 +344,12 @@ class LinksDoctor
         $missingSlash = false;
         if ($key === '' || str_ends_with($key, '/')) {
             $key .= 'index.html';
-        } elseif (!isset($this->targets[$key]) && isset($this->targets[$key . '/index.html'])) {
+        } elseif (!$this->targets->has($key) && $this->targets->has($key . '/index.html')) {
             $key .= '/index.html';
             $missingSlash = true;
         }
 
-        if (isset($this->targets[$key]) && strtolower(pathinfo($key, PATHINFO_EXTENSION)) === 'css') {
+        if ($this->targets->has($key) && strtolower(pathinfo($key, PATHINFO_EXTENSION)) === 'css') {
             $this->cssFiles[$key] ??= $sitePath;
         }
         if (!$this->config['internal']) {
@@ -507,7 +357,7 @@ class LinksDoctor
         }
 
         $this->linksChecked++;
-        if (!isset($this->targets[$key])) {
+        if (!$this->targets->has($key)) {
             $this->addFinding($label, 'bad', 'internal', $link, \sprintf('Target "%s" not found.', $sitePath));
 
             return;
@@ -520,50 +370,10 @@ class LinksDoctor
         if ($fragment === '' || $fragment === 'top' || str_starts_with($fragment, ':~:')) {
             return;
         }
-        $ids = $this->getTargetIds($key);
+        $ids = $this->targets->getIds($key);
         if ($ids !== null && !isset($ids[$fragment])) {
             $this->addFinding($label, 'bad', 'anchor', $link, \sprintf('Anchor "#%s" not found in "%s".', $fragment, $sitePath));
         }
-    }
-
-    /**
-     * Returns element IDs of a generated HTML page, or null if the target is not an HTML page.
-     *
-     * @return array<string, true>|null
-     */
-    private function getTargetIds(string $key): ?array
-    {
-        if (!\in_array(strtolower(pathinfo($key, PATHINFO_EXTENSION)), ['html', 'htm'], true)) {
-            return null;
-        }
-        if (!isset($this->ids[$key])) {
-            $this->ids[$key] = [];
-            $xpath = $this->createXPath((string) $this->getTargetContent($key));
-            foreach ($xpath?->query('//*[@id]/@id | //a[@name]/@name') ?: [] as $node) {
-                if ($node instanceof \DOMNode) {
-                    $this->ids[$key][$node->textContent] = true;
-                }
-            }
-        }
-
-        return $this->ids[$key];
-    }
-
-    /**
-     * Returns the content of a generated file, or null if not available.
-     */
-    private function getTargetContent(string $key): ?string
-    {
-        $target = $this->targets[$key];
-        if ($target['type'] === 'page') {
-            return isset($target['page'], $target['format']) ? (string) ($target['page']->getRendered()[$target['format']]['output'] ?? '') : null;
-        }
-        if (!is_file($target['source'])) {
-            return null;
-        }
-        $content = Util\File::fileGetContents($target['source']);
-
-        return $content === false ? null : $content;
     }
 
     /**
@@ -663,21 +473,13 @@ class LinksDoctor
      */
     private function isExcluded(string $link): bool
     {
-        foreach ($this->config['exclude'] as $pattern) {
-            if (preg_match($this->toRegex($pattern), $link)) {
+        foreach ($this->config['exclude'] as $regex) {
+            if (preg_match($regex, $link)) {
                 return true;
             }
         }
 
         return false;
-    }
-
-    /**
-     * Converts an exclusion pattern to a case-insensitive regular expression.
-     */
-    private function toRegex(string $pattern): string
-    {
-        return '#' . str_replace('#', '\#', $pattern) . '#i';
     }
 
     private function addFinding(string $page, string $level, string $type, string $link, string $details): void
@@ -689,23 +491,5 @@ class LinksDoctor
             'link' => $link,
             'details' => $details,
         ];
-    }
-
-    private function createXPath(string $html): ?\DOMXPath
-    {
-        if (trim($html) === '') {
-            return null;
-        }
-
-        $useInternalErrors = libxml_use_internal_errors(true);
-        $document = new \DOMDocument('1.0', 'UTF-8');
-        $loaded = $document->loadHTML('<?xml encoding="UTF-8">' . $html, LIBXML_NOERROR | LIBXML_NOWARNING | LIBXML_NONET);
-        libxml_clear_errors();
-        libxml_use_internal_errors($useInternalErrors);
-        if ($loaded === false) {
-            return null;
-        }
-
-        return new \DOMXPath($document);
     }
 }
