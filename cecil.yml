@@ -16,7 +16,7 @@ menus:
       name: Home
 pages:
   dir: ./
-  exclude: ['bin', 'config', 'dist', 'resources', 'scripts', 'src', 'tests', 'vendor']
+  exclude: ['bin', 'config', 'dist', 'node_modules', 'resources', 'scripts', 'skills', 'src', 'tests', 'vendor', 'AGENTS.md']
   sortby: weight
   pagination:
     enabled: false
