@@ -4,5 +4,5 @@ languages:
     enabled: true
 exclude_paths:
   - "vendor/**/*"
-  - "tests/**/*
-  - "api/**/*"
+  - "tests/**/*"
+  - "docs/api/**/*"
