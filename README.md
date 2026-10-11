@@ -5,9 +5,9 @@ A simple and powerful content-driven static site generator.
 [![Latest stable version](https://poser.pugx.org/cecil/cecil/v/stable)](https://github.com/Cecilapp/Cecil/releases/latest)
 [![License](https://poser.pugx.org/cecil/cecil/license)](https://github.com/Cecilapp/Cecil/blob/main/LICENSE)  
 
-Cecil is a CLI application that merges plain text files (written in [Markdown](http://daringfireball.net/projects/markdown/)), images and [Twig](https://twig.symfony.com) templates to generate a [static website](https://en.wikipedia.org/wiki/Static_web_page).
+Cecil is a command-line PHP application that merges [Markdown](docs/content/3-markdown.md) pages, media and [Twig](https://twig.symfony.com) templates to generate a [static website](https://en.wikipedia.org/wiki/Static_web_page).
 
-📄[Documentation](https://cecil.app/documentation) &middot; 💻[Demo](https://the-butler-demo.cecil.app) &middot; 🐛[Issues tracker](https://github.com/Cecilapp/Cecil/issues) &middot; 💬[Discussions](https://github.com/Cecilapp/Cecil/discussions)
+🌐 [Website](https://cecil.app) &middot; 📄 [Documentation](https://cecil.app/documentation/) &middot; 🎨 [Themes](https://cecil.app/themes/) &middot; ✨ [Showcase](https://cecil.app/showcase/) &middot; 📰 [News](https://cecil.app/news/) &middot; 🐛 [Issues](https://github.com/Cecilapp/Cecil/issues) &middot; 💬 [Discussions](https://github.com/Cecilapp/Cecil/discussions)
 
 ![Cecil CLI animated demo](docs/cecil-cli-demo.gif "Cecil CLI demo")
 
@@ -18,26 +18,58 @@ Cecil is a CLI application that merges plain text files (written in [Markdown](h
 [![Coverage score](https://coveralls.io/repos/github/Cecilapp/Cecil/badge.svg?branch=main)](https://coveralls.io/github/Cecilapp/Cecil?branch=main)
 [![StyleCI status](https://github.styleci.io/repos/7548986/shield?style=plastic)](https://styleci.io/repos/12738012)
 
-## Quick Start
-
-Read the [Quick Start](https://cecil.app/documentation/quick-start/) documentation page.
-
-Create and deploy a blog site:  
-[![Deploy to Netlify](https://www.netlify.com/img/deploy/button.svg "Deploy to Netlify")](https://cecil.app/hosting/netlify/deploy/) [![Deploy with Vercel](https://vercel.com/button/default.svg "Deploy with Vercel")](https://cecil.app/hosting/vercel/deploy/)
-
 ## Features
 
-- No database, no server, no dependency: performance and security
-- Your pages are stored in [Markdown](https://cecil.app/documentation/content/#body) flat files with a [YAML front matter](https://cecil.app/documentation/content/#front-matter)
-- Powered by [Twig](https://cecil.app/documentation/templates/), a flexible template engine, with [themes](https://cecil.app/themes) support
-- Pagination, sitemap, redirections, robots.txt, taxonomies, RSS are generated automatically
-- Handles and optimizes assets for you
-- [Download one file](https://github.com/Cecilapp/Cecil/releases/latest/download/cecil.phar) and run it
-- Easy to deploy
+- **Fast & secure**: no database, no server-side code, static files offer a minimal attack surface
+- **Files only**: content is stored in flat [Markdown](docs/content/3-markdown.md) files with a [front matter](docs/content/2-front-matter.md)
+- **Customizable**: powered by [Twig](docs/templates/index.md) templates, with [themes](https://cecil.app/themes/) support
+- **Multiple generators**: pagination, taxonomies, sitemap, RSS feeds, robots.txt and redirects are generated automatically
+- **Image optimization**: [responsive images](docs/assets/1-images.md), WebP and AVIF conversion, compression
+- **Assets processing**: [compile, minify and fingerprint](docs/assets/2-processing.md) CSS and JavaScript
+- **Multilingual**: [content localization](docs/content/4-multilingual.md) and [template translation](docs/templates/5-localization.md)
+- **SEO-friendly**: meta tags, Open Graph, X (Twitter) cards and structured data
+- **No installation**: download a single file and run it with PHP
+- **Easy to deploy**: in minutes on [Netlify, Vercel, statichost and others](docs/deploy/index.md)
+- **Open source**: licensed under EUPL-1.2 and developed on GitHub
 
-## Requirements
+## Quick Start
 
-- [PHP](https://www.php.net) 8.3+
+Requirements: [PHP](https://www.php.net) 8.3+ and a terminal.
+
+1. **Download Cecil**
+
+   ```bash
+   curl -LO https://github.com/Cecilapp/Cecil/releases/latest/download/cecil.phar
+   ```
+
+2. **Create a new site** (in an empty directory containing `cecil.phar`)
+
+   ```bash
+   php cecil.phar new:site
+   ```
+
+3. **Add a page**, then edit it in `pages/`
+
+   ```bash
+   php cecil.phar new:page
+   ```
+
+4. **Preview** at `http://localhost:8000`
+
+   ```bash
+   php cecil.phar serve
+   ```
+
+5. **Build** and copy the content of the `_site` directory to any web server
+
+   ```bash
+   php cecil.phar build
+   ```
+
+Read the [Quick Start](docs/getting-started/1-quick-start.md) documentation page for more details.
+
+Or start from a [starter kit](docs/getting-started/4-starter-kits.md) and deploy a ready-to-use blog in one click:  
+[![Deploy to Netlify](https://www.netlify.com/img/deploy/button.svg "Deploy to Netlify")](https://cecil.app/hosting/netlify/deploy/) [![Deploy with Vercel](https://vercel.com/button/default.svg "Deploy with Vercel")](https://cecil.app/hosting/vercel/deploy/)
 
 ## Installation
 
@@ -51,7 +83,9 @@ Other installation methods:
 
 - [Homebrew](https://brew.sh): `brew install cecilapp/tap/cecil`
 - [Scoop](https://scoop.sh): `scoop install https://cecil.app/scoop/cecil.json`
-- Manual download page: [cecil.app/download](https://cecil.app/download/)
+- [Download page](https://cecil.app/download/) (all releases)
+
+See the [Installation](docs/getting-started/2-installation.md) documentation page.
 
 ## Usage
 
@@ -60,9 +94,13 @@ Common commands:
 ```bash
 php cecil.phar help      # Get help
 php cecil.phar new:site  # Create a new website
-php cecil.phar build     # Build your website
+php cecil.phar new:page  # Create a new page
 php cecil.phar serve     # Preview your website locally
+php cecil.phar build     # Build your website
+php cecil.phar doctor    # Diagnose your site configuration
 ```
+
+See the [Commands](docs/commands/index.md) documentation page.
 
 ## Contributing
 
