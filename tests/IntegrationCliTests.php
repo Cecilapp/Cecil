@@ -142,7 +142,7 @@ class IntegrationCliTests extends IntegrationTests
         exec('php ./bin/cecil new:site tests/demo --demo -n -f 2>&1', $output, $retval);
         self::assertTrue($retval < 1);
         $output = [];
-        exec('php ./bin/cecil doctor:seo tests/demo --include-virtual 2>&1', $output, $retval);
+        exec('php ./bin/cecil doctor:seo tests/demo --include-virtual --fail-on=never 2>&1', $output, $retval);
         $output = implode("\n", $output);
         echo $output;
         self::assertTrue($retval < 1);
@@ -194,7 +194,7 @@ class IntegrationCliTests extends IntegrationTests
         file_put_contents($longPagePath, "---\ntitle: Long page\n---\n\nShort content.\n");
 
         $output = [];
-        exec('php ./bin/cecil doctor:seo tests/demo 2>&1', $output, $retval);
+        exec('php ./bin/cecil doctor:seo tests/demo --fail-on=never 2>&1', $output, $retval);
         $output = implode("\n", $output);
         echo $output;
 
@@ -204,6 +204,67 @@ class IntegrationCliTests extends IntegrationTests
         $expected = mb_substr($pageLabel, 0, 28) . '...' . mb_substr($pageLabel, -29);
         self::assertStringContainsString($expected, $output);
         self::assertStringNotContainsString($pageLabel, $output);
+    }
+
+    public function testDoctorSeoFailOn(): void
+    {
+        exec('php ./bin/cecil new:site tests/demo --demo -n -f 2>&1', $output, $retval);
+        self::assertTrue($retval < 1);
+
+        $output = [];
+        exec('php ./bin/cecil doctor:seo tests/demo --format=json --fail-on=ok', $output, $retval);
+        $json = json_decode(implode("\n", $output), true, 512, \JSON_THROW_ON_ERROR);
+        self::assertSame($json['summary']['bad_count'] + $json['summary']['ok_count'] > 0 ? 1 : 0, $retval);
+
+        $output = [];
+        exec('php ./bin/cecil doctor:seo tests/demo --fail-on=never 2>&1', $output, $retval);
+        self::assertTrue($retval < 1);
+
+        $output = [];
+        exec('php ./bin/cecil doctor:seo tests/demo --fail-on=invalid 2>&1', $output, $retval);
+        self::assertGreaterThan(0, $retval);
+        self::assertStringContainsString('Invalid "--fail-on" value "invalid"', implode("\n", $output));
+    }
+
+    public function testDoctorLinks(): void
+    {
+        exec('php ./bin/cecil new:site tests/demo --demo -n -f 2>&1', $output, $retval);
+        self::assertTrue($retval < 1);
+        $output = [];
+        exec('php ./bin/cecil doctor:links tests/demo 2>&1', $output, $retval);
+        $output = implode("\n", $output);
+        echo $output;
+        self::assertTrue($retval < 1);
+        self::assertStringContainsString('Links audit summary', $output);
+        self::assertStringContainsString('No broken links found.', $output);
+    }
+
+    public function testDoctorLinksJsonWithBrokenLinks(): void
+    {
+        exec('php ./bin/cecil new:site tests/demo --demo -n -f 2>&1', $output, $retval);
+        self::assertTrue($retval < 1);
+        file_put_contents(
+            Util::joinFile(__DIR__, 'demo', 'pages', 'broken-links.md'),
+            "---\ntitle: Broken links\n---\n\n[Missing page](/missing-page/) [Missing anchor](/#missing-anchor) [External](https://example.com/)\n"
+        );
+
+        $output = [];
+        exec('php ./bin/cecil doctor:links tests/demo --format=json --page=broken-links.md', $output, $retval);
+        $output = implode("\n", $output);
+        echo $output;
+        self::assertSame(1, $retval);
+        $json = json_decode($output, true, 512, \JSON_THROW_ON_ERROR);
+        self::assertSame(1, $json['summary']['pages_audited']);
+        self::assertGreaterThan(2, $json['summary']['links_checked']); // page content and layout links
+        self::assertSame(0, $json['summary']['external_urls']);
+        self::assertSame(2, $json['summary']['bad_count']);
+        self::assertSame(['/missing-page/', '/#missing-anchor'], array_column($json['findings'], 'link'));
+        self::assertSame(['internal', 'anchor'], array_column($json['findings'], 'type'));
+
+        $output = [];
+        exec('php ./bin/cecil doctor:links tests/demo --page=broken-links.md --fail-on=never 2>&1', $output, $retval);
+        self::assertTrue($retval < 1);
+        self::assertStringContainsString('Links audit found 2 broken link(s).', implode("\n", $output));
     }
 
     public function testDoctorFrontmatter(): void

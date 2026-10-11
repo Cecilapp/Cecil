@@ -31,6 +31,8 @@ use Symfony\Component\Console\Output\OutputInterface;
  */
 class DoctorSeo extends AbstractCommand
 {
+    use FailOnTrait;
+
     private const int PAGE_LABEL_MAX_LENGTH = 60;
 
     private bool $includeVirtual = false;
@@ -53,6 +55,7 @@ class DoctorSeo extends AbstractCommand
                 new InputOption('format', null, InputOption::VALUE_REQUIRED, 'Output format: text (default) or json', 'text'),
                 new InputOption('include-virtual', null, InputOption::VALUE_NONE, 'Include virtual pages (paginated, taxonomies) in audit'),
                 new InputOption('feedback', null, InputOption::VALUE_NONE, 'Include findings with feedback level'),
+                $this->getFailOnOption(),
             ])
             ->setHelp(
                 <<<'EOF'
@@ -76,7 +79,13 @@ To include virtual pages (paginated, taxonomy pages):
 
 To include findings with feedback level:
 
-    <info>%command.full_name% --feedback</>
+  <info>%command.full_name% --feedback</>
+
+By default, the command fails if findings with the <comment>bad</comment> level are found.
+To change this behavior, use the <info>--fail-on</info> option:
+
+  <info>%command.full_name% --fail-on=ok</>
+  <info>%command.full_name% --fail-on=never</>
 
 To inspect a site with an extra configuration file, run:
 
@@ -112,6 +121,7 @@ EOF
         $this->format = (string) ($input->getOption('format') ?? 'text');
         $this->includeVirtual = (bool) $input->getOption('include-virtual');
         $this->includeFeedback = (bool) $input->getOption('feedback');
+        $failOn = $this->getFailOn($input);
 
         // In JSON mode, redirect build logs to stderr to keep stdout clean for JSON output
         if ($this->format === 'json' && $output instanceof ConsoleOutputInterface) {
@@ -139,7 +149,7 @@ EOF
             $this->outputText($output, $result);
         }
 
-        return Command::SUCCESS;
+        return $this->shouldFail($result['summary'], $failOn) ? Command::FAILURE : Command::SUCCESS;
     }
 
     /**

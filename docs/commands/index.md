@@ -2,7 +2,7 @@
 title: "Commands"
 description: "Reference of Cecil CLI commands and options."
 date: 2020-12-19
-updated: 2026-10-02
+updated: 2026-10-11
 weight: 6
 sortby: weight
 -->
@@ -30,6 +30,7 @@ Available commands:
  doctor
   doctor:frontmatter         [doctor:fm] Validates pages front matter syntax
   doctor:cache               Shows cache status
+  doctor:links               Checks internal and external links of the rendered pages
   doctor:seo                 Audits rendered HTML pages for common SEO issues
  new
   new:page                   Creates a new page

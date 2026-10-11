@@ -220,7 +220,7 @@ Output is generated in `_site/` directory.
 | `php cecil.phar edit`                | Open pages directory with the configured editor                |
 | `php cecil.phar show:config`         | Display effective configuration                                |
 | `php cecil.phar show:content`        | Display content tree (pages, data, static files)               |
-| `php cecil.phar doctor`              | Diagnose site and environment (see also `doctor:frontmatter`, `doctor:seo`, `doctor:cache`) |
+| `php cecil.phar doctor`              | Diagnose site and environment (see also `doctor:frontmatter`, `doctor:seo`, `doctor:links`, `doctor:cache`) |
 | `php cecil.phar cache:clear`         | Clear all cache files (or only `cache:clear:assets`, `cache:clear:templates`, `cache:clear:translations`) |
 | `php cecil.phar clear`               | Remove generated files (or only `clear:output`, `clear:temporary`) |
 | `php cecil.phar util:templates:extract` | Extract built-in templates into `layouts/`                  |
@@ -619,6 +619,9 @@ Cecil generates pure static HTML, compatible with:
 ### Build & Deploy Workflow
 
 ```bash
+# Check links (add --external to also check external links); fails on broken links
+php cecil.phar doctor:links
+
 # Build
 php cecil.phar build
 
@@ -709,6 +712,7 @@ When a user reports unexpected behavior or asks about a specific feature, ask th
 - **Template not loading**: Verify the `layout` front matter variable, template naming and lookup rules
 - **Build errors**: Run `php cecil.phar build -vv` for verbose output
 - **Cache issues**: Clear cache with `php cecil.phar cache:clear`
+- **Broken links or anchors**: Run `php cecil.phar doctor:links` (internal links) or `php cecil.phar doctor:links --internal --external`
 
 ### Debug Output
 

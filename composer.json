@@ -82,6 +82,7 @@
     "psr/simple-cache-implementation": "3.0"
   },
   "suggest": {
+    "ext-curl": "Required by the doctor:links command to check external links.",
     "ext-intl": "Native Intl extension for improved performance; ICU support is already provided by symfony/polyfill-intl-icu.",
     "ext-ffi": "PHP FFI extension for libvips image processing support (requires system libvips).",
     "intervention/image-driver-vips": "Enables libvips image processing (requires ext-ffi and system libvips)."
