@@ -2,6 +2,18 @@
 
 All notable changes to this project will be documented in this file. Dates are displayed in UTC.
 
+#### [9.9.2](https://github.com/Cecilapp/Cecil/compare/9.9.1...9.9.2)
+
+> 11 October 2026
+
+- chore(deploy): target the website `main` branch instead of `master` [`#2498`](https://github.com/Cecilapp/Cecil/pull/2498)
+- docs(content): add dynamic content layout and examples [`b2f6025`](https://github.com/Cecilapp/Cecil/commit/b2f6025c09bb5dcbf1e96ae0180ecbeceab26cd3)
+- docs(cecil-theme): document component theme installation and metatags usage [`cb32490`](https://github.com/Cecilapp/Cecil/commit/cb324909b27ea613b48cf0354b164e3ef1126e9e)
+- docs(commands): add usage headings and update docs dates [`751be6f`](https://github.com/Cecilapp/Cecil/commit/751be6f679245a9ea0804287e30b3d3168f8cdb0)
+- fix(image): dedupe missing variant warnings per build [`9f0e45d`](https://github.com/Cecilapp/Cecil/commit/9f0e45d805b551a77dd463b6813e84ddcac377ba)
+- docs(contributors): update Franck Matsos profile URL and add Olivier Dolbeau [`9da0b90`](https://github.com/Cecilapp/Cecil/commit/9da0b907f60072ec8bd5f71b0052a2744366f187)
+- Simplify installation command in README [`a8d2362`](https://github.com/Cecilapp/Cecil/commit/a8d2362af8f8d7f5beed0c4a5269b0939795cb6f)
+
 #### [9.9.1](https://github.com/Cecilapp/Cecil/compare/9.9.0...9.9.1)
 
 > 6 October 2026
