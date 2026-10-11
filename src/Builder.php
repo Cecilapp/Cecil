@@ -294,7 +294,7 @@ class Builder implements BuildContextInterface, LoggerAwareInterface
         $this->layoutCacheMisses = 0;
 
         // set build ID (unique, even for builds started within the same second)
-        self::$buildId = hash('adler32', uniqid('', true) . self::$version);
+        self::$buildId = hash('xxh32', uniqid('', true) . self::$version);
 
         // process each step
         $steps = [];
