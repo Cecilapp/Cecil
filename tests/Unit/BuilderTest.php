@@ -21,7 +21,10 @@ use Cecil\Collection\Taxonomy\Collection as TaxonomyCollection;
 use Cecil\Collection\Taxonomy\Vocabulary;
 use Cecil\Exception\RuntimeException;
 use Cecil\Logger\PrintLogger;
+use Cecil\Util;
 use PHPUnit\Framework\TestCase;
+use Psr\Log\NullLogger;
+use Symfony\Component\Filesystem\Filesystem;
 use Symfony\Component\Finder\Finder;
 
 class BuilderTest extends TestCase
@@ -147,5 +150,27 @@ class BuilderTest extends TestCase
         $this->expectException(\TypeError::class);
 
         Builder::getBuildId();
+    }
+
+    public function testBuildIdIsUniquePerBuild(): void
+    {
+        $sourceDir = Util::joinFile(sys_get_temp_dir(), 'cecil-build-id-' . uniqid());
+        (new Filesystem())->mkdir($sourceDir);
+        $builder = (new Builder(['baseurl' => 'https://example.com/'], new NullLogger()))->setSourceDir($sourceDir);
+
+        try {
+            // builds of an empty site are fast: several of them start within the same second
+            $buildIds = [];
+            $start = microtime(true);
+            do {
+                $builder->build(['dry-run' => true]);
+                $buildIds[] = Builder::getBuildId();
+            } while (microtime(true) - $start < 1.5);
+
+            self::assertGreaterThan(2, \count($buildIds));
+            self::assertSame($buildIds, array_unique($buildIds));
+        } finally {
+            (new Filesystem())->remove($sourceDir);
+        }
     }
 }

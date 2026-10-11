@@ -6,7 +6,10 @@
     
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <base href="../">
+    <link rel="icon" type="image/png" sizes="32x32" href="images/favicon-32x32.png"/>
+    <link rel="icon" type="image/png" sizes="16x16" href="images/favicon-16x16.png"/>
     <link rel="icon" href="images/favicon.ico"/>
+    <link rel="apple-touch-icon" href="images/apple-touch-icon.png"/>
     <link rel="stylesheet" href="css/normalize.css">
     <link rel="stylesheet" href="css/base.css">
             <link rel="preconnect" href="https://fonts.gstatic.com">
@@ -160,6 +163,9 @@
     
     
     
+            <span class="phpdocumentor-element__extends">
+            uses
+                            <a href="classes/Cecil-Command-Doctor-FailOnTrait.html"><abbr title="\Cecil\Command\Doctor\FailOnTrait">FailOnTrait</abbr></a>                    </span>
     </h2>
 
 <div class="phpdocumentor-label-line">
@@ -183,10 +189,8 @@ pages for a focused set of SEO checks inspired by editorial audit tools.</p>
 
 
 
-
-
-
-
+    
+    
 <h3 id="toc">
     Table of Contents
     <a href="classes/Cecil-Command-Doctor-DoctorSeo.html#toc" class="headerlink"><i class="fas fa-link"></i></a>
@@ -208,31 +212,38 @@ pages for a focused set of SEO checks inspired by editorial audit tools.</p>
             <dt class="phpdocumentor-table-of-contents__entry -constant -public">
     <a class="" href="classes/Cecil-Command-AbstractCommand.html#constant_CONFIG_FILE">CONFIG_FILE</a>
     <span>
-        &nbsp;= [&#039;cecil.yml&#039;, &#039;config.yml&#039;]                            </span>
+        &nbsp;: array&lt;string|int, mixed&gt;&nbsp;= [&#039;cecil.yml&#039;, &#039;config.yml&#039;]                            </span>
 </dt>
 
             <dt class="phpdocumentor-table-of-contents__entry -constant -public">
     <a class="" href="classes/Cecil-Command-AbstractCommand.html#constant_EXCLUDED_CMD">EXCLUDED_CMD</a>
     <span>
-        &nbsp;= [&#039;about&#039;, &#039;new:site&#039;, &#039;self-update&#039;, &#039;serve:stop&#039;]                            </span>
+        &nbsp;: array&lt;string|int, mixed&gt;&nbsp;= [&#039;about&#039;, &#039;new:site&#039;, &#039;self-update&#039;, &#039;serve:stop&#039;]                            </span>
 </dt>
 
             <dt class="phpdocumentor-table-of-contents__entry -constant -public">
     <a class="" href="classes/Cecil-Command-AbstractCommand.html#constant_PID_FILE">PID_FILE</a>
     <span>
-        &nbsp;= \Cecil\Builder::TMP_DIR . &#039;/server.pid&#039;                            </span>
+        &nbsp;: string&nbsp;= \Cecil\Builder::TMP_DIR . &#039;/server.pid&#039;                            </span>
 </dt>
 
             <dt class="phpdocumentor-table-of-contents__entry -constant -public">
     <a class="" href="classes/Cecil-Command-AbstractCommand.html#constant_SERVE_OUTPUT">SERVE_OUTPUT</a>
     <span>
-        &nbsp;= \Cecil\Builder::TMP_DIR . &#039;/preview&#039;                            </span>
+        &nbsp;: string&nbsp;= \Cecil\Builder::TMP_DIR . &#039;/preview&#039;                            </span>
 </dt>
+
+            <dt class="phpdocumentor-table-of-contents__entry -constant -private">
+    <a class="" href="classes/Cecil-Command-Doctor-FailOnTrait.html#constant_FAIL_ON_LEVELS">FAIL_ON_LEVELS</a>
+    <span>
+        &nbsp;: array&lt;string|int, mixed&gt;&nbsp;= [&#039;bad&#039;, &#039;ok&#039;, &#039;feedback&#039;]                            </span>
+</dt>
+<dd>Findings levels, from the most to the least severe</dd>
 
             <dt class="phpdocumentor-table-of-contents__entry -constant -private">
     <a class="" href="classes/Cecil-Command-Doctor-DoctorSeo.html#constant_PAGE_LABEL_MAX_LENGTH">PAGE_LABEL_MAX_LENGTH</a>
     <span>
-        &nbsp;= 60                            </span>
+        &nbsp;: int&nbsp;= 60                            </span>
 </dt>
 
     </dl>
@@ -358,6 +369,20 @@ pages for a focused set of SEO checks inspired by editorial audit tools.</p>
 <dd>Returns config file(s) path.</dd>
 
             <dt class="phpdocumentor-table-of-contents__entry -method -protected">
+    <a class="" href="classes/Cecil-Command-Doctor-FailOnTrait.html#method_getFailOn">getFailOn()</a>
+    <span>
+                                &nbsp;: string    </span>
+</dt>
+<dd>Returns the validated `--fail-on` option value.</dd>
+
+            <dt class="phpdocumentor-table-of-contents__entry -method -protected">
+    <a class="" href="classes/Cecil-Command-Doctor-FailOnTrait.html#method_getFailOnOption">getFailOnOption()</a>
+    <span>
+                                &nbsp;: <abbr title="\Symfony\Component\Console\Input\InputOption">InputOption</abbr>    </span>
+</dt>
+<dd>Returns the `--fail-on` option definition.</dd>
+
+            <dt class="phpdocumentor-table-of-contents__entry -method -protected">
     <a class="" href="classes/Cecil-Command-AbstractCommand.html#method_getPath">getPath()</a>
     <span>
                                 &nbsp;: string    </span>
@@ -391,6 +416,13 @@ pages for a focused set of SEO checks inspired by editorial audit tools.</p>
                                 &nbsp;: void    </span>
 </dt>
 <dd>Opens path with editor.</dd>
+
+            <dt class="phpdocumentor-table-of-contents__entry -method -protected">
+    <a class="" href="classes/Cecil-Command-Doctor-FailOnTrait.html#method_shouldFail">shouldFail()</a>
+    <span>
+                                &nbsp;: bool    </span>
+</dt>
+<dd>Should the command fail, according to the findings counts and the `--fail-on` level?</dd>
 
             <dt class="phpdocumentor-table-of-contents__entry -method -private">
     <a class="" href="classes/Cecil-Command-Doctor-DoctorSeo.html#method_buildFilteredResult">buildFilteredResult()</a>
@@ -459,7 +491,7 @@ pages for a focused set of SEO checks inspired by editorial audit tools.</p>
     
     <code class="phpdocumentor-signature phpdocumentor-code ">
     <span class="phpdocumentor-signature__visibility">public</span>
-        <span class="phpdocumentor-signature__type">mixed</span>
+        <span class="phpdocumentor-signature__type">array&lt;string|int, mixed&gt;</span>
     <span class="phpdocumentor-signature__name">CONFIG_FILE</span>
     = <span class="phpdocumentor-signature__default-value">[&#039;cecil.yml&#039;, &#039;config.yml&#039;]</span>
 </code>
@@ -469,9 +501,8 @@ pages for a focused set of SEO checks inspired by editorial audit tools.</p>
     
     
 
-    
-
-</article>
+        
+    </article>
                     <article class="phpdocumentor-element -constant -public ">
     <h4 class="phpdocumentor-element__name" id="constant_EXCLUDED_CMD">
         EXCLUDED_CMD
@@ -490,7 +521,7 @@ pages for a focused set of SEO checks inspired by editorial audit tools.</p>
     
     <code class="phpdocumentor-signature phpdocumentor-code ">
     <span class="phpdocumentor-signature__visibility">public</span>
-        <span class="phpdocumentor-signature__type">mixed</span>
+        <span class="phpdocumentor-signature__type">array&lt;string|int, mixed&gt;</span>
     <span class="phpdocumentor-signature__name">EXCLUDED_CMD</span>
     = <span class="phpdocumentor-signature__default-value">[&#039;about&#039;, &#039;new:site&#039;, &#039;self-update&#039;, &#039;serve:stop&#039;]</span>
 </code>
@@ -500,9 +531,8 @@ pages for a focused set of SEO checks inspired by editorial audit tools.</p>
     
     
 
-    
-
-</article>
+        
+    </article>
                     <article class="phpdocumentor-element -constant -public ">
     <h4 class="phpdocumentor-element__name" id="constant_PID_FILE">
         PID_FILE
@@ -521,7 +551,7 @@ pages for a focused set of SEO checks inspired by editorial audit tools.</p>
     
     <code class="phpdocumentor-signature phpdocumentor-code ">
     <span class="phpdocumentor-signature__visibility">public</span>
-        <span class="phpdocumentor-signature__type">mixed</span>
+        <span class="phpdocumentor-signature__type">string</span>
     <span class="phpdocumentor-signature__name">PID_FILE</span>
     = <span class="phpdocumentor-signature__default-value">\Cecil\Builder::TMP_DIR . &#039;/server.pid&#039;</span>
 </code>
@@ -531,9 +561,8 @@ pages for a focused set of SEO checks inspired by editorial audit tools.</p>
     
     
 
-    
-
-</article>
+        
+    </article>
                     <article class="phpdocumentor-element -constant -public ">
     <h4 class="phpdocumentor-element__name" id="constant_SERVE_OUTPUT">
         SERVE_OUTPUT
@@ -552,7 +581,7 @@ pages for a focused set of SEO checks inspired by editorial audit tools.</p>
     
     <code class="phpdocumentor-signature phpdocumentor-code ">
     <span class="phpdocumentor-signature__visibility">public</span>
-        <span class="phpdocumentor-signature__type">mixed</span>
+        <span class="phpdocumentor-signature__type">string</span>
     <span class="phpdocumentor-signature__name">SERVE_OUTPUT</span>
     = <span class="phpdocumentor-signature__default-value">\Cecil\Builder::TMP_DIR . &#039;/preview&#039;</span>
 </code>
@@ -562,9 +591,39 @@ pages for a focused set of SEO checks inspired by editorial audit tools.</p>
     
     
 
+        
+    </article>
+                    <article class="phpdocumentor-element -constant -private ">
+    <h4 class="phpdocumentor-element__name" id="constant_FAIL_ON_LEVELS">
+        FAIL_ON_LEVELS
+        <a href="classes/Cecil-Command-Doctor-FailOnTrait.html#constant_FAIL_ON_LEVELS" class="headerlink"><i class="fas fa-link"></i></a>
+
+    </h4>
+
+    <aside class="phpdocumentor-element-found-in">
+    <abbr class="phpdocumentor-element-found-in__file" title="src/Command/Doctor/FailOnTrait.php"><a href="files/src-command-doctor-failontrait.html"><abbr title="src/Command/Doctor/FailOnTrait.php">FailOnTrait.php</abbr></a></abbr>
+    :
+    <span class="phpdocumentor-element-found-in__line">27</span>
+
+    </aside>
+
+        <p class="phpdocumentor-summary">Findings levels, from the most to the least severe</p>
+
+    
+    <code class="phpdocumentor-signature phpdocumentor-code ">
+    <span class="phpdocumentor-signature__visibility">private</span>
+        <span class="phpdocumentor-signature__type">array&lt;string|int, mixed&gt;</span>
+    <span class="phpdocumentor-signature__name">FAIL_ON_LEVELS</span>
+    = <span class="phpdocumentor-signature__default-value">[&#039;bad&#039;, &#039;ok&#039;, &#039;feedback&#039;]</span>
+</code>
+
+
+    
+    
     
 
-</article>
+        
+    </article>
                     <article class="phpdocumentor-element -constant -private ">
     <h4 class="phpdocumentor-element__name" id="constant_PAGE_LABEL_MAX_LENGTH">
         PAGE_LABEL_MAX_LENGTH
@@ -575,7 +634,7 @@ pages for a focused set of SEO checks inspired by editorial audit tools.</p>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Command/Doctor/DoctorSeo.php"><a href="files/src-command-doctor-doctorseo.html"><abbr title="src/Command/Doctor/DoctorSeo.php">DoctorSeo.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">34</span>
+    <span class="phpdocumentor-element-found-in__line">36</span>
 
     </aside>
 
@@ -583,7 +642,7 @@ pages for a focused set of SEO checks inspired by editorial audit tools.</p>
     
     <code class="phpdocumentor-signature phpdocumentor-code ">
     <span class="phpdocumentor-signature__visibility">private</span>
-        <span class="phpdocumentor-signature__type">mixed</span>
+        <span class="phpdocumentor-signature__type">int</span>
     <span class="phpdocumentor-signature__name">PAGE_LABEL_MAX_LENGTH</span>
     = <span class="phpdocumentor-signature__default-value">60</span>
 </code>
@@ -593,9 +652,8 @@ pages for a focused set of SEO checks inspired by editorial audit tools.</p>
     
     
 
-    
-
-</article>
+        
+    </article>
             </section>
 
         
@@ -638,9 +696,8 @@ pages for a focused set of SEO checks inspired by editorial audit tools.</p>
     
     
 
-    
-
-    
+        
+        
 
 </article>
                     <article
@@ -676,9 +733,8 @@ pages for a focused set of SEO checks inspired by editorial audit tools.</p>
     
     
 
-    
-
-    
+        
+        
 
 </article>
                     <article
@@ -714,9 +770,8 @@ pages for a focused set of SEO checks inspired by editorial audit tools.</p>
     
     
 
-    
-
-    
+        
+        
 
 </article>
                     <article
@@ -752,9 +807,8 @@ pages for a focused set of SEO checks inspired by editorial audit tools.</p>
     
     
 
-    
-
-    
+        
+        
 
 </article>
                     <article
@@ -774,7 +828,7 @@ pages for a focused set of SEO checks inspired by editorial audit tools.</p>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Command/Doctor/DoctorSeo.php"><a href="files/src-command-doctor-doctorseo.html"><abbr title="src/Command/Doctor/DoctorSeo.php">DoctorSeo.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">38</span>
+    <span class="phpdocumentor-element-found-in__line">40</span>
 
     </aside>
 
@@ -790,9 +844,8 @@ pages for a focused set of SEO checks inspired by editorial audit tools.</p>
     
     
 
-    
-
-    
+        
+        
 
 </article>
                     <article
@@ -812,7 +865,7 @@ pages for a focused set of SEO checks inspired by editorial audit tools.</p>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Command/Doctor/DoctorSeo.php"><a href="files/src-command-doctor-doctorseo.html"><abbr title="src/Command/Doctor/DoctorSeo.php">DoctorSeo.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">37</span>
+    <span class="phpdocumentor-element-found-in__line">39</span>
 
     </aside>
 
@@ -828,9 +881,8 @@ pages for a focused set of SEO checks inspired by editorial audit tools.</p>
     
     
 
-    
-
-    
+        
+        
 
 </article>
                     <article
@@ -850,7 +902,7 @@ pages for a focused set of SEO checks inspired by editorial audit tools.</p>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Command/Doctor/DoctorSeo.php"><a href="files/src-command-doctor-doctorseo.html"><abbr title="src/Command/Doctor/DoctorSeo.php">DoctorSeo.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">36</span>
+    <span class="phpdocumentor-element-found-in__line">38</span>
 
     </aside>
 
@@ -866,9 +918,8 @@ pages for a focused set of SEO checks inspired by editorial audit tools.</p>
     
     
 
-    
-
-    
+        
+        
 
 </article>
             </section>
@@ -910,19 +961,19 @@ pages for a focused set of SEO checks inspired by editorial audit tools.</p>
     
     
 
-    
-    <section class="phpdocumentor-attributes">
-        <h5 class="phpdocumentor-elements__header" id="attributes">
-            Attributes <a href="classes/Cecil-Command-AbstractCommand.html#method_getProcessedHelp#attributes" class="headerlink"><i class="fas fa-link"></i></a>
+        
+            <section class="phpdocumentor-attributes">
+            <h5 class="phpdocumentor-elements__header" id="method_getProcessedHelp_attributes">
+                Attributes <a href="classes/Cecil-Command-AbstractCommand.html#method_getProcessedHelp_attributes" class="headerlink"><i class="fas fa-link"></i></a>
 
-        </h5>
-                    <dl class="phpdocumentor-argument-list">
+            </h5>
+                            <dl class="phpdocumentor-argument-list">
     <dt class="phpdocumentor-argument-list__entry">
         #[<abbr title="\Override">Override</abbr>]
     </dt>
     </dl>
-            </section>
-
+                    </section>
+    
             <section>
         <h5 class="phpdocumentor-return-value__heading">Return values</h5>
         <span class="phpdocumentor-signature__response_type">string</span>
@@ -951,7 +1002,7 @@ pages for a focused set of SEO checks inspired by editorial audit tools.</p>
 
     <code class="phpdocumentor-code phpdocumentor-signature ">
     <span class="phpdocumentor-signature__visibility">public</span>
-                    <span class="phpdocumentor-signature__name">notification</span><span>(</span><span class="phpdocumentor-signature__argument"><span class="phpdocumentor-signature__argument__return-type">string&nbsp;</span><span class="phpdocumentor-signature__argument__name">$body</span></span><span class="phpdocumentor-signature__argument"><span>[</span><span>, </span><span class="phpdocumentor-signature__argument__return-type">string|null&nbsp;</span><span class="phpdocumentor-signature__argument__name">$url</span><span> = </span><span class="phpdocumentor-signature__argument__default-value">null</span><span> ]</span></span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">void</span></code>
+                    <span class="phpdocumentor-signature__name">notification</span><span>(</span><span class="phpdocumentor-signature__argument"><span class="phpdocumentor-signature__argument__type">string&nbsp;</span><span class="phpdocumentor-signature__argument__name">$body</span></span><span class="phpdocumentor-signature__argument"><span>[</span><span>, </span><span class="phpdocumentor-signature__argument__type">string|null&nbsp;</span><span class="phpdocumentor-signature__argument__name">$url</span><span> = </span><span class="phpdocumentor-signature__argument__default-value">null</span><span> ]</span></span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">void</span></code>
 
     <div class="phpdocumentor-label-line">
         </div>
@@ -960,16 +1011,16 @@ pages for a focused set of SEO checks inspired by editorial audit tools.</p>
         <h5 class="phpdocumentor-argument-list__heading">Parameters</h5>
     <dl class="phpdocumentor-argument-list">
                     <dt class="phpdocumentor-argument-list__entry">
-                <span class="phpdocumentor-signature__argument__name">$body</span>
-                : <span class="phpdocumentor-signature__argument__return-type">string</span>
+                <span class="phpdocumentor-argument-list__argument__name">$body</span>
+                : <span class="phpdocumentor-argument-list__argument__type">string</span>
                             </dt>
             <dd class="phpdocumentor-argument-list__definition">
                 
             </dd>
                     <dt class="phpdocumentor-argument-list__entry">
-                <span class="phpdocumentor-signature__argument__name">$url</span>
-                : <span class="phpdocumentor-signature__argument__return-type">string|null</span>
-                 = <span class="phpdocumentor-signature__argument__default-value">null</span>            </dt>
+                <span class="phpdocumentor-argument-list__argument__name">$url</span>
+                : <span class="phpdocumentor-argument-list__argument__type">string|null</span>
+                 = <span class="phpdocumentor-argument-list__argument__default-value">null</span>            </dt>
             <dd class="phpdocumentor-argument-list__definition">
                 
             </dd>
@@ -977,8 +1028,8 @@ pages for a focused set of SEO checks inspired by editorial audit tools.</p>
 
     
 
+        
     
-
     
 </article>
                     <article
@@ -1003,7 +1054,7 @@ pages for a focused set of SEO checks inspired by editorial audit tools.</p>
 
     <code class="phpdocumentor-code phpdocumentor-signature ">
     <span class="phpdocumentor-signature__visibility">public</span>
-                    <span class="phpdocumentor-signature__name">run</span><span>(</span><span class="phpdocumentor-signature__argument"><span class="phpdocumentor-signature__argument__return-type"><abbr title="\Symfony\Component\Console\Input\InputInterface">InputInterface</abbr>&nbsp;</span><span class="phpdocumentor-signature__argument__name">$input</span></span><span class="phpdocumentor-signature__argument"><span>, </span><span class="phpdocumentor-signature__argument__return-type"><abbr title="\Symfony\Component\Console\Output\OutputInterface">OutputInterface</abbr>&nbsp;</span><span class="phpdocumentor-signature__argument__name">$output</span></span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">int</span></code>
+                    <span class="phpdocumentor-signature__name">run</span><span>(</span><span class="phpdocumentor-signature__argument"><span class="phpdocumentor-signature__argument__type"><abbr title="\Symfony\Component\Console\Input\InputInterface">InputInterface</abbr>&nbsp;</span><span class="phpdocumentor-signature__argument__name">$input</span></span><span class="phpdocumentor-signature__argument"><span>, </span><span class="phpdocumentor-signature__argument__type"><abbr title="\Symfony\Component\Console\Output\OutputInterface">OutputInterface</abbr>&nbsp;</span><span class="phpdocumentor-signature__argument__name">$output</span></span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">int</span></code>
 
     <div class="phpdocumentor-label-line">
         </div>
@@ -1012,15 +1063,15 @@ pages for a focused set of SEO checks inspired by editorial audit tools.</p>
         <h5 class="phpdocumentor-argument-list__heading">Parameters</h5>
     <dl class="phpdocumentor-argument-list">
                     <dt class="phpdocumentor-argument-list__entry">
-                <span class="phpdocumentor-signature__argument__name">$input</span>
-                : <span class="phpdocumentor-signature__argument__return-type"><abbr title="\Symfony\Component\Console\Input\InputInterface">InputInterface</abbr></span>
+                <span class="phpdocumentor-argument-list__argument__name">$input</span>
+                : <span class="phpdocumentor-argument-list__argument__type"><abbr title="\Symfony\Component\Console\Input\InputInterface">InputInterface</abbr></span>
                             </dt>
             <dd class="phpdocumentor-argument-list__definition">
                 
             </dd>
                     <dt class="phpdocumentor-argument-list__entry">
-                <span class="phpdocumentor-signature__argument__name">$output</span>
-                : <span class="phpdocumentor-signature__argument__return-type"><abbr title="\Symfony\Component\Console\Output\OutputInterface">OutputInterface</abbr></span>
+                <span class="phpdocumentor-argument-list__argument__name">$output</span>
+                : <span class="phpdocumentor-argument-list__argument__type"><abbr title="\Symfony\Component\Console\Output\OutputInterface">OutputInterface</abbr></span>
                             </dt>
             <dd class="phpdocumentor-argument-list__definition">
                 
@@ -1029,19 +1080,19 @@ pages for a focused set of SEO checks inspired by editorial audit tools.</p>
 
     
 
-    
-    <section class="phpdocumentor-attributes">
-        <h5 class="phpdocumentor-elements__header" id="attributes">
-            Attributes <a href="classes/Cecil-Command-AbstractCommand.html#method_run#attributes" class="headerlink"><i class="fas fa-link"></i></a>
+        
+            <section class="phpdocumentor-attributes">
+            <h5 class="phpdocumentor-elements__header" id="method_run_attributes">
+                Attributes <a href="classes/Cecil-Command-AbstractCommand.html#method_run_attributes" class="headerlink"><i class="fas fa-link"></i></a>
 
-        </h5>
-                    <dl class="phpdocumentor-argument-list">
+            </h5>
+                            <dl class="phpdocumentor-argument-list">
     <dt class="phpdocumentor-argument-list__entry">
         #[<abbr title="\Override">Override</abbr>]
     </dt>
     </dl>
-            </section>
-
+                    </section>
+    
             <section>
         <h5 class="phpdocumentor-return-value__heading">Return values</h5>
         <span class="phpdocumentor-signature__response_type">int</span>
@@ -1070,7 +1121,7 @@ pages for a focused set of SEO checks inspired by editorial audit tools.</p>
 
     <code class="phpdocumentor-code phpdocumentor-signature ">
     <span class="phpdocumentor-signature__visibility">public</span>
-            <span class="phpdocumentor-signature__static">static</span>        <span class="phpdocumentor-signature__name">validateUrl</span><span>(</span><span class="phpdocumentor-signature__argument"><span class="phpdocumentor-signature__argument__return-type">string&nbsp;</span><span class="phpdocumentor-signature__argument__name">$url</span></span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">string</span></code>
+            <span class="phpdocumentor-signature__static">static</span>        <span class="phpdocumentor-signature__name">validateUrl</span><span>(</span><span class="phpdocumentor-signature__argument"><span class="phpdocumentor-signature__argument__type">string&nbsp;</span><span class="phpdocumentor-signature__argument__name">$url</span></span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">string</span></code>
 
     <div class="phpdocumentor-label-line">
         </div>
@@ -1079,8 +1130,8 @@ pages for a focused set of SEO checks inspired by editorial audit tools.</p>
         <h5 class="phpdocumentor-argument-list__heading">Parameters</h5>
     <dl class="phpdocumentor-argument-list">
                     <dt class="phpdocumentor-argument-list__entry">
-                <span class="phpdocumentor-signature__argument__name">$url</span>
-                : <span class="phpdocumentor-signature__argument__return-type">string</span>
+                <span class="phpdocumentor-argument-list__argument__name">$url</span>
+                : <span class="phpdocumentor-argument-list__argument__type">string</span>
                             </dt>
             <dd class="phpdocumentor-argument-list__definition">
                 
@@ -1088,24 +1139,23 @@ pages for a focused set of SEO checks inspired by editorial audit tools.</p>
             </dl>
 
     
-    <h5 class="phpdocumentor-tag-list__heading" id="tags">
+    <h5 class="phpdocumentor-tag-list__heading" id="method_validateUrl_tags">
         Tags
-        <a href="classes/Cecil-Command-AbstractCommand.html#method_validateUrl#tags" class="headerlink"><i class="fas fa-link"></i></a>
+        <a href="classes/Cecil-Command-AbstractCommand.html#method_validateUrl_tags" class="headerlink"><i class="fas fa-link"></i></a>
 
     </h5>
     <dl class="phpdocumentor-tag-list">
-                                    <dt class="phpdocumentor-tag-list__entry">
-                    <span class="phpdocumentor-tag__name">throws</span>
-                </dt>
-                <dd class="phpdocumentor-tag-list__definition">
+                    <dt class="phpdocumentor-tag-list__entry">
+                <span class="phpdocumentor-tag__name">throws</span>
+            </dt>
+                            <dd class="phpdocumentor-tag-list__definition">
                                                                 <span class="phpdocumentor-tag-link"><a href="classes/Cecil-Exception-RuntimeException.html"><abbr title="\Cecil\Exception\RuntimeException">RuntimeException</abbr></a></span>
-                                                            
-                                             
+                                                                                    
                                     </dd>
-                                            </dl>
+                        </dl>
 
+        
     
-
             <section>
         <h5 class="phpdocumentor-return-value__heading">Return values</h5>
         <span class="phpdocumentor-signature__response_type">string</span>
@@ -1143,8 +1193,8 @@ pages for a focused set of SEO checks inspired by editorial audit tools.</p>
     
     
 
+        
     
-
             <section>
         <h5 class="phpdocumentor-return-value__heading">Return values</h5>
         <span class="phpdocumentor-signature__response_type">string</span>
@@ -1165,7 +1215,7 @@ pages for a focused set of SEO checks inspired by editorial audit tools.</p>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Command/Doctor/DoctorSeo.php"><a href="files/src-command-doctor-doctorseo.html"><abbr title="src/Command/Doctor/DoctorSeo.php">DoctorSeo.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">43</span>
+    <span class="phpdocumentor-element-found-in__line">45</span>
 
     </aside>
 
@@ -1182,19 +1232,19 @@ pages for a focused set of SEO checks inspired by editorial audit tools.</p>
     
     
 
-    
-    <section class="phpdocumentor-attributes">
-        <h5 class="phpdocumentor-elements__header" id="attributes">
-            Attributes <a href="classes/Cecil-Command-Doctor-DoctorSeo.html#method_configure#attributes" class="headerlink"><i class="fas fa-link"></i></a>
+        
+            <section class="phpdocumentor-attributes">
+            <h5 class="phpdocumentor-elements__header" id="method_configure_attributes">
+                Attributes <a href="classes/Cecil-Command-Doctor-DoctorSeo.html#method_configure_attributes" class="headerlink"><i class="fas fa-link"></i></a>
 
-        </h5>
-                    <dl class="phpdocumentor-argument-list">
+            </h5>
+                            <dl class="phpdocumentor-argument-list">
     <dt class="phpdocumentor-argument-list__entry">
         #[<abbr title="\Override">Override</abbr>]
     </dt>
     </dl>
-            </section>
-
+                    </section>
+    
     
 </article>
                     <article
@@ -1211,7 +1261,7 @@ pages for a focused set of SEO checks inspired by editorial audit tools.</p>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Command/Doctor/DoctorSeo.php"><a href="files/src-command-doctor-doctorseo.html"><abbr title="src/Command/Doctor/DoctorSeo.php">DoctorSeo.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">109</span>
+    <span class="phpdocumentor-element-found-in__line">118</span>
 
     </aside>
 
@@ -1219,7 +1269,7 @@ pages for a focused set of SEO checks inspired by editorial audit tools.</p>
 
     <code class="phpdocumentor-code phpdocumentor-signature ">
     <span class="phpdocumentor-signature__visibility">protected</span>
-                    <span class="phpdocumentor-signature__name">execute</span><span>(</span><span class="phpdocumentor-signature__argument"><span class="phpdocumentor-signature__argument__return-type"><abbr title="\Symfony\Component\Console\Input\InputInterface">InputInterface</abbr>&nbsp;</span><span class="phpdocumentor-signature__argument__name">$input</span></span><span class="phpdocumentor-signature__argument"><span>, </span><span class="phpdocumentor-signature__argument__return-type"><abbr title="\Symfony\Component\Console\Output\OutputInterface">OutputInterface</abbr>&nbsp;</span><span class="phpdocumentor-signature__argument__name">$output</span></span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">int</span></code>
+                    <span class="phpdocumentor-signature__name">execute</span><span>(</span><span class="phpdocumentor-signature__argument"><span class="phpdocumentor-signature__argument__type"><abbr title="\Symfony\Component\Console\Input\InputInterface">InputInterface</abbr>&nbsp;</span><span class="phpdocumentor-signature__argument__name">$input</span></span><span class="phpdocumentor-signature__argument"><span>, </span><span class="phpdocumentor-signature__argument__type"><abbr title="\Symfony\Component\Console\Output\OutputInterface">OutputInterface</abbr>&nbsp;</span><span class="phpdocumentor-signature__argument__name">$output</span></span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">int</span></code>
 
     <div class="phpdocumentor-label-line">
         </div>
@@ -1228,15 +1278,15 @@ pages for a focused set of SEO checks inspired by editorial audit tools.</p>
         <h5 class="phpdocumentor-argument-list__heading">Parameters</h5>
     <dl class="phpdocumentor-argument-list">
                     <dt class="phpdocumentor-argument-list__entry">
-                <span class="phpdocumentor-signature__argument__name">$input</span>
-                : <span class="phpdocumentor-signature__argument__return-type"><abbr title="\Symfony\Component\Console\Input\InputInterface">InputInterface</abbr></span>
+                <span class="phpdocumentor-argument-list__argument__name">$input</span>
+                : <span class="phpdocumentor-argument-list__argument__type"><abbr title="\Symfony\Component\Console\Input\InputInterface">InputInterface</abbr></span>
                             </dt>
             <dd class="phpdocumentor-argument-list__definition">
                 
             </dd>
                     <dt class="phpdocumentor-argument-list__entry">
-                <span class="phpdocumentor-signature__argument__name">$output</span>
-                : <span class="phpdocumentor-signature__argument__return-type"><abbr title="\Symfony\Component\Console\Output\OutputInterface">OutputInterface</abbr></span>
+                <span class="phpdocumentor-argument-list__argument__name">$output</span>
+                : <span class="phpdocumentor-argument-list__argument__type"><abbr title="\Symfony\Component\Console\Output\OutputInterface">OutputInterface</abbr></span>
                             </dt>
             <dd class="phpdocumentor-argument-list__definition">
                 
@@ -1245,19 +1295,19 @@ pages for a focused set of SEO checks inspired by editorial audit tools.</p>
 
     
 
-    
-    <section class="phpdocumentor-attributes">
-        <h5 class="phpdocumentor-elements__header" id="attributes">
-            Attributes <a href="classes/Cecil-Command-Doctor-DoctorSeo.html#method_execute#attributes" class="headerlink"><i class="fas fa-link"></i></a>
+        
+            <section class="phpdocumentor-attributes">
+            <h5 class="phpdocumentor-elements__header" id="method_execute_attributes">
+                Attributes <a href="classes/Cecil-Command-Doctor-DoctorSeo.html#method_execute_attributes" class="headerlink"><i class="fas fa-link"></i></a>
 
-        </h5>
-                    <dl class="phpdocumentor-argument-list">
+            </h5>
+                            <dl class="phpdocumentor-argument-list">
     <dt class="phpdocumentor-argument-list__entry">
         #[<abbr title="\Override">Override</abbr>]
     </dt>
     </dl>
-            </section>
-
+                    </section>
+    
             <section>
         <h5 class="phpdocumentor-return-value__heading">Return values</h5>
         <span class="phpdocumentor-signature__response_type">int</span>
@@ -1286,7 +1336,7 @@ pages for a focused set of SEO checks inspired by editorial audit tools.</p>
 
     <code class="phpdocumentor-code phpdocumentor-signature ">
     <span class="phpdocumentor-signature__visibility">protected</span>
-                    <span class="phpdocumentor-signature__name">getBuilder</span><span>(</span><span class="phpdocumentor-signature__argument"><span>[</span><span class="phpdocumentor-signature__argument__return-type">array&lt;string, mixed&gt;&nbsp;</span><span class="phpdocumentor-signature__argument__name">$config</span><span> = </span><span class="phpdocumentor-signature__argument__default-value">[]</span><span> ]</span></span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type"><a href="classes/Cecil-Builder.html"><abbr title="\Cecil\Builder">Builder</abbr></a></span></code>
+                    <span class="phpdocumentor-signature__name">getBuilder</span><span>(</span><span class="phpdocumentor-signature__argument"><span>[</span><span class="phpdocumentor-signature__argument__type">array&lt;string, mixed&gt;&nbsp;</span><span class="phpdocumentor-signature__argument__name">$config</span><span> = </span><span class="phpdocumentor-signature__argument__default-value">[]</span><span> ]</span></span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type"><a href="classes/Cecil-Builder.html"><abbr title="\Cecil\Builder">Builder</abbr></a></span></code>
 
     <div class="phpdocumentor-label-line">
         </div>
@@ -1295,33 +1345,32 @@ pages for a focused set of SEO checks inspired by editorial audit tools.</p>
         <h5 class="phpdocumentor-argument-list__heading">Parameters</h5>
     <dl class="phpdocumentor-argument-list">
                     <dt class="phpdocumentor-argument-list__entry">
-                <span class="phpdocumentor-signature__argument__name">$config</span>
-                : <span class="phpdocumentor-signature__argument__return-type">array&lt;string, mixed&gt;</span>
-                 = <span class="phpdocumentor-signature__argument__default-value">[]</span>            </dt>
+                <span class="phpdocumentor-argument-list__argument__name">$config</span>
+                : <span class="phpdocumentor-argument-list__argument__type">array&lt;string, mixed&gt;</span>
+                 = <span class="phpdocumentor-argument-list__argument__default-value">[]</span>            </dt>
             <dd class="phpdocumentor-argument-list__definition">
                 
             </dd>
             </dl>
 
     
-    <h5 class="phpdocumentor-tag-list__heading" id="tags">
+    <h5 class="phpdocumentor-tag-list__heading" id="method_getBuilder_tags">
         Tags
-        <a href="classes/Cecil-Command-AbstractCommand.html#method_getBuilder#tags" class="headerlink"><i class="fas fa-link"></i></a>
+        <a href="classes/Cecil-Command-AbstractCommand.html#method_getBuilder_tags" class="headerlink"><i class="fas fa-link"></i></a>
 
     </h5>
     <dl class="phpdocumentor-tag-list">
-                                    <dt class="phpdocumentor-tag-list__entry">
-                    <span class="phpdocumentor-tag__name">throws</span>
-                </dt>
-                <dd class="phpdocumentor-tag-list__definition">
+                    <dt class="phpdocumentor-tag-list__entry">
+                <span class="phpdocumentor-tag__name">throws</span>
+            </dt>
+                            <dd class="phpdocumentor-tag-list__definition">
                                                                 <span class="phpdocumentor-tag-link"><a href="classes/Cecil-Exception-RuntimeException.html"><abbr title="\Cecil\Exception\RuntimeException">RuntimeException</abbr></a></span>
-                                                            
-                                             
+                                                                                    
                                     </dd>
-                                            </dl>
+                        </dl>
 
+        
     
-
             <section>
         <h5 class="phpdocumentor-return-value__heading">Return values</h5>
         <span class="phpdocumentor-signature__response_type"><a href="classes/Cecil-Builder.html"><abbr title="\Cecil\Builder">Builder</abbr></a></span>
@@ -1359,11 +1408,113 @@ pages for a focused set of SEO checks inspired by editorial audit tools.</p>
     
     
 
+        
     
-
             <section>
         <h5 class="phpdocumentor-return-value__heading">Return values</h5>
         <span class="phpdocumentor-signature__response_type">array&lt;string, string&gt;</span>
+            </section>
+
+</article>
+                    <article
+        class="phpdocumentor-element
+            -method
+            -protected
+                                                        "
+>
+    <h4 class="phpdocumentor-element__name" id="method_getFailOn">
+        getFailOn()
+        <a href="classes/Cecil-Command-Doctor-FailOnTrait.html#method_getFailOn" class="headerlink"><i class="fas fa-link"></i></a>
+
+    </h4>
+    <aside class="phpdocumentor-element-found-in">
+    <abbr class="phpdocumentor-element-found-in__file" title="src/Command/Doctor/FailOnTrait.php"><a href="files/src-command-doctor-failontrait.html"><abbr title="src/Command/Doctor/FailOnTrait.php">FailOnTrait.php</abbr></a></abbr>
+    :
+    <span class="phpdocumentor-element-found-in__line">48</span>
+
+    </aside>
+
+        <p class="phpdocumentor-summary">Returns the validated `--fail-on` option value.</p>
+
+    <code class="phpdocumentor-code phpdocumentor-signature ">
+    <span class="phpdocumentor-signature__visibility">protected</span>
+                    <span class="phpdocumentor-signature__name">getFailOn</span><span>(</span><span class="phpdocumentor-signature__argument"><span class="phpdocumentor-signature__argument__type"><abbr title="\Symfony\Component\Console\Input\InputInterface">InputInterface</abbr>&nbsp;</span><span class="phpdocumentor-signature__argument__name">$input</span></span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">string</span></code>
+
+    <div class="phpdocumentor-label-line">
+        </div>
+    
+    
+        <h5 class="phpdocumentor-argument-list__heading">Parameters</h5>
+    <dl class="phpdocumentor-argument-list">
+                    <dt class="phpdocumentor-argument-list__entry">
+                <span class="phpdocumentor-argument-list__argument__name">$input</span>
+                : <span class="phpdocumentor-argument-list__argument__type"><abbr title="\Symfony\Component\Console\Input\InputInterface">InputInterface</abbr></span>
+                            </dt>
+            <dd class="phpdocumentor-argument-list__definition">
+                
+            </dd>
+            </dl>
+
+    
+    <h5 class="phpdocumentor-tag-list__heading" id="method_getFailOn_tags">
+        Tags
+        <a href="classes/Cecil-Command-Doctor-FailOnTrait.html#method_getFailOn_tags" class="headerlink"><i class="fas fa-link"></i></a>
+
+    </h5>
+    <dl class="phpdocumentor-tag-list">
+                    <dt class="phpdocumentor-tag-list__entry">
+                <span class="phpdocumentor-tag__name">throws</span>
+            </dt>
+                            <dd class="phpdocumentor-tag-list__definition">
+                                                                <span class="phpdocumentor-tag-link"><a href="classes/Cecil-Exception-RuntimeException.html"><abbr title="\Cecil\Exception\RuntimeException">RuntimeException</abbr></a></span>
+                                                                                    
+                                    </dd>
+                        </dl>
+
+        
+    
+            <section>
+        <h5 class="phpdocumentor-return-value__heading">Return values</h5>
+        <span class="phpdocumentor-signature__response_type">string</span>
+            </section>
+
+</article>
+                    <article
+        class="phpdocumentor-element
+            -method
+            -protected
+                                                        "
+>
+    <h4 class="phpdocumentor-element__name" id="method_getFailOnOption">
+        getFailOnOption()
+        <a href="classes/Cecil-Command-Doctor-FailOnTrait.html#method_getFailOnOption" class="headerlink"><i class="fas fa-link"></i></a>
+
+    </h4>
+    <aside class="phpdocumentor-element-found-in">
+    <abbr class="phpdocumentor-element-found-in__file" title="src/Command/Doctor/FailOnTrait.php"><a href="files/src-command-doctor-failontrait.html"><abbr title="src/Command/Doctor/FailOnTrait.php">FailOnTrait.php</abbr></a></abbr>
+    :
+    <span class="phpdocumentor-element-found-in__line">32</span>
+
+    </aside>
+
+        <p class="phpdocumentor-summary">Returns the `--fail-on` option definition.</p>
+
+    <code class="phpdocumentor-code phpdocumentor-signature ">
+    <span class="phpdocumentor-signature__visibility">protected</span>
+                    <span class="phpdocumentor-signature__name">getFailOnOption</span><span>(</span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type"><abbr title="\Symfony\Component\Console\Input\InputOption">InputOption</abbr></span></code>
+
+    <div class="phpdocumentor-label-line">
+        </div>
+    
+    
+    
+    
+
+        
+    
+            <section>
+        <h5 class="phpdocumentor-return-value__heading">Return values</h5>
+        <span class="phpdocumentor-signature__response_type"><abbr title="\Symfony\Component\Console\Input\InputOption">InputOption</abbr></span>
             </section>
 
 </article>
@@ -1389,7 +1540,7 @@ pages for a focused set of SEO checks inspired by editorial audit tools.</p>
 
     <code class="phpdocumentor-code phpdocumentor-signature ">
     <span class="phpdocumentor-signature__visibility">protected</span>
-                    <span class="phpdocumentor-signature__name">getPath</span><span>(</span><span class="phpdocumentor-signature__argument"><span>[</span><span class="phpdocumentor-signature__argument__return-type">bool&nbsp;</span><span class="phpdocumentor-signature__argument__name">$exist</span><span> = </span><span class="phpdocumentor-signature__argument__default-value">true</span><span> ]</span></span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">string</span></code>
+                    <span class="phpdocumentor-signature__name">getPath</span><span>(</span><span class="phpdocumentor-signature__argument"><span>[</span><span class="phpdocumentor-signature__argument__type">bool&nbsp;</span><span class="phpdocumentor-signature__argument__name">$exist</span><span> = </span><span class="phpdocumentor-signature__argument__default-value">true</span><span> ]</span></span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">string</span></code>
 
     <div class="phpdocumentor-label-line">
         </div>
@@ -1398,9 +1549,9 @@ pages for a focused set of SEO checks inspired by editorial audit tools.</p>
         <h5 class="phpdocumentor-argument-list__heading">Parameters</h5>
     <dl class="phpdocumentor-argument-list">
                     <dt class="phpdocumentor-argument-list__entry">
-                <span class="phpdocumentor-signature__argument__name">$exist</span>
-                : <span class="phpdocumentor-signature__argument__return-type">bool</span>
-                 = <span class="phpdocumentor-signature__argument__default-value">true</span>            </dt>
+                <span class="phpdocumentor-argument-list__argument__name">$exist</span>
+                : <span class="phpdocumentor-argument-list__argument__type">bool</span>
+                 = <span class="phpdocumentor-argument-list__argument__default-value">true</span>            </dt>
             <dd class="phpdocumentor-argument-list__definition">
                 
             </dd>
@@ -1408,8 +1559,8 @@ pages for a focused set of SEO checks inspired by editorial audit tools.</p>
 
     
 
+        
     
-
             <section>
         <h5 class="phpdocumentor-return-value__heading">Return values</h5>
         <span class="phpdocumentor-signature__response_type">string</span>
@@ -1438,7 +1589,7 @@ pages for a focused set of SEO checks inspired by editorial audit tools.</p>
 
     <code class="phpdocumentor-code phpdocumentor-signature ">
     <span class="phpdocumentor-signature__visibility">protected</span>
-                    <span class="phpdocumentor-signature__name">initialize</span><span>(</span><span class="phpdocumentor-signature__argument"><span class="phpdocumentor-signature__argument__return-type"><abbr title="\Symfony\Component\Console\Input\InputInterface">InputInterface</abbr>&nbsp;</span><span class="phpdocumentor-signature__argument__name">$input</span></span><span class="phpdocumentor-signature__argument"><span>, </span><span class="phpdocumentor-signature__argument__return-type"><abbr title="\Symfony\Component\Console\Output\OutputInterface">OutputInterface</abbr>&nbsp;</span><span class="phpdocumentor-signature__argument__name">$output</span></span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">mixed</span></code>
+                    <span class="phpdocumentor-signature__name">initialize</span><span>(</span><span class="phpdocumentor-signature__argument"><span class="phpdocumentor-signature__argument__type"><abbr title="\Symfony\Component\Console\Input\InputInterface">InputInterface</abbr>&nbsp;</span><span class="phpdocumentor-signature__argument__name">$input</span></span><span class="phpdocumentor-signature__argument"><span>, </span><span class="phpdocumentor-signature__argument__type"><abbr title="\Symfony\Component\Console\Output\OutputInterface">OutputInterface</abbr>&nbsp;</span><span class="phpdocumentor-signature__argument__name">$output</span></span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">mixed</span></code>
 
     <div class="phpdocumentor-label-line">
         </div>
@@ -1447,15 +1598,15 @@ pages for a focused set of SEO checks inspired by editorial audit tools.</p>
         <h5 class="phpdocumentor-argument-list__heading">Parameters</h5>
     <dl class="phpdocumentor-argument-list">
                     <dt class="phpdocumentor-argument-list__entry">
-                <span class="phpdocumentor-signature__argument__name">$input</span>
-                : <span class="phpdocumentor-signature__argument__return-type"><abbr title="\Symfony\Component\Console\Input\InputInterface">InputInterface</abbr></span>
+                <span class="phpdocumentor-argument-list__argument__name">$input</span>
+                : <span class="phpdocumentor-argument-list__argument__type"><abbr title="\Symfony\Component\Console\Input\InputInterface">InputInterface</abbr></span>
                             </dt>
             <dd class="phpdocumentor-argument-list__definition">
                 
             </dd>
                     <dt class="phpdocumentor-argument-list__entry">
-                <span class="phpdocumentor-signature__argument__name">$output</span>
-                : <span class="phpdocumentor-signature__argument__return-type"><abbr title="\Symfony\Component\Console\Output\OutputInterface">OutputInterface</abbr></span>
+                <span class="phpdocumentor-argument-list__argument__name">$output</span>
+                : <span class="phpdocumentor-argument-list__argument__type"><abbr title="\Symfony\Component\Console\Output\OutputInterface">OutputInterface</abbr></span>
                             </dt>
             <dd class="phpdocumentor-argument-list__definition">
                 
@@ -1464,19 +1615,19 @@ pages for a focused set of SEO checks inspired by editorial audit tools.</p>
 
     
 
-    
-    <section class="phpdocumentor-attributes">
-        <h5 class="phpdocumentor-elements__header" id="attributes">
-            Attributes <a href="classes/Cecil-Command-AbstractCommand.html#method_initialize#attributes" class="headerlink"><i class="fas fa-link"></i></a>
+        
+            <section class="phpdocumentor-attributes">
+            <h5 class="phpdocumentor-elements__header" id="method_initialize_attributes">
+                Attributes <a href="classes/Cecil-Command-AbstractCommand.html#method_initialize_attributes" class="headerlink"><i class="fas fa-link"></i></a>
 
-        </h5>
-                    <dl class="phpdocumentor-argument-list">
+            </h5>
+                            <dl class="phpdocumentor-argument-list">
     <dt class="phpdocumentor-argument-list__entry">
         #[<abbr title="\Override">Override</abbr>]
     </dt>
     </dl>
-            </section>
-
+                    </section>
+    
     
 </article>
                     <article
@@ -1501,7 +1652,7 @@ pages for a focused set of SEO checks inspired by editorial audit tools.</p>
 
     <code class="phpdocumentor-code phpdocumentor-signature ">
     <span class="phpdocumentor-signature__visibility">protected</span>
-                    <span class="phpdocumentor-signature__name">locateAdditionalConfigFiles</span><span>(</span><span class="phpdocumentor-signature__argument"><span class="phpdocumentor-signature__argument__return-type">string&nbsp;</span><span class="phpdocumentor-signature__argument__name">$path</span></span><span class="phpdocumentor-signature__argument"><span>, </span><span class="phpdocumentor-signature__argument__return-type">string&nbsp;</span><span class="phpdocumentor-signature__argument__name">$configFilesList</span></span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">array&lt;string, string|false&gt;</span></code>
+                    <span class="phpdocumentor-signature__name">locateAdditionalConfigFiles</span><span>(</span><span class="phpdocumentor-signature__argument"><span class="phpdocumentor-signature__argument__type">string&nbsp;</span><span class="phpdocumentor-signature__argument__name">$path</span></span><span class="phpdocumentor-signature__argument"><span>, </span><span class="phpdocumentor-signature__argument__type">string&nbsp;</span><span class="phpdocumentor-signature__argument__name">$configFilesList</span></span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">array&lt;string, string|false&gt;</span></code>
 
     <div class="phpdocumentor-label-line">
         </div>
@@ -1510,15 +1661,15 @@ pages for a focused set of SEO checks inspired by editorial audit tools.</p>
         <h5 class="phpdocumentor-argument-list__heading">Parameters</h5>
     <dl class="phpdocumentor-argument-list">
                     <dt class="phpdocumentor-argument-list__entry">
-                <span class="phpdocumentor-signature__argument__name">$path</span>
-                : <span class="phpdocumentor-signature__argument__return-type">string</span>
+                <span class="phpdocumentor-argument-list__argument__name">$path</span>
+                : <span class="phpdocumentor-argument-list__argument__type">string</span>
                             </dt>
             <dd class="phpdocumentor-argument-list__definition">
                 
             </dd>
                     <dt class="phpdocumentor-argument-list__entry">
-                <span class="phpdocumentor-signature__argument__name">$configFilesList</span>
-                : <span class="phpdocumentor-signature__argument__return-type">string</span>
+                <span class="phpdocumentor-argument-list__argument__name">$configFilesList</span>
+                : <span class="phpdocumentor-argument-list__argument__type">string</span>
                             </dt>
             <dd class="phpdocumentor-argument-list__definition">
                 
@@ -1527,8 +1678,8 @@ pages for a focused set of SEO checks inspired by editorial audit tools.</p>
 
     
 
+        
     
-
             <section>
         <h5 class="phpdocumentor-return-value__heading">Return values</h5>
         <span class="phpdocumentor-signature__response_type">array&lt;string, string|false&gt;</span>
@@ -1557,7 +1708,7 @@ pages for a focused set of SEO checks inspired by editorial audit tools.</p>
 
     <code class="phpdocumentor-code phpdocumentor-signature ">
     <span class="phpdocumentor-signature__visibility">protected</span>
-                    <span class="phpdocumentor-signature__name">locateConfigFile</span><span>(</span><span class="phpdocumentor-signature__argument"><span class="phpdocumentor-signature__argument__return-type">string&nbsp;</span><span class="phpdocumentor-signature__argument__name">$path</span></span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">array{name: string, path: string|false}</span></code>
+                    <span class="phpdocumentor-signature__name">locateConfigFile</span><span>(</span><span class="phpdocumentor-signature__argument"><span class="phpdocumentor-signature__argument__type">string&nbsp;</span><span class="phpdocumentor-signature__argument__name">$path</span></span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">array{name: string, path: string|false}</span></code>
 
     <div class="phpdocumentor-label-line">
         </div>
@@ -1566,8 +1717,8 @@ pages for a focused set of SEO checks inspired by editorial audit tools.</p>
         <h5 class="phpdocumentor-argument-list__heading">Parameters</h5>
     <dl class="phpdocumentor-argument-list">
                     <dt class="phpdocumentor-argument-list__entry">
-                <span class="phpdocumentor-signature__argument__name">$path</span>
-                : <span class="phpdocumentor-signature__argument__return-type">string</span>
+                <span class="phpdocumentor-argument-list__argument__name">$path</span>
+                : <span class="phpdocumentor-argument-list__argument__type">string</span>
                             </dt>
             <dd class="phpdocumentor-argument-list__definition">
                 
@@ -1576,8 +1727,8 @@ pages for a focused set of SEO checks inspired by editorial audit tools.</p>
 
     
 
+        
     
-
             <section>
         <h5 class="phpdocumentor-return-value__heading">Return values</h5>
         <span class="phpdocumentor-signature__response_type">array{name: string, path: string|false}</span>
@@ -1606,7 +1757,7 @@ pages for a focused set of SEO checks inspired by editorial audit tools.</p>
 
     <code class="phpdocumentor-code phpdocumentor-signature ">
     <span class="phpdocumentor-signature__visibility">protected</span>
-                    <span class="phpdocumentor-signature__name">openEditor</span><span>(</span><span class="phpdocumentor-signature__argument"><span class="phpdocumentor-signature__argument__return-type">string&nbsp;</span><span class="phpdocumentor-signature__argument__name">$path</span></span><span class="phpdocumentor-signature__argument"><span>, </span><span class="phpdocumentor-signature__argument__return-type">string&nbsp;</span><span class="phpdocumentor-signature__argument__name">$editor</span></span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">void</span></code>
+                    <span class="phpdocumentor-signature__name">openEditor</span><span>(</span><span class="phpdocumentor-signature__argument"><span class="phpdocumentor-signature__argument__type">string&nbsp;</span><span class="phpdocumentor-signature__argument__name">$path</span></span><span class="phpdocumentor-signature__argument"><span>, </span><span class="phpdocumentor-signature__argument__type">string&nbsp;</span><span class="phpdocumentor-signature__argument__name">$editor</span></span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">void</span></code>
 
     <div class="phpdocumentor-label-line">
         </div>
@@ -1615,15 +1766,15 @@ pages for a focused set of SEO checks inspired by editorial audit tools.</p>
         <h5 class="phpdocumentor-argument-list__heading">Parameters</h5>
     <dl class="phpdocumentor-argument-list">
                     <dt class="phpdocumentor-argument-list__entry">
-                <span class="phpdocumentor-signature__argument__name">$path</span>
-                : <span class="phpdocumentor-signature__argument__return-type">string</span>
+                <span class="phpdocumentor-argument-list__argument__name">$path</span>
+                : <span class="phpdocumentor-argument-list__argument__type">string</span>
                             </dt>
             <dd class="phpdocumentor-argument-list__definition">
                 
             </dd>
                     <dt class="phpdocumentor-argument-list__entry">
-                <span class="phpdocumentor-signature__argument__name">$editor</span>
-                : <span class="phpdocumentor-signature__argument__return-type">string</span>
+                <span class="phpdocumentor-argument-list__argument__name">$editor</span>
+                : <span class="phpdocumentor-argument-list__argument__type">string</span>
                             </dt>
             <dd class="phpdocumentor-argument-list__definition">
                 
@@ -1631,25 +1782,80 @@ pages for a focused set of SEO checks inspired by editorial audit tools.</p>
             </dl>
 
     
-    <h5 class="phpdocumentor-tag-list__heading" id="tags">
+    <h5 class="phpdocumentor-tag-list__heading" id="method_openEditor_tags">
         Tags
-        <a href="classes/Cecil-Command-AbstractCommand.html#method_openEditor#tags" class="headerlink"><i class="fas fa-link"></i></a>
+        <a href="classes/Cecil-Command-AbstractCommand.html#method_openEditor_tags" class="headerlink"><i class="fas fa-link"></i></a>
 
     </h5>
     <dl class="phpdocumentor-tag-list">
-                                    <dt class="phpdocumentor-tag-list__entry">
-                    <span class="phpdocumentor-tag__name">throws</span>
-                </dt>
-                <dd class="phpdocumentor-tag-list__definition">
+                    <dt class="phpdocumentor-tag-list__entry">
+                <span class="phpdocumentor-tag__name">throws</span>
+            </dt>
+                            <dd class="phpdocumentor-tag-list__definition">
                                                                 <span class="phpdocumentor-tag-link"><a href="classes/Cecil-Exception-RuntimeException.html"><abbr title="\Cecil\Exception\RuntimeException">RuntimeException</abbr></a></span>
-                                                            
-                                             
+                                                                                    
                                     </dd>
-                                            </dl>
+                        </dl>
+
+        
+    
+    
+</article>
+                    <article
+        class="phpdocumentor-element
+            -method
+            -protected
+                                                        "
+>
+    <h4 class="phpdocumentor-element__name" id="method_shouldFail">
+        shouldFail()
+        <a href="classes/Cecil-Command-Doctor-FailOnTrait.html#method_shouldFail" class="headerlink"><i class="fas fa-link"></i></a>
+
+    </h4>
+    <aside class="phpdocumentor-element-found-in">
+    <abbr class="phpdocumentor-element-found-in__file" title="src/Command/Doctor/FailOnTrait.php"><a href="files/src-command-doctor-failontrait.html"><abbr title="src/Command/Doctor/FailOnTrait.php">FailOnTrait.php</abbr></a></abbr>
+    :
+    <span class="phpdocumentor-element-found-in__line">63</span>
+
+    </aside>
+
+        <p class="phpdocumentor-summary">Should the command fail, according to the findings counts and the `--fail-on` level?</p>
+
+    <code class="phpdocumentor-code phpdocumentor-signature ">
+    <span class="phpdocumentor-signature__visibility">protected</span>
+                    <span class="phpdocumentor-signature__name">shouldFail</span><span>(</span><span class="phpdocumentor-signature__argument"><span class="phpdocumentor-signature__argument__type">array{bad_count: int, ok_count: int, feedback_count: int}&nbsp;</span><span class="phpdocumentor-signature__argument__name">$summary</span></span><span class="phpdocumentor-signature__argument"><span>, </span><span class="phpdocumentor-signature__argument__type">string&nbsp;</span><span class="phpdocumentor-signature__argument__name">$failOn</span></span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">bool</span></code>
+
+    <div class="phpdocumentor-label-line">
+        </div>
+    
+    
+        <h5 class="phpdocumentor-argument-list__heading">Parameters</h5>
+    <dl class="phpdocumentor-argument-list">
+                    <dt class="phpdocumentor-argument-list__entry">
+                <span class="phpdocumentor-argument-list__argument__name">$summary</span>
+                : <span class="phpdocumentor-argument-list__argument__type">array{bad_count: int, ok_count: int, feedback_count: int}</span>
+                            </dt>
+            <dd class="phpdocumentor-argument-list__definition">
+                
+            </dd>
+                    <dt class="phpdocumentor-argument-list__entry">
+                <span class="phpdocumentor-argument-list__argument__name">$failOn</span>
+                : <span class="phpdocumentor-argument-list__argument__type">string</span>
+                            </dt>
+            <dd class="phpdocumentor-argument-list__definition">
+                
+            </dd>
+            </dl>
 
     
 
+        
     
+            <section>
+        <h5 class="phpdocumentor-return-value__heading">Return values</h5>
+        <span class="phpdocumentor-signature__response_type">bool</span>
+            </section>
+
 </article>
                     <article
         class="phpdocumentor-element
@@ -1665,14 +1871,14 @@ pages for a focused set of SEO checks inspired by editorial audit tools.</p>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Command/Doctor/DoctorSeo.php"><a href="files/src-command-doctor-doctorseo.html"><abbr title="src/Command/Doctor/DoctorSeo.php">DoctorSeo.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">192</span>
+    <span class="phpdocumentor-element-found-in__line">202</span>
 
     </aside>
 
     
     <code class="phpdocumentor-code phpdocumentor-signature ">
     <span class="phpdocumentor-signature__visibility">private</span>
-                    <span class="phpdocumentor-signature__name">buildFilteredResult</span><span>(</span><span class="phpdocumentor-signature__argument"><span class="phpdocumentor-signature__argument__return-type">array{summary: array{pages_audited: int, pages_without_findings: int, bad_count: int, ok_count: int, feedback_count: int}, findings: array<int,array{page: string, level: string, check: string, details: string}>}&nbsp;</span><span class="phpdocumentor-signature__argument__name">$result</span></span><span class="phpdocumentor-signature__argument"><span>, </span><span class="phpdocumentor-signature__argument__return-type">array&lt;int, array{page: string, level: string, check: string, details: string}&gt;&nbsp;</span><span class="phpdocumentor-signature__argument__name">$findings</span></span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">array{summary: array{pages_audited: int, pages_without_findings: int, bad_count: int, ok_count: int, feedback_count: int}, findings: array<int,array{page: string, level: string, check: string, details: string}>}</span></code>
+                    <span class="phpdocumentor-signature__name">buildFilteredResult</span><span>(</span><span class="phpdocumentor-signature__argument"><span class="phpdocumentor-signature__argument__type">array{summary: array{pages_audited: int, pages_without_findings: int, bad_count: int, ok_count: int, feedback_count: int}, findings: array<int,array{page: string, level: string, check: string, details: string}>}&nbsp;</span><span class="phpdocumentor-signature__argument__name">$result</span></span><span class="phpdocumentor-signature__argument"><span>, </span><span class="phpdocumentor-signature__argument__type">array&lt;int, array{page: string, level: string, check: string, details: string}&gt;&nbsp;</span><span class="phpdocumentor-signature__argument__name">$findings</span></span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">array{summary: array{pages_audited: int, pages_without_findings: int, bad_count: int, ok_count: int, feedback_count: int}, findings: array<int,array{page: string, level: string, check: string, details: string}>}</span></code>
 
     <div class="phpdocumentor-label-line">
         </div>
@@ -1681,15 +1887,15 @@ pages for a focused set of SEO checks inspired by editorial audit tools.</p>
         <h5 class="phpdocumentor-argument-list__heading">Parameters</h5>
     <dl class="phpdocumentor-argument-list">
                     <dt class="phpdocumentor-argument-list__entry">
-                <span class="phpdocumentor-signature__argument__name">$result</span>
-                : <span class="phpdocumentor-signature__argument__return-type">array{summary: array{pages_audited: int, pages_without_findings: int, bad_count: int, ok_count: int, feedback_count: int}, findings: array<int,array{page: string, level: string, check: string, details: string}>}</span>
+                <span class="phpdocumentor-argument-list__argument__name">$result</span>
+                : <span class="phpdocumentor-argument-list__argument__type">array{summary: array{pages_audited: int, pages_without_findings: int, bad_count: int, ok_count: int, feedback_count: int}, findings: array<int,array{page: string, level: string, check: string, details: string}>}</span>
                             </dt>
             <dd class="phpdocumentor-argument-list__definition">
                 
             </dd>
                     <dt class="phpdocumentor-argument-list__entry">
-                <span class="phpdocumentor-signature__argument__name">$findings</span>
-                : <span class="phpdocumentor-signature__argument__return-type">array&lt;int, array{page: string, level: string, check: string, details: string}&gt;</span>
+                <span class="phpdocumentor-argument-list__argument__name">$findings</span>
+                : <span class="phpdocumentor-argument-list__argument__type">array&lt;int, array{page: string, level: string, check: string, details: string}&gt;</span>
                             </dt>
             <dd class="phpdocumentor-argument-list__definition">
                 
@@ -1698,8 +1904,8 @@ pages for a focused set of SEO checks inspired by editorial audit tools.</p>
 
     
 
+        
     
-
             <section>
         <h5 class="phpdocumentor-return-value__heading">Return values</h5>
         <span class="phpdocumentor-signature__response_type">array{summary: array{pages_audited: int, pages_without_findings: int, bad_count: int, ok_count: int, feedback_count: int}, findings: array<int,array{page: string, level: string, check: string, details: string}>}</span>
@@ -1720,14 +1926,14 @@ pages for a focused set of SEO checks inspired by editorial audit tools.</p>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Command/Doctor/DoctorSeo.php"><a href="files/src-command-doctor-doctorseo.html"><abbr title="src/Command/Doctor/DoctorSeo.php">DoctorSeo.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">170</span>
+    <span class="phpdocumentor-element-found-in__line">180</span>
 
     </aside>
 
     
     <code class="phpdocumentor-code phpdocumentor-signature ">
     <span class="phpdocumentor-signature__visibility">private</span>
-                    <span class="phpdocumentor-signature__name">filterResultWithoutLevel</span><span>(</span><span class="phpdocumentor-signature__argument"><span class="phpdocumentor-signature__argument__return-type">array{summary: array{pages_audited: int, pages_without_findings: int, bad_count: int, ok_count: int, feedback_count: int}, findings: array<int,array{page: string, level: string, check: string, details: string}>}&nbsp;</span><span class="phpdocumentor-signature__argument__name">$result</span></span><span class="phpdocumentor-signature__argument"><span>, </span><span class="phpdocumentor-signature__argument__return-type">string&nbsp;</span><span class="phpdocumentor-signature__argument__name">$level</span></span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">array{summary: array{pages_audited: int, pages_without_findings: int, bad_count: int, ok_count: int, feedback_count: int}, findings: array<int,array{page: string, level: string, check: string, details: string}>}</span></code>
+                    <span class="phpdocumentor-signature__name">filterResultWithoutLevel</span><span>(</span><span class="phpdocumentor-signature__argument"><span class="phpdocumentor-signature__argument__type">array{summary: array{pages_audited: int, pages_without_findings: int, bad_count: int, ok_count: int, feedback_count: int}, findings: array<int,array{page: string, level: string, check: string, details: string}>}&nbsp;</span><span class="phpdocumentor-signature__argument__name">$result</span></span><span class="phpdocumentor-signature__argument"><span>, </span><span class="phpdocumentor-signature__argument__type">string&nbsp;</span><span class="phpdocumentor-signature__argument__name">$level</span></span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">array{summary: array{pages_audited: int, pages_without_findings: int, bad_count: int, ok_count: int, feedback_count: int}, findings: array<int,array{page: string, level: string, check: string, details: string}>}</span></code>
 
     <div class="phpdocumentor-label-line">
         </div>
@@ -1736,15 +1942,15 @@ pages for a focused set of SEO checks inspired by editorial audit tools.</p>
         <h5 class="phpdocumentor-argument-list__heading">Parameters</h5>
     <dl class="phpdocumentor-argument-list">
                     <dt class="phpdocumentor-argument-list__entry">
-                <span class="phpdocumentor-signature__argument__name">$result</span>
-                : <span class="phpdocumentor-signature__argument__return-type">array{summary: array{pages_audited: int, pages_without_findings: int, bad_count: int, ok_count: int, feedback_count: int}, findings: array<int,array{page: string, level: string, check: string, details: string}>}</span>
+                <span class="phpdocumentor-argument-list__argument__name">$result</span>
+                : <span class="phpdocumentor-argument-list__argument__type">array{summary: array{pages_audited: int, pages_without_findings: int, bad_count: int, ok_count: int, feedback_count: int}, findings: array<int,array{page: string, level: string, check: string, details: string}>}</span>
                             </dt>
             <dd class="phpdocumentor-argument-list__definition">
                 
             </dd>
                     <dt class="phpdocumentor-argument-list__entry">
-                <span class="phpdocumentor-signature__argument__name">$level</span>
-                : <span class="phpdocumentor-signature__argument__return-type">string</span>
+                <span class="phpdocumentor-argument-list__argument__name">$level</span>
+                : <span class="phpdocumentor-argument-list__argument__type">string</span>
                             </dt>
             <dd class="phpdocumentor-argument-list__definition">
                 
@@ -1753,8 +1959,8 @@ pages for a focused set of SEO checks inspired by editorial audit tools.</p>
 
     
 
+        
     
-
             <section>
         <h5 class="phpdocumentor-return-value__heading">Return values</h5>
         <span class="phpdocumentor-signature__response_type">array{summary: array{pages_audited: int, pages_without_findings: int, bad_count: int, ok_count: int, feedback_count: int}, findings: array<int,array{page: string, level: string, check: string, details: string}>}</span>
@@ -1775,14 +1981,14 @@ pages for a focused set of SEO checks inspired by editorial audit tools.</p>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Command/Doctor/DoctorSeo.php"><a href="files/src-command-doctor-doctorseo.html"><abbr title="src/Command/Doctor/DoctorSeo.php">DoctorSeo.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">290</span>
+    <span class="phpdocumentor-element-found-in__line">300</span>
 
     </aside>
 
     
     <code class="phpdocumentor-code phpdocumentor-signature ">
     <span class="phpdocumentor-signature__visibility">private</span>
-                    <span class="phpdocumentor-signature__name">formatLevel</span><span>(</span><span class="phpdocumentor-signature__argument"><span class="phpdocumentor-signature__argument__return-type">string&nbsp;</span><span class="phpdocumentor-signature__argument__name">$level</span></span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">string</span></code>
+                    <span class="phpdocumentor-signature__name">formatLevel</span><span>(</span><span class="phpdocumentor-signature__argument"><span class="phpdocumentor-signature__argument__type">string&nbsp;</span><span class="phpdocumentor-signature__argument__name">$level</span></span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">string</span></code>
 
     <div class="phpdocumentor-label-line">
         </div>
@@ -1791,8 +1997,8 @@ pages for a focused set of SEO checks inspired by editorial audit tools.</p>
         <h5 class="phpdocumentor-argument-list__heading">Parameters</h5>
     <dl class="phpdocumentor-argument-list">
                     <dt class="phpdocumentor-argument-list__entry">
-                <span class="phpdocumentor-signature__argument__name">$level</span>
-                : <span class="phpdocumentor-signature__argument__return-type">string</span>
+                <span class="phpdocumentor-argument-list__argument__name">$level</span>
+                : <span class="phpdocumentor-argument-list__argument__type">string</span>
                             </dt>
             <dd class="phpdocumentor-argument-list__definition">
                 
@@ -1801,8 +2007,8 @@ pages for a focused set of SEO checks inspired by editorial audit tools.</p>
 
     
 
+        
     
-
             <section>
         <h5 class="phpdocumentor-return-value__heading">Return values</h5>
         <span class="phpdocumentor-signature__response_type">string</span>
@@ -1823,7 +2029,7 @@ pages for a focused set of SEO checks inspired by editorial audit tools.</p>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Command/Doctor/DoctorSeo.php"><a href="files/src-command-doctor-doctorseo.html"><abbr title="src/Command/Doctor/DoctorSeo.php">DoctorSeo.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">153</span>
+    <span class="phpdocumentor-element-found-in__line">163</span>
 
     </aside>
 
@@ -1831,7 +2037,7 @@ pages for a focused set of SEO checks inspired by editorial audit tools.</p>
 
     <code class="phpdocumentor-code phpdocumentor-signature ">
     <span class="phpdocumentor-signature__visibility">private</span>
-                    <span class="phpdocumentor-signature__name">outputJson</span><span>(</span><span class="phpdocumentor-signature__argument"><span class="phpdocumentor-signature__argument__return-type"><abbr title="\Symfony\Component\Console\Output\OutputInterface">OutputInterface</abbr>&nbsp;</span><span class="phpdocumentor-signature__argument__name">$output</span></span><span class="phpdocumentor-signature__argument"><span>, </span><span class="phpdocumentor-signature__argument__return-type">array{summary: array{pages_audited: int, pages_without_findings: int, bad_count: int, ok_count: int, feedback_count: int}, findings: array<int,array{page: string, level: string, check: string, details: string}>}&nbsp;</span><span class="phpdocumentor-signature__argument__name">$result</span></span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">void</span></code>
+                    <span class="phpdocumentor-signature__name">outputJson</span><span>(</span><span class="phpdocumentor-signature__argument"><span class="phpdocumentor-signature__argument__type"><abbr title="\Symfony\Component\Console\Output\OutputInterface">OutputInterface</abbr>&nbsp;</span><span class="phpdocumentor-signature__argument__name">$output</span></span><span class="phpdocumentor-signature__argument"><span>, </span><span class="phpdocumentor-signature__argument__type">array{summary: array{pages_audited: int, pages_without_findings: int, bad_count: int, ok_count: int, feedback_count: int}, findings: array<int,array{page: string, level: string, check: string, details: string}>}&nbsp;</span><span class="phpdocumentor-signature__argument__name">$result</span></span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">void</span></code>
 
     <div class="phpdocumentor-label-line">
         </div>
@@ -1840,15 +2046,15 @@ pages for a focused set of SEO checks inspired by editorial audit tools.</p>
         <h5 class="phpdocumentor-argument-list__heading">Parameters</h5>
     <dl class="phpdocumentor-argument-list">
                     <dt class="phpdocumentor-argument-list__entry">
-                <span class="phpdocumentor-signature__argument__name">$output</span>
-                : <span class="phpdocumentor-signature__argument__return-type"><abbr title="\Symfony\Component\Console\Output\OutputInterface">OutputInterface</abbr></span>
+                <span class="phpdocumentor-argument-list__argument__name">$output</span>
+                : <span class="phpdocumentor-argument-list__argument__type"><abbr title="\Symfony\Component\Console\Output\OutputInterface">OutputInterface</abbr></span>
                             </dt>
             <dd class="phpdocumentor-argument-list__definition">
                 
             </dd>
                     <dt class="phpdocumentor-argument-list__entry">
-                <span class="phpdocumentor-signature__argument__name">$result</span>
-                : <span class="phpdocumentor-signature__argument__return-type">array{summary: array{pages_audited: int, pages_without_findings: int, bad_count: int, ok_count: int, feedback_count: int}, findings: array<int,array{page: string, level: string, check: string, details: string}>}</span>
+                <span class="phpdocumentor-argument-list__argument__name">$result</span>
+                : <span class="phpdocumentor-argument-list__argument__type">array{summary: array{pages_audited: int, pages_without_findings: int, bad_count: int, ok_count: int, feedback_count: int}, findings: array<int,array{page: string, level: string, check: string, details: string}>}</span>
                             </dt>
             <dd class="phpdocumentor-argument-list__definition">
                 
@@ -1857,8 +2063,8 @@ pages for a focused set of SEO checks inspired by editorial audit tools.</p>
 
     
 
+        
     
-
     
 </article>
                     <article
@@ -1875,7 +2081,7 @@ pages for a focused set of SEO checks inspired by editorial audit tools.</p>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Command/Doctor/DoctorSeo.php"><a href="files/src-command-doctor-doctorseo.html"><abbr title="src/Command/Doctor/DoctorSeo.php">DoctorSeo.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">232</span>
+    <span class="phpdocumentor-element-found-in__line">242</span>
 
     </aside>
 
@@ -1883,7 +2089,7 @@ pages for a focused set of SEO checks inspired by editorial audit tools.</p>
 
     <code class="phpdocumentor-code phpdocumentor-signature ">
     <span class="phpdocumentor-signature__visibility">private</span>
-                    <span class="phpdocumentor-signature__name">outputText</span><span>(</span><span class="phpdocumentor-signature__argument"><span class="phpdocumentor-signature__argument__return-type"><abbr title="\Symfony\Component\Console\Output\OutputInterface">OutputInterface</abbr>&nbsp;</span><span class="phpdocumentor-signature__argument__name">$output</span></span><span class="phpdocumentor-signature__argument"><span>, </span><span class="phpdocumentor-signature__argument__return-type">array{summary: array{pages_audited: int, pages_without_findings: int, bad_count: int, ok_count: int, feedback_count: int}, findings: array<int,array{page: string, level: string, check: string, details: string}>}&nbsp;</span><span class="phpdocumentor-signature__argument__name">$result</span></span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">void</span></code>
+                    <span class="phpdocumentor-signature__name">outputText</span><span>(</span><span class="phpdocumentor-signature__argument"><span class="phpdocumentor-signature__argument__type"><abbr title="\Symfony\Component\Console\Output\OutputInterface">OutputInterface</abbr>&nbsp;</span><span class="phpdocumentor-signature__argument__name">$output</span></span><span class="phpdocumentor-signature__argument"><span>, </span><span class="phpdocumentor-signature__argument__type">array{summary: array{pages_audited: int, pages_without_findings: int, bad_count: int, ok_count: int, feedback_count: int}, findings: array<int,array{page: string, level: string, check: string, details: string}>}&nbsp;</span><span class="phpdocumentor-signature__argument__name">$result</span></span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">void</span></code>
 
     <div class="phpdocumentor-label-line">
         </div>
@@ -1892,15 +2098,15 @@ pages for a focused set of SEO checks inspired by editorial audit tools.</p>
         <h5 class="phpdocumentor-argument-list__heading">Parameters</h5>
     <dl class="phpdocumentor-argument-list">
                     <dt class="phpdocumentor-argument-list__entry">
-                <span class="phpdocumentor-signature__argument__name">$output</span>
-                : <span class="phpdocumentor-signature__argument__return-type"><abbr title="\Symfony\Component\Console\Output\OutputInterface">OutputInterface</abbr></span>
+                <span class="phpdocumentor-argument-list__argument__name">$output</span>
+                : <span class="phpdocumentor-argument-list__argument__type"><abbr title="\Symfony\Component\Console\Output\OutputInterface">OutputInterface</abbr></span>
                             </dt>
             <dd class="phpdocumentor-argument-list__definition">
                 
             </dd>
                     <dt class="phpdocumentor-argument-list__entry">
-                <span class="phpdocumentor-signature__argument__name">$result</span>
-                : <span class="phpdocumentor-signature__argument__return-type">array{summary: array{pages_audited: int, pages_without_findings: int, bad_count: int, ok_count: int, feedback_count: int}, findings: array<int,array{page: string, level: string, check: string, details: string}>}</span>
+                <span class="phpdocumentor-argument-list__argument__name">$result</span>
+                : <span class="phpdocumentor-argument-list__argument__type">array{summary: array{pages_audited: int, pages_without_findings: int, bad_count: int, ok_count: int, feedback_count: int}, findings: array<int,array{page: string, level: string, check: string, details: string}>}</span>
                             </dt>
             <dd class="phpdocumentor-argument-list__definition">
                 
@@ -1909,8 +2115,8 @@ pages for a focused set of SEO checks inspired by editorial audit tools.</p>
 
     
 
+        
     
-
     
 </article>
                     <article
@@ -1927,14 +2133,14 @@ pages for a focused set of SEO checks inspired by editorial audit tools.</p>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Command/Doctor/DoctorSeo.php"><a href="files/src-command-doctor-doctorseo.html"><abbr title="src/Command/Doctor/DoctorSeo.php">DoctorSeo.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">299</span>
+    <span class="phpdocumentor-element-found-in__line">309</span>
 
     </aside>
 
     
     <code class="phpdocumentor-code phpdocumentor-signature ">
     <span class="phpdocumentor-signature__visibility">private</span>
-                    <span class="phpdocumentor-signature__name">truncatePageLabel</span><span>(</span><span class="phpdocumentor-signature__argument"><span class="phpdocumentor-signature__argument__return-type">string&nbsp;</span><span class="phpdocumentor-signature__argument__name">$page</span></span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">string</span></code>
+                    <span class="phpdocumentor-signature__name">truncatePageLabel</span><span>(</span><span class="phpdocumentor-signature__argument"><span class="phpdocumentor-signature__argument__type">string&nbsp;</span><span class="phpdocumentor-signature__argument__name">$page</span></span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">string</span></code>
 
     <div class="phpdocumentor-label-line">
         </div>
@@ -1943,8 +2149,8 @@ pages for a focused set of SEO checks inspired by editorial audit tools.</p>
         <h5 class="phpdocumentor-argument-list__heading">Parameters</h5>
     <dl class="phpdocumentor-argument-list">
                     <dt class="phpdocumentor-argument-list__entry">
-                <span class="phpdocumentor-signature__argument__name">$page</span>
-                : <span class="phpdocumentor-signature__argument__return-type">string</span>
+                <span class="phpdocumentor-argument-list__argument__name">$page</span>
+                : <span class="phpdocumentor-argument-list__argument__type">string</span>
                             </dt>
             <dd class="phpdocumentor-argument-list__definition">
                 
@@ -1953,8 +2159,8 @@ pages for a focused set of SEO checks inspired by editorial audit tools.</p>
 
     
 
+        
     
-
             <section>
         <h5 class="phpdocumentor-return-value__heading">Return values</h5>
         <span class="phpdocumentor-signature__response_type">string</span>
@@ -1963,98 +2169,7 @@ pages for a focused set of SEO checks inspired by editorial audit tools.</p>
 </article>
             </section>
 
-        <div class="phpdocumentor-modal" id="source-view">
-    <div class="phpdocumentor-modal-bg" data-exit-button></div>
-    <div class="phpdocumentor-modal-container">
-        <div class="phpdocumentor-modal-content">
-            <pre style="max-height: 500px; overflow-y: scroll" data-src="files/src/Command/Doctor/DoctorSeo.php.txt" class="language-php line-numbers linkable-line-numbers"></pre>
-        </div>
-        <button data-exit-button class="phpdocumentor-modal__close">&times;</button>
-    </div>
-</div>
-
-    <script type="text/javascript">
-        (function () {
-            function loadExternalCodeSnippet(el, url, line) {
-                Array.prototype.slice.call(el.querySelectorAll('pre[data-src]')).forEach((pre) => {
-                    const src = url || pre.getAttribute('data-src').replace(/\\/g, '/');
-                    const language = 'php';
-
-                    const code = document.createElement('code');
-                    code.className = 'language-' + language;
-                    pre.textContent = '';
-                    pre.setAttribute('data-line', line)
-                    code.textContent = 'Loading…';
-                    pre.appendChild(code);
-
-                    var xhr = new XMLHttpRequest();
-
-                    xhr.open('GET', src, true);
-
-                    xhr.onreadystatechange = function () {
-                        if (xhr.readyState !== 4) {
-                            return;
-                        }
-
-                        if (xhr.status < 400 && xhr.responseText) {
-                            code.textContent = xhr.responseText;
-                            Prism.highlightElement(code);
-                            return;
-                        }
-
-                        if (xhr.status === 404) {
-                            code.textContent = '✖ Error: File could not be found';
-                            return;
-                        }
-
-                        if (xhr.status >= 400) {
-                            code.textContent = '✖ Error ' + xhr.status + ' while fetching file: ' + xhr.statusText;
-                            return;
-                        }
-
-                        code.textContent = '✖ Error: An unknown error occurred';
-                    };
-
-                    xhr.send(null);
-                });
-            }
-
-            const modalButtons = document.querySelectorAll("[data-modal]");
-            const openedAsLocalFile = window.location.protocol === 'file:';
-            if (modalButtons.length > 0 && openedAsLocalFile) {
-                console.warn(
-                    'Viewing the source code is unavailable because you are opening this page from the file:// scheme; ' +
-                    'browsers block XHR requests when a page is opened this way'
-                );
-            }
-
-            modalButtons.forEach(function (trigger) {
-                if (openedAsLocalFile) {
-                    trigger.setAttribute("hidden", "hidden");
-                }
-
-                trigger.addEventListener("click", function (event) {
-                    event.preventDefault();
-                    const modal = document.getElementById(trigger.dataset.modal);
-                    if (!modal) {
-                        console.error(`Modal with id "${trigger.dataset.modal}" could not be found`);
-                        return;
-                    }
-                    modal.classList.add("phpdocumentor-modal__open");
-
-                    loadExternalCodeSnippet(modal, trigger.dataset.src || null, trigger.dataset.line)
-                    const exits = modal.querySelectorAll("[data-exit-button]");
-                    exits.forEach(function (exit) {
-                        exit.addEventListener("click", function (event) {
-                            event.preventDefault();
-                            modal.classList.remove("phpdocumentor-modal__open");
-                        });
-                    });
-                });
-            });
-        })();
-    </script>
-
+        
     </article>
                                 </section>
                 <section class="phpdocumentor-on-this-page__sidebar">
@@ -2078,6 +2193,7 @@ pages for a focused set of SEO checks inspired by editorial audit tools.</p>
                                                     <li class=""><a href="classes/Cecil-Command-AbstractCommand.html#constant_EXCLUDED_CMD">EXCLUDED_CMD</a></li>
                                                     <li class=""><a href="classes/Cecil-Command-AbstractCommand.html#constant_PID_FILE">PID_FILE</a></li>
                                                     <li class=""><a href="classes/Cecil-Command-AbstractCommand.html#constant_SERVE_OUTPUT">SERVE_OUTPUT</a></li>
+                                                    <li class=""><a href="classes/Cecil-Command-Doctor-FailOnTrait.html#constant_FAIL_ON_LEVELS">FAIL_ON_LEVELS</a></li>
                                                     <li class=""><a href="classes/Cecil-Command-Doctor-DoctorSeo.html#constant_PAGE_LABEL_MAX_LENGTH">PAGE_LABEL_MAX_LENGTH</a></li>
                                             </ul>
                 </li>
@@ -2107,11 +2223,14 @@ pages for a focused set of SEO checks inspired by editorial audit tools.</p>
                                             <li class=""><a href="classes/Cecil-Command-Doctor-DoctorSeo.html#method_execute">execute()</a></li>
                                             <li class=""><a href="classes/Cecil-Command-AbstractCommand.html#method_getBuilder">getBuilder()</a></li>
                                             <li class=""><a href="classes/Cecil-Command-AbstractCommand.html#method_getConfigFiles">getConfigFiles()</a></li>
+                                            <li class=""><a href="classes/Cecil-Command-Doctor-FailOnTrait.html#method_getFailOn">getFailOn()</a></li>
+                                            <li class=""><a href="classes/Cecil-Command-Doctor-FailOnTrait.html#method_getFailOnOption">getFailOnOption()</a></li>
                                             <li class=""><a href="classes/Cecil-Command-AbstractCommand.html#method_getPath">getPath()</a></li>
                                             <li class=""><a href="classes/Cecil-Command-AbstractCommand.html#method_initialize">initialize()</a></li>
                                             <li class=""><a href="classes/Cecil-Command-AbstractCommand.html#method_locateAdditionalConfigFiles">locateAdditionalConfigFiles()</a></li>
                                             <li class=""><a href="classes/Cecil-Command-AbstractCommand.html#method_locateConfigFile">locateConfigFile()</a></li>
                                             <li class=""><a href="classes/Cecil-Command-AbstractCommand.html#method_openEditor">openEditor()</a></li>
+                                            <li class=""><a href="classes/Cecil-Command-Doctor-FailOnTrait.html#method_shouldFail">shouldFail()</a></li>
                                             <li class=""><a href="classes/Cecil-Command-Doctor-DoctorSeo.html#method_buildFilteredResult">buildFilteredResult()</a></li>
                                             <li class=""><a href="classes/Cecil-Command-Doctor-DoctorSeo.html#method_filterResultWithoutLevel">filterResultWithoutLevel()</a></li>
                                             <li class=""><a href="classes/Cecil-Command-Doctor-DoctorSeo.html#method_formatLevel">formatLevel()</a></li>

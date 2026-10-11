@@ -75,6 +75,7 @@ class Application extends BaseApplication
             new Command\Doctor\DoctorCache(),
             new Command\Doctor(),
             new Command\Doctor\DoctorFrontmatter(),
+            new Command\Doctor\DoctorLinks(),
             new Command\Doctor\DoctorSeo(),
             new Command\ShowContent(),
             new Command\ShowConfig(),

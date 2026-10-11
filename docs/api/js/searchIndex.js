@@ -166,6 +166,11 @@ Search.appendIndex(
             "summary": "Builds\u0020mobile\u0020source\u0020attributes\u0020for\u0020an\u0020image.",
             "url": "classes/Cecil-Asset-Image.html#method_buildMobileSourceAttributes"
         },                {
+            "fqsen": "\\Cecil\\Asset\\Image\u003A\u003AlogMissingVariant\u0028\u0029",
+            "name": "logMissingVariant",
+            "summary": "Logs\u0020a\u0020missing\u0020image\u0020variant,\u0020once\u0020per\u0020build.",
+            "url": "classes/Cecil-Asset-Image.html#method_logMissingVariant"
+        },                {
             "fqsen": "\\Cecil\\Asset\\Image\u003A\u003AbuildVariantSourceAttributes\u0028\u0029",
             "name": "buildVariantSourceAttributes",
             "summary": "Builds\u0020source\u0020attributes\u0020\u0028alternative\u0020formats\u0020\u002B\u0020fallback\u0029\u0020of\u0020an\u0020image\u0020variant\u0020for\u0020a\u0020given\u0020media\u0020query.",
@@ -220,6 +225,16 @@ Search.appendIndex(
             "name": "getSvgAttributes",
             "summary": "Returns\u0020SVG\u0020attributes.",
             "url": "classes/Cecil-Asset-Image.html#method_getSvgAttributes"
+        },                {
+            "fqsen": "\\Cecil\\Asset\\Image\u003A\u003A\u0024missingVariantsLogged",
+            "name": "missingVariantsLogged",
+            "summary": "",
+            "url": "classes/Cecil-Asset-Image.html#property_missingVariantsLogged"
+        },                {
+            "fqsen": "\\Cecil\\Asset\\Image\u003A\u003A\u0024missingVariantsBuildId",
+            "name": "missingVariantsBuildId",
+            "summary": "",
+            "url": "classes/Cecil-Asset-Image.html#property_missingVariantsBuildId"
         },                {
             "fqsen": "\\Cecil\\Asset\\Locator",
             "name": "Locator",
@@ -2581,6 +2596,51 @@ Search.appendIndex(
             "summary": "Wraps\u0020details\u0020lines\u0020to\u0020keep\u0020table\u0020width\u0020under\u0020control.",
             "url": "classes/Cecil-Command-Doctor-DoctorFrontmatter.html#method_formatDetails"
         },                {
+            "fqsen": "\\Cecil\\Command\\Doctor\\DoctorLinks",
+            "name": "DoctorLinks",
+            "summary": "Links\u0020doctor\u0020command.",
+            "url": "classes/Cecil-Command-Doctor-DoctorLinks.html"
+        },                {
+            "fqsen": "\\Cecil\\Command\\Doctor\\DoctorLinks\u003A\u003Aconfigure\u0028\u0029",
+            "name": "configure",
+            "summary": "\u007B\u0040inheritdoc\u007D",
+            "url": "classes/Cecil-Command-Doctor-DoctorLinks.html#method_configure"
+        },                {
+            "fqsen": "\\Cecil\\Command\\Doctor\\DoctorLinks\u003A\u003Aexecute\u0028\u0029",
+            "name": "execute",
+            "summary": "\u007B\u0040inheritdoc\u007D",
+            "url": "classes/Cecil-Command-Doctor-DoctorLinks.html#method_execute"
+        },                {
+            "fqsen": "\\Cecil\\Command\\Doctor\\DoctorLinks\u003A\u003AoutputText\u0028\u0029",
+            "name": "outputText",
+            "summary": "Output\u0020results\u0020in\u0020text\u0020format\u0020\u0028tables\u0029.",
+            "url": "classes/Cecil-Command-Doctor-DoctorLinks.html#method_outputText"
+        },                {
+            "fqsen": "\\Cecil\\Command\\Doctor\\DoctorLinks\u003A\u003AformatLevel\u0028\u0029",
+            "name": "formatLevel",
+            "summary": "",
+            "url": "classes/Cecil-Command-Doctor-DoctorLinks.html#method_formatLevel"
+        },                {
+            "fqsen": "\\Cecil\\Command\\Doctor\\DoctorLinks\u003A\u003AtruncateLabel\u0028\u0029",
+            "name": "truncateLabel",
+            "summary": "",
+            "url": "classes/Cecil-Command-Doctor-DoctorLinks.html#method_truncateLabel"
+        },                {
+            "fqsen": "\\Cecil\\Command\\Doctor\\DoctorLinks\u003A\u003ALABEL_MAX_LENGTH",
+            "name": "LABEL_MAX_LENGTH",
+            "summary": "",
+            "url": "classes/Cecil-Command-Doctor-DoctorLinks.html#constant_LABEL_MAX_LENGTH"
+        },                {
+            "fqsen": "\\Cecil\\Command\\Doctor\\DoctorLinks\u003A\u003A\u0024includeFeedback",
+            "name": "includeFeedback",
+            "summary": "",
+            "url": "classes/Cecil-Command-Doctor-DoctorLinks.html#property_includeFeedback"
+        },                {
+            "fqsen": "\\Cecil\\Command\\Doctor\\DoctorLinks\u003A\u003A\u0024format",
+            "name": "format",
+            "summary": "",
+            "url": "classes/Cecil-Command-Doctor-DoctorLinks.html#property_format"
+        },                {
             "fqsen": "\\Cecil\\Command\\Doctor\\DoctorSeo",
             "name": "DoctorSeo",
             "summary": "SEO\u0020doctor\u0020command.",
@@ -2645,6 +2705,26 @@ Search.appendIndex(
             "name": "format",
             "summary": "",
             "url": "classes/Cecil-Command-Doctor-DoctorSeo.html#property_format"
+        },                {
+            "fqsen": "\\Cecil\\Command\\Doctor\\FailOnTrait",
+            "name": "FailOnTrait",
+            "summary": "Handles\u0020the\u0020\u0060\u002D\u002Dfail\u002Don\u0060\u0020option\u0020of\u0020audit\u0020commands,\u0020to\u0020return\u0020a\u0020failure\u0020exit\u0020code\nwhen\u0020findings\u0020of\u0020a\u0020given\u0020level\u0020\u0028or\u0020more\u0020severe\u0029\u0020are\u0020found.",
+            "url": "classes/Cecil-Command-Doctor-FailOnTrait.html"
+        },                {
+            "fqsen": "\\Cecil\\Command\\Doctor\\FailOnTrait\u003A\u003AgetFailOnOption\u0028\u0029",
+            "name": "getFailOnOption",
+            "summary": "Returns\u0020the\u0020\u0060\u002D\u002Dfail\u002Don\u0060\u0020option\u0020definition.",
+            "url": "classes/Cecil-Command-Doctor-FailOnTrait.html#method_getFailOnOption"
+        },                {
+            "fqsen": "\\Cecil\\Command\\Doctor\\FailOnTrait\u003A\u003AgetFailOn\u0028\u0029",
+            "name": "getFailOn",
+            "summary": "Returns\u0020the\u0020validated\u0020\u0060\u002D\u002Dfail\u002Don\u0060\u0020option\u0020value.",
+            "url": "classes/Cecil-Command-Doctor-FailOnTrait.html#method_getFailOn"
+        },                {
+            "fqsen": "\\Cecil\\Command\\Doctor\\FailOnTrait\u003A\u003AshouldFail\u0028\u0029",
+            "name": "shouldFail",
+            "summary": "Should\u0020the\u0020command\u0020fail,\u0020according\u0020to\u0020the\u0020findings\u0020counts\u0020and\u0020the\u0020\u0060\u002D\u002Dfail\u002Don\u0060\u0020level\u003F",
+            "url": "classes/Cecil-Command-Doctor-FailOnTrait.html#method_shouldFail"
         },                {
             "fqsen": "\\Cecil\\Command\\Doctor",
             "name": "Doctor",
@@ -3596,6 +3676,291 @@ Search.appendIndex(
             "summary": "",
             "url": "classes/Cecil-Doctor-FrontmatterDoctor.html#constant_MAX_ERRORS_PER_FILE"
         },                {
+            "fqsen": "\\Cecil\\Doctor\\Links\\CurlUrlChecker",
+            "name": "CurlUrlChecker",
+            "summary": "Checks\u0020remote\u0020URLs\u0020concurrently\u0020with\u0020cURL\u0020multi\u0020handles.",
+            "url": "classes/Cecil-Doctor-Links-CurlUrlChecker.html"
+        },                {
+            "fqsen": "\\Cecil\\Doctor\\Links\\CurlUrlChecker\u003A\u003Acheck\u0028\u0029",
+            "name": "check",
+            "summary": "Checks\u0020a\u0020list\u0020of\u0020URLs\u0020and\u0020returns\u0020the\u0020result\u0020of\u0020each\u0020one,\u0020indexed\u0020by\u0020URL.",
+            "url": "classes/Cecil-Doctor-Links-CurlUrlChecker.html#method_check"
+        },                {
+            "fqsen": "\\Cecil\\Doctor\\Links\\CurlUrlChecker\u003A\u003Arun\u0028\u0029",
+            "name": "run",
+            "summary": "Requests\u0020URLs\u0020concurrently\u0020with\u0020the\u0020given\u0020HTTP\u0020method.",
+            "url": "classes/Cecil-Doctor-Links-CurlUrlChecker.html#method_run"
+        },                {
+            "fqsen": "\\Cecil\\Doctor\\Links\\CurlUrlChecker\u003A\u003AcreateHandle\u0028\u0029",
+            "name": "createHandle",
+            "summary": "Creates\u0020a\u0020cURL\u0020handle\u0020for\u0020the\u0020given\u0020URL.",
+            "url": "classes/Cecil-Doctor-Links-CurlUrlChecker.html#method_createHandle"
+        },                {
+            "fqsen": "\\Cecil\\Doctor\\Links\\CurlUrlChecker\u003A\u003ANO_RETRY_ERRNO",
+            "name": "NO_RETRY_ERRNO",
+            "summary": "cURL\u0020error\u0020codes\u0020for\u0020which\u0020a\u0020GET\u0020retry\u0020is\u0020pointless",
+            "url": "classes/Cecil-Doctor-Links-CurlUrlChecker.html#constant_NO_RETRY_ERRNO"
+        },                {
+            "fqsen": "\\Cecil\\Doctor\\Links\\CurlUrlChecker\u003A\u003AABORTED_BY_CALLBACK",
+            "name": "ABORTED_BY_CALLBACK",
+            "summary": "cURL\u0020error\u0020code\u0020raised\u0020when\u0020the\u0020body\u0020transfer\u0020is\u0020aborted\u0020on\u0020purpose",
+            "url": "classes/Cecil-Doctor-Links-CurlUrlChecker.html#constant_ABORTED_BY_CALLBACK"
+        },                {
+            "fqsen": "\\Cecil\\Doctor\\Links\\LinkExtractor",
+            "name": "LinkExtractor",
+            "summary": "Extracts\u0020URLs\u0020and\u0020element\u0020IDs\u0020from\u0020HTML\u0020and\u0020CSS\u0020contents.",
+            "url": "classes/Cecil-Doctor-Links-LinkExtractor.html"
+        },                {
+            "fqsen": "\\Cecil\\Doctor\\Links\\LinkExtractor\u003A\u003AextractHtmlLinks\u0028\u0029",
+            "name": "extractHtmlLinks",
+            "summary": "Extracts\u0020URLs\u0020from\u0020HTML\u0020attributes,\u0020inline\u0020styles\u0020and\u0020\u0060\u003Cstyle\u003E\u0060\u0020elements.",
+            "url": "classes/Cecil-Doctor-Links-LinkExtractor.html#method_extractHtmlLinks"
+        },                {
+            "fqsen": "\\Cecil\\Doctor\\Links\\LinkExtractor\u003A\u003AextractCssLinks\u0028\u0029",
+            "name": "extractCssLinks",
+            "summary": "Extracts\u0020URLs\u0020from\u0020\u0060url\u0028\u0029\u0060\u0020and\u0020\u0060\u0040import\u0060\u0020CSS\u0020statements.",
+            "url": "classes/Cecil-Doctor-Links-LinkExtractor.html#method_extractCssLinks"
+        },                {
+            "fqsen": "\\Cecil\\Doctor\\Links\\LinkExtractor\u003A\u003AextractIds\u0028\u0029",
+            "name": "extractIds",
+            "summary": "Extracts\u0020element\u0020IDs\u0020\u0028and\u0020anchor\u0020names\u0029\u0020from\u0020HTML.",
+            "url": "classes/Cecil-Doctor-Links-LinkExtractor.html#method_extractIds"
+        },                {
+            "fqsen": "\\Cecil\\Doctor\\Links\\LinkExtractor\u003A\u003AparseSrcset\u0028\u0029",
+            "name": "parseSrcset",
+            "summary": "Returns\u0020URLs\u0020of\u0020a\u0020\u0060srcset\u0060\u0020attribute.",
+            "url": "classes/Cecil-Doctor-Links-LinkExtractor.html#method_parseSrcset"
+        },                {
+            "fqsen": "\\Cecil\\Doctor\\Links\\LinkExtractor\u003A\u003AcreateXPath\u0028\u0029",
+            "name": "createXPath",
+            "summary": "",
+            "url": "classes/Cecil-Doctor-Links-LinkExtractor.html#method_createXPath"
+        },                {
+            "fqsen": "\\Cecil\\Doctor\\Links\\LinkExtractor\u003A\u003AURL_ATTRIBUTES",
+            "name": "URL_ATTRIBUTES",
+            "summary": "HTML\u0020elements\u0020and\u0020attributes\u0020containing\u0020a\u0020single\u0020URL",
+            "url": "classes/Cecil-Doctor-Links-LinkExtractor.html#constant_URL_ATTRIBUTES"
+        },                {
+            "fqsen": "\\Cecil\\Doctor\\Links\\LinkExtractor\u003A\u003ASRCSET_ELEMENTS",
+            "name": "SRCSET_ELEMENTS",
+            "summary": "HTML\u0020elements\u0020with\u0020a\u0020\u0060srcset\u0060\u0020attribute",
+            "url": "classes/Cecil-Doctor-Links-LinkExtractor.html#constant_SRCSET_ELEMENTS"
+        },                {
+            "fqsen": "\\Cecil\\Doctor\\Links\\LinkExtractor\u003A\u003ASKIPPED_LINK_RELS",
+            "name": "SKIPPED_LINK_RELS",
+            "summary": "\u0060\u003Clink\u0020rel\u003E\u0060\u0020values\u0020whose\u0020URL\u0020is\u0020not\u0020a\u0020resource\u0020to\u0020check",
+            "url": "classes/Cecil-Doctor-Links-LinkExtractor.html#constant_SKIPPED_LINK_RELS"
+        },                {
+            "fqsen": "\\Cecil\\Doctor\\Links\\TargetIndex",
+            "name": "TargetIndex",
+            "summary": "Index\u0020of\u0020the\u0020files\u0020generated\u0020by\u0020a\u0020build\u0020\u0028pages,\u0020static\u0020files\u0020and\u0020assets\u0029,\u0020by\u0020output\u0020path.",
+            "url": "classes/Cecil-Doctor-Links-TargetIndex.html"
+        },                {
+            "fqsen": "\\Cecil\\Doctor\\Links\\TargetIndex\u003A\u003A__construct\u0028\u0029",
+            "name": "__construct",
+            "summary": "",
+            "url": "classes/Cecil-Doctor-Links-TargetIndex.html#method___construct"
+        },                {
+            "fqsen": "\\Cecil\\Doctor\\Links\\TargetIndex\u003A\u003Ahas\u0028\u0029",
+            "name": "has",
+            "summary": "Is\u0020a\u0020file\u0020generated\u0020at\u0020this\u0020output\u0020path\u003F",
+            "url": "classes/Cecil-Doctor-Links-TargetIndex.html#method_has"
+        },                {
+            "fqsen": "\\Cecil\\Doctor\\Links\\TargetIndex\u003A\u003AgetContent\u0028\u0029",
+            "name": "getContent",
+            "summary": "Returns\u0020the\u0020content\u0020of\u0020a\u0020generated\u0020file,\u0020or\u0020null\u0020if\u0020not\u0020available.",
+            "url": "classes/Cecil-Doctor-Links-TargetIndex.html#method_getContent"
+        },                {
+            "fqsen": "\\Cecil\\Doctor\\Links\\TargetIndex\u003A\u003AgetIds\u0028\u0029",
+            "name": "getIds",
+            "summary": "Returns\u0020element\u0020IDs\u0020of\u0020a\u0020generated\u0020HTML\u0020page,\u0020or\u0020null\u0020if\u0020the\u0020target\u0020is\u0020not\u0020an\u0020HTML\u0020page.",
+            "url": "classes/Cecil-Doctor-Links-TargetIndex.html#method_getIds"
+        },                {
+            "fqsen": "\\Cecil\\Doctor\\Links\\TargetIndex\u003A\u003AindexPages\u0028\u0029",
+            "name": "indexPages",
+            "summary": "Indexes\u0020rendered\u0020pages,\u0020in\u0020each\u0020output\u0020format.",
+            "url": "classes/Cecil-Doctor-Links-TargetIndex.html#method_indexPages"
+        },                {
+            "fqsen": "\\Cecil\\Doctor\\Links\\TargetIndex\u003A\u003AindexStaticFiles\u0028\u0029",
+            "name": "indexStaticFiles",
+            "summary": "Indexes\u0020static\u0020files\u0020of\u0020themes,\u0020of\u0020the\u0020site\u0020and\u0020of\u0020the\u0020mounts.",
+            "url": "classes/Cecil-Doctor-Links-TargetIndex.html#method_indexStaticFiles"
+        },                {
+            "fqsen": "\\Cecil\\Doctor\\Links\\TargetIndex\u003A\u003AindexAssets\u0028\u0029",
+            "name": "indexAssets",
+            "summary": "Indexes\u0020assets\u0020created\u0020during\u0020the\u0020build.",
+            "url": "classes/Cecil-Doctor-Links-TargetIndex.html#method_indexAssets"
+        },                {
+            "fqsen": "\\Cecil\\Doctor\\Links\\TargetIndex\u003A\u003A\u0024targets",
+            "name": "targets",
+            "summary": "",
+            "url": "classes/Cecil-Doctor-Links-TargetIndex.html#property_targets"
+        },                {
+            "fqsen": "\\Cecil\\Doctor\\Links\\TargetIndex\u003A\u003A\u0024ids",
+            "name": "ids",
+            "summary": "",
+            "url": "classes/Cecil-Doctor-Links-TargetIndex.html#property_ids"
+        },                {
+            "fqsen": "\\Cecil\\Doctor\\Links\\TargetIndex\u003A\u003A\u0024builder",
+            "name": "builder",
+            "summary": "",
+            "url": "classes/Cecil-Doctor-Links-TargetIndex.html#property_builder"
+        },                {
+            "fqsen": "\\Cecil\\Doctor\\Links\\TargetIndex\u003A\u003A\u0024extractor",
+            "name": "extractor",
+            "summary": "",
+            "url": "classes/Cecil-Doctor-Links-TargetIndex.html#property_extractor"
+        },                {
+            "fqsen": "\\Cecil\\Doctor\\Links\\UrlCheckerInterface",
+            "name": "UrlCheckerInterface",
+            "summary": "Checks\u0020the\u0020availability\u0020of\u0020remote\u0020URLs.",
+            "url": "classes/Cecil-Doctor-Links-UrlCheckerInterface.html"
+        },                {
+            "fqsen": "\\Cecil\\Doctor\\Links\\UrlCheckerInterface\u003A\u003Acheck\u0028\u0029",
+            "name": "check",
+            "summary": "Checks\u0020a\u0020list\u0020of\u0020URLs\u0020and\u0020returns\u0020the\u0020result\u0020of\u0020each\u0020one,\u0020indexed\u0020by\u0020URL.",
+            "url": "classes/Cecil-Doctor-Links-UrlCheckerInterface.html#method_check"
+        },                {
+            "fqsen": "\\Cecil\\Doctor\\LinksDoctor",
+            "name": "LinksDoctor",
+            "summary": "Links\u0020audit\u0020domain\u0020service.",
+            "url": "classes/Cecil-Doctor-LinksDoctor.html"
+        },                {
+            "fqsen": "\\Cecil\\Doctor\\LinksDoctor\u003A\u003A__construct\u0028\u0029",
+            "name": "__construct",
+            "summary": "",
+            "url": "classes/Cecil-Doctor-LinksDoctor.html#method___construct"
+        },                {
+            "fqsen": "\\Cecil\\Doctor\\LinksDoctor\u003A\u003Aaudit\u0028\u0029",
+            "name": "audit",
+            "summary": "",
+            "url": "classes/Cecil-Doctor-LinksDoctor.html#method_audit"
+        },                {
+            "fqsen": "\\Cecil\\Doctor\\LinksDoctor\u003A\u003AloadConfiguration\u0028\u0029",
+            "name": "loadConfiguration",
+            "summary": "Merges\u0020default\u0020configuration,\u0020site\u0020configuration\u0020and\u0020command\u0020options.",
+            "url": "classes/Cecil-Doctor-LinksDoctor.html#method_loadConfiguration"
+        },                {
+            "fqsen": "\\Cecil\\Doctor\\LinksDoctor\u003A\u003AgetAuditedPages\u0028\u0029",
+            "name": "getAuditedPages",
+            "summary": "Returns\u0020published\u0020and\u0020rendered\u0020HTML\u0020pages\u0020to\u0020audit.",
+            "url": "classes/Cecil-Doctor-LinksDoctor.html#method_getAuditedPages"
+        },                {
+            "fqsen": "\\Cecil\\Doctor\\LinksDoctor\u003A\u003AauditPage\u0028\u0029",
+            "name": "auditPage",
+            "summary": "Checks\u0020links\u0020of\u0020a\u0020rendered\u0020HTML\u0020page.",
+            "url": "classes/Cecil-Doctor-LinksDoctor.html#method_auditPage"
+        },                {
+            "fqsen": "\\Cecil\\Doctor\\LinksDoctor\u003A\u003AauditCssFiles\u0028\u0029",
+            "name": "auditCssFiles",
+            "summary": "Checks\u0020links\u0020of\u0020CSS\u0020files\u0020linked\u0020from\u0020the\u0020audited\u0020pages.",
+            "url": "classes/Cecil-Doctor-LinksDoctor.html#method_auditCssFiles"
+        },                {
+            "fqsen": "\\Cecil\\Doctor\\LinksDoctor\u003A\u003AcheckLink\u0028\u0029",
+            "name": "checkLink",
+            "summary": "Classifies\u0020a\u0020link\u0020and\u0020checks\u0020it\u0020\u0028internal\u0029\u0020or\u0020collects\u0020it\u0020\u0028external\u0029.",
+            "url": "classes/Cecil-Doctor-LinksDoctor.html#method_checkLink"
+        },                {
+            "fqsen": "\\Cecil\\Doctor\\LinksDoctor\u003A\u003AgetResolvedPath\u0028\u0029",
+            "name": "getResolvedPath",
+            "summary": "Resolves\u0020a\u0020relative\u0020URL\u0020path\u0020against\u0020the\u0020site\u0020path\u0020of\u0020the\u0020page\u0020\u0028or\u0020CSS\u0020file\u0029\u0020containing\u0020it.",
+            "url": "classes/Cecil-Doctor-LinksDoctor.html#method_getResolvedPath"
+        },                {
+            "fqsen": "\\Cecil\\Doctor\\LinksDoctor\u003A\u003AcheckInternalLink\u0028\u0029",
+            "name": "checkInternalLink",
+            "summary": "Checks\u0020that\u0020an\u0020internal\u0020link\u0020targets\u0020a\u0020generated\u0020file,\u0020and\u0020the\u0020fragment\u0020an\u0020existing\u0020ID.",
+            "url": "classes/Cecil-Doctor-LinksDoctor.html#method_checkInternalLink"
+        },                {
+            "fqsen": "\\Cecil\\Doctor\\LinksDoctor\u003A\u003AauditExternalLinks\u0028\u0029",
+            "name": "auditExternalLinks",
+            "summary": "Requests\u0020external\u0020URLs\u0020and\u0020reports\u0020failures\u0020and\u0020redirections.",
+            "url": "classes/Cecil-Doctor-LinksDoctor.html#method_auditExternalLinks"
+        },                {
+            "fqsen": "\\Cecil\\Doctor\\LinksDoctor\u003A\u003AgetExternalFinding\u0028\u0029",
+            "name": "getExternalFinding",
+            "summary": "Returns\u0020level\u0020and\u0020details\u0020of\u0020an\u0020external\u0020URL\u0020check\u0020result,\u0020or\u0020null\u0020if\u0020the\u0020URL\u0020is\u0020fine.",
+            "url": "classes/Cecil-Doctor-LinksDoctor.html#method_getExternalFinding"
+        },                {
+            "fqsen": "\\Cecil\\Doctor\\LinksDoctor\u003A\u003AgetCacheKey\u0028\u0029",
+            "name": "getCacheKey",
+            "summary": "",
+            "url": "classes/Cecil-Doctor-LinksDoctor.html#method_getCacheKey"
+        },                {
+            "fqsen": "\\Cecil\\Doctor\\LinksDoctor\u003A\u003AisExcluded\u0028\u0029",
+            "name": "isExcluded",
+            "summary": "Is\u0020the\u0020link\u0020matching\u0020an\u0020exclusion\u0020pattern\u003F",
+            "url": "classes/Cecil-Doctor-LinksDoctor.html#method_isExcluded"
+        },                {
+            "fqsen": "\\Cecil\\Doctor\\LinksDoctor\u003A\u003AaddFinding\u0028\u0029",
+            "name": "addFinding",
+            "summary": "",
+            "url": "classes/Cecil-Doctor-LinksDoctor.html#method_addFinding"
+        },                {
+            "fqsen": "\\Cecil\\Doctor\\LinksDoctor\u003A\u003ADEFAULT_CONFIG",
+            "name": "DEFAULT_CONFIG",
+            "summary": "Default\u0020configuration",
+            "url": "classes/Cecil-Doctor-LinksDoctor.html#constant_DEFAULT_CONFIG"
+        },                {
+            "fqsen": "\\Cecil\\Doctor\\LinksDoctor\u003A\u003ABLOCKED_STATUS",
+            "name": "BLOCKED_STATUS",
+            "summary": "HTTP\u0020status\u0020codes\u0020often\u0020returned\u0020by\u0020bot\u0020protections",
+            "url": "classes/Cecil-Doctor-LinksDoctor.html#constant_BLOCKED_STATUS"
+        },                {
+            "fqsen": "\\Cecil\\Doctor\\LinksDoctor\u003A\u003A\u0024checker",
+            "name": "checker",
+            "summary": "",
+            "url": "classes/Cecil-Doctor-LinksDoctor.html#property_checker"
+        },                {
+            "fqsen": "\\Cecil\\Doctor\\LinksDoctor\u003A\u003A\u0024extractor",
+            "name": "extractor",
+            "summary": "",
+            "url": "classes/Cecil-Doctor-LinksDoctor.html#property_extractor"
+        },                {
+            "fqsen": "\\Cecil\\Doctor\\LinksDoctor\u003A\u003A\u0024builder",
+            "name": "builder",
+            "summary": "",
+            "url": "classes/Cecil-Doctor-LinksDoctor.html#property_builder"
+        },                {
+            "fqsen": "\\Cecil\\Doctor\\LinksDoctor\u003A\u003A\u0024targets",
+            "name": "targets",
+            "summary": "",
+            "url": "classes/Cecil-Doctor-LinksDoctor.html#property_targets"
+        },                {
+            "fqsen": "\\Cecil\\Doctor\\LinksDoctor\u003A\u003A\u0024config",
+            "name": "config",
+            "summary": "",
+            "url": "classes/Cecil-Doctor-LinksDoctor.html#property_config"
+        },                {
+            "fqsen": "\\Cecil\\Doctor\\LinksDoctor\u003A\u003A\u0024cssFiles",
+            "name": "cssFiles",
+            "summary": "",
+            "url": "classes/Cecil-Doctor-LinksDoctor.html#property_cssFiles"
+        },                {
+            "fqsen": "\\Cecil\\Doctor\\LinksDoctor\u003A\u003A\u0024externalLinks",
+            "name": "externalLinks",
+            "summary": "",
+            "url": "classes/Cecil-Doctor-LinksDoctor.html#property_externalLinks"
+        },                {
+            "fqsen": "\\Cecil\\Doctor\\LinksDoctor\u003A\u003A\u0024findings",
+            "name": "findings",
+            "summary": "",
+            "url": "classes/Cecil-Doctor-LinksDoctor.html#property_findings"
+        },                {
+            "fqsen": "\\Cecil\\Doctor\\LinksDoctor\u003A\u003A\u0024baseHost",
+            "name": "baseHost",
+            "summary": "",
+            "url": "classes/Cecil-Doctor-LinksDoctor.html#property_baseHost"
+        },                {
+            "fqsen": "\\Cecil\\Doctor\\LinksDoctor\u003A\u003A\u0024basePath",
+            "name": "basePath",
+            "summary": "",
+            "url": "classes/Cecil-Doctor-LinksDoctor.html#property_basePath"
+        },                {
+            "fqsen": "\\Cecil\\Doctor\\LinksDoctor\u003A\u003A\u0024linksChecked",
+            "name": "linksChecked",
+            "summary": "",
+            "url": "classes/Cecil-Doctor-LinksDoctor.html#property_linksChecked"
+        },                {
             "fqsen": "\\Cecil\\Doctor\\SeoDoctor",
             "name": "SeoDoctor",
             "summary": "SEO\u0020audit\u0020domain\u0020service.",
@@ -4361,6 +4726,11 @@ Search.appendIndex(
             "summary": "Builds\u0020the\u0020HTML\u0020audio\u0020element\u0020of\u0020an\u0020audio\u0020Asset.",
             "url": "classes/Cecil-Renderer-Extension-Core.html#method_htmlAudio"
         },                {
+            "fqsen": "\\Cecil\\Renderer\\Extension\\Core\u003A\u003AgetImageVariantsSourceHtml\u0028\u0029",
+            "name": "getImageVariantsSourceHtml",
+            "summary": "Returns\u0020HTML\u0020mobile\u0020and\u0020dark\u0020\u0022source\u0022\u0020elements\u0020of\u0020an\u0020image\u0020Asset.",
+            "url": "classes/Cecil-Renderer-Extension-Core.html#method_getImageVariantsSourceHtml"
+        },                {
             "fqsen": "\\Cecil\\Renderer\\Extension\\Core\u003A\u003AbuildDarkSourceHtml\u0028\u0029",
             "name": "buildDarkSourceHtml",
             "summary": "Builds\u0020HTML\u0020dark\u0020\u0022source\u0022\u0020elements\u0020for\u0020the\u0020dark\u0020color\u002Dscheme\u0020variant\u0020of\u0020an\u0020image\u0020Asset.",
@@ -4480,6 +4850,11 @@ Search.appendIndex(
             "name": "config",
             "summary": "",
             "url": "classes/Cecil-Renderer-Extension-Core.html#property_config"
+        },                {
+            "fqsen": "\\Cecil\\Renderer\\Extension\\Core\u003A\u003A\u0024imageVariantsCache",
+            "name": "imageVariantsCache",
+            "summary": "",
+            "url": "classes/Cecil-Renderer-Extension-Core.html#property_imageVariantsCache"
         },                {
             "fqsen": "\\Cecil\\Renderer\\Language",
             "name": "Language",
@@ -5865,6 +6240,11 @@ Search.appendIndex(
             "name": "Doctor",
             "summary": "",
             "url": "namespaces/cecil-doctor.html"
+        },                {
+            "fqsen": "\\Cecil\\Doctor\\Links",
+            "name": "Links",
+            "summary": "",
+            "url": "namespaces/cecil-doctor-links.html"
         },                {
             "fqsen": "\\Cecil\\Exception",
             "name": "Exception",

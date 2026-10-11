@@ -82,6 +82,7 @@
     "psr/simple-cache-implementation": "3.0"
   },
   "suggest": {
+    "ext-curl": "Required by the doctor:links command to check external links.",
     "ext-intl": "Native Intl extension for improved performance; ICU support is already provided by symfony/polyfill-intl-icu.",
     "ext-ffi": "PHP FFI extension for libvips image processing support (requires system libvips).",
     "intervention/image-driver-vips": "Enables libvips image processing (requires ext-ffi and system libvips)."
@@ -138,8 +139,8 @@
       "phpstan analyse ./src/ --memory-limit=1G --level=8 --no-progress --error-format=github"
     ],
     "code:fix": "php-cs-fixer fix --allow-risky=yes --show-progress=none",
-    "code:md": "phpmd ./src text ./.phpmd-rules.xml --cache",
-    "code:md:gh": "phpmd ./src github ./.phpmd-rules.xml",
+    "code:md": "phpmd ./src text ./.phpmd.xml --cache",
+    "code:md:gh": "phpmd ./src github ./.phpmd.xml",
     "code:style": "phpcs",
     "code:twig": "twig-cs-fixer lint resources/",
     "test": [
