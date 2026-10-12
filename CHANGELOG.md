@@ -2,6 +2,12 @@
 
 All notable changes to this project will be documented in this file. Dates are displayed in UTC.
 
+#### [9.10.1](https://github.com/Cecilapp/Cecil/compare/9.10.0...9.10.1)
+
+> 12 October 2026
+
+- fix(converter): resolve local media links to asset URLs [`6f061d0`](https://github.com/Cecilapp/Cecil/commit/6f061d097c2ed6222a8c9cd45c4ce267da82fa80)
+
 #### [9.10.0](https://github.com/Cecilapp/Cecil/compare/9.9.2...9.10.0)
 
 > 12 October 2026
