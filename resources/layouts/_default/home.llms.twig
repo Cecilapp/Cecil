@@ -3,6 +3,15 @@
 
 {# description of the site #}
 > {{ site.description }}
+{# main menu links (except home page) #}
+{%- set menu = site.menus.main|default([])|filter(i => i.id != site.home)|sort_by_weight -%}
+{%- if menu|length > 0 %}
+
+{% for item in menu -%}
+{%- set page = site.page(item.id) -%}
+- {{ page ? llms.link(page) : '[' ~ item.name ~ '](' ~ url(item.url, {canonical: true}) ~ ')' }}
+{% endfor -%}
+{%- endif %}
 {# top level sections of the site: sub-sections are handled recursively by the `list` macro #}
 {% for section in site.pages|filter(p => p.type == 'section' and (p.toplevel ?? false) and p.published == true and (p.excluded ?? false) != true and (p.exclude ?? false) != true and (p.llms ?? true) != false)|sort_by_weight %}
 {%- set list = llms.list(section)|trim -%}
