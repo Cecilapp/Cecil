@@ -2,7 +2,7 @@
 title: "Markdown"
 description: "Markdown syntax and extensions: attributes, links, images, table of contents, notes, syntax highlight, etc."
 date: 2021-05-07
-updated: 2026-10-03
+updated: 2026-10-12
 -->
 # Markdown
 
@@ -100,6 +100,8 @@ Is converted to:
 <video src="/video.mp4" controls poster="/images/video-test.png" style="max-width:100%;height:auto;"></video>
 <audio src="/song.mp3" controls></audio>
 ```
+
+With `{embed=false}` (or when embedding is disabled), a local video/audio file stays a link, but its URL points to the published file (fingerprinted if [`assets.fingerprint`](../configuration/6-assets.md) is enabled).
 
 ## Images
 

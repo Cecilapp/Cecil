@@ -189,7 +189,7 @@ class Parsedown extends \ParsedownToc
         // video
         if (\in_array($extension, $this->config->get('pages.body.links.embed.video') ?? [])) {
             if (!$embed) {
-                $link['element']['attributes']['href'] = new Url($this->builder, (string) $link['element']['attributes']['href']);
+                $link['element']['attributes']['href'] = $this->getMediaLinkUrl((string) $link['element']['attributes']['href']);
 
                 return $link;
             }
@@ -200,7 +200,7 @@ class Parsedown extends \ParsedownToc
         // audio
         if (\in_array($extension, $this->config->get('pages.body.links.embed.audio') ?? [])) {
             if (!$embed) {
-                $link['element']['attributes']['href'] = new Url($this->builder, (string) $link['element']['attributes']['href']);
+                $link['element']['attributes']['href'] = $this->getMediaLinkUrl((string) $link['element']['attributes']['href']);
 
                 return $link;
             }
@@ -1106,6 +1106,24 @@ class Parsedown extends \ParsedownToc
         }
 
         throw new \Exception(\sprintf('Unable to create %s from "%s".', $type, $link['element']['attributes']['href']));
+    }
+
+    /**
+     * Returns the URL of a not embedded local media (video or audio) link.
+     *
+     * The local file is handled as an asset, so its URL matches the published (and fingerprinted) file.
+     * Remote and missing files are linked as is.
+     */
+    private function getMediaLinkUrl(string $href): Url
+    {
+        if (!Util\File::isRemote($href)) {
+            $asset = $this->getCachedAsset($href, ['ignore_missing' => true]);
+            if (!$asset->isMissing()) {
+                return new Url($this->builder, $asset);
+            }
+        }
+
+        return new Url($this->builder, $href);
     }
 
     /**

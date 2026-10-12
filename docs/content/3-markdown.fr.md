@@ -2,7 +2,7 @@
 title: "Markdown"
 description: "Syntaxe et extensions Markdown : attributs, liens, images, table des matières, notes, coloration syntaxique, etc."
 date: 2026-03-27
-updated: 2026-10-03
+updated: 2026-10-12
 path: documentation/contenu/markdown
 -->
 # Markdown
@@ -101,6 +101,8 @@ Est converti en :
 <video src="/video.mp4" controls poster="/images/video-test.png" style="max-width:100%;height:auto;"></video>
 <audio src="/song.mp3" controls></audio>
 ```
+
+Avec `{embed=false}` (ou lorsque l’intégration est désactivée), un fichier vidéo/audio local reste un lien, mais son URL pointe vers le fichier publié (avec empreinte si [`assets.fingerprint`](../configuration/6-assets.fr.md) est activé).
 
 ## Images
 
