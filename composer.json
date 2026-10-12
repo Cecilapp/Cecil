@@ -139,8 +139,8 @@
       "phpstan analyse ./src/ --memory-limit=1G --level=8 --no-progress --error-format=github"
     ],
     "code:fix": "php-cs-fixer fix --allow-risky=yes --show-progress=none",
-    "code:md": "phpmd ./src text ./.phpmd.xml --cache",
-    "code:md:gh": "phpmd ./src github ./.phpmd.xml",
+    "code:md": "phpmd ./src text ./phpmd.xml --cache",
+    "code:md:gh": "phpmd ./src github ./phpmd.xml",
     "code:style": "phpcs",
     "code:twig": "twig-cs-fixer lint resources/",
     "test": [
