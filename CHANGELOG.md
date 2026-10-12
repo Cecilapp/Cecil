@@ -2,6 +2,22 @@
 
 All notable changes to this project will be documented in this file. Dates are displayed in UTC.
 
+#### [9.10.0](https://github.com/Cecilapp/Cecil/compare/9.9.2...9.10.0)
+
+> 12 October 2026
+
+- feat(doctor): add doctor:links command and --fail-on option [`#2500`](https://github.com/Cecilapp/Cecil/pull/2500)
+- docs(conduct): update code of conduct with community terms [`714e9d4`](https://github.com/Cecilapp/Cecil/commit/714e9d4f9d28316fa3e89f5c2f8cccc8c580bf60)
+- docs(contributing): expand contributing guide with setup and guidelines [`006ef8e`](https://github.com/Cecilapp/Cecil/commit/006ef8eae5e6352ca930383864d6bdac02a0b918)
+- docs(scripts): add README describing build and deploy scripts [`179348a`](https://github.com/Cecilapp/Cecil/commit/179348abfb7eea8563eb58ee96ec11326de85e4f)
+- docs(readme): rewrite intro, add features and quick start [`2fcdfba`](https://github.com/Cecilapp/Cecil/commit/2fcdfba92442ab03abca60c9abbe3808cc6220fc)
+- docs(readme): rewrite resources README with lookup order and contents table [`1adeaad`](https://github.com/Cecilapp/Cecil/commit/1adeaada6dc42ff55d40fe8d5b2c6e2a02e29e87)
+- docs(agents): update doc links, test commands and conventions [`cb88d58`](https://github.com/Cecilapp/Cecil/commit/cb88d58ec0d3c25b9615238cd8475d119b9d3d6b)
+- docs(security): update supported versions table [`7a8d6e4`](https://github.com/Cecilapp/Cecil/commit/7a8d6e4d4da12a96dbb73c7804545dd30388787f)
+- chore(phpmd): rename phpmd config and update scripts [`eb1e1be`](https://github.com/Cecilapp/Cecil/commit/eb1e1be68ddd9172c27bf2021b771a8f5465a845)
+- Fix casing in installation commands for Cecil [`087ce6b`](https://github.com/Cecilapp/Cecil/commit/087ce6bc21dc31202d97a7892df6e03fc8eefe72)
+- chore(cecil): exclude node_modules, skills, AGENTS.md from build [`850c67a`](https://github.com/Cecilapp/Cecil/commit/850c67a1b523f0c4d57547715b81f6799bb7043f)
+
 #### [9.9.2](https://github.com/Cecilapp/Cecil/compare/9.9.1...9.9.2)
 
 > 11 October 2026
