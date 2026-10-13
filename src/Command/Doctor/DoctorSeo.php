@@ -32,8 +32,7 @@ use Symfony\Component\Console\Output\OutputInterface;
 class DoctorSeo extends AbstractCommand
 {
     use FailOnTrait;
-
-    private const int PAGE_LABEL_MAX_LENGTH = 60;
+    use FindingsTableTrait;
 
     private bool $includeVirtual = false;
     private bool $includeFeedback = false;
@@ -263,23 +262,7 @@ EOF
         $summary->setStyle('box')->render();
 
         if (!empty($findings)) {
-            $rows = [];
-            foreach ($findings as $finding) {
-                $rows[] = [
-                    $this->truncatePageLabel((string) $finding['page']),
-                    $this->formatLevel($finding['level']),
-                    $finding['check'],
-                    $finding['details'],
-                ];
-            }
-
-            $table = new Table($output);
-            $table
-                ->setHeaderTitle('SEO findings')
-                ->setHeaders(['Page', 'Level', 'Check', 'Details'])
-                ->setRows($rows)
-            ;
-            $table->setStyle('box')->render();
+            $this->outputFindings($output, $findings);
         }
 
         if ($summaryData['bad_count'] > 0) {
@@ -297,26 +280,23 @@ EOF
         $this->io->success('No SEO issues found.');
     }
 
-    private function formatLevel(string $level): string
+    /**
+     * Output findings grouped by page.
+     *
+     * @param array<int, array{page: string, level: string, check: string, details: string}> $findings
+     */
+    private function outputFindings(OutputInterface $output, array $findings): void
     {
-        return match ($level) {
-            'bad' => '<error>Bad</error>',
-            'ok' => '<comment>OK</comment>',
-            default => '<info>Feedback</info>',
-        };
-    }
-
-    private function truncatePageLabel(string $page): string
-    {
-        if (mb_strlen($page) <= self::PAGE_LABEL_MAX_LENGTH) {
-            return $page;
-        }
-
-        $ellipsis = '...';
-        $keepLength = self::PAGE_LABEL_MAX_LENGTH - \strlen($ellipsis);
-        $startLength = (int) floor($keepLength / 2);
-        $endLength = $keepLength - $startLength;
-
-        return mb_substr($page, 0, $startLength) . $ellipsis . mb_substr($page, -$endLength);
+        $this->renderFindings($output, $findings, [
+            [
+                'header' => 'Issue',
+                'cell' => fn (array $finding): string => $this->formatFindingIssue($finding['level'], $finding['check']),
+            ],
+            [
+                'header' => 'Details',
+                'cell' => fn (array $finding, ?int $width): string => $this->wrapFindingValue($finding['details'], $width),
+                'ratio' => 1.0,
+            ],
+        ]);
     }
 }

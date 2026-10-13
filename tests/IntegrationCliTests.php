@@ -184,7 +184,7 @@ class IntegrationCliTests extends IntegrationTests
         }
     }
 
-    public function testDoctorSeoTruncatesLongPageLabelInTable(): void
+    public function testDoctorSeoTruncatesLongPageLabel(): void
     {
         exec('php ./bin/cecil new:site tests/demo --demo -n -f 2>&1', $output, $retval);
         self::assertTrue($retval < 1);
@@ -193,15 +193,28 @@ class IntegrationCliTests extends IntegrationTests
         $longPagePath = Util::joinFile(__DIR__, 'demo', 'pages', $longFilename);
         file_put_contents($longPagePath, "---\ntitle: Long page\n---\n\nShort content.\n");
 
+        $pageLabel = '/this-is-a-very-very-long-page-filename-for-seo-table-output/';
+
+        // the page label is displayed in full when it fits in the terminal
+        putenv('COLUMNS=120');
         $output = [];
         exec('php ./bin/cecil doctor:seo tests/demo --fail-on=never 2>&1', $output, $retval);
         $output = implode("\n", $output);
         echo $output;
 
         self::assertTrue($retval < 1);
+        self::assertStringContainsString($pageLabel, $output);
 
-        $pageLabel = '/this-is-a-very-very-long-page-filename-for-seo-table-output/';
-        $expected = mb_substr($pageLabel, 0, 28) . '...' . mb_substr($pageLabel, -29);
+        // the page label is truncated when it is wider than the terminal
+        putenv('COLUMNS=40');
+        $output = [];
+        exec('php ./bin/cecil doctor:seo tests/demo --fail-on=never 2>&1', $output, $retval);
+        putenv('COLUMNS');
+        $output = implode("\n", $output);
+        echo $output;
+
+        self::assertTrue($retval < 1);
+        $expected = mb_substr($pageLabel, 0, 18) . '...' . mb_substr($pageLabel, -19);
         self::assertStringContainsString($expected, $output);
         self::assertStringNotContainsString($pageLabel, $output);
     }

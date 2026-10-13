@@ -16,6 +16,7 @@ namespace Cecil\Command\Doctor;
 use Cecil\Command\AbstractCommand;
 use Cecil\Doctor\LinksDoctor;
 use Symfony\Component\Console\Command\Command;
+use Symfony\Component\Console\Formatter\OutputFormatter;
 use Symfony\Component\Console\Helper\Table;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
@@ -32,11 +33,11 @@ use Symfony\Component\Console\Output\OutputInterface;
 class DoctorLinks extends AbstractCommand
 {
     use FailOnTrait;
-
-    private const int LABEL_MAX_LENGTH = 60;
+    use FindingsTableTrait;
 
     private bool $includeFeedback = false;
     private string $format = 'text';
+    private string $baseurl = '';
 
     /**
      * {@inheritdoc}
@@ -135,6 +136,7 @@ EOF
         }
 
         $builder = $this->getBuilder();
+        $this->baseurl = (string) $builder->getConfig()->get('baseurl');
         $doctor = new LinksDoctor();
 
         if ($this->format !== 'json') {
@@ -194,24 +196,7 @@ EOF
         $summary->setStyle('box')->render();
 
         if (!empty($findings)) {
-            $rows = [];
-            foreach ($findings as $finding) {
-                $rows[] = [
-                    $this->truncateLabel($finding['page']),
-                    $this->formatLevel($finding['level']),
-                    $finding['type'],
-                    $this->truncateLabel($finding['link']),
-                    $finding['details'],
-                ];
-            }
-
-            $table = new Table($output);
-            $table
-                ->setHeaderTitle('Links findings')
-                ->setHeaders(['Page', 'Level', 'Type', 'Link', 'Details'])
-                ->setRows($rows)
-            ;
-            $table->setStyle('box')->render();
+            $this->outputFindings($output, $findings);
         }
 
         if ($summaryData['bad_count'] > 0) {
@@ -229,26 +214,75 @@ EOF
         $this->io->success('No broken links found.');
     }
 
-    private function formatLevel(string $level): string
+    /**
+     * Output findings grouped by page.
+     *
+     * @param array<int, array{page: string, level: string, type: string, link: string, details: string}> $findings
+     */
+    private function outputFindings(OutputInterface $output, array $findings): void
     {
-        return match ($level) {
-            'bad' => '<error>Bad</error>',
-            'ok' => '<comment>OK</comment>',
-            default => '<info>Feedback</info>',
-        };
+        $this->renderFindings($output, $findings, [
+            [
+                'header' => 'Issue',
+                'cell' => fn (array $finding): string => $this->formatFindingIssue($finding['level'], $finding['type']),
+            ],
+            [
+                'header' => 'Link',
+                'cell' => fn (array $finding, ?int $width): string => $this->formatLink($finding, $width),
+                'ratio' => 0.45,
+            ],
+            [
+                'header' => 'Details',
+                'cell' => fn (array $finding, ?int $width): string => $this->wrapFindingValue($finding['details'], $width),
+                'ratio' => 0.55,
+            ],
+        ]);
     }
 
-    private function truncateLabel(string $label): string
+    /**
+     * Formats the link as a terminal hyperlink (OSC 8), so it stays clickable when wrapped.
+     *
+     * @param array<string, string> $finding
+     * @param int|null              $wrapWidth Wraps the link on several lines (each one being a hyperlink)
+     */
+    private function formatLink(array $finding, ?int $wrapWidth = null): string
     {
-        if (mb_strlen($label) <= self::LABEL_MAX_LENGTH) {
-            return $label;
+        $lines = explode("\n", $this->wrapFindingValue($finding['link'], $wrapWidth));
+        $href = $this->getLinkHref($finding['page'], $finding['link']);
+
+        return implode("\n", array_map(
+            static fn (string $line): string => $href !== null
+                ? \sprintf('<href=%s>%s</>', $href, OutputFormatter::escape($line))
+                : OutputFormatter::escape($line),
+            $lines
+        ));
+    }
+
+    /**
+     * Returns the absolute URL of a link, or null if it can't be resolved.
+     */
+    private function getLinkHref(string $page, string $link): ?string
+    {
+        $href = null;
+        if (preg_match('#^https?://#i', $link)) {
+            $href = $link;
+        } elseif (str_starts_with($link, '//')) {
+            $href = 'https:' . $link;
+        } elseif (preg_match('#^(https?://[^/?\#]+)#i', $this->baseurl, $matches)) {
+            // the page label is relative to the base URL
+            $pageUrl = rtrim($this->baseurl, '/') . $page;
+            $href = match (true) {
+                str_starts_with($link, '/') => $matches[1] . $link,
+                str_starts_with($link, '#'), str_starts_with($link, '?') => explode('#', $pageUrl, 2)[0] . $link,
+                default => substr($pageUrl, 0, (int) strrpos($pageUrl, '/') + 1) . $link,
+            };
         }
 
-        $ellipsis = '...';
-        $keepLength = self::LABEL_MAX_LENGTH - \strlen($ellipsis);
-        $startLength = (int) floor($keepLength / 2);
-        $endLength = $keepLength - $startLength;
+        // characters that can't be used in a formatter style tag
+        if ($href === null || preg_match('#[\s<>;]#', $href)) {
+            return null;
+        }
 
-        return mb_substr($label, 0, $startLength) . $ellipsis . mb_substr($label, -$endLength);
+        return $href;
     }
 }
