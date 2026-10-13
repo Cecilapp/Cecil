@@ -160,15 +160,14 @@ class BuilderTest extends TestCase
 
         try {
             // builds of an empty site are fast: several of them start within the same second
+            // (a fixed number of builds, rather than a time window, keeps the test independent of the machine load)
             $buildIds = [];
-            $start = microtime(true);
-            do {
+            for ($i = 0; $i < 5; $i++) {
                 $builder->build(['dry-run' => true]);
                 $buildIds[] = Builder::getBuildId();
-            } while (microtime(true) - $start < 1.5);
+            }
 
-            self::assertGreaterThan(2, \count($buildIds));
-            self::assertSame($buildIds, array_unique($buildIds));
+            self::assertCount(5, array_unique($buildIds));
         } finally {
             (new Filesystem())->remove($sourceDir);
         }
