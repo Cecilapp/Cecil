@@ -2,6 +2,12 @@
 
 All notable changes to this project will be documented in this file. Dates are displayed in UTC.
 
+#### [9.10.2](https://github.com/Cecilapp/Cecil/compare/9.10.1...9.10.2)
+
+> 12 October 2026
+
+- feat(layouts): add main menu links to llms home template [`8b1cadb`](https://github.com/Cecilapp/Cecil/commit/8b1cadbf117096e67e0d5bdf9a4f6a7dc1ee66a6)
+
 #### [9.10.1](https://github.com/Cecilapp/Cecil/compare/9.10.0...9.10.1)
 
 > 12 October 2026
