@@ -53,6 +53,7 @@ cd $TARGET_CLONE_DIR
 mkdir -p $TARGET_DOCS_DIR
 find $TARGET_DOCS_DIR -mindepth 1 -maxdepth 1 ! -name 'index.md' ! -name 'index.fr.md' -exec rm -rf {} +
 cp -R $HOME/$SOURCE_DOCS_DIR/. $TARGET_DOCS_DIR
+rm -f $TARGET_DOCS_DIR/README.md # repository-only file, not a documentation page
 # api dir: mirrors the source
 rm -rf $TARGET_API_DIR
 mkdir -p $TARGET_API_DIR
