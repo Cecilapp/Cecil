@@ -1,13 +1,13 @@
 <!--
 title: "Installation"
-description: "Prérequis, méthodes d’installation (PHAR, gestionnaires de paquets, Composer), mise à jour et dépannage."
+description: "Prérequis, méthodes d’installation (PHAR, binaire autonome, gestionnaires de paquets, Composer), mise à jour et dépannage."
 date: 2026-10-05
-updated: 2026-10-05
+updated: 2026-10-13
 path: documentation/bien-demarrer/installation
 -->
 # Installation
 
-Cecil est distribué sous la forme d’un unique fichier exécutable, `cecil.phar`, qui fonctionne partout où PHP est installé.
+Cecil est distribué sous la forme d’un unique fichier exécutable, `cecil.phar`, qui fonctionne partout où PHP est installé, ainsi que sous forme de [binaires autonomes](#standalone-binary) qui ne nécessitent pas PHP.
 
 ## Prérequis
 
@@ -45,6 +45,36 @@ php cecil.phar --version
 
 :::info
 Vous pouvez également télécharger une [version spécifique ou la version d’aperçu](/fr/telecharger/).
+:::
+
+## Binaire autonome {#standalone-binary}
+
+Si PHP n’est pas installé, téléchargez le binaire autonome correspondant à votre plateforme depuis la [dernière version GitHub](https://github.com/Cecilapp/Cecil/releases/latest). Il embarque PHP et les extensions requises.
+
+| Plateforme | Fichier |
+| ---------- | ------- |
+| Linux x64 | `cecil-linux-x64` |
+| Linux ARM64 | `cecil-linux-arm64` |
+| macOS Intel | `cecil-macos-x64` |
+| macOS Apple Silicon | `cecil-macos-arm64` |
+| Windows x64 | `cecil-windows-x64.exe` |
+
+Par exemple, sous Linux x64 :
+
+```bash
+curl -Lo cecil https://github.com/Cecilapp/Cecil/releases/latest/download/cecil-linux-x64
+chmod +x cecil
+./cecil --version
+```
+
+Sous macOS, les binaires ne sont pas signés : supprimez l’attribut de quarantaine avant la première exécution avec `xattr -d com.apple.quarantine cecil`.
+
+:::info
+Les sommes de contrôle SHA-256 sont disponibles dans le fichier `cecil-binaries.sha256` de chaque version, et la provenance du build peut être vérifiée avec `gh attestation verify cecil --repo Cecilapp/Cecil`.
+:::
+
+:::important
+Le binaire utilise GD pour le traitement des images : Imagick et libvips ne sont pas disponibles. La commande `self-update` n’est pas disponible non plus : téléchargez à nouveau le binaire pour le mettre à jour.
 :::
 
 ## Installation globale
@@ -131,6 +161,8 @@ phive update cecil
 # Composer
 composer global update cecil/cecil
 ```
+
+Le [binaire autonome](#standalone-binary) se met à jour en le téléchargeant à nouveau.
 
 La commande `self-update` (PHAR uniquement) accepte également les options suivantes :
 

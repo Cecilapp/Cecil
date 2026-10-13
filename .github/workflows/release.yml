@@ -140,6 +140,96 @@ jobs:
         if: "github.event.release.prerelease"
         run: echo "> _This is a pre-release_" >> $GITHUB_STEP_SUMMARY
 
+  package:
+    name: Package standalone binaries
+    runs-on: ubuntu-latest
+    needs: build
+    permissions:
+      id-token: write     # required for build provenance attestation
+      attestations: write # required for build provenance attestation
+    steps:
+      - name: Checkout source code # for `phpacker.json` and `phpacker.ini`
+        uses: actions/checkout@v7
+      - name: Download files
+        uses: actions/download-artifact@v8
+        with:
+          name: cecil-${{ github.sha }}.phar
+          path: dist
+      - name: Install PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: 8.4
+          extensions: zip
+          ini-values: variables_order=EGPCS # exposes `GITHUB_TOKEN` to phpacker
+          tools: composer
+          coverage: none
+      - name: Install phpacker
+        run: |
+          composer global require phpacker/phpacker:^0.6 --no-interaction --no-progress
+          echo "$(composer global config bin-dir --absolute 2>/dev/null)" >> $GITHUB_PATH
+      - name: Build binaries
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: phpacker build all --no-interaction
+      - name: Rename binaries
+        run: |
+          mkdir -p dist/bin
+          mv dist/build/linux/linux-x64 dist/bin/cecil-linux-x64
+          mv dist/build/linux/linux-arm dist/bin/cecil-linux-arm64
+          mv dist/build/mac/mac-x64 dist/bin/cecil-macos-x64
+          mv dist/build/mac/mac-arm dist/bin/cecil-macos-arm64
+          mv dist/build/windows/windows-x64.exe dist/bin/cecil-windows-x64.exe
+          chmod +x dist/bin/cecil-*
+          cd dist/bin && sha256sum cecil-* > cecil-binaries.sha256
+      - name: Generate binaries provenance attestation
+        uses: actions/attest-build-provenance@v4
+        with:
+          subject-path: dist/bin/cecil-*
+          show-summary: false
+      - name: Upload binaries
+        uses: actions/upload-artifact@v7
+        with:
+          name: cecil-${{ github.sha }}-bin
+          path: dist/bin
+          if-no-files-found: error
+
+  package_test:
+    name: Test binary (${{ matrix.binary }})
+    runs-on: ${{ matrix.os }}
+    needs: package
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - os: ubuntu-latest
+            binary: cecil-linux-x64
+          - os: ubuntu-24.04-arm
+            binary: cecil-linux-arm64
+          - os: macos-15-intel
+            binary: cecil-macos-x64
+          - os: macos-latest
+            binary: cecil-macos-arm64
+          - os: windows-latest
+            binary: cecil-windows-x64.exe
+    defaults:
+      run:
+        shell: bash
+    steps:
+      - name: Download binaries
+        uses: actions/download-artifact@v8
+        with:
+          name: cecil-${{ github.sha }}-bin
+          path: bin
+      - name: Check binary
+        run: |
+          chmod +x bin/${{ matrix.binary }}
+          ./bin/${{ matrix.binary }} --version
+          ./bin/${{ matrix.binary }} list --raw > commands.txt
+          if grep -q "^self-update" commands.txt; then echo "::error::self-update must not be available"; exit 1; fi
+          ./bin/${{ matrix.binary }} new:site skeleton --demo -f -n
+          ./bin/${{ matrix.binary }} build skeleton -vvv 2>&1 | tee build.log
+          grep -q "Image driver: GD" build.log || { echo "::error::GD image driver not available"; exit 1; }
+
   bump_scoop_file: # generated before deploy to be embedded in the same website commit
     name: Bump Scoop file
     runs-on: ubuntu-latest
@@ -246,6 +336,32 @@ jobs:
             - Update: <https://cecil.app/download/#update>
       - name: Summary
         run: echo "📦 GitHub [release ${{ steps.release.outputs.tag_name }}](${{ steps.release.outputs.html_url }}) updated" >> $GITHUB_STEP_SUMMARY
+
+  upload_binaries: # kept apart so that a packaging failure does not block the Phar release
+    name: Add binaries to GitHub release
+    runs-on: ubuntu-latest
+    needs: [package_test, update_github_release]
+    steps:
+      - name: Download binaries
+        uses: actions/download-artifact@v8
+        with:
+          name: cecil-${{ github.sha }}-bin
+          path: bin
+      - name: Get release
+        id: release
+        uses: joutvhu/get-release@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      - name: Add binaries to release
+        uses: shogo82148/actions-upload-release-asset@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          upload_url: ${{ steps.release.outputs.upload_url }}
+          asset_path: bin/*
+          asset_content_type: application/octet-stream
+      - name: Summary
+        run: echo "📦 Standalone binaries added to [release ${{ steps.release.outputs.tag_name }}](${{ steps.release.outputs.html_url }})" >> $GITHUB_STEP_SUMMARY
 
   bump_homebrew_formula:
     name: Bump Homebrew Formulae

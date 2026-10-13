@@ -17,7 +17,7 @@ namespace Cecil\Util;
  * Platform utility class.
  *
  * This class provides methods to detect the platform (OS) on which the application is running,
- * check if it is running from a Phar archive, and open URLs in the system's default browser.
+ * check if it is running from a Phar archive or a standalone binary, and open URLs in the system's default browser.
  */
 class Platform
 {
@@ -55,6 +55,14 @@ class Platform
         }
 
         return false;
+    }
+
+    /**
+     * Running from a standalone binary (Phar embedded in a static PHP "micro" SAPI) or not?
+     */
+    public static function isStandalone(?string $sapi = null): bool
+    {
+        return ($sapi ?? PHP_SAPI) === 'micro';
     }
 
     /**

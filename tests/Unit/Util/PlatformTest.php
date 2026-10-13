@@ -87,6 +87,13 @@ class PlatformTest extends TestCase
         Platform::getPharPath();
     }
 
+    public function testIsStandaloneMatchesMicroSapi(): void
+    {
+        self::assertTrue(Platform::isStandalone('micro'));
+        self::assertFalse(Platform::isStandalone('cli'));
+        self::assertSame(PHP_SAPI === 'micro', Platform::isStandalone());
+    }
+
     public function testIsPharReturnsBoolean(): void
     {
         self::assertIsBool(Platform::isPhar());

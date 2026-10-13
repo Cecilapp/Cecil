@@ -128,6 +128,8 @@ curl -LO https://cecil.app/cecil.phar
 chmod +x cecil.phar
 ```
 
+If PHP is not available, use the standalone binary for the platform instead (e.g.: `cecil-linux-x64`, `cecil-macos-arm64`, `cecil-windows-x64.exe` from the latest GitHub release), and replace `php cecil.phar` with `./cecil` in the commands below. The binary has no `self-update` command and only supports GD for image processing.
+
 ### Step 2: Create a New Site
 
 Use the `new:site` command to scaffold a new website:

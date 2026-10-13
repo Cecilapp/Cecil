@@ -165,7 +165,7 @@
     
             <span class="phpdocumentor-element__extends">
             uses
-                            <a href="classes/Cecil-Command-Doctor-FailOnTrait.html"><abbr title="\Cecil\Command\Doctor\FailOnTrait">FailOnTrait</abbr></a>                    </span>
+                            <a href="classes/Cecil-Command-Doctor-FailOnTrait.html"><abbr title="\Cecil\Command\Doctor\FailOnTrait">FailOnTrait</abbr></a>,                             <a href="classes/Cecil-Command-Doctor-FindingsTableTrait.html"><abbr title="\Cecil\Command\Doctor\FindingsTableTrait">FindingsTableTrait</abbr></a>                    </span>
     </h2>
 
 <div class="phpdocumentor-label-line">
@@ -241,10 +241,17 @@ pages for a focused set of SEO checks inspired by editorial audit tools.</p>
 <dd>Findings levels, from the most to the least severe</dd>
 
             <dt class="phpdocumentor-table-of-contents__entry -constant -private">
-    <a class="" href="classes/Cecil-Command-Doctor-DoctorSeo.html#constant_PAGE_LABEL_MAX_LENGTH">PAGE_LABEL_MAX_LENGTH</a>
+    <a class="" href="classes/Cecil-Command-Doctor-FindingsTableTrait.html#constant_FINDINGS_MIN_COLUMN_WIDTH">FINDINGS_MIN_COLUMN_WIDTH</a>
     <span>
-        &nbsp;: int&nbsp;= 60                            </span>
+        &nbsp;: int&nbsp;= 20                            </span>
 </dt>
+
+            <dt class="phpdocumentor-table-of-contents__entry -constant -private">
+    <a class="" href="classes/Cecil-Command-Doctor-FindingsTableTrait.html#constant_FINDINGS_VERTICAL_THRESHOLD">FINDINGS_VERTICAL_THRESHOLD</a>
+    <span>
+        &nbsp;: int&nbsp;= 100                            </span>
+</dt>
+<dd>Below this terminal width, findings are displayed vertically</dd>
 
     </dl>
 
@@ -355,6 +362,13 @@ pages for a focused set of SEO checks inspired by editorial audit tools.</p>
 <dd>{@inheritdoc}</dd>
 
             <dt class="phpdocumentor-table-of-contents__entry -method -protected">
+    <a class="" href="classes/Cecil-Command-Doctor-FindingsTableTrait.html#method_formatFindingIssue">formatFindingIssue()</a>
+    <span>
+                                &nbsp;: string    </span>
+</dt>
+<dd>Formats a finding issue: its level followed by its kind (type, check, etc.).</dd>
+
+            <dt class="phpdocumentor-table-of-contents__entry -method -protected">
     <a class="" href="classes/Cecil-Command-AbstractCommand.html#method_getBuilder">getBuilder()</a>
     <span>
                                 &nbsp;: <a href="classes/Cecil-Builder.html"><abbr title="\Cecil\Builder">Builder</abbr></a>    </span>
@@ -418,11 +432,32 @@ pages for a focused set of SEO checks inspired by editorial audit tools.</p>
 <dd>Opens path with editor.</dd>
 
             <dt class="phpdocumentor-table-of-contents__entry -method -protected">
+    <a class="" href="classes/Cecil-Command-Doctor-FindingsTableTrait.html#method_renderFindings">renderFindings()</a>
+    <span>
+                                &nbsp;: void    </span>
+</dt>
+<dd>Renders findings grouped by page (one table per page).</dd>
+
+            <dt class="phpdocumentor-table-of-contents__entry -method -protected">
     <a class="" href="classes/Cecil-Command-Doctor-FailOnTrait.html#method_shouldFail">shouldFail()</a>
     <span>
                                 &nbsp;: bool    </span>
 </dt>
 <dd>Should the command fail, according to the findings counts and the `--fail-on` level?</dd>
+
+            <dt class="phpdocumentor-table-of-contents__entry -method -protected">
+    <a class="" href="classes/Cecil-Command-Doctor-FindingsTableTrait.html#method_truncateLabel">truncateLabel()</a>
+    <span>
+                                &nbsp;: string    </span>
+</dt>
+<dd>Truncates a label in its middle, to keep its beginning and its end.</dd>
+
+            <dt class="phpdocumentor-table-of-contents__entry -method -protected">
+    <a class="" href="classes/Cecil-Command-Doctor-FindingsTableTrait.html#method_wrapFindingValue">wrapFindingValue()</a>
+    <span>
+                                &nbsp;: string    </span>
+</dt>
+<dd>Wraps a plain text value to the given width, if any.</dd>
 
             <dt class="phpdocumentor-table-of-contents__entry -method -private">
     <a class="" href="classes/Cecil-Command-Doctor-DoctorSeo.html#method_buildFilteredResult">buildFilteredResult()</a>
@@ -437,10 +472,11 @@ pages for a focused set of SEO checks inspired by editorial audit tools.</p>
 </dt>
 
             <dt class="phpdocumentor-table-of-contents__entry -method -private">
-    <a class="" href="classes/Cecil-Command-Doctor-DoctorSeo.html#method_formatLevel">formatLevel()</a>
+    <a class="" href="classes/Cecil-Command-Doctor-DoctorSeo.html#method_outputFindings">outputFindings()</a>
     <span>
-                                &nbsp;: string    </span>
+                                &nbsp;: void    </span>
 </dt>
+<dd>Output findings grouped by page.</dd>
 
             <dt class="phpdocumentor-table-of-contents__entry -method -private">
     <a class="" href="classes/Cecil-Command-Doctor-DoctorSeo.html#method_outputJson">outputJson()</a>
@@ -455,12 +491,6 @@ pages for a focused set of SEO checks inspired by editorial audit tools.</p>
                                 &nbsp;: void    </span>
 </dt>
 <dd>Output results in text format (tables).</dd>
-
-            <dt class="phpdocumentor-table-of-contents__entry -method -private">
-    <a class="" href="classes/Cecil-Command-Doctor-DoctorSeo.html#method_truncatePageLabel">truncatePageLabel()</a>
-    <span>
-                                &nbsp;: string    </span>
-</dt>
 
     </dl>
 
@@ -625,16 +655,16 @@ pages for a focused set of SEO checks inspired by editorial audit tools.</p>
         
     </article>
                     <article class="phpdocumentor-element -constant -private ">
-    <h4 class="phpdocumentor-element__name" id="constant_PAGE_LABEL_MAX_LENGTH">
-        PAGE_LABEL_MAX_LENGTH
-        <a href="classes/Cecil-Command-Doctor-DoctorSeo.html#constant_PAGE_LABEL_MAX_LENGTH" class="headerlink"><i class="fas fa-link"></i></a>
+    <h4 class="phpdocumentor-element__name" id="constant_FINDINGS_MIN_COLUMN_WIDTH">
+        FINDINGS_MIN_COLUMN_WIDTH
+        <a href="classes/Cecil-Command-Doctor-FindingsTableTrait.html#constant_FINDINGS_MIN_COLUMN_WIDTH" class="headerlink"><i class="fas fa-link"></i></a>
 
     </h4>
 
     <aside class="phpdocumentor-element-found-in">
-    <abbr class="phpdocumentor-element-found-in__file" title="src/Command/Doctor/DoctorSeo.php"><a href="files/src-command-doctor-doctorseo.html"><abbr title="src/Command/Doctor/DoctorSeo.php">DoctorSeo.php</abbr></a></abbr>
+    <abbr class="phpdocumentor-element-found-in__file" title="src/Command/Doctor/FindingsTableTrait.php"><a href="files/src-command-doctor-findingstabletrait.html"><abbr title="src/Command/Doctor/FindingsTableTrait.php">FindingsTableTrait.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">36</span>
+    <span class="phpdocumentor-element-found-in__line">31</span>
 
     </aside>
 
@@ -643,8 +673,39 @@ pages for a focused set of SEO checks inspired by editorial audit tools.</p>
     <code class="phpdocumentor-signature phpdocumentor-code ">
     <span class="phpdocumentor-signature__visibility">private</span>
         <span class="phpdocumentor-signature__type">int</span>
-    <span class="phpdocumentor-signature__name">PAGE_LABEL_MAX_LENGTH</span>
-    = <span class="phpdocumentor-signature__default-value">60</span>
+    <span class="phpdocumentor-signature__name">FINDINGS_MIN_COLUMN_WIDTH</span>
+    = <span class="phpdocumentor-signature__default-value">20</span>
+</code>
+
+
+    
+    
+    
+
+        
+    </article>
+                    <article class="phpdocumentor-element -constant -private ">
+    <h4 class="phpdocumentor-element__name" id="constant_FINDINGS_VERTICAL_THRESHOLD">
+        FINDINGS_VERTICAL_THRESHOLD
+        <a href="classes/Cecil-Command-Doctor-FindingsTableTrait.html#constant_FINDINGS_VERTICAL_THRESHOLD" class="headerlink"><i class="fas fa-link"></i></a>
+
+    </h4>
+
+    <aside class="phpdocumentor-element-found-in">
+    <abbr class="phpdocumentor-element-found-in__file" title="src/Command/Doctor/FindingsTableTrait.php"><a href="files/src-command-doctor-findingstabletrait.html"><abbr title="src/Command/Doctor/FindingsTableTrait.php">FindingsTableTrait.php</abbr></a></abbr>
+    :
+    <span class="phpdocumentor-element-found-in__line">29</span>
+
+    </aside>
+
+        <p class="phpdocumentor-summary">Below this terminal width, findings are displayed vertically</p>
+
+    
+    <code class="phpdocumentor-signature phpdocumentor-code ">
+    <span class="phpdocumentor-signature__visibility">private</span>
+        <span class="phpdocumentor-signature__type">int</span>
+    <span class="phpdocumentor-signature__name">FINDINGS_VERTICAL_THRESHOLD</span>
+    = <span class="phpdocumentor-signature__default-value">100</span>
 </code>
 
 
@@ -828,7 +889,7 @@ pages for a focused set of SEO checks inspired by editorial audit tools.</p>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Command/Doctor/DoctorSeo.php"><a href="files/src-command-doctor-doctorseo.html"><abbr title="src/Command/Doctor/DoctorSeo.php">DoctorSeo.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">40</span>
+    <span class="phpdocumentor-element-found-in__line">39</span>
 
     </aside>
 
@@ -865,7 +926,7 @@ pages for a focused set of SEO checks inspired by editorial audit tools.</p>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Command/Doctor/DoctorSeo.php"><a href="files/src-command-doctor-doctorseo.html"><abbr title="src/Command/Doctor/DoctorSeo.php">DoctorSeo.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">39</span>
+    <span class="phpdocumentor-element-found-in__line">38</span>
 
     </aside>
 
@@ -902,7 +963,7 @@ pages for a focused set of SEO checks inspired by editorial audit tools.</p>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Command/Doctor/DoctorSeo.php"><a href="files/src-command-doctor-doctorseo.html"><abbr title="src/Command/Doctor/DoctorSeo.php">DoctorSeo.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">38</span>
+    <span class="phpdocumentor-element-found-in__line">37</span>
 
     </aside>
 
@@ -1215,7 +1276,7 @@ pages for a focused set of SEO checks inspired by editorial audit tools.</p>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Command/Doctor/DoctorSeo.php"><a href="files/src-command-doctor-doctorseo.html"><abbr title="src/Command/Doctor/DoctorSeo.php">DoctorSeo.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">45</span>
+    <span class="phpdocumentor-element-found-in__line">44</span>
 
     </aside>
 
@@ -1261,7 +1322,7 @@ pages for a focused set of SEO checks inspired by editorial audit tools.</p>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Command/Doctor/DoctorSeo.php"><a href="files/src-command-doctor-doctorseo.html"><abbr title="src/Command/Doctor/DoctorSeo.php">DoctorSeo.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">118</span>
+    <span class="phpdocumentor-element-found-in__line">117</span>
 
     </aside>
 
@@ -1311,6 +1372,62 @@ pages for a focused set of SEO checks inspired by editorial audit tools.</p>
             <section>
         <h5 class="phpdocumentor-return-value__heading">Return values</h5>
         <span class="phpdocumentor-signature__response_type">int</span>
+            </section>
+
+</article>
+                    <article
+        class="phpdocumentor-element
+            -method
+            -protected
+                                                        "
+>
+    <h4 class="phpdocumentor-element__name" id="method_formatFindingIssue">
+        formatFindingIssue()
+        <a href="classes/Cecil-Command-Doctor-FindingsTableTrait.html#method_formatFindingIssue" class="headerlink"><i class="fas fa-link"></i></a>
+
+    </h4>
+    <aside class="phpdocumentor-element-found-in">
+    <abbr class="phpdocumentor-element-found-in__file" title="src/Command/Doctor/FindingsTableTrait.php"><a href="files/src-command-doctor-findingstabletrait.html"><abbr title="src/Command/Doctor/FindingsTableTrait.php">FindingsTableTrait.php</abbr></a></abbr>
+    :
+    <span class="phpdocumentor-element-found-in__line">135</span>
+
+    </aside>
+
+        <p class="phpdocumentor-summary">Formats a finding issue: its level followed by its kind (type, check, etc.).</p>
+
+    <code class="phpdocumentor-code phpdocumentor-signature ">
+    <span class="phpdocumentor-signature__visibility">protected</span>
+                    <span class="phpdocumentor-signature__name">formatFindingIssue</span><span>(</span><span class="phpdocumentor-signature__argument"><span class="phpdocumentor-signature__argument__type">string&nbsp;</span><span class="phpdocumentor-signature__argument__name">$level</span></span><span class="phpdocumentor-signature__argument"><span>, </span><span class="phpdocumentor-signature__argument__type">string&nbsp;</span><span class="phpdocumentor-signature__argument__name">$kind</span></span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">string</span></code>
+
+    <div class="phpdocumentor-label-line">
+        </div>
+    
+    
+        <h5 class="phpdocumentor-argument-list__heading">Parameters</h5>
+    <dl class="phpdocumentor-argument-list">
+                    <dt class="phpdocumentor-argument-list__entry">
+                <span class="phpdocumentor-argument-list__argument__name">$level</span>
+                : <span class="phpdocumentor-argument-list__argument__type">string</span>
+                            </dt>
+            <dd class="phpdocumentor-argument-list__definition">
+                
+            </dd>
+                    <dt class="phpdocumentor-argument-list__entry">
+                <span class="phpdocumentor-argument-list__argument__name">$kind</span>
+                : <span class="phpdocumentor-argument-list__argument__type">string</span>
+                            </dt>
+            <dd class="phpdocumentor-argument-list__definition">
+                
+            </dd>
+            </dl>
+
+    
+
+        
+    
+            <section>
+        <h5 class="phpdocumentor-return-value__heading">Return values</h5>
+        <span class="phpdocumentor-signature__response_type">string</span>
             </section>
 
 </article>
@@ -1807,6 +1924,74 @@ pages for a focused set of SEO checks inspired by editorial audit tools.</p>
             -protected
                                                         "
 >
+    <h4 class="phpdocumentor-element__name" id="method_renderFindings">
+        renderFindings()
+        <a href="classes/Cecil-Command-Doctor-FindingsTableTrait.html#method_renderFindings" class="headerlink"><i class="fas fa-link"></i></a>
+
+    </h4>
+    <aside class="phpdocumentor-element-found-in">
+    <abbr class="phpdocumentor-element-found-in__file" title="src/Command/Doctor/FindingsTableTrait.php"><a href="files/src-command-doctor-findingstabletrait.html"><abbr title="src/Command/Doctor/FindingsTableTrait.php">FindingsTableTrait.php</abbr></a></abbr>
+    :
+    <span class="phpdocumentor-element-found-in__line">46</span>
+
+    </aside>
+
+        <p class="phpdocumentor-summary">Renders findings grouped by page (one table per page).</p>
+
+    <code class="phpdocumentor-code phpdocumentor-signature ">
+    <span class="phpdocumentor-signature__visibility">protected</span>
+                    <span class="phpdocumentor-signature__name">renderFindings</span><span>(</span><span class="phpdocumentor-signature__argument"><span class="phpdocumentor-signature__argument__type"><abbr title="\Symfony\Component\Console\Output\OutputInterface">OutputInterface</abbr>&nbsp;</span><span class="phpdocumentor-signature__argument__name">$output</span></span><span class="phpdocumentor-signature__argument"><span>, </span><span class="phpdocumentor-signature__argument__type">array&lt;int, array&lt;string, string&gt;&gt;&nbsp;</span><span class="phpdocumentor-signature__argument__name">$findings</span></span><span class="phpdocumentor-signature__argument"><span>, </span><span class="phpdocumentor-signature__argument__type">array&lt;int, array{header: string, cell: callable, ratio?: float}&gt;&nbsp;</span><span class="phpdocumentor-signature__argument__name">$columns</span></span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">void</span></code>
+
+    <div class="phpdocumentor-label-line">
+        </div>
+    
+        <section class="phpdocumentor-description"><p>Each column is defined by a header, a cell callback and an optional ratio:</p>
+<ul>
+<li>without ratio, the column is as wide as its content;</li>
+<li>with a ratio, the column shares the remaining width and its content is wrapped.
+The cell callback receives the finding and the width to wrap to: null for
+horizontal tables (wrapped with the column max width), an int for vertical
+tables (which only indent multi-line values).</li>
+</ul>
+</section>
+
+        <h5 class="phpdocumentor-argument-list__heading">Parameters</h5>
+    <dl class="phpdocumentor-argument-list">
+                    <dt class="phpdocumentor-argument-list__entry">
+                <span class="phpdocumentor-argument-list__argument__name">$output</span>
+                : <span class="phpdocumentor-argument-list__argument__type"><abbr title="\Symfony\Component\Console\Output\OutputInterface">OutputInterface</abbr></span>
+                            </dt>
+            <dd class="phpdocumentor-argument-list__definition">
+                
+            </dd>
+                    <dt class="phpdocumentor-argument-list__entry">
+                <span class="phpdocumentor-argument-list__argument__name">$findings</span>
+                : <span class="phpdocumentor-argument-list__argument__type">array&lt;int, array&lt;string, string&gt;&gt;</span>
+                            </dt>
+            <dd class="phpdocumentor-argument-list__definition">
+                
+            </dd>
+                    <dt class="phpdocumentor-argument-list__entry">
+                <span class="phpdocumentor-argument-list__argument__name">$columns</span>
+                : <span class="phpdocumentor-argument-list__argument__type">array&lt;int, array{header: string, cell: callable, ratio?: float}&gt;</span>
+                            </dt>
+            <dd class="phpdocumentor-argument-list__definition">
+                
+            </dd>
+            </dl>
+
+    
+
+        
+    
+    
+</article>
+                    <article
+        class="phpdocumentor-element
+            -method
+            -protected
+                                                        "
+>
     <h4 class="phpdocumentor-element__name" id="method_shouldFail">
         shouldFail()
         <a href="classes/Cecil-Command-Doctor-FailOnTrait.html#method_shouldFail" class="headerlink"><i class="fas fa-link"></i></a>
@@ -1860,6 +2045,118 @@ pages for a focused set of SEO checks inspired by editorial audit tools.</p>
                     <article
         class="phpdocumentor-element
             -method
+            -protected
+                                                        "
+>
+    <h4 class="phpdocumentor-element__name" id="method_truncateLabel">
+        truncateLabel()
+        <a href="classes/Cecil-Command-Doctor-FindingsTableTrait.html#method_truncateLabel" class="headerlink"><i class="fas fa-link"></i></a>
+
+    </h4>
+    <aside class="phpdocumentor-element-found-in">
+    <abbr class="phpdocumentor-element-found-in__file" title="src/Command/Doctor/FindingsTableTrait.php"><a href="files/src-command-doctor-findingstabletrait.html"><abbr title="src/Command/Doctor/FindingsTableTrait.php">FindingsTableTrait.php</abbr></a></abbr>
+    :
+    <span class="phpdocumentor-element-found-in__line">149</span>
+
+    </aside>
+
+        <p class="phpdocumentor-summary">Truncates a label in its middle, to keep its beginning and its end.</p>
+
+    <code class="phpdocumentor-code phpdocumentor-signature ">
+    <span class="phpdocumentor-signature__visibility">protected</span>
+                    <span class="phpdocumentor-signature__name">truncateLabel</span><span>(</span><span class="phpdocumentor-signature__argument"><span class="phpdocumentor-signature__argument__type">string&nbsp;</span><span class="phpdocumentor-signature__argument__name">$label</span></span><span class="phpdocumentor-signature__argument"><span>, </span><span class="phpdocumentor-signature__argument__type">int&nbsp;</span><span class="phpdocumentor-signature__argument__name">$maxLength</span></span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">string</span></code>
+
+    <div class="phpdocumentor-label-line">
+        </div>
+    
+    
+        <h5 class="phpdocumentor-argument-list__heading">Parameters</h5>
+    <dl class="phpdocumentor-argument-list">
+                    <dt class="phpdocumentor-argument-list__entry">
+                <span class="phpdocumentor-argument-list__argument__name">$label</span>
+                : <span class="phpdocumentor-argument-list__argument__type">string</span>
+                            </dt>
+            <dd class="phpdocumentor-argument-list__definition">
+                
+            </dd>
+                    <dt class="phpdocumentor-argument-list__entry">
+                <span class="phpdocumentor-argument-list__argument__name">$maxLength</span>
+                : <span class="phpdocumentor-argument-list__argument__type">int</span>
+                            </dt>
+            <dd class="phpdocumentor-argument-list__definition">
+                
+            </dd>
+            </dl>
+
+    
+
+        
+    
+            <section>
+        <h5 class="phpdocumentor-return-value__heading">Return values</h5>
+        <span class="phpdocumentor-signature__response_type">string</span>
+            </section>
+
+</article>
+                    <article
+        class="phpdocumentor-element
+            -method
+            -protected
+                                                        "
+>
+    <h4 class="phpdocumentor-element__name" id="method_wrapFindingValue">
+        wrapFindingValue()
+        <a href="classes/Cecil-Command-Doctor-FindingsTableTrait.html#method_wrapFindingValue" class="headerlink"><i class="fas fa-link"></i></a>
+
+    </h4>
+    <aside class="phpdocumentor-element-found-in">
+    <abbr class="phpdocumentor-element-found-in__file" title="src/Command/Doctor/FindingsTableTrait.php"><a href="files/src-command-doctor-findingstabletrait.html"><abbr title="src/Command/Doctor/FindingsTableTrait.php">FindingsTableTrait.php</abbr></a></abbr>
+    :
+    <span class="phpdocumentor-element-found-in__line">127</span>
+
+    </aside>
+
+        <p class="phpdocumentor-summary">Wraps a plain text value to the given width, if any.</p>
+
+    <code class="phpdocumentor-code phpdocumentor-signature ">
+    <span class="phpdocumentor-signature__visibility">protected</span>
+                    <span class="phpdocumentor-signature__name">wrapFindingValue</span><span>(</span><span class="phpdocumentor-signature__argument"><span class="phpdocumentor-signature__argument__type">string&nbsp;</span><span class="phpdocumentor-signature__argument__name">$value</span></span><span class="phpdocumentor-signature__argument"><span>, </span><span class="phpdocumentor-signature__argument__type">int|null&nbsp;</span><span class="phpdocumentor-signature__argument__name">$width</span></span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">string</span></code>
+
+    <div class="phpdocumentor-label-line">
+        </div>
+    
+    
+        <h5 class="phpdocumentor-argument-list__heading">Parameters</h5>
+    <dl class="phpdocumentor-argument-list">
+                    <dt class="phpdocumentor-argument-list__entry">
+                <span class="phpdocumentor-argument-list__argument__name">$value</span>
+                : <span class="phpdocumentor-argument-list__argument__type">string</span>
+                            </dt>
+            <dd class="phpdocumentor-argument-list__definition">
+                
+            </dd>
+                    <dt class="phpdocumentor-argument-list__entry">
+                <span class="phpdocumentor-argument-list__argument__name">$width</span>
+                : <span class="phpdocumentor-argument-list__argument__type">int|null</span>
+                            </dt>
+            <dd class="phpdocumentor-argument-list__definition">
+                
+            </dd>
+            </dl>
+
+    
+
+        
+    
+            <section>
+        <h5 class="phpdocumentor-return-value__heading">Return values</h5>
+        <span class="phpdocumentor-signature__response_type">string</span>
+            </section>
+
+</article>
+                    <article
+        class="phpdocumentor-element
+            -method
             -private
                                                         "
 >
@@ -1871,7 +2168,7 @@ pages for a focused set of SEO checks inspired by editorial audit tools.</p>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Command/Doctor/DoctorSeo.php"><a href="files/src-command-doctor-doctorseo.html"><abbr title="src/Command/Doctor/DoctorSeo.php">DoctorSeo.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">202</span>
+    <span class="phpdocumentor-element-found-in__line">201</span>
 
     </aside>
 
@@ -1926,7 +2223,7 @@ pages for a focused set of SEO checks inspired by editorial audit tools.</p>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Command/Doctor/DoctorSeo.php"><a href="files/src-command-doctor-doctorseo.html"><abbr title="src/Command/Doctor/DoctorSeo.php">DoctorSeo.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">180</span>
+    <span class="phpdocumentor-element-found-in__line">179</span>
 
     </aside>
 
@@ -1973,22 +2270,23 @@ pages for a focused set of SEO checks inspired by editorial audit tools.</p>
             -private
                                                         "
 >
-    <h4 class="phpdocumentor-element__name" id="method_formatLevel">
-        formatLevel()
-        <a href="classes/Cecil-Command-Doctor-DoctorSeo.html#method_formatLevel" class="headerlink"><i class="fas fa-link"></i></a>
+    <h4 class="phpdocumentor-element__name" id="method_outputFindings">
+        outputFindings()
+        <a href="classes/Cecil-Command-Doctor-DoctorSeo.html#method_outputFindings" class="headerlink"><i class="fas fa-link"></i></a>
 
     </h4>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Command/Doctor/DoctorSeo.php"><a href="files/src-command-doctor-doctorseo.html"><abbr title="src/Command/Doctor/DoctorSeo.php">DoctorSeo.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">300</span>
+    <span class="phpdocumentor-element-found-in__line">288</span>
 
     </aside>
 
-    
+        <p class="phpdocumentor-summary">Output findings grouped by page.</p>
+
     <code class="phpdocumentor-code phpdocumentor-signature ">
     <span class="phpdocumentor-signature__visibility">private</span>
-                    <span class="phpdocumentor-signature__name">formatLevel</span><span>(</span><span class="phpdocumentor-signature__argument"><span class="phpdocumentor-signature__argument__type">string&nbsp;</span><span class="phpdocumentor-signature__argument__name">$level</span></span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">string</span></code>
+                    <span class="phpdocumentor-signature__name">outputFindings</span><span>(</span><span class="phpdocumentor-signature__argument"><span class="phpdocumentor-signature__argument__type"><abbr title="\Symfony\Component\Console\Output\OutputInterface">OutputInterface</abbr>&nbsp;</span><span class="phpdocumentor-signature__argument__name">$output</span></span><span class="phpdocumentor-signature__argument"><span>, </span><span class="phpdocumentor-signature__argument__type">array&lt;int, array{page: string, level: string, check: string, details: string}&gt;&nbsp;</span><span class="phpdocumentor-signature__argument__name">$findings</span></span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">void</span></code>
 
     <div class="phpdocumentor-label-line">
         </div>
@@ -1997,8 +2295,15 @@ pages for a focused set of SEO checks inspired by editorial audit tools.</p>
         <h5 class="phpdocumentor-argument-list__heading">Parameters</h5>
     <dl class="phpdocumentor-argument-list">
                     <dt class="phpdocumentor-argument-list__entry">
-                <span class="phpdocumentor-argument-list__argument__name">$level</span>
-                : <span class="phpdocumentor-argument-list__argument__type">string</span>
+                <span class="phpdocumentor-argument-list__argument__name">$output</span>
+                : <span class="phpdocumentor-argument-list__argument__type"><abbr title="\Symfony\Component\Console\Output\OutputInterface">OutputInterface</abbr></span>
+                            </dt>
+            <dd class="phpdocumentor-argument-list__definition">
+                
+            </dd>
+                    <dt class="phpdocumentor-argument-list__entry">
+                <span class="phpdocumentor-argument-list__argument__name">$findings</span>
+                : <span class="phpdocumentor-argument-list__argument__type">array&lt;int, array{page: string, level: string, check: string, details: string}&gt;</span>
                             </dt>
             <dd class="phpdocumentor-argument-list__definition">
                 
@@ -2009,11 +2314,7 @@ pages for a focused set of SEO checks inspired by editorial audit tools.</p>
 
         
     
-            <section>
-        <h5 class="phpdocumentor-return-value__heading">Return values</h5>
-        <span class="phpdocumentor-signature__response_type">string</span>
-            </section>
-
+    
 </article>
                     <article
         class="phpdocumentor-element
@@ -2029,7 +2330,7 @@ pages for a focused set of SEO checks inspired by editorial audit tools.</p>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Command/Doctor/DoctorSeo.php"><a href="files/src-command-doctor-doctorseo.html"><abbr title="src/Command/Doctor/DoctorSeo.php">DoctorSeo.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">163</span>
+    <span class="phpdocumentor-element-found-in__line">162</span>
 
     </aside>
 
@@ -2081,7 +2382,7 @@ pages for a focused set of SEO checks inspired by editorial audit tools.</p>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Command/Doctor/DoctorSeo.php"><a href="files/src-command-doctor-doctorseo.html"><abbr title="src/Command/Doctor/DoctorSeo.php">DoctorSeo.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">242</span>
+    <span class="phpdocumentor-element-found-in__line">241</span>
 
     </aside>
 
@@ -2119,54 +2420,6 @@ pages for a focused set of SEO checks inspired by editorial audit tools.</p>
     
     
 </article>
-                    <article
-        class="phpdocumentor-element
-            -method
-            -private
-                                                        "
->
-    <h4 class="phpdocumentor-element__name" id="method_truncatePageLabel">
-        truncatePageLabel()
-        <a href="classes/Cecil-Command-Doctor-DoctorSeo.html#method_truncatePageLabel" class="headerlink"><i class="fas fa-link"></i></a>
-
-    </h4>
-    <aside class="phpdocumentor-element-found-in">
-    <abbr class="phpdocumentor-element-found-in__file" title="src/Command/Doctor/DoctorSeo.php"><a href="files/src-command-doctor-doctorseo.html"><abbr title="src/Command/Doctor/DoctorSeo.php">DoctorSeo.php</abbr></a></abbr>
-    :
-    <span class="phpdocumentor-element-found-in__line">309</span>
-
-    </aside>
-
-    
-    <code class="phpdocumentor-code phpdocumentor-signature ">
-    <span class="phpdocumentor-signature__visibility">private</span>
-                    <span class="phpdocumentor-signature__name">truncatePageLabel</span><span>(</span><span class="phpdocumentor-signature__argument"><span class="phpdocumentor-signature__argument__type">string&nbsp;</span><span class="phpdocumentor-signature__argument__name">$page</span></span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">string</span></code>
-
-    <div class="phpdocumentor-label-line">
-        </div>
-    
-    
-        <h5 class="phpdocumentor-argument-list__heading">Parameters</h5>
-    <dl class="phpdocumentor-argument-list">
-                    <dt class="phpdocumentor-argument-list__entry">
-                <span class="phpdocumentor-argument-list__argument__name">$page</span>
-                : <span class="phpdocumentor-argument-list__argument__type">string</span>
-                            </dt>
-            <dd class="phpdocumentor-argument-list__definition">
-                
-            </dd>
-            </dl>
-
-    
-
-        
-    
-            <section>
-        <h5 class="phpdocumentor-return-value__heading">Return values</h5>
-        <span class="phpdocumentor-signature__response_type">string</span>
-            </section>
-
-</article>
             </section>
 
         
@@ -2194,7 +2447,8 @@ pages for a focused set of SEO checks inspired by editorial audit tools.</p>
                                                     <li class=""><a href="classes/Cecil-Command-AbstractCommand.html#constant_PID_FILE">PID_FILE</a></li>
                                                     <li class=""><a href="classes/Cecil-Command-AbstractCommand.html#constant_SERVE_OUTPUT">SERVE_OUTPUT</a></li>
                                                     <li class=""><a href="classes/Cecil-Command-Doctor-FailOnTrait.html#constant_FAIL_ON_LEVELS">FAIL_ON_LEVELS</a></li>
-                                                    <li class=""><a href="classes/Cecil-Command-Doctor-DoctorSeo.html#constant_PAGE_LABEL_MAX_LENGTH">PAGE_LABEL_MAX_LENGTH</a></li>
+                                                    <li class=""><a href="classes/Cecil-Command-Doctor-FindingsTableTrait.html#constant_FINDINGS_MIN_COLUMN_WIDTH">FINDINGS_MIN_COLUMN_WIDTH</a></li>
+                                                    <li class=""><a href="classes/Cecil-Command-Doctor-FindingsTableTrait.html#constant_FINDINGS_VERTICAL_THRESHOLD">FINDINGS_VERTICAL_THRESHOLD</a></li>
                                             </ul>
                 </li>
             
@@ -2221,6 +2475,7 @@ pages for a focused set of SEO checks inspired by editorial audit tools.</p>
                                             <li class=""><a href="classes/Cecil-Command-AbstractCommand.html#method_binName">binName()</a></li>
                                             <li class=""><a href="classes/Cecil-Command-Doctor-DoctorSeo.html#method_configure">configure()</a></li>
                                             <li class=""><a href="classes/Cecil-Command-Doctor-DoctorSeo.html#method_execute">execute()</a></li>
+                                            <li class=""><a href="classes/Cecil-Command-Doctor-FindingsTableTrait.html#method_formatFindingIssue">formatFindingIssue()</a></li>
                                             <li class=""><a href="classes/Cecil-Command-AbstractCommand.html#method_getBuilder">getBuilder()</a></li>
                                             <li class=""><a href="classes/Cecil-Command-AbstractCommand.html#method_getConfigFiles">getConfigFiles()</a></li>
                                             <li class=""><a href="classes/Cecil-Command-Doctor-FailOnTrait.html#method_getFailOn">getFailOn()</a></li>
@@ -2230,13 +2485,15 @@ pages for a focused set of SEO checks inspired by editorial audit tools.</p>
                                             <li class=""><a href="classes/Cecil-Command-AbstractCommand.html#method_locateAdditionalConfigFiles">locateAdditionalConfigFiles()</a></li>
                                             <li class=""><a href="classes/Cecil-Command-AbstractCommand.html#method_locateConfigFile">locateConfigFile()</a></li>
                                             <li class=""><a href="classes/Cecil-Command-AbstractCommand.html#method_openEditor">openEditor()</a></li>
+                                            <li class=""><a href="classes/Cecil-Command-Doctor-FindingsTableTrait.html#method_renderFindings">renderFindings()</a></li>
                                             <li class=""><a href="classes/Cecil-Command-Doctor-FailOnTrait.html#method_shouldFail">shouldFail()</a></li>
+                                            <li class=""><a href="classes/Cecil-Command-Doctor-FindingsTableTrait.html#method_truncateLabel">truncateLabel()</a></li>
+                                            <li class=""><a href="classes/Cecil-Command-Doctor-FindingsTableTrait.html#method_wrapFindingValue">wrapFindingValue()</a></li>
                                             <li class=""><a href="classes/Cecil-Command-Doctor-DoctorSeo.html#method_buildFilteredResult">buildFilteredResult()</a></li>
                                             <li class=""><a href="classes/Cecil-Command-Doctor-DoctorSeo.html#method_filterResultWithoutLevel">filterResultWithoutLevel()</a></li>
-                                            <li class=""><a href="classes/Cecil-Command-Doctor-DoctorSeo.html#method_formatLevel">formatLevel()</a></li>
+                                            <li class=""><a href="classes/Cecil-Command-Doctor-DoctorSeo.html#method_outputFindings">outputFindings()</a></li>
                                             <li class=""><a href="classes/Cecil-Command-Doctor-DoctorSeo.html#method_outputJson">outputJson()</a></li>
                                             <li class=""><a href="classes/Cecil-Command-Doctor-DoctorSeo.html#method_outputText">outputText()</a></li>
-                                            <li class=""><a href="classes/Cecil-Command-Doctor-DoctorSeo.html#method_truncatePageLabel">truncatePageLabel()</a></li>
                                     </ul>
             </li>
                     </ul>

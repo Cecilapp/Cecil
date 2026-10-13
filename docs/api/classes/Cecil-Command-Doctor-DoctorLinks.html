@@ -165,7 +165,7 @@
     
             <span class="phpdocumentor-element__extends">
             uses
-                            <a href="classes/Cecil-Command-Doctor-FailOnTrait.html"><abbr title="\Cecil\Command\Doctor\FailOnTrait">FailOnTrait</abbr></a>                    </span>
+                            <a href="classes/Cecil-Command-Doctor-FailOnTrait.html"><abbr title="\Cecil\Command\Doctor\FailOnTrait">FailOnTrait</abbr></a>,                             <a href="classes/Cecil-Command-Doctor-FindingsTableTrait.html"><abbr title="\Cecil\Command\Doctor\FindingsTableTrait">FindingsTableTrait</abbr></a>                    </span>
     </h2>
 
 <div class="phpdocumentor-label-line">
@@ -176,7 +176,7 @@
         <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Command/Doctor/DoctorLinks.php"><a href="files/src-command-doctor-doctorlinks.html"><abbr title="src/Command/Doctor/DoctorLinks.php">DoctorLinks.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">32</span>
+    <span class="phpdocumentor-element-found-in__line">33</span>
 
     </aside>
 
@@ -241,10 +241,17 @@ external links found in the rendered HTML pages and in the linked CSS files.</p>
 <dd>Findings levels, from the most to the least severe</dd>
 
             <dt class="phpdocumentor-table-of-contents__entry -constant -private">
-    <a class="" href="classes/Cecil-Command-Doctor-DoctorLinks.html#constant_LABEL_MAX_LENGTH">LABEL_MAX_LENGTH</a>
+    <a class="" href="classes/Cecil-Command-Doctor-FindingsTableTrait.html#constant_FINDINGS_MIN_COLUMN_WIDTH">FINDINGS_MIN_COLUMN_WIDTH</a>
     <span>
-        &nbsp;: int&nbsp;= 60                            </span>
+        &nbsp;: int&nbsp;= 20                            </span>
 </dt>
+
+            <dt class="phpdocumentor-table-of-contents__entry -constant -private">
+    <a class="" href="classes/Cecil-Command-Doctor-FindingsTableTrait.html#constant_FINDINGS_VERTICAL_THRESHOLD">FINDINGS_VERTICAL_THRESHOLD</a>
+    <span>
+        &nbsp;: int&nbsp;= 100                            </span>
+</dt>
+<dd>Below this terminal width, findings are displayed vertically</dd>
 
     </dl>
 
@@ -275,6 +282,12 @@ external links found in the rendered HTML pages and in the linked CSS files.</p>
 
             <dt class="phpdocumentor-table-of-contents__entry -property -protected">
     <a class="" href="classes/Cecil-Command-AbstractCommand.html#property_rootPath">$rootPath</a>
+    <span>
+                        &nbsp;: string            </span>
+</dt>
+
+            <dt class="phpdocumentor-table-of-contents__entry -property -private">
+    <a class="" href="classes/Cecil-Command-Doctor-DoctorLinks.html#property_baseurl">$baseurl</a>
     <span>
                         &nbsp;: string            </span>
 </dt>
@@ -349,6 +362,13 @@ external links found in the rendered HTML pages and in the linked CSS files.</p>
 <dd>{@inheritdoc}</dd>
 
             <dt class="phpdocumentor-table-of-contents__entry -method -protected">
+    <a class="" href="classes/Cecil-Command-Doctor-FindingsTableTrait.html#method_formatFindingIssue">formatFindingIssue()</a>
+    <span>
+                                &nbsp;: string    </span>
+</dt>
+<dd>Formats a finding issue: its level followed by its kind (type, check, etc.).</dd>
+
+            <dt class="phpdocumentor-table-of-contents__entry -method -protected">
     <a class="" href="classes/Cecil-Command-AbstractCommand.html#method_getBuilder">getBuilder()</a>
     <span>
                                 &nbsp;: <a href="classes/Cecil-Builder.html"><abbr title="\Cecil\Builder">Builder</abbr></a>    </span>
@@ -412,17 +432,53 @@ external links found in the rendered HTML pages and in the linked CSS files.</p>
 <dd>Opens path with editor.</dd>
 
             <dt class="phpdocumentor-table-of-contents__entry -method -protected">
+    <a class="" href="classes/Cecil-Command-Doctor-FindingsTableTrait.html#method_renderFindings">renderFindings()</a>
+    <span>
+                                &nbsp;: void    </span>
+</dt>
+<dd>Renders findings grouped by page (one table per page).</dd>
+
+            <dt class="phpdocumentor-table-of-contents__entry -method -protected">
     <a class="" href="classes/Cecil-Command-Doctor-FailOnTrait.html#method_shouldFail">shouldFail()</a>
     <span>
                                 &nbsp;: bool    </span>
 </dt>
 <dd>Should the command fail, according to the findings counts and the `--fail-on` level?</dd>
 
-            <dt class="phpdocumentor-table-of-contents__entry -method -private">
-    <a class="" href="classes/Cecil-Command-Doctor-DoctorLinks.html#method_formatLevel">formatLevel()</a>
+            <dt class="phpdocumentor-table-of-contents__entry -method -protected">
+    <a class="" href="classes/Cecil-Command-Doctor-FindingsTableTrait.html#method_truncateLabel">truncateLabel()</a>
     <span>
                                 &nbsp;: string    </span>
 </dt>
+<dd>Truncates a label in its middle, to keep its beginning and its end.</dd>
+
+            <dt class="phpdocumentor-table-of-contents__entry -method -protected">
+    <a class="" href="classes/Cecil-Command-Doctor-FindingsTableTrait.html#method_wrapFindingValue">wrapFindingValue()</a>
+    <span>
+                                &nbsp;: string    </span>
+</dt>
+<dd>Wraps a plain text value to the given width, if any.</dd>
+
+            <dt class="phpdocumentor-table-of-contents__entry -method -private">
+    <a class="" href="classes/Cecil-Command-Doctor-DoctorLinks.html#method_formatLink">formatLink()</a>
+    <span>
+                                &nbsp;: string    </span>
+</dt>
+<dd>Formats the link as a terminal hyperlink (OSC 8), so it stays clickable when wrapped.</dd>
+
+            <dt class="phpdocumentor-table-of-contents__entry -method -private">
+    <a class="" href="classes/Cecil-Command-Doctor-DoctorLinks.html#method_getLinkHref">getLinkHref()</a>
+    <span>
+                                &nbsp;: string|null    </span>
+</dt>
+<dd>Returns the absolute URL of a link, or null if it can&#039;t be resolved.</dd>
+
+            <dt class="phpdocumentor-table-of-contents__entry -method -private">
+    <a class="" href="classes/Cecil-Command-Doctor-DoctorLinks.html#method_outputFindings">outputFindings()</a>
+    <span>
+                                &nbsp;: void    </span>
+</dt>
+<dd>Output findings grouped by page.</dd>
 
             <dt class="phpdocumentor-table-of-contents__entry -method -private">
     <a class="" href="classes/Cecil-Command-Doctor-DoctorLinks.html#method_outputText">outputText()</a>
@@ -430,12 +486,6 @@ external links found in the rendered HTML pages and in the linked CSS files.</p>
                                 &nbsp;: void    </span>
 </dt>
 <dd>Output results in text format (tables).</dd>
-
-            <dt class="phpdocumentor-table-of-contents__entry -method -private">
-    <a class="" href="classes/Cecil-Command-Doctor-DoctorLinks.html#method_truncateLabel">truncateLabel()</a>
-    <span>
-                                &nbsp;: string    </span>
-</dt>
 
     </dl>
 
@@ -600,16 +650,16 @@ external links found in the rendered HTML pages and in the linked CSS files.</p>
         
     </article>
                     <article class="phpdocumentor-element -constant -private ">
-    <h4 class="phpdocumentor-element__name" id="constant_LABEL_MAX_LENGTH">
-        LABEL_MAX_LENGTH
-        <a href="classes/Cecil-Command-Doctor-DoctorLinks.html#constant_LABEL_MAX_LENGTH" class="headerlink"><i class="fas fa-link"></i></a>
+    <h4 class="phpdocumentor-element__name" id="constant_FINDINGS_MIN_COLUMN_WIDTH">
+        FINDINGS_MIN_COLUMN_WIDTH
+        <a href="classes/Cecil-Command-Doctor-FindingsTableTrait.html#constant_FINDINGS_MIN_COLUMN_WIDTH" class="headerlink"><i class="fas fa-link"></i></a>
 
     </h4>
 
     <aside class="phpdocumentor-element-found-in">
-    <abbr class="phpdocumentor-element-found-in__file" title="src/Command/Doctor/DoctorLinks.php"><a href="files/src-command-doctor-doctorlinks.html"><abbr title="src/Command/Doctor/DoctorLinks.php">DoctorLinks.php</abbr></a></abbr>
+    <abbr class="phpdocumentor-element-found-in__file" title="src/Command/Doctor/FindingsTableTrait.php"><a href="files/src-command-doctor-findingstabletrait.html"><abbr title="src/Command/Doctor/FindingsTableTrait.php">FindingsTableTrait.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">36</span>
+    <span class="phpdocumentor-element-found-in__line">31</span>
 
     </aside>
 
@@ -618,8 +668,39 @@ external links found in the rendered HTML pages and in the linked CSS files.</p>
     <code class="phpdocumentor-signature phpdocumentor-code ">
     <span class="phpdocumentor-signature__visibility">private</span>
         <span class="phpdocumentor-signature__type">int</span>
-    <span class="phpdocumentor-signature__name">LABEL_MAX_LENGTH</span>
-    = <span class="phpdocumentor-signature__default-value">60</span>
+    <span class="phpdocumentor-signature__name">FINDINGS_MIN_COLUMN_WIDTH</span>
+    = <span class="phpdocumentor-signature__default-value">20</span>
+</code>
+
+
+    
+    
+    
+
+        
+    </article>
+                    <article class="phpdocumentor-element -constant -private ">
+    <h4 class="phpdocumentor-element__name" id="constant_FINDINGS_VERTICAL_THRESHOLD">
+        FINDINGS_VERTICAL_THRESHOLD
+        <a href="classes/Cecil-Command-Doctor-FindingsTableTrait.html#constant_FINDINGS_VERTICAL_THRESHOLD" class="headerlink"><i class="fas fa-link"></i></a>
+
+    </h4>
+
+    <aside class="phpdocumentor-element-found-in">
+    <abbr class="phpdocumentor-element-found-in__file" title="src/Command/Doctor/FindingsTableTrait.php"><a href="files/src-command-doctor-findingstabletrait.html"><abbr title="src/Command/Doctor/FindingsTableTrait.php">FindingsTableTrait.php</abbr></a></abbr>
+    :
+    <span class="phpdocumentor-element-found-in__line">29</span>
+
+    </aside>
+
+        <p class="phpdocumentor-summary">Below this terminal width, findings are displayed vertically</p>
+
+    
+    <code class="phpdocumentor-signature phpdocumentor-code ">
+    <span class="phpdocumentor-signature__visibility">private</span>
+        <span class="phpdocumentor-signature__type">int</span>
+    <span class="phpdocumentor-signature__name">FINDINGS_VERTICAL_THRESHOLD</span>
+    = <span class="phpdocumentor-signature__default-value">100</span>
 </code>
 
 
@@ -777,6 +858,43 @@ external links found in the rendered HTML pages and in the linked CSS files.</p>
             <span class="phpdocumentor-signature__type">string</span>
     <span class="phpdocumentor-signature__name">$rootPath</span>
     </code>
+
+    
+    
+    
+
+        
+        
+
+</article>
+                    <article
+        class="
+            phpdocumentor-element
+            -property
+            -private
+                                                                    "
+>
+    <h4 class="phpdocumentor-element__name" id="property_baseurl">
+        $baseurl
+        <a href="classes/Cecil-Command-Doctor-DoctorLinks.html#property_baseurl" class="headerlink"><i class="fas fa-link"></i></a>
+
+        <span class="phpdocumentor-element__modifiers">
+                                            </span>
+    </h4>
+    <aside class="phpdocumentor-element-found-in">
+    <abbr class="phpdocumentor-element-found-in__file" title="src/Command/Doctor/DoctorLinks.php"><a href="files/src-command-doctor-doctorlinks.html"><abbr title="src/Command/Doctor/DoctorLinks.php">DoctorLinks.php</abbr></a></abbr>
+    :
+    <span class="phpdocumentor-element-found-in__line">40</span>
+
+    </aside>
+
+    
+    
+    <code class="phpdocumentor-code phpdocumentor-signature ">
+        <span class="phpdocumentor-signature__visibility">private</span>
+            <span class="phpdocumentor-signature__type">string</span>
+    <span class="phpdocumentor-signature__name">$baseurl</span>
+     = <span class="phpdocumentor-signature__default-value">&#039;&#039;</span></code>
 
     
     
@@ -1153,7 +1271,7 @@ external links found in the rendered HTML pages and in the linked CSS files.</p>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Command/Doctor/DoctorLinks.php"><a href="files/src-command-doctor-doctorlinks.html"><abbr title="src/Command/Doctor/DoctorLinks.php">DoctorLinks.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">44</span>
+    <span class="phpdocumentor-element-found-in__line">45</span>
 
     </aside>
 
@@ -1199,7 +1317,7 @@ external links found in the rendered HTML pages and in the linked CSS files.</p>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Command/Doctor/DoctorLinks.php"><a href="files/src-command-doctor-doctorlinks.html"><abbr title="src/Command/Doctor/DoctorLinks.php">DoctorLinks.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">118</span>
+    <span class="phpdocumentor-element-found-in__line">119</span>
 
     </aside>
 
@@ -1249,6 +1367,62 @@ external links found in the rendered HTML pages and in the linked CSS files.</p>
             <section>
         <h5 class="phpdocumentor-return-value__heading">Return values</h5>
         <span class="phpdocumentor-signature__response_type">int</span>
+            </section>
+
+</article>
+                    <article
+        class="phpdocumentor-element
+            -method
+            -protected
+                                                        "
+>
+    <h4 class="phpdocumentor-element__name" id="method_formatFindingIssue">
+        formatFindingIssue()
+        <a href="classes/Cecil-Command-Doctor-FindingsTableTrait.html#method_formatFindingIssue" class="headerlink"><i class="fas fa-link"></i></a>
+
+    </h4>
+    <aside class="phpdocumentor-element-found-in">
+    <abbr class="phpdocumentor-element-found-in__file" title="src/Command/Doctor/FindingsTableTrait.php"><a href="files/src-command-doctor-findingstabletrait.html"><abbr title="src/Command/Doctor/FindingsTableTrait.php">FindingsTableTrait.php</abbr></a></abbr>
+    :
+    <span class="phpdocumentor-element-found-in__line">135</span>
+
+    </aside>
+
+        <p class="phpdocumentor-summary">Formats a finding issue: its level followed by its kind (type, check, etc.).</p>
+
+    <code class="phpdocumentor-code phpdocumentor-signature ">
+    <span class="phpdocumentor-signature__visibility">protected</span>
+                    <span class="phpdocumentor-signature__name">formatFindingIssue</span><span>(</span><span class="phpdocumentor-signature__argument"><span class="phpdocumentor-signature__argument__type">string&nbsp;</span><span class="phpdocumentor-signature__argument__name">$level</span></span><span class="phpdocumentor-signature__argument"><span>, </span><span class="phpdocumentor-signature__argument__type">string&nbsp;</span><span class="phpdocumentor-signature__argument__name">$kind</span></span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">string</span></code>
+
+    <div class="phpdocumentor-label-line">
+        </div>
+    
+    
+        <h5 class="phpdocumentor-argument-list__heading">Parameters</h5>
+    <dl class="phpdocumentor-argument-list">
+                    <dt class="phpdocumentor-argument-list__entry">
+                <span class="phpdocumentor-argument-list__argument__name">$level</span>
+                : <span class="phpdocumentor-argument-list__argument__type">string</span>
+                            </dt>
+            <dd class="phpdocumentor-argument-list__definition">
+                
+            </dd>
+                    <dt class="phpdocumentor-argument-list__entry">
+                <span class="phpdocumentor-argument-list__argument__name">$kind</span>
+                : <span class="phpdocumentor-argument-list__argument__type">string</span>
+                            </dt>
+            <dd class="phpdocumentor-argument-list__definition">
+                
+            </dd>
+            </dl>
+
+    
+
+        
+    
+            <section>
+        <h5 class="phpdocumentor-return-value__heading">Return values</h5>
+        <span class="phpdocumentor-signature__response_type">string</span>
             </section>
 
 </article>
@@ -1745,6 +1919,74 @@ external links found in the rendered HTML pages and in the linked CSS files.</p>
             -protected
                                                         "
 >
+    <h4 class="phpdocumentor-element__name" id="method_renderFindings">
+        renderFindings()
+        <a href="classes/Cecil-Command-Doctor-FindingsTableTrait.html#method_renderFindings" class="headerlink"><i class="fas fa-link"></i></a>
+
+    </h4>
+    <aside class="phpdocumentor-element-found-in">
+    <abbr class="phpdocumentor-element-found-in__file" title="src/Command/Doctor/FindingsTableTrait.php"><a href="files/src-command-doctor-findingstabletrait.html"><abbr title="src/Command/Doctor/FindingsTableTrait.php">FindingsTableTrait.php</abbr></a></abbr>
+    :
+    <span class="phpdocumentor-element-found-in__line">46</span>
+
+    </aside>
+
+        <p class="phpdocumentor-summary">Renders findings grouped by page (one table per page).</p>
+
+    <code class="phpdocumentor-code phpdocumentor-signature ">
+    <span class="phpdocumentor-signature__visibility">protected</span>
+                    <span class="phpdocumentor-signature__name">renderFindings</span><span>(</span><span class="phpdocumentor-signature__argument"><span class="phpdocumentor-signature__argument__type"><abbr title="\Symfony\Component\Console\Output\OutputInterface">OutputInterface</abbr>&nbsp;</span><span class="phpdocumentor-signature__argument__name">$output</span></span><span class="phpdocumentor-signature__argument"><span>, </span><span class="phpdocumentor-signature__argument__type">array&lt;int, array&lt;string, string&gt;&gt;&nbsp;</span><span class="phpdocumentor-signature__argument__name">$findings</span></span><span class="phpdocumentor-signature__argument"><span>, </span><span class="phpdocumentor-signature__argument__type">array&lt;int, array{header: string, cell: callable, ratio?: float}&gt;&nbsp;</span><span class="phpdocumentor-signature__argument__name">$columns</span></span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">void</span></code>
+
+    <div class="phpdocumentor-label-line">
+        </div>
+    
+        <section class="phpdocumentor-description"><p>Each column is defined by a header, a cell callback and an optional ratio:</p>
+<ul>
+<li>without ratio, the column is as wide as its content;</li>
+<li>with a ratio, the column shares the remaining width and its content is wrapped.
+The cell callback receives the finding and the width to wrap to: null for
+horizontal tables (wrapped with the column max width), an int for vertical
+tables (which only indent multi-line values).</li>
+</ul>
+</section>
+
+        <h5 class="phpdocumentor-argument-list__heading">Parameters</h5>
+    <dl class="phpdocumentor-argument-list">
+                    <dt class="phpdocumentor-argument-list__entry">
+                <span class="phpdocumentor-argument-list__argument__name">$output</span>
+                : <span class="phpdocumentor-argument-list__argument__type"><abbr title="\Symfony\Component\Console\Output\OutputInterface">OutputInterface</abbr></span>
+                            </dt>
+            <dd class="phpdocumentor-argument-list__definition">
+                
+            </dd>
+                    <dt class="phpdocumentor-argument-list__entry">
+                <span class="phpdocumentor-argument-list__argument__name">$findings</span>
+                : <span class="phpdocumentor-argument-list__argument__type">array&lt;int, array&lt;string, string&gt;&gt;</span>
+                            </dt>
+            <dd class="phpdocumentor-argument-list__definition">
+                
+            </dd>
+                    <dt class="phpdocumentor-argument-list__entry">
+                <span class="phpdocumentor-argument-list__argument__name">$columns</span>
+                : <span class="phpdocumentor-argument-list__argument__type">array&lt;int, array{header: string, cell: callable, ratio?: float}&gt;</span>
+                            </dt>
+            <dd class="phpdocumentor-argument-list__definition">
+                
+            </dd>
+            </dl>
+
+    
+
+        
+    
+    
+</article>
+                    <article
+        class="phpdocumentor-element
+            -method
+            -protected
+                                                        "
+>
     <h4 class="phpdocumentor-element__name" id="method_shouldFail">
         shouldFail()
         <a href="classes/Cecil-Command-Doctor-FailOnTrait.html#method_shouldFail" class="headerlink"><i class="fas fa-link"></i></a>
@@ -1798,25 +2040,26 @@ external links found in the rendered HTML pages and in the linked CSS files.</p>
                     <article
         class="phpdocumentor-element
             -method
-            -private
+            -protected
                                                         "
 >
-    <h4 class="phpdocumentor-element__name" id="method_formatLevel">
-        formatLevel()
-        <a href="classes/Cecil-Command-Doctor-DoctorLinks.html#method_formatLevel" class="headerlink"><i class="fas fa-link"></i></a>
+    <h4 class="phpdocumentor-element__name" id="method_truncateLabel">
+        truncateLabel()
+        <a href="classes/Cecil-Command-Doctor-FindingsTableTrait.html#method_truncateLabel" class="headerlink"><i class="fas fa-link"></i></a>
 
     </h4>
     <aside class="phpdocumentor-element-found-in">
-    <abbr class="phpdocumentor-element-found-in__file" title="src/Command/Doctor/DoctorLinks.php"><a href="files/src-command-doctor-doctorlinks.html"><abbr title="src/Command/Doctor/DoctorLinks.php">DoctorLinks.php</abbr></a></abbr>
+    <abbr class="phpdocumentor-element-found-in__file" title="src/Command/Doctor/FindingsTableTrait.php"><a href="files/src-command-doctor-findingstabletrait.html"><abbr title="src/Command/Doctor/FindingsTableTrait.php">FindingsTableTrait.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">232</span>
+    <span class="phpdocumentor-element-found-in__line">149</span>
 
     </aside>
 
-    
+        <p class="phpdocumentor-summary">Truncates a label in its middle, to keep its beginning and its end.</p>
+
     <code class="phpdocumentor-code phpdocumentor-signature ">
-    <span class="phpdocumentor-signature__visibility">private</span>
-                    <span class="phpdocumentor-signature__name">formatLevel</span><span>(</span><span class="phpdocumentor-signature__argument"><span class="phpdocumentor-signature__argument__type">string&nbsp;</span><span class="phpdocumentor-signature__argument__name">$level</span></span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">string</span></code>
+    <span class="phpdocumentor-signature__visibility">protected</span>
+                    <span class="phpdocumentor-signature__name">truncateLabel</span><span>(</span><span class="phpdocumentor-signature__argument"><span class="phpdocumentor-signature__argument__type">string&nbsp;</span><span class="phpdocumentor-signature__argument__name">$label</span></span><span class="phpdocumentor-signature__argument"><span>, </span><span class="phpdocumentor-signature__argument__type">int&nbsp;</span><span class="phpdocumentor-signature__argument__name">$maxLength</span></span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">string</span></code>
 
     <div class="phpdocumentor-label-line">
         </div>
@@ -1825,8 +2068,71 @@ external links found in the rendered HTML pages and in the linked CSS files.</p>
         <h5 class="phpdocumentor-argument-list__heading">Parameters</h5>
     <dl class="phpdocumentor-argument-list">
                     <dt class="phpdocumentor-argument-list__entry">
-                <span class="phpdocumentor-argument-list__argument__name">$level</span>
+                <span class="phpdocumentor-argument-list__argument__name">$label</span>
                 : <span class="phpdocumentor-argument-list__argument__type">string</span>
+                            </dt>
+            <dd class="phpdocumentor-argument-list__definition">
+                
+            </dd>
+                    <dt class="phpdocumentor-argument-list__entry">
+                <span class="phpdocumentor-argument-list__argument__name">$maxLength</span>
+                : <span class="phpdocumentor-argument-list__argument__type">int</span>
+                            </dt>
+            <dd class="phpdocumentor-argument-list__definition">
+                
+            </dd>
+            </dl>
+
+    
+
+        
+    
+            <section>
+        <h5 class="phpdocumentor-return-value__heading">Return values</h5>
+        <span class="phpdocumentor-signature__response_type">string</span>
+            </section>
+
+</article>
+                    <article
+        class="phpdocumentor-element
+            -method
+            -protected
+                                                        "
+>
+    <h4 class="phpdocumentor-element__name" id="method_wrapFindingValue">
+        wrapFindingValue()
+        <a href="classes/Cecil-Command-Doctor-FindingsTableTrait.html#method_wrapFindingValue" class="headerlink"><i class="fas fa-link"></i></a>
+
+    </h4>
+    <aside class="phpdocumentor-element-found-in">
+    <abbr class="phpdocumentor-element-found-in__file" title="src/Command/Doctor/FindingsTableTrait.php"><a href="files/src-command-doctor-findingstabletrait.html"><abbr title="src/Command/Doctor/FindingsTableTrait.php">FindingsTableTrait.php</abbr></a></abbr>
+    :
+    <span class="phpdocumentor-element-found-in__line">127</span>
+
+    </aside>
+
+        <p class="phpdocumentor-summary">Wraps a plain text value to the given width, if any.</p>
+
+    <code class="phpdocumentor-code phpdocumentor-signature ">
+    <span class="phpdocumentor-signature__visibility">protected</span>
+                    <span class="phpdocumentor-signature__name">wrapFindingValue</span><span>(</span><span class="phpdocumentor-signature__argument"><span class="phpdocumentor-signature__argument__type">string&nbsp;</span><span class="phpdocumentor-signature__argument__name">$value</span></span><span class="phpdocumentor-signature__argument"><span>, </span><span class="phpdocumentor-signature__argument__type">int|null&nbsp;</span><span class="phpdocumentor-signature__argument__name">$width</span></span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">string</span></code>
+
+    <div class="phpdocumentor-label-line">
+        </div>
+    
+    
+        <h5 class="phpdocumentor-argument-list__heading">Parameters</h5>
+    <dl class="phpdocumentor-argument-list">
+                    <dt class="phpdocumentor-argument-list__entry">
+                <span class="phpdocumentor-argument-list__argument__name">$value</span>
+                : <span class="phpdocumentor-argument-list__argument__type">string</span>
+                            </dt>
+            <dd class="phpdocumentor-argument-list__definition">
+                
+            </dd>
+                    <dt class="phpdocumentor-argument-list__entry">
+                <span class="phpdocumentor-argument-list__argument__name">$width</span>
+                : <span class="phpdocumentor-argument-list__argument__type">int|null</span>
                             </dt>
             <dd class="phpdocumentor-argument-list__definition">
                 
@@ -1849,6 +2155,172 @@ external links found in the rendered HTML pages and in the linked CSS files.</p>
             -private
                                                         "
 >
+    <h4 class="phpdocumentor-element__name" id="method_formatLink">
+        formatLink()
+        <a href="classes/Cecil-Command-Doctor-DoctorLinks.html#method_formatLink" class="headerlink"><i class="fas fa-link"></i></a>
+
+    </h4>
+    <aside class="phpdocumentor-element-found-in">
+    <abbr class="phpdocumentor-element-found-in__file" title="src/Command/Doctor/DoctorLinks.php"><a href="files/src-command-doctor-doctorlinks.html"><abbr title="src/Command/Doctor/DoctorLinks.php">DoctorLinks.php</abbr></a></abbr>
+    :
+    <span class="phpdocumentor-element-found-in__line">248</span>
+
+    </aside>
+
+        <p class="phpdocumentor-summary">Formats the link as a terminal hyperlink (OSC 8), so it stays clickable when wrapped.</p>
+
+    <code class="phpdocumentor-code phpdocumentor-signature ">
+    <span class="phpdocumentor-signature__visibility">private</span>
+                    <span class="phpdocumentor-signature__name">formatLink</span><span>(</span><span class="phpdocumentor-signature__argument"><span class="phpdocumentor-signature__argument__type">array&lt;string, string&gt;&nbsp;</span><span class="phpdocumentor-signature__argument__name">$finding</span></span><span class="phpdocumentor-signature__argument"><span>[</span><span>, </span><span class="phpdocumentor-signature__argument__type">int|null&nbsp;</span><span class="phpdocumentor-signature__argument__name">$wrapWidth</span><span> = </span><span class="phpdocumentor-signature__argument__default-value">null</span><span> ]</span></span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">string</span></code>
+
+    <div class="phpdocumentor-label-line">
+        </div>
+    
+    
+        <h5 class="phpdocumentor-argument-list__heading">Parameters</h5>
+    <dl class="phpdocumentor-argument-list">
+                    <dt class="phpdocumentor-argument-list__entry">
+                <span class="phpdocumentor-argument-list__argument__name">$finding</span>
+                : <span class="phpdocumentor-argument-list__argument__type">array&lt;string, string&gt;</span>
+                            </dt>
+            <dd class="phpdocumentor-argument-list__definition">
+                
+            </dd>
+                    <dt class="phpdocumentor-argument-list__entry">
+                <span class="phpdocumentor-argument-list__argument__name">$wrapWidth</span>
+                : <span class="phpdocumentor-argument-list__argument__type">int|null</span>
+                 = <span class="phpdocumentor-argument-list__argument__default-value">null</span>            </dt>
+            <dd class="phpdocumentor-argument-list__definition">
+                    <section class="phpdocumentor-description"><p>Wraps the link on several lines (each one being a hyperlink)</p>
+</section>
+
+            </dd>
+            </dl>
+
+    
+
+        
+    
+            <section>
+        <h5 class="phpdocumentor-return-value__heading">Return values</h5>
+        <span class="phpdocumentor-signature__response_type">string</span>
+            </section>
+
+</article>
+                    <article
+        class="phpdocumentor-element
+            -method
+            -private
+                                                        "
+>
+    <h4 class="phpdocumentor-element__name" id="method_getLinkHref">
+        getLinkHref()
+        <a href="classes/Cecil-Command-Doctor-DoctorLinks.html#method_getLinkHref" class="headerlink"><i class="fas fa-link"></i></a>
+
+    </h4>
+    <aside class="phpdocumentor-element-found-in">
+    <abbr class="phpdocumentor-element-found-in__file" title="src/Command/Doctor/DoctorLinks.php"><a href="files/src-command-doctor-doctorlinks.html"><abbr title="src/Command/Doctor/DoctorLinks.php">DoctorLinks.php</abbr></a></abbr>
+    :
+    <span class="phpdocumentor-element-found-in__line">264</span>
+
+    </aside>
+
+        <p class="phpdocumentor-summary">Returns the absolute URL of a link, or null if it can&#039;t be resolved.</p>
+
+    <code class="phpdocumentor-code phpdocumentor-signature ">
+    <span class="phpdocumentor-signature__visibility">private</span>
+                    <span class="phpdocumentor-signature__name">getLinkHref</span><span>(</span><span class="phpdocumentor-signature__argument"><span class="phpdocumentor-signature__argument__type">string&nbsp;</span><span class="phpdocumentor-signature__argument__name">$page</span></span><span class="phpdocumentor-signature__argument"><span>, </span><span class="phpdocumentor-signature__argument__type">string&nbsp;</span><span class="phpdocumentor-signature__argument__name">$link</span></span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">string|null</span></code>
+
+    <div class="phpdocumentor-label-line">
+        </div>
+    
+    
+        <h5 class="phpdocumentor-argument-list__heading">Parameters</h5>
+    <dl class="phpdocumentor-argument-list">
+                    <dt class="phpdocumentor-argument-list__entry">
+                <span class="phpdocumentor-argument-list__argument__name">$page</span>
+                : <span class="phpdocumentor-argument-list__argument__type">string</span>
+                            </dt>
+            <dd class="phpdocumentor-argument-list__definition">
+                
+            </dd>
+                    <dt class="phpdocumentor-argument-list__entry">
+                <span class="phpdocumentor-argument-list__argument__name">$link</span>
+                : <span class="phpdocumentor-argument-list__argument__type">string</span>
+                            </dt>
+            <dd class="phpdocumentor-argument-list__definition">
+                
+            </dd>
+            </dl>
+
+    
+
+        
+    
+            <section>
+        <h5 class="phpdocumentor-return-value__heading">Return values</h5>
+        <span class="phpdocumentor-signature__response_type">string|null</span>
+            </section>
+
+</article>
+                    <article
+        class="phpdocumentor-element
+            -method
+            -private
+                                                        "
+>
+    <h4 class="phpdocumentor-element__name" id="method_outputFindings">
+        outputFindings()
+        <a href="classes/Cecil-Command-Doctor-DoctorLinks.html#method_outputFindings" class="headerlink"><i class="fas fa-link"></i></a>
+
+    </h4>
+    <aside class="phpdocumentor-element-found-in">
+    <abbr class="phpdocumentor-element-found-in__file" title="src/Command/Doctor/DoctorLinks.php"><a href="files/src-command-doctor-doctorlinks.html"><abbr title="src/Command/Doctor/DoctorLinks.php">DoctorLinks.php</abbr></a></abbr>
+    :
+    <span class="phpdocumentor-element-found-in__line">222</span>
+
+    </aside>
+
+        <p class="phpdocumentor-summary">Output findings grouped by page.</p>
+
+    <code class="phpdocumentor-code phpdocumentor-signature ">
+    <span class="phpdocumentor-signature__visibility">private</span>
+                    <span class="phpdocumentor-signature__name">outputFindings</span><span>(</span><span class="phpdocumentor-signature__argument"><span class="phpdocumentor-signature__argument__type"><abbr title="\Symfony\Component\Console\Output\OutputInterface">OutputInterface</abbr>&nbsp;</span><span class="phpdocumentor-signature__argument__name">$output</span></span><span class="phpdocumentor-signature__argument"><span>, </span><span class="phpdocumentor-signature__argument__type">array&lt;int, array{page: string, level: string, type: string, link: string, details: string}&gt;&nbsp;</span><span class="phpdocumentor-signature__argument__name">$findings</span></span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">void</span></code>
+
+    <div class="phpdocumentor-label-line">
+        </div>
+    
+    
+        <h5 class="phpdocumentor-argument-list__heading">Parameters</h5>
+    <dl class="phpdocumentor-argument-list">
+                    <dt class="phpdocumentor-argument-list__entry">
+                <span class="phpdocumentor-argument-list__argument__name">$output</span>
+                : <span class="phpdocumentor-argument-list__argument__type"><abbr title="\Symfony\Component\Console\Output\OutputInterface">OutputInterface</abbr></span>
+                            </dt>
+            <dd class="phpdocumentor-argument-list__definition">
+                
+            </dd>
+                    <dt class="phpdocumentor-argument-list__entry">
+                <span class="phpdocumentor-argument-list__argument__name">$findings</span>
+                : <span class="phpdocumentor-argument-list__argument__type">array&lt;int, array{page: string, level: string, type: string, link: string, details: string}&gt;</span>
+                            </dt>
+            <dd class="phpdocumentor-argument-list__definition">
+                
+            </dd>
+            </dl>
+
+    
+
+        
+    
+    
+</article>
+                    <article
+        class="phpdocumentor-element
+            -method
+            -private
+                                                        "
+>
     <h4 class="phpdocumentor-element__name" id="method_outputText">
         outputText()
         <a href="classes/Cecil-Command-Doctor-DoctorLinks.html#method_outputText" class="headerlink"><i class="fas fa-link"></i></a>
@@ -1857,7 +2329,7 @@ external links found in the rendered HTML pages and in the linked CSS files.</p>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Command/Doctor/DoctorLinks.php"><a href="files/src-command-doctor-doctorlinks.html"><abbr title="src/Command/Doctor/DoctorLinks.php">DoctorLinks.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">172</span>
+    <span class="phpdocumentor-element-found-in__line">174</span>
 
     </aside>
 
@@ -1895,54 +2367,6 @@ external links found in the rendered HTML pages and in the linked CSS files.</p>
     
     
 </article>
-                    <article
-        class="phpdocumentor-element
-            -method
-            -private
-                                                        "
->
-    <h4 class="phpdocumentor-element__name" id="method_truncateLabel">
-        truncateLabel()
-        <a href="classes/Cecil-Command-Doctor-DoctorLinks.html#method_truncateLabel" class="headerlink"><i class="fas fa-link"></i></a>
-
-    </h4>
-    <aside class="phpdocumentor-element-found-in">
-    <abbr class="phpdocumentor-element-found-in__file" title="src/Command/Doctor/DoctorLinks.php"><a href="files/src-command-doctor-doctorlinks.html"><abbr title="src/Command/Doctor/DoctorLinks.php">DoctorLinks.php</abbr></a></abbr>
-    :
-    <span class="phpdocumentor-element-found-in__line">241</span>
-
-    </aside>
-
-    
-    <code class="phpdocumentor-code phpdocumentor-signature ">
-    <span class="phpdocumentor-signature__visibility">private</span>
-                    <span class="phpdocumentor-signature__name">truncateLabel</span><span>(</span><span class="phpdocumentor-signature__argument"><span class="phpdocumentor-signature__argument__type">string&nbsp;</span><span class="phpdocumentor-signature__argument__name">$label</span></span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">string</span></code>
-
-    <div class="phpdocumentor-label-line">
-        </div>
-    
-    
-        <h5 class="phpdocumentor-argument-list__heading">Parameters</h5>
-    <dl class="phpdocumentor-argument-list">
-                    <dt class="phpdocumentor-argument-list__entry">
-                <span class="phpdocumentor-argument-list__argument__name">$label</span>
-                : <span class="phpdocumentor-argument-list__argument__type">string</span>
-                            </dt>
-            <dd class="phpdocumentor-argument-list__definition">
-                
-            </dd>
-            </dl>
-
-    
-
-        
-    
-            <section>
-        <h5 class="phpdocumentor-return-value__heading">Return values</h5>
-        <span class="phpdocumentor-signature__response_type">string</span>
-            </section>
-
-</article>
             </section>
 
         
@@ -1970,7 +2394,8 @@ external links found in the rendered HTML pages and in the linked CSS files.</p>
                                                     <li class=""><a href="classes/Cecil-Command-AbstractCommand.html#constant_PID_FILE">PID_FILE</a></li>
                                                     <li class=""><a href="classes/Cecil-Command-AbstractCommand.html#constant_SERVE_OUTPUT">SERVE_OUTPUT</a></li>
                                                     <li class=""><a href="classes/Cecil-Command-Doctor-FailOnTrait.html#constant_FAIL_ON_LEVELS">FAIL_ON_LEVELS</a></li>
-                                                    <li class=""><a href="classes/Cecil-Command-Doctor-DoctorLinks.html#constant_LABEL_MAX_LENGTH">LABEL_MAX_LENGTH</a></li>
+                                                    <li class=""><a href="classes/Cecil-Command-Doctor-FindingsTableTrait.html#constant_FINDINGS_MIN_COLUMN_WIDTH">FINDINGS_MIN_COLUMN_WIDTH</a></li>
+                                                    <li class=""><a href="classes/Cecil-Command-Doctor-FindingsTableTrait.html#constant_FINDINGS_VERTICAL_THRESHOLD">FINDINGS_VERTICAL_THRESHOLD</a></li>
                                             </ul>
                 </li>
             
@@ -1981,6 +2406,7 @@ external links found in the rendered HTML pages and in the linked CSS files.</p>
                                                     <li class=""><a href="classes/Cecil-Command-AbstractCommand.html#property_io">$io</a></li>
                                                     <li class=""><a href="classes/Cecil-Command-AbstractCommand.html#property_output">$output</a></li>
                                                     <li class=""><a href="classes/Cecil-Command-AbstractCommand.html#property_rootPath">$rootPath</a></li>
+                                                    <li class=""><a href="classes/Cecil-Command-Doctor-DoctorLinks.html#property_baseurl">$baseurl</a></li>
                                                     <li class=""><a href="classes/Cecil-Command-Doctor-DoctorLinks.html#property_format">$format</a></li>
                                                     <li class=""><a href="classes/Cecil-Command-Doctor-DoctorLinks.html#property_includeFeedback">$includeFeedback</a></li>
                                             </ul>
@@ -1996,6 +2422,7 @@ external links found in the rendered HTML pages and in the linked CSS files.</p>
                                             <li class=""><a href="classes/Cecil-Command-AbstractCommand.html#method_binName">binName()</a></li>
                                             <li class=""><a href="classes/Cecil-Command-Doctor-DoctorLinks.html#method_configure">configure()</a></li>
                                             <li class=""><a href="classes/Cecil-Command-Doctor-DoctorLinks.html#method_execute">execute()</a></li>
+                                            <li class=""><a href="classes/Cecil-Command-Doctor-FindingsTableTrait.html#method_formatFindingIssue">formatFindingIssue()</a></li>
                                             <li class=""><a href="classes/Cecil-Command-AbstractCommand.html#method_getBuilder">getBuilder()</a></li>
                                             <li class=""><a href="classes/Cecil-Command-AbstractCommand.html#method_getConfigFiles">getConfigFiles()</a></li>
                                             <li class=""><a href="classes/Cecil-Command-Doctor-FailOnTrait.html#method_getFailOn">getFailOn()</a></li>
@@ -2005,10 +2432,14 @@ external links found in the rendered HTML pages and in the linked CSS files.</p>
                                             <li class=""><a href="classes/Cecil-Command-AbstractCommand.html#method_locateAdditionalConfigFiles">locateAdditionalConfigFiles()</a></li>
                                             <li class=""><a href="classes/Cecil-Command-AbstractCommand.html#method_locateConfigFile">locateConfigFile()</a></li>
                                             <li class=""><a href="classes/Cecil-Command-AbstractCommand.html#method_openEditor">openEditor()</a></li>
+                                            <li class=""><a href="classes/Cecil-Command-Doctor-FindingsTableTrait.html#method_renderFindings">renderFindings()</a></li>
                                             <li class=""><a href="classes/Cecil-Command-Doctor-FailOnTrait.html#method_shouldFail">shouldFail()</a></li>
-                                            <li class=""><a href="classes/Cecil-Command-Doctor-DoctorLinks.html#method_formatLevel">formatLevel()</a></li>
+                                            <li class=""><a href="classes/Cecil-Command-Doctor-FindingsTableTrait.html#method_truncateLabel">truncateLabel()</a></li>
+                                            <li class=""><a href="classes/Cecil-Command-Doctor-FindingsTableTrait.html#method_wrapFindingValue">wrapFindingValue()</a></li>
+                                            <li class=""><a href="classes/Cecil-Command-Doctor-DoctorLinks.html#method_formatLink">formatLink()</a></li>
+                                            <li class=""><a href="classes/Cecil-Command-Doctor-DoctorLinks.html#method_getLinkHref">getLinkHref()</a></li>
+                                            <li class=""><a href="classes/Cecil-Command-Doctor-DoctorLinks.html#method_outputFindings">outputFindings()</a></li>
                                             <li class=""><a href="classes/Cecil-Command-Doctor-DoctorLinks.html#method_outputText">outputText()</a></li>
-                                            <li class=""><a href="classes/Cecil-Command-Doctor-DoctorLinks.html#method_truncateLabel">truncateLabel()</a></li>
                                     </ul>
             </li>
                     </ul>

@@ -1,12 +1,12 @@
 <!--
 title: "Installation"
-description: "Requirements, installation methods (PHAR, package managers, Composer), update and troubleshooting."
+description: "Requirements, installation methods (PHAR, standalone binary, package managers, Composer), update and troubleshooting."
 date: 2026-10-05
-updated: 2026-10-05
+updated: 2026-10-13
 -->
 # Installation
 
-Cecil is distributed as a single executable file, `cecil.phar`, which runs anywhere PHP is installed.
+Cecil is distributed as a single executable file, `cecil.phar`, which runs anywhere PHP is installed, and as [standalone binaries](#standalone-binary) that don't require PHP.
 
 ## Requirements
 
@@ -44,6 +44,36 @@ php cecil.phar --version
 
 :::info
 You can also download a [specific version or the preview version](/download/).
+:::
+
+## Standalone binary {#standalone-binary}
+
+If PHP is not installed, download the standalone binary for your platform from the [latest GitHub release](https://github.com/Cecilapp/Cecil/releases/latest). It embeds PHP and the required extensions.
+
+| Platform | File |
+| -------- | ---- |
+| Linux x64 | `cecil-linux-x64` |
+| Linux ARM64 | `cecil-linux-arm64` |
+| macOS Intel | `cecil-macos-x64` |
+| macOS Apple Silicon | `cecil-macos-arm64` |
+| Windows x64 | `cecil-windows-x64.exe` |
+
+For example, on Linux x64:
+
+```bash
+curl -Lo cecil https://github.com/Cecilapp/Cecil/releases/latest/download/cecil-linux-x64
+chmod +x cecil
+./cecil --version
+```
+
+On macOS, binaries are not signed: remove the quarantine attribute before the first run with `xattr -d com.apple.quarantine cecil`.
+
+:::info
+SHA-256 checksums are available in the `cecil-binaries.sha256` file of each release, and the build provenance can be verified with `gh attestation verify cecil --repo Cecilapp/Cecil`.
+:::
+
+:::important
+The binary uses GD for image processing: Imagick and libvips are not available. The `self-update` command is not available either: download the binary again to update it.
 :::
 
 ## Install globally
@@ -130,6 +160,8 @@ phive update cecil
 # Composer
 composer global update cecil/cecil
 ```
+
+The [standalone binary](#standalone-binary) is updated by downloading it again.
 
 The `self-update` command (PHAR only) also accepts the following options:
 

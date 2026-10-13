@@ -83,6 +83,7 @@ Other installation methods:
 
 - [Homebrew](https://brew.sh): `brew install cecilapp/tap/cecil`
 - [Scoop](https://scoop.sh): `scoop install https://cecil.app/scoop/cecil.json`
+- [Standalone binaries](https://github.com/Cecilapp/Cecil/releases/latest) (no PHP required): `cecil-linux-x64`, `cecil-macos-arm64`, `cecil-windows-x64.exe`, etc.
 - [Download page](https://cecil.app/download/) (all releases)
 
 See the [Installation](docs/getting-started/2-installation.md) documentation page.

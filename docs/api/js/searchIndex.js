@@ -2616,20 +2616,20 @@ Search.appendIndex(
             "summary": "Output\u0020results\u0020in\u0020text\u0020format\u0020\u0028tables\u0029.",
             "url": "classes/Cecil-Command-Doctor-DoctorLinks.html#method_outputText"
         },                {
-            "fqsen": "\\Cecil\\Command\\Doctor\\DoctorLinks\u003A\u003AformatLevel\u0028\u0029",
-            "name": "formatLevel",
-            "summary": "",
-            "url": "classes/Cecil-Command-Doctor-DoctorLinks.html#method_formatLevel"
+            "fqsen": "\\Cecil\\Command\\Doctor\\DoctorLinks\u003A\u003AoutputFindings\u0028\u0029",
+            "name": "outputFindings",
+            "summary": "Output\u0020findings\u0020grouped\u0020by\u0020page.",
+            "url": "classes/Cecil-Command-Doctor-DoctorLinks.html#method_outputFindings"
         },                {
-            "fqsen": "\\Cecil\\Command\\Doctor\\DoctorLinks\u003A\u003AtruncateLabel\u0028\u0029",
-            "name": "truncateLabel",
-            "summary": "",
-            "url": "classes/Cecil-Command-Doctor-DoctorLinks.html#method_truncateLabel"
+            "fqsen": "\\Cecil\\Command\\Doctor\\DoctorLinks\u003A\u003AformatLink\u0028\u0029",
+            "name": "formatLink",
+            "summary": "Formats\u0020the\u0020link\u0020as\u0020a\u0020terminal\u0020hyperlink\u0020\u0028OSC\u00208\u0029,\u0020so\u0020it\u0020stays\u0020clickable\u0020when\u0020wrapped.",
+            "url": "classes/Cecil-Command-Doctor-DoctorLinks.html#method_formatLink"
         },                {
-            "fqsen": "\\Cecil\\Command\\Doctor\\DoctorLinks\u003A\u003ALABEL_MAX_LENGTH",
-            "name": "LABEL_MAX_LENGTH",
-            "summary": "",
-            "url": "classes/Cecil-Command-Doctor-DoctorLinks.html#constant_LABEL_MAX_LENGTH"
+            "fqsen": "\\Cecil\\Command\\Doctor\\DoctorLinks\u003A\u003AgetLinkHref\u0028\u0029",
+            "name": "getLinkHref",
+            "summary": "Returns\u0020the\u0020absolute\u0020URL\u0020of\u0020a\u0020link,\u0020or\u0020null\u0020if\u0020it\u0020can\u0027t\u0020be\u0020resolved.",
+            "url": "classes/Cecil-Command-Doctor-DoctorLinks.html#method_getLinkHref"
         },                {
             "fqsen": "\\Cecil\\Command\\Doctor\\DoctorLinks\u003A\u003A\u0024includeFeedback",
             "name": "includeFeedback",
@@ -2640,6 +2640,11 @@ Search.appendIndex(
             "name": "format",
             "summary": "",
             "url": "classes/Cecil-Command-Doctor-DoctorLinks.html#property_format"
+        },                {
+            "fqsen": "\\Cecil\\Command\\Doctor\\DoctorLinks\u003A\u003A\u0024baseurl",
+            "name": "baseurl",
+            "summary": "",
+            "url": "classes/Cecil-Command-Doctor-DoctorLinks.html#property_baseurl"
         },                {
             "fqsen": "\\Cecil\\Command\\Doctor\\DoctorSeo",
             "name": "DoctorSeo",
@@ -2676,20 +2681,10 @@ Search.appendIndex(
             "summary": "Output\u0020results\u0020in\u0020text\u0020format\u0020\u0028tables\u0029.",
             "url": "classes/Cecil-Command-Doctor-DoctorSeo.html#method_outputText"
         },                {
-            "fqsen": "\\Cecil\\Command\\Doctor\\DoctorSeo\u003A\u003AformatLevel\u0028\u0029",
-            "name": "formatLevel",
-            "summary": "",
-            "url": "classes/Cecil-Command-Doctor-DoctorSeo.html#method_formatLevel"
-        },                {
-            "fqsen": "\\Cecil\\Command\\Doctor\\DoctorSeo\u003A\u003AtruncatePageLabel\u0028\u0029",
-            "name": "truncatePageLabel",
-            "summary": "",
-            "url": "classes/Cecil-Command-Doctor-DoctorSeo.html#method_truncatePageLabel"
-        },                {
-            "fqsen": "\\Cecil\\Command\\Doctor\\DoctorSeo\u003A\u003APAGE_LABEL_MAX_LENGTH",
-            "name": "PAGE_LABEL_MAX_LENGTH",
-            "summary": "",
-            "url": "classes/Cecil-Command-Doctor-DoctorSeo.html#constant_PAGE_LABEL_MAX_LENGTH"
+            "fqsen": "\\Cecil\\Command\\Doctor\\DoctorSeo\u003A\u003AoutputFindings\u0028\u0029",
+            "name": "outputFindings",
+            "summary": "Output\u0020findings\u0020grouped\u0020by\u0020page.",
+            "url": "classes/Cecil-Command-Doctor-DoctorSeo.html#method_outputFindings"
         },                {
             "fqsen": "\\Cecil\\Command\\Doctor\\DoctorSeo\u003A\u003A\u0024includeVirtual",
             "name": "includeVirtual",
@@ -2725,6 +2720,31 @@ Search.appendIndex(
             "name": "shouldFail",
             "summary": "Should\u0020the\u0020command\u0020fail,\u0020according\u0020to\u0020the\u0020findings\u0020counts\u0020and\u0020the\u0020\u0060\u002D\u002Dfail\u002Don\u0060\u0020level\u003F",
             "url": "classes/Cecil-Command-Doctor-FailOnTrait.html#method_shouldFail"
+        },                {
+            "fqsen": "\\Cecil\\Command\\Doctor\\FindingsTableTrait",
+            "name": "FindingsTableTrait",
+            "summary": "Renders\u0020audit\u0020commands\u0020findings\u0020as\u0020tables\u0020grouped\u0020by\u0020page,\u0020with\u0020columns\u0020sized\nto\u0020the\u0020terminal\u0020width\u0020\u0028and\u0020a\u0020vertical\u0020display\u0020for\u0020narrow\u0020terminals\u0029.",
+            "url": "classes/Cecil-Command-Doctor-FindingsTableTrait.html"
+        },                {
+            "fqsen": "\\Cecil\\Command\\Doctor\\FindingsTableTrait\u003A\u003ArenderFindings\u0028\u0029",
+            "name": "renderFindings",
+            "summary": "Renders\u0020findings\u0020grouped\u0020by\u0020page\u0020\u0028one\u0020table\u0020per\u0020page\u0029.",
+            "url": "classes/Cecil-Command-Doctor-FindingsTableTrait.html#method_renderFindings"
+        },                {
+            "fqsen": "\\Cecil\\Command\\Doctor\\FindingsTableTrait\u003A\u003AwrapFindingValue\u0028\u0029",
+            "name": "wrapFindingValue",
+            "summary": "Wraps\u0020a\u0020plain\u0020text\u0020value\u0020to\u0020the\u0020given\u0020width,\u0020if\u0020any.",
+            "url": "classes/Cecil-Command-Doctor-FindingsTableTrait.html#method_wrapFindingValue"
+        },                {
+            "fqsen": "\\Cecil\\Command\\Doctor\\FindingsTableTrait\u003A\u003AformatFindingIssue\u0028\u0029",
+            "name": "formatFindingIssue",
+            "summary": "Formats\u0020a\u0020finding\u0020issue\u003A\u0020its\u0020level\u0020followed\u0020by\u0020its\u0020kind\u0020\u0028type,\u0020check,\u0020etc.\u0029.",
+            "url": "classes/Cecil-Command-Doctor-FindingsTableTrait.html#method_formatFindingIssue"
+        },                {
+            "fqsen": "\\Cecil\\Command\\Doctor\\FindingsTableTrait\u003A\u003AtruncateLabel\u0028\u0029",
+            "name": "truncateLabel",
+            "summary": "Truncates\u0020a\u0020label\u0020in\u0020its\u0020middle,\u0020to\u0020keep\u0020its\u0020beginning\u0020and\u0020its\u0020end.",
+            "url": "classes/Cecil-Command-Doctor-FindingsTableTrait.html#method_truncateLabel"
         },                {
             "fqsen": "\\Cecil\\Command\\Doctor",
             "name": "Doctor",
@@ -5985,6 +6005,11 @@ Search.appendIndex(
             "name": "isPhar",
             "summary": "Running\u0020from\u0020Phar\u0020or\u0020not\u003F",
             "url": "classes/Cecil-Util-Platform.html#method_isPhar"
+        },                {
+            "fqsen": "\\Cecil\\Util\\Platform\u003A\u003AisStandalone\u0028\u0029",
+            "name": "isStandalone",
+            "summary": "Running\u0020from\u0020a\u0020standalone\u0020binary\u0020\u0028Phar\u0020embedded\u0020in\u0020a\u0020static\u0020PHP\u0020\u0022micro\u0022\u0020SAPI\u0029\u0020or\u0020not\u003F",
+            "url": "classes/Cecil-Util-Platform.html#method_isStandalone"
         },                {
             "fqsen": "\\Cecil\\Util\\Platform\u003A\u003AgetPharPath\u0028\u0029",
             "name": "getPharPath",

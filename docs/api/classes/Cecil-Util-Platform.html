@@ -177,7 +177,7 @@
 
 
     <section class="phpdocumentor-description"><p>This class provides methods to detect the platform (OS) on which the application is running,
-check if it is running from a Phar archive, and open URLs in the system's default browser.</p>
+check if it is running from a Phar archive or a standalone binary, and open URLs in the system's default browser.</p>
 </section>
 
 
@@ -283,6 +283,13 @@ check if it is running from a Phar archive, and open URLs in the system's defaul
                                 &nbsp;: bool    </span>
 </dt>
 <dd>Running from Phar or not?</dd>
+
+            <dt class="phpdocumentor-table-of-contents__entry -method -public">
+    <a class="" href="classes/Cecil-Util-Platform.html#method_isStandalone">isStandalone()</a>
+    <span>
+                                &nbsp;: bool    </span>
+</dt>
+<dd>Running from a standalone binary (Phar embedded in a static PHP &quot;micro&quot; SAPI) or not?</dd>
 
             <dt class="phpdocumentor-table-of-contents__entry -method -public">
     <a class="" href="classes/Cecil-Util-Platform.html#method_isWindows">isWindows()</a>
@@ -535,7 +542,7 @@ check if it is running from a Phar archive, and open URLs in the system's defaul
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Util/Platform.php"><a href="files/src-util-platform.html"><abbr title="src/Util/Platform.php">Platform.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">95</span>
+    <span class="phpdocumentor-element-found-in__line">103</span>
 
     </aside>
 
@@ -584,7 +591,7 @@ check if it is running from a Phar archive, and open URLs in the system's defaul
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Util/Platform.php"><a href="files/src-util-platform.html"><abbr title="src/Util/Platform.php">Platform.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">112</span>
+    <span class="phpdocumentor-element-found-in__line">120</span>
 
     </aside>
 
@@ -633,7 +640,7 @@ check if it is running from a Phar archive, and open URLs in the system's defaul
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Util/Platform.php"><a href="files/src-util-platform.html"><abbr title="src/Util/Platform.php">Platform.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">63</span>
+    <span class="phpdocumentor-element-found-in__line">71</span>
 
     </aside>
 
@@ -703,6 +710,55 @@ check if it is running from a Phar archive, and open URLs in the system's defaul
             -public
                                     -static                    "
 >
+    <h4 class="phpdocumentor-element__name" id="method_isStandalone">
+        isStandalone()
+        <a href="classes/Cecil-Util-Platform.html#method_isStandalone" class="headerlink"><i class="fas fa-link"></i></a>
+
+    </h4>
+    <aside class="phpdocumentor-element-found-in">
+    <abbr class="phpdocumentor-element-found-in__file" title="src/Util/Platform.php"><a href="files/src-util-platform.html"><abbr title="src/Util/Platform.php">Platform.php</abbr></a></abbr>
+    :
+    <span class="phpdocumentor-element-found-in__line">63</span>
+
+    </aside>
+
+        <p class="phpdocumentor-summary">Running from a standalone binary (Phar embedded in a static PHP &quot;micro&quot; SAPI) or not?</p>
+
+    <code class="phpdocumentor-code phpdocumentor-signature ">
+    <span class="phpdocumentor-signature__visibility">public</span>
+            <span class="phpdocumentor-signature__static">static</span>        <span class="phpdocumentor-signature__name">isStandalone</span><span>(</span><span class="phpdocumentor-signature__argument"><span>[</span><span class="phpdocumentor-signature__argument__type">string|null&nbsp;</span><span class="phpdocumentor-signature__argument__name">$sapi</span><span> = </span><span class="phpdocumentor-signature__argument__default-value">null</span><span> ]</span></span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">bool</span></code>
+
+    <div class="phpdocumentor-label-line">
+        </div>
+    
+    
+        <h5 class="phpdocumentor-argument-list__heading">Parameters</h5>
+    <dl class="phpdocumentor-argument-list">
+                    <dt class="phpdocumentor-argument-list__entry">
+                <span class="phpdocumentor-argument-list__argument__name">$sapi</span>
+                : <span class="phpdocumentor-argument-list__argument__type">string|null</span>
+                 = <span class="phpdocumentor-argument-list__argument__default-value">null</span>            </dt>
+            <dd class="phpdocumentor-argument-list__definition">
+                
+            </dd>
+            </dl>
+
+    
+
+        
+    
+            <section>
+        <h5 class="phpdocumentor-return-value__heading">Return values</h5>
+        <span class="phpdocumentor-signature__response_type">bool</span>
+            </section>
+
+</article>
+                    <article
+        class="phpdocumentor-element
+            -method
+            -public
+                                    -static                    "
+>
     <h4 class="phpdocumentor-element__name" id="method_isWindows">
         isWindows()
         <a href="classes/Cecil-Util-Platform.html#method_isWindows" class="headerlink"><i class="fas fa-link"></i></a>
@@ -711,7 +767,7 @@ check if it is running from a Phar archive, and open URLs in the system's defaul
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Util/Platform.php"><a href="files/src-util-platform.html"><abbr title="src/Util/Platform.php">Platform.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">75</span>
+    <span class="phpdocumentor-element-found-in__line">83</span>
 
     </aside>
 
@@ -750,7 +806,7 @@ check if it is running from a Phar archive, and open URLs in the system's defaul
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Util/Platform.php"><a href="files/src-util-platform.html"><abbr title="src/Util/Platform.php">Platform.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">83</span>
+    <span class="phpdocumentor-element-found-in__line">91</span>
 
     </aside>
 
@@ -795,7 +851,7 @@ check if it is running from a Phar archive, and open URLs in the system's defaul
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Util/Platform.php"><a href="files/src-util-platform.html"><abbr title="src/Util/Platform.php">Platform.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">120</span>
+    <span class="phpdocumentor-element-found-in__line">128</span>
 
     </aside>
 
@@ -874,6 +930,7 @@ check if it is running from a Phar archive, and open URLs in the system's defaul
                                             <li class=""><a href="classes/Cecil-Util-Platform.html#method_getOS">getOS()</a></li>
                                             <li class=""><a href="classes/Cecil-Util-Platform.html#method_getPharPath">getPharPath()</a></li>
                                             <li class=""><a href="classes/Cecil-Util-Platform.html#method_isPhar">isPhar()</a></li>
+                                            <li class=""><a href="classes/Cecil-Util-Platform.html#method_isStandalone">isStandalone()</a></li>
                                             <li class=""><a href="classes/Cecil-Util-Platform.html#method_isWindows">isWindows()</a></li>
                                             <li class=""><a href="classes/Cecil-Util-Platform.html#method_openBrowser">openBrowser()</a></li>
                                             <li class=""><a href="classes/Cecil-Util-Platform.html#method_commandExists">commandExists()</a></li>
