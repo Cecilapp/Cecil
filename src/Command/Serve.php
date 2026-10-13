@@ -164,11 +164,13 @@ EOF
         // incremental builds require the changes watcher to be active
         $this->incrementalEnabled = $this->watcherEnabled ? (bool) $incremental : false;
 
-        // checks if PHP executable is available
+        // checks if PHP executable is available (a standalone binary can't run the PHP built-in web server itself)
         $phpFinder = new PhpExecutableFinder();
-        $php = $phpFinder->find();
-        if ($php === false) {
-            throw new RuntimeException('Unable to find a local PHP executable.');
+        $php = $phpFinder->find(); // can be an empty string in a standalone binary
+        if (!$php) {
+            throw new RuntimeException(Util\Platform::isStandalone()
+                ? 'Serving a website from the standalone binary requires a local PHP executable: install PHP, or run the "build" command and serve the output directory with another web server.'
+                : 'Unable to find a local PHP executable.');
         }
         // setup server
         $this->setUpServer();
@@ -279,6 +281,10 @@ EOF
             'build',
             $this->getPath(),
         ];
+        // a standalone binary embeds PHP: it runs itself, not through the PHP executable
+        if (Util\Platform::isStandalone()) {
+            array_shift($buildProcessArguments);
+        }
 
         if (!empty($this->getConfigFiles())) {
             $buildProcessArguments[] = '--config';

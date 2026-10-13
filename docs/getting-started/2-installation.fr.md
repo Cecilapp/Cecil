@@ -75,6 +75,8 @@ Les sommes de contrôle SHA-256 sont disponibles dans le fichier `cecil-binaries
 
 :::important
 Le binaire utilise GD pour le traitement des images : Imagick et libvips ne sont pas disponibles. La commande `self-update` n’est pas disponible non plus : téléchargez à nouveau le binaire pour le mettre à jour.
+
+La commande `serve` repose sur le serveur web intégré de PHP, que le binaire n’embarque pas : elle nécessite un exécutable PHP local. Sans PHP, exécutez la commande `build` et servez le dossier de sortie avec un autre serveur web.
 :::
 
 ## Installation globale

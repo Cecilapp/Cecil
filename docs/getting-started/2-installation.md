@@ -74,6 +74,8 @@ SHA-256 checksums are available in the `cecil-binaries.sha256` file of each rele
 
 :::important
 The binary uses GD for image processing: Imagick and libvips are not available. The `self-update` command is not available either: download the binary again to update it.
+
+The `serve` command relies on the PHP built-in web server, which the binary doesn't embed: it requires a local PHP executable. Without PHP, run the `build` command and serve the output directory with another web server.
 :::
 
 ## Install globally
