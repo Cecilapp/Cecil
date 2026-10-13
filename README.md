@@ -175,21 +175,32 @@ composer test
 composer test:cli
 ```
 
-### Build binaries
+### Build PHAR
 
-Build binaries with [Box](https://github.com/box-project/box/) and [phpacker](https://github.com/phpacker/phpacker):
+Build the PHAR file (`dist/cecil.phar`) with [Box](https://github.com/box-project/box/):
 
 ```bash
-# Install Box and phpacker globally
+# Install Box globally
 composer global require humbug/box
+export PATH=~/.composer/vendor/bin:$PATH
+# Build the PHAR file
+composer run build:phar
+```
+
+### Build standalone binaries
+
+Build standalone binaries (`dist/build/`) from the PHAR file with [phpacker](https://github.com/phpacker/phpacker):
+
+```bash
+# Install phpacker globally
 composer global require phpacker/phpacker
 export PATH=~/.composer/vendor/bin:$PATH
-# Build the PHAR file and the package
+# Build the PHAR file first (see above), then the binaries
 composer run build:phar
 composer run build:package
 ```
 
-phpacker requires the PHP `zip` extension and enough memory to load each PHP binary (~80 MB): set `memory_limit = -1` if the build stops with an "Allowed memory size exhausted" error.
+> phpacker requires the PHP `zip` extension and enough memory to load each PHP binary (~80 MB): set `memory_limit = -1` if the build stops with an "Allowed memory size exhausted" error.
 
 ### Build API documentation
 
