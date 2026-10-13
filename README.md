@@ -189,6 +189,8 @@ composer run build:phar
 composer run build:package
 ```
 
+phpacker requires the PHP `zip` extension and enough memory to load each PHP binary (~80 MB): set `memory_limit = -1` if the build stops with an "Allowed memory size exhausted" error.
+
 ### Build API documentation
 
 Build the API documentation with [phpDocumentor](https://www.phpdoc.org):
