@@ -143,6 +143,8 @@ EOF
                         Util::joinPath($this->rootPath, 'resources/skeleton', $value),
                         Util::joinPath($this->getPath(), $value)
                     );
+                    // files are read-only in the Phar: make them writable (otherwise rebuilds can't overwrite them)
+                    Util\File::getFS()->chmod(Util::joinPath($this->getPath(), $value), 0777 & ~umask(), 0000, true);
                 }
             }
             // done
