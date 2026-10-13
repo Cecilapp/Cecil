@@ -83,7 +83,10 @@ class Application extends BaseApplication
             new Command\UtilTranslationsExtract()
         ];
         if (Util\Platform::isPhar()) {
-            $commands[] = new Command\SelfUpdate();
+            // a standalone binary can't be replaced by the downloaded Phar
+            if (!Util\Platform::isStandalone()) {
+                $commands[] = new Command\SelfUpdate();
+            }
             $commands[] = new Command\UtilTemplatesExtract();
         }
 
