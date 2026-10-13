@@ -2,6 +2,20 @@
 
 All notable changes to this project will be documented in this file. Dates are displayed in UTC.
 
+#### [9.11.0](https://github.com/Cecilapp/Cecil/compare/9.10.3...9.11.0)
+
+> 13 October 2026
+
+- fix: standalone binaries follow-up (serve, new:site, release memory) [`#2504`](https://github.com/Cecilapp/Cecil/pull/2504)
+- feat: build, test and publish standalone binaries with phpacker [`#2503`](https://github.com/Cecilapp/Cecil/pull/2503)
+
+#### [9.10.3](https://github.com/Cecilapp/Cecil/compare/9.10.2...9.10.3)
+
+> 13 October 2026
+
+- chore(deps-dev): bump phpstan/phpstan from 2.3.0 to 2.3.1 [`#2501`](https://github.com/Cecilapp/Cecil/pull/2501)
+- refactor(doctor): render findings with shared table trait [`3933471`](https://github.com/Cecilapp/Cecil/commit/3933471196b6fc5df1c7e41c1f0703ffa7282646)
+
 #### [9.10.2](https://github.com/Cecilapp/Cecil/compare/9.10.1...9.10.2)
 
 > 12 October 2026
