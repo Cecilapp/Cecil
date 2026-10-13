@@ -128,7 +128,7 @@ curl -LO https://cecil.app/cecil.phar
 chmod +x cecil.phar
 ```
 
-If PHP is not available, use the standalone binary for the platform instead (e.g.: `cecil-linux-x64`, `cecil-macos-arm64`, `cecil-windows-x64.exe` from the latest GitHub release), and replace `php cecil.phar` with `./cecil` in the commands below. The binary has no `self-update` command and only supports GD for image processing.
+If PHP is not available, use the standalone binary for the platform instead (e.g.: `cecil-linux-x64`, `cecil-macos-arm64`, `cecil-windows-x64.exe` from the latest GitHub release), and replace `php cecil.phar` with `./cecil` in the commands below. The binary has no `self-update` command, only supports GD for image processing, and its `serve` command requires a local PHP executable (for the PHP built-in web server).
 
 ### Step 2: Create a New Site
 

@@ -159,8 +159,9 @@ jobs:
         uses: shivammathur/setup-php@v2
         with:
           php-version: 8.4
-          extensions: zip
-          ini-values: variables_order=EGPCS # exposes `GITHUB_TOKEN` to phpacker
+          extensions: zip # required by phpacker to extract PHP binaries
+          # `variables_order` exposes `GITHUB_TOKEN` to phpacker, which loads each ~80 MB PHP binary in memory
+          ini-values: variables_order=EGPCS, memory_limit=-1
           tools: composer
           coverage: none
       - name: Install phpacker
