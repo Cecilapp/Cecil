@@ -66,11 +66,12 @@ Exemple:
 
 Bouclez sur `site.menus.<menu>` pour obtenir chaque entrée de la collection `<menu>` (par exemple : `main`).
 
-| Variables        | Descriptif                                             |
-| ---------------- | ------------------------------------------------------ |
-| `<entry>.name`   | Nom de l'entrée.                                       |
-| `<entry>.url`    | URL d'entrée.                                          |
-| `<entry>.weight` | Poids d'entrée (utile pour trier les entrées de menu). |
+| Variables        | Descriptif                                                                         |
+| ---------------- | ---------------------------------------------------------------------------------- |
+| `<entry>.id`     | ID de l'entrée (pour une entrée de page : l'ID de la page sans préfixe de langue). |
+| `<entry>.name`   | Nom de l'entrée.                                                                   |
+| `<entry>.url`    | URL d'entrée.                                                                      |
+| `<entry>.weight` | Poids d'entrée (utile pour trier les entrées de menu).                             |
 
 _Exemple:_
 

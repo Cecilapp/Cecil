@@ -101,6 +101,8 @@ Une page peut être ajoutée à un menu en définissant la variable [`menu`](../
 
 Une entrée de menu de page peut être surchargée : utilisez l’ID de la page comme `id`.
 
+L’ID d’une entrée de menu de page n’inclut pas le préfixe de langue (par exemple : `docs` pour la page `fr/docs`) : le même `id` cible l’entrée dans toutes les langues.
+
 _Exemple :_
 
 ```yaml
