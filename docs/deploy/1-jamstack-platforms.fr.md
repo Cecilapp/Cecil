@@ -82,8 +82,8 @@ Configurations de build :
 
 ## Render
 
-:::caution
-Render ne prend plus en charge PHP.
+:::info
+Render ne fournit que PHP 7.3 : le script de build utilise alors le [binaire autonome](../getting-started/2-installation.fr.md#standalone-binary) de Cecil, et installe les thèmes à partir de `composer.lock`.
 :::
 
 > Render est un cloud unifié pour créer et exécuter toutes vos applications et tous vos sites web, avec certificats TLS gratuits, CDN global, réseaux privés et déploiements automatiques depuis Git.
