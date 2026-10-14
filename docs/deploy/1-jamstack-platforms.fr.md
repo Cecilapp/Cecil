@@ -70,7 +70,7 @@ Cloudflare Pages ne fournit pas PHP : le script de build utilise alors le [binai
 
 > Cloudflare Pages est une plateforme JAMstack qui permet aux développeurs frontend de collaborer et de déployer des sites web.
 
-➡️ <https://pages.cloudflare.com>
+➡️ <https://www.cloudflare.com/products/pages/>
 
 Configurations de build :
 

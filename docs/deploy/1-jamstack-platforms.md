@@ -69,7 +69,7 @@ Cloudflare Pages doesn’t provide PHP: the build script uses the Cecil [standal
 
 > Cloudflare Pages is a JAMstack platform for frontend developers to collaborate and deploy websites.
 
-➡️ <https://pages.cloudflare.com>
+➡️ <https://www.cloudflare.com/products/pages/>
 
 Build configurations:
 
