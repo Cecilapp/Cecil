@@ -92,14 +92,15 @@ Render only provides PHP 7.3: the build script uses the Cecil [standalone binary
 _render.yaml_:
 
 ```yml
-previewsEnabled: true
 services:
   - type: web
+    runtime: static
     name: Cecil
-    env: static
     buildCommand: curl -sSOL https://cecil.app/build.sh && bash ./build.sh
-    staticPublishPath: _site
-    pullRequestPreviewsEnabled: true
+    staticPublishPath: ./_site
+    autoDeployTrigger: commit
+    previews:
+      generation: automatic
 ```
 
 [Official documentation](https://render.com/docs/static-sites)

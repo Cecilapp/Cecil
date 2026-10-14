@@ -93,14 +93,15 @@ Render ne fournit que PHP 7.3 : le script de build utilise alors le [binaire aut
 _render.yaml_:
 
 ```yml
-previewsEnabled: true
 services:
   - type: web
+    runtime: static
     name: Cecil
-    env: static
     buildCommand: curl -sSOL https://cecil.app/build.sh && bash ./build.sh
-    staticPublishPath: _site
-    pullRequestPreviewsEnabled: true
+    staticPublishPath: ./_site
+    autoDeployTrigger: commit
+    previews:
+      generation: automatic
 ```
 
 [Documentation officielle](https://render.com/docs/static-sites)
