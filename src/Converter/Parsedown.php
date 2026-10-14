@@ -677,7 +677,8 @@ class Parsedown extends \ParsedownToc
         if (isset($block['complete'])) {
             return null;
         }
-        if (preg_match('/:::/', $line['text'])) {
+        // only a line made of `:::` closes the note (e.g.: not `:::` in an inline code)
+        if (preg_match('/^:::\s*$/', $line['text'])) {
             $block['complete'] = true;
 
             return $block;

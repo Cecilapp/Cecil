@@ -168,4 +168,22 @@ class ConverterTest extends TestCase
         self::assertStringContainsString('<p>Second paragraph.</p>', $html);
         self::assertStringContainsString("pages:\n  default:\n    published: true", strip_tags($html));
     }
+
+    public function testNoteIsOnlyClosedByAClosingLine(): void
+    {
+        // the build ID is normally set by Builder::build()
+        $setBuildId = \Closure::bind(static function (?string $id): void {
+            self::$buildId = $id;
+        }, null, Builder::class);
+        $setBuildId('test');
+        try {
+            $html = $this->converter->convertBody(":::tip\nUse the `:::` syntax.\n\nLast paragraph.\n:::  \n\nAfter the note.", 'en');
+        } finally {
+            $setBuildId(null);
+        }
+
+        self::assertStringContainsString('<p>Use the <code translate="no">:::</code> syntax.</p>', $html);
+        self::assertMatchesRegularExpression('#<aside class="note note-tip">.*Last paragraph\..*</aside>#s', $html);
+        self::assertMatchesRegularExpression('#</aside>\s*<p>After the note\.</p>#', $html);
+    }
 }
