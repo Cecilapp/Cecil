@@ -89,18 +89,20 @@ case $RUNNING_ON in
 esac
 
 # Checks PHP version
+# Without a compatible PHP version, the Cecil standalone binary is used
+USE_BINARY=0
 php --version > /dev/null 2>&1
 PHP_IS_INSTALLED=$?
 if [ $PHP_IS_INSTALLED -ne 0 ]; then
-  echo "PHP is not installed. Please install PHP ${PHP_MIN_VERSION} or higher before running this script."
-  exit 1;
+  echo "PHP is not installed: the Cecil standalone binary will be used."
+  USE_BINARY=1
 else
   php -r 'echo "PHP " . PHP_VERSION . " is available." . PHP_EOL;'
-fi
-PHP_OK=$(php -r 'echo (bool) version_compare(phpversion(), getenv("PHP_MIN_VERSION"), ">=");')
-if [ "$PHP_OK" != "1" ]; then
-  echo "PHP version is not compatible. Please install PHP ${PHP_MIN_VERSION} or higher."
-  exit 1;
+  PHP_OK=$(php -r 'echo (bool) version_compare(phpversion(), getenv("PHP_MIN_VERSION"), ">=");')
+  if [ "$PHP_OK" != "1" ]; then
+    echo "PHP ${PHP_MIN_VERSION} or higher is required: the Cecil standalone binary will be used."
+    USE_BINARY=1
+  fi
 fi
 
 # Download Cecil if needed
@@ -108,22 +110,58 @@ cecil --version > /dev/null 2>&1
 CECIL_IS_INSTALLED=$?
 CECIL_CMD="cecil"
 if [ $CECIL_IS_INSTALLED -ne 0 ]; then
-  if [ -z $CECIL_VERSION ]; then
-    echo "Downloading Cecil..."
-    curl -sSOL https://cecil.app/cecil.phar
-  else
-    echo "Downloading Cecil ${CECIL_VERSION}..."
-    if [ $(curl -LI https://cecil.app/download/$CECIL_VERSION/cecil.phar -o /dev/null -w '%{http_code}\n' -s) == '200' ]; then
-      curl -sSOL https://cecil.app/download/$CECIL_VERSION/cecil.phar
+  if [ $USE_BINARY -eq 1 ]; then
+    case "$(uname -s)-$(uname -m)" in
+      Linux-x86_64) CECIL_BIN="cecil-linux-x64" ;;
+      Linux-aarch64 | Linux-arm64) CECIL_BIN="cecil-linux-arm64" ;;
+      Darwin-x86_64) CECIL_BIN="cecil-macos-x64" ;;
+      Darwin-arm64) CECIL_BIN="cecil-macos-arm64" ;;
+      *)
+        echo "No Cecil standalone binary for $(uname -s) $(uname -m). Please install PHP ${PHP_MIN_VERSION} or higher."
+        exit 1
+        ;;
+    esac
+    if [ -z $CECIL_VERSION ]; then
+      CECIL_BIN_URL="https://github.com/Cecilapp/Cecil/releases/latest/download"
+      echo "Downloading Cecil standalone binary..."
     else
-      echo "Unable to download Cecil $CECIL_VERSION from Cecil.app. Trying from GitHub's release.";
-      if [ $(curl -LI https://github.com/Cecilapp/Cecil/releases/download/$CECIL_VERSION/cecil.phar -o /dev/null -w '%{http_code}\n' -s) != '200' ]; then
-      echo "Unable to download Cecil $CECIL_VERSION from GitHub"; exit 1
-      fi
-      curl -sSOL https://github.com/Cecilapp/Cecil/releases/download/$CECIL_VERSION/cecil.phar
+      CECIL_BIN_URL="https://github.com/Cecilapp/Cecil/releases/download/$CECIL_VERSION"
+      echo "Downloading Cecil ${CECIL_VERSION} standalone binary..."
     fi
+    curl -sSfLO "$CECIL_BIN_URL/$CECIL_BIN" && curl -sSfLO "$CECIL_BIN_URL/cecil-binaries.sha256"
+    if [ $? -ne 0 ]; then
+      echo "Unable to download Cecil standalone binary (available since Cecil 9.11.0)."; exit 1
+    fi
+    # Verify checksum
+    if sha256sum --version > /dev/null 2>&1; then
+      SHA256_CMD="sha256sum"
+    else
+      SHA256_CMD="shasum -a 256"
+    fi
+    grep " $CECIL_BIN\$" cecil-binaries.sha256 | $SHA256_CMD -c - > /dev/null
+    if [ $? -ne 0 ]; then
+      echo "Checksum verification of Cecil standalone binary failed."; exit 1
+    fi
+    chmod +x $CECIL_BIN
+    CECIL_CMD="./$CECIL_BIN"
+  else
+    if [ -z $CECIL_VERSION ]; then
+      echo "Downloading Cecil..."
+      curl -sSOL https://cecil.app/cecil.phar
+    else
+      echo "Downloading Cecil ${CECIL_VERSION}..."
+      if [ $(curl -LI https://cecil.app/download/$CECIL_VERSION/cecil.phar -o /dev/null -w '%{http_code}\n' -s) == '200' ]; then
+        curl -sSOL https://cecil.app/download/$CECIL_VERSION/cecil.phar
+      else
+        echo "Unable to download Cecil $CECIL_VERSION from Cecil.app. Trying from GitHub's release.";
+        if [ $(curl -LI https://github.com/Cecilapp/Cecil/releases/download/$CECIL_VERSION/cecil.phar -o /dev/null -w '%{http_code}\n' -s) != '200' ]; then
+        echo "Unable to download Cecil $CECIL_VERSION from GitHub"; exit 1
+        fi
+        curl -sSOL https://github.com/Cecilapp/Cecil/releases/download/$CECIL_VERSION/cecil.phar
+      fi
+    fi
+    CECIL_CMD="php cecil.phar"
   fi
-  CECIL_CMD="php cecil.phar"
   echo "$($CECIL_CMD --version) is available."
 else
   echo "$($CECIL_CMD --version) is available."
@@ -131,21 +169,60 @@ fi
 
 # Installs Cecil components if needed
 if [ -f "./composer.json" ]; then
-  composer --version > /dev/null 2>&1
-  COMPOSER_IS_INSTALLED=$?
-  COMPOSER_CMD="composer"
-  if [ $COMPOSER_IS_INSTALLED -ne 0 ]; then
-    echo "Composer is required. Downloading..."
-    curl -sS https://getcomposer.org/installer | php
-    COMPOSER_CMD="php composer.phar"
+  if [ $USE_BINARY -eq 0 ]; then
+    composer --version > /dev/null 2>&1
+    COMPOSER_IS_INSTALLED=$?
+    COMPOSER_CMD="composer"
+    if [ $COMPOSER_IS_INSTALLED -ne 0 ]; then
+      echo "Composer is required. Downloading..."
+      curl -sS https://getcomposer.org/installer | php
+      COMPOSER_CMD="php composer.phar"
+    else
+      echo "$($COMPOSER_CMD --version) is available."
+    fi
+    echo "Installing themes..."
+    # Composer cache dir: "composer-cache"
+    COMPOSER_CACHE_DIR=composer-cache $COMPOSER_CMD install --prefer-dist --no-dev --no-progress --no-interaction --quiet
+    if [ $? -eq 0 ]; then
+        echo "OK"
+    fi
   else
-    echo "$($COMPOSER_CMD --version) is available."
-  fi
-  echo "Installing themes..."
-  # Composer cache dir: "composer-cache"
-  COMPOSER_CACHE_DIR=composer-cache $COMPOSER_CMD install --prefer-dist --no-dev --no-progress --no-interaction --quiet
-  if [ $? -eq 0 ]; then
-      echo "OK"
+    # Composer requires PHP: themes are downloaded from GitHub, at the versions locked in composer.lock
+    echo "Installing themes from composer.lock..."
+    if [ ! -f "./composer.lock" ]; then
+      echo "composer.lock is required to install themes without PHP."; exit 1
+    fi
+    if jq --version > /dev/null 2>&1; then
+      THEMES=$(jq -r '.packages[] | select(.type == "cecil-theme") | "\(.extra.name // (.name | sub("^.*/(theme-)?"; ""))) \(.source.url) \(.source.reference)"' composer.lock)
+    elif python3 --version > /dev/null 2>&1; then
+      THEMES=$(python3 -c '
+import json, re
+for p in json.load(open("composer.lock"))["packages"]:
+    if p.get("type") == "cecil-theme":
+        print((p.get("extra") or {}).get("name") or re.sub(r"^.*/(theme-)?", "", p["name"]), p["source"]["url"], p["source"]["reference"])')
+    elif node --version > /dev/null 2>&1; then
+      THEMES=$(node -e '
+for (const p of JSON.parse(require("fs").readFileSync("composer.lock", "utf8")).packages.filter(p => p.type === "cecil-theme")) {
+  console.log((p.extra && p.extra.name) || p.name.replace(/^.*\/(theme-)?/, ""), p.source.url, p.source.reference);
+}')
+    else
+      echo "jq, Python 3 or Node.js is required to read composer.lock."; exit 1
+    fi
+    while read -r THEME_NAME THEME_URL THEME_REF; do
+      [ -z "$THEME_NAME" ] && continue
+      THEME_REF=${THEME_REF%$'\r'}
+      case "$THEME_URL" in
+        https://github.com/*) THEME_REPO=${THEME_URL#https://github.com/}; THEME_REPO=${THEME_REPO%.git} ;;
+        *) echo "Theme \"$THEME_NAME\" is not hosted on GitHub and can't be installed without PHP."; exit 1 ;;
+      esac
+      echo "- $THEME_NAME ($THEME_REPO)"
+      rm -rf "themes/$THEME_NAME" && mkdir -p "themes/$THEME_NAME"
+      curl -sSfL "https://codeload.github.com/$THEME_REPO/tar.gz/$THEME_REF" | tar -xz --strip-components=1 -C "themes/$THEME_NAME"
+      if [ $? -ne 0 ]; then
+        echo "Unable to install theme \"$THEME_NAME\"."; exit 1
+      fi
+    done <<< "$THEMES"
+    echo "OK"
   fi
 fi
 
