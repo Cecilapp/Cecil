@@ -211,23 +211,23 @@ Output is generated in `_site/` directory.
 
 ## CLI Commands
 
-| Command                              | Purpose                                                        |
-|--------------------------------------|----------------------------------------------------------------|
-| `php cecil.phar new:site`            | Create a new website                                           |
-| `php cecil.phar new:page`            | Create a new page                                              |
-| `php cecil.phar build`               | Build the static site                                          |
-| `php cecil.phar serve`               | Start local server with live reload                            |
-| `php cecil.phar serve --incremental` | Serve with incremental builds (rebuild only changed pages)     |
-| `php cecil.phar serve:stop`          | Stop the local server                                          |
-| `php cecil.phar edit`                | Open pages directory with the configured editor                |
-| `php cecil.phar show:config`         | Display effective configuration                                |
-| `php cecil.phar show:content`        | Display content tree (pages, data, static files)               |
-| `php cecil.phar doctor`              | Diagnose site and environment (see also `doctor:frontmatter`, `doctor:seo`, `doctor:links`, `doctor:cache`) |
-| `php cecil.phar cache:clear`         | Clear all cache files (or only `cache:clear:assets`, `cache:clear:templates`, `cache:clear:translations`) |
-| `php cecil.phar clear`               | Remove generated files (or only `clear:output`, `clear:temporary`) |
-| `php cecil.phar util:templates:extract` | Extract built-in templates into `layouts/`                  |
-| `php cecil.phar util:translations:extract` | Extract translation strings from templates               |
-| `php cecil.phar self-update`         | Update Cecil to the latest version                             |
+| Command                                    | Purpose                                                                                                     |
+|--------------------------------------------|-------------------------------------------------------------------------------------------------------------|
+| `php cecil.phar new:site`                  | Create a new website                                                                                        |
+| `php cecil.phar new:page`                  | Create a new page                                                                                           |
+| `php cecil.phar build`                     | Build the static site                                                                                       |
+| `php cecil.phar serve`                     | Start local server with live reload                                                                         |
+| `php cecil.phar serve --incremental`       | Serve with incremental builds (rebuild only changed pages)                                                  |
+| `php cecil.phar serve:stop`                | Stop the local server                                                                                       |
+| `php cecil.phar edit`                      | Open pages directory with the configured editor                                                             |
+| `php cecil.phar show:config`               | Display effective configuration                                                                             |
+| `php cecil.phar show:content`              | Display content tree (pages, data, static files)                                                            |
+| `php cecil.phar doctor`                    | Diagnose site and environment (see also `doctor:frontmatter`, `doctor:seo`, `doctor:links`, `doctor:cache`) |
+| `php cecil.phar cache:clear`               | Clear all cache files (or only `cache:clear:assets`, `cache:clear:templates`, `cache:clear:translations`)   |
+| `php cecil.phar clear`                     | Remove generated files (or only `clear:output`, `clear:temporary`)                                          |
+| `php cecil.phar util:templates:extract`    | Extract built-in templates into `layouts/`                                                                  |
+| `php cecil.phar util:translations:extract` | Extract translation strings from templates                                                                  |
+| `php cecil.phar self-update`               | Update Cecil to the latest version                                                                          |
 
 ## Template Development
 
@@ -253,13 +253,13 @@ Examples:
 
 Cecil uses the first existing template, in priority order, for each page type. `<layout>` is the front matter `layout` variable, and each entry resolves to `<name>.<format>.twig` (e.g. `blog/list.html.twig`):
 
-| Page type  | Lookup order                                                                                                                         |
-|------------|--------------------------------------------------------------------------------------------------------------------------------------|
-| Homepage   | `<layout>` → `index` → `home` → `list` → `_default/<layout>` → `_default/index` → `_default/home` → `_default/list` → `_default/page` |
-| Page       | `<section>/<layout>` → `<layout>` → `<section>/page` → `_default/<layout>` → `page` → `_default/page`                                |
+| Page type  | Lookup order                                                                                                                                                                      |
+|------------|-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| Homepage   | `<layout>` → `index` → `home` → `list` → `_default/<layout>` → `_default/index` → `_default/home` → `_default/list` → `_default/page`                                             |
+| Page       | `<section>/<layout>` → `<layout>` → `<section>/page` → `_default/<layout>` → `page` → `_default/page`                                                                             |
 | Section    | `<layout>` → `<section>/index` → `<section>/list` → `section/<section>` → `<parent>/index` → `<parent>/list` → `section/<parent>` → `_default/section` → `list` → `_default/list` |
-| Vocabulary | `taxonomy/<plural>` → `vocabulary` → `_default/vocabulary`                                                                           |
-| Term       | `taxonomy/<term>` → `taxonomy/<singular>` → `term` → `_default/term` → `_default/list`                                               |
+| Vocabulary | `taxonomy/<plural>` → `vocabulary` → `_default/vocabulary`                                                                                                                        |
+| Term       | `taxonomy/<term>` → `taxonomy/<singular>` → `term` → `_default/term` → `_default/list`                                                                                            |
 
 For a sub-section, `<section>` is its full path (e.g. `blog/2024`) and the `<parent>` entries are repeated for each parent section, nearest first.
 

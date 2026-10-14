@@ -35,13 +35,13 @@ theme:
 
 Resolution rules (from `src/`):
 
-| Resource       | Lookup order                                                                                                                          |
-|----------------|----------------------------------------------------------------------------------------------------------------------------------------|
-| Layouts        | `layouts/` → `themes/<theme>/layouts/` (in `theme` list order) → Cecil internal `resources/layouts/`                                 |
-| Assets         | `assets/` → `themes/<theme>/assets/` → `static/` → `themes/<theme>/static/` (Sass import paths also include the theme's dirs) |
-| Static files   | Themes' `static/` are copied first (reverse order), then site `static/`, so the site wins                                            |
-| Translations   | Cecil internal → `themes/<theme>/translations/` (in `theme` list order, so the **last** theme wins between themes) → site `translations/` (site wins) |
-| Data files     | Site `data/` and each `themes/<theme>/data/` are loaded into `site.data`                                                              |
+| Resource       | Lookup order                                                                                                                                             |
+|----------------|----------------------------------------------------------------------------------------------------------------------------------------------------------|
+| Layouts        | `layouts/` → `themes/<theme>/layouts/` (in `theme` list order) → Cecil internal `resources/layouts/`                                                     |
+| Assets         | `assets/` → `themes/<theme>/assets/` → `static/` → `themes/<theme>/static/` (Sass import paths also include the theme's dirs)                            |
+| Static files   | Themes' `static/` are copied first (reverse order), then site `static/`, so the site wins                                                                |
+| Translations   | Cecil internal → `themes/<theme>/translations/` (in `theme` list order, so the **last** theme wins between themes) → site `translations/` (site wins)    |
+| Data files     | Site `data/` and each `themes/<theme>/data/` are loaded into `site.data`                                                                                 |
 | Configuration  | `themes/<theme>/config.yml` is imported with `IMPORT_PRESERVE`: it **only adds missing keys**, site config always wins (first theme wins between themes) |
 
 Consequences:
@@ -416,19 +416,19 @@ No automatic injection mechanism exists: a component theme plugs into a site usi
 
 Before writing a feature, check whether an official component theme already provides it. They are all installed with `composer require cecil/theme-<name>` (or by uncompressing the release archive in `themes/<name>/`), enabled in `theme`, then wired into layouts by including their partials.
 
-| Theme            | Feature                                                                       |
-|------------------|-------------------------------------------------------------------------------|
+| Theme            | Feature                                                                           |
+|------------------|-----------------------------------------------------------------------------------|
 | `flexsearch`     | Client-side full-text search: index generated at build time, DocSearch-like modal |
-| `pwa`            | Web manifest, service worker, offline page (Progressive Web App)              |
-| `darkmodetoggle` | Icon button to switch between light and dark color schemes                    |
-| `docsearch`      | Algolia DocSearch                                                             |
-| `fontawesome`    | Font Awesome icons helpers                                                    |
-| `octicons`       | Twig macro for Primer Octicons icons                                          |
-| `podcast`        | Templates to publish an audio show (RSS feed)                                 |
-| `redirects`      | `_redirects` file generation                                                  |
-| `headers`        | `_headers` file generation                                                    |
-| `netlify`        | Netlify's `_redirects` and `_headers`                                         |
-| `netlifycms`     | Netlify CMS support                                                           |
+| `pwa`            | Web manifest, service worker, offline page (Progressive Web App)                  |
+| `darkmodetoggle` | Icon button to switch between light and dark color schemes                        |
+| `docsearch`      | Algolia DocSearch                                                                 |
+| `fontawesome`    | Font Awesome icons helpers                                                        |
+| `octicons`       | Twig macro for Primer Octicons icons                                              |
+| `podcast`        | Templates to publish an audio show (RSS feed)                                     |
+| `redirects`      | `_redirects` file generation                                                      |
+| `headers`        | `_headers` file generation                                                        |
+| `netlify`        | Netlify's `_redirects` and `_headers`                                             |
+| `netlifycms`     | Netlify CMS support                                                               |
 
 ### Ask the user before installing
 
