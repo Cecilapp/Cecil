@@ -101,6 +101,8 @@ A page can be added to a menu by setting the [`menu` variable](../content/2-fron
 
 A page menu entry can be overridden: use the page ID as `id`.
 
+The ID of a page menu entry doesn't include the language prefix (e.g.: `docs` for the `fr/docs` page): the same `id` targets the entry in every language.
+
 _Example:_
 
 ```yaml

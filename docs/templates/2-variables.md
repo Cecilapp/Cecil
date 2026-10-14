@@ -66,11 +66,12 @@ Example:
 
 Loop on `site.menus.<menu>` to get each entry of the `<menu>` collection (e.g.: `main`).
 
-| Variable         | Description                                 |
-| ---------------- | ------------------------------------------- |
-| `<entry>.name`   | Entry name.                                 |
-| `<entry>.url`    | Entry URL.                                  |
-| `<entry>.weight` | Entry weight (useful to sort menu entries). |
+| Variable         | Description                                                       |
+| ---------------- | ----------------------------------------------------------------- |
+| `<entry>.id`     | Entry ID (for a page entry: the page ID without language prefix). |
+| `<entry>.name`   | Entry name.                                                       |
+| `<entry>.url`    | Entry URL.                                                        |
+| `<entry>.weight` | Entry weight (useful to sort menu entries).                       |
 
 _Example:_
 
