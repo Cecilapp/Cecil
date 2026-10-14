@@ -2,7 +2,7 @@
 title: "Plateformes Jamstack"
 description: "Netlify, Vercel, statichost, Cloudflare Pages, Render."
 date: 2026-03-27
-updated: 2026-10-10
+updated: 2026-10-14
 path: documentation/deployer/plateformes-jamstack
 -->
 # Plateformes Jamstack
@@ -64,8 +64,8 @@ public: _site
 
 ## Cloudflare Pages
 
-:::caution
-Cloudflare Pages ne prend plus en charge PHP.
+:::info
+Cloudflare Pages ne fournit pas PHP : le script de build utilise alors le [binaire autonome](../getting-started/2-installation.fr.md#standalone-binary) de Cecil, et installe les thèmes à partir de `composer.lock`.
 :::
 
 > Cloudflare Pages est une plateforme JAMstack qui permet aux développeurs frontend de collaborer et de déployer des sites web.
