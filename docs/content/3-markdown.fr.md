@@ -416,7 +416,7 @@ caution
 
 Une note est rendue avec le template `partials/notes/<type>.html.twig`, s'il existe (dans les `layouts/` du site, dans un thème ou intégré), à la place de l'élément `<aside>`.
 
-Cecil fournit des templates pour les types suivants, rendus sans JavaScript : un thème peut les styler, les surcharger et y ajouter de l'interactivité.
+Cecil fournit des templates pour les types suivants, rendus sans JavaScript : un thème peut les styler, les surcharger et y ajouter de l'interactivité. Contrairement aux autres notes, leur élément racine est un `<div class="note note-<type>">` (et non un `<aside>`), car leur contenu fait partie du contenu principal.
 
 | Type         | Éléments                                                                          | Rendu                                             |
 | ------------ | --------------------------------------------------------------------------------- | ------------------------------------------------- |

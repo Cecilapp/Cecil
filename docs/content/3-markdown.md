@@ -415,7 +415,7 @@ caution
 
 A note is rendered with the `partials/notes/<type>.html.twig` template, if it exists (in the site `layouts/`, in a theme or built-in), instead of the `<aside>` element.
 
-Cecil provides templates for the following types, rendered without JavaScript: a theme can style them, override them and add interactivity.
+Cecil provides templates for the following types, rendered without JavaScript: a theme can style them, override them and add interactivity. Unlike other notes, their root element is a `<div class="note note-<type>">` (not an `<aside>`), as their content is part of the main content.
 
 | Type         | Items                                                                       | Rendering                                       |
 | ------------ | --------------------------------------------------------------------------- | ----------------------------------------------- |
