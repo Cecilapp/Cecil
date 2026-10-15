@@ -61,6 +61,10 @@ class IncrementalBuildResolver
         foreach ($changedFiles as $file) {
             $normalized = $this->normalizePath((string) $file);
             if ($templateRef = $this->resolveTemplateRefFromPath($normalized)) {
+                // notes templates are rendered during conversion: full rebuild
+                if (str_starts_with($templateRef['file'], 'partials/notes/')) {
+                    return null;
+                }
                 $templates[] = $templateRef;
 
                 continue;

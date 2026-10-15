@@ -28,11 +28,15 @@ class ParsedownTest extends TestCase
 
     private Parsedown $parsedown;
 
+    private Builder $builder;
+
+    private string $sourceDir;
+
     protected function setUp(): void
     {
         $this->filesystem = new Filesystem();
         $this->root = sys_get_temp_dir() . DIRECTORY_SEPARATOR . 'cecil-parsedown-test-' . uniqid('', true);
-        $sourceDir = $this->root . DIRECTORY_SEPARATOR . 'source';
+        $sourceDir = $this->sourceDir = $this->root . DIRECTORY_SEPARATOR . 'source';
         $destinationDir = $this->root . DIRECTORY_SEPARATOR . 'destination';
         $this->filesystem->mkdir([$sourceDir, $destinationDir]);
         $this->filesystem->dumpFile($sourceDir . '/assets/videos/test.mp4', 'video');
@@ -49,6 +53,7 @@ class ParsedownTest extends TestCase
         // the build ID is normally set by Builder::build() (and resets Parsedown static caches)
         self::setBuildId(uniqid('test', true));
         $this->parsedown = new Parsedown($builder);
+        $this->builder = $builder;
     }
 
     protected function tearDown(): void
@@ -83,5 +88,82 @@ class ParsedownTest extends TestCase
         $html = $this->parsedown->text('[Video](/videos/missing.mp4){embed=false}');
 
         self::assertStringContainsString('<a href="/videos/missing.mp4">Video</a>', $html);
+    }
+
+    public function testNoteWithoutTemplateIsAnAside(): void
+    {
+        $html = $this->parsedown->text(":::tip\n**Tip:** advice.\n:::");
+
+        self::assertSame('<aside class="note note-tip"><p><strong>Tip:</strong> advice.</p></aside>', $html);
+    }
+
+    public function testTabsNoteIsSplitOnHeadings(): void
+    {
+        $html = $this->parsedown->text(":::tabs\nIntro.\n\n#### macOS\n\n```bash\n#### not a heading\n```\n\n#### Windows\n\nUse **scoop**.\n:::");
+
+        self::assertStringContainsString('<div class="note note-tabs" id="note-tabs-1">', $html);
+        self::assertStringContainsString('<p>Intro.</p>', $html);
+        self::assertSame(2, substr_count($html, '<section class="note-tab"'));
+        self::assertStringContainsString('<h4>macOS</h4>', $html);
+        self::assertStringContainsString('#### not a heading', $html);
+        self::assertStringContainsString('<h4>Windows</h4>', $html);
+        self::assertStringNotContainsString('<aside', $html);
+    }
+
+    public function testCodeGroupNoteIsSplitOnCodeBlocks(): void
+    {
+        $html = $this->parsedown->text(":::code-group\n```bash\nnpm i\n```\n\n```php\necho 1;\n```\n:::");
+
+        self::assertStringContainsString('<p class="note-tab-title">bash</p>', $html);
+        self::assertStringContainsString('<p class="note-tab-title">php</p>', $html);
+        self::assertSame(2, substr_count($html, '<pre>'));
+    }
+
+    public function testCardsNoteIsSplitOnListEntries(): void
+    {
+        $html = $this->parsedown->text(":::cards\n- [Install](https://example.com/install/): first steps\n- No link\n:::");
+
+        self::assertStringContainsString('<p class="note-card-title"><a href="https://example.com/install/">Install</a></p>', $html);
+        self::assertStringContainsString('<div class="note-card-content">first steps</div>', $html);
+        self::assertStringContainsString('<div class="note-card-content">No link</div>', $html);
+    }
+
+    public function testAccordionNoteKeepsHeadingId(): void
+    {
+        $html = $this->parsedown->text(":::accordion\n#### Question {#q1}\nAnswer.\n:::");
+
+        self::assertStringContainsString('<details class="note-accordion-item" id="q1">', $html);
+        self::assertStringContainsString('<summary>Question</summary>', $html);
+        self::assertStringContainsString('<p>Answer.</p>', $html);
+    }
+
+    public function testStepsNoteIsAnOrderedList(): void
+    {
+        $html = $this->parsedown->text(":::steps\n#### One\nDo it.\n#### Two\nDone.\n:::");
+
+        self::assertStringContainsString('<ol class="note-steps-list">', $html);
+        self::assertSame(2, substr_count($html, '<li class="note-step">'));
+    }
+
+    public function testNoteTemplateCanBeOverridden(): void
+    {
+        $this->filesystem->dumpFile($this->sourceDir . '/layouts/partials/notes/tip.html.twig', '<div class="tip">{{ note.content }}</div>');
+        self::setBuildId(uniqid('test', true));
+        $parsedown = new Parsedown($this->builder);
+
+        $html = $parsedown->text(":::tip\nadvice\n:::");
+
+        self::assertSame('<div class="tip"><p>advice</p></div>', $html);
+    }
+
+    public function testNoteTemplateErrorFallsBackToTheNoteContent(): void
+    {
+        $this->filesystem->dumpFile($this->sourceDir . '/layouts/partials/notes/tip.html.twig', '{{ site.title }}');
+        self::setBuildId(uniqid('test', true));
+        $parsedown = new Parsedown($this->builder);
+
+        $html = $parsedown->text(":::tip\nadvice\n:::");
+
+        self::assertSame('<aside class="note note-tip"><p>advice</p></aside>', $html);
     }
 }

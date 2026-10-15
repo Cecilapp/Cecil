@@ -2,7 +2,7 @@
 title: "Markdown"
 description: "Markdown syntax and extensions: attributes, links, images, table of contents, notes, syntax highlight, etc."
 date: 2021-05-07
-updated: 2026-10-12
+updated: 2026-10-15
 -->
 # Markdown
 
@@ -409,6 +409,70 @@ warning
 
 :::caution
 caution
+:::
+
+### Templates
+
+A note is rendered with the `partials/notes/<type>.html.twig` template, if it exists (in the site `layouts/`, in a theme or built-in), instead of the `<aside>` element.
+
+Cecil provides templates for the following types, rendered without JavaScript: a theme can style them, override them and add interactivity.
+
+| Type         | Items                                                                       | Rendering                                       |
+| ------------ | --------------------------------------------------------------------------- | ----------------------------------------------- |
+| `tabs`       | one per `####` heading                                                      | stacked panels (`<section class="note-tab">`)   |
+| `code-group` | one per `####` heading, or one per code block (titled with its language)    | same as `tabs`                                  |
+| `steps`      | one per `####` heading                                                      | ordered list (`<ol class="note-steps-list">`)   |
+| `accordion`  | one per `####` heading                                                      | `<details class="note-accordion-item">`         |
+| `cards`      | one per list entry (a leading link is the card title), or per `####` heading | list (`<ul class="note-cards-list">`)           |
+
+_Example:_
+
+````markdown
+:::tabs
+#### macOS
+
+```bash
+brew install cecil
+```
+
+#### Windows
+
+```bash
+scoop install cecil
+```
+:::
+
+:::cards
+- [Installation](installation.md): download and install Cecil.
+- [Configuration](configuration.md): configure your site.
+:::
+````
+
+The template receives a `note` variable:
+
+- `note.type`: note type (e.g.: `tabs`)
+- `note.id`: unique ID in the page (e.g.: `note-tabs-1`)
+- `note.content`: HTML of the whole note
+- `note.intro`: HTML of the content before the first `####` heading
+- `note.items`: list of items, each with:
+  - `title`: title (HTML)
+  - `heading`: heading element (HTML), with its `id` attribute
+  - `id`: heading ID, if any
+  - `link`: leading link element (HTML) of a list entry
+  - `url`: leading link URL of a list entry
+  - `language`: language of a code block
+  - `content`: content (HTML)
+
+To override the rendering of a note type, create the template in your site (or theme), for example `layouts/partials/notes/tip.html.twig`:
+
+```twig
+<div class="callout callout-{{ note.type }}">
+  {{ note.content|raw }}
+</div>
+```
+
+:::info
+Notes are rendered when Markdown is converted, before pages rendering: a note template has access to the `note` variable and to translations (in the page language), but not to `page` or `site`.
 :::
 
 ## Syntax highlight

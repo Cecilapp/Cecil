@@ -1,0 +1,18 @@
+{#- steps: one step per `####` heading ~#}
+<div class="note note-steps" id="{{ note.id|e }}">
+  {%~ if note.items is empty %}
+  {{ note.content|raw }}
+  {%~ else %}
+  {%~ if note.intro %}
+  {{ note.intro|raw }}
+  {%~ endif %}
+  <ol class="note-steps-list">
+    {%~ for item in note.items %}
+    <li class="note-step">
+      {{ item.heading|raw }}
+      {{ item.content|raw }}
+    </li>
+    {%~ endfor %}
+  </ol>
+  {%~ endif %}
+</div>

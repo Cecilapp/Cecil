@@ -17,6 +17,7 @@ use Cecil\Asset;
 use Cecil\Asset\Image;
 use Cecil\Builder;
 use Cecil\Exception\RuntimeException;
+use Cecil\Renderer\Twig;
 use Cecil\Url;
 use Cecil\Util;
 use Highlight\Highlighter;
@@ -32,6 +33,8 @@ use Highlight\Highlighter;
  * @property string $inlineMarkerList
  * @property list<string> $specialCharacters
  * @property array<string, list<string>> $BlockTypes
+ *
+ * @method string line(string $text, list<string> $nonNestables = [])
  */
 class Parsedown extends \ParsedownToc
 {
@@ -67,6 +70,15 @@ class Parsedown extends \ParsedownToc
     /** @var string|null */
     protected $language;
 
+    /** Notes templates renderer, shared across all instances of a build. */
+    protected static ?Twig $notesRenderer = null;
+
+    /** @var array<string, bool> Notes templates existence, by note type. */
+    protected static array $notesTemplates = [];
+
+    /** Notes rendered with a template, used to build unique IDs. */
+    protected int $notesCount = 0;
+
     /**
      * @param array<string, mixed>|null $options Parsedown options (e.g. 'selectors', 'language')
      */
@@ -96,6 +108,8 @@ class Parsedown extends \ParsedownToc
         $currentBuildId = Builder::getBuildId();
         if (static::$cacheBuildId !== $currentBuildId) {
             static::$imageProcessingCache = [];
+            static::$notesRenderer = null;
+            static::$notesTemplates = [];
             static::$cacheBuildId = $currentBuildId;
         }
 
@@ -635,6 +649,8 @@ class Parsedown extends \ParsedownToc
      * **Tip:** This is an advice.
      * :::
      *
+     * A note is rendered with the `partials/notes/<type>.html.twig` template if it exists.
+     *
      * Code inspired by https://github.com/sixlive/parsedown-alert from TJ Miller (@sixlive).
      *
      * @param array<string, mixed> $block
@@ -645,7 +661,8 @@ class Parsedown extends \ParsedownToc
     {
         if (preg_match('/:::(.*)/', $block['text'], $matches)) {
             $block = [
-                'char'    => ':',
+                'char'     => ':',
+                'noteType' => trim($matches[1]),
                 'element' => [
                     'name'       => 'aside',
                     'text'       => '',
@@ -703,10 +720,281 @@ class Parsedown extends \ParsedownToc
      */
     protected function blockNoteComplete($block)
     {
-        $block['element']['rawHtml'] = $this->text($block['element']['text']);
+        $type = (string) ($block['noteType'] ?? '');
+        $text = (string) $block['element']['text'];
         unset($block['element']['text']);
 
+        if (preg_match('/^[\w-]+$/', $type) && $this->hasNoteTemplate($type)) {
+            $note = $this->noteVariables($type, $text);
+            $html = $this->renderNote($note);
+            if ($html !== null) {
+                $block['element'] = [
+                    'rawHtml'                => $html,
+                    'allowRawHtmlInSafeMode' => true,
+                    'autobreak'              => true,
+                ];
+
+                return $block;
+            }
+            $block['element']['rawHtml'] = $note['content'];
+
+            return $block;
+        }
+
+        $block['element']['rawHtml'] = $this->text($text);
+
         return $block;
+    }
+
+    /**
+     * Builds the variables of a note template.
+     *
+     * The note is split into items:
+     * - one item per `####` heading (the content before the first heading is the intro)
+     * - without heading, one item per entry of a list (a leading link is the item title and URL)
+     * - without heading, one item per fenced code block (titled with its language)
+     *
+     * @return array{type: string, id: string, content: string, intro: string, items: list<array{title: string|null, heading: string|null, id: string|null, link: string|null, url: string|null, language: string|null, content: string}>}
+     */
+    protected function noteVariables(string $type, string $text): array
+    {
+        $note = [
+            'type'    => $type,
+            'id'      => \sprintf('note-%s-%d', $type, ++$this->notesCount),
+            'content' => '',
+            'intro'   => '',
+            'items'   => [],
+        ];
+        $item = [
+            'title'    => null,
+            'heading'  => null,
+            'id'       => null,
+            'link'     => null,
+            'url'      => null,
+            'language' => null,
+            'content'  => '',
+        ];
+
+        $segments = $this->splitNote($text);
+        // headings
+        if (\count($segments['items']) > 0) {
+            $note['intro'] = $this->text(implode("\n", $segments['intro']));
+            $content = [$note['intro']];
+            foreach ($segments['items'] as $segment) {
+                $heading = $this->text($segment['heading']);
+                $body = $this->text(implode("\n", $segment['lines']));
+                $title = preg_match('/^<h4[^>]*>(.*)<\/h4>$/s', $heading, $matches) ? $matches[1] : strip_tags($heading);
+                $id = preg_match('/^<h4[^>]*\sid="([^"]*)"/', $heading, $matches) ? html_entity_decode($matches[1], \ENT_QUOTES | \ENT_HTML5) : null;
+                $note['items'][] = array_merge($item, ['title' => $title, 'heading' => $heading, 'id' => $id, 'content' => $body]);
+                $content[] = $heading;
+                $content[] = $body;
+            }
+            $note['content'] = implode("\n", array_filter($content, fn ($html) => $html !== ''));
+
+            return $note;
+        }
+        // list
+        if (($entries = $this->splitNoteList($text)) !== null) {
+            $note['content'] = $this->text($text);
+            foreach ($entries as $entry) {
+                $html = trim($this->line($entry));
+                $title = $link = $url = null;
+                // leading link, followed by a separator (`:` or `-`)
+                if (preg_match('/^(<a\s[^>]*href="([^"]*)"[^>]*>(.*?)<\/a>)(?:\s*[:\-–—](?=\s|$))?\s*(.*)$/s', $html, $matches)) {
+                    $link = $matches[1];
+                    $url = html_entity_decode($matches[2], \ENT_QUOTES | \ENT_HTML5);
+                    $title = $matches[3];
+                    $html = $matches[4];
+                }
+                $note['items'][] = array_merge($item, ['title' => $title, 'link' => $link, 'url' => $url, 'content' => $html]);
+            }
+
+            return $note;
+        }
+        // code blocks
+        if (($blocks = $this->splitNoteCode($text)) !== null) {
+            foreach ($blocks as $block) {
+                $html = $this->text($block['code']);
+                $note['items'][] = array_merge($item, ['title' => $block['language'] !== null ? htmlspecialchars($block['language']) : null, 'language' => $block['language'], 'content' => $html]);
+            }
+            $note['content'] = implode("\n", array_column($note['items'], 'content'));
+
+            return $note;
+        }
+        // no items
+        $note['content'] = $note['intro'] = $this->text($text);
+
+        return $note;
+    }
+
+    /**
+     * Splits the Markdown of a note on `####` headings (except in fenced code blocks).
+     *
+     * @return array{intro: list<string>, items: list<array{heading: string, lines: list<string>}>}
+     */
+    protected function splitNote(string $text): array
+    {
+        $intro = [];
+        $items = [];
+        $heading = null;
+        $lines = [];
+        $fence = null;
+        foreach (explode("\n", $text) as $line) {
+            if ($fence !== null) {
+                if (preg_match('/^ {0,3}' . preg_quote($fence[0], '/') . '{' . \strlen($fence) . ',}\s*$/', $line)) {
+                    $fence = null;
+                }
+            } elseif (preg_match('/^ {0,3}(`{3,}|~{3,})/', $line, $matches)) {
+                $fence = $matches[1];
+            } elseif (preg_match('/^ {0,3}#{4}(?!#)/', $line)) {
+                if ($heading !== null) {
+                    $items[] = ['heading' => $heading, 'lines' => $lines];
+                }
+                $heading = $line;
+                $lines = [];
+
+                continue;
+            }
+            if ($heading === null) {
+                $intro[] = $line;
+
+                continue;
+            }
+            $lines[] = $line;
+        }
+        if ($heading !== null) {
+            $items[] = ['heading' => $heading, 'lines' => $lines];
+        }
+
+        return ['intro' => $intro, 'items' => $items];
+    }
+
+    /**
+     * Returns the entries (Markdown) of a note made of a single list, or null.
+     *
+     * @return list<string>|null
+     */
+    protected function splitNoteList(string $text): ?array
+    {
+        $entries = [];
+        foreach (explode("\n", trim($text, "\n")) as $line) {
+            if (trim($line) === '') {
+                continue;
+            }
+            // new entry
+            if (preg_match('/^(?:[*+-]|\d+[.)])[ \t]+(.*)$/', $line, $matches)) {
+                $entries[] = trim($matches[1]);
+
+                continue;
+            }
+            // continuation of the current entry
+            if (\count($entries) > 0 && preg_match('/^[ \t]+(.*)$/', $line, $matches)) {
+                $entries[\count($entries) - 1] .= ' ' . trim($matches[1]);
+
+                continue;
+            }
+
+            return null;
+        }
+
+        return \count($entries) > 0 ? $entries : null;
+    }
+
+    /**
+     * Returns the fenced code blocks of a note made only of code blocks, or null.
+     *
+     * @return list<array{code: string, language: string|null}>|null
+     */
+    protected function splitNoteCode(string $text): ?array
+    {
+        $blocks = [];
+        $code = [];
+        $language = null;
+        $fence = null;
+        foreach (explode("\n", $text) as $line) {
+            if ($fence !== null) {
+                $code[] = $line;
+                if (preg_match('/^ {0,3}' . preg_quote($fence[0], '/') . '{' . \strlen($fence) . ',}\s*$/', $line)) {
+                    $blocks[] = ['code' => implode("\n", $code), 'language' => $language];
+                    $fence = null;
+                }
+
+                continue;
+            }
+            if (preg_match('/^ {0,3}(`{3,}|~{3,})\s*([^\s`{]*)/', $line, $matches)) {
+                $fence = $matches[1];
+                $code = [$line];
+                $language = $matches[2] !== '' ? $matches[2] : null;
+
+                continue;
+            }
+            if (trim($line) !== '') {
+                return null;
+            }
+        }
+        // unclosed code block
+        if ($fence !== null) {
+            $blocks[] = ['code' => implode("\n", $code), 'language' => $language];
+        }
+
+        return \count($blocks) > 0 ? $blocks : null;
+    }
+
+    /**
+     * Checks if a note type has a template.
+     */
+    protected function hasNoteTemplate(string $type): bool
+    {
+        if (!isset(static::$notesTemplates[$type])) {
+            static::$notesTemplates[$type] = $this->getNotesRenderer()->getTwig()->getLoader()->exists($this->getNoteTemplate($type));
+        }
+
+        return static::$notesTemplates[$type];
+    }
+
+    /**
+     * Renders a note with its template, or returns null on error.
+     *
+     * @param array{type: string, id: string, content: string, intro: string, items: array<mixed>} $note
+     */
+    protected function renderNote(array $note): ?string
+    {
+        $renderer = $this->getNotesRenderer();
+        // the translator uses the page language, the default locale is restored after rendering
+        $locale = \extension_loaded('intl') ? \Locale::getDefault() : null;
+        try {
+            $renderer->setLocale($this->config->getLanguageProperty('locale', $this->language));
+
+            return trim($renderer->render($this->getNoteTemplate($note['type']), ['note' => $note]));
+        } catch (\Throwable $e) {
+            $this->builder->getLogger()->error(\sprintf('Unable to render note "%s": %s', $note['type'], $e->getMessage()));
+
+            return null;
+        } finally {
+            if ($locale !== null) {
+                \Locale::setDefault($locale);
+            }
+        }
+    }
+
+    /**
+     * Returns the template name of a note type.
+     */
+    protected function getNoteTemplate(string $type): string
+    {
+        return \sprintf('partials/notes/%s.html.twig', $type);
+    }
+
+    /**
+     * Returns the notes templates renderer (created once per build).
+     */
+    protected function getNotesRenderer(): Twig
+    {
+        if (static::$notesRenderer === null) {
+            static::$notesRenderer = new Twig($this->builder, $this->config->getLayoutsPaths());
+        }
+
+        return static::$notesRenderer;
     }
 
     /**
@@ -1210,7 +1498,7 @@ class Parsedown extends \ParsedownToc
             return $inline;
         }
 
-        $titleRawHtml = $this->line($inline['element']['attributes']['title']); // @phpstan-ignore method.notFound
+        $titleRawHtml = $this->line($inline['element']['attributes']['title']);
         $inline['element']['attributes']['title'] = strip_tags($titleRawHtml);
 
         $figcaption = [

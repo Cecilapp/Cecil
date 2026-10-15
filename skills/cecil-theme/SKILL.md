@@ -79,6 +79,7 @@ theme-<name>/
 │  │  └─ vocabulary.html.twig
 │  ├─ <section>/           # optional per-section layouts (e.g. blog/page.html.twig)
 │  ├─ partials/            # header, footer, nav, pagination, post-item...
+│  │  └─ notes/            # optional Markdown notes templates (`:::<type>` → <type>.html.twig)
 │  └─ macros/              # optional reusable macros
 └─ translations/
    └─ messages.fr.yml

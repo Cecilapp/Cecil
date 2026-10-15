@@ -3196,6 +3196,11 @@ Search.appendIndex(
             "summary": "Returns\u0020the\u0020path\u0020of\u0020internal\u0020templates\u0020directory.",
             "url": "classes/Cecil-Config.html#method_getLayoutsInternalPath"
         },                {
+            "fqsen": "\\Cecil\\Config\u003A\u003AgetLayoutsPaths\u0028\u0029",
+            "name": "getLayoutsPaths",
+            "summary": "Returns\u0020the\u0020templates\u0020directories,\u0020by\u0020priority\u003A\u0020site,\u0020themes,\u0020then\u0020internal.",
+            "url": "classes/Cecil-Config.html#method_getLayoutsPaths"
+        },                {
             "fqsen": "\\Cecil\\Config\u003A\u003AgetLayoutSection\u0028\u0029",
             "name": "getLayoutSection",
             "summary": "Returns\u0020the\u0020layout\u0020for\u0020a\u0020section.",
@@ -3511,6 +3516,46 @@ Search.appendIndex(
             "summary": "Completes\u0020a\u0020note\u0020block.",
             "url": "classes/Cecil-Converter-Parsedown.html#method_blockNoteComplete"
         },                {
+            "fqsen": "\\Cecil\\Converter\\Parsedown\u003A\u003AnoteVariables\u0028\u0029",
+            "name": "noteVariables",
+            "summary": "Builds\u0020the\u0020variables\u0020of\u0020a\u0020note\u0020template.",
+            "url": "classes/Cecil-Converter-Parsedown.html#method_noteVariables"
+        },                {
+            "fqsen": "\\Cecil\\Converter\\Parsedown\u003A\u003AsplitNote\u0028\u0029",
+            "name": "splitNote",
+            "summary": "Splits\u0020the\u0020Markdown\u0020of\u0020a\u0020note\u0020on\u0020\u0060\u0023\u0023\u0023\u0023\u0060\u0020headings\u0020\u0028except\u0020in\u0020fenced\u0020code\u0020blocks\u0029.",
+            "url": "classes/Cecil-Converter-Parsedown.html#method_splitNote"
+        },                {
+            "fqsen": "\\Cecil\\Converter\\Parsedown\u003A\u003AsplitNoteList\u0028\u0029",
+            "name": "splitNoteList",
+            "summary": "Returns\u0020the\u0020entries\u0020\u0028Markdown\u0029\u0020of\u0020a\u0020note\u0020made\u0020of\u0020a\u0020single\u0020list,\u0020or\u0020null.",
+            "url": "classes/Cecil-Converter-Parsedown.html#method_splitNoteList"
+        },                {
+            "fqsen": "\\Cecil\\Converter\\Parsedown\u003A\u003AsplitNoteCode\u0028\u0029",
+            "name": "splitNoteCode",
+            "summary": "Returns\u0020the\u0020fenced\u0020code\u0020blocks\u0020of\u0020a\u0020note\u0020made\u0020only\u0020of\u0020code\u0020blocks,\u0020or\u0020null.",
+            "url": "classes/Cecil-Converter-Parsedown.html#method_splitNoteCode"
+        },                {
+            "fqsen": "\\Cecil\\Converter\\Parsedown\u003A\u003AhasNoteTemplate\u0028\u0029",
+            "name": "hasNoteTemplate",
+            "summary": "Checks\u0020if\u0020a\u0020note\u0020type\u0020has\u0020a\u0020template.",
+            "url": "classes/Cecil-Converter-Parsedown.html#method_hasNoteTemplate"
+        },                {
+            "fqsen": "\\Cecil\\Converter\\Parsedown\u003A\u003ArenderNote\u0028\u0029",
+            "name": "renderNote",
+            "summary": "Renders\u0020a\u0020note\u0020with\u0020its\u0020template,\u0020or\u0020returns\u0020null\u0020on\u0020error.",
+            "url": "classes/Cecil-Converter-Parsedown.html#method_renderNote"
+        },                {
+            "fqsen": "\\Cecil\\Converter\\Parsedown\u003A\u003AgetNoteTemplate\u0028\u0029",
+            "name": "getNoteTemplate",
+            "summary": "Returns\u0020the\u0020template\u0020name\u0020of\u0020a\u0020note\u0020type.",
+            "url": "classes/Cecil-Converter-Parsedown.html#method_getNoteTemplate"
+        },                {
+            "fqsen": "\\Cecil\\Converter\\Parsedown\u003A\u003AgetNotesRenderer\u0028\u0029",
+            "name": "getNotesRenderer",
+            "summary": "Returns\u0020the\u0020notes\u0020templates\u0020renderer\u0020\u0028created\u0020once\u0020per\u0020build\u0029.",
+            "url": "classes/Cecil-Converter-Parsedown.html#method_getNotesRenderer"
+        },                {
             "fqsen": "\\Cecil\\Converter\\Parsedown\u003A\u003AblockFencedCodeComplete\u0028\u0029",
             "name": "blockFencedCodeComplete",
             "summary": "Apply\u0020Highlight\u0020to\u0020code\u0020blocks.",
@@ -3680,6 +3725,21 @@ Search.appendIndex(
             "name": "language",
             "summary": "",
             "url": "classes/Cecil-Converter-Parsedown.html#property_language"
+        },                {
+            "fqsen": "\\Cecil\\Converter\\Parsedown\u003A\u003A\u0024notesRenderer",
+            "name": "notesRenderer",
+            "summary": "Notes\u0020templates\u0020renderer,\u0020shared\u0020across\u0020all\u0020instances\u0020of\u0020a\u0020build.",
+            "url": "classes/Cecil-Converter-Parsedown.html#property_notesRenderer"
+        },                {
+            "fqsen": "\\Cecil\\Converter\\Parsedown\u003A\u003A\u0024notesTemplates",
+            "name": "notesTemplates",
+            "summary": "",
+            "url": "classes/Cecil-Converter-Parsedown.html#property_notesTemplates"
+        },                {
+            "fqsen": "\\Cecil\\Converter\\Parsedown\u003A\u003A\u0024notesCount",
+            "name": "notesCount",
+            "summary": "Notes\u0020rendered\u0020with\u0020a\u0020template,\u0020used\u0020to\u0020build\u0020unique\u0020IDs.",
+            "url": "classes/Cecil-Converter-Parsedown.html#property_notesCount"
         },                {
             "fqsen": "\\Cecil\\Doctor\\FrontmatterDoctor",
             "name": "FrontmatterDoctor",
@@ -5660,11 +5720,6 @@ Search.appendIndex(
             "name": "process",
             "summary": "Process\u0020implementation.",
             "url": "classes/Cecil-Step-Pages-Render.html#method_process"
-        },                {
-            "fqsen": "\\Cecil\\Step\\Pages\\Render\u003A\u003AgetAllLayoutsPaths\u0028\u0029",
-            "name": "getAllLayoutsPaths",
-            "summary": "Returns\u0020an\u0020array\u0020of\u0020layouts\u0020directories.",
-            "url": "classes/Cecil-Step-Pages-Render.html#method_getAllLayoutsPaths"
         },                {
             "fqsen": "\\Cecil\\Step\\Pages\\Render\u003A\u003AaddGlobals\u0028\u0029",
             "name": "addGlobals",

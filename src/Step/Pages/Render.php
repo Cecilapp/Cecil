@@ -84,7 +84,7 @@ class Render extends AbstractStep
     public function process(): void
     {
         // prepares renderer
-        $this->builder->setRenderer(new Twig($this->getBuilder(), $this->getAllLayoutsPaths()));
+        $this->builder->setRenderer(new Twig($this->getBuilder(), $this->config->getLayoutsPaths()));
 
         // adds global variables
         $this->addGlobals();
@@ -291,33 +291,6 @@ class Render extends AbstractStep
                 throw new RuntimeException($e->getMessage());
             }
         }
-    }
-
-    /**
-     * Returns an array of layouts directories.
-     *
-     * @return list<string>
-     */
-    protected function getAllLayoutsPaths(): array
-    {
-        $paths = [];
-
-        // layouts/
-        if (is_dir($this->config->getLayoutsPath())) {
-            $paths[] = $this->config->getLayoutsPath();
-        }
-        // <theme>/layouts/
-        if ($this->config->hasTheme()) {
-            foreach ($this->config->getTheme() ?? [] as $theme) {
-                $paths[] = $this->config->getThemeDirPath($theme);
-            }
-        }
-        // resources/layouts/
-        if (is_dir($this->config->getLayoutsInternalPath())) {
-            $paths[] = $this->config->getLayoutsInternalPath();
-        }
-
-        return $paths;
     }
 
     /**

@@ -320,6 +320,33 @@ class Config
     }
 
     /**
+     * Returns the templates directories, by priority: site, themes, then internal.
+     *
+     * @return list<string>
+     */
+    public function getLayoutsPaths(): array
+    {
+        $paths = [];
+
+        // layouts/
+        if (is_dir($this->getLayoutsPath())) {
+            $paths[] = $this->getLayoutsPath();
+        }
+        // <theme>/layouts/
+        if ($this->hasTheme()) {
+            foreach ($this->getTheme() ?? [] as $theme) {
+                $paths[] = $this->getThemeDirPath($theme);
+            }
+        }
+        // resources/layouts/
+        if (is_dir($this->getLayoutsInternalPath())) {
+            $paths[] = $this->getLayoutsInternalPath();
+        }
+
+        return $paths;
+    }
+
+    /**
      * Returns the layout for a section.
      */
     public function getLayoutSection(?string $section): ?string

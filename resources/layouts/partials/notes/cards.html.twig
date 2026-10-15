@@ -1,0 +1,22 @@
+{#- cards: one card per entry of a list (a leading link is the card title and URL), or per `####` heading ~#}
+<div class="note note-cards" id="{{ note.id|e }}">
+  {%~ if note.items is empty %}
+  {{ note.content|raw }}
+  {%~ else %}
+  {%~ if note.intro %}
+  {{ note.intro|raw }}
+  {%~ endif %}
+  <ul class="note-cards-list">
+    {%~ for item in note.items %}
+    <li class="note-card">
+      {%~ if item.title %}
+      <p class="note-card-title">{{ (item.link ?? item.title)|raw }}</p>
+      {%~ endif %}
+      {%~ if item.content %}
+      <div class="note-card-content">{{ item.content|raw }}</div>
+      {%~ endif %}
+    </li>
+    {%~ endfor %}
+  </ul>
+  {%~ endif %}
+</div>
