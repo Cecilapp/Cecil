@@ -2,6 +2,19 @@
 
 All notable changes to this project will be documented in this file. Dates are displayed in UTC.
 
+#### [9.11.1](https://github.com/Cecilapp/Cecil/compare/9.11.0...9.11.1)
+
+> 14 October 2026
+
+- fix(converter): close a note block only on a `:::` line [`#2507`](https://github.com/Cecilapp/Cecil/pull/2507)
+- docs(deploy): Render works with the standalone binary [`#2506`](https://github.com/Cecilapp/Cecil/pull/2506)
+- feat(build): use the standalone binary when PHP is not available [`#2505`](https://github.com/Cecilapp/Cecil/pull/2505)
+- style(skills): align markdown table columns [`42da6b6`](https://github.com/Cecilapp/Cecil/commit/42da6b62a642f0b777deec14ab583a14bcdf025b)
+- docs(readme): add documentation source README and exclude it from deploy [`722c245`](https://github.com/Cecilapp/Cecil/commit/722c245328af631ef69d979bc005f0e35d3efdc1)
+- docs(readme): split PHAR and binaries build instructions [`1d7f1e5`](https://github.com/Cecilapp/Cecil/commit/1d7f1e52eb666a8d601cd7891552b2ad6b898a3d)
+- docs(deploy): update Render config to new blueprint syntax [`b70ec18`](https://github.com/Cecilapp/Cecil/commit/b70ec18f0c6b4e7350302bb4493b1e579871af05)
+- docs(deploy): update Cloudflare Pages link [`ee9db2a`](https://github.com/Cecilapp/Cecil/commit/ee9db2a9c6d183dc0aba8c6cbf66e9d65f5a07bf)
+
 #### [9.11.0](https://github.com/Cecilapp/Cecil/compare/9.10.3...9.11.0)
 
 > 13 October 2026
