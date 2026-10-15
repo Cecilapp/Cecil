@@ -2,7 +2,7 @@
 title: "Markdown"
 description: "Syntaxe et extensions Markdown : attributs, liens, images, table des matières, notes, coloration syntaxique, etc."
 date: 2026-03-27
-updated: 2026-10-12
+updated: 2026-10-15
 path: documentation/contenu/markdown
 -->
 # Markdown
@@ -410,6 +410,70 @@ warning
 
 :::caution
 caution
+:::
+
+### Templates
+
+Une note est rendue avec le template `partials/notes/<type>.html.twig`, s'il existe (dans les `layouts/` du site, dans un thème ou intégré), à la place de l'élément `<aside>`.
+
+Cecil fournit des templates pour les types suivants, rendus sans JavaScript : un thème peut les styler, les surcharger et y ajouter de l'interactivité. Contrairement aux autres notes, leur élément racine est un `<div class="note note-<type>">` (et non un `<aside>`), car leur contenu fait partie du contenu principal.
+
+| Type         | Éléments                                                                          | Rendu                                             |
+| ------------ | --------------------------------------------------------------------------------- | ------------------------------------------------- |
+| `tabs`       | un par titre `####`                                                               | panneaux empilés (`<section class="note-tab">`)   |
+| `code-group` | un par titre `####`, ou un par bloc de code (intitulé avec son langage)           | comme `tabs`                                      |
+| `steps`      | un par titre `####`                                                               | liste ordonnée (`<ol class="note-steps-list">`)   |
+| `accordion`  | un par titre `####`                                                               | `<details class="note-accordion-item">`           |
+| `cards`      | un par entrée de liste (un lien en tête est le titre de la carte), ou par titre `####` | liste (`<ul class="note-cards-list">`)        |
+
+_Exemple :_
+
+````markdown
+:::tabs
+#### macOS
+
+```bash
+brew install cecil
+```
+
+#### Windows
+
+```bash
+scoop install cecil
+```
+:::
+
+:::cards
+- [Installation](installation.md) : télécharger et installer Cecil.
+- [Configuration](configuration.md) : configurer votre site.
+:::
+````
+
+Le template reçoit une variable `note` :
+
+- `note.type` : type de note (ex. : `tabs`)
+- `note.id` : identifiant unique dans la page (ex. : `note-tabs-1`)
+- `note.content` : HTML de toute la note
+- `note.intro` : HTML du contenu avant le premier titre `####`
+- `note.items` : liste des éléments, chacun avec :
+  - `title` : titre (HTML)
+  - `heading` : élément titre (HTML), avec son attribut `id`
+  - `id` : identifiant du titre, s'il existe
+  - `link` : élément lien en tête (HTML) d'une entrée de liste
+  - `url` : URL du lien en tête d'une entrée de liste
+  - `language` : langage d'un bloc de code
+  - `content` : contenu (HTML)
+
+Pour surcharger le rendu d'un type de note, créez le template dans votre site (ou thème), par exemple `layouts/partials/notes/tip.html.twig` :
+
+```twig
+<div class="callout callout-{{ note.type }}">
+  {{ note.content|raw }}
+</div>
+```
+
+:::info
+Les notes sont rendues lors de la conversion du Markdown, avant le rendu des pages : un template de note a accès à la variable `note` et aux traductions (dans la langue de la page), mais pas à `page` ni à `site`.
 :::
 
 ## Coloration syntaxique

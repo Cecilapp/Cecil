@@ -465,6 +465,7 @@ Available in every site, without extraction (include them rather than rewriting 
 - `partials/googleanalytics.js.twig` - Google Analytics snippet
 - `partials/data.json.twig` - page data serialized as JSON (used by JSON outputs)
 - `partials/pico.css.twig`, `partials/highlight.css.twig` - CSS used by the default layouts
+- `partials/notes/<type>.html.twig` - rendering of the Markdown `:::<type>` notes (`tabs`, `code-group`, `steps`, `accordion`, `cards`), rendered during conversion with a `note` variable only (no `page` or `site`); add one to render another note type
 
 If a built-in template really needs to be modified, extract them all into `layouts/` (last resort, see [Built-in Templates](#built-in-templates)):
 
