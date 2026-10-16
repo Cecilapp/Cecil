@@ -87,7 +87,7 @@ class Collection extends CecilCollection
      *   reverse    => false|true
      * ]
      *
-     * @param string|array{variable?: string, descTitle?: bool, reverse?: bool}|null $options
+     * @param string|array{variable?: string, desc_title?: bool, descTitle?: bool, reverse?: bool}|null $options
      */
     public function sortBy(string|array|null $options): self
     {
@@ -103,14 +103,15 @@ class Collection extends CecilCollection
     /**
      * Sorts pages by date (or 'updated'): the most recent first.
      *
-     * @param string|array{variable?: string, descTitle?: bool, reverse?: bool}|null $options
+     * @param string|array{variable?: string, desc_title?: bool, descTitle?: bool, reverse?: bool}|null $options
      */
     public function sortByDate(string|array|null $options = null): self
     {
         $opt = [];
         // options (backward compatibility: $options can be a string, i.e. 'updated')
         $opt['variable'] = \is_string($options) ? $options : ($options['variable'] ?? 'date');
-        $opt['descTitle'] = $options['descTitle'] ?? false;
+        // `desc_title` is the documented key, `descTitle` is kept for backward compatibility
+        $opt['descTitle'] = (bool) ($options['desc_title'] ?? $options['descTitle'] ?? false);
         $opt['reverse'] = $options['reverse'] ?? false;
         // sort
         $pages = $this->usort(function ($a, $b) use ($opt) {
@@ -135,7 +136,7 @@ class Collection extends CecilCollection
     /**
      * Sorts pages by title (natural sort).
      *
-     * @param string|array{variable?: string, descTitle?: bool, reverse?: bool}|null $options
+     * @param string|array{variable?: string, desc_title?: bool, descTitle?: bool, reverse?: bool}|null $options
      */
     public function sortByTitle(string|array|null $options = null): self
     {
@@ -151,7 +152,7 @@ class Collection extends CecilCollection
     /**
      * Sorts by weight (the heaviest first).
      *
-     * @param string|array{variable?: string, descTitle?: bool, reverse?: bool}|null $options
+     * @param string|array{variable?: string, desc_title?: bool, descTitle?: bool, reverse?: bool}|null $options
      */
     public function sortByWeight(string|array|null $options = null): self
     {
