@@ -2,6 +2,18 @@
 
 All notable changes to this project will be documented in this file. Dates are displayed in UTC.
 
+#### [9.13.0](https://github.com/Cecilapp/Cecil/compare/9.12.1...9.13.0)
+
+> 16 October 2026
+
+- feat(converter): nested notes with longer fences [`#2513`](https://github.com/Cecilapp/Cecil/pull/2513)
+
+#### [9.12.1](https://github.com/Cecilapp/Cecil/compare/9.12.0...9.12.1)
+
+> 16 October 2026
+
+- fix(renderer): refresh translations cache when a translation file is updated [`#2512`](https://github.com/Cecilapp/Cecil/pull/2512)
+
 #### [9.12.0](https://github.com/Cecilapp/Cecil/compare/9.11.1...9.12.0)
 
 > 15 October 2026
