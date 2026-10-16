@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "ab09eee854e018ef1cb625032969d4df",
+    "content-hash": "d0c2ecc8e879e11292d63b70bc08e81a",
     "packages": [
         {
             "name": "benjaminhoegh/parsedown-toc",
