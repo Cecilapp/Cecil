@@ -110,7 +110,8 @@ class Collection extends CecilCollection
         $opt = [];
         // options (backward compatibility: $options can be a string, i.e. 'updated')
         $opt['variable'] = \is_string($options) ? $options : ($options['variable'] ?? 'date');
-        $opt['descTitle'] = $options['descTitle'] ?? false;
+        // `desc_title` is the documented key, `descTitle` is kept for backward compatibility
+        $opt['descTitle'] = (bool) ($options['desc_title'] ?? $options['descTitle'] ?? false);
         $opt['reverse'] = $options['reverse'] ?? false;
         // sort
         $pages = $this->usort(function ($a, $b) use ($opt) {

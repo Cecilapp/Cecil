@@ -83,10 +83,12 @@ class Collection extends AbstractExtension
      */
     public function sortByTitle(\Traversable $collection): array
     {
-        $sort = \SORT_ASC;
+        $callback = function ($a, $b) {
+            return strnatcasecmp((string) ($a['title'] ?? ''), (string) ($b['title'] ?? ''));
+        };
 
         $collection = iterator_to_array($collection);
-        array_multisort(array_keys($collection), $sort, \SORT_NATURAL | \SORT_FLAG_CASE, $collection);
+        uasort($collection, $callback);
 
         return $collection;
     }
