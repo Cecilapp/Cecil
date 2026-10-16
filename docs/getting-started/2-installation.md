@@ -24,7 +24,8 @@ php -m
 
 | Extension | Usage |
 | --------- | ----- |
-| [`intl`](https://www.php.net/manual/book.intl.php) | Dates [localization](../templates/5-localization.md) with other locales than `en` (improves performance otherwise). |
+| [`intl`](https://www.php.net/manual/book.intl.php) | Date [localization](../templates/5-localization.md) for locales other than `en` (otherwise optional, improves performance). |
+| [`curl`](https://www.php.net/manual/book.curl.php) | Checking external links with the [`doctor:links`](../commands/5-doctor.md) command. |
 | [`imagick`](https://www.php.net/manual/book.imagick.php) | Image processing, preferred over GD when available. |
 | [`ffi`](https://www.php.net/manual/book.ffi.php) | Image processing with [libvips](https://www.libvips.org/) (requires [Composer installation](#composer)). |
 
@@ -105,11 +106,11 @@ Installing Cecil globally allows you to run the `cecil` command from any directo
 ::::tabs
 #### Linux
 
-By moving the PHAR in a directory of your `PATH`:
+By moving the PHAR into a directory of your `PATH`:
 
 ```bash
-mv cecil.phar /usr/local/bin/cecil
-chmod +x /usr/local/bin/cecil
+sudo mv cecil.phar /usr/local/bin/cecil
+sudo chmod +x /usr/local/bin/cecil
 ```
 
 #### macOS
@@ -124,13 +125,13 @@ brew install cecilapp/tap/cecil
 
 With [Scoop](https://scoop.sh):
 
-```bash
+```powershell
 scoop install https://cecil.app/scoop/cecil.json
 ```
 
 Or manually:
 
-1. Move `cecil.phar` in a dedicated directory, like `C:\bin`
+1. Move `cecil.phar` to a dedicated directory, such as `C:\bin`
 2. Rename it from `cecil.phar` to `cecil`
 3. Append `;C:\bin` to your `PATH` environment variable
 4. Create a [wrapping batch script](https://raw.githubusercontent.com/Cecilapp/Cecil/main/bin/cecil.bat) next to it
@@ -164,6 +165,12 @@ To use Cecil as a dependency of a PHP project, see [Library](../developers/2-lib
 
 ```bash
 cecil --version
+```
+
+Or, if Cecil is not installed globally:
+
+```bash
+php cecil.phar --version
 ```
 
 :::info
@@ -208,11 +215,11 @@ composer global update cecil/cecil
 
 The [standalone binary](#standalone-binary) is updated by downloading it again.
 
-The `self-update` command (PHAR only) also accepts the following options:
+The `self-update` command (alias `selfupdate`, PHAR only) also accepts the following options:
 
-- `--rollback`: reverts to the previous installed version
-- `--stable`: forces an update to the last stable version
-- `--preview`: forces an update to the last unstable version
+- `--rollback`: reverts to the previously installed version
+- `--stable`: forces an update to the latest stable version
+- `--preview`: forces an update to the latest unstable version
 
 :::info
 The changelog of each release is available on [GitHub](https://github.com/Cecilapp/Cecil/releases).

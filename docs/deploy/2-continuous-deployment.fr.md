@@ -1,13 +1,13 @@
 <!--
-title: "Build et déploiement continus"
+title: "Génération et déploiement continus"
 description: "GitHub Pages et GitLab CI."
 date: 2026-03-27
-updated: 2026-10-10
+updated: 2026-10-16
 path: documentation/deployer/deploiement-continu
 -->
-# Build et déploiement continus
+# Génération et déploiement continus
 
-Les services d’intégration continue peuvent construire votre site avec Cecil et le déployer à chaque modification de votre dépôt.
+Les services d’intégration continue peuvent générer votre site avec Cecil et le déployer à chaque modification de votre dépôt.
 
 ## GitHub Pages
 
@@ -15,7 +15,7 @@ Les services d’intégration continue peuvent construire votre site avec Cecil 
 
 ➡️ <https://pages.github.com>
 
-_.github/workflows/build-and-deploy.yml_:
+_.github/workflows/build-and-deploy.yml_ :
 
 ```yml
 name: Build and deploy to GitHub Pages
@@ -31,9 +31,9 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout source
-        uses: actions/checkout@v6
+        uses: actions/checkout@v7
       - name: Restore Cecil cache
-        uses: actions/cache/restore@v5
+        uses: actions/cache/restore@v6
         with:
           path: ./.cache
           key: cecil-cache-
@@ -42,7 +42,7 @@ jobs:
       - name: Build site
         uses: Cecilapp/Cecil-Action@v4
       - name: Save Cecil cache
-        uses: actions/cache/save@v5
+        uses: actions/cache/save@v6
         with:
           path: ./.cache
           key: cecil-cache-${{ hashFiles('./.cache/**/*') }}
@@ -69,7 +69,7 @@ jobs:
 
 ➡️ <https://about.gitlab.com/solutions/continuous-integration/>
 
-_.gitlab-ci.yml_:
+_.gitlab-ci.yml_ :
 
 ```yml
 image: wordpress:cli-php8.4
@@ -81,9 +81,9 @@ test:
     - curl -sSOL https://cecil.app/build.sh && bash ./build.sh
   artifacts:
     paths:
-     - test
-  except:
-   - master
+      - test
+  rules:
+    - if: $CI_COMMIT_BRANCH != $CI_DEFAULT_BRANCH
 pages:
   stage: deploy
   variables:
@@ -94,8 +94,8 @@ pages:
   artifacts:
     paths:
       - public
-  only:
-    - master
+  rules:
+    - if: $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH
 cache:
   paths:
     - composer-cache/
@@ -103,4 +103,4 @@ cache:
     - .cache/
 ```
 
-[Documentation officielle](https://about.gitlab.com/stages-devops-lifecycle/continuous-integration/)
+[Documentation officielle](https://docs.gitlab.com/user/project/pages/)

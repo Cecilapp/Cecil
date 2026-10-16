@@ -2,12 +2,12 @@
 title: "serve"
 description: "Prévisualiser le site avec le serveur intégré."
 date: 2026-03-27
-updated: 2026-10-10
+updated: 2026-10-16
 path: documentation/commandes/serve
 -->
 # serve
 
-Construit et sert le site en local.
+Génère et sert le site en local.
 
 :::warning
 Le serveur web est conçu pour faciliter les tests d’un site. Il n’a pas vocation à être un serveur web complet et ne doit pas être utilisé sur un réseau public.
@@ -42,7 +42,8 @@ Options:
       --notify                     Send desktop notification on server start
   -b, --background                 Run the server in the background
   -h, --help                       Display help for the given command. When no command is given display help for the list command
-  -q, --quiet                      Do not output any message
+      --silent                     Do not output any message
+  -q, --quiet                      Only errors are displayed. All other output is suppressed
   -V, --version                    Display this application version
       --ansi|--no-ansi             Force (or disable --no-ansi) ANSI output
   -n, --no-interaction             Do not ask any interactive question
@@ -81,6 +82,10 @@ Help:
 
     cecil.phar serve --timeout=7200
 
+  Send a desktop notification on server start, run:
+
+    cecil.phar serve --notify
+
   To run the server in the background, run:
 
     cecil.phar serve --background
@@ -89,13 +94,13 @@ Help:
   Then stop it with:
 
     cecil.phar serve:stop
-
-  In background mode, file changes are not watched automatically.
 ```
+
+En mode arrière-plan, les modifications de fichiers ne sont pas surveillées.
 
 ## serve:background
 
-Alias de `serve --background` : démarre le serveur intégré en arrière-plan sans occuper le terminal.
+Alias de `serve --background` : démarre le serveur intégré en arrière-plan sans occuper le terminal. Cette commande accepte les mêmes options que `serve`.
 
 ```plaintext
 Description:
@@ -103,6 +108,33 @@ Description:
 
 Usage:
   serve:background [options] [--] [<path>]
+
+Arguments:
+  path                             Use the given path as working directory
+
+Options:
+  -o, --open                       Open web browser automatically
+      --host=HOST                  Server host [default: "localhost"]
+      --port=PORT                  Server port [default: "8000"]
+  -w, --watch|--no-watch           Enable (or disable --no-watch) changes watcher (enabled by default)
+  -i, --incremental                Enable incremental builds (rebuild only changed pages)
+  -d, --drafts                     Include drafts
+      --optimize|--no-optimize     Enable (or disable --no-optimize) optimization of generated files
+  -c, --config=CONFIG              Set the path to extra config files (comma-separated)
+      --clear-cache[=CLEAR-CACHE]  Clear cache before build (optional cache key as regular expression) [default: false]
+  -p, --page=PAGE                  Build a specific page
+      --no-ignore-vcs              Changes watcher must not ignore VCS directories
+  -m, --metrics                    Show build metrics (duration and memory) of each step
+      --timeout=TIMEOUT            Sets the process timeout (max. runtime) in seconds [default: 7200]
+      --notify                     Send desktop notification on server start
+  -b, --background                 Run the server in the background
+  -h, --help                       Display help for the given command. When no command is given display help for the list command
+      --silent                     Do not output any message
+  -q, --quiet                      Only errors are displayed. All other output is suppressed
+  -V, --version                    Display this application version
+      --ansi|--no-ansi             Force (or disable --no-ansi) ANSI output
+  -n, --no-interaction             Do not ask any interactive question
+  -v|vv|vvv, --verbose             Increase the verbosity of messages: 1 for normal output, 2 for more verbose output and 3 for debug
 
 Help:
   The serve:background command starts the built-in web server in the background.
@@ -119,7 +151,7 @@ Help:
 
 ## serve:log
 
-Affiche les logs combinés du serveur et des erreurs, triés par date.
+Affiche les journaux combinés du serveur et des erreurs, triés par date.
 
 ```plaintext
 Description:
@@ -132,16 +164,22 @@ Arguments:
   path                  Use the given path as working directory
 
 Options:
-  -l, --lines=LINES     Number of entries to display (default: 25)
+  -l, --lines=LINES     Number of entries to display [default: 25]
+  -h, --help            Display help for the given command. When no command is given display help for the list command
+      --silent          Do not output any message
+  -q, --quiet           Only errors are displayed. All other output is suppressed
+  -V, --version         Display this application version
+      --ansi|--no-ansi  Force (or disable --no-ansi) ANSI output
+  -n, --no-interaction  Do not ask any interactive question
+  -v|vv|vvv, --verbose  Increase the verbosity of messages: 1 for normal output, 2 for more verbose output and 3 for debug
 
 Help:
-  The serve:log command displays entries from combined server and error logs, sorted by date.
+  The serve:log command displays entries from combined server and error logs.
 
     cecil.phar serve:log
     cecil.phar serve:log path/to/the/working/directory
     cecil.phar serve:log --lines=100
     cecil.phar serve:log -l 100
-
-  This command shows logs from `.cecil/errors.log` and `.cecil/server.log`.
-  It is useful for debugging issues with your local development server.
 ```
+
+Les journaux sont lus depuis les fichiers `.cecil/errors.log` et `.cecil/server.log`, ce qui est utile pour déboguer le serveur de développement local.

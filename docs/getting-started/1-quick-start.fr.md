@@ -13,11 +13,11 @@ Ce guide vous accompagne dans la création de votre premier site Cecil, sa prév
 
 ## Créer un site web
 
-Vous pouvez créer un nouveau site web en quelques minutes.
+Vous pouvez créer un nouveau site web de zéro en quelques minutes.
 
 Suivez les étapes ci-dessous pour créer votre premier site web Cecil.
 
-[![Example de nouveau site](/docs/cecil-newsite.png)](https://cecilapp.github.io/skeleton/)
+[![Exemple de nouveau site](/docs/cecil-newsite.png)](https://cecilapp.github.io/skeleton/)
 
 :::info
 Démo du résultat attendu : <https://cecilapp.github.io/skeleton/>.
@@ -60,7 +60,7 @@ Voir [Installation](2-installation.fr.md) pour les autres méthodes.
 
 #### Créer un nouveau site
 
-Créez un répertoire pour le site Web (ex : `<monsiteweb>`), placez y `cecil.phar`, puis exécutez la commande `new:site` :
+Créez un répertoire pour le site web (par exemple `<monsiteweb>`), placez-y `cecil.phar`, puis exécutez la commande `new:site` :
 
 ```bash
 php cecil.phar new:site
@@ -82,13 +82,13 @@ Nous vous recommandons d’utiliser [Typora](https://www.typora.io) pour éditer
 
 #### Vérifier l’aperçu
 
-Exécutez la commande suivante pour créer un aperçu du site Web :
+Exécutez la commande suivante pour créer un aperçu du site web :
 
 ```bash
 php cecil.phar serve
 ```
 
-Naviguez ensuite sur `http://localhost:8000`.
+Ouvrez ensuite `http://localhost:8000` dans votre navigateur.
 
 :::info
 La commande `serve` démarre un serveur HTTP local et un observateur : si un fichier (une page, un template ou la config) est modifié, la page active du navigateur est automatiquement rechargée.
@@ -96,7 +96,7 @@ La commande `serve` démarre un serveur HTTP local et un observateur : si un fic
 
 #### Générer et déployer
 
-Quand vous êtes satisfait du résultat, vous pouvez générer le site afin de le déployer sur le Web.
+Quand vous êtes satisfait du résultat, vous pouvez générer le site afin de le déployer sur le web.
 
 Exécutez la commande suivante pour générer le site :
 
@@ -104,7 +104,7 @@ Exécutez la commande suivante pour générer le site :
 php cecil.phar build
 ```
 
-Vous pouvez maintenant copier le contenu du répertoire `_site` sur un serveur Web 🎉
+Vous pouvez maintenant copier le contenu du répertoire `_site` sur un serveur web 🎉
 ::::
 
 :::tip

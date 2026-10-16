@@ -2,7 +2,7 @@
 title: "new:site"
 description: "Créer un nouveau site."
 date: 2026-03-27
-updated: 2026-10-10
+updated: 2026-10-16
 path: documentation/commandes/new-site
 -->
 # new:site
@@ -25,7 +25,8 @@ Options:
   -f, --force           Override directory if it already exists
       --demo            Add demo content (pages, templates and assets)
   -h, --help            Display help for the given command. When no command is given display help for the list command
-  -q, --quiet           Do not output any message
+      --silent          Do not output any message
+  -q, --quiet           Only errors are displayed. All other output is suppressed
   -V, --version         Display this application version
       --ansi|--no-ansi  Force (or disable --no-ansi) ANSI output
   -n, --no-interaction  Do not ask any interactive question
@@ -34,15 +35,15 @@ Options:
 Help:
   The new:site command creates a new website in the current directory, or in <path> if provided.
   If you run this command without any options, it will ask you for the website title, baseline, base URL, description, etc.
-  
+
     cecil.phar new:site
     cecil.phar new:site path/to/the/working/directory
-  
+
   To create a new website with demo content, run:
-  
+
     cecil.phar new:site --demo
-  
+
   To override an existing website, run:
-  
+
     cecil.phar new:site --force
 ```
