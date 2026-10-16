@@ -2,7 +2,7 @@
 title: "Fournisseurs de CDN"
 description: "Exemples de configuration de fournisseurs de CDN d’images (Cloudinary, Cloudimage, TwicPics, imgix, Netlify Image CDN)."
 date: 2023-10-23
-updated: 2026-10-02
+updated: 2026-10-16
 path: documentation/assets/fournisseurs-cdn
 -->
 # Fournisseurs de CDN
@@ -84,6 +84,7 @@ assets:
 
 ### Exécution en local
 
+:::steps
 #### Installer Netlify CLI
 
 ```bash
@@ -105,3 +106,4 @@ php cecil.phar serve & netlify dev
 ```
 
 Ouvrez <http://localhost:8888>
+:::

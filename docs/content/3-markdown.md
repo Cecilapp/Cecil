@@ -2,7 +2,7 @@
 title: "Markdown"
 description: "Markdown syntax and extensions: attributes, links, images, table of contents, notes, syntax highlight, etc."
 date: 2021-05-07
-updated: 2026-10-15
+updated: 2026-10-16
 -->
 # Markdown
 
@@ -453,28 +453,175 @@ Cecil provides templates for the following types, rendered without JavaScript: a
 | `accordion`  | one per `####` heading                                                      | `<details class="note-accordion-item">`         |
 | `cards`      | one per list entry (a leading link is the card title), or per `####` heading | list (`<ul class="note-cards-list">`)           |
 
-_Example:_
+The examples below are themselves nested notes: a `tabs` note (with a `::::` fence) shows the Markdown source and its rendering.
+
+#### Tabs
+
+Alternative contents, one per `####` heading (e.g.: per operating system).
+
+::::tabs
+#### Markdown
 
 ````markdown
 :::tabs
-#### macOS
+#### macOS and Linux
 
 ```bash
-brew install cecil
+brew install cecilapp/tap/cecil
 ```
 
 #### Windows
 
 ```bash
-scoop install cecil
+scoop install https://cecil.app/scoop/cecil.json
 ```
 :::
+````
 
-:::cards
-- [Installation](installation.md): download and install Cecil.
-- [Configuration](configuration.md): configure your site.
+#### Result
+
+:::tabs
+#### macOS and Linux
+
+```bash
+brew install cecilapp/tap/cecil
+```
+
+#### Windows
+
+```bash
+scoop install https://cecil.app/scoop/cecil.json
+```
+:::
+::::
+
+#### Code group
+
+Like `tabs`, with code blocks only: without heading, each code block is titled with its language.
+
+::::tabs
+#### Markdown
+
+````markdown
+:::code-group
+```bash
+curl -LO https://cecil.app/cecil.phar
+```
+
+```powershell
+Invoke-WebRequest https://cecil.app/cecil.phar -OutFile cecil.phar
+```
 :::
 ````
+
+#### Result
+
+:::code-group
+```bash
+curl -LO https://cecil.app/cecil.phar
+```
+
+```powershell
+Invoke-WebRequest https://cecil.app/cecil.phar -OutFile cecil.phar
+```
+:::
+::::
+
+#### Steps
+
+A numbered procedure, one step per `####` heading.
+
+::::tabs
+#### Markdown
+
+````markdown
+:::steps
+#### Create a site
+
+```bash
+php cecil.phar new:site
+```
+
+#### Preview it
+
+```bash
+php cecil.phar serve
+```
+:::
+````
+
+#### Result
+
+:::steps
+#### Create a site
+
+```bash
+php cecil.phar new:site
+```
+
+#### Preview it
+
+```bash
+php cecil.phar serve
+```
+:::
+::::
+
+#### Accordion
+
+Collapsible items, one per `####` heading (e.g.: a FAQ).
+
+::::tabs
+#### Markdown
+
+````markdown
+:::accordion
+#### Is PHP required?
+
+No: the standalone binary embeds PHP.
+
+#### Where is the generated site?
+
+In the `_site` directory.
+:::
+````
+
+#### Result
+
+:::accordion
+#### Is PHP required?
+
+No: the standalone binary embeds PHP.
+
+#### Where is the generated site?
+
+In the `_site` directory.
+:::
+::::
+
+#### Cards
+
+Links to other pages, one card per list entry: a leading link is the card title.
+
+::::tabs
+#### Markdown
+
+````markdown
+:::cards
+- [Installation](../getting-started/2-installation.md): download and install Cecil.
+- [Configuration](../configuration/index.md): configure your site.
+:::
+````
+
+#### Result
+
+:::cards
+- [Installation](../getting-started/2-installation.md): download and install Cecil.
+- [Configuration](../configuration/index.md): configure your site.
+:::
+::::
+
+#### Custom template
 
 The template receives a `note` variable:
 

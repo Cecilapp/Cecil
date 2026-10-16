@@ -2,7 +2,7 @@
 title: "Installation"
 description: "Requirements, installation methods (PHAR, standalone binary, package managers, Composer), update and troubleshooting."
 date: 2026-10-05
-updated: 2026-10-13
+updated: 2026-10-16
 -->
 # Installation
 
@@ -58,7 +58,10 @@ If PHP is not installed, download the standalone binary for your platform from t
 | macOS Apple Silicon | `cecil-macos-arm64` |
 | Windows x64 | `cecil-windows-x64.exe` |
 
-For example, on Linux x64:
+For example:
+
+:::tabs
+#### Linux
 
 ```bash
 curl -Lo cecil https://github.com/Cecilapp/Cecil/releases/latest/download/cecil-linux-x64
@@ -66,7 +69,24 @@ chmod +x cecil
 ./cecil --version
 ```
 
-On macOS, binaries are not signed: remove the quarantine attribute before the first run with `xattr -d com.apple.quarantine cecil`.
+#### macOS
+
+```bash
+curl -Lo cecil https://github.com/Cecilapp/Cecil/releases/latest/download/cecil-macos-arm64
+chmod +x cecil
+xattr -d com.apple.quarantine cecil
+./cecil --version
+```
+
+Binaries are not signed: the `xattr` command removes the quarantine attribute before the first run.
+
+#### Windows
+
+```powershell
+curl.exe -Lo cecil.exe https://github.com/Cecilapp/Cecil/releases/latest/download/cecil-windows-x64.exe
+.\cecil.exe --version
+```
+:::
 
 :::info
 SHA-256 checksums are available in the `cecil-binaries.sha256` file of each release, and the build provenance can be verified with `gh attestation verify cecil --repo Cecilapp/Cecil`.
@@ -82,7 +102,8 @@ The `serve` command relies on the PHP built-in web server, which the binary does
 
 Installing Cecil globally allows you to run the `cecil` command from any directory, instead of `php cecil.phar`.
 
-### macOS and Linux
+::::tabs
+#### macOS and Linux
 
 With [Homebrew](https://brew.sh):
 
@@ -97,7 +118,7 @@ mv cecil.phar /usr/local/bin/cecil
 chmod +x /usr/local/bin/cecil
 ```
 
-### Windows
+#### Windows
 
 With [Scoop](https://scoop.sh):
 
@@ -112,7 +133,7 @@ Or manually:
 3. Append `;C:\bin` to your `PATH` environment variable
 4. Create a [wrapping batch script](https://raw.githubusercontent.com/Cecilapp/Cecil/main/bin/cecil.bat) next to it
 
-### PHIVE
+#### PHIVE
 
 With [PHIVE](https://phar.io) (The PHAR Installation and Verification Environment):
 
@@ -120,7 +141,7 @@ With [PHIVE](https://phar.io) (The PHAR Installation and Verification Environmen
 phive install cecil
 ```
 
-### Composer {#composer}
+#### Composer {#composer}
 
 With [Composer](https://getcomposer.org):
 
@@ -135,6 +156,7 @@ Make sure Composer's global binaries directory is in your `PATH`. Run `composer 
 :::tip
 To use Cecil as a dependency of a PHP project, see [Library](../developers/2-library.md).
 :::
+::::
 
 ## Verify the installation
 
@@ -150,18 +172,37 @@ Run `cecil list` to display the [available commands](../commands/index.md).
 
 Update Cecil to the latest version according to your installation method:
 
+:::code-group
+#### PHAR
+
 ```bash
-# PHAR
 php cecil.phar self-update
-# Homebrew
+```
+
+#### Homebrew
+
+```bash
 brew upgrade cecilapp/tap/cecil
-# Scoop
+```
+
+#### Scoop
+
+```bash
 scoop update cecil
-# PHIVE
+```
+
+#### PHIVE
+
+```bash
 phive update cecil
-# Composer
+```
+
+#### Composer
+
+```bash
 composer global update cecil/cecil
 ```
+:::
 
 The [standalone binary](#standalone-binary) is updated by downloading it again.
 
