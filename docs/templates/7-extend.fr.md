@@ -1,11 +1,11 @@
 <!--
-title: "Étendre"
+title: "Étendre les templates"
 description: "Ajoutez des fonctions et filtres personnalisés, ou utilisez un thème."
 date: 2026-05-26
-updated: 2026-10-10
+updated: 2026-10-16
 path: documentation/templates/etendre
 -->
-# Étendre
+# Étendre les templates
 
 Les templates peuvent être étendus avec des fonctions et filtres personnalisés, ou regroupés dans un thème réutilisable.
 
@@ -15,10 +15,10 @@ Vous pouvez ajouter des [fonctions](reference/1-functions.fr.md) et des [filtres
 
 ## Thème
 
-C'est simple de construire un thème, il suffit de créer un dossier `<theme>` avec la structure suivante (comme un site web mais sans pages) :
+Il est simple de créer un thème : il suffit de créer un dossier `<theme>` avec la structure suivante (comme un site web, mais sans pages) :
 
 ```plaintext
-<mywebsite>
+<mon-site>
 └─ themes
    └─ <theme>
       ├─ config.yml
@@ -27,3 +27,5 @@ C'est simple de construire un thème, il suffit de créer un dossier `<theme>` a
       ├─ static
       └─ translations
 ```
+
+Activez-le ensuite avec l’option de configuration [`theme`](../configuration/1-site.fr.md#theme).

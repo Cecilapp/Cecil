@@ -2,14 +2,14 @@
 title: "Templates"
 description: "Travaillez avec les layouts, templates et composants Twig."
 date: 2026-05-26
-updated: 2026-10-05
+updated: 2026-10-16
 weight: 3
 sortby: weight
 alias: documentation/layouts
 -->
 # Templates
 
-Cecil est alimenté par le moteur de templates [Twig](https://twig.symfony.com), veuillez donc vous référer à la **[documentation officielle](https://twig.symfony.com/doc/templates.html)** pour savoir comment l'utiliser.
+Cecil repose sur le moteur de templates [Twig](https://twig.symfony.com) : référez-vous à sa **[documentation officielle](https://twig.symfony.com/doc/templates.html)** pour savoir comment l’utiliser.
 
 ## Exemple
 
