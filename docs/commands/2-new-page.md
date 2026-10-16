@@ -2,7 +2,7 @@
 title: "new:page"
 description: "Create a new page, optionally from a model."
 date: 2020-12-19
-updated: 2026-10-10
+updated: 2026-10-16
 -->
 # new:page
 
@@ -28,7 +28,8 @@ Options:
   -o, --open                  Open editor automatically
       --editor=EDITOR         Editor to use with open option
   -h, --help                  Display help for the given command. When no command is given display help for the list command
-  -q, --quiet                 Do not output any message
+      --silent                Do not output any message
+  -q, --quiet                 Only errors are displayed. All other output is suppressed
   -V, --version               Display this application version
       --ansi|--no-ansi        Force (or disable --no-ansi) ANSI output
   -n, --no-interaction        Do not ask any interactive question
@@ -55,18 +56,20 @@ Help:
     cecil.phar new:page --force
 ```
 
-## Page’s models
+## Page models
 
 You can define your own models for your new pages in the `models` directory:
 
-1. The name must be based on the section’s name (e.g.: `blog.md`)
-2. The default model must be named `default.md` (for root pages or pages’s section without model)
+1. A section model must be named after the section (e.g. `blog.md` for pages created in `blog/`)
+2. The model for root pages must be named `default.md`
+
+A page created in a section without a model uses the built-in model.
 
 Two dynamic variables are available:
 
-1. `%title%`: the file’s name
+1. `%title%`: the title, derived from the file name (without extension, dashes replaced by spaces, first letter capitalized)
 2. `%date%`: the current date
 
 ## Open with your editor
 
-With the `--open` option, the editor will be opened automatically. So use `editor` key in your configuration file to define the default editor (e.g.: `editor: typora`).
+With the `--open` option, the page is opened automatically with the editor defined by the `editor` key of your configuration file (e.g. `editor: typora`), or with the one given by the `--editor` option.

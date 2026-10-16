@@ -2,12 +2,12 @@
 title: "build"
 description: "Générer le site."
 date: 2026-03-27
-updated: 2026-10-10
+updated: 2026-10-16
 path: documentation/commandes/build
 -->
 # build
 
-Construit le site.
+Génère le site.
 
 ## Utilisation
 
@@ -35,7 +35,8 @@ Options:
   -m, --metrics                      Show build metrics (duration and memory) of each step
       --notify                       Send desktop notification on build completion
   -h, --help                         Display help for the given command. When no command is given display help for the list command
-  -q, --quiet                        Do not output any message
+      --silent                       Do not output any message
+  -q, --quiet                        Only errors are displayed. All other output is suppressed
   -V, --version                      Display this application version
       --ansi|--no-ansi               Force (or disable --no-ansi) ANSI output
   -n, --no-interaction               Do not ask any interactive question
@@ -68,4 +69,8 @@ Help:
   To show build steps metrics, run:
 
     cecil.phar build --metrics
+
+  Send a desktop notification on build completion, run:
+
+    cecil.phar build --notify
 ```

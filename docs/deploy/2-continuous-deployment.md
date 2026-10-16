@@ -2,7 +2,7 @@
 title: "Continuous build & deploy"
 description: "GitHub Pages and GitLab CI."
 date: 2020-12-19
-updated: 2026-10-10
+updated: 2026-10-16
 -->
 # Continuous build & deploy
 
@@ -30,9 +30,9 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout source
-        uses: actions/checkout@v6
+        uses: actions/checkout@v7
       - name: Restore Cecil cache
-        uses: actions/cache/restore@v5
+        uses: actions/cache/restore@v6
         with:
           path: ./.cache
           key: cecil-cache-
@@ -41,7 +41,7 @@ jobs:
       - name: Build site
         uses: Cecilapp/Cecil-Action@v4
       - name: Save Cecil cache
-        uses: actions/cache/save@v5
+        uses: actions/cache/save@v6
         with:
           path: ./.cache
           key: cecil-cache-${{ hashFiles('./.cache/**/*') }}
@@ -80,9 +80,9 @@ test:
     - curl -sSOL https://cecil.app/build.sh && bash ./build.sh
   artifacts:
     paths:
-     - test
-  except:
-   - master
+      - test
+  rules:
+    - if: $CI_COMMIT_BRANCH != $CI_DEFAULT_BRANCH
 pages:
   stage: deploy
   variables:
@@ -93,8 +93,8 @@ pages:
   artifacts:
     paths:
       - public
-  only:
-    - master
+  rules:
+    - if: $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH
 cache:
   paths:
     - composer-cache/
@@ -102,4 +102,4 @@ cache:
     - .cache/
 ```
 
-[Official documentation](https://about.gitlab.com/stages-devops-lifecycle/continuous-integration/)
+[Official documentation](https://docs.gitlab.com/user/project/pages/)

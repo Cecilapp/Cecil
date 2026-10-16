@@ -1,12 +1,12 @@
 <!--
-title: "Quick Start"
+title: "Quick start"
 description: "Install Cecil, create a new website, add pages, preview it locally, then build and deploy it."
 date: 2020-12-19
 updated: 2026-10-16
 alias: documentation/quick-start
 menu: home
 -->
-# Quick Start
+# Quick start
 
 This guide walks you through creating your first Cecil website, previewing it locally, then building and deploying it.
 
@@ -25,8 +25,8 @@ Demo of the expected result: <https://cecilapp.github.io/skeleton/>.
 ### Prerequisites
 
 - [PHP](https://php.net/manual/en/install.php) 8.3+
-- Terminal (a basic understanding of [terminal](https://wikipedia.org/wiki/Terminal_emulator))
-- Text editor, like [VS Code](https://code.visualstudio.com) and/or [Typora](https://typora.io)
+- Terminal (a basic understanding of the [terminal](https://wikipedia.org/wiki/Terminal_emulator))
+- Text editor, such as [VS Code](https://code.visualstudio.com) and/or [Typora](https://typora.io)
 
 ### Step by step
 
@@ -59,7 +59,7 @@ See [Installation](2-installation.md) for other methods.
 
 #### Create a new site
 
-Create a directory for the website (e.g.: `<mywebsite>`), put `cecil.phar` in it, then run the `new:site` command:
+Create a directory for the website (e.g. `<mywebsite>`), put `cecil.phar` in it, then run the `new:site` command:
 
 ```bash
 php cecil.phar new:site
@@ -76,7 +76,7 @@ php cecil.phar new:page
 Now you can edit the newly created page with your Markdown editor: `<mywebsite>/pages/<new-page>.md`.
 
 :::tip
-We recommend you to use [Typora](https://www.typora.io) to edit your Markdown files.
+We recommend using [Typora](https://www.typora.io) to edit your Markdown files.
 :::
 
 #### Check the preview
@@ -95,7 +95,7 @@ The `serve` command runs a local HTTP server and a watcher: if a file (a page, a
 
 #### Build and deploy
 
-When you are satisfied with the result, you can generate the website in order to deploy it on the Web.
+When you are satisfied with the result, you can generate the website in order to deploy it to the Web.
 
 Run the following command to build the website:
 

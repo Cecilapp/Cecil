@@ -1,8 +1,8 @@
 <!--
 title: "Static hosting"
-description: "Deploy to a static hosting (Surge)."
+description: "Deploy to a static hosting service (Surge)."
 date: 2020-12-19
-updated: 2026-10-10
+updated: 2026-10-16
 -->
 # Static hosting
 

@@ -25,7 +25,8 @@ php -m
 
 | Extension | Usage |
 | --------- | ----- |
-| [`intl`](https://www.php.net/manual/fr/book.intl.php) | [Localisation](../templates/5-localization.fr.md) des dates avec d’autres locales que `en` (améliore les performances sinon). |
+| [`intl`](https://www.php.net/manual/fr/book.intl.php) | [Localisation](../templates/5-localization.fr.md) des dates pour les locales autres que `en` (sinon facultative, améliore les performances). |
+| [`curl`](https://www.php.net/manual/fr/book.curl.php) | Contrôle des liens externes avec la commande [`doctor:links`](../commands/5-doctor.fr.md). |
 | [`imagick`](https://www.php.net/manual/fr/book.imagick.php) | Traitement des images, préféré à GD si disponible. |
 | [`ffi`](https://www.php.net/manual/fr/book.ffi.php) | Traitement des images avec [libvips](https://www.libvips.org/) (nécessite une [installation via Composer](#composer)). |
 
@@ -109,8 +110,8 @@ Installer Cecil globalement permet d’exécuter la commande `cecil` depuis n’
 En déplaçant le PHAR dans un dossier de votre `PATH` :
 
 ```bash
-mv cecil.phar /usr/local/bin/cecil
-chmod +x /usr/local/bin/cecil
+sudo mv cecil.phar /usr/local/bin/cecil
+sudo chmod +x /usr/local/bin/cecil
 ```
 
 #### macOS
@@ -125,7 +126,7 @@ brew install cecilapp/tap/cecil
 
 Avec [Scoop](https://scoop.sh) :
 
-```bash
+```powershell
 scoop install https://cecil.app/scoop/cecil.json
 ```
 
@@ -134,7 +135,7 @@ Ou manuellement :
 1. Déplacez `cecil.phar` dans un dossier dédié tel que `C:\bin`
 2. Renommez `cecil.phar` en `cecil`
 3. Ajoutez `;C:\bin` à votre variable d’environnement `PATH`
-4. Créez un [« wrapping batch script »](https://raw.githubusercontent.com/Cecilapp/Cecil/main/bin/cecil.bat) à côté
+4. Créez un [script batch d’encapsulation](https://raw.githubusercontent.com/Cecilapp/Cecil/main/bin/cecil.bat) à côté
 
 #### PHIVE
 
@@ -167,11 +168,17 @@ Pour utiliser Cecil comme dépendance d’un projet PHP, voir [Bibliothèque](..
 cecil --version
 ```
 
+Ou, si Cecil n’est pas installé globalement :
+
+```bash
+php cecil.phar --version
+```
+
 :::info
 Exécutez `cecil list` pour afficher les [commandes disponibles](../commands/index.fr.md).
 :::
 
-## Mise à jour
+## Mise à jour {#update}
 
 Mettez à jour Cecil vers la dernière version selon votre méthode d’installation :
 
@@ -209,11 +216,11 @@ composer global update cecil/cecil
 
 Le [binaire autonome](#standalone-binary) se met à jour en le téléchargeant à nouveau.
 
-La commande `self-update` (PHAR uniquement) accepte également les options suivantes :
+La commande `self-update` (alias `selfupdate`, PHAR uniquement) accepte également les options suivantes :
 
 - `--rollback` : revient à la version précédemment installée
 - `--stable` : force la mise à jour vers la dernière version stable
-- `--preview` : force la mise à jour vers la dernière version instable
+- `--preview` : force la mise à jour vers la dernière préversion
 
 :::info
 Le journal des modifications de chaque version est disponible sur [GitHub](https://github.com/Cecilapp/Cecil/releases).

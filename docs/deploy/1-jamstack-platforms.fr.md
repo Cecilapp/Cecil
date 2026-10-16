@@ -2,12 +2,12 @@
 title: "Plateformes Jamstack"
 description: "Netlify, Vercel, statichost, Cloudflare Pages, Render."
 date: 2026-03-27
-updated: 2026-10-14
+updated: 2026-10-16
 path: documentation/deployer/plateformes-jamstack
 -->
 # Plateformes Jamstack
 
-Les plateformes Jamstack peuvent construire et déployer automatiquement votre site Cecil à chaque push dans votre dépôt Git.
+Les plateformes Jamstack peuvent générer et déployer automatiquement votre site Cecil à chaque push dans votre dépôt Git.
 
 ## Netlify
 
@@ -15,9 +15,9 @@ Les plateformes Jamstack peuvent construire et déployer automatiquement votre s
 
 ➡️ <https://www.netlify.com>
 
-_netlify.toml_:
+_netlify.toml_ :
 
-```bash
+```toml
 [build]
   publish = "_site"
   command = "curl -sSOL https://cecil.app/build.sh && bash ./build.sh"
@@ -27,7 +27,7 @@ _netlify.toml_:
   CECIL_ENV = "preview"
 ```
 
-[Documentation officielle](https://www.netlify.com/docs/continuous-deployment/)
+[Documentation officielle](https://docs.netlify.com/build/configure-builds/overview/)
 
 ## Vercel
 
@@ -35,7 +35,7 @@ _netlify.toml_:
 
 ➡️ <https://vercel.com>
 
-_vercel.json_:
+_vercel.json_ :
 
 ```json
 {
@@ -44,7 +44,7 @@ _vercel.json_:
 }
 ```
 
-[Documentation officielle](https://vercel.com/docs/concepts/deployments/build-step#build-command)
+[Documentation officielle](https://vercel.com/docs/builds/configure-a-build)
 
 ## statichost
 
@@ -52,7 +52,7 @@ _vercel.json_:
 
 ➡️ <https://statichost.eu>
 
-_statichost.yml_:
+_statichost.yml_ :
 
 ```yml
 image: wordpress:cli-php8.4
@@ -68,11 +68,11 @@ public: _site
 Cloudflare Pages ne fournit pas PHP : le script de build utilise alors le [binaire autonome](../getting-started/2-installation.fr.md#standalone-binary) de Cecil, et installe les thèmes à partir de `composer.lock`.
 :::
 
-> Cloudflare Pages est une plateforme JAMstack qui permet aux développeurs frontend de collaborer et de déployer des sites web.
+> Cloudflare Pages est une plateforme Jamstack qui permet aux développeurs frontend de collaborer et de déployer des sites web.
 
 ➡️ <https://www.cloudflare.com/products/pages/>
 
-Configurations de build :
+Configuration du build :
 
 - Préréglage de framework : `None`
 - Commande de build : `curl -sSOL https://cecil.app/build.sh && bash ./build.sh`
@@ -90,7 +90,7 @@ Render ne fournit que PHP 7.3 : le script de build utilise alors le [binaire aut
 
 ➡️ <https://render.com>
 
-_render.yaml_:
+_render.yaml_ :
 
 ```yml
 services:

@@ -2,7 +2,7 @@
 title: "serve"
 description: "Preview the website with the built-in server."
 date: 2020-12-19
-updated: 2026-10-10
+updated: 2026-10-16
 -->
 # serve
 
@@ -41,7 +41,8 @@ Options:
       --notify                     Send desktop notification on server start
   -b, --background                 Run the server in the background
   -h, --help                       Display help for the given command. When no command is given display help for the list command
-  -q, --quiet                      Do not output any message
+      --silent                     Do not output any message
+  -q, --quiet                      Only errors are displayed. All other output is suppressed
   -V, --version                    Display this application version
       --ansi|--no-ansi             Force (or disable --no-ansi) ANSI output
   -n, --no-interaction             Do not ask any interactive question
@@ -80,6 +81,10 @@ Help:
 
     cecil.phar serve --timeout=7200
 
+  Send a desktop notification on server start, run:
+
+    cecil.phar serve --notify
+
   To run the server in the background, run:
 
     cecil.phar serve --background
@@ -88,13 +93,13 @@ Help:
   Then stop it with:
 
     cecil.phar serve:stop
-
-  In background mode, file changes are not watched automatically.
 ```
+
+In background mode, file changes are not watched.
 
 ## serve:background
 
-Alias of `serve --background`: starts the built-in server in the background without occupying the terminal.
+Alias of `serve --background`: starts the built-in server in the background without occupying the terminal. It accepts the same options as `serve`.
 
 ```plaintext
 Description:
@@ -102,6 +107,33 @@ Description:
 
 Usage:
   serve:background [options] [--] [<path>]
+
+Arguments:
+  path                             Use the given path as working directory
+
+Options:
+  -o, --open                       Open web browser automatically
+      --host=HOST                  Server host [default: "localhost"]
+      --port=PORT                  Server port [default: "8000"]
+  -w, --watch|--no-watch           Enable (or disable --no-watch) changes watcher (enabled by default)
+  -i, --incremental                Enable incremental builds (rebuild only changed pages)
+  -d, --drafts                     Include drafts
+      --optimize|--no-optimize     Enable (or disable --no-optimize) optimization of generated files
+  -c, --config=CONFIG              Set the path to extra config files (comma-separated)
+      --clear-cache[=CLEAR-CACHE]  Clear cache before build (optional cache key as regular expression) [default: false]
+  -p, --page=PAGE                  Build a specific page
+      --no-ignore-vcs              Changes watcher must not ignore VCS directories
+  -m, --metrics                    Show build metrics (duration and memory) of each step
+      --timeout=TIMEOUT            Sets the process timeout (max. runtime) in seconds [default: 7200]
+      --notify                     Send desktop notification on server start
+  -b, --background                 Run the server in the background
+  -h, --help                       Display help for the given command. When no command is given display help for the list command
+      --silent                     Do not output any message
+  -q, --quiet                      Only errors are displayed. All other output is suppressed
+  -V, --version                    Display this application version
+      --ansi|--no-ansi             Force (or disable --no-ansi) ANSI output
+  -n, --no-interaction             Do not ask any interactive question
+  -v|vv|vvv, --verbose             Increase the verbosity of messages: 1 for normal output, 2 for more verbose output and 3 for debug
 
 Help:
   The serve:background command starts the built-in web server in the background.
@@ -118,7 +150,7 @@ Help:
 
 ## serve:log
 
-Displays the combined server and error logs.
+Displays the combined server and error logs, sorted by date.
 
 ```plaintext
 Description:
@@ -131,16 +163,22 @@ Arguments:
   path                  Use the given path as working directory
 
 Options:
-  -l, --lines=LINES     Number of entries to display (default: 25)
+  -l, --lines=LINES     Number of entries to display [default: 25]
+  -h, --help            Display help for the given command. When no command is given display help for the list command
+      --silent          Do not output any message
+  -q, --quiet           Only errors are displayed. All other output is suppressed
+  -V, --version         Display this application version
+      --ansi|--no-ansi  Force (or disable --no-ansi) ANSI output
+  -n, --no-interaction  Do not ask any interactive question
+  -v|vv|vvv, --verbose  Increase the verbosity of messages: 1 for normal output, 2 for more verbose output and 3 for debug
 
 Help:
-  The serve:log command displays entries from combined server and error logs, sorted by date.
+  The serve:log command displays entries from combined server and error logs.
 
     cecil.phar serve:log
     cecil.phar serve:log path/to/the/working/directory
     cecil.phar serve:log --lines=100
     cecil.phar serve:log -l 100
-
-  This command shows logs from `.cecil/errors.log` and `.cecil/server.log`.
-  It is useful for debugging issues with your local development server.
 ```
+
+Logs are read from the `.cecil/errors.log` and `.cecil/server.log` files, which is useful to debug issues with the local development server.

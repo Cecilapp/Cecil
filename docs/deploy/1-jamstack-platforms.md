@@ -2,7 +2,7 @@
 title: "Jamstack platforms"
 description: "Netlify, Vercel, statichost, Cloudflare Pages, Render."
 date: 2020-12-19
-updated: 2026-10-14
+updated: 2026-10-16
 -->
 # Jamstack platforms
 
@@ -16,7 +16,7 @@ Jamstack platforms can build and deploy your Cecil site automatically on each pu
 
 _netlify.toml_:
 
-```bash
+```toml
 [build]
   publish = "_site"
   command = "curl -sSOL https://cecil.app/build.sh && bash ./build.sh"
@@ -26,7 +26,7 @@ _netlify.toml_:
   CECIL_ENV = "preview"
 ```
 
-[Official documentation](https://www.netlify.com/docs/continuous-deployment/)
+[Official documentation](https://docs.netlify.com/build/configure-builds/overview/)
 
 ## Vercel
 
@@ -43,7 +43,7 @@ _vercel.json_:
 }
 ```
 
-[Official documentation](https://vercel.com/docs/concepts/deployments/build-step#build-command)
+[Official documentation](https://vercel.com/docs/builds/configure-a-build)
 
 ## statichost
 
@@ -67,7 +67,7 @@ public: _site
 Cloudflare Pages doesn’t provide PHP: the build script uses the Cecil [standalone binary](../getting-started/2-installation.md#standalone-binary) instead, and installs themes from `composer.lock`.
 :::
 
-> Cloudflare Pages is a JAMstack platform for frontend developers to collaborate and deploy websites.
+> Cloudflare Pages is a Jamstack platform for frontend developers to collaborate and deploy websites.
 
 ➡️ <https://www.cloudflare.com/products/pages/>
 

@@ -1,8 +1,8 @@
 <!--
 title: "Directory structure"
-description: "How source files are organized, how the built website looks like and how files are routed to URLs."
+description: "How source files are organized, what the built website looks like and how files are routed to URLs."
 date: 2021-05-07
-updated: 2026-10-10
+updated: 2026-10-16
 -->
 # Directory structure
 
@@ -43,23 +43,25 @@ Result of the build.
    |  ├─ post-1/index.html     <- A blog post
    |  └─ post-2/index.html
    ├─ projects/
-   |  ├─ index.html
-   |  └─ project-a/index.html
-   ├─ about/index.html
-   ├─ styles.css
+   |  ├─ index.html            <- Generated list of projects
+   |  └─ project-a/index.html  <- A project
+   ├─ about/index.html         <- “About” page
+   ├─ styles.css               <- Compiled asset
    ├─ logo.png
    └─ file.pdf
 ```
 
 :::info
-By default each page is generated as `slugified-filename/index.html` to get a “beautiful“ URL like `https://mywebsite.tld/section/slugified-filename/`.
+By default, each page is generated as `slugified-filename/index.html` to get a “beautiful” URL like `https://mywebsite.tld/section/slugified-filename/`.
 
-To get an “ugly” URL (like `404.html` instead of `404/`), set `uglyurl: true` in page [front matter](../content/1-pages.md#front-matter).
+To get an “ugly” URL (like `404.html` instead of `404/`), set `uglyurl: true` in the page’s [front matter](../content/1-pages.md#front-matter).
+
+Files of the `assets` directory are published only when they are used in templates (with the `asset()` function), whereas files of the `static` directory are copied as is.
 :::
 
-## File based routing
+## File-based routing
 
-Markdown files in the `pages` directory enable file based routing. Meaning that adding a `pages/my-projects/project-a.md` for instance will make it available at `/project-a` in your browser.
+Markdown files in the `pages` directory enable file-based routing. This means that adding `pages/my-projects/project-a.md`, for instance, makes it available at `/my-projects/project-a/` in your browser.
 
 ```plaintext
 File:
@@ -72,5 +74,5 @@ URL:
 ```
 
 :::important
-Two kinds of prefixes can alter the URL. See the [File prefix section](../content/1-pages.md#file-prefix) below.
+Two kinds of prefixes can alter the URL. See the [File prefix section](../content/1-pages.md#file-prefix).
 :::
