@@ -16,9 +16,9 @@ namespace Cecil\Renderer\Extension;
 use Cecil\Builder;
 use Cecil\Config;
 use Cecil\Util;
+use Cecil\Converter\Highlighter\HighlighterFactory;
 use Cecil\Converter\Parsedown;
 use Cecil\Exception\RuntimeException;
-use Highlight\Highlighter;
 use Symfony\Component\Yaml\Exception\ParseException;
 use Symfony\Component\Yaml\Yaml;
 use Twig\Extension\AbstractExtension;
@@ -363,7 +363,7 @@ class Content extends AbstractExtension
      */
     public function highlight(string $code, string $language): string
     {
-        return (new Highlighter())->highlight($language, $code)->value;
+        return HighlighterFactory::create($this->config)->highlight($code, $language)->html;
     }
 
     /**

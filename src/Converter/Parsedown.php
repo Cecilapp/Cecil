@@ -16,11 +16,12 @@ namespace Cecil\Converter;
 use Cecil\Asset;
 use Cecil\Asset\Image;
 use Cecil\Builder;
+use Cecil\Converter\Highlighter\HighlighterFactory;
+use Cecil\Converter\Highlighter\HighlighterInterface;
 use Cecil\Exception\RuntimeException;
 use Cecil\Renderer\Twig;
 use Cecil\Url;
 use Cecil\Util;
-use Highlight\Highlighter;
 
 /**
  * Parsedown class.
@@ -56,9 +57,6 @@ class Parsedown extends \ParsedownToc
      */
     protected $regexImage = "~^!\[.*?\]\(.*?\)~";
 
-    /** Shared across all instances: registerAllLanguages() scans 185 files but $classMap is static */
-    protected static Highlighter $highlighter;
-
     /** @var array<string, mixed> Stores image processing results to avoid redundant computations within a build. */
     protected static array $imageProcessingCache = [];
 
@@ -69,6 +67,9 @@ class Parsedown extends \ParsedownToc
 
     /** @var string|null */
     protected $language;
+
+    /** Code highlighter, created on the first fenced code block. */
+    protected ?HighlighterInterface $highlighter = null;
 
     /** Notes templates renderer, shared across all instances of a build. */
     protected static ?Twig $notesRenderer = null;
@@ -97,12 +98,6 @@ class Parsedown extends \ParsedownToc
 
         // "notes" block
         $this->BlockTypes[':'][] = 'Note';
-
-        // code highlight
-        // Instantiate once: registerAllLanguages() scans 185 JSON files but classMap is static
-        if (!isset(static::$highlighter)) {
-            static::$highlighter = new Highlighter();
-        }
 
         // reset static caches when the build ID changes (e.g. watch mode with multiple builds)
         $currentBuildId = Builder::getBuildId();
@@ -1025,12 +1020,10 @@ class Parsedown extends \ParsedownToc
             $code = $block['element']['element']['text'];
             $languageClass = $block['element']['element']['attributes']['class'];
             $language = explode('-', $languageClass);
-            $highlighted = static::$highlighter->highlight($language[1], $code);
-            $block['element']['element']['attributes']['class'] = vsprintf('%s hljs %s', [
-                $languageClass,
-                $highlighted->language,
-            ]);
-            $block['element']['element']['rawHtml'] = $highlighted->value;
+            $this->highlighter ??= HighlighterFactory::create($this->config);
+            $highlighted = $this->highlighter->highlight($code, $language[1]);
+            $block['element']['element']['attributes']['class'] = trim(\sprintf('%s %s', $languageClass, $highlighted->class));
+            $block['element']['element']['rawHtml'] = $highlighted->html;
             $block['element']['element']['allowRawHtmlInSafeMode'] = true;
             unset($block['element']['element']['text']);
         } catch (\Exception $e) {

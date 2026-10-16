@@ -3461,6 +3461,106 @@ Search.appendIndex(
             "summary": "Converts\u0020body.",
             "url": "classes/Cecil-Converter-ConverterInterface.html#method_convertBody"
         },                {
+            "fqsen": "\\Cecil\\Converter\\Highlighter\\Highlighted",
+            "name": "Highlighted",
+            "summary": "Highlighted\u0020code.",
+            "url": "classes/Cecil-Converter-Highlighter-Highlighted.html"
+        },                {
+            "fqsen": "\\Cecil\\Converter\\Highlighter\\Highlighted\u003A\u003A__construct\u0028\u0029",
+            "name": "__construct",
+            "summary": "",
+            "url": "classes/Cecil-Converter-Highlighter-Highlighted.html#method___construct"
+        },                {
+            "fqsen": "\\Cecil\\Converter\\Highlighter\\Highlighted\u003A\u003A\u0024html",
+            "name": "html",
+            "summary": "",
+            "url": "classes/Cecil-Converter-Highlighter-Highlighted.html#property_html"
+        },                {
+            "fqsen": "\\Cecil\\Converter\\Highlighter\\Highlighted\u003A\u003A\u0024class",
+            "name": "class",
+            "summary": "",
+            "url": "classes/Cecil-Converter-Highlighter-Highlighted.html#property_class"
+        },                {
+            "fqsen": "\\Cecil\\Converter\\Highlighter\\HighlighterFactory",
+            "name": "HighlighterFactory",
+            "summary": "Highlighter\u0020factory.",
+            "url": "classes/Cecil-Converter-Highlighter-HighlighterFactory.html"
+        },                {
+            "fqsen": "\\Cecil\\Converter\\Highlighter\\HighlighterFactory\u003A\u003Acreate\u0028\u0029",
+            "name": "create",
+            "summary": "Returns\u0020the\u0020highlighter\u0020of\u0020the\u0020configured\u0020engine.",
+            "url": "classes/Cecil-Converter-Highlighter-HighlighterFactory.html#method_create"
+        },                {
+            "fqsen": "\\Cecil\\Converter\\Highlighter\\HighlighterFactory\u003A\u003ADEFAULT_ENGINE",
+            "name": "DEFAULT_ENGINE",
+            "summary": "",
+            "url": "classes/Cecil-Converter-Highlighter-HighlighterFactory.html#constant_DEFAULT_ENGINE"
+        },                {
+            "fqsen": "\\Cecil\\Converter\\Highlighter\\HighlighterFactory\u003A\u003AENGINES",
+            "name": "ENGINES",
+            "summary": "",
+            "url": "classes/Cecil-Converter-Highlighter-HighlighterFactory.html#constant_ENGINES"
+        },                {
+            "fqsen": "\\Cecil\\Converter\\Highlighter\\HighlighterFactory\u003A\u003A\u0024instances",
+            "name": "instances",
+            "summary": "",
+            "url": "classes/Cecil-Converter-Highlighter-HighlighterFactory.html#property_instances"
+        },                {
+            "fqsen": "\\Cecil\\Converter\\Highlighter\\HighlighterInterface",
+            "name": "HighlighterInterface",
+            "summary": "Highlighter\u0020interface.",
+            "url": "classes/Cecil-Converter-Highlighter-HighlighterInterface.html"
+        },                {
+            "fqsen": "\\Cecil\\Converter\\Highlighter\\HighlighterInterface\u003A\u003Ahighlight\u0028\u0029",
+            "name": "highlight",
+            "summary": "Highlights\u0020a\u0020code\u0020snippet.",
+            "url": "classes/Cecil-Converter-Highlighter-HighlighterInterface.html#method_highlight"
+        },                {
+            "fqsen": "\\Cecil\\Converter\\Highlighter\\HighlightJs",
+            "name": "HighlightJs",
+            "summary": "Highlight.js\u0020highlighter.",
+            "url": "classes/Cecil-Converter-Highlighter-HighlightJs.html"
+        },                {
+            "fqsen": "\\Cecil\\Converter\\Highlighter\\HighlightJs\u003A\u003A__construct\u0028\u0029",
+            "name": "__construct",
+            "summary": "",
+            "url": "classes/Cecil-Converter-Highlighter-HighlightJs.html#method___construct"
+        },                {
+            "fqsen": "\\Cecil\\Converter\\Highlighter\\HighlightJs\u003A\u003Ahighlight\u0028\u0029",
+            "name": "highlight",
+            "summary": "Highlights\u0020a\u0020code\u0020snippet.",
+            "url": "classes/Cecil-Converter-Highlighter-HighlightJs.html#method_highlight"
+        },                {
+            "fqsen": "\\Cecil\\Converter\\Highlighter\\HighlightJs\u003A\u003A\u0024highlighter",
+            "name": "highlighter",
+            "summary": "Costly\u0020to\u0020create\u0020\u0028registerAllLanguages\u0028\u0029\u0020scans\u0020185\u0020files\u0029\u003A\u0020instance\u0020is\u0020shared\u0020by\u0020the\u0020factory",
+            "url": "classes/Cecil-Converter-Highlighter-HighlightJs.html#property_highlighter"
+        },                {
+            "fqsen": "\\Cecil\\Converter\\Highlighter\\Tempest",
+            "name": "Tempest",
+            "summary": "Tempest\u0020highlighter.",
+            "url": "classes/Cecil-Converter-Highlighter-Tempest.html"
+        },                {
+            "fqsen": "\\Cecil\\Converter\\Highlighter\\Tempest\u003A\u003A__construct\u0028\u0029",
+            "name": "__construct",
+            "summary": "",
+            "url": "classes/Cecil-Converter-Highlighter-Tempest.html#method___construct"
+        },                {
+            "fqsen": "\\Cecil\\Converter\\Highlighter\\Tempest\u003A\u003Ahighlight\u0028\u0029",
+            "name": "highlight",
+            "summary": "Highlights\u0020a\u0020code\u0020snippet.",
+            "url": "classes/Cecil-Converter-Highlighter-Tempest.html#method_highlight"
+        },                {
+            "fqsen": "\\Cecil\\Converter\\Highlighter\\Tempest\u003A\u003A\u0024highlighter",
+            "name": "highlighter",
+            "summary": "",
+            "url": "classes/Cecil-Converter-Highlighter-Tempest.html#property_highlighter"
+        },                {
+            "fqsen": "\\Cecil\\Converter\\Highlighter\\Tempest\u003A\u003A\u0024languages",
+            "name": "languages",
+            "summary": "",
+            "url": "classes/Cecil-Converter-Highlighter-Tempest.html#property_languages"
+        },                {
             "fqsen": "\\Cecil\\Converter\\Parsedown",
             "name": "Parsedown",
             "summary": "Parsedown\u0020class.",
@@ -3711,11 +3811,6 @@ Search.appendIndex(
             "summary": "Regex\u0020for\u0020image\u0020block.",
             "url": "classes/Cecil-Converter-Parsedown.html#property_regexImage"
         },                {
-            "fqsen": "\\Cecil\\Converter\\Parsedown\u003A\u003A\u0024highlighter",
-            "name": "highlighter",
-            "summary": "Shared\u0020across\u0020all\u0020instances\u003A\u0020registerAllLanguages\u0028\u0029\u0020scans\u0020185\u0020files\u0020but\u0020\u0024classMap\u0020is\u0020static",
-            "url": "classes/Cecil-Converter-Parsedown.html#property_highlighter"
-        },                {
             "fqsen": "\\Cecil\\Converter\\Parsedown\u003A\u003A\u0024imageProcessingCache",
             "name": "imageProcessingCache",
             "summary": "",
@@ -3730,6 +3825,11 @@ Search.appendIndex(
             "name": "language",
             "summary": "",
             "url": "classes/Cecil-Converter-Parsedown.html#property_language"
+        },                {
+            "fqsen": "\\Cecil\\Converter\\Parsedown\u003A\u003A\u0024highlighter",
+            "name": "highlighter",
+            "summary": "Code\u0020highlighter,\u0020created\u0020on\u0020the\u0020first\u0020fenced\u0020code\u0020block.",
+            "url": "classes/Cecil-Converter-Parsedown.html#property_highlighter"
         },                {
             "fqsen": "\\Cecil\\Converter\\Parsedown\u003A\u003A\u0024notesRenderer",
             "name": "notesRenderer",
@@ -6405,6 +6505,11 @@ Search.appendIndex(
             "name": "Converter",
             "summary": "",
             "url": "namespaces/cecil-converter.html"
+        },                {
+            "fqsen": "\\Cecil\\Converter\\Highlighter",
+            "name": "Highlighter",
+            "summary": "",
+            "url": "namespaces/cecil-converter-highlighter.html"
         },                {
             "fqsen": "\\Cecil\\Doctor",
             "name": "Doctor",
