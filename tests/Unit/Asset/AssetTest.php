@@ -261,7 +261,7 @@ class AssetTest extends TestCase
             'assets' => [
                 'images' => [
                     'cdn' => [
-                        'enabled' => false,
+                        'enabled' => true,
                         'remote' => true,
                     ],
                 ],
@@ -409,7 +409,7 @@ class AssetTest extends TestCase
             'assets' => [
                 'images' => [
                     'cdn' => [
-                        'enabled' => false,
+                        'enabled' => true,
                         'remote' => true,
                     ],
                 ],
@@ -417,6 +417,61 @@ class AssetTest extends TestCase
         ]);
         self::assertTrue($remoteAsset->isImageInCdn());
 
+        // remote image is not sent to the CDN when the CDN is disabled
+        ['asset' => $remoteAssetCdnDisabled] = $this->createTestAsset([
+            'type' => 'image',
+            'ext' => 'png',
+            'subtype' => 'image/png',
+            'url' => 'https://example.com/a.png',
+        ], [
+            'assets' => [
+                'images' => [
+                    'cdn' => [
+                        'enabled' => false,
+                        'remote' => true,
+                    ],
+                ],
+            ],
+        ]);
+        self::assertFalse($remoteAssetCdnDisabled->isImageInCdn());
+
+        // remote image is not sent to the CDN when `remote` is disabled
+        ['asset' => $remoteAssetNotAllowed] = $this->createTestAsset([
+            'type' => 'image',
+            'ext' => 'png',
+            'subtype' => 'image/png',
+            'url' => 'https://example.com/a.png',
+        ], [
+            'assets' => [
+                'images' => [
+                    'cdn' => [
+                        'enabled' => true,
+                        'remote' => false,
+                    ],
+                ],
+            ],
+        ]);
+        self::assertFalse($remoteAssetNotAllowed->isImageInCdn());
+
+        // SVG image is not sent to the CDN when `svg` is disabled
+        ['asset' => $svgAssetNotAllowed] = $this->createTestAsset([
+            'type' => 'image',
+            'ext' => 'svg',
+            'subtype' => 'image/svg+xml',
+            'url' => null,
+        ], [
+            'assets' => [
+                'images' => [
+                    'cdn' => [
+                        'enabled' => true,
+                        'svg' => false,
+                    ],
+                ],
+            ],
+        ]);
+        self::assertFalse($svgAssetNotAllowed->isImageInCdn());
+
+        // local raster image is sent to the CDN when the CDN is enabled
         ['asset' => $localPng] = $this->createTestAsset([
             'type' => 'image',
             'ext' => 'png',
@@ -433,7 +488,24 @@ class AssetTest extends TestCase
                 ],
             ],
         ]);
-        self::assertFalse($localPng->isImageInCdn());
+        self::assertTrue($localPng->isImageInCdn());
+
+        // local raster image is not sent to the CDN when the CDN is disabled
+        ['asset' => $localPngCdnDisabled] = $this->createTestAsset([
+            'type' => 'image',
+            'ext' => 'png',
+            'subtype' => 'image/png',
+            'url' => null,
+        ], [
+            'assets' => [
+                'images' => [
+                    'cdn' => [
+                        'enabled' => false,
+                    ],
+                ],
+            ],
+        ]);
+        self::assertFalse($localPngCdnDisabled->isImageInCdn());
     }
 
     public function testResizeReturnsSameAssetForShortCircuitConditions(): void
@@ -467,7 +539,7 @@ class AssetTest extends TestCase
             'assets' => [
                 'images' => [
                     'cdn' => [
-                        'enabled' => false,
+                        'enabled' => true,
                         'remote' => true,
                     ],
                 ],
