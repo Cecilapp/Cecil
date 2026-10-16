@@ -2,7 +2,7 @@
 title: "Images"
 description: "Resize, crop and convert images, generate responsive images and placeholders."
 date: 2021-05-07
-updated: 2026-10-10
+updated: 2026-10-16
 -->
 # Images
 
@@ -10,13 +10,13 @@ Cecil provides Twig functions and filters to resize, crop and convert images, an
 
 ## image_srcset
 
-Builds the HTML img `srcset` (responsive) attribute of an image Asset.
+Builds the HTML img `srcset` (responsive) attribute of an image asset.
 
 ```twig
 {{ image_srcset(asset) }}
 ```
 
-_Examples:_
+_Example:_
 
 ```twig
 {% set asset = asset(image_path) %}
@@ -25,18 +25,12 @@ _Examples:_
 
 ## image_sizes
 
-Returns the HTML img `sizes` attribute based on a CSS class name.  
-It should be use in conjunction with the [`image_srcset`](1-images.md#image-srcset) function.
+Returns the HTML img `sizes` attribute based on a CSS class name (see [`assets.images.responsive.sizes`](../configuration/6-assets.md#assets-images)).
+
+It should be used in conjunction with the [`image_srcset`](#image-srcset) function (see the example above).
 
 ```twig
 {{ image_sizes('class') }}
-```
-
-_Examples:_
-
-```twig
-{% set asset = asset(image_path) %}
-<img src="{{ url(asset) }}" width="{{ asset.width }}" height="{{ asset.height }}" alt="" class="asset" srcset="{{ image_srcset(asset) }}" sizes="{{ image_sizes('asset') }}">
 ```
 
 ## image_from_website
@@ -48,7 +42,7 @@ Returns `null` if no image is found.
 {{ image_from_website('url', {attributes}, {options}) }}
 ```
 
-The image is searched in the page HTML with the following fallbacks, the first candidate that can be downloaded as an image is used:
+Candidates are searched in the page HTML in the following order; the first one that can be downloaded as an image is used:
 
 1. Open Graph: `og:image:secure_url`, `og:image`, `og:image:url`
 2. Twitter: `twitter:image`, `twitter:image:src`
@@ -61,7 +55,7 @@ The image is searched in the page HTML with the following fallbacks, the first c
 
 Relative URLs are resolved against `<base href>` or the page URL.
 
-The resolved image URL and the downloaded image are cached (see [`cache.assets.remote.ttl`](../configuration/9-cache.md)).
+The resolved image URL and the downloaded image are cached (see [`cache.assets.remote.ttl`](../configuration/9-cache.md#cache-assets-remote-ttl)).
 
 Options:
 
@@ -79,19 +73,19 @@ _Examples:_
 
 ## resize
 
-Resizes an image to a specified width (in pixels) or/and height (in pixels).
+Resizes an image to a specified width (in pixels) and/or height (in pixels).
 
 - If only the width is specified, the height is calculated to preserve the aspect ratio
 - If only the height is specified, the width is calculated to preserve the aspect ratio
-- If both width and height are specified, the image is resized to fit within the given dimensions, image is cropped and centered if necessary
-- If remove_animation is true, any animation in the image (e.g., GIF) will be removed
+- If both width and height are specified, the image is resized to fit within the given dimensions, then cropped and centered if necessary
+- If `remove_animation` is `true`, any animation in the image (e.g.: GIF) is removed
 
 ```twig
 {{ asset(image_path)|resize(width: width, height: height, remove_animation: bool) }}
 ```
 
 :::info
-The original file is not altered and the resized version is saved at `/thumbnails/<width>x<height>/image.jpg`.
+The original file is not altered: the resized version is saved at `/thumbnails/<width>x<height>/<path>` (prefixed by [`assets.target`](../configuration/6-assets.md#assets-target) if set).
 :::
 
 :::tip
@@ -104,7 +98,7 @@ _Examples:_
 {{ asset(page.image)|resize(300) }}
 {# equivalent to: #}
 {{ asset(page.image)|resize(width: 300) }}
-{# resizes to 300px width, height auto-calculated to preserve aspect ratio #}
+{# resizes to 200px height, width auto-calculated to preserve aspect ratio #}
 {{ asset(page.image)|resize(height: 200) }}
 {# resizes to 300px width and 200px height, and crops if necessary #}
 {{ asset(page.image)|resize(300, 200) }}
@@ -132,7 +126,7 @@ _Example:_
 
 ## maskable
 
-Adds padding, in pourcentages, to an image to make it maskable.
+Adds padding, as a percentage of the image size (`20` by default), to an image to make it maskable.
 
 ```twig
 {{ asset(image_path)|maskable(padding) }}
@@ -146,7 +140,11 @@ _Example:_
 
 ## webp
 
-Converts an image to [WebP](https://developers.google.com/speed/webp) format.
+Converts an image to [WebP](https://developers.google.com/speed/webp) format, with an optional quality (default: [`assets.images.quality`](../configuration/6-assets.md#assets-images)).
+
+```twig
+{{ asset(image_path)|webp(quality) }}
+```
 
 _Example:_
 
@@ -159,20 +157,28 @@ _Example:_
 
 ## avif
 
-Converts an image to [AVIF](https://github.com/AOMediaCodec/libavif) format.
+Converts an image to [AVIF](https://github.com/AOMediaCodec/libavif) format, with an optional quality (default: [`assets.images.quality`](../configuration/6-assets.md#assets-images)).
+
+```twig
+{{ asset(image_path)|avif(quality) }}
+```
 
 _Example:_
 
 ```twig
 <picture>
-    <source type="image/avif" srcset="{{ asset(image_path)|avif }}">
+    <source type="image/avif" srcset="{{ asset(image_path)|avif(60) }}">
     <img src="{{ url(asset(image_path)) }}" width="{{ asset(image_path).width }}" height="{{ asset(image_path).height }}" alt="">
 </picture>
 ```
 
+:::info
+WebP and AVIF support depends on the image driver available (Imagick, libvips or GD).
+:::
+
 ## lqip
 
-Returns a [Low Quality Image Placeholder](https://www.guypo.com/introducing-lqip-low-quality-image-placeholders) (100x100 px, 50% blurred) as data URL.
+Returns a [Low Quality Image Placeholder](https://www.guypo.com/introducing-lqip-low-quality-image-placeholders) (100 px wide, blurred) as data URL.
 
 ```twig
 {{ asset(image_path)|lqip }}

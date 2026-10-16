@@ -19,7 +19,10 @@ The PHP API reference, generated with [phpDocumentor](https://phpdoc.org), lives
 
 - Each section is a directory with an `index.md` and pages named `<n>-<name>.md`, where `<n>` sets the order.
 - Every English page `*.md` has a French counterpart `*.fr.md`: keep both in sync.
+- Each page starts with a front matter (HTML comment) defining `title`, `description`, `date` and `updated`; section `index.md` pages also define `weight` and `sortby`. Use `alias` to keep an old URL working.
 - When editing a page, update the `updated` date in its front matter.
+- The French page keeps the same `date` as the English page.
+- When the French slug differs from the English one, set it with a `path` variable in the French front matter (e.g.: `path: documentation/developpeurs/bibliotheque`); otherwise the English file name is used.
 
 ## Publishing
 

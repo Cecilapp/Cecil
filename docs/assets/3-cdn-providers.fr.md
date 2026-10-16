@@ -7,7 +7,11 @@ path: documentation/assets/fournisseurs-cdn
 -->
 # Fournisseurs de CDN
 
-Exemples de configuration de fournisseurs de CDN pour les [`options de configuration`](../configuration/6-assets.fr.md#assets-images-cdn).
+Exemples de configuration de fournisseurs de CDN d’images (voir l’option [`assets.images.cdn`](../configuration/6-assets.fr.md#assets-images-cdn)).
+
+:::tip
+Les images SVG ne sont envoyées au CDN que si le fournisseur les prend en charge et que `svg: true` est défini ; les images distantes sont prises en charge, sauf si `remote: false` est défini.
+:::
 
 ## Cloudinary
 
@@ -50,7 +54,7 @@ assets:
       url: 'https://%account%.twic.pics/%image_url%?twic=v1/resize=%width%/quality=%quality%/output=%format%'
 ```
 
-`Source URL` : URL de base de votre site.
+Dans le tableau de bord TwicPics, définissez la **Source URL** sur l’URL de base (`baseurl`) de votre site.
 
 ## imgix
 
@@ -67,7 +71,7 @@ assets:
       url: 'https://%account%.imgix.net/%image_url%?w=%width%&q=%quality%&fm=%format%'
 ```
 
-`Base URL` : URL de base de votre site.
+Dans le tableau de bord imgix, définissez la **Base URL** de la source sur l’URL de base (`baseurl`) de votre site.
 
 ## Netlify Image CDN
 
@@ -94,7 +98,7 @@ netlify link
 
 `netlify.toml` :
 
-```yaml
+```toml
 [dev]
   targetPort = 8000
 ```
@@ -104,6 +108,8 @@ netlify link
 ```bash
 php cecil.phar serve & netlify dev
 ```
+
+Sous Windows, lancez `php cecil.phar serve` et `netlify dev` dans deux terminaux distincts.
 
 Ouvrez <http://localhost:8888>
 :::

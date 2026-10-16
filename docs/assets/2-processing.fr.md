@@ -2,23 +2,23 @@
 title: "CSS, JavaScript et traitements"
 description: "Compilez Sass, minifiez, ajoutez une empreinte, intégrez ou embarquez les assets."
 date: 2026-05-26
-updated: 2026-10-10
+updated: 2026-10-16
 path: documentation/assets/traitements
 -->
 # CSS, JavaScript et traitements
 
-Cecil fournit des filtres Twig pour compiler du Sass, minifier, ajouter une empreinte ou intégrer les assets CSS et JavaScript.
+Cecil fournit des filtres Twig pour compiler du Sass, minifier, ajouter une empreinte, intégrer ou embarquer (sous forme d’URL de données) les assets CSS et JavaScript.
 
 ## fingerprint
 
-Ajoutez l'empreinte digitale du contenu du fichier au nom du fichier.
+Ajoute une empreinte (hash) du contenu du fichier à son nom.
 
 ```twig
 {{ asset(path)|fingerprint }}
 {{ path|fingerprint }}
 ```
 
-_Exemples :_
+_Exemple :_
 
 ```twig
 {{ asset('styles.css')|fingerprint }}
@@ -26,13 +26,14 @@ _Exemples :_
 
 ## minify
 
-Réduire un fichier CSS ou JavaScript.
+Minifie un fichier CSS ou JavaScript.
 
 ```twig
 {{ asset(path)|minify }}
+{{ path|minify }}
 ```
 
-_Exemples :_
+_Exemples :_
 
 ```twig
 {{ asset('styles.css')|minify }}
@@ -41,7 +42,7 @@ _Exemples :_
 
 ## minify_css
 
-Réduire une chaîne CSS.
+Minifie une chaîne CSS.
 
 ```twig
 {{ variable|minify_css }}
@@ -49,14 +50,14 @@ Réduire une chaîne CSS.
 
 ```twig
 {% apply minify_css %}
-{# CSS here #}
+{# CSS ici #}
 {% endapply %}
 ```
 
-_Exemples :_
+_Exemples :_
 
 ```twig
-{% set styles = 'some CSS here' %}
+{% set styles = 'du CSS ici' %}
 {{ styles|minify_css }}
 ```
 
@@ -73,7 +74,7 @@ _Exemples :_
 
 ## minify_js
 
-Réduire une chaîne JavaScript.
+Minifie une chaîne JavaScript.
 
 ```twig
 {{ variable|minify_js }}
@@ -81,14 +82,14 @@ Réduire une chaîne JavaScript.
 
 ```twig
 {% apply minify_js %}
-{# JavaScript here #}
+{# JavaScript ici #}
 {% endapply %}
 ```
 
-_Exemples :_
+_Exemples :_
 
 ```twig
-{% set script = 'some JavaScript here' %}
+{% set script = 'du JavaScript ici' %}
 {{ script|minify_js }}
 ```
 
@@ -111,16 +112,16 @@ Compile une chaîne [Sass](https://sass-lang.com) en CSS.
 
 ```twig
 {% apply scss_to_css %}
-{# SCSS here #}
+{# SCSS ici #}
 {% endapply %}
 ```
 
-Alias : `sass_to_css`.
+Alias : `sass_to_css`.
 
-_Exemples :_
+_Exemples :_
 
 ```twig
-{% set scss = 'some SCSS here' %}
+{% set scss = 'du SCSS ici' %}
 {{ scss|scss_to_css }}
 ```
 
@@ -144,7 +145,7 @@ Compile un fichier [Sass](https://sass-lang.com) en CSS.
 {{ path|to_css }}
 ```
 
-_Exemples :_
+_Exemple :_
 
 ```twig
 {{ asset('styles.scss')|to_css }}
@@ -152,13 +153,13 @@ _Exemples :_
 
 ## inline
 
-Affiche le contenu d'un _Asset_.
+Affiche le contenu d’un _asset_.
 
 ```twig
 {{ asset(path)|inline }}
 ```
 
-_Exemple:_
+_Exemple :_
 
 ```twig
 {{ asset('styles.css')|inline }}
@@ -166,9 +167,17 @@ _Exemple:_
 
 ## dataurl
 
-Renvoie l'[URL de données](https://developer.mozilla.org/docs/Web/HTTP/Basics_of_HTTP/Data_URIs) d'un actif.
+Renvoie l’[URL de données](https://developer.mozilla.org/fr/docs/Web/HTTP/Basics_of_HTTP/Data_URIs) (data URL) d’un asset (ou d’un chemin).
+
+Les images matricielles sont réencodées avec l’option [`assets.images.quality`](../configuration/6-assets.fr.md#assets-images) ; les autres fichiers (y compris SVG) sont encodés tels quels en Base64.
 
 ```twig
 {{ asset(path)|dataurl }}
-{{ asset(image_path)|dataurl }}
+{{ path|dataurl }}
+```
+
+_Exemple :_
+
+```twig
+<img src="{{ asset('icon.png')|dataurl }}" alt="">
 ```
