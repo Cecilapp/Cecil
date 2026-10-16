@@ -128,7 +128,8 @@
         outline-style: none;
         box-shadow: none;
       }
-      {%- if config.pages.body.highlight|default(true) ~%}
+      {%- set highlight_config = config.pages.body.highlight ?? true ~%}
+      {%- if highlight_config is iterable ? (highlight_config.enabled ?? true) : highlight_config ~%}
       {{- include('partials/highlight.css.twig') ~}}
       {%- endif ~%}
     {% endapply %}</style>

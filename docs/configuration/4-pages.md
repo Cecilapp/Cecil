@@ -2,7 +2,7 @@
 title: "Pages"
 description: "Pages directory, sorting, pagination, paths, body, virtual pages, generators, etc."
 date: 2021-05-07
-updated: 2026-10-16
+updated: 2026-10-17
 -->
 # Pages
 
@@ -153,6 +153,19 @@ pages:
   body:
     highlight: false # set to false to disable syntax highlighting
 ```
+
+The highlighter engine can be changed with the `engine` option:
+
+```yaml
+pages:
+  body:
+    highlight:
+      enabled: true    # `true` by default
+      engine: tempest  # `highlightjs` (default) or `tempest`
+```
+
+- `highlightjs`: [highlight.php](https://github.com/scrivo/highlight.php), a PHP port of highlight.js (190+ languages, `hljs-*` CSS classes)
+- `tempest`: [tempest/highlight](https://github.com/tempestphp/highlight), a fast server-side highlighter (web languages: PHP, HTML, CSS, JavaScript, JSON, YAML, Twig, SQL, XML, etc., `hl-*` CSS classes)
 
 ### pages.body.images
 

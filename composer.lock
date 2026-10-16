@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "4dce7934ffcf48f7a4e6b43821b14ea6",
+    "content-hash": "9379690ba6b5730c7b753a43642be3a9",
     "packages": [
         {
             "name": "benjaminhoegh/parsedown-toc",
@@ -4908,6 +4908,59 @@
                 }
             ],
             "time": "2025-11-20T14:34:30+00:00"
+        },
+        {
+            "name": "tempest/highlight",
+            "version": "v2.x-dev",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/tempestphp/highlight.git",
+                "reference": "f0d415eab9b129abf60a68dfb6e26da7c28c025d"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/tempestphp/highlight/zipball/f0d415eab9b129abf60a68dfb6e26da7c28c025d",
+                "reference": "f0d415eab9b129abf60a68dfb6e26da7c28c025d",
+                "shasum": ""
+            },
+            "require": {
+                "php": "^8.3"
+            },
+            "require-dev": {
+                "friendsofphp/php-cs-fixer": "^3.21",
+                "larapack/dd": "^1.1",
+                "league/commonmark": "^2.4",
+                "phpstan/phpstan": "^1.10.0",
+                "phpunit/phpunit": "^10.0"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Tempest\\Highlight\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Brent Roose",
+                    "email": "brendt@stitcher.io"
+                }
+            ],
+            "description": "Fast, extensible, server-side code highlighting",
+            "support": {
+                "issues": "https://github.com/tempestphp/highlight/issues",
+                "source": "https://github.com/tempestphp/highlight/tree/v2"
+            },
+            "funding": [
+                {
+                    "url": "https://github.com/brendt",
+                    "type": "github"
+                }
+            ],
+            "time": "2024-04-15T07:24:27+00:00"
         },
         {
             "name": "twig/cache-extra",

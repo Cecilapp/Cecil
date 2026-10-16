@@ -2,7 +2,7 @@
 title: "Markdown"
 description: "Syntaxe et extensions Markdown : attributs, liens, images, table des matières, notes, coloration syntaxique, etc."
 date: 2026-03-27
-updated: 2026-10-16
+updated: 2026-10-17
 path: documentation/contenu/markdown
 -->
 # Markdown
@@ -706,6 +706,10 @@ echo "Hello world";
 
 :::info
 Vous pouvez personnaliser le style de coloration syntaxique en créant votre propre thème. Consultez le [guide des thèmes de Highlight.js](https://highlightjs.readthedocs.io/en/latest/theme-guide.html).
+:::
+
+:::tip
+Vous pouvez aussi utiliser [tempest/highlight](https://github.com/tempestphp/highlight) à la place de highlight.js avec l’option [`pages.body.highlight.engine`](../configuration/4-pages.fr.md#pages-body-highlight). Il est plus rapide, mais prend en charge moins de langages. Il utilise les classes CSS `hl-*` : consultez les [thèmes de tempest/highlight](https://github.com/tempestphp/highlight/tree/main/src/Themes/Css).
 :::
 
 ## Texte inséré

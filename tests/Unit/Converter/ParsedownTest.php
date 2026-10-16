@@ -211,4 +211,40 @@ class ParsedownTest extends TestCase
 
         self::assertSame('<aside class="note note-tip"><p>advice</p></aside>', $html);
     }
+
+    public function testFencedCodeIsHighlightedWithHighlightJsByDefault(): void
+    {
+        $html = $this->parsedown->text("```php\necho 1;\n```");
+
+        self::assertStringContainsString('<code class="language-php hljs php" translate="no">', $html);
+        self::assertStringContainsString('<span class="hljs-keyword">echo</span>', $html);
+    }
+
+    public function testFencedCodeIsHighlightedWithConfiguredEngine(): void
+    {
+        $this->builder->getConfig()->import(['pages' => ['body' => ['highlight' => ['engine' => 'tempest']]]]);
+        $parsedown = new Parsedown($this->builder);
+
+        $html = $parsedown->text("```php\necho 1;\n```");
+
+        self::assertStringContainsString('<code class="language-php hl" translate="no">', $html);
+        self::assertStringContainsString('<span class="hl-keyword">echo</span>', $html);
+    }
+
+    public function testFencedCodeWithUnknownLanguageIsNotHighlighted(): void
+    {
+        $html = $this->parsedown->text("```unknown-language\na < b\n```");
+
+        self::assertStringContainsString('<code class="language-unknown-language" translate="no">a &lt; b', $html);
+    }
+
+    public function testFencedCodeIsNotHighlightedWhenDisabled(): void
+    {
+        $this->builder->getConfig()->import(['pages' => ['body' => ['highlight' => ['enabled' => false, 'engine' => 'tempest']]]]);
+        $parsedown = new Parsedown($this->builder);
+
+        $html = $parsedown->text("```php\necho 1;\n```");
+
+        self::assertStringContainsString('<code class="language-php" translate="no">echo 1;', $html);
+    }
 }

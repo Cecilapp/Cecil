@@ -2,7 +2,7 @@
 title: "Markdown"
 description: "Markdown syntax and extensions: attributes, links, images, table of contents, notes, syntax highlight, etc."
 date: 2021-05-07
-updated: 2026-10-16
+updated: 2026-10-17
 -->
 # Markdown
 
@@ -705,6 +705,10 @@ echo "Hello world";
 
 :::info
 You can customize the syntax highlighting style by creating your own theme. See the [Highlight.js Theme Guide](https://highlightjs.readthedocs.io/en/latest/theme-guide.html).
+:::
+
+:::tip
+You can also use [tempest/highlight](https://github.com/tempestphp/highlight) instead of highlight.js with the [`pages.body.highlight.engine`](../configuration/4-pages.md#pages-body-highlight) option. It's faster, but supports fewer languages. It uses `hl-*` CSS classes: see the [tempest/highlight themes](https://github.com/tempestphp/highlight/tree/main/src/Themes/Css).
 :::
 
 ## Inserted text
