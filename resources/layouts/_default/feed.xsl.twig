@@ -120,7 +120,7 @@
             {%- if page.path == 'xsl/atom' ~%}
             <a><xsl:attribute name="href"><xsl:value-of select="atom:feed/atom:link[@rel='alternate']/@href" /></xsl:attribute><xsl:value-of select="atom:feed/atom:title" /></a>
             {%- else ~%}
-            <a><xsl:attribute name="href"><xsl:value-of select="rss/channel/link[@rel='alternate']/@href" /></xsl:attribute><xsl:value-of select="rss/channel/title" /></a>
+            <a><xsl:attribute name="href"><xsl:value-of select="rss/channel/link" /></xsl:attribute><xsl:value-of select="rss/channel/title" /></a>
             {%- endif ~%}
           </h1>
           <p>{% trans %}To subscribe to this web feed, copy its URL to your feed reader.{% endtrans %}</p>
@@ -133,7 +133,7 @@
               {%- if page.path == 'xsl/atom' ~%}
               <xsl:attribute name="value"><xsl:value-of select="atom:feed/atom:link[@rel='self']/@href" /></xsl:attribute>
               {%- else ~%}
-              <xsl:attribute name="value"><xsl:value-of select="rss/channel/link[@rel='self']/@href" /></xsl:attribute>
+              <xsl:attribute name="value"><xsl:value-of select="rss/channel/atom:link[@rel='self']/@href" /></xsl:attribute>
               {%- endif ~%}
             </input>
           </form>
@@ -151,8 +151,8 @@
             {%- else ~%}
             <xsl:for-each select="rss/channel/item">
             <li>
-              <h3><a><xsl:attribute name="href"><xsl:value-of select="link/@href" /></xsl:attribute><xsl:value-of select="title" /></a></h3>
-              <small><xsl:value-of select="substring(pubDate, 1, 10)" /></small>
+              <h3><a><xsl:attribute name="href"><xsl:value-of select="link" /></xsl:attribute><xsl:value-of select="title" /></a></h3>
+              <small><xsl:value-of select="substring(pubDate, 6, 11)" /></small>
             </li>
             </xsl:for-each>
             {%- endif ~%}

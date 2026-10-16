@@ -57,8 +57,10 @@
 {% if page.paginator.current|default(0) > 1 %}
   {%- set robots = 'noindex,follow' %}
 {% endif %}
-{# favicon #}
-{% if page.metatags.favicon ?? site.metatags.favicon ?? true %}
+{# favicon (`favicon: false` or `favicon: {enabled: false}` disables it) #}
+{%- set favicon_config = page.metatags.favicon ?? site.metatags.favicon ?? true -%}
+{%- set favicon_enabled = favicon_config is iterable ? (favicon_config.enabled ?? true) : favicon_config -%}
+{% if favicon_enabled %}
   {%- set favicon_defaults = {
     icon: [32, 57, 76, 96, 128, 192, 228],
     'shortcut icon': [128, 196],
@@ -150,7 +152,7 @@
   {%- endif ~%}
   {#- template: favicon ~#}
   {%- block metatags_favicon ~%}
-    {%- if page.metatags.favicon ?? site.metatags.favicon ?? true ~%}
+    {%- if favicon_enabled ~%}
       {%- cache cache_key('metatags-favicon') ~%}
     {#- favicon.svg ~#}
       {%- set favicon_svg = asset('favicon.svg', {ignore_missing: true}) -%}

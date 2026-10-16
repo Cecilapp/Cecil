@@ -5,20 +5,20 @@
 {%- if site.page('xsl/rss') ~%}
 <?xml-stylesheet type="text/xsl" href="{{ url('xsl/rss', {canonical: true}) }}" media="all"?>
 {%- endif ~%}
-<rss version="2.0">
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>{{ title|e }}</title>
     <description><![CDATA[{{ site.description }}]]></description>
-    <lastBuildDate>{{ updated|date('c') }}</lastBuildDate>
-    <link href="{{ url(page, {canonical: true, format: 'rss'}) }}" rel="self" type="application/rss+xml" />
-    <link href="{{ url(page, {canonical: true, format: 'html'}) }}" rel="alternate" type="text/html" />
+    <lastBuildDate>{{ updated|date('r') }}</lastBuildDate>
+    <link>{{ url(page, {canonical: true, format: 'html'}) }}</link>
+    <atom:link href="{{ url(page, {canonical: true, format: 'rss'}) }}" rel="self" type="application/rss+xml" />
     {%- for item in items ~%}
     <item>
       {%- block item ~%}
       <guid>{{ url(item, {canonical: true}) }}</guid>
       <title>{{ item.title|e }}</title>
-      <pubDate>{{ item.date|date('c') }}</pubDate>
-      <link href="{{ url(item, {canonical: true}) }}" rel="alternate" type="text/html" />
+      <pubDate>{{ item.date|date('r') }}</pubDate>
+      <link>{{ url(item, {canonical: true}) }}</link>
       <description><![CDATA[{{ item.content }}]]></description>
       {%- endblock ~%}
     </item>
