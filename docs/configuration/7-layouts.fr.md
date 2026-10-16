@@ -2,7 +2,7 @@
 title: "Layouts"
 description: "Dossier des templates, échappement, images, traductions et composants."
 date: 2026-03-27
-updated: 2026-10-05
+updated: 2026-10-16
 -->
 # Layouts
 
@@ -21,7 +21,7 @@ layouts:
 
 Surcharge l’option Twig `autoescape` (`false` par défaut).
 
-Si la valeur est `null`, Cecil applique une stratégie basée sur l’extension du nom de template :
+Si la valeur est `null`, Cecil applique une stratégie basée sur l’extension du nom du template :
 
 - `*.js.twig` -> `js`
 - `*.css.twig` -> `css`
@@ -46,8 +46,8 @@ layouts:
     formats: []       # utilisé par la fonction `html` : ajoute des formats d’image alternatifs comme `source` (ex. `[avif, webp]`, tableau vide par défaut)
     responsive: false # utilisé par la fonction `html` : ajoute des images responsives ('width' ou 'density', `false` par défaut)
     placeholder: ''   # utilisé par la fonction `html` : remplit l’arrière-plan de l’image avant son chargement (`color` ou `lqip`, désactivé par défaut)
-    dark_suffix: ''   # suffixe de l’image variante sombre (ex. `.dark`), désactivé par défaut
-    mobile_suffix: '' # suffixe de l’image variante mobile (ex. `.mobile`), désactivé par défaut
+    dark_suffix: ~    # suffixe de l’image variante sombre (ex. `.dark`), désactivé par défaut
+    mobile_suffix: ~  # suffixe de l’image variante mobile (ex. `.mobile`), désactivé par défaut
     mobile_media_query: '(max-width: 767px)' # media query de la `<source>` de la variante mobile
 ```
 
@@ -73,6 +73,16 @@ Chaque format de traduction définit :
 - `loader` : classe du chargeur de traduction Symfony
 - `ext` : une ou plusieurs extensions de fichier associées à ce format
 
+## layouts.extensions
+
+Liste des classes d’[extensions Twig](../developers/1-extend.fr.md#extension-twig) à charger (vide par défaut).
+
+```yaml
+layouts:
+  extensions:
+    <name>: <class>
+```
+
 ## layouts.components
 
 Options des [composants de template](../templates/4-components.fr.md).
@@ -86,7 +96,7 @@ layouts:
 
 ## layouts.sections
 
-Associe une section aux layouts d’une autre section : le nom associé est utilisé à la place de `<section>` par les [règles de recherche](../templates/1-lookup-rules.fr.md#regles-de-recherche) de la section et de ses pages.
+Associe une section aux layouts d’une autre section : le nom associé remplace `<section>` dans les [règles de recherche](../templates/1-lookup-rules.fr.md#regles-de-recherche) de la section et de ses pages.
 
 ```yaml
 layouts:

@@ -2,7 +2,7 @@
 title: "Cache"
 description: "Cache des assets, des templates et des traductions."
 date: 2026-03-27
-updated: 2026-10-05
+updated: 2026-10-16
 -->
 # Cache
 
@@ -15,6 +15,12 @@ Le cache est activé par défaut (`true`), mais vous pouvez le désactiver avec 
 ```yaml
 cache:
   enabled: false
+```
+
+Ou avec la forme abrégée :
+
+```yaml
+cache: false
 ```
 
 :::warning
@@ -36,11 +42,11 @@ Le répertoire de cache est relatif au répertoire du site, mais vous pouvez uti
 
 ## cache.assets
 
-Options du cache des ressources.
+Options du cache des assets.
 
 ### cache.assets.ttl
 
-Temps de vie du cache des ressources en secondes (`null` par défaut = aucune expiration).
+Durée de vie du cache des assets, en secondes (`null` par défaut = aucune expiration).
 
 ```yaml
 cache:
@@ -50,12 +56,12 @@ cache:
 
 ### cache.assets.remote.ttl
 
-Temps de vie du cache des ressources distantes en secondes (7 jours par défaut).
+Durée de vie du cache des assets distants, en secondes (7 jours par défaut).
 
 ```yaml
 cache:
   assets:
-    remotes:
+    remote:
       ttl: 604800 # 7 jours
 ```
 

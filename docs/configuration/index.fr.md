@@ -2,7 +2,7 @@
 title: "Configuration"
 description: "Configurez votre site avec le fichier cecil.yml."
 date: 2026-03-27
-updated: 2026-10-05
+updated: 2026-10-16
 weight: 5
 sortby: weight
 -->
@@ -23,4 +23,6 @@ baseurl: https://mywebsite.com/
 description: "Site description"
 ```
 
-La documentation ci-dessous couvre toutes les options de configuration prises en charge par Cecil.
+Les pages suivantes décrivent les options de configuration prises en charge par Cecil.
+
+Certaines options propres à une commande sont documentées avec celle-ci : `editor` ([`new:page`](../commands/2-new-page.fr.md)) et `doctor.*` ([`doctor`](../commands/5-doctor.fr.md)).

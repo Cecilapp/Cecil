@@ -2,7 +2,7 @@
 title: "Pages"
 description: "Dossier des pages, tri, pagination, chemins, corps, pages virtuelles, générateurs, etc."
 date: 2026-03-27
-updated: 2026-10-10
+updated: 2026-10-16
 -->
 # Pages
 
@@ -28,7 +28,7 @@ pages:
 
 ## pages.exclude
 
-Répertoires, chemins et noms de fichiers à exclure (accepte les glob, les chaînes et les expressions régulières).
+Répertoires, chemins et noms de fichiers à exclure (accepte les globs, les chaînes et les expressions régulières).
 
 ```yaml
 pages:
@@ -90,7 +90,7 @@ pages:
       path: <path of pages>
 ```
 
-### Emplacements des variables de chemin
+### Variables de chemin
 
 - `:year`
 - `:month`
@@ -151,7 +151,7 @@ Active la coloration syntaxique du code (`true` par défaut).
 ```yaml
 pages:
   body:
-    highlight: false # définissez à false pour désactiver la coloration syntaxique
+    highlight: false # `false` pour désactiver la coloration syntaxique
 ```
 
 ### pages.body.images
@@ -170,8 +170,8 @@ pages:
       caption: false    # place l’image dans un élément <figure> et ajoute une <figcaption> contenant le titre (`false` par défaut)
       placeholder: ''   # remplit l’arrière-plan de <img> avant le chargement ('color' ou 'lqip', vide par défaut)
       class: ''         # définit une classe par défaut sur chaque image (vide par défaut)
-      dark_suffix: ''   # suffixe de l’image variante sombre (ex. `.dark`), désactivé par défaut
-      mobile_suffix: '' # suffixe de l’image variante mobile (ex. `.mobile`), désactivé par défaut
+      dark_suffix: ~    # suffixe de l’image variante sombre (ex. `.dark`), désactivé par défaut
+      mobile_suffix: ~  # suffixe de l’image variante mobile (ex. `.mobile`), désactivé par défaut
       mobile_media_query: '(max-width: 767px)' # media query de la `<source>` de la variante mobile
       remote:           # traitement des images distantes (mettre à `false` pour désactiver)
         fallback:         # chemin de l’image de secours, stockée dans le répertoire assets (vide par défaut)
@@ -206,7 +206,7 @@ pages:
       embed:
         enabled: false     # transforme les liens en contenu embarqué si possible (`false` par défaut)
         video: [mp4, webm] # extensions des fichiers vidéo
-        audio: [mp3]       # extensions des fichiers audio
+        audio: [mp3, ogg, wav] # extensions des fichiers audio
       external:
         blank: false     # si `true`, ouvre le lien externe dans un nouvel onglet
         noopener: true   # si `true`, ajoute `noopener` à l’attribut `rel`
@@ -230,7 +230,7 @@ pages:
 
 Les pages virtuelles sont la meilleure façon de créer des pages sans contenu (**front matter uniquement**).
 
-Elles consistent en une liste de pages avec un `path` et quelques variables de front matter.
+Il s’agit d’une liste de pages avec un `path` et quelques variables de front matter.
 
 _Exemple :_
 
@@ -243,18 +243,18 @@ pages:
 
 ## pages.default
 
-Les pages par défaut sont des pages créées automatiquement par Cecil (à partir de modèles intégrés) :
+Les pages par défaut sont des pages créées automatiquement par Cecil (à partir de templates intégrés) :
 
 ```yaml
 pages:
   default:
     index:
       path: ''
-      title: Accueil
+      title: Home
       published: true
     404:
       path: 404
-      title: Page introuvable
+      title: Page not found
       layout: 404
       uglyurl: true
       published: true
@@ -269,7 +269,7 @@ pages:
       multilingual: false
     sitemap:
       path: sitemap
-      title: Plan de site XML
+      title: XML sitemap
       layout: sitemap
       output: xml
       changefreq: monthly
@@ -277,6 +277,13 @@ pages:
       published: true
       excluded: true
       multilingual: false
+    xsl/sitemap:
+      path: xsl/sitemap
+      layout: sitemap
+      output: xsl
+      uglyurl: true
+      published: true
+      excluded: true
     xsl/atom:
       path: xsl/atom
       layout: feed
@@ -304,7 +311,7 @@ Chaque page peut être :
 3. exclue de la localisation : `multilingual: false`
 
 :::tip
-Depuis la version 8.68.0, vous pouvez surcharger la page `robots.txt` par défaut en créant une page avec le même `path` :
+Depuis la version ++8.68.0++, vous pouvez surcharger la page `robots.txt` par défaut en créant une page avec le même `path` :
 
 _pages/robots.md_
 
@@ -321,7 +328,7 @@ Disallow: /
 
 ## pages.generators
 
-Les générateurs servent à Cecil pour créer des pages supplémentaires (par ex. sitemap, flux, pagination, etc.) à partir de pages existantes, ou à partir d’autres sources comme le fichier de configuration ou des sources externes.
+Cecil utilise les générateurs pour créer des pages supplémentaires (par ex. sitemap, flux, pagination, etc.) à partir de pages existantes, ou à partir d’autres sources comme le fichier de configuration ou des sources externes.
 
 Voici la liste des générateurs fournis par Cecil, dans un ordre défini :
 
@@ -340,12 +347,12 @@ pages:
 ```
 
 :::tip
-Vous pouvez étendre Cecil avec un [générateur de pages](../developers/1-extend.fr.md#generateur-de-pages).
+Vous pouvez étendre Cecil avec un [générateur de pages](../developers/1-extend.fr.md#generateurs-de-pages).
 :::
 
 ## pages.subsets
 
-Les sous-ensembles servent à rendre une partie de la collection de pages, selon un chemin, une langue ou un format de sortie spécifique, avec la commande :
+Les sous-ensembles servent à générer une partie de la collection de pages, selon un chemin, une langue ou un format de sortie spécifique, avec la commande :
 
 ```bash
 cecil build --render-subset=<name>

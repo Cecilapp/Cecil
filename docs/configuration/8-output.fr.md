@@ -2,7 +2,7 @@
 title: "Sortie"
 description: "Dossier de sortie, formats et post-traitement."
 date: 2026-03-27
-updated: 2026-10-05
+updated: 2026-10-16
 path: documentation/configuration/sortie
 -->
 # Sortie
@@ -20,13 +20,14 @@ output:
 
 ## output.formats
 
-Liste de définition des formats de sortie, utilisés pour rendre les pages (par ex. HTML, Atom, RSS, JSON, XML, etc.).
+Liste des définitions de formats de sortie, utilisés pour rendre les pages (par ex. HTML, Atom, RSS, JSON, XML, etc.).
 
 ```yaml
 output:
   formats:
     - name: <name>            # nom du format, par ex. `html` (requis)
-      mediatype: <media type> # type MIME, ex. `text/html` (facultatif)
+      mediatype: <media type> # type MIME, ex. `text/html` (requis)
+      rel: <rel>              # attribut `rel` du lien alternatif de la page, ex. `canonical` (facultatif, `alternate` par défaut)
       subpath: <sub path>     # sous-chemin, ex. `amp` dans `path/amp/index.html` (facultatif)
       filename: <file name>   # nom du fichier, ex. `index` dans `path/index.html` (facultatif)
       extension: <extension>  # extension du fichier, ex. `html` dans `path/index.html` (requis)
@@ -37,7 +38,7 @@ Ces formats sont utilisés dans la configuration [`output.pagetypeformats`](#out
 
 ### Formats par défaut
 
-Cecil fournit quelques [formats par défaut](https://github.com/Cecilapp/Cecil/blob/main/config/base.php#L81-L162), qui peuvent être surchargés dans le fichier de configuration : `html` (par défaut), `atom`, `rss`, `json`, `xml`, `txt`, `amp`, `js`, `webmanifest`, `xsl`, `jsonfeed`, `iframe`, `oembed`.
+Cecil fournit quelques [formats par défaut](https://github.com/Cecilapp/Cecil/blob/main/config/base.php#L89-L197), qui peuvent être surchargés dans le fichier de configuration : `html` (par défaut), `atom`, `rss`, `json`, `xml`, `txt`, `amp`, `js`, `webmanifest`, `xsl`, `jsonfeed`, `oembed`, `embed`, `markdown`, `llms`.
 
 ## output.pagetypeformats
 
@@ -65,7 +66,7 @@ output:
 Pour rendre une page, [Cecil recherche un template](../templates/1-lookup-rules.fr.md#regles-de-recherche) nommé `<layout>.<format>.twig` (ex. `page.html.twig`).
 :::
 
-## exemple de output
+## Exemple de configuration output
 
 ```yaml
 output:
@@ -76,7 +77,7 @@ output:
       filename: index
       extension: html
     - name: atom
-      mediatype: application/xml
+      mediatype: application/atom+xml
       filename: atom
       extension: xml
       exclude: [redirect, paginated]
@@ -88,8 +89,22 @@ output:
     term: [html, atom]
 ```
 
-## Post-process
+## output.postprocessors
 
-Vous pouvez étendre les capacités de Cecil avec un [post-processeur de sortie](../developers/1-extend.fr.md#post-processeur-de-rendu) pour modifier les fichiers de sortie après leur génération.
+Liste des classes de post-processeurs de sortie, utilisés pour modifier les fichiers de sortie après leur génération.
+
+Post-processeurs par défaut :
+
+```yaml
+output:
+  postprocessors:
+    GeneratorMetaTag: 'Cecil\Renderer\PostProcessor\GeneratorMetaTag'
+    HtmlExcerpt: 'Cecil\Renderer\PostProcessor\HtmlExcerpt'
+    MarkdownLink: 'Cecil\Renderer\PostProcessor\MarkdownLink'
+```
+
+:::tip
+Vous pouvez étendre les capacités de Cecil avec un [post-processeur de sortie](../developers/1-extend.fr.md#post-processeurs-de-sortie).
+:::
 
 ---

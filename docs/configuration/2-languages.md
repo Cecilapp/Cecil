@@ -2,7 +2,7 @@
 title: "Languages"
 description: "Main language and additional languages of a multilingual website."
 date: 2021-05-07
-updated: 2026-10-10
+updated: 2026-10-16
 -->
 # Languages
 
@@ -16,7 +16,7 @@ The main language, defined by its code.
 language: <code> # unique code (`en` by default)
 ```
 
-By default only others [languages](#languages) pages path are prefixed with its language code, but you can prefix the path of the main language pages with the following option:
+By default, only the paths of the other [languages](#languages) pages are prefixed with their language code, but you can also prefix the paths of the main language pages with the following option:
 
 ```yaml
 #language: <code>
@@ -26,7 +26,7 @@ language:
 ```
 
 :::info
-When `prefix` is set to `true`, an alias is automatically created for the home page that redirect from`/` to `/<code>/`.
+When `prefix` is set to `true`, an alias is automatically created for the home page that redirects from `/` to `/<code>/`.
 :::
 
 ## languages
@@ -35,9 +35,9 @@ Options of available languages, used for [pages](../content/4-multilingual.md) a
 
 ```yaml
 languages:
-  - code: <code>          # unique code (e.g.: `en`, `fr`, 'en-US', `fr-CA`)
+  - code: <code>          # unique code, `xx` or `xx-XX` (required, e.g.: `en`, `fr`, `en-US`, `fr-CA`)
     name: <name>          # human readable name (e.g.: `Français`)
-    locale: <locale>      # locale code (`language_COUNTRY`, e.g.: `en_US`, `fr_FR`, `fr_CA`)
+    locale: <locale>      # locale code (required, `language_COUNTRY`, e.g.: `en_US`, `fr_FR`, `fr_CA`)
     enabled: <true|false> # enabled or not (`true` by default)
 ```
 
@@ -65,7 +65,7 @@ To localize configuration options you must store them under the `config` key of 
 _Example:_
 
 ```yaml
-title: "Cecil in english"
+title: "Cecil in English"
 languages:
   - code: en
     name: English
@@ -78,6 +78,8 @@ languages:
 ```
 
 :::info
-In [templates](../templates/index.md) you can access to an option with `{{ site.<option> }}`, for example `{{ site.title }}`.  
-If an option is not available in the current language (e.g.: `fr`) it fallback to the global one (e.g.: `en`).
+In [templates](../templates/index.md) you can access an option with `{{ site.<option> }}`, for example `{{ site.title }}`.  
+If an option is not available in the current language (e.g.: `fr`), it falls back to the global one (e.g.: `en`).
 :::
+
+---

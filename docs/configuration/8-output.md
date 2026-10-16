@@ -2,7 +2,7 @@
 title: "Output"
 description: "Output directory, formats and post-processing."
 date: 2021-05-07
-updated: 2026-10-05
+updated: 2026-10-16
 -->
 # Output
 
@@ -25,7 +25,8 @@ List of output formats definition, which are used to render pages (e.g. HTML, At
 output:
   formats:
     - name: <name>            # name of the format, e.g.: `html` (required)
-      mediatype: <media type> # media type (MIME type), ie: 'text/html' (optional)
+      mediatype: <media type> # media type (MIME type), e.g.: `text/html` (required)
+      rel: <rel>              # `rel` attribute of the page alternate link, e.g.: `canonical` (optional, `alternate` by default)
       subpath: <sub path>     # sub path, e.g.: `amp` in `path/amp/index.html` (optional)
       filename: <file name>   # file name, e.g.: `index` in `path/index.html` (optional)
       extension: <extension>  # file extension, e.g.: `html` in `path/index.html` (required)
@@ -36,7 +37,7 @@ Those formats are used in the [`output.pagetypeformats`](#output-pagetypeformats
 
 ### Default formats
 
-Cecil provides some [default formats](https://github.com/Cecilapp/Cecil/blob/main/config/base.php#L81-L162), which can be overridden in the configuration file: `html` (default), `atom`, `rss`, `json`, `xml`, `txt`, `amp`, `js`, `webmanifest`, `xsl`, `jsonfeed`, `iframe`, `oembed`.
+Cecil provides some [default formats](https://github.com/Cecilapp/Cecil/blob/main/config/base.php#L89-L197), which can be overridden in the configuration file: `html` (default), `atom`, `rss`, `json`, `xml`, `txt`, `amp`, `js`, `webmanifest`, `xsl`, `jsonfeed`, `oembed`, `embed`, `markdown`, `llms`.
 
 ## output.pagetypeformats
 
@@ -52,7 +53,7 @@ output:
     term: [<format>]
 ```
 
-Several formats can be defined for the one type of page. For example the `section` page type can be automatically rendered in HTML and Atom:
+Several formats can be defined for a single page type. For example, the `section` page type can be automatically rendered in HTML and Atom:
 
 ```yaml
 output:
@@ -61,7 +62,7 @@ output:
 ```
 
 :::info
-To render a page, [Cecil lookup for a template](../templates/1-lookup-rules.md#lookup-rules) named `<layout>.<format>.twig` (e.g. `page.html.twig`)
+To render a page, [Cecil looks up a template](../templates/1-lookup-rules.md#lookup-rules) named `<layout>.<format>.twig` (e.g. `page.html.twig`).
 :::
 
 ## output example
@@ -75,7 +76,7 @@ output:
       filename: index
       extension: html
     - name: atom
-      mediatype: application/xml
+      mediatype: application/atom+xml
       filename: atom
       extension: xml
       exclude: [redirect, paginated]
@@ -87,8 +88,22 @@ output:
     term: [html, atom]
 ```
 
-## Post process
+## output.postprocessors
 
-You can extend Cecil capabilities with an [Output post processor](../developers/1-extend.md#output-post-processor) to modify the output files after they have been generated.
+List of output post processors classes, used to modify the output files after they have been generated.
+
+Default post processors:
+
+```yaml
+output:
+  postprocessors:
+    GeneratorMetaTag: 'Cecil\Renderer\PostProcessor\GeneratorMetaTag'
+    HtmlExcerpt: 'Cecil\Renderer\PostProcessor\HtmlExcerpt'
+    MarkdownLink: 'Cecil\Renderer\PostProcessor\MarkdownLink'
+```
+
+:::tip
+You can extend Cecil capabilities with an [Output post processor](../developers/1-extend.md#output-post-processors).
+:::
 
 ---

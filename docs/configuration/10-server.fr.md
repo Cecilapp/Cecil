@@ -2,7 +2,7 @@
 title: "Serveur et optimisation"
 description: "En-têtes du serveur local et optimisation de la sortie."
 date: 2026-03-27
-updated: 2026-10-10
+updated: 2026-10-16
 path: documentation/configuration/serveur
 -->
 # Serveur et optimisation
@@ -13,7 +13,7 @@ Ces options configurent le serveur de prévisualisation local et l’optimisatio
 
 ### server.headers
 
-Vous pouvez définir des [en-têtes HTTP](https://developer.mozilla.org/docs/Glossary/Response_header) personnalisés, utilisés par le serveur d’aperçu local.
+Vous pouvez définir des [en-têtes HTTP](https://developer.mozilla.org/docs/Glossary/Response_header) personnalisés, utilisés par le serveur de prévisualisation local.
 
 :::warning
 Depuis la version ++8.38.0++, l’option `headers` a été déplacée dans la section `server.headers`.
@@ -22,14 +22,14 @@ Depuis la version ++8.38.0++, l’option `headers` a été déplacée dans la se
 ```yaml
 server:
   headers:
-    - path: <path> # chemin relatif, préfixé par un slash. Prend en charge le joker "*".
+    - path: <path> # chemin relatif, préfixé par un slash. Prend en charge le joker `*`.
       headers:
         - key: <key>
           value: "<value>"
 ```
 
 :::tip
-C’est utile pour tester une [Content Security Policy](https://developer.mozilla.org/docs/Web/HTTP/CSP) ou `Cache-Control` personnalisée.
+C’est utile pour tester une [Content Security Policy](https://developer.mozilla.org/docs/Web/HTTP/CSP) ou un [Cache-Control](https://developer.mozilla.org/docs/Web/HTTP/Headers/Cache-Control) personnalisés.
 :::
 
 _Exemple :_
@@ -78,7 +78,7 @@ optimize:
     enabled: true    # active l’optimisation des fichiers JavaScript
     ext: [js]          # extensions de fichiers prises en charge
   images:
-    enabled: true    # active l’optimisation des fichiers images
+    enabled: true    # active l’optimisation des fichiers image
     ext: [jpeg, jpg, png, gif, webp, svg, avif] # extensions de fichiers prises en charge
 ```
 
@@ -89,10 +89,10 @@ optimize: true
 ```
 
 Une fois l’option globale activée, les 4 types de fichiers seront traités.  
-Il est possible de désactiver chacun d’eux via `enabled: false` et de modifier l’extension des fichiers traités via `ext`.
+Il est possible de désactiver chacun d’eux via `enabled: false` et de modifier les extensions des fichiers traités via `ext`.
 
 :::tip
-Il est également possible d’activer cette option via la CLI lors de l’utilisation des commandes "build" et "serve" avec l’option `--optimize`.
+Il est également possible d’activer (ou de désactiver) cette option via la CLI avec les commandes `build` et `serve`, grâce à l’option `--optimize` (ou `--no-optimize`).
 :::
 
 :::important

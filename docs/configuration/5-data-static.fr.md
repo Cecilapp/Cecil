@@ -2,7 +2,7 @@
 title: "Données et fichiers statiques"
 description: "Options des fichiers de données et des fichiers statiques."
 date: 2026-03-27
-updated: 2026-10-10
+updated: 2026-10-16
 path: documentation/configuration/donnees-et-statiques
 -->
 # Données et fichiers statiques
@@ -11,7 +11,7 @@ Ces options définissent où sont stockés les fichiers de données et les fichi
 
 ## Données
 
-Emplacement des fichiers de données et types d’extensions pris en charge.
+Emplacement des fichiers de données et extensions prises en charge.
 
 Formats pris en charge : YAML, JSON, XML et CSV.
 
@@ -26,7 +26,7 @@ data:
 
 ### data.ext
 
-Tableau des extensions de fichiers.
+Liste des extensions de fichiers.
 
 ```yaml
 data:
@@ -46,10 +46,10 @@ data:
 
 ## Fichiers statiques
 
-Gestion des fichiers statiques copiés (PDF, polices, etc.).
+Gestion des fichiers statiques, copiés tels quels (PDF, polices, etc.).
 
 :::important
-Vous devez placer les fichiers d’assets, utilisés par [`asset()`](../assets/index.fr.md#asset), dans le [`répertoire assets`](6-assets.fr.md#assets-dir) afin d’éviter des copies de fichiers inutiles.
+Vous devriez placer les fichiers d’assets, utilisés par [`asset()`](../assets/index.fr.md#asset), dans le [répertoire `assets`](6-assets.fr.md#assets-dir) afin d’éviter des copies de fichiers inutiles.
 :::
 
 ### static.dir
@@ -63,7 +63,7 @@ static:
 
 ### static.target
 
-Répertoire vers lequel les fichiers statiques sont copiés (`root` par défaut).
+Répertoire vers lequel les fichiers statiques sont copiés (racine par défaut).
 
 ```yaml
 static:
@@ -72,7 +72,7 @@ static:
 
 ### static.exclude
 
-Liste des fichiers exclus. Accepte les glob, les chaînes et les expressions régulières.
+Liste des fichiers exclus. Accepte les globs, les chaînes et les expressions régulières.
 
 ```yaml
 static:
@@ -83,7 +83,8 @@ static:
 Si vous utilisez [Bootstrap Icons](https://icons.getbootstrap.com), vous pouvez exclure `node_modules` sauf `node_modules/bootstrap-icons` avec une expression régulière :
 
 ```yaml
-exclude: ['sass', 'scss', '*.scss', 'package*.json', '#node_modules/(?!bootstrap-icons)#']
+static:
+  exclude: ['sass', 'scss', '*.scss', 'package*.json', '#node_modules/(?!bootstrap-icons)#']
 ```
 
 :::
@@ -99,14 +100,15 @@ static:
 
 ### static.mounts
 
-Permet de copier des fichiers ou répertoires spécifiques vers une destination spécifique.
+Copie des fichiers ou répertoires spécifiques vers une destination spécifique : chaque entrée associe un chemin source, relatif au répertoire [`static.dir`](#static-dir), à un chemin de destination, relatif au répertoire de sortie.
 
 ```yaml
 static:
-  mounts: []
+  mounts:
+    <source>: <destination>
 ```
 
-### exemple de static
+### Exemple de configuration static
 
 ```yaml
 static:
@@ -115,6 +117,8 @@ static:
   exclude: ['sass', '*.scss', '/\.bck$/']
   load: true
   mounts:
-    - source/path/file.ext: dest/path/file.ext
-    - node_modules/bootstrap-icons/font/fonts: fonts
+    source/path/file.ext: dest/path/file.ext
+    vendor/icons/fonts: fonts
 ```
+
+---

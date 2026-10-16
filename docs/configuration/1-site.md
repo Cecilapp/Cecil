@@ -2,7 +2,7 @@
 title: "Site options"
 description: "title, baseurl, menus, taxonomies, theme, date, metatags, debug, etc."
 date: 2021-05-07
-updated: 2026-10-10
+updated: 2026-10-16
 -->
 # Site options
 
@@ -62,7 +62,7 @@ description: "<description>"
 
 Menus are used to create [navigation links in templates](../templates/2-variables.md#site-menus).
 
-A menu is made up of a unique ID and entry properties (name, URL, weight).
+A menu is a list of entries, each defined by a unique ID and properties (name, URL, weight).
 
 ```yaml
 menus:
@@ -90,7 +90,7 @@ menus:
 ```
 
 :::info
-A `main` menu is automatically created with the home page entry and all sections entries ([See content management](../content/index.md))
+A `main` menu is automatically created with the home page entry and all sections entries (see [content management](../content/index.md)).
 :::
 
 :::tip
@@ -182,7 +182,7 @@ theme:
 ```
 
 :::info
-See [themes on GitHub](https://github.com/Cecilapp?q=theme#org-repositories) or on website [themes section](https://cecil.app/themes/).
+See [themes on GitHub](https://github.com/Cecilapp?q=theme#org-repositories) or the [themes section](https://cecil.app/themes/) of the website.
 :::
 
 ## date
@@ -222,7 +222,7 @@ This template adds the following meta tags:
 - Favicon links
 - Navigation links (first, previous, next, last)
 - Canonical URL
-- Alternate links (i.e.: RSS feed, others languages)
+- Alternate links (e.g.: RSS feed, other languages)
 - [`rel=me`](https://developer.mozilla.org/docs/Web/HTML/Reference/Attributes/rel/me) links
 - [Open Graph](https://ogp.me)
 - Facebook profile ID
@@ -239,7 +239,7 @@ Cecil uses page front matter to feed meta tags, and falls back to site options w
 title: "Page/Site title"              # used by title meta
 description: "Page/Site description"  # used by description meta
 tags: [tag1, tag2]                    # used by keywords meta
-keywords: [keyword1, keyword2]        # obsolete
+keywords: [keyword1, keyword2]        # obsolete in page front matter (use `tags`)
 author:                               # used by author meta
   name: <name>                          # author name
   url: <url>                            # author URL
@@ -266,8 +266,10 @@ social:                               # used by social networks meta
 If needed, `title` and `image` can be overridden:
 
 ```twig
-{{ include('partials/metatags.html.twig', {title: 'Custom title', image: og_image}) }}
+{{ include('partials/metatags.html.twig', {title: 'Custom title', image: 'images/og.png'}) }}
 ```
+
+`image` accepts a path or an [asset](../assets/index.md).
 
 :::
 
@@ -282,13 +284,12 @@ metatags:
       shownumber: true         # displays page number in title (`true` by default)
       label: "Page %s"         # how to display page number (`Page %s` by default)
   robots: "index,follow"   # web crawlers directives (`index,follow` by default)
-  favicon:                 # favicon options
-    enabled: true            # includes favicon (`true` by default)
-    image: favicon.png       # path to favicon image
+  favicon:                 # favicon options (set `favicon: false` to disable)
+    image: favicon.png       # path to favicon image (`favicon.png` by default)
     sizes:                   # sizes by device
-      - "icon": [32, 57, 76, 96, 128, 192, 228]  # web browsers
-      - "shortcut icon": [196]                   # Android
-      - "apple-touch-icon": [120, 152, 180]      # iOS
+      "icon": [32, 57, 76, 96, 128, 192, 228]  # web browsers
+      "shortcut icon": [128, 196]              # Android
+      "apple-touch-icon": [120, 152, 180]      # iOS
   navigation: true         # includes previous and next links (`true` by default)
   image: true              # includes image (`true` by default)
   og: true                 # includes Open Graph meta tags (`true` by default)

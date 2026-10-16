@@ -2,7 +2,7 @@
 title: "Cache"
 description: "Assets, templates and translations cache."
 date: 2021-05-07
-updated: 2026-10-05
+updated: 2026-10-16
 -->
 # Cache
 
@@ -15,6 +15,12 @@ Cache is enabled by default (`true`), but you can disable it with:
 ```yaml
 cache:
   enabled: false
+```
+
+Or with the shorthand:
+
+```yaml
+cache: false
 ```
 
 :::warning
@@ -55,7 +61,7 @@ Time to live of remote assets cache in seconds (7 days by default).
 ```yaml
 cache:
   assets:
-    remotes:
+    remote:
       ttl: 604800 # 7 days
 ```
 
@@ -74,7 +80,7 @@ See [templates cache documentation](../templates/6-cache.md) for more details.
 
 ## cache.translations
 
-Disables translations cache  with `false` (`true` by default).
+Disables translations cache with `false` (`true` by default).
 
 ```yaml
 cache:

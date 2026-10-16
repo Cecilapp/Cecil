@@ -2,7 +2,7 @@
 title: "Data and static files"
 description: "Data files and static files options."
 date: 2021-05-07
-updated: 2026-10-10
+updated: 2026-10-16
 -->
 # Data and static files
 
@@ -25,7 +25,7 @@ data:
 
 ### data.ext
 
-Array of files extensions.
+List of file extensions.
 
 ```yaml
 data:
@@ -45,7 +45,7 @@ data:
 
 ## Static
 
-Management of static files are copied (PDF, fonts, etc.).
+Management of static files, copied as is (PDF, fonts, etc.).
 
 :::important
 You should put your assets files, used by [`asset()`](../assets/index.md#asset), in the [`assets` directory](6-assets.md#assets-dir) to avoid unnecessary files copy.
@@ -82,7 +82,8 @@ static:
 If you use [Bootstrap Icons](https://icons.getbootstrap.com) you can exclude the `node_modules` except `node_modules/bootstrap-icons` with a regular expression:
 
 ```yaml
-exclude: ['sass', 'scss', '*.scss', 'package*.json', '#node_modules/(?!bootstrap-icons)#']
+static:
+  exclude: ['sass', 'scss', '*.scss', 'package*.json', '#node_modules/(?!bootstrap-icons)#']
 ```
 
 :::
@@ -98,11 +99,12 @@ static:
 
 ### static.mounts
 
-Allows to copy specific files or directories to a specific destination.
+Copies specific files or directories to a specific destination: each entry maps a source path, relative to the [`static.dir`](#static-dir) directory, to a destination path, relative to the output directory.
 
 ```yaml
 static:
-  mounts: []
+  mounts:
+    <source>: <destination>
 ```
 
 ### static example
@@ -114,6 +116,8 @@ static:
   exclude: ['sass', '*.scss', '/\.bck$/']
   load: true
   mounts:
-    - source/path/file.ext: dest/path/file.ext
-    - node_modules/bootstrap-icons/font/fonts: fonts
+    source/path/file.ext: dest/path/file.ext
+    vendor/icons/fonts: fonts
 ```
+
+---

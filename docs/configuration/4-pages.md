@@ -2,7 +2,7 @@
 title: "Pages"
 description: "Pages directory, sorting, pagination, paths, body, virtual pages, generators, etc."
 date: 2021-05-07
-updated: 2026-10-10
+updated: 2026-10-16
 -->
 # Pages
 
@@ -10,7 +10,7 @@ These options control how pages are loaded, sorted, paginated, routed and genera
 
 ## pages.dir
 
-Directory source of pages (`pages` by default).
+Source directory of pages (`pages` by default).
 
 ```yaml
 pages:
@@ -131,7 +131,7 @@ pages:
 Page body options.
 
 :::info
-To know how those options impacts your content see _[Content > Markdown](../content/3-markdown.md)_ documentation.
+To know how these options impact your content see _[Content > Markdown](../content/3-markdown.md)_ documentation.
 :::
 
 ### pages.body.toc
@@ -170,8 +170,8 @@ pages:
       caption: false    # puts the image in a <figure> element and adds a <figcaption> containing the title (`false` by default)
       placeholder: ''   # fills the <img> background before loading ('color' or 'lqip', empty by default)
       class: ''         # sets a default class on each image (empty by default)
-      dark_suffix: ''   # suffix of the dark variant image (e.g. `.dark`), disabled by default
-      mobile_suffix: '' # suffix of the mobile variant image (e.g. `.mobile`), disabled by default
+      dark_suffix: ~    # suffix of the dark variant image (e.g. `.dark`), disabled by default
+      mobile_suffix: ~  # suffix of the mobile variant image (e.g. `.mobile`), disabled by default
       mobile_media_query: '(max-width: 767px)' # media query of the mobile variant `<source>`
       remote:           # remote image handling (set to `false` to disable)
         fallback:         # path to the fallback image, stored in assets dir (empty by default)
@@ -182,7 +182,7 @@ Since version ++8.41.0++, the `pages.body.images.resize` option is used to resiz
 :::
 
 :::important
-Global options, like responsives images widths and sizes, are configurable in the [`assets.images`](6-assets.md#assets-images) section.
+Global options, like responsive images widths and sizes, are configurable in the [`assets.images`](6-assets.md#assets-images) section.
 :::
 
 :::info
@@ -204,9 +204,9 @@ pages:
   body:
     links:
       embed:
-        enabled: false     # turns links in embedded content if possible (`false` by default)
+        enabled: false     # turns links into embedded content if possible (`false` by default)
         video: [mp4, webm] # video files extensions
-        audio: [mp3]       # audio files extensions
+        audio: [mp3, ogg, wav] # audio files extensions
       external:
         blank: false     # if true open external link in new tab
         noopener: true   # if true add "noopener" to `rel` attribute
@@ -228,7 +228,7 @@ pages:
 
 ## pages.virtual
 
-Virtual pages is the best way to create pages without content (**front matter only**).
+Virtual pages are the best way to create pages without content (**front matter only**).
 
 It consists of a list of pages with a `path` and some front matter variables.
 
@@ -277,6 +277,13 @@ pages:
       published: true
       excluded: true
       multilingual: false
+    xsl/sitemap:
+      path: xsl/sitemap
+      layout: sitemap
+      output: xsl
+      uglyurl: true
+      published: true
+      excluded: true
     xsl/atom:
       path: xsl/atom
       layout: feed
@@ -294,7 +301,7 @@ pages:
 ```
 
 :::info
-The structure is almost identical of [`pages.virtual`](#pages-virtual), except the named key.
+The structure is almost identical to [`pages.virtual`](#pages-virtual), except the named key.
 :::
 
 Each one can be:
@@ -304,7 +311,7 @@ Each one can be:
 3. excluded from localization: `multilingual: false`
 
 :::tip
-Since version 8.68.0 you can override the default `robots.txt` page by creating a page with the same `path`:
+Since version ++8.68.0++, you can override the default `robots.txt` page by creating a page with the same `path`:
 
 _pages/robots.md_
 
@@ -323,7 +330,7 @@ Disallow: /
 
 Generators are used by Cecil to create additional pages (e.g.: sitemap, feed, pagination, etc.) from existing pages, or from other sources like the configuration file or external sources.
 
-Below the list of Generators provided by Cecil, in a defined order:
+Below is the list of generators provided by Cecil, in a defined order:
 
 ```yaml
 pages:
@@ -340,7 +347,7 @@ pages:
 ```
 
 :::tip
-You can extend Cecil with [Pages generator](../developers/1-extend.md#pages-generator).
+You can extend Cecil with [Pages generator](../developers/1-extend.md#page-generators).
 :::
 
 ## pages.subsets
