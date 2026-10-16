@@ -85,8 +85,7 @@ return [
         //'paths' => [
         //    [
         //        'section' => '<section’s ID>',
-        //        'language' => '<language code>', // optional
-        //        'path' => '<path_with_palceholders>',
+        //        'path' => '<path_with_placeholders>',
         //    ]
         //],
         'frontmatter' => 'yaml', // front matter format: `yaml`, `ini`, `toml` or `json`

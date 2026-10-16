@@ -51,13 +51,13 @@ class NewPage extends AbstractCommand
             ->setHelp(
                 <<<'EOF'
 The <info>%command.name%</> command creates a new page file.
-If your run this command without any options, it will ask you for the page name and others options.
+If you run this command without any options, it will ask you for the page name and other options.
 
   <info>%command.full_name%</>
   <info>%command.full_name% --name=path/to/a-page.md</>
-  <info>%command.full_name% --name=path/to/A Page.md --slugify</>
+  <info>%command.full_name% --name="path/to/A Page.md" --slugify</>
 
-To create a new page with a <comment>date prefix</comment> (i.e: `YYYY-MM-DD`), run:
+To create a new page with a <comment>date prefix</comment> (e.g. `YYYY-MM-DD`), run:
 
   <info>%command.full_name% --prefix</>
 
