@@ -21,6 +21,7 @@ use Cecil\Renderer\Extension\Core as CoreExtension;
 use Cecil\Util;
 use Performing\TwigComponents\Configuration;
 use Symfony\Bridge\Twig\Extension\TranslationExtension;
+use Symfony\Component\Config\ConfigCacheFactory;
 use Symfony\Component\Translation\Formatter\MessageFormatter;
 use Symfony\Component\Translation\IdentityTranslator;
 use Symfony\Component\Translation\Translator;
@@ -128,6 +129,8 @@ class Twig implements RendererInterface
             $this->builder->getConfig()->isEnabled('cache.translations') ? $this->builder->getConfig()->getCacheTranslationsPath() : null,
             $this->builder->isDebug()
         );
+        // refreshes the translations cache when a translation file is updated, even if debug is disabled
+        $this->translator->setConfigCacheFactory(new ConfigCacheFactory(true));
         $translationsFormats = $this->getTranslationsFormatsConfig();
         if (\count($this->builder->getConfig()->getLanguages()) > 0) {
             foreach ($translationsFormats as $format => $config) {

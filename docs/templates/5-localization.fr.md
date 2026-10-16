@@ -2,7 +2,7 @@
 title: "Localisation"
 description: "Traduisez les textes et localisez les dates dans les templates."
 date: 2026-05-26
-updated: 2026-10-05
+updated: 2026-10-16
 path: documentation/templates/localisation
 -->
 # Localisation
@@ -85,12 +85,12 @@ Utilisez `--save` à la place (ou en plus) de `--show` pour enregistrer les trad
 :::
 
 :::important
-Faites attention au [cache](6-cache.fr.md) lorsque vous mettez à jour les fichiers de traduction.
+Les traductions sont mises en [cache](6-cache.fr.md) : le cache est rafraîchi lorsqu'un fichier de traduction est modifié ou supprimé, mais pas lorsqu'un nouveau fichier est ajouté.
 
 Le cache peut être vidé avec la commande suivante :
 
 ```bash
-php cecil.phar cache:clear:translations`
+php cecil.phar cache:clear:translations
 ```
 
 :::
