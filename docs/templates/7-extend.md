@@ -1,10 +1,10 @@
 <!--
-title: "Extend"
+title: "Extend templates"
 description: "Add custom functions and filters, or use a theme."
 date: 2021-05-07
-updated: 2026-10-10
+updated: 2026-10-16
 -->
-# Extend
+# Extend templates
 
 Templates can be extended with custom functions and filters, or packaged as a reusable theme.
 
@@ -14,10 +14,10 @@ You can add custom [functions](reference/1-functions.md) and custom [filters](re
 
 ## Theme
 
-It’s easy to build a theme, you just have to create a folder `<theme>` with the following structure (like a website but without pages):
+It’s easy to build a theme: create a folder `<theme>` with the following structure (like a website but without pages):
 
 ```plaintext
-<mywebsite>
+<my-site>
 └─ themes
    └─ <theme>
       ├─ config.yml
@@ -26,3 +26,5 @@ It’s easy to build a theme, you just have to create a folder `<theme>` with th
       ├─ static
       └─ translations
 ```
+
+Then enable it with the [`theme`](../configuration/1-site.md#theme) configuration option.

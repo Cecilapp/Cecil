@@ -2,7 +2,7 @@
 title: "Organisation et règles de recherche"
 description: "Types de templates, convention de nommage, templates intégrés et choix du template d’une page."
 date: 2026-05-26
-updated: 2026-10-10
+updated: 2026-10-16
 path: documentation/templates/regles-de-recherche
 -->
 # Organisation et règles de recherche
@@ -13,32 +13,32 @@ Cecil génère les pages à l’aide de templates Twig : cette page explique com
 
 ### Types de templates
 
-Il existe trois types de templates, **_layouts_**, **_components_** et **_autres templates_** : _layouts_ sont utilisés pour afficher les [pages](../content/1-pages.fr.md), et chacun d'eux peut [inclure des templates](https://twig.symfony.com/doc/templates.html#including-other-templates) et [components](4-components.fr.md).
+Il existe trois types de templates : les **_layouts_**, les **_composants_** et les **_autres templates_**. Les _layouts_ sont utilisés pour générer les [pages](../content/1-pages.fr.md), et chacun d’eux peut [inclure des templates](https://twig.symfony.com/doc/templates.html#including-other-templates) et des [composants](4-components.fr.md).
 
 ### Convention de nommage
 
-Les fichiers templates sont stockés dans le répertoire `layouts/` et doivent être nommés selon la convention suivante :
+Les fichiers templates sont stockés dans le répertoire `layouts/` et doivent être nommés selon la convention suivante :
 
 ```plaintext
 layouts/(<section>/)<type>|<layout>.<format>(.<language>).twig
 ```
 
 `<section>` (_facultatif_)
-:  La section de la page (ex. : `blog`).
+:  La section de la page (ex. : `blog`).
 
 `<type>`
-:  Le type de page : `home` (ou `index`) pour _homepage_, `list` pour _list_, `page` pour _page_, etc. (Voir [_Règles de recherche_](#regles-de-recherche) pour plus de détails).
+:  Le type de template : `home` (ou `index`) pour la _homepage_, `list` pour les pages de liste (_homepage_ et _sections_), `page` pour une _page_, etc. (voir [_Règles de recherche_](#regles-de-recherche) pour plus de détails).
 
 `<layout>` (_facultatif_)
-:  Le nom de la layout personnalisée défini dans le [front-matter](../content/1-pages.fr.md#front-matter) de la page (par exemple : `layout: my-layout`).
+:  Le nom du layout personnalisé défini dans le [front matter](../content/1-pages.fr.md#front-matter) de la page (ex. : `layout: my-layout`).
 
 `<format>`
-:  Le [format de sortie](../configuration/8-output.fr.md#output-formats) de la page rendue (par exemple : `html`, `rss`, `json`, `xml`, etc.).
+:  Le [format de sortie](../configuration/8-output.fr.md#output-formats) de la page générée (ex. : `html`, `rss`, `json`, `xml`, etc.).
 
 `<language>` (_facultatif_)
 :  La langue de la page (ex. : `fr`).
 
-_Exemples :_
+_Exemples :_
 
 ```plaintext
 layouts/home.html.twig       # `type` est "homepage"
@@ -60,10 +60,10 @@ layouts/blog/list.rss.twig   # `section` est "blog" et `format` est "rss"
 |  ├─ taxonomy
 |  |  ├─ tags.html.twig    # Utilisé par le type "vocabulary" de `tags` (liste des termes)
 |  |  └─ tag.html.twig     # Utilisé par le type "term" de `tags` (liste des pages)
-|  ├─ my-layout.html.twig  # Utilisé par les pages avec `layout: my-layout` dans le front-matter
+|  ├─ my-layout.html.twig  # Utilisé par les pages avec `layout: my-layout` dans le front matter
 |  ├─ ...
-|  └─ partials
-|     ├─ footer.html.twig  # Template inclus
+|  └─ partials             # Templates inclus
+|     ├─ footer.html.twig
 |     └─ ...
 └─ themes                  # Layouts et templates des thèmes
    └─ ...
@@ -84,16 +84,24 @@ php cecil.phar util:templates:extract
 
 ## Règles de recherche
 
-Dans la plupart des cas **vous n'avez pas besoin de préciser la layout** : Cecil sélectionne la layout la plus appropriée, en fonction du **type de la page**.
+Dans la plupart des cas, **vous n’avez pas besoin de préciser le layout** : Cecil sélectionne le layout le plus approprié, en fonction du **type de la page**.
 
-Par exemple, la sortie HTML de **home page** (`index.md`) sera rendue :
+Par exemple, la sortie HTML de la **page d’accueil** (`index.md`) sera générée :
 
-1. avec `my-layout.html.twig` si la variable `layout` est définie sur "my-layout" (dans le préambule)
+1. avec `my-layout.html.twig` si la variable `layout` est définie à « my-layout » (dans le front matter)
 2. sinon, avec `index.html.twig` si le fichier existe
 3. sinon, avec `home.html.twig` si le fichier existe
 4. sinon, avec `list.html.twig` si le fichier existe
 
 Toutes les règles sont détaillées ci-dessous, pour chaque type de page, par ordre de priorité.
+
+:::info
+Chaque template candidat est recherché dans le répertoire `layouts/` du site, puis dans le répertoire `layouts/` de chaque [thème](7-extend.fr.md#theme) (dans l’ordre configuré), puis dans les templates intégrés. Le premier fichier trouvé est utilisé.
+:::
+
+:::tip
+Pour une page dans une autre langue que la langue par défaut, la variante localisée de chaque candidat (ex. : `page.html.fr.twig`) est essayée en premier : tous les candidats localisés sont recherchés avant les candidats non localisés.
+:::
 
 ### Type _homepage_
 
@@ -128,7 +136,11 @@ Toutes les règles sont détaillées ci-dessous, pour chaque type de page, par o
 8. `_default/list.<format>.twig`
 
 :::tip
-La `<section>` d’une [sous-section](../content/1-pages.fr.md#sous-section) est son chemin complet (ex. : `blog/2024`), et une sous-section se replie sur les templates de ses sections parentes : si `blog/2024/list.html.twig` n’existe pas, la sous-section `blog/2024` est rendue avec `blog/list.html.twig`.
+La `<section>` d’une [sous-section](../content/1-pages.fr.md#sous-section) est son chemin complet (ex. : `blog/2024`), et une sous-section se replie sur les templates de ses sections parentes : si `blog/2024/list.html.twig` n’existe pas, la sous-section `blog/2024` est générée avec `blog/list.html.twig`.
+:::
+
+:::info
+Le nom utilisé comme `<section>` (pour une section et ses pages) peut être associé aux layouts d’une autre section avec l’option [`layouts.sections`](../configuration/7-layouts.fr.md#layouts-sections).
 :::
 
 ### Type _vocabulary_
@@ -154,5 +166,5 @@ Le template du **vocabulaire** est nommé d’après le **pluriel** (ex. : `taxo
 :::
 
 :::info
-La plupart de ces layouts sont disponibles par défaut, voir [templates intégrés](#templates-integres).
+La plupart de ces layouts sont disponibles par défaut (dans `_default/`), voir [templates intégrés](#templates-integres).
 :::

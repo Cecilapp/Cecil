@@ -2,7 +2,7 @@
 title: "Variables"
 description: "Variables available in templates: site, page and cecil."
 date: 2021-05-07
-updated: 2026-10-06
+updated: 2026-10-16
 -->
 # Variables
 
@@ -107,9 +107,10 @@ The static files collection can be accessed via `site.static` if the [_static lo
 
 Each file exposes the following properties:
 
-- `path`: relative path (e.g.: `/images/img-1.jpg`)
-- `date`: creation date (_timestamp_)
-- `updated`: modification date (_timestamp_)
+- `file`: relative file path, as found in the `static/` directory (e.g.: `images/img-1.jpg`)
+- `path`: relative path, with forward slashes (e.g.: `images/img-1.jpg`)
+- `date`: creation date (_DateTime_)
+- `updated`: modification date (_DateTime_)
 - `name`: name (e.g.: `img-1.jpg`)
 - `basename`: name without extension (e.g.: `img-1`)
 - `ext`: extension (e.g.: `jpg`)
@@ -241,7 +242,9 @@ With [sub-sections](../content/1-pages.md#sub-section), navigation follows the s
 _Example:_
 
 ```twig
+{% if page.prev is defined %}
 <a href="{{ url(page.prev) }}">{{ page.prev.title }}</a>
+{% endif %}
 ```
 
 ### page.paginator
@@ -251,7 +254,7 @@ _Paginator_ helps you build navigation for list pages: homepage, sections, and t
 | Variable                     | Description                         |
 | ---------------------------- | ----------------------------------- |
 | `page.paginator.pages`       | Pages Collection.                   |
-| `page.paginator.pages_total` | Number total of pages.              |
+| `page.paginator.pages_total` | Total number of pages.              |
 | `page.paginator.count`       | Number of paginator's pages.        |
 | `page.paginator.current`     | Position index of the current page. |
 | `page.paginator.links.first` | Page ID of the first page.          |
@@ -263,7 +266,7 @@ _Paginator_ helps you build navigation for list pages: homepage, sections, and t
 
 :::important
 Because links entries are Page ID you must use the `url()` function to create working links.  
-e.g: `{{ url(page.paginator.links.next) }}`
+e.g.: `{{ url(page.paginator.links.next) }}`
 :::
 
 _Example:_
@@ -393,8 +396,8 @@ You can also use the built-in partial `{{ include('partials/terms-list.html.twig
 
 ## cecil
 
-| Variable          | Description                                          |
-| ----------------- | ---------------------------------------------------- |
-| `cecil.url`       | URL of the Cecil website.                            |
-| `cecil.version`   | Cecil current version.                               |
-| `cecil.poweredby` | Print `Cecil v%s`, with `%s` is the current version. |
+| Variable          | Description                                            |
+| ----------------- | ------------------------------------------------------ |
+| `cecil.url`       | URL of the Cecil website.                              |
+| `cecil.version`   | Cecil current version.                                 |
+| `cecil.poweredby` | Prints `Cecil v%s`, where `%s` is the current version. |

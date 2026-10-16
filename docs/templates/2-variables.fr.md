@@ -2,46 +2,46 @@
 title: "Variables"
 description: "Variables disponibles dans les templates : site, page et cecil."
 date: 2026-05-26
-updated: 2026-10-06
+updated: 2026-10-16
 -->
 # Variables
 
-> L'application transmet des variables aux templates pour manipulation dans le modèle. Les variables peuvent également avoir des attributs ou des éléments auxquels vous pouvez accéder.
-> Utilisez un point (.) pour accéder aux attributs d'une variable : `{{ foo.bar }}`
+> L’application transmet des variables aux templates pour qu’ils puissent les manipuler. Les variables peuvent également avoir des attributs ou des éléments auxquels vous pouvez accéder.
+> Utilisez un point (.) pour accéder aux attributs d’une variable : `{{ foo.bar }}`
 
-Vous pouvez utiliser des variables de différentes portées : [`site`](#site), [`page`](#page), [`cecil`](#cecil).
+Vous pouvez utiliser des variables de différentes portées : [`site`](#site), [`page`](#page), [`cecil`](#cecil).
 
 ## site
 
 La variable `site` contient des variables intégrées **et** celles définies dans la [configuration](../configuration/index.fr.md).
 
-| Variables         | Descriptif                                                  |
+| Variable          | Description                                                 |
 | ----------------- | ----------------------------------------------------------- |
 | `site.pages`      | Collection de toutes les pages, dans la langue actuelle.    |
 | `site.allpages`   | Collection de toutes les pages, dans toutes les langues.    |
-| `site.page(id)`   | Une page avec l'ID donné.                                   |
-| `site.taxonomies` | Recueil de vocabulaires.                                    |
-| `site.home`       | ID de la page d'accueil.                                    |
-| `site.time`       | Actuel [_Timestamp_](https://wikipedia.org/wiki/Unix_time). |
-| `site.debug`      | État du mode débogage (`true` ou `false`).                  |
-| `site.build`      | ID de build actuel.                                         |
+| `site.page(id)`   | La page ayant l’ID donné.                                   |
+| `site.taxonomies` | Collection des vocabulaires.                                |
+| `site.home`       | ID de la page d’accueil.                                    |
+| `site.time`       | [_Timestamp_](https://wikipedia.org/wiki/Unix_time) actuel. |
+| `site.debug`      | État du mode debug (`true` ou `false`).                     |
+| `site.build`      | ID de la génération actuelle.                               |
 
-_Exemple:_
+_Exemple :_
 
 ```yaml
 title: "My amazing website!"
 ```
 
-Peut être affiché dans un modèle avec :
+Peut être affiché dans un template avec :
 
 ```twig
 {{ site.title }}
 ```
 
 :::important
-Utilisez la méthode `showable` sur la collection de pages pour renvoyer uniquement les pages publiées et non les pages _virtuelles/redirectes/exclues_.
+Utilisez la méthode `showable` sur une collection de pages pour ne renvoyer que les pages publiées, non virtuelles, non redirigées et non exclues.
 
-_Exemple:_
+_Exemple :_
 
 ```twig
 {% for page in site.pages.showable %}
@@ -52,9 +52,9 @@ _Exemple:_
 :::
 
 :::warning
-Dans certains cas, vous pouvez rencontrer des conflits entre la configuration et les variables intégrées (ex. : `pages.default` configuration), vous pouvez donc utiliser `config.<variable>` (avec `<variable>` est le nom/chemin de la variable) pour accéder directement à la configuration brute.
+Dans certains cas, vous pouvez rencontrer des conflits entre la configuration et les variables intégrées (ex. : la configuration `pages.default`). Dans ce cas, vous pouvez utiliser `config.<variable>` (où `<variable>` est le nom/chemin de la variable) pour accéder directement à la configuration brute.
 
-Exemple:
+Exemple :
 
 ```twig
 {{ config.pages.default.sitemap.priority }}
@@ -64,16 +64,16 @@ Exemple:
 
 ### site.menus
 
-Bouclez sur `site.menus.<menu>` pour obtenir chaque entrée de la collection `<menu>` (par exemple : `main`).
+Bouclez sur `site.menus.<menu>` pour obtenir chaque entrée de la collection `<menu>` (ex. : `main`).
 
-| Variables        | Descriptif                                                                         |
+| Variable         | Description                                                                        |
 | ---------------- | ---------------------------------------------------------------------------------- |
-| `<entry>.id`     | ID de l'entrée (pour une entrée de page : l'ID de la page sans préfixe de langue). |
-| `<entry>.name`   | Nom de l'entrée.                                                                   |
-| `<entry>.url`    | URL d'entrée.                                                                      |
-| `<entry>.weight` | Poids d'entrée (utile pour trier les entrées de menu).                             |
+| `<entry>.id`     | ID de l’entrée (pour une entrée de page : l’ID de la page sans préfixe de langue). |
+| `<entry>.name`   | Nom de l’entrée.                                                                   |
+| `<entry>.url`    | URL de l’entrée.                                                                   |
+| `<entry>.weight` | Poids de l’entrée (utile pour trier les entrées de menu).                          |
 
-_Exemple:_
+_Exemple :_
 
 ```twig
 <nav>
@@ -89,69 +89,70 @@ _Exemple:_
 
 Informations sur la langue actuelle.
 
-| Variables              | Descriptif                                                                  |
-| ---------------------- | --------------------------------------------------------------------------- |
-| `site.language`        | Code de langue (ex. : `en`).                                                |
-| `site.language.name`   | Nom de la langue (par exemple : `English`).                                 |
-| `site.language.locale` | Langue [code local](../configuration/3-locale-codes.fr.md) (par exemple : `en_US`). |
-| `site.language.weight` | Position de la langue dans la liste `languages`.                            |
+| Variable               | Description                                                                         |
+| ---------------------- | ----------------------------------------------------------------------------------- |
+| `site.language`        | Code de langue (ex. : `en`).                                                        |
+| `site.language.name`   | Nom de la langue (ex. : `English`).                                                 |
+| `site.language.locale` | [Code de locale](../configuration/3-locale-codes.fr.md) de la langue (ex. : `en_US`). |
+| `site.language.weight` | Position de la langue dans la liste `languages`.                                    |
 
 :::tip
-Vous pouvez récupérer `name`, `locale` et `weight` d'un langage spécifique en passant son code en paramètre.
-par exemple : `site.language.name('fr')`.
+Vous pouvez récupérer `name`, `locale` et `weight` d’une langue spécifique en passant son code en paramètre.
+Par exemple : `site.language.name('fr')`.
 :::
 
 ### site.static
 
-La collection de fichiers statiques est accessible via `site.static` si le [_static load_](../configuration/5-data-static.fr.md#static-load) est activé.
+La collection des fichiers statiques est accessible via `site.static` si le [_static load_](../configuration/5-data-static.fr.md#static-load) est activé.
 
-Chaque fichier expose les propriétés suivantes :
+Chaque fichier expose les propriétés suivantes :
 
-- `path` : chemin relatif (ex. : `/images/img-1.jpg`)
-- `date` : date de création (_timestamp_)
-- `updated` : date de modification (_timestamp_)
+- `file` : chemin relatif du fichier, tel que trouvé dans le répertoire `static/` (ex. : `images/img-1.jpg`)
+- `path` : chemin relatif, avec des barres obliques (ex. : `images/img-1.jpg`)
+- `date` : date de création (_DateTime_)
+- `updated` : date de modification (_DateTime_)
 - `name` : nom (ex. : `img-1.jpg`)
 - `basename` : nom sans extension (ex. : `img-1`)
-- `ext` : poste (ex. : `jpg`)
+- `ext` : extension (ex. : `jpg`)
 - `type` : type de média (ex. : `image`)
-- `subtype` : sous-type de média (ex. : `image/jpeg`)
-- `exif` : données EXIF ​​​​de l'image (_array_)
-- `audio` : [Mp3Info](https://github.com/wapmorgan/Mp3Info#audio-information) objet
-- `video` : tableau d'informations vidéo de base (durée en secondes, largeur et hauteur)
+- `subtype` : sous-type de média (ex. : `image/jpeg`)
+- `exif` : données EXIF de l’image (_array_)
+- `audio` : objet [Mp3Info](https://github.com/wapmorgan/Mp3Info#audio-information)
+- `video` : tableau d’informations vidéo de base (durée en secondes, largeur et hauteur)
 
 ### site.data
 
 Une collection de données est accessible via `site.data.<filename>` (sans extension de fichier).
 
-_Exemples :_
+_Exemples :_
 
 - `data/authors.yml` : `site.data.authors`
-- `data/authors.fr.yml` : `site.data.authors` (si `site.language` = "fr")
+- `data/authors.fr.yml` : `site.data.authors` (si `site.language` = « fr »)
 - `data/galleries/gallery-1.json` : `site.data.galleries['gallery-1']`
 
 ## page
 
-La variable `page` contient les variables intégrées d'une page **et** celles définies dans le [avant-plan](../content/1-pages.fr.md#front-matter).
+La variable `page` contient les variables intégrées d’une page **et** celles définies dans le [front matter](../content/1-pages.fr.md#front-matter).
 
-| Variables           | Descriptif                                             | Exemple          |
+| Variable            | Description                                            | Exemple          |
 | ------------------- | ------------------------------------------------------ | ---------------- |
 | `page.id`           | Identifiant unique.                                    | `blog/post-1`    |
 | `page.title`        | Nom du fichier (sans extension).                       | `Post 1`         |
-| `page.date`         | Date de création du fichier.                           | _DateHeure_      |
-| `page.body`         | Corps du fichier.                                      | _Marquage_       |
+| `page.date`         | Date de création du fichier.                           | _DateTime_       |
+| `page.body`         | Corps du fichier.                                      | _Markdown_       |
 | `page.content`      | Corps du fichier converti en HTML.                     | _HTML_           |
-| `page.section`      | Dossier racine du fichier (_slugified_).               | `blog`           |
-| `page.path`         | Chemin du fichier (_slugified_).                       | `blog/post-1`    |
-| `page.slug`         | Nom du fichier (_slugified_).                          | `post-1`         |
-| `page.filepath`     | Chemin du système de fichiers.                         | `Blog/Post 1.md` |
+| `page.section`      | Dossier racine du fichier (_slugifié_).                | `blog`           |
+| `page.path`         | Chemin du fichier (_slugifié_).                        | `blog/post-1`    |
+| `page.slug`         | Nom du fichier (_slugifié_).                           | `post-1`         |
+| `page.filepath`     | Chemin dans le système de fichiers.                    | `Blog/Post 1.md` |
 | `page.type`         | `homepage`, `page`, `section`, `vocabulary` ou `term`. | `page`           |
 | `page.pages`        | Collection de toutes les sous-pages.                   | _Collection_     |
-| `page.translations` | Collection de pages traduites.                         | _Collection_     |
+| `page.translations` | Collection des pages traduites.                        | _Collection_     |
 
 :::important
-Utilisez la méthode `showable` sur la collection de pages pour renvoyer uniquement les pages publiées et non les pages _virtuelles/redirectes/exclues_.
+Utilisez la méthode `showable` sur une collection de pages pour ne renvoyer que les pages publiées, non virtuelles, non redirigées et non exclues.
 
-_Exemple:_
+_Exemple :_
 
 ```twig
 {% for page in page.pages.showable %}
@@ -165,14 +166,14 @@ _Exemple:_
 
 Dans un contexte de [sections imbriquées](../content/1-pages.fr.md#sous-section), les propriétés `page.parent`, `page.ancestors`, `page.sections` et `page.toplevel` facilitent la construction de la navigation.
 
-| Variables        | Descriptif                                                      | Exemple      |
+| Variable         | Description                                                     | Exemple      |
 | ---------------- | --------------------------------------------------------------- | ------------ |
 | `page.parent`    | Page de la _section_ parente (`null` si aucune).                | _Page_       |
 | `page.ancestors` | Collection des _sections_ ancêtres (la plus proche en premier). | _Collection_ |
 | `page.sections`  | Collection des _sections_ descendantes immédiates.              | _Collection_ |
 | `page.toplevel`  | `true` si la page est une _section_ de premier niveau.          | _Boolean_    |
 
-_Fil d'Ariane (de la page d'accueil à la page courante) :_
+_Fil d’Ariane (de la page d’accueil à la page courante) :_
 
 ```twig
 <nav aria-label="breadcrumb">
@@ -189,7 +190,7 @@ _Fil d'Ariane (de la page d'accueil à la page courante) :_
 ```
 
 :::tip
-Un partial [`breadcrumb.html.twig`](https://github.com/Cecilapp/Cecil/blob/main/resources/layouts/partials/breadcrumb.html.twig) prêt à l'emploi est disponible :
+Un partial [`breadcrumb.html.twig`](https://github.com/Cecilapp/Cecil/blob/main/resources/layouts/partials/breadcrumb.html.twig) prêt à l’emploi est disponible :
 
 ```twig
 {{ include('partials/breadcrumb.html.twig') }}
@@ -209,7 +210,7 @@ _Menu des sous-sections (sections descendantes immédiates de la section courant
 {% endif %}
 ```
 
-_Navigation principale limitée aux sections de premier niveau (depuis n'importe quelle page) :_
+_Navigation principale limitée aux sections de premier niveau (depuis n’importe quelle page) :_
 
 ```twig
 <nav>
@@ -229,44 +230,46 @@ _Lien vers la section parente :_
 
 ### page.<prev/next>
 
-Navigation entre les pages d'une même _Section_, triées selon le `sortby` de la section (ordre chronologique pour les dates).
+Navigation entre les pages d’une même _Section_, triées selon le `sortby` de la section (ordre chronologique pour les dates).
 
-Avec des [sous-sections](../content/1-pages.fr.md#sous-section), la navigation suit l'arbre des sections : les pages d'une _Section_ de premier niveau et de toutes ses sous-sections sont enchaînées, chaque sous-section (sa page d'index) étant placée parmi les pages de sa _Section_ parente et suivie de ses propres pages.
+Avec des [sous-sections](../content/1-pages.fr.md#sous-section), la navigation suit l’arbre des sections : les pages d’une _Section_ de premier niveau et de toutes ses sous-sections sont enchaînées, chaque sous-section (sa page d’index) étant placée parmi les pages de sa _Section_ parente et suivie de ses propres pages.
 
-| Variables   | Descriptif       | Exemple |
+| Variable    | Description      | Exemple |
 | ----------- | ---------------- | ------- |
 | `page.prev` | Page précédente. | _Page_  |
 | `page.next` | Page suivante.   | _Page_  |
 
-_Exemple:_
+_Exemple :_
 
 ```twig
+{% if page.prev is defined %}
 <a href="{{ url(page.prev) }}">{{ page.prev.title }}</a>
+{% endif %}
 ```
 
 ### page.paginator
 
-_Paginator_ vous aide à créer une navigation pour les pages de la liste : page d'accueil, sections et taxonomies.
+Le _paginator_ vous aide à créer la navigation des pages de liste : page d’accueil, sections et taxonomies.
 
-| Variables                    | Descriptif                             |
+| Variable                     | Description                            |
 | ---------------------------- | -------------------------------------- |
 | `page.paginator.pages`       | Collection de pages.                   |
 | `page.paginator.pages_total` | Nombre total de pages.                 |
-| `page.paginator.count`       | Nombre de pages du paginateur.         |
+| `page.paginator.count`       | Nombre de pages du paginator.          |
 | `page.paginator.current`     | Index de position de la page actuelle. |
-| `page.paginator.links.first` | ID de page de la première page.        |
-| `page.paginator.links.prev`  | ID de page de la page précédente.      |
-| `page.paginator.links.self`  | ID de page de la page actuelle.        |
-| `page.paginator.links.next`  | ID de page de la page suivante.        |
-| `page.paginator.links.last`  | ID de page de la dernière page.        |
-| `page.paginator.links.path`  | ID de page sans l'index de position.   |
+| `page.paginator.links.first` | ID de la première page.                |
+| `page.paginator.links.prev`  | ID de la page précédente.              |
+| `page.paginator.links.self`  | ID de la page actuelle.                |
+| `page.paginator.links.next`  | ID de la page suivante.                |
+| `page.paginator.links.last`  | ID de la dernière page.                |
+| `page.paginator.links.path`  | ID de la page sans l’index de position. |
 
 :::important
-Étant donné que les entrées de liens sont des ID de page, vous devez utiliser la fonction `url()` pour créer des liens fonctionnels.
-par exemple : `{{ url(page.paginator.links.next) }}`
+Les entrées de `links` étant des ID de page, vous devez utiliser la fonction `url()` pour créer des liens fonctionnels.
+Par exemple : `{{ url(page.paginator.links.next) }}`
 :::
 
-_Exemple:_
+_Exemple :_
 
 ```twig
 {% if page.paginator %}
@@ -281,7 +284,7 @@ _Exemple:_
 {% endif %}
 ```
 
-_Exemple:_
+_Exemple :_
 
 ```twig
 {% if page.paginator %}
@@ -309,11 +312,11 @@ Variables disponibles dans les templates _vocabulary_ et _term_.
 
 Page `/<plural>/` (ex. : `/categories/`).
 
-| Variables       | Descriptif                       |
-| --------------- | -------------------------------- |
-| `page.plural`   | Nom de vocabulaire au pluriel.   |
-| `page.singular` | Nom de vocabulaire au singulier. |
-| `page.terms`    | Liste de termes (_Collection_).  |
+| Variable        | Description                        |
+| --------------- | ---------------------------------- |
+| `page.plural`   | Nom du vocabulaire au pluriel.     |
+| `page.singular` | Nom du vocabulaire au singulier.   |
+| `page.terms`    | Liste des termes (_Collection_).   |
 
 Chaque terme de `page.terms` fournit `term.id` (identifiant du terme, ex. : `categories/php`), `term.name` (nom du terme, ex. : `PHP`) et le nombre de ses pages avec `term|length`.
 
@@ -321,13 +324,13 @@ Chaque terme de `page.terms` fournit `term.id` (identifiant du terme, ex. : `cat
 
 Page `/<plural>/<term>/` (ex. : `/categories/php/`).
 
-| Variables       | Descriptif                                                       |
+| Variable        | Description                                                      |
 | --------------- | ---------------------------------------------------------------- |
 | `page.title`    | Nom du terme.                                                    |
 | `page.term`     | Identifiant du terme (ex. : `categories/php`).                   |
-| `page.plural`   | Nom de vocabulaire au pluriel.                                   |
-| `page.singular` | Nom de vocabulaire au singulier.                                 |
-| `page.pages`    | Liste des pages dans ce terme, triées par date (_Collection_).   |
+| `page.plural`   | Nom du vocabulaire au pluriel.                                   |
+| `page.singular` | Nom du vocabulaire au singulier.                                 |
+| `page.pages`    | Liste des pages de ce terme, triées par date (_Collection_).     |
 
 #### Exemple de taxonomie
 
@@ -393,8 +396,8 @@ Vous pouvez aussi utiliser le partial intégré `{{ include('partials/terms-list
 
 ## cecil
 
-| Variables         | Descriptif                                               |
-| ----------------- | -------------------------------------------------------- |
-| `cecil.url`       | URL du site Cecil.                                       |
-| `cecil.version`   | Version actuelle de Cecil.                               |
-| `cecil.poweredby` | Imprimez `Cecil v%s`, avec `%s` est la version actuelle. |
+| Variable          | Description                                            |
+| ----------------- | ------------------------------------------------------ |
+| `cecil.url`       | URL du site de Cecil.                                  |
+| `cecil.version`   | Version actuelle de Cecil.                             |
+| `cecil.poweredby` | Affiche `Cecil v%s`, où `%s` est la version actuelle.  |

@@ -2,7 +2,7 @@
 title: "Organization and lookup rules"
 description: "Kinds of templates, naming convention, built-in templates and how a template is chosen for a page."
 date: 2021-05-07
-updated: 2026-10-10
+updated: 2026-10-16
 -->
 # Organization and lookup rules
 
@@ -26,7 +26,7 @@ layouts/(<section>/)<type>|<layout>.<format>(.<language>).twig
 :  The section of the page (e.g.: `blog`).
 
 `<type>`
-:  The page type: `home` (or `index`) for _homepage_, `list` for _list_, `page` for _page_, etc. (See [_Lookup rules_](#lookup-rules) for details).
+:  The template type: `home` (or `index`) for the _homepage_, `list` for list pages (_homepage_ and _sections_), `page` for a _page_, etc. (See [_Lookup rules_](#lookup-rules) for details).
 
 `<layout>` (_optional_)
 :  The custom layout name defined in the [front matter](../content/1-pages.md#front-matter) of the page (e.g.: `layout: my-layout`).
@@ -73,7 +73,7 @@ layouts/blog/list.rss.twig   # `section` is "blog" and `format` is "rss"
 Cecil comes with a set of [built-in templates](https://github.com/Cecilapp/Cecil/tree/main/resources/layouts).
 
 :::tip
-If you need to modify built-in templates, you can easily extract them via the following command: they will be copied in the `layouts` directory of your site.
+If you need to modify built-in templates, you can easily extract them via the following command: they will be copied into the `layouts` directory of your site.
 
 ```bash
 php cecil.phar util:templates:extract
@@ -83,9 +83,9 @@ php cecil.phar util:templates:extract
 
 ## Lookup rules
 
-In most of cases **you don’t need to specify the layout**: Cecil selects the most appropriate layout, according to the **page type**.
+In most cases **you don’t need to specify the layout**: Cecil selects the most appropriate layout, according to the **page type**.
 
-For example, the HTML output of **home page** (`index.md`) will be rendered:
+For example, the HTML output of the **home page** (`index.md`) will be rendered:
 
 1. with `my-layout.html.twig` if the `layout` variable is set to "my-layout" (in the front matter)
 2. if not, with `index.html.twig` if the file exists
@@ -93,6 +93,14 @@ For example, the HTML output of **home page** (`index.md`) will be rendered:
 4. if not, with `list.html.twig` if the file exists
 
 All rules are detailed below, for each page type, in the priority order.
+
+:::info
+Each candidate template is searched in the `layouts/` directory of the site, then in the `layouts/` directory of each [theme](7-extend.md#theme) (in the configured order), then in the built-in templates. The first file found is used.
+:::
+
+:::tip
+For a page in a language other than the default one, the localized variant of each candidate (e.g.: `page.html.fr.twig`) is tried first: all localized candidates are looked up before the non-localized ones.
+:::
 
 ### Type _homepage_
 
@@ -130,6 +138,10 @@ All rules are detailed below, for each page type, in the priority order.
 The `<section>` of a [sub-section](../content/1-pages.md#sub-section) is its full path (e.g.: `blog/2024`), and a sub-section falls back to the templates of its parent sections: if `blog/2024/list.html.twig` doesn’t exist, the sub-section `blog/2024` is rendered with `blog/list.html.twig`.
 :::
 
+:::info
+The name used as `<section>` (for a section and its pages) can be mapped to the layouts of another section with the [`layouts.sections`](../configuration/7-layouts.md#layouts-sections) option.
+:::
+
 ### Type _vocabulary_
 
 1. `taxonomy/<plural>.<format>.twig`
@@ -153,5 +165,5 @@ The **vocabulary** template is named after the **plural** (e.g.: `taxonomy/categ
 :::
 
 :::info
-Most of those layouts are available by default, see [built-in templates](https://github.com/Cecilapp/Cecil/tree/main/resources/layouts).
+Most of those layouts are available by default (in `_default/`), see [built-in templates](#built-in-templates).
 :::

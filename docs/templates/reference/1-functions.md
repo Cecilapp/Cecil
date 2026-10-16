@@ -1,12 +1,16 @@
 <!--
 title: "Functions"
-description: "url, html, readtime, hash, cache_key, getenv, dump, etc."
+description: "url, html, readtime, hash, cache_key, getenv, dump, tests, etc."
 date: 2021-05-07
-updated: 2026-10-05
+updated: 2026-10-16
 -->
 # Functions
 
 > [Functions](https://twig.symfony.com/doc/functions/index.html) can be called to generate content. Functions are called by their name followed by parentheses (`()`) and may have arguments.
+
+:::info
+See also: functions dedicated to assets (`asset`, `integrity`, `image_srcset`, `image_sizes`, `image_from_website`, etc.) are documented in the [Assets](../../assets/index.md) section.
+:::
 
 ## url
 
@@ -18,9 +22,9 @@ Creates a valid URL for a page, a menu entry, an asset, a page ID or a path.
 
 | Option    | Description                                                                                                                      | Type    | Default |
 | --------- | -------------------------------------------------------------------------------------------------------------------------------- | ------- | ------- |
-| canonical | Prefix URL with [`baseurl`](../../configuration/1-site.md#baseurl) or use [`canonical.url`](../../configuration/1-site.md#metatags-options) if exists. | boolean | `false` |
+| canonical | Prefixes URL with [`baseurl`](../../configuration/1-site.md#baseurl) or uses [`canonical.url`](../../configuration/1-site.md#metatags-options) if it exists. | boolean | value of [`canonicalurl`](../../configuration/1-site.md#canonicalurl) (`false` by default) |
 | format    | Defines page [output format](../../configuration/8-output.md#output-formats) (e.g.: `json`).                                                  | string  | `html`  |
-| language  | Defines page [language](../../configuration/2-languages.md#language) (e.g.: `fr`).                                                               | string  | null    |
+| language  | Defines page [language](../../configuration/2-languages.md#language) (e.g.: `fr`).                                                               | string  | current language |
 
 _Examples:_
 
@@ -28,8 +32,8 @@ _Examples:_
 {# page #}
 {{ url(page) }}
 {{ url(page, {canonical: true}) }}
-{{ url(page, {format: json}) }}
-{{ url(page, {language: fr}) }}
+{{ url(page, {format: 'json'}) }}
+{{ url(page, {language: 'fr'}) }}
 {# menu entry #}
 {{ url(site.menus.main.about) }}
 {# asset #}
@@ -47,7 +51,7 @@ For convenience the `url` function is also available as a filter:
 ```twig
 {# page #}
 {{ page|url }}
-{{ page|url({canonical: true, format: json, language: fr}) }}
+{{ page|url({canonical: true, format: 'json', language: 'fr'}) }}
 {# asset #}
 {{ asset('styles.css')|url }}
 ```
@@ -72,13 +76,13 @@ Creates an HTML element from an asset (or an array of assets with custom attribu
 {{ video(asset) }}
 ```
 
-| Option     | Description                                                                                                                                                                                    | Type  |
+| Argument   | Description                                                                                                                                                                                    | Type  |
 | ---------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ----- |
 | attributes | Adds `name="value"` couple to the HTML element.                                                                                                                                                | array |
 | options    | `{preload: boolean}`: preloads.<br>For images:<br>`{formats: array}`: adds alternative formats.<br>`{responsive: bool|string}`: adds responsive images (based on `width` or pixels `density`).<br>`{placeholder: string}`: fills the image background before loading (`color` or `lqip`). | array |
 
 :::warning
-Since version ++8.42.0++, the `html` function replace the deprecated `html` filter.
+Since version ++8.42.0++, the `html` function replaces the deprecated `html` filter.
 :::
 
 :::tip
@@ -118,7 +122,7 @@ _Examples:_
 ```
 
 :::info
-For convenience the `html` function stay available as a filter (but is considered as deprecated):
+For convenience the `html` function remains available as a filter (deprecated):
 
 ```twig
 {{ asset|html({attributes}, {options}) }}
@@ -128,7 +132,7 @@ For convenience the `html` function stay available as a filter (but is considere
 
 ## readtime
 
-Determines read time of a text, in minutes.
+Determines read time of a text, in minutes (based on 200 words per minute, 1 minute minimum).
 
 ```twig
 {{ readtime(value) }}
@@ -148,7 +152,7 @@ Calculates the hash of an object, an array or a string with a given algorithm.
 {{ hash(value, algorithm) }}
 ```
 
-`algorithm` can be any algorithm supported by PHP's `hash()` function (e.g.: `md5`, `sha256`, etc.). Default is `xxh128`.
+`algorithm` can be any algorithm supported by PHP’s `hash()` function (e.g.: `md5`, `sha256`, etc.). Default is `xxh128`.
 
 _Example:_
 
@@ -166,7 +170,7 @@ Calculates a cache key for [_fragments_ cache](../6-cache.md#fragments-cache) ba
 {% endcache %}
 ```
 
-The function adds a hash of the value (could be a string, an array or an object) to the name (and the current language and build ID to be sure the generated cache key is unique) so if the value is changed the cache key is changed too and the cache is automatically cleared.
+The function adds a hash of the value (could be a string, an array or an object) to the name (and the current language and build ID to be sure the generated cache key is unique), so if the value changes, the cache key changes too and a new cache entry is generated.
 
 ## getenv
 
@@ -196,15 +200,44 @@ The [_debug mode_](../../configuration/1-site.md#debug) must be enabled.
 
 ## d
 
-The `d()` function is the HTML version of [`dump()`](#dump) and use the [Symfony VarDumper Component](https://symfony.com/doc/5.4/components/var_dumper.html) behind the scenes.
+The `d()` function is the HTML version of [`dump()`](#dump) and uses the [Symfony VarDumper Component](https://symfony.com/doc/current/components/var_dumper.html) behind the scenes.
 
 ```twig
-{{ d(variable, {theme: light}) }}
+{{ d(variable, {theme: 'dark'}) }}
 ```
 
-- If _variable_ is not provided then the function returns the current Twig context
-- Available themes are « light » (default) and « dark »
+- If _variable_ is not provided, the function dumps the current Twig context
+- Available themes are `light` (default) and `dark`
 
 :::important
 The [_debug mode_](../../configuration/1-site.md#debug) must be enabled.
 :::
+
+## Tests
+
+[Tests](https://twig.symfony.com/doc/tests/index.html) can be used with the `is` operator.
+
+| Test           | Description                                                                         |
+| -------------- | ----------------------------------------------------------------------------------- |
+| `asset`        | The variable is an [asset](../../assets/index.md#asset).                            |
+| `image_large`  | The asset is a landscape image of at least 600 × 315 pixels (e.g.: a cover image). |
+| `image_square` | The asset is a square image (same width and height).                                |
+
+_Example:_
+
+```twig
+{% set image = asset(page.image) %}
+{% if image is image_large %}
+  {{ html(image, {alt: page.title}) }}
+{% endif %}
+```
+
+## Deprecated
+
+The following functions are deprecated (a deprecation notice is triggered when they are used):
+
+| Function           | Replacement                                                                 |
+| ------------------ | --------------------------------------------------------------------------- |
+| `minify()`         | [`minify`](../../assets/2-processing.md#minify) filter                      |
+| `toCSS()`          | [`to_css`](../../assets/2-processing.md#to-css) filter                      |
+| `image_from_url()` | [`image_from_website()`](../../assets/1-images.md#image-from-website) function |
