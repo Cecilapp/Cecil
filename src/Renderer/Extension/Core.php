@@ -129,7 +129,6 @@ class Core extends AbstractExtension
                 'cover',
                 [$this, 'resize'],
                 [
-                    'needs_context' => true,
                     'deprecation_info' => new DeprecatedCallableInfo('', '', 'resize filter')
                 ]
             ),
