@@ -2,7 +2,7 @@
 title: "Localization"
 description: "Translate texts and localize dates in templates."
 date: 2021-05-07
-updated: 2026-10-05
+updated: 2026-10-16
 -->
 # Localization
 
@@ -84,12 +84,12 @@ Use `--save` instead of (or in addition to) `--show` to save the translations to
 :::
 
 :::important
-Be careful about the [cache](6-cache.md) when you update translations files.
+Translations are [cached](6-cache.md): the cache is refreshed when a translation file is updated or removed, but not when a new one is added.
 
-Cache can be cleared with with the following command:
+Cache can be cleared with the following command:
 
 ```bash
-php cecil.phar cache:clear:translations`
+php cecil.phar cache:clear:translations
 ```
 
 :::
