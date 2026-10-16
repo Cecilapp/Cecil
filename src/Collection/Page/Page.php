@@ -76,6 +76,9 @@ class Page extends Item
     /** @var \Cecil\Collection\Taxonomy\Vocabulary Terms of a vocabulary. */
     protected $terms;
 
+    /** @var string[] Allowed prefix separator characters (from config `pages.prefix.separator`). */
+    protected $prefixSeparators = PrefixSuffix::DEFAULT_SEPARATORS;
+
     /**
      * @param string[]|null $prefixSeparators Allowed prefix separator characters (from config `pages.prefix.separator`)
      */
@@ -182,6 +185,7 @@ class Page extends Item
          * Set page properties and variables
          */
         $this->setFolder($fileRelativePath);
+        $this->prefixSeparators = $separators;
         $this->setSlug($fileName);
         $this->setPath($this->getFolder() . '/' . $this->getSlug());
         $this->setVariables([
@@ -329,7 +333,7 @@ class Page extends Item
     public function setSlug(string $slug): self
     {
         if (!$this->slug) {
-            $slug = Util\Slugifier::slugify(PrefixSuffix::sub($slug));
+            $slug = Util\Slugifier::slugify(PrefixSuffix::sub($slug, $this->prefixSeparators));
         }
         // force slug and update path
         if ($this->slug && $this->slug != $slug) {
@@ -665,13 +669,17 @@ class Page extends Item
                  * expiry: 2012-10-09
                  */
                 $this->offsetSet('published', false);
-                if (\is_array($value)) {
-                    if (\array_key_exists('publish', $value) && Util\Date::toDatetime($value['publish']) <= Util\Date::toDatetime('now')) {
-                        $this->offsetSet('published', true);
+                // published if the publish date is reached AND the expiry date is not passed
+                if (\is_array($value) && (\array_key_exists('publish', $value) || \array_key_exists('expiry', $value))) {
+                    $now = Util\Date::toDatetime('now');
+                    $published = true;
+                    if (\array_key_exists('publish', $value) && Util\Date::toDatetime($value['publish']) > $now) {
+                        $published = false;
                     }
-                    if (\array_key_exists('expiry', $value) && Util\Date::toDatetime($value['expiry']) >= Util\Date::toDatetime('now')) {
-                        $this->offsetSet('published', true);
+                    if (\array_key_exists('expiry', $value) && Util\Date::toDatetime($value['expiry']) < $now) {
+                        $published = false;
                     }
+                    $this->offsetSet('published', $published);
                 }
                 break;
             case 'draft':
