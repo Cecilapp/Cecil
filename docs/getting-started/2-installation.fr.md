@@ -104,19 +104,21 @@ La commande `serve` repose sur le serveur web intégré de PHP, que le binaire n
 Installer Cecil globalement permet d’exécuter la commande `cecil` depuis n’importe quel dossier, au lieu de `php cecil.phar`.
 
 ::::tabs
-#### macOS et Linux
+#### Linux
+
+En déplaçant le PHAR dans un dossier de votre `PATH` :
+
+```bash
+mv cecil.phar /usr/local/bin/cecil
+chmod +x /usr/local/bin/cecil
+```
+
+#### macOS
 
 Avec [Homebrew](https://brew.sh) :
 
 ```bash
 brew install cecilapp/tap/cecil
-```
-
-Ou manuellement, en déplaçant le PHAR dans un dossier de votre `PATH` :
-
-```bash
-mv cecil.phar /usr/local/bin/cecil
-chmod +x /usr/local/bin/cecil
 ```
 
 #### Windows

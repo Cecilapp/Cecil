@@ -103,19 +103,21 @@ The `serve` command relies on the PHP built-in web server, which the binary does
 Installing Cecil globally allows you to run the `cecil` command from any directory, instead of `php cecil.phar`.
 
 ::::tabs
-#### macOS and Linux
+#### Linux
+
+By moving the PHAR in a directory of your `PATH`:
+
+```bash
+mv cecil.phar /usr/local/bin/cecil
+chmod +x /usr/local/bin/cecil
+```
+
+#### macOS
 
 With [Homebrew](https://brew.sh):
 
 ```bash
 brew install cecilapp/tap/cecil
-```
-
-Or manually, by moving the PHAR in a directory of your `PATH`:
-
-```bash
-mv cecil.phar /usr/local/bin/cecil
-chmod +x /usr/local/bin/cecil
 ```
 
 #### Windows
