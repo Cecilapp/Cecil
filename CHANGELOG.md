@@ -2,6 +2,18 @@
 
 All notable changes to this project will be documented in this file. Dates are displayed in UTC.
 
+#### [9.13.1](https://github.com/Cecilapp/Cecil/compare/9.13.0...9.13.1)
+
+> 16 October 2026
+
+- fix(layouts): valid RSS 2.0 feed and favicon enabled option [`#2519`](https://github.com/Cecilapp/Cecil/pull/2519)
+- fix(page): schedule dates and custom prefix separator [`#2518`](https://github.com/Cecilapp/Cecil/pull/2518)
+- fix(image): LQIP and colors resize, cover filter [`#2517`](https://github.com/Cecilapp/Cecil/pull/2517)
+- fix(asset): send local images to the CDN [`#2516`](https://github.com/Cecilapp/Cecil/pull/2516)
+- fix: sort by title and desc_title option [`#2515`](https://github.com/Cecilapp/Cecil/pull/2515)
+- docs: use notes templates (steps, tabs, code group) [`#2514`](https://github.com/Cecilapp/Cecil/pull/2514)
+- docs(install): split global install tabs by OS [`11d8a74`](https://github.com/Cecilapp/Cecil/commit/11d8a746199e4256d8d16f859d315e40d0a85334)
+
 #### [9.13.0](https://github.com/Cecilapp/Cecil/compare/9.12.1...9.13.0)
 
 > 16 October 2026
