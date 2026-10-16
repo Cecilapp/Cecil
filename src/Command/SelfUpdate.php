@@ -71,7 +71,7 @@ EOF
     {
         $version = ($this->getApplication() ?? throw new \LogicException('The command is not attached to an application.'))->getVersion();
 
-        $updater = new Updater(null, false, Updater::STRATEGY_GITHUB);
+        $updater = new Updater(null, Updater::STRATEGY_GITHUB);
 
         // rollback
         if ($input->getOption('rollback')) {
