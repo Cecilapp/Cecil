@@ -2,7 +2,7 @@
 title: "Assets"
 description: "Assets directory, compilation, minification, images and CDN."
 date: 2021-05-07
-updated: 2026-10-05
+updated: 2026-10-16
 -->
 # Assets
 
@@ -37,7 +37,7 @@ assets:
 
 ## assets.compile
 
-Enables [Sass](https://sass-lang.com) files compilation (`true` by default). See the [documentation of scssphp](https://scssphp.github.io/scssphp/docs/#output-formatting) for options details.
+[Sass](https://sass-lang.com) files compilation options. See the [documentation of scssphp](https://scssphp.github.io/scssphp/docs/#output-formatting) for options details.
 
 ```yaml
 assets:
@@ -45,7 +45,7 @@ assets:
     style: expanded      # compilation style (`expanded` or `compressed`. `expanded` by default)
     import: [sass, scss] # list of imported paths (`[sass, scss, node_modules]` by default)
     sourcemap: false     # enables sourcemap in debug mode (`false` by default)
-    variables: []        # list of preset variables (empty by default)
+    variables: {}        # preset variables, as `name: value` pairs (empty by default)
 ```
 
 :::info
@@ -69,11 +69,12 @@ Images management.
 assets:
   images:
     optimize: false # enables images optimization with JpegOptim, Optipng, Pngquant 2, SVGO 1, Gifsicle, cwebp, avifenc (`false` by default)
-    quality: 75     # image quality of `optimize` and `resize` (`75` by default)
+    quality: 75     # image quality used by optimization and resizing (`75` by default)
     responsive:
       widths: [480, 640, 768, 1024, 1366, 1600, 1920] # `srcset` attribute images widths
       sizes:
         default: '100vw' # default `sizes` attribute (`100vw` by default)
+      densities: [1, 2, 3] # `srcset` attribute pixel densities
 ```
 
 ## assets.images.cdn
@@ -85,8 +86,9 @@ assets:
   images:
     cdn:
       enabled: false  # enables Image CDN (`false` by default)
+      svg: false      # includes SVG images (`false` by default)
       canonical: true # `image_url` is canonical (instead of a relative path) (`true` by default)
-      remote: true    # handles not local images too (`true` by default)
+      remote: true    # also handles remote images (`true` by default)
       account: 'xxxx' # provider account
       url: 'https://provider.tld/%account%/%image_url%?w=%width%&q=%quality%&format=%format%'
 ```
@@ -109,7 +111,21 @@ User agent used to download remote assets.
 assets:
   remote:
     useragent:
-      default: <string> # default user agent
-      useragent1: <string>
-      useragent2: <string>
+      default: <string> # user agent of HTTP requests
 ```
+
+:::info
+For a given asset, the user agent can be replaced with the `useragent` option of the [`asset()`](../assets/index.md#asset) function.
+:::
+
+## assets.remote.timeout
+
+Timeout of remote assets downloads, in seconds (`30` by default).
+
+```yaml
+assets:
+  remote:
+    timeout: 30
+```
+
+---

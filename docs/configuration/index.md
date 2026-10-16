@@ -2,7 +2,7 @@
 title: "Configuration"
 description: "Configure your website with the cecil.yml file."
 date: 2021-05-07
-updated: 2026-10-05
+updated: 2026-10-16
 weight: 5
 sortby: weight
 -->
@@ -23,4 +23,6 @@ baseurl: https://mywebsite.com/
 description: "Site description"
 ```
 
-The following documentation covers all supported configuration options in Cecil.
+The following pages describe the configuration options supported by Cecil.
+
+Some options specific to a command are documented with that command: `editor` ([`new:page`](../commands/2-new-page.md#open-with-your-editor)) and `doctor.*` ([`doctor`](../commands/5-doctor.md)).

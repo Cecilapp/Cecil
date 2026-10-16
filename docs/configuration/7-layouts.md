@@ -2,7 +2,7 @@
 title: "Layouts"
 description: "Templates directory, auto-escaping, images, translations and components."
 date: 2021-05-07
-updated: 2026-10-05
+updated: 2026-10-16
 -->
 # Layouts
 
@@ -10,7 +10,7 @@ Templates options.
 
 ## layouts.dir
 
-Templates directory source (`layouts` by default).
+Templates source directory (`layouts` by default).
 
 ```yaml
 layouts:
@@ -30,8 +30,8 @@ If set to `null`, Cecil uses an extension-based strategy:
 
 ```yaml
 layouts:
-  autoescape: false  # disables automatic escaping (default) 
-  #autoescape: null  # use Cecil automatic strategy by template filename extension 
+  autoescape: false  # disables automatic escaping (default)
+  #autoescape: null  # use Cecil automatic strategy by template filename extension
   #autoescape: html
   #autoescape: js
 ```
@@ -43,11 +43,11 @@ Images handling options.
 ```yaml
 layouts:
   images:
-    formats: []       # used by `html` function: adds alternatives image formats as `source` (e.g. `[avif, webp]`, empty array by default)
+    formats: []       # used by `html` function: adds alternative image formats as `source` (e.g. `[avif, webp]`, empty array by default)
     responsive: false # used by `html` function: adds responsive images ('width' or 'density', `false` by default)
     placeholder: ''   # used by `html` function: fills image background before loading (`color` or `lqip`, disabled by default)
-    dark_suffix: ''   # suffix of the dark variant image (e.g. `.dark`), disabled by default
-    mobile_suffix: '' # suffix of the mobile variant image (e.g. `.mobile`), disabled by default
+    dark_suffix: ~    # suffix of the dark variant image (e.g. `.dark`), disabled by default
+    mobile_suffix: ~  # suffix of the mobile variant image (e.g. `.mobile`), disabled by default
     mobile_media_query: '(max-width: 767px)' # media query of the mobile variant `<source>`
 ```
 
@@ -72,6 +72,16 @@ Each translation format defines:
 
 - `loader`: Symfony translation loader class
 - `ext`: one or more file extensions associated with this format
+
+## layouts.extensions
+
+List of [Twig extensions](../developers/1-extend.md#twig-extension) classes to load (empty by default).
+
+```yaml
+layouts:
+  extensions:
+    <name>: <class>
+```
 
 ## layouts.components
 

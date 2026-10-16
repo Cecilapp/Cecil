@@ -2,7 +2,7 @@
 title: "Options du site"
 description: "title, baseurl, menus, taxonomies, theme, date, metatags, debug, etc."
 date: 2026-03-27
-updated: 2026-10-10
+updated: 2026-10-16
 -->
 # Options du site
 
@@ -62,7 +62,7 @@ description: "<description>"
 
 Les menus sont utilisés pour créer des [liens de navigation dans les templates](../templates/2-variables.fr.md#site-menus).
 
-Un menu est composé d’un identifiant unique et des propriétés des entrées (nom, URL, poids).
+Un menu est une liste d’entrées, chacune définie par un identifiant unique et des propriétés (nom, URL, poids).
 
 ```yaml
 menus:
@@ -90,7 +90,7 @@ menus:
 ```
 
 :::info
-Un menu `main` est créé automatiquement avec l’entrée de la page d’accueil et toutes les entrées de sections ([Voir la gestion du contenu](../content/index.fr.md)).
+Un menu `main` est créé automatiquement avec l’entrée de la page d’accueil et les entrées de toutes les sections (voir la [gestion du contenu](../content/index.fr.md)).
 :::
 
 :::tip
@@ -227,19 +227,19 @@ Ce template ajoute les balises meta suivantes :
 - [Open Graph](https://ogp.me)
 - Identifiant de profil Facebook
 - [Twitter/X Card](https://developer.x.com/docs/x-for-websites/cards/guides/getting-started)
-- [Fediverse tag](https://blog.joinmastodon.org/2024/07/highlighting-journalism-on-mastodon/)
+- [Balise Fediverse](https://blog.joinmastodon.org/2024/07/highlighting-journalism-on-mastodon/)
 - [Dublin Core](https://www.dublincore.org/specifications/dublin-core/dcmi-terms/)
-- [Structured data](https://developers.google.com/search/docs/appearance/structured-data/intro-structured-data) (JSON-LD)
+- [Données structurées](https://developers.google.com/search/docs/appearance/structured-data/intro-structured-data) (JSON-LD)
 
-### options metatags
+### Options metatags
 
-Cecil utilise le front matter de la page pour alimenter les meta tags, avec repli sur les options du site si nécessaire.
+Cecil utilise le front matter de la page pour alimenter les balises meta, avec repli sur les options du site si nécessaire.
 
 ```yaml
 title: "Page/Site title"              # used by title meta
 description: "Page/Site description"  # used by description meta
 tags: [tag1, tag2]                    # used by keywords meta
-keywords: [keyword1, keyword2]        # obsolete
+keywords: [keyword1, keyword2]        # obsolete in page front matter (use `tags`)
 author:                               # used by author meta
   name: <name>                          # author name
   url: <url>                            # author URL
@@ -266,12 +266,14 @@ social:                               # used by social networks meta
 Si besoin, `title` et `image` peuvent être surchargés :
 
 ```twig
-{{ include('partials/metatags.html.twig', {title: 'Custom title', image: og_image}) }}
+{{ include('partials/metatags.html.twig', {title: 'Custom title', image: 'images/og.png'}) }}
 ```
+
+`image` accepte un chemin ou un [asset](../assets/index.fr.md).
 
 :::
 
-### configuration metatags
+### Configuration metatags
 
 ```yaml
 metatags:
@@ -282,13 +284,12 @@ metatags:
       shownumber: true         # displays page number in title (`true` by default)
       label: "Page %s"         # how to display page number (`Page %s` by default)
   robots: "index,follow"   # web crawlers directives (`index,follow` by default)
-  favicon:                 # favicon options
-    enabled: true            # includes favicon (`true` by default)
-    image: favicon.png       # path to favicon image
+  favicon:                 # favicon options (set `favicon: false` to disable)
+    image: favicon.png       # path to favicon image (`favicon.png` by default)
     sizes:                   # sizes by device
-      - "icon": [32, 57, 76, 96, 128, 192, 228]  # web browsers
-      - "shortcut icon": [196]                   # Android
-      - "apple-touch-icon": [120, 152, 180]      # iOS
+      "icon": [32, 57, 76, 96, 128, 192, 228]  # web browsers
+      "shortcut icon": [128, 196]              # Android
+      "apple-touch-icon": [120, 152, 180]      # iOS
   navigation: true         # includes previous and next links (`true` by default)
   image: true              # includes image (`true` by default)
   og: true                 # includes Open Graph meta tags (`true` by default)
@@ -301,7 +302,7 @@ metatags:
 
 ## debug
 
-Active le _mode debug_, utilisé pour afficher des informations de débogage comme des journaux très verbeux, le dump Twig, le profileur Twig, le sourcemap SCSS, etc.
+Active le _mode debug_, utilisé pour afficher des informations de débogage comme des journaux très verbeux, le dump Twig, le profileur Twig, la sourcemap SCSS, etc.
 
 ```yaml
 debug: true

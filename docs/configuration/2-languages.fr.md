@@ -2,7 +2,7 @@
 title: "Langues"
 description: "Langue principale et langues supplémentaires d’un site multilingue."
 date: 2026-03-27
-updated: 2026-10-10
+updated: 2026-10-16
 path: documentation/configuration/langues
 -->
 # Langues
@@ -17,7 +17,7 @@ Langue principale, définie par son code.
 language: <code> # unique code (`en` by default)
 ```
 
-Par défaut, seuls les chemins des pages des autres [langues](#languages) sont préfixés par leur code de langue, mais vous pouvez préfixer le chemin des pages de la langue principale avec l’option suivante :
+Par défaut, seuls les chemins des pages des autres [langues](#languages) sont préfixés par leur code de langue, mais vous pouvez aussi préfixer le chemin des pages de la langue principale avec l’option suivante :
 
 ```yaml
 #language: <code>
@@ -36,9 +36,9 @@ Options des langues disponibles, utilisées pour la localisation des [pages](../
 
 ```yaml
 languages:
-  - code: <code>          # unique code (e.g.: `en`, `fr`, 'en-US', `fr-CA`)
+  - code: <code>          # unique code, `xx` or `xx-XX` (required, e.g.: `en`, `fr`, `en-US`, `fr-CA`)
     name: <name>          # human readable name (e.g.: `Français`)
-    locale: <locale>      # locale code (`language_COUNTRY`, e.g.: `en_US`, `fr_FR`, `fr_CA`)
+    locale: <locale>      # locale code (required, `language_COUNTRY`, e.g.: `en_US`, `fr_FR`, `fr_CA`)
     enabled: <true|false> # enabled or not (`true` by default)
 ```
 
@@ -66,7 +66,7 @@ Pour localiser des options de configuration, vous devez les stocker sous la clé
 _Exemple :_
 
 ```yaml
-title: "Cecil in english"
+title: "Cecil in English"
 languages:
   - code: en
     name: English
@@ -80,5 +80,7 @@ languages:
 
 :::info
 Dans les [templates](../templates/index.fr.md), vous pouvez accéder à une option avec `{{ site.<option> }}`, par exemple `{{ site.title }}`.  
-Si une option n’est pas disponible dans la langue actuelle (ex. : `fr`), elle revient à la valeur globale (ex. : `en`).
+Si une option n’est pas disponible dans la langue courante (ex. : `fr`), la valeur globale (ex. : `en`) est utilisée.
 :::
+
+---

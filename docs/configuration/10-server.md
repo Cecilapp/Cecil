@@ -2,7 +2,7 @@
 title: "Server and optimization"
 description: "Local server headers and output optimization."
 date: 2021-05-07
-updated: 2026-10-10
+updated: 2026-10-16
 -->
 # Server and optimization
 
@@ -21,14 +21,14 @@ Since version ++8.38.0++, the `headers` option has been moved to the `server.hea
 ```yaml
 server:
   headers:
-    - path: <path> # Relative path, prefixed with a slash. Support "*" wildcard.
+    - path: <path> # Relative path, prefixed with a slash. Supports the `*` wildcard.
       headers:
         - key: <key>
           value: "<value>"
 ```
 
 :::tip
-It's useful to test custom [Content Security Policy](https://developer.mozilla.org/docs/Web/HTTP/CSP) or [Cache-Control](https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Cache-Control).
+It’s useful to test custom [Content Security Policy](https://developer.mozilla.org/docs/Web/HTTP/CSP) or [Cache-Control](https://developer.mozilla.org/docs/Web/HTTP/Headers/Cache-Control).
 :::
 
 _Example:_
@@ -62,7 +62,7 @@ server:
 
 ## Optimize
 
-The optimization options allow to enable compression of output files: HTML, CSS, JavaScript and image.
+The optimization options enable compression of output files: HTML, CSS, JavaScript and images.
 
 ```yaml
 optimize:
@@ -88,10 +88,10 @@ optimize: true
 ```
 
 Once the global option is enabled, the 4 file types will be processed.  
-It is possible to disable each of them via `enabled: false` and modify processed files extension via `ext`.
+It is possible to disable each of them via `enabled: false` and change the processed file extensions via `ext`.
 
 :::tip
-It is also possible to enable this option through CLI when using the "build" and "serve" commands via the `--optimize` option.
+It is also possible to enable (or disable) this option through CLI when using the `build` and `serve` commands, with the `--optimize` (or `--no-optimize`) option.
 :::
 
 :::important
