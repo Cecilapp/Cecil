@@ -2,6 +2,14 @@
 
 All notable changes to this project will be documented in this file. Dates are displayed in UTC.
 
+#### [9.12.0](https://github.com/Cecilapp/Cecil/compare/9.11.1...9.12.0)
+
+> 15 October 2026
+
+- feat(converter): render notes with a template by type [`#2510`](https://github.com/Cecilapp/Cecil/pull/2510)
+- docs(menus): page menu entry ID has no language prefix [`#2509`](https://github.com/Cecilapp/Cecil/pull/2509)
+- chore(deps-dev): bump intervention/image-driver-vips from 4.1.5 to 4.1.6 [`#2508`](https://github.com/Cecilapp/Cecil/pull/2508)
+
 #### [9.11.1](https://github.com/Cecilapp/Cecil/compare/9.11.0...9.11.1)
 
 > 14 October 2026
