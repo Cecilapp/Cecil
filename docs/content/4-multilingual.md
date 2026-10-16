@@ -2,29 +2,29 @@
 title: "Multilingual"
 description: "Translate pages through file name or front matter and link translated pages."
 date: 2021-05-07
-updated: 2026-10-03
+updated: 2026-10-16
 -->
 # Multilingual
 
-If your pages are available in multiple [languages](../configuration/2-languages.md#languages) there is 2 different ways to define it:
+If your pages are available in multiple [languages](../configuration/2-languages.md#languages), there are two ways to define them:
 
 ## Through file name
 
-This is the common way to translate a page from the main [language](../configuration/2-languages.md#language) to another language.
+This is the most common way to translate a page from the main [language](../configuration/2-languages.md#language) to another language.
 
-You just need to duplicate the reference page and suffix it with the target language `code` (e.g.: `fr`).
+You just need to duplicate the reference page and add the target language `code` as a suffix, before the extension (e.g.: `about.fr.md`). The code must be one of the declared [languages](../configuration/2-languages.md#languages) (format `fr` or `fr-FR`).
 
 _Example:_
 
 ```plaintext
 ├─ about.md    # the reference page
-└─ about.fr.md # the french version (`fr`)
+└─ about.fr.md # the French version (`fr`)
 ```
 
 :::tip
-You can change the URL of the translated page with the `slug` variable in the front matter. For example:
+You can change the URL of the translated page with the `slug` variable in its front matter. For example, in `about.fr.md`:
 
-```yml
+```yaml
 ---
 slug: a-propos
 ---
@@ -40,7 +40,7 @@ If you want to create a page in a language other than the main language, without
 
 _Example:_
 
-```yml
+```yaml
 ---
 language: fr
 ---
@@ -48,18 +48,20 @@ language: fr
 
 ## Link translated pages
 
-Each translated page reference the pages in others languages.
+Each translated page references its versions in other languages.
 
-Those pages collection is available in [templates](../templates/2-variables.md#page) with the following variable:
+This collection of pages is available in [templates](../templates/2-variables.md#page) with the following variable:
 
 ```twig
 {{ page.translations }}
 ```
 
 :::info
-The `langref` variable is provided by default, but you can change it in the front matter:
+Translations are linked by their `langref` variable: by default, the page path without language (e.g.: `about` for `about.md` and `about.fr.md`).
 
-```yml
+You can change it in the front matter, for example to link translated pages with different file names:
+
+```yaml
 ---
 langref: my-page-ref
 ---

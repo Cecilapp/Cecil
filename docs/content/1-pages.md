@@ -2,11 +2,17 @@
 title: "Pages and sections"
 description: "Anatomy of a page, file prefix, sections, sub-sections and home page."
 date: 2021-05-07
-updated: 2026-10-06
+updated: 2026-10-16
 -->
 # Pages and sections
 
 A page is a file made up of a [**front matter**](#front-matter) and a [**body**](#body).
+
+:::info
+Pages are files stored in the `pages/` directory, with one of the following extensions: `md`, `markdown`, `mdown`, `mkdn`, `mkd`, `text` or `txt` (see [`pages.ext`](../configuration/4-pages.md#pages-ext)).
+
+A `README.md` file is handled as an `index.md` file (e.g.: `blog/README.md` is the index of the `blog` _Section_).
+:::
 
 ## Front matter
 
@@ -29,7 +35,7 @@ You can also use `<!-- -->` or `+++` as separator.
 
 ## Body
 
-_Body_ is the main content of a page, it could be written in [Markdown](3-markdown.md) or in plain text.
+The _body_ is the main content of a page; it can be written in [Markdown](3-markdown.md) or in plain text.
 
 _Example:_
 
@@ -63,20 +69,19 @@ The filename can contain a prefix to define `date` or `weight` variables of the 
 Default prefix separators: `_` and `-`.
 
 You can customize them with the [`pages.prefix.separator`](../configuration/4-pages.md#pages-prefix-separator) option.
-
 :::
 
 ### date
 
-The _date prefix_ is used to set the `date` of the page, and must be a valid date format (i.e.: « YYYY-MM-DD »).
+The _date prefix_ is used to set the `date` of the page, and must be a valid date format (i.e.: `YYYY-MM-DD`).
 
 _Example:_
 
-In « 2019-04-23_My blog post.md »:
+In `2019-04-23_My blog post.md`:
 
-- the prefix is « 2019-04-23 »
-- the `date` of the page is « 2019-04-23 »
-- the `title` of the page is « My blog post »
+- the prefix is `2019-04-23`
+- the `date` of the page is `2019-04-23`
+- the `title` of the page is `My blog post`
 
 ### weight
 
@@ -84,11 +89,11 @@ The _weight prefix_ is used to set the sort order of the page, and must be a val
 
 _Example:_
 
-In « 1_The first project.md »:
+In `1_The first project.md`:
 
-- the prefix is « 1 »
-- the `weight` of the page is « 1 »
-- the `title` of the page is « The first project »
+- the prefix is `1`
+- the `weight` of the page is `1`
+- the `title` of the page is `The first project`
 
 ## Section
 
@@ -101,6 +106,7 @@ The order of pages in a _Section_ can be changed.
 Available values are:
 
 - `date`: more recent first
+- `updated`: more recently updated first
 - `title`: alphabetic order
 - `weight`: lightest first
 
@@ -147,7 +153,7 @@ pagination: false
 
 ### cascade
 
-Any variables in `cascade` are added to the front matter of all _sub pages_.
+Any variables in `cascade` are added to the front matter of all pages of the _Section_ (including pages of its [sub-sections](#sub-section)).
 
 _Example:_
 
@@ -208,7 +214,9 @@ A nested folder **without** an `index.md` file is not a _sub-section_: its pages
 
 ## Home page
 
-Like another section, _Home page_ support `sortby` and `pagination` configuration.
+The _Home page_ is the `pages/index.md` file.
+
+Like any other _Section_, the _Home page_ supports `sortby` and `pagination` configuration.
 
 ### pagesfrom
 

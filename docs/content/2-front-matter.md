@@ -2,29 +2,44 @@
 title: "Front matter"
 description: "Custom and predefined page variables: menu, taxonomy, schedule, redirect, alias, output, etc."
 date: 2021-05-07
-updated: 2026-10-03
+updated: 2026-10-16
 -->
 # Front matter
 
-The _front matter_ can contains custom variables applied to the current page.
+The _front matter_ can contain custom variables applied to the current page.
 
-It must be the first thing in the file and must be a valid [YAML](https://en.wikipedia.org/wiki/YAML).
+It must be the first thing in the file and must be valid [YAML](https://en.wikipedia.org/wiki/YAML).
+
+:::info
+YAML is the default format: you can use INI, TOML or JSON instead with the [`pages.frontmatter`](../configuration/4-pages.md#pages-frontmatter) option.
+:::
 
 ## Predefined variables
 
 | Variable    | Description       | Default value                                      | Example       |
 | ----------- | ----------------- | -------------------------------------------------- | ------------- |
-| `title`     | Title             | File name without extension.                       | `Post 1`      |
+| `title`     | Title             | File name without extension, prefix and language suffix. | `Post 1`      |
 | `layout`    | Template          | See [_Lookup rules_](../templates/1-lookup-rules.md#lookup-rules). | `404`         |
-| `date`      | Creation date     | File creation date (PHP _DateTime_ object).        | `2019/04/15`  |
+| `date`      | Creation date     | File modification date (PHP _DateTime_ object).    | `2019-04-15`  |
 | `section`   | Section           | Page's _Section_.                                  | `blog`        |
 | `path`      | Path              | Page's _path_.                                     | `blog/post-1` |
 | `slug`      | Slug              | Page's _slug_.                                     | `post-1`      |
+| `weight`    | Sort order        | File [weight prefix](1-pages.md#weight), if any.   | `10`          |
+| `language`  | Language code     | File language suffix, or the main [language](../configuration/2-languages.md#language). | `fr` |
+| `langref`   | Translations reference | Page's _path_ (without language).             | `blog/post-1` |
 | `published` | Published or not  | `true`.                                            | `false`       |
-| `draft`     | Published or not  | `false`.                                           | `true`        |
+| `draft`     | Draft or not      | `false`.                                           | `true`        |
 
 :::info
 All the predefined variables can be overridden except `section`.
+:::
+
+:::important
+The values of `path` and `slug` must already be slugified (e.g.: `my-post`, not `My Post`), otherwise the build fails.
+:::
+
+:::tip
+`draft: true` is the same as `published: false`. Unpublished pages can be previewed with the `--drafts` option of the [`build`](../commands/4-build.md) and [`serve`](../commands/3-serve.md) commands.
 :::
 
 ## updated
@@ -38,6 +53,10 @@ _Example:_
 updated: 2026-02-02
 ---
 ```
+
+:::info
+`lastmod` is an alias of `updated`.
+:::
 
 :::warning
 Before version 8.80.1, the `updated` variable was a predefined variable. It is now an optional variable (and must be defined in the front matter to be used).
@@ -121,18 +140,22 @@ Schedules pages’ publication.
 
 _Example:_
 
-The page will be published if current date is >= 2023-02-07:
+The page is published from 2023-02-07 (if the current date is >= 2023-02-07):
 
 ```yaml
+---
 schedule:
   publish: 2023-02-07
+---
 ```
 
-This page is published if current date is <= 2022-04-28:
+The page is published until 2022-04-28 (if the current date is <= 2022-04-28):
 
 ```yaml
+---
 schedule:
   expiry: 2022-04-28
+---
 ```
 
 ## redirect
@@ -153,7 +176,7 @@ Redirect works with the [`redirect.html.twig`](https://github.com/Cecilapp/Cecil
 
 ## alias
 
-Alias is a redirection to the current page
+An alias is a redirection to the current page.
 
 _Example:_
 
@@ -167,6 +190,10 @@ alias:
 
 In the previous example `contact/` redirects to `about/`.
 
+:::info
+`aliases` is still supported for backward compatibility.
+:::
+
 ## output
 
 Defines the output format of the page.
@@ -174,7 +201,7 @@ Defines the output format of the page.
 Available formats are: `html`, `atom`, `rss`, `json`, `xml`, etc.  
 You can define one or more formats in an array.
 
-I’s not required to define an output format, but if you do, it must be one of the available formats defined in the [_Configuration_](../configuration/8-output.md#output-formats).
+It’s not required to define an output format, but if you do, it must be one of the available formats defined in the [_Configuration_](../configuration/8-output.md#output-formats).
 
 _Example:_
 
@@ -184,9 +211,21 @@ output: [html, atom]
 ---
 ```
 
+## uglyurl
+
+Set `uglyurl` to `true` to publish the page as a file named after its path (e.g.: `blog/post-1.html`) instead of an `index.html` file in a folder (e.g.: `blog/post-1/index.html`).
+
+_Example:_
+
+```yaml
+---
+uglyurl: true
+---
+```
+
 ## external
 
-A page with an `external` variable try to fetch the content of the pointed resource.
+A page with an `external` variable tries to fetch the content of the pointed resource, and uses it as the page body.
 
 _Example:_
 
@@ -198,7 +237,7 @@ external: "https://raw.githubusercontent.com/Cecilapp/Cecil/main/README.md"
 
 ## excluded
 
-Set `excluded` to `true` to hide a page from list pages (i.e.: _Home page_, _Section_, _Sitemap_, etc.).
+Set `excluded` to `true` to hide a page from list pages (e.g.: _Home page_, _Section_, _Sitemap_, etc.).
 
 _Example:_
 
@@ -213,5 +252,5 @@ excluded: true
 :::
 
 :::warning
-Since version 8.49.0, the previous `exclude` variable have been changed to `excluded`.
+Since version 8.49.0, the previous `exclude` variable has been renamed `excluded` (`exclude` is still supported for backward compatibility).
 :::
