@@ -411,6 +411,34 @@ warning
 caution
 :::
 
+### Nested notes
+
+A note is closed by a line made of at least as many `:` as its opening line: to nest notes, use a longer fence for the parent note (`::::`, then `:::::` for a third level, etc.).
+
+```markdown
+::::info
+Before.
+
+:::tip
+**Tip:** This is advice.
+:::
+
+After.
+::::
+```
+
+::::info
+Before.
+
+:::tip
+**Tip:** This is advice.
+:::
+
+After.
+::::
+
+A longer fence also allows to show the note syntax in a code block, inside a note.
+
 ### Templates
 
 A note is rendered with the `partials/notes/<type>.html.twig` template, if it exists (in the site `layouts/`, in a theme or built-in), instead of the `<aside>` element.

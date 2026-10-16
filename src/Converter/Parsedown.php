@@ -649,6 +649,9 @@ class Parsedown extends \ParsedownToc
      * **Tip:** This is an advice.
      * :::
      *
+     * A note can contain other notes: its fence must then be longer (e.g.: `::::tabs` … `::::`),
+     * as a note is closed by a fence at least as long as its opening fence.
+     *
      * A note is rendered with the `partials/notes/<type>.html.twig` template if it exists.
      *
      * Code inspired by https://github.com/sixlive/parsedown-alert from TJ Miller (@sixlive).
@@ -659,10 +662,11 @@ class Parsedown extends \ParsedownToc
      */
     protected function blockNote($block)
     {
-        if (preg_match('/:::(.*)/', $block['text'], $matches)) {
+        if (preg_match('/(:{3,})(.*)/', $block['text'], $matches)) {
             $block = [
                 'char'     => ':',
-                'noteType' => trim($matches[1]),
+                'noteType' => trim($matches[2]),
+                'fence'    => \strlen($matches[1]),
                 'element' => [
                     'name'       => 'aside',
                     'text'       => '',
@@ -671,8 +675,8 @@ class Parsedown extends \ParsedownToc
                     ],
                 ],
             ];
-            if (!empty($matches[1])) {
-                $block['element']['attributes']['class'] .= " note-{$matches[1]}";
+            if (!empty($matches[2])) {
+                $block['element']['attributes']['class'] .= " note-{$matches[2]}";
             }
 
             return $block;
@@ -694,8 +698,9 @@ class Parsedown extends \ParsedownToc
         if (isset($block['complete'])) {
             return null;
         }
-        // only a line made of `:::` closes the note (e.g.: not `:::` in an inline code)
-        if (preg_match('/^:::\s*$/', $line['text'])) {
+        // only a line made of `:::` closes the note (e.g.: not `:::` in an inline code),
+        // at least as long as the opening fence (e.g.: not the `:::` of a note nested in a `::::` note)
+        if (preg_match('/^:{' . $block['fence'] . ',}\s*$/', $line['text'])) {
             $block['complete'] = true;
 
             return $block;
@@ -828,7 +833,7 @@ class Parsedown extends \ParsedownToc
     }
 
     /**
-     * Splits the Markdown of a note on `####` headings (except in fenced code blocks).
+     * Splits the Markdown of a note on `####` headings (except in fenced code blocks and nested notes).
      *
      * @return array{intro: list<string>, items: list<array{heading: string, lines: list<string>}>}
      */
@@ -844,7 +849,7 @@ class Parsedown extends \ParsedownToc
                 if (preg_match('/^ {0,3}' . preg_quote($fence[0], '/') . '{' . \strlen($fence) . ',}\s*$/', $line)) {
                     $fence = null;
                 }
-            } elseif (preg_match('/^ {0,3}(`{3,}|~{3,})/', $line, $matches)) {
+            } elseif (preg_match('/^ {0,3}(`{3,}|~{3,}|:{3,}(?=[ \t]*\S))/', $line, $matches)) {
                 $fence = $matches[1];
             } elseif (preg_match('/^ {0,3}#{4}(?!#)/', $line)) {
                 if ($heading !== null) {
