@@ -145,6 +145,51 @@ class ParsedownTest extends TestCase
         self::assertSame(2, substr_count($html, '<li class="note-step">'));
     }
 
+    public function testNestedNoteInALongerFence(): void
+    {
+        $html = $this->parsedown->text("::::info\nBefore.\n\n:::tip\nAdvice.\n:::\n\nAfter.\n::::\n\nOutside.");
+
+        self::assertSame('<aside class="note note-info"><p>Before.</p>' . "\n" . '<aside class="note note-tip"><p>Advice.</p></aside>' . "\n" . '<p>After.</p></aside>' . "\n" . '<p>Outside.</p>', $html);
+    }
+
+    public function testNestedNotesOnTwoLevels(): void
+    {
+        $html = $this->parsedown->text(":::::info\n::::tip\n:::warning\nDeep.\n:::\n::::\nEnd.\n:::::");
+
+        self::assertSame(1, substr_count($html, '<aside class="note note-info">'));
+        self::assertSame(1, substr_count($html, '<aside class="note note-tip">'));
+        self::assertSame(1, substr_count($html, '<aside class="note note-warning"><p>Deep.</p></aside>'));
+        self::assertStringEndsWith('<p>End.</p></aside>', $html);
+    }
+
+    public function testNoteIsClosedByALongerFence(): void
+    {
+        $html = $this->parsedown->text(":::tip\nAdvice.\n::::\n\nOutside.");
+
+        self::assertSame('<aside class="note note-tip"><p>Advice.</p></aside>' . "\n" . '<p>Outside.</p>', $html);
+    }
+
+    public function testNoteInALongerFenceIsNotClosedInACodeBlock(): void
+    {
+        $html = $this->parsedown->text("::::info\n```md\n:::tip\n:::\n```\n::::\n\nOutside.");
+
+        self::assertStringStartsWith('<aside class="note note-info"><pre><code', $html);
+        self::assertStringContainsString('>:::tip' . "\n" . ':::</code></pre></aside>', $html);
+        self::assertStringNotContainsString('<aside class="note note-tip">', $html);
+        self::assertStringEndsWith('<p>Outside.</p>', $html);
+    }
+
+    public function testTabsNoteWithNestedNote(): void
+    {
+        $html = $this->parsedown->text("::::tabs\n#### macOS\n\n:::accordion\n#### Question\nAnswer.\n:::\n\n#### Windows\n\n:::tip\nAdvice.\n:::\n::::");
+
+        self::assertStringContainsString('<div class="note note-tabs" id="note-tabs-', $html);
+        self::assertSame(2, substr_count($html, '<section class="note-tab"'));
+        self::assertStringContainsString('<details class="note-accordion-item"', $html);
+        self::assertStringContainsString('<summary>Question</summary>', $html);
+        self::assertStringContainsString('<aside class="note note-tip"><p>Advice.</p></aside>', $html);
+    }
+
     public function testNoteTemplateCanBeOverridden(): void
     {
         $this->filesystem->dumpFile($this->sourceDir . '/layouts/partials/notes/tip.html.twig', '<div class="tip">{{ note.content }}</div>');

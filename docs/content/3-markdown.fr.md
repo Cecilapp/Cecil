@@ -412,6 +412,34 @@ warning
 caution
 :::
 
+### Notes imbriquées
+
+Une note est fermée par une ligne composée d'au moins autant de `:` que sa ligne d'ouverture : pour imbriquer des notes, utilisez une clôture plus longue pour la note parente (`::::`, puis `:::::` pour un troisième niveau, etc.).
+
+```markdown
+::::info
+Avant.
+
+:::tip
+**Tip:** This is advice.
+:::
+
+Après.
+::::
+```
+
+::::info
+Avant.
+
+:::tip
+**Tip:** This is advice.
+:::
+
+Après.
+::::
+
+Une clôture plus longue permet aussi d'afficher la syntaxe des notes dans un bloc de code, à l'intérieur d'une note.
+
 ### Templates
 
 Une note est rendue avec le template `partials/notes/<type>.html.twig`, s'il existe (dans les `layouts/` du site, dans un thème ou intégré), à la place de l'élément `<aside>`.
