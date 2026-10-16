@@ -2,7 +2,7 @@
 title: "CDN providers"
 description: "Configuration examples of image CDN providers (Cloudinary, Cloudimage, TwicPics, imgix, Netlify Image CDN)."
 date: 2023-10-23
-updated: 2026-10-02
+updated: 2026-10-16
 -->
 # CDN providers
 
@@ -83,6 +83,7 @@ assets:
 
 ### Run locally
 
+:::steps
 #### Setup Netlify CLI
 
 ```bash
@@ -104,3 +105,4 @@ php cecil.phar serve & netlify dev
 ```
 
 Open <http://localhost:8888>
+:::

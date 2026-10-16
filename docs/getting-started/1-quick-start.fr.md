@@ -2,7 +2,7 @@
 title: "Démarrage rapide"
 description: "Installez Cecil, créez un site, ajoutez des pages, prévisualisez-le localement, puis générez-le et déployez-le."
 date: 2021-11-03
-updated: 2026-10-10
+updated: 2026-10-16
 alias: documentation/demarrage-rapide
 menu: home
 path: documentation/bien-demarrer/demarrage-rapide
@@ -29,20 +29,36 @@ Démo du résultat attendu : <https://cecilapp.github.io/skeleton/>.
 - Terminal (une compréhension de base du [terminal](https://fr.wikipedia.org/wiki/%C3%89mulateur_de_terminal))
 - Éditeur de texte, comme [VS Code](https://code.visualstudio.com) et/ou [Typora](https://typora.io)
 
-### 1. Télécharger Cecil
+### Pas à pas
 
-Téléchargez `cecil.phar` depuis votre terminal:
+::::steps
+#### Télécharger Cecil
+
+Téléchargez `cecil.phar` depuis votre terminal :
 
 ```bash
 curl -LO https://cecil.app/cecil.phar
 ```
 
-Vous pouvez également [télécharger Cecil manuellement](https://cecil.app/download/), ou utiliser :
+Vous pouvez également [télécharger Cecil manuellement](https://cecil.app/download/), ou l’installer globalement avec un gestionnaire de paquets, puis exécuter `cecil` au lieu de `php cecil.phar` :
 
-- [Homebrew](https://brew.sh): `brew install cecilapp/tap/cecil`
-- [Scoop](https://scoop.sh): `scoop install https://cecil.app/scoop/cecil.json`
+:::code-group
+#### Homebrew
 
-### 2. Créer un nouveau site
+```bash
+brew install cecilapp/tap/cecil
+```
+
+#### Scoop
+
+```bash
+scoop install https://cecil.app/scoop/cecil.json
+```
+:::
+
+Voir [Installation](2-installation.fr.md) pour les autres méthodes.
+
+#### Créer un nouveau site
 
 Créez un répertoire pour le site Web (ex : `<monsiteweb>`), placez y `cecil.phar`, puis exécutez la commande `new:site` :
 
@@ -50,7 +66,7 @@ Créez un répertoire pour le site Web (ex : `<monsiteweb>`), placez y `cecil.ph
 php cecil.phar new:site
 ```
 
-### 3. Ajouter une page
+#### Ajouter une page
 
 Exécutez la commande `new:page` :
 
@@ -64,7 +80,7 @@ Vous pouvez maintenant modifier la page nouvellement créée avec votre éditeur
 Nous vous recommandons d’utiliser [Typora](https://www.typora.io) pour éditer vos fichiers Markdown.
 :::
 
-### 4. Vérifier l’aperçu
+#### Vérifier l’aperçu
 
 Exécutez la commande suivante pour créer un aperçu du site Web :
 
@@ -78,7 +94,7 @@ Naviguez ensuite sur `http://localhost:8000`.
 La commande `serve` démarre un serveur HTTP local et un observateur : si un fichier (une page, un template ou la config) est modifié, la page active du navigateur est automatiquement rechargée.
 :::
 
-### 5. Générer et déployer
+#### Générer et déployer
 
 Quand vous êtes satisfait du résultat, vous pouvez générer le site afin de le déployer sur le Web.
 
@@ -89,5 +105,10 @@ php cecil.phar build
 ```
 
 Vous pouvez maintenant copier le contenu du répertoire `_site` sur un serveur Web 🎉
+::::
+
+:::tip
+Pour déployer automatiquement à chaque push sur votre dépôt Git, voir [Déployer](../deploy/index.fr.md).
+:::
 
 ----

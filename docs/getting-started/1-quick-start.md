@@ -2,7 +2,7 @@
 title: "Quick Start"
 description: "Install Cecil, create a new website, add pages, preview it locally, then build and deploy it."
 date: 2020-12-19
-updated: 2026-10-10
+updated: 2026-10-16
 alias: documentation/quick-start
 menu: home
 -->
@@ -28,7 +28,10 @@ Demo of the expected result: <https://cecilapp.github.io/skeleton/>.
 - Terminal (a basic understanding of [terminal](https://wikipedia.org/wiki/Terminal_emulator))
 - Text editor, like [VS Code](https://code.visualstudio.com) and/or [Typora](https://typora.io)
 
-### 1. Download Cecil
+### Step by step
+
+::::steps
+#### Download Cecil
 
 Download `cecil.phar` from your terminal:
 
@@ -36,12 +39,25 @@ Download `cecil.phar` from your terminal:
 curl -LO https://cecil.app/cecil.phar
 ```
 
-You can also [download Cecil manually](https://cecil.app/download/), or use:
+You can also [download Cecil manually](https://cecil.app/download/), or install it globally with a package manager, then run `cecil` instead of `php cecil.phar`:
 
-- [Homebrew](https://brew.sh): `brew install cecilapp/tap/cecil`
-- [Scoop](https://scoop.sh): `scoop install https://cecil.app/scoop/cecil.json`
+:::code-group
+#### Homebrew
 
-### 2. Create a new site
+```bash
+brew install cecilapp/tap/cecil
+```
+
+#### Scoop
+
+```bash
+scoop install https://cecil.app/scoop/cecil.json
+```
+:::
+
+See [Installation](2-installation.md) for other methods.
+
+#### Create a new site
 
 Create a directory for the website (e.g.: `<mywebsite>`), put `cecil.phar` in it, then run the `new:site` command:
 
@@ -49,7 +65,7 @@ Create a directory for the website (e.g.: `<mywebsite>`), put `cecil.phar` in it
 php cecil.phar new:site
 ```
 
-### 3. Add a page
+#### Add a page
 
 Run the `new:page` command:
 
@@ -63,7 +79,7 @@ Now you can edit the newly created page with your Markdown editor: `<mywebsite>/
 We recommend you to use [Typora](https://www.typora.io) to edit your Markdown files.
 :::
 
-### 4. Check the preview
+#### Check the preview
 
 Run the following command to create a preview of the website:
 
@@ -77,7 +93,7 @@ Then navigate to `http://localhost:8000`.
 The `serve` command runs a local HTTP server and a watcher: if a file (a page, a template or the config) is modified, the browser’s current page is automatically reloaded.
 :::
 
-### 5. Build and deploy
+#### Build and deploy
 
 When you are satisfied with the result, you can generate the website in order to deploy it on the Web.
 
@@ -88,5 +104,10 @@ php cecil.phar build
 ```
 
 You can now copy the content of the `_site` directory to a Web server 🎉
+::::
+
+:::tip
+To deploy automatically on each push to your Git repository, see [Deploy](../deploy/index.md).
+:::
 
 ----
