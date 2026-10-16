@@ -2,22 +2,22 @@
 title: "CSS, JavaScript and processing"
 description: "Compile Sass, minify, fingerprint, inline or embed assets."
 date: 2021-05-07
-updated: 2026-10-10
+updated: 2026-10-16
 -->
 # CSS, JavaScript and processing
 
-Cecil provides Twig filters to compile Sass, minify, fingerprint, inline or embed CSS and JavaScript assets.
+Cecil provides Twig filters to compile Sass, minify, fingerprint, inline or embed (as data URL) CSS and JavaScript assets.
 
 ## fingerprint
 
-Add the file content finger print to the file name.
+Adds a hash of the file content (fingerprint) to the file name.
 
 ```twig
 {{ asset(path)|fingerprint }}
 {{ path|fingerprint }}
 ```
 
-_Examples:_
+_Example:_
 
 ```twig
 {{ asset('styles.css')|fingerprint }}
@@ -25,10 +25,11 @@ _Examples:_
 
 ## minify
 
-Minifying a CSS or a JavaScript file.
+Minifies a CSS or a JavaScript file.
 
 ```twig
 {{ asset(path)|minify }}
+{{ path|minify }}
 ```
 
 _Examples:_
@@ -40,7 +41,7 @@ _Examples:_
 
 ## minify_css
 
-Minifying a CSS string.
+Minifies a CSS string.
 
 ```twig
 {{ variable|minify_css }}
@@ -72,7 +73,7 @@ _Examples:_
 
 ## minify_js
 
-Minifying a JavaScript string.
+Minifies a JavaScript string.
 
 ```twig
 {{ variable|minify_js }}
@@ -143,7 +144,7 @@ Compiles a [Sass](https://sass-lang.com) file to CSS.
 {{ path|to_css }}
 ```
 
-_Examples:_
+_Example:_
 
 ```twig
 {{ asset('styles.scss')|to_css }}
@@ -165,9 +166,17 @@ _Example:_
 
 ## dataurl
 
-Returns the [data URL](https://developer.mozilla.org/docs/Web/HTTP/Basics_of_HTTP/Data_URIs) of an asset.
+Returns the [data URL](https://developer.mozilla.org/docs/Web/HTTP/Basics_of_HTTP/Data_URIs) of an asset (or of a path).
+
+Raster images are re-encoded with the [`assets.images.quality`](../configuration/6-assets.md#assets-images) option; other files (including SVG) are encoded as is in Base64.
 
 ```twig
 {{ asset(path)|dataurl }}
-{{ asset(image_path)|dataurl }}
+{{ path|dataurl }}
+```
+
+_Example:_
+
+```twig
+<img src="{{ asset('icon.png')|dataurl }}" alt="">
 ```
