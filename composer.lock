@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "cc021d3b9e36e450f76b6c762f750e4d",
+    "content-hash": "dc2f38054e1880135f0ade7d85333f35",
     "packages": [
         {
             "name": "benjaminhoegh/parsedown-toc",
@@ -727,20 +727,20 @@
         },
         {
             "name": "laravel-zero/phar-updater",
-            "version": "v1.4.2",
+            "version": "v2.0.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/laravel-zero/phar-updater.git",
-                "reference": "131bc5e7477c9233fab8087f7d0bbb234616b417"
+                "reference": "9740a11e7369e11bb9762659d6933732a8e2f386"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/laravel-zero/phar-updater/zipball/131bc5e7477c9233fab8087f7d0bbb234616b417",
-                "reference": "131bc5e7477c9233fab8087f7d0bbb234616b417",
+                "url": "https://api.github.com/repos/laravel-zero/phar-updater/zipball/9740a11e7369e11bb9762659d6933732a8e2f386",
+                "reference": "9740a11e7369e11bb9762659d6933732a8e2f386",
                 "shasum": ""
             },
             "require": {
-                "php": "^8.2"
+                "php": "^8.3"
             },
             "conflict": {
                 "padraic/phar-updater": "*"
@@ -782,9 +782,9 @@
             ],
             "support": {
                 "issues": "https://github.com/laravel-zero/phar-updater/issues",
-                "source": "https://github.com/laravel-zero/phar-updater/tree/v1.4.2"
+                "source": "https://github.com/laravel-zero/phar-updater/tree/v2.0.0"
             },
-            "time": "2025-04-07T12:28:11+00:00"
+            "time": "2026-10-16T11:05:18+00:00"
         },
         {
             "name": "league/uri",
