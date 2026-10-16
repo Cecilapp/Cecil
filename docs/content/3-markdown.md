@@ -411,6 +411,34 @@ warning
 caution
 :::
 
+### Nested notes
+
+A note can contain other notes: a nested note must have a type (`:::<type>`), as a line made only of `:::` closes the current note.
+
+```markdown
+:::info
+Before.
+
+:::tip
+**Tip:** This is advice.
+:::
+
+After.
+:::
+```
+
+:::info
+Before.
+
+:::tip
+**Tip:** This is advice.
+:::
+
+After.
+:::
+
+`:::` lines in a fenced code block are ignored.
+
 ### Templates
 
 A note is rendered with the `partials/notes/<type>.html.twig` template, if it exists (in the site `layouts/`, in a theme or built-in), instead of the `<aside>` element.

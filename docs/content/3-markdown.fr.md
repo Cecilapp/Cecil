@@ -412,6 +412,34 @@ warning
 caution
 :::
 
+### Notes imbriquées
+
+Une note peut contenir d'autres notes : une note imbriquée doit avoir un type (`:::<type>`), car une ligne composée uniquement de `:::` ferme la note courante.
+
+```markdown
+:::info
+Avant.
+
+:::tip
+**Tip:** This is advice.
+:::
+
+Après.
+:::
+```
+
+:::info
+Avant.
+
+:::tip
+**Tip:** This is advice.
+:::
+
+Après.
+:::
+
+Les lignes `:::` d'un bloc de code délimité sont ignorées.
+
 ### Templates
 
 Une note est rendue avec le template `partials/notes/<type>.html.twig`, s'il existe (dans les `layouts/` du site, dans un thème ou intégré), à la place de l'élément `<aside>`.

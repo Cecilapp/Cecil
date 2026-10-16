@@ -663,6 +663,8 @@ class Parsedown extends \ParsedownToc
             $block = [
                 'char'     => ':',
                 'noteType' => trim($matches[1]),
+                'fence'    => null,
+                'depth'    => 0,
                 'element' => [
                     'name'       => 'aside',
                     'text'       => '',
@@ -694,8 +696,9 @@ class Parsedown extends \ParsedownToc
         if (isset($block['complete'])) {
             return null;
         }
-        // only a line made of `:::` closes the note (e.g.: not `:::` in an inline code)
-        if (preg_match('/^:::\s*$/', $line['text'])) {
+        // only a line made of `:::` closes the note (e.g.: not `:::` in an inline code),
+        // except in a fenced code block or in a nested note
+        if ($this->noteLine($line['text'], $block['fence'], $block['depth']) === 'close') {
             $block['complete'] = true;
 
             return $block;
@@ -709,6 +712,47 @@ class Parsedown extends \ParsedownToc
         $block['element']['text'] .= $line['body'] . "\n";
 
         return $block;
+    }
+
+    /**
+     * Returns the role of a line of a note: `code` (in or delimiting a fenced code block),
+     * `nested` (in or delimiting a nested note), `close` (closes the note) or `text`.
+     *
+     * A nested note is opened by `:::<type>` and closed by `:::`.
+     *
+     * @param string|null $fence The fence of the current code block (updated)
+     * @param int         $depth The depth of the current nested note (updated)
+     */
+    protected function noteLine(string $line, ?string &$fence, int &$depth): string
+    {
+        $line = ltrim($line);
+        if ($fence !== null) {
+            if (preg_match('/^' . preg_quote($fence[0], '/') . '{' . \strlen($fence) . ',}\s*$/', $line)) {
+                $fence = null;
+            }
+
+            return 'code';
+        }
+        if (preg_match('/^(`{3,}|~{3,})/', $line, $matches)) {
+            $fence = $matches[1];
+
+            return 'code';
+        }
+        if (preg_match('/^:::\s*$/', $line)) {
+            if ($depth === 0) {
+                return 'close';
+            }
+            $depth--;
+
+            return 'nested';
+        }
+        if (str_starts_with($line, ':::')) {
+            $depth++;
+
+            return 'nested';
+        }
+
+        return $depth > 0 ? 'nested' : 'text';
     }
 
     /**
@@ -828,7 +872,7 @@ class Parsedown extends \ParsedownToc
     }
 
     /**
-     * Splits the Markdown of a note on `####` headings (except in fenced code blocks).
+     * Splits the Markdown of a note on `####` headings (except in fenced code blocks and nested notes).
      *
      * @return array{intro: list<string>, items: list<array{heading: string, lines: list<string>}>}
      */
@@ -839,14 +883,9 @@ class Parsedown extends \ParsedownToc
         $heading = null;
         $lines = [];
         $fence = null;
+        $depth = 0;
         foreach (explode("\n", $text) as $line) {
-            if ($fence !== null) {
-                if (preg_match('/^ {0,3}' . preg_quote($fence[0], '/') . '{' . \strlen($fence) . ',}\s*$/', $line)) {
-                    $fence = null;
-                }
-            } elseif (preg_match('/^ {0,3}(`{3,}|~{3,})/', $line, $matches)) {
-                $fence = $matches[1];
-            } elseif (preg_match('/^ {0,3}#{4}(?!#)/', $line)) {
+            if ($this->noteLine($line, $fence, $depth) === 'text' && preg_match('/^ {0,3}#{4}(?!#)/', $line)) {
                 if ($heading !== null) {
                     $items[] = ['heading' => $heading, 'lines' => $lines];
                 }
