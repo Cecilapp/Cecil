@@ -6,14 +6,14 @@ updated: 2026-10-16
 -->
 # Markdown
 
-Cecil supports [Markdown](http://daringfireball.net/projects/markdown/syntax) format, but also [Markdown Extra](https://michelf.ca/projects/php-markdown/extra/).
+Cecil supports [Markdown](https://daringfireball.net/projects/markdown/syntax) format, but also [Markdown Extra](https://michelf.ca/projects/php-markdown/extra/).
 
 Cecil also provides **extra features** to enhance your content, see below.
 
 ## Attributes
 
 With [Markdown Extra](https://michelf.ca/projects/php-markdown/extra/) you can set an id, class and custom attributes on certain elements using an attribute block.  
-For instance, put the desired attribute(s) after a header, a fenced code block, a link or an image at the end of the line inside curly brackets, like this:
+For instance, put the desired attribute(s) after a heading, a fenced code block, a link or an image at the end of the line inside curly brackets, like this:
 
 ```markdown
 ## Header {#id .class attribute=value}
@@ -37,7 +37,7 @@ _Example:_
 
 ```markdown
 [Link to a path](/about/)
-[Link to a Markdown file](/about/)
+[Link to a Markdown file](about.md)
 [Link to Cecil website](https://cecil.app)
 ```
 
@@ -58,6 +58,10 @@ _Example:_
 ### External
 
 By default external links have the following value for `rel` attribute: `noopener noreferrer`.
+
+:::info
+A link is considered external if its URL starts with `http` but not with the [`baseurl`](../configuration/1-site.md#baseurl): `baseurl` must be defined.
+:::
 
 _Example:_
 
@@ -85,7 +89,7 @@ _Example:_
 
 #### Local video/audio files
 
-Cecil can also create a video and audio HTML elements, through the file extension.
+Cecil can also create `<video>` and `<audio>` HTML elements, based on the file extension (`mp4` and `webm` for video, `mp3`, `ogg` and `wav` for audio, see [`pages.body.links.embed`](../configuration/4-pages.md#pages-body-links)).
 
 _Example:_
 
@@ -97,15 +101,19 @@ _Example:_
 Is converted to:
 
 ```html
-<video src="/video.mp4" controls poster="/images/video-test.png" style="max-width:100%;height:auto;"></video>
+<video src="/video.mp4" controls poster="/images/video-test.png" style="max-width:100%;height:auto;background-color:#d8d8d8;"></video>
 <audio src="/song.mp3" controls></audio>
 ```
+
+:::info
+Without the `controls` attribute, a video gets the `autoplay`, `loop`, `muted` and `playsinline` attributes.
+:::
 
 With `{embed=false}` (or when embedding is disabled), a local video/audio file stays a link, but its URL points to the published file (fingerprinted if [`assets.fingerprint`](../configuration/6-assets.md) is enabled).
 
 ## Images
 
-To add an image, use an exclamation mark (`!`) followed by alternative description in brackets (`[]`), and the path or URL to the image in parentheses (`()`).  
+To add an image, use an exclamation mark (`!`) followed by an alternative description in brackets (`[]`), and the path or URL to the image in parentheses (`()`).  
 You can optionally add a title in quotation marks.
 
 ```markdown
@@ -114,6 +122,10 @@ You can optionally add a title in quotation marks.
 
 :::info
 The path should be relative to the root of your website (e.g.: `/image.jpg`), however Cecil is able to normalize a path relative to _assets_ and _static_ directories (e.g.: `../../assets/image.jpg`).
+:::
+
+:::info
+Remote images (e.g.: `https://example.com/image.jpg`) are downloaded and handled as _Assets_, so they can be resized and converted. You can disable this behavior, or define a fallback image, with the [`remote` option](../configuration/4-pages.md#pages-body-images).
 :::
 
 ### Lazy loading
@@ -176,6 +188,10 @@ Is converted to:
 Ratio is preserved (`height` attribute is calculated automatically), the original file is not altered and the resized version is stored in `/thumbnails/<width>/`.
 :::
 
+:::tip
+You can also resize all images to a maximum width with the [`resize` option](../configuration/4-pages.md#pages-body-images).
+:::
+
 :::important
 This feature requires an image processing library: [Imagick](https://www.php.net/manual/book.imagick.php) is used first if available (and able to read JPEG and PNG), then [libvips](https://www.libvips.org/) (through the PHP [FFI](https://www.php.net/manual/book.ffi.php) extension), and finally [GD](https://www.php.net/manual/book.image.php) as fallback; otherwise it only adds a `width` HTML attribute to the `img` tag.
 :::
@@ -202,7 +218,7 @@ composer global require cecil/cecil intervention/image-driver-vips
 
 ### Formats
 
-If the [`formats` option](../configuration/4-pages.md#pages-body-images) is defined, alternatives images are created and added.
+If the [`formats` option](../configuration/4-pages.md#pages-body-images) is defined, alternative images are created and added.
 
 _Example:_
 
@@ -238,15 +254,16 @@ will be converted to:
 
 ```html
 <img src="/thumbnails/800/image.jpg" width="800" height="600"
-  srcset="/thumbnails/320/image.jpg 320w,
+  srcset="/thumbnails/480/image.jpg 480w,
           /thumbnails/640/image.jpg 640w,
+          /thumbnails/768/image.jpg 768w,
           /thumbnails/800/image.jpg 800w"
   sizes="100vw"
 >
 ```
 
 :::info
-Because a body image is converted into an [Asset](../assets/index.md#asset), the different widths must be defined in [assets configuration](../configuration/6-assets.md).
+Because a body image is converted into an [Asset](../assets/index.md#asset), the different widths are defined (and can be changed) in the `assets.images.responsive.widths` option of the [assets configuration](../configuration/6-assets.md).
 :::
 
 The `sizes` attribute takes the value of the `assets.images.responsive.sizes.default` configuration option, but it can be changed by creating a new entry named after a _class_ added to the image.
@@ -281,7 +298,7 @@ The optional title can be used to create a caption (`figcaption`) automatically 
 _Example:_
 
 ```markdown
-![](/images/img.jpg "Title")
+![](/image.jpg "Title")
 ```
 
 Is converted to:
@@ -309,6 +326,12 @@ _Example:_
 
 With a French page (`fr`), Cecil tries `/images/cecil-logo.fr.png` first, then falls back to `/images/cecil-logo.png`.
 
+### Dark and mobile variants
+
+If the [`dark_suffix` option](../configuration/4-pages.md#pages-body-images) is defined (e.g.: `.dark`), Cecil looks for a dark variant of each image (e.g.: `image.dark.jpg` alongside `image.jpg`) and adds it as a `<source media="(prefers-color-scheme: dark)">` in a `<picture>` element.
+
+In the same way, if the [`mobile_suffix` option](../configuration/4-pages.md#pages-body-images) is defined (e.g.: `.mobile`), Cecil looks for a mobile variant of each image (e.g.: `image.mobile.jpg`) and adds it as a `<source>` with the `mobile_media_query` media query.
+
 ### Placeholder
 
 As images are typically heavier and slower resources, and they don’t block rendering, we should attempt to give users something to look at while they wait for the image to arrive.
@@ -330,7 +353,7 @@ You can set a value to the `placeholder` attribute for each image with the [`pla
 :::
 
 :::warning
-The `lqip` option is not compatible with animated GIF.
+Placeholders are only applied to JPEG, PNG and GIF images, and the `lqip` option is not compatible with animated GIF.
 :::
 
 ## Table of contents
@@ -347,7 +370,7 @@ By default, the ToC extracts H2 and H3 headings. You can change this behavior wi
 
 ## Excerpt
 
-An excerpt can be defined in the _body_ with one of those following tags: `excerpt` or `break`.
+An excerpt can be defined in the _body_ with one of the following HTML comments: `<!-- excerpt -->` or `<!-- break -->` (see the [`pages.body.excerpt` option](../configuration/4-pages.md#pages-body-excerpt)).
 
 _Example:_
 
@@ -361,7 +384,7 @@ Then use the [`excerpt_html` filter](../templates/reference/3-filters.md#excerpt
 
 ## Notes
 
-Create a _Note_ block (info, tips, important, etc.).
+Create a _Note_ block (info, tip, important, etc.).
 
 _Example:_
 
@@ -385,7 +408,11 @@ Is converted to:
 **Tip:** This is advice.
 :::
 
-_Others examples:_
+:::info
+Any type name can be used: it is added to the `class` attribute as `note-<type>` (e.g.: `:::danger` gives `class="note note-danger"`).
+:::
+
+_Other examples:_
 
 :::
 empty
@@ -437,7 +464,7 @@ Before.
 After.
 ::::
 
-A longer fence also allows to show the note syntax in a code block, inside a note.
+A longer fence also lets you show the note syntax in a code block, inside a note.
 
 ### Templates
 
@@ -652,7 +679,7 @@ Notes are rendered when Markdown is converted, before pages rendering: a note te
 
 ## Syntax highlight
 
-Code block syntax highlighting is enabled by default with the [pages.body.highlight](../configuration/4-pages.md#pages-body-highlight) option.
+Code block syntax highlighting is enabled by default with the [`pages.body.highlight`](../configuration/4-pages.md#pages-body-highlight) option.
 
 If needed, you can disable it with:
 

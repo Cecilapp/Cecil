@@ -2,7 +2,7 @@
 title: "Dynamic content"
 description: "Use variables and Twig expressions inside page content."
 date: 2021-05-07
-updated: 2026-10-09
+updated: 2026-10-16
 -->
 # Dynamic content
 
@@ -16,7 +16,7 @@ You can create dynamic content in a page by using the [`template_from_string`](h
 
 With this, you can use any page variable in the _body_ of the page.
 
-```twig
+```markdown
 ---
 var: 'value'
 ---
@@ -55,7 +55,7 @@ The page content is rendered with the same context as the layout, so you can use
 
 - page variables: `page.title`, `page.date`, `page.<custom variable>`, etc.
 - site variables: `site.title`, `site.pages`, [`site.data`](../templates/2-variables.md#site-data), etc.
-- all [functions](../templates/reference/1-functions.md), [filters](../templates/reference/3-filters.md) and [sorts](../templates/reference/2-sorts.md) available in templates;
+- all [functions](../templates/reference/1-functions.md), [filters](../templates/reference/3-filters.md) and [sorts](../templates/reference/2-sorts.md) available in templates
 - Twig tags: `{% set %}`, `{% if %}`, `{% for %}`, `{% include %}`, etc.
 
 ## How it works
@@ -63,7 +63,7 @@ The page content is rendered with the same context as the layout, so you can use
 The Markdown body is **converted to HTML first**, then the result (`page.content`) is rendered by Twig. This order has some consequences:
 
 - Markdown escapes the `<` and `>` characters, so comparison operators (`>`, `<=`) and arrow functions (`=>`) can’t be used in the body: the build fails with an `Unexpected character "&"` error.
-- A Twig expression used in an HTML attribute (e.g. `href="{{ url(post) }}"`) is URL encoded by the Markdown converter and won’t be evaluated.
+- A Twig expression used in an HTML attribute (e.g.: `href="{{ url(post) }}"`) is URL encoded by the Markdown converter and won’t be evaluated.
 - A Twig expression alone on its own line is wrapped in a `<p>` element.
 - Twig syntax written inside a code span or a code block **is** evaluated too.
 
@@ -195,7 +195,7 @@ layout: shortcodes
 ## Demo
 
 <div>
-{{ sc.youtube('NaB8JBfE7DY', 'Cecil demo') }}
+  {{ sc.youtube('NaB8JBfE7DY', 'Cecil demo') }}
 </div>
 ```
 

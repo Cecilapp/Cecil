@@ -2,12 +2,18 @@
 title: "Pages et sections"
 description: "Anatomie d’une page, préfixe de fichier, sections, sous-sections et page d’accueil."
 date: 2026-03-27
-updated: 2026-10-06
+updated: 2026-10-16
 path: documentation/contenu/pages
 -->
 # Pages et sections
 
 Une page est un fichier composé d’un [**front matter**](#front-matter) et d’un [**body**](#corps-body).
+
+:::info
+Les pages sont des fichiers stockés dans le répertoire `pages/`, avec l’une des extensions suivantes : `md`, `markdown`, `mdown`, `mkdn`, `mkd`, `text` ou `txt` (voir [`pages.ext`](../configuration/4-pages.fr.md#pages-ext)).
+
+Un fichier `README.md` est traité comme un fichier `index.md` (ex. : `blog/README.md` est l’index de la _Section_ `blog`).
+:::
 
 ## Front matter
 
@@ -58,7 +64,7 @@ This is advice.
 
 ## Préfixe de fichier
 
-Le nom de fichier peut contenir un préfixe pour définir les variables `date` ou `weight` de la page (utilisé par [`sortby`](../templates/reference/2-sorts.fr.md#sort-by-date)).
+Le nom de fichier peut contenir un préfixe pour définir les variables `date` ou `weight` de la page (utilisées par [`sortby`](../templates/reference/2-sorts.fr.md#sort-by-date)).
 
 :::info
 Séparateurs de préfixe par défaut : `_` et `-`.
@@ -68,27 +74,27 @@ Vous pouvez les personnaliser avec l’option [`pages.prefix.separator`](../conf
 
 ### date
 
-Le _date prefix_ est utilisé pour définir la `date` de la page et doit être un format de date valide (c.-à-d. : « YYYY-MM-DD »).
+Le _préfixe de date_ sert à définir la `date` de la page et doit être un format de date valide (c.-à-d. : `YYYY-MM-DD`).
 
 _Exemple :_
 
-Dans « 2019-04-23_My blog post.md » :
+Dans `2019-04-23_My blog post.md` :
 
-- le préfixe est « 2019-04-23 »
-- la `date` de la page est « 2019-04-23 »
-- le `title` de la page est « My blog post »
+- le préfixe est `2019-04-23`
+- la `date` de la page est `2019-04-23`
+- le `title` de la page est `My blog post`
 
 ### weight
 
-Le _weight prefix_ est utilisé pour définir l’ordre de tri de la page et doit être une valeur entière valide.
+Le _préfixe de poids_ sert à définir l’ordre de tri de la page et doit être une valeur entière valide.
 
 _Exemple :_
 
-Dans « 1_The first project.md » :
+Dans `1_The first project.md` :
 
-- le préfixe est « 1 »
-- le `weight` de la page est « 1 »
-- le `title` de la page est « The first project »
+- le préfixe est `1`
+- le `weight` de la page est `1`
+- le `title` de la page est `The first project`
 
 ## Section
 
@@ -100,9 +106,10 @@ L’ordre des pages dans une _Section_ peut être modifié.
 
 Valeurs disponibles :
 
-- `date`: plus récentes en premier
-- `title`: ordre alphabétique
-- `weight`: plus léger en premier
+- `date` : les plus récentes en premier
+- `updated` : les plus récemment mises à jour en premier
+- `title` : ordre alphabétique
+- `weight` : poids le plus faible en premier
 
 _Exemple :_
 
@@ -112,7 +119,7 @@ sortby: title
 ---
 ```
 
-**More options:**
+**Plus d’options :**
 
 ```yaml
 ---
@@ -147,7 +154,7 @@ pagination: false
 
 ### cascade
 
-Toutes les variables de `cascade` sont ajoutées au front matter de toutes les _sous-pages_.
+Toutes les variables de `cascade` sont ajoutées au front matter de toutes les pages de la _Section_ (y compris les pages de ses [sous-sections](#sous-section)).
 
 _Exemple :_
 
@@ -195,24 +202,26 @@ Un dossier imbriqué qui contient explicitement un fichier `index.md` devient un
 
 Une _sous-section_ :
 
-- est une _Section_ (même type, mêmes variables et même résolution de [gabarit](../templates/1-lookup-rules.fr.md#type-section)) accessible à sa propre URL (ex. : `/blog/2024/`)
-- est rendue avec les gabarits de ses _Sections_ parentes si elle n'a pas les siens (ex. : `blog/list.html.twig`)
-- peut être imbriquée à n'importe quelle profondeur (ex. : `blog/2024/06/`)
+- est une _Section_ (même type, mêmes variables et même résolution de [template](../templates/1-lookup-rules.fr.md#type-section)) accessible à sa propre URL (ex. : `/blog/2024/`)
+- est rendue avec les templates de ses _Sections_ parentes si elle n’a pas les siens (ex. : `blog/list.html.twig`)
+- peut être imbriquée à n’importe quelle profondeur (ex. : `blog/2024/06/`)
 - liste ses propres pages, et ses pages appartiennent aussi à chacune de leurs _Sections_ parentes
-- n'est **pas** listée dans sa _Section_ parente
+- n’est **pas** listée dans sa _Section_ parente
 - est placée dans la navigation [_page.<prev/next>_](../templates/2-variables.fr.md#page-prev-next) de sa _Section_ parente (selon son `sortby`), suivie de ses propres pages
 
 :::info
-Un dossier imbriqué **sans** fichier `index.md` n'est pas une _sous-section_ : ses pages appartiennent simplement à la _Section_ parente.
+Un dossier imbriqué **sans** fichier `index.md` n’est pas une _sous-section_ : ses pages appartiennent simplement à la _Section_ parente.
 :::
 
-## Page d'accueil
+## Page d’accueil
 
-Comme une autre section, la _Page d'accueil_ prend en charge la configuration `sortby` et `pagination`.
+La _Page d’accueil_ est le fichier `pages/index.md`.
+
+Comme toute autre _Section_, la _Page d’accueil_ prend en charge la configuration `sortby` et `pagination`.
 
 ### pagesfrom
 
-Définissez un nom de _Section_ valide dans `pagesfrom` pour utiliser la collection de pages de cette _Section_ dans la _Page d'accueil_.
+Définissez un nom de _Section_ valide dans `pagesfrom` pour utiliser la collection de pages de cette _Section_ dans la _Page d’accueil_.
 
 _Exemple :_
 

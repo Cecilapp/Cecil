@@ -2,7 +2,7 @@
 title: "Contenu dynamique"
 description: "Utilisez des variables et expressions Twig dans le contenu des pages."
 date: 2026-03-27
-updated: 2026-10-09
+updated: 2026-10-16
 path: documentation/contenu/contenu-dynamique
 -->
 # Contenu dynamique
@@ -17,7 +17,7 @@ Vous pouvez créer du contenu dynamique dans une page en utilisant la fonction T
 
 Avec cette approche, vous pouvez utiliser n’importe quelle variable de page dans le _body_ de la page.
 
-```twig
+```markdown
 ---
 var: 'value'
 ---
@@ -56,14 +56,14 @@ Le contenu de la page est rendu avec le même contexte que le layout, vous pouve
 
 - les variables de page : `page.title`, `page.date`, `page.<variable personnalisée>`, etc.
 - les variables du site : `site.title`, `site.pages`, [`site.data`](../templates/2-variables.fr.md#site-data), etc.
-- toutes les [fonctions](../templates/reference/1-functions.fr.md), [filtres](../templates/reference/3-filters.fr.md) et [tris](../templates/reference/2-sorts.fr.md) disponibles dans les templates ;
+- toutes les [fonctions](../templates/reference/1-functions.fr.md), [filtres](../templates/reference/3-filters.fr.md) et [tris](../templates/reference/2-sorts.fr.md) disponibles dans les templates
 - les tags Twig : `{% set %}`, `{% if %}`, `{% for %}`, `{% include %}`, etc.
 
 ## Fonctionnement
 
 Le corps Markdown est **d’abord converti en HTML**, puis le résultat (`page.content`) est rendu par Twig. Cet ordre a quelques conséquences :
 
-- Markdown échappe les caractères `<` et `>`, les opérateurs de comparaison (`>`, `<=`) et les fonctions fléchées (`=>`) ne peuvent donc pas être utilisés dans le corps : le build échoue avec une erreur `Unexpected character "&"`.
+- Markdown échappe les caractères `<` et `>`, les opérateurs de comparaison (`>`, `<=`) et les fonctions fléchées (`=>`) ne peuvent donc pas être utilisés dans le corps : la génération échoue avec une erreur `Unexpected character "&"`.
 - Une expression Twig utilisée dans un attribut HTML (ex. : `href="{{ url(post) }}"`) est encodée (URL) par le convertisseur Markdown et ne sera pas évaluée.
 - Une expression Twig seule sur sa ligne est encapsulée dans un élément `<p>`.
 - La syntaxe Twig écrite dans un bloc ou une portion de code **est** également évaluée.
