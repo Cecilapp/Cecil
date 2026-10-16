@@ -18,6 +18,7 @@ use Cecil\Command\Build\IncrementalBuildExecutor;
 use Cecil\Command\Build\IncrementalBuildResolver;
 use Cecil\Exception\RuntimeException;
 use Cecil\Util;
+use Cecil\Util\FileWatcher;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
@@ -28,9 +29,6 @@ use Symfony\Component\Finder\Finder;
 use Symfony\Component\Process\Exception\ProcessFailedException;
 use Symfony\Component\Process\PhpExecutableFinder;
 use Symfony\Component\Process\Process;
-use Yosymfony\ResourceWatcher\Crc32ContentHash;
-use Yosymfony\ResourceWatcher\ResourceCacheMemory;
-use Yosymfony\ResourceWatcher\ResourceWatcher;
 
 /**
  * Serve command.
@@ -480,7 +478,7 @@ EOF
 
                     return Command::FAILURE;
                 }
-                if ($this->watcherEnabled && $resourceWatcher instanceof ResourceWatcher) {
+                if ($this->watcherEnabled && $resourceWatcher instanceof FileWatcher) {
                     $watcher = $resourceWatcher->findChanges();
                     if ($watcher->hasChanges()) {
                         $output->writeln('<comment>Changes detected</comment>');
@@ -575,7 +573,7 @@ EOF
     /**
      * Sets up the watcher.
      */
-    private function setupWatcher(bool $noignorevcs = false): ResourceWatcher
+    private function setupWatcher(bool $noignorevcs = false): FileWatcher
     {
         $watcherExcludes = [
             (string) $this->getBuilder()->getConfig()->get('output.dir'),
@@ -592,7 +590,7 @@ EOF
         if (file_exists(Util::joinFile($this->getPath(), '.gitignore')) && $noignorevcs === false) {
             $finder->ignoreVCSIgnored(true);
         }
-        return new ResourceWatcher(new ResourceCacheMemory(), $finder, new Crc32ContentHash());
+        return new FileWatcher($finder);
     }
 
     /**

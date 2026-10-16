@@ -13,9 +13,9 @@ declare(strict_types=1);
 
 namespace Cecil\Command\Build;
 
+use Cecil\Util\FileWatcherResult;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Process\Process;
-use Yosymfony\ResourceWatcher\ResourceWatcherResult;
 
 /**
  * Executes incremental build strategy and runs the required build subprocesses.
@@ -34,7 +34,7 @@ class IncrementalBuildExecutor
      * @param callable(): void $onBuildSuccess
      */
     public function execute(
-        ResourceWatcherResult $watcher,
+        FileWatcherResult $watcher,
         OutputInterface $output,
         callable $createBuildProcess,
         callable $processOutputCallback,

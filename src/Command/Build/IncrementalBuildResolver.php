@@ -18,8 +18,8 @@ use Cecil\Collection\Page\Page;
 use Cecil\Converter\Converter;
 use Cecil\Renderer\Layout;
 use Cecil\Util;
+use Cecil\Util\FileWatcherResult;
 use Symfony\Component\Finder\Finder;
-use Yosymfony\ResourceWatcher\ResourceWatcherResult;
 
 /**
  * Resolves impacted source pages for incremental serve builds.
@@ -40,7 +40,7 @@ class IncrementalBuildResolver
      *
      * @return array<int, string>|null
      */
-    public function resolve(ResourceWatcherResult $watcher): ?array
+    public function resolve(FileWatcherResult $watcher): ?array
     {
         // A deletion may impact lists, sections, taxonomies, etc.: full rebuild.
         if (\count($watcher->getDeletedFiles()) > 0) {

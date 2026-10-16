@@ -1921,6 +1921,11 @@ Search.appendIndex(
             "summary": "",
             "url": "classes/Cecil-Collection-Page-Page.html#property_terms"
         },                {
+            "fqsen": "\\Cecil\\Collection\\Page\\Page\u003A\u003A\u0024prefixSeparators",
+            "name": "prefixSeparators",
+            "summary": "",
+            "url": "classes/Cecil-Collection-Page-Page.html#property_prefixSeparators"
+        },                {
             "fqsen": "\\Cecil\\Collection\\Page\\Parser",
             "name": "Parser",
             "summary": "Parser\u0020class.",
@@ -3523,7 +3528,7 @@ Search.appendIndex(
         },                {
             "fqsen": "\\Cecil\\Converter\\Parsedown\u003A\u003AsplitNote\u0028\u0029",
             "name": "splitNote",
-            "summary": "Splits\u0020the\u0020Markdown\u0020of\u0020a\u0020note\u0020on\u0020\u0060\u0023\u0023\u0023\u0023\u0060\u0020headings\u0020\u0028except\u0020in\u0020fenced\u0020code\u0020blocks\u0029.",
+            "summary": "Splits\u0020the\u0020Markdown\u0020of\u0020a\u0020note\u0020on\u0020\u0060\u0023\u0023\u0023\u0023\u0060\u0020headings\u0020\u0028except\u0020in\u0020fenced\u0020code\u0020blocks\u0020and\u0020nested\u0020notes\u0029.",
             "url": "classes/Cecil-Converter-Parsedown.html#method_splitNote"
         },                {
             "fqsen": "\\Cecil\\Converter\\Parsedown\u003A\u003AsplitNoteList\u0028\u0029",
@@ -6010,6 +6015,86 @@ Search.appendIndex(
             "name": "fs",
             "summary": "",
             "url": "classes/Cecil-Util-File.html#property_fs"
+        },                {
+            "fqsen": "\\Cecil\\Util\\FileWatcher",
+            "name": "FileWatcher",
+            "summary": "File\u0020watcher.",
+            "url": "classes/Cecil-Util-FileWatcher.html"
+        },                {
+            "fqsen": "\\Cecil\\Util\\FileWatcher\u003A\u003A__construct\u0028\u0029",
+            "name": "__construct",
+            "summary": "",
+            "url": "classes/Cecil-Util-FileWatcher.html#method___construct"
+        },                {
+            "fqsen": "\\Cecil\\Util\\FileWatcher\u003A\u003Ainitialize\u0028\u0029",
+            "name": "initialize",
+            "summary": "Takes\u0020the\u0020initial\u0020snapshot\u0020of\u0020the\u0020watched\u0020files,\u0020if\u0020not\u0020already\u0020done.",
+            "url": "classes/Cecil-Util-FileWatcher.html#method_initialize"
+        },                {
+            "fqsen": "\\Cecil\\Util\\FileWatcher\u003A\u003AfindChanges\u0028\u0029",
+            "name": "findChanges",
+            "summary": "Finds\u0020changes\u0020since\u0020the\u0020previous\u0020scan.",
+            "url": "classes/Cecil-Util-FileWatcher.html#method_findChanges"
+        },                {
+            "fqsen": "\\Cecil\\Util\\FileWatcher\u003A\u003Ahash\u0028\u0029",
+            "name": "hash",
+            "summary": "Returns\u0020the\u0020content\u0020hash\u0020of\u0020a\u0020file.",
+            "url": "classes/Cecil-Util-FileWatcher.html#method_hash"
+        },                {
+            "fqsen": "\\Cecil\\Util\\FileWatcher\u003A\u003A\u0024snapshot",
+            "name": "snapshot",
+            "summary": "",
+            "url": "classes/Cecil-Util-FileWatcher.html#property_snapshot"
+        },                {
+            "fqsen": "\\Cecil\\Util\\FileWatcher\u003A\u003A\u0024finder",
+            "name": "finder",
+            "summary": "",
+            "url": "classes/Cecil-Util-FileWatcher.html#property_finder"
+        },                {
+            "fqsen": "\\Cecil\\Util\\FileWatcherResult",
+            "name": "FileWatcherResult",
+            "summary": "Changes\u0020found\u0020by\u0020the\u0020file\u0020watcher.",
+            "url": "classes/Cecil-Util-FileWatcherResult.html"
+        },                {
+            "fqsen": "\\Cecil\\Util\\FileWatcherResult\u003A\u003A__construct\u0028\u0029",
+            "name": "__construct",
+            "summary": "",
+            "url": "classes/Cecil-Util-FileWatcherResult.html#method___construct"
+        },                {
+            "fqsen": "\\Cecil\\Util\\FileWatcherResult\u003A\u003AhasChanges\u0028\u0029",
+            "name": "hasChanges",
+            "summary": "Returns\u0020true\u0020if\u0020at\u0020least\u0020one\u0020file\u0020was\u0020created,\u0020updated\u0020or\u0020deleted.",
+            "url": "classes/Cecil-Util-FileWatcherResult.html#method_hasChanges"
+        },                {
+            "fqsen": "\\Cecil\\Util\\FileWatcherResult\u003A\u003AgetNewFiles\u0028\u0029",
+            "name": "getNewFiles",
+            "summary": "Returns\u0020the\u0020paths\u0020of\u0020new\u0020files.",
+            "url": "classes/Cecil-Util-FileWatcherResult.html#method_getNewFiles"
+        },                {
+            "fqsen": "\\Cecil\\Util\\FileWatcherResult\u003A\u003AgetUpdatedFiles\u0028\u0029",
+            "name": "getUpdatedFiles",
+            "summary": "Returns\u0020the\u0020paths\u0020of\u0020updated\u0020files.",
+            "url": "classes/Cecil-Util-FileWatcherResult.html#method_getUpdatedFiles"
+        },                {
+            "fqsen": "\\Cecil\\Util\\FileWatcherResult\u003A\u003AgetDeletedFiles\u0028\u0029",
+            "name": "getDeletedFiles",
+            "summary": "Returns\u0020the\u0020paths\u0020of\u0020deleted\u0020files.",
+            "url": "classes/Cecil-Util-FileWatcherResult.html#method_getDeletedFiles"
+        },                {
+            "fqsen": "\\Cecil\\Util\\FileWatcherResult\u003A\u003A\u0024newFiles",
+            "name": "newFiles",
+            "summary": "",
+            "url": "classes/Cecil-Util-FileWatcherResult.html#property_newFiles"
+        },                {
+            "fqsen": "\\Cecil\\Util\\FileWatcherResult\u003A\u003A\u0024updatedFiles",
+            "name": "updatedFiles",
+            "summary": "",
+            "url": "classes/Cecil-Util-FileWatcherResult.html#property_updatedFiles"
+        },                {
+            "fqsen": "\\Cecil\\Util\\FileWatcherResult\u003A\u003A\u0024deletedFiles",
+            "name": "deletedFiles",
+            "summary": "",
+            "url": "classes/Cecil-Util-FileWatcherResult.html#property_deletedFiles"
         },                {
             "fqsen": "\\Cecil\\Util\\Html",
             "name": "Html",
