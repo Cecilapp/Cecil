@@ -2,7 +2,7 @@
 title: "Extend templates"
 description: "Add custom functions and filters, or use a theme."
 date: 2021-05-07
-updated: 2026-10-16
+updated: 2026-10-17
 -->
 # Extend templates
 
@@ -28,3 +28,5 @@ It’s easy to build a theme: create a folder `<theme>` with the following struc
 ```
 
 Then enable it with the [`theme`](../configuration/1-site.md#theme) configuration option.
+
+The theme `config.yml` is merged with the site configuration, which takes precedence, except for [lists of values](../configuration/index.md#lists): the site values are added to the theme ones, and a theme value can only be removed with `false` (e.g. `homepage: {atom: false}`).

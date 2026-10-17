@@ -2,7 +2,7 @@
 title: "Surcharge de configuration"
 description: "Surchargez la configuration avec des variables d’environnement ou une option CLI."
 date: 2026-03-27
-updated: 2026-10-16
+updated: 2026-10-17
 path: documentation/configuration/surcharge
 -->
 # Surcharge de configuration
@@ -41,6 +41,6 @@ Vous pouvez combiner plusieurs fichiers de configuration avec l’option `--conf
 php cecil.phar build --config config-1.yml,config-2.yml
 ```
 
-Les fichiers sont fusionnés de gauche à droite, après le fichier de configuration principal : une valeur scalaire est remplacée par la dernière définie, les tableaux associatifs sont fusionnés clé par clé et les listes sont concaténées.
+Les fichiers sont fusionnés de gauche à droite, après le fichier de configuration principal : une valeur scalaire est remplacée par la dernière définie, les tableaux associatifs sont fusionnés clé par clé, les [listes de valeurs](index.fr.md#listes) sont remplacées (ou ajustées avec un tableau de booléens), les formats de sortie sont fusionnés par `name` et les autres listes d’entrées (ex. menus) sont concaténées.
 
 ---

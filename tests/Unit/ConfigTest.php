@@ -713,4 +713,107 @@ class ConfigTest extends TestCase
             ],
         ]);
     }
+
+    public function testListOfValuesIsReplacedOnMerge(): void
+    {
+        $config = new Config();
+        $config->import(['output' => ['pagetypeformats' => ['page' => ['html', 'json']]]]);
+        $config->import(['output' => ['pagetypeformats' => ['page' => ['html']]]]);
+
+        self::assertSame(['html'], $config->get('output.pagetypeformats.page'));
+    }
+
+    public function testListOfValuesIsCombinedWithPreservedList(): void
+    {
+        $config = new Config(['output' => ['pagetypeformats' => ['homepage' => ['json', 'html']]]]);
+        // ie: theme configuration
+        $config->import(['output' => ['pagetypeformats' => [
+            'homepage' => ['html', 'atom', 'search'],
+            'term'     => ['html'],
+        ]]], Config::IMPORT_PRESERVE);
+
+        self::assertSame(['json', 'html', 'atom', 'search'], $config->get('output.pagetypeformats.homepage'));
+        self::assertSame(['html'], $config->get('output.pagetypeformats.term'));
+    }
+
+    public function testListPatchRemovesValueOfPreservedList(): void
+    {
+        $config = new Config(['output' => ['pagetypeformats' => ['homepage' => ['atom' => false]]]]);
+        // ie: theme configuration
+        $config->import(['output' => ['pagetypeformats' => ['homepage' => ['html', 'atom', 'search']]]], Config::IMPORT_PRESERVE);
+
+        self::assertSame(['html', 'search'], $config->get('output.pagetypeformats.homepage'));
+    }
+
+    public function testOutputFormatsOfPreservedConfigAreKept(): void
+    {
+        $config = new Config(['output' => ['formats' => [
+            ['name' => 'custom', 'mediatype' => 'text/plain', 'extension' => 'txt'],
+        ]]]);
+        // ie: theme configuration
+        $config->import(['output' => ['formats' => [
+            ['name' => 'search', 'mediatype' => 'application/json', 'extension' => 'json'],
+        ]]], Config::IMPORT_PRESERVE);
+
+        self::assertSame('text/plain', $config->getOutputFormatProperty('custom', 'mediatype'));
+        self::assertSame('application/json', $config->getOutputFormatProperty('search', 'mediatype'));
+    }
+
+    public function testListPatchIsAppliedToDefaultList(): void
+    {
+        $config = new Config([
+            'output' => ['pagetypeformats' => ['homepage' => ['rss' => true, 'atom' => false]]],
+            'pages'  => ['ext' => ['mdx' => true, 'text' => false, 'txt' => false]],
+        ]);
+
+        self::assertSame(['html', 'rss'], $config->get('output.pagetypeformats.homepage'));
+        self::assertSame(['md', 'markdown', 'mdown', 'mkdn', 'mkd', 'mdx'], $config->get('pages.ext'));
+        self::assertSame(['md', 'markdown', 'mdown', 'mkdn', 'mkd', 'mdx'], $config->get('pages')['ext']);
+        self::assertSame(['md', 'markdown', 'mdown', 'mkdn', 'mkd', 'mdx'], $config->export()['pages']['ext']);
+    }
+
+    public function testListPatchSupportsIntegerValues(): void
+    {
+        $config = new Config(['assets' => ['images' => ['responsive' => ['widths' => [2560 => true, 480 => false]]]]]);
+
+        self::assertSame([640, 768, 1024, 1366, 1600, 1920, 2560], $config->getAssetsImagesWidths());
+    }
+
+    public function testListPatchIsAppliedToImportedList(): void
+    {
+        $config = new Config(['pages' => ['ext' => ['md', 'txt']]]);
+        $config->import(['pages' => ['ext' => ['txt' => false, 'mdx' => true]]]);
+
+        self::assertSame(['md', 'mdx'], $config->get('pages.ext'));
+    }
+
+    public function testListPatchIsAppliedToPreservedList(): void
+    {
+        $config = new Config(['pages' => ['ext' => ['mdx' => true]]]);
+        // ie: theme configuration
+        $config->import(['pages' => ['ext' => ['md', 'txt']]], Config::IMPORT_PRESERVE);
+
+        self::assertSame(['md', 'txt', 'mdx'], $config->get('pages.ext'));
+    }
+
+    public function testOutputFormatsAreMergedByName(): void
+    {
+        $config = new Config(['output' => ['formats' => [
+            ['name' => 'rss', 'filename' => 'feed'],
+            ['name' => 'custom', 'mediatype' => 'text/plain', 'extension' => 'txt'],
+        ]]]);
+
+        self::assertSame('feed', $config->getOutputFormatProperty('rss', 'filename'));
+        self::assertSame('application/rss+xml', $config->getOutputFormatProperty('rss', 'mediatype'));
+        self::assertSame('text/plain', $config->getOutputFormatProperty('custom', 'mediatype'));
+        self::assertCount(1, array_filter($config->get('output.formats'), fn ($format) => $format['name'] === 'rss'));
+    }
+
+    public function testListOfItemsIsConcatenatedOnMerge(): void
+    {
+        $config = new Config(['menus' => ['main' => [['id' => 'a']]]]);
+        $config->import(['menus' => ['main' => [['id' => 'b']]]]);
+
+        self::assertSame([['id' => 'a'], ['id' => 'b']], $config->get('menus.main'));
+    }
 }
