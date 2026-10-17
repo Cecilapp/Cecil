@@ -2986,10 +2986,10 @@ Search.appendIndex(
             "summary": "\u007B\u0040inheritdoc\u007D",
             "url": "classes/Cecil-Command-ShowConfig.html#method_execute"
         },                {
-            "fqsen": "\\Cecil\\Command\\ShowConfig\u003A\u003AarrayToYaml\u0028\u0029",
-            "name": "arrayToYaml",
-            "summary": "Converts\u0020an\u0020array\u0020to\u0020YAML.",
-            "url": "classes/Cecil-Command-ShowConfig.html#method_arrayToYaml"
+            "fqsen": "\\Cecil\\Command\\ShowConfig\u003A\u003AtoYaml\u0028\u0029",
+            "name": "toYaml",
+            "summary": "Converts\u0020a\u0020value\u0020to\u0020YAML.",
+            "url": "classes/Cecil-Command-ShowConfig.html#method_toYaml"
         },                {
             "fqsen": "\\Cecil\\Command\\ShowContent",
             "name": "ShowContent",

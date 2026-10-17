@@ -41,6 +41,7 @@ class ShowConfig extends AbstractCommand
             ->setDefinition([
                 new InputArgument('path', InputArgument::OPTIONAL, 'Use the given path as working directory'),
                 new InputOption('config', 'c', InputOption::VALUE_REQUIRED, 'Set the path to an extra configuration file'),
+                new InputOption('key', 'k', InputOption::VALUE_REQUIRED, 'Show only the given configuration key (dot notation, e.g. "pages.dir")'),
             ])
             ->setHelp(
                 <<<'EOF'
@@ -52,6 +53,11 @@ The <info>%command.name%</> command shows the website\'s configuration in YAML f
 To show the configuration with an extra configuration file, run:
 
   <info>%command.full_name% --config=config.yml</>
+
+To show only a specific configuration key (dot notation), run:
+
+  <info>%command.full_name% --key=baseurl</>
+  <info>%command.full_name% --key=pages.dir</>
 EOF
             );
     }
@@ -65,7 +71,16 @@ EOF
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
         try {
-            $output->writeln($this->arrayToYaml($this->getBuilder()->getConfig()->export()));
+            $config = $this->getBuilder()->getConfig();
+            if (null !== $key = $input->getOption('key')) {
+                if (!$config->has($key)) {
+                    throw new RuntimeException(\sprintf('Configuration key "%s" not found.', $key));
+                }
+                $output->writeln($this->toYaml($config->get($key)));
+
+                return Command::SUCCESS;
+            }
+            $output->writeln($this->toYaml($config->export()));
         } catch (\Exception $e) {
             throw new RuntimeException($e->getMessage());
         }
@@ -74,12 +89,10 @@ EOF
     }
 
     /**
-     * Converts an array to YAML.
-     *
-     * @param array<string, mixed> $array
+     * Converts a value to YAML.
      */
-    private function arrayToYaml(array $array): string
+    private function toYaml(mixed $value): string
     {
-        return trim(Yaml::dump($array, 6, 2));
+        return trim(Yaml::dump($value, 6, 2));
     }
 }

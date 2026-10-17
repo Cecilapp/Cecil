@@ -2,7 +2,7 @@
 title: "Commandes"
 description: "Référence des commandes et options de la CLI de Cecil."
 date: 2026-03-27
-updated: 2026-10-16
+updated: 2026-10-17
 weight: 6
 sortby: weight
 path: documentation/commandes
@@ -65,7 +65,7 @@ Commandes sans page dédiée, et leurs options spécifiques :
 - `serve:stop` (alias `stop`) : arrête un serveur en arrière-plan précédemment démarré avec `serve --background`.
 - `clear` : supprime tous les fichiers générés ; `clear:output` supprime le répertoire de sortie et `clear:temporary` (alias `clear:tmp`) supprime le répertoire temporaire.
 - `cache:clear` : supprime tous les fichiers de cache ; `cache:clear:assets`, `cache:clear:templates` et `cache:clear:translations` suppriment un seul cache. `cache:clear:templates --fragments` supprime uniquement le cache des fragments de templates.
-- `show:config` : affiche la configuration au format YAML ; `show:content` affiche le contenu sous forme d’arborescence. Les deux acceptent `-c, --config=CONFIG` pour ajouter un fichier de configuration supplémentaire.
+- `show:config` : affiche la configuration au format YAML (`-k, --key=KEY` affiche uniquement la clé donnée, en notation pointée, par ex. `--key=pages.dir`) ; `show:content` affiche le contenu sous forme d’arborescence. Les deux acceptent `-c, --config=CONFIG` pour ajouter un fichier de configuration supplémentaire.
 - `util:templates:extract` : extrait les templates intégrés dans le répertoire `layouts` (`-f, --force` écrase les fichiers existants).
 - `util:translations:extract` : extrait les traductions des templates, avec les options suivantes :
   - `--locale=LOCALE` : définit la locale

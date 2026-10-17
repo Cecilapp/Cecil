@@ -220,7 +220,7 @@ Output is generated in `_site/` directory.
 | `php cecil.phar serve --incremental`       | Serve with incremental builds (rebuild only changed pages)                                                  |
 | `php cecil.phar serve:stop`                | Stop the local server                                                                                       |
 | `php cecil.phar edit`                      | Open pages directory with the configured editor                                                             |
-| `php cecil.phar show:config`               | Display effective configuration                                                                             |
+| `php cecil.phar show:config`               | Display effective configuration (`--key=pages.dir` to show a single key)                                    |
 | `php cecil.phar show:content`              | Display content tree (pages, data, static files)                                                            |
 | `php cecil.phar doctor`                    | Diagnose site and environment (see also `doctor:frontmatter`, `doctor:seo`, `doctor:links`, `doctor:cache`) |
 | `php cecil.phar cache:clear`               | Clear all cache files (or only `cache:clear:assets`, `cache:clear:templates`, `cache:clear:translations`)   |
