@@ -2,6 +2,21 @@
 
 All notable changes to this project will be documented in this file. Dates are displayed in UTC.
 
+#### [9.14.0](https://github.com/Cecilapp/Cecil/compare/9.13.1...9.14.0)
+
+> 16 October 2026
+
+- refactor: replace cecil/resource-watcher with internal FileWatcher [`#2529`](https://github.com/Cecilapp/Cecil/pull/2529)
+- chore(deps): upgrade phpmd/phpmd to 3.0 [`#2528`](https://github.com/Cecilapp/Cecil/pull/2528)
+- chore(deps): upgrade laravel-zero/phar-updater to 2.0 [`#2527`](https://github.com/Cecilapp/Cecil/pull/2527)
+- chore(deps): update dependencies [`#2526`](https://github.com/Cecilapp/Cecil/pull/2526)
+- docs: review assets and developers [`#2525`](https://github.com/Cecilapp/Cecil/pull/2525)
+- docs: review templates and Twig reference [`#2524`](https://github.com/Cecilapp/Cecil/pull/2524)
+- docs: review content [`#2523`](https://github.com/Cecilapp/Cecil/pull/2523)
+- docs: review configuration [`#2522`](https://github.com/Cecilapp/Cecil/pull/2522)
+- docs: review getting started, commands and deploy [`#2521`](https://github.com/Cecilapp/Cecil/pull/2521)
+- chore: new:page help typos and default config comment [`#2520`](https://github.com/Cecilapp/Cecil/pull/2520)
+
 #### [9.13.1](https://github.com/Cecilapp/Cecil/compare/9.13.0...9.13.1)
 
 > 16 October 2026
