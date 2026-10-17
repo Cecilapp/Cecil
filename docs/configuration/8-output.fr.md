@@ -2,7 +2,7 @@
 title: "Sortie"
 description: "Dossier de sortie, formats et post-traitement."
 date: 2026-03-27
-updated: 2026-10-16
+updated: 2026-10-17
 path: documentation/configuration/sortie
 -->
 # Sortie
@@ -40,6 +40,15 @@ Ces formats sont utilisés dans la configuration [`output.pagetypeformats`](#out
 
 Cecil fournit quelques [formats par défaut](https://github.com/Cecilapp/Cecil/blob/main/config/base.php#L89-L197), qui peuvent être surchargés dans le fichier de configuration : `html` (par défaut), `atom`, `rss`, `json`, `xml`, `txt`, `amp`, `js`, `webmanifest`, `xsl`, `jsonfeed`, `oembed`, `embed`, `markdown`, `llms`.
 
+Les formats sont fusionnés par `name` : pour surcharger un format par défaut, définissez uniquement son `name` et les propriétés à modifier.
+
+```yaml
+output:
+  formats:
+    - name: rss
+      filename: feed # `feed.xml` au lieu de `rss.xml`
+```
+
 ## output.pagetypeformats
 
 Il n’est pas nécessaire de définir la variable `output` pour chaque page, car Cecil applique automatiquement les formats définis pour chaque type de page (`homepage`, `page`, `section`, `vocabulary` et `term`).
@@ -60,6 +69,16 @@ Plusieurs formats peuvent être définis pour un même type de page. Par exemple
 output:
   pagetypeformats:
     section: [html, atom]
+```
+
+Une liste remplace les formats par défaut du type de page (et s’ajoute aux formats définis par le thème). Pour ajouter ou retirer un format, utilisez plutôt un [tableau de booléens](index.fr.md#listes) :
+
+```yaml
+output:
+  pagetypeformats:
+    homepage:
+      rss: true   # ajoute RSS
+      atom: false # retire Atom
 ```
 
 :::info

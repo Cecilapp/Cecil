@@ -3321,6 +3321,46 @@ Search.appendIndex(
             "summary": "Is\u0020cache\u0020dir\u0020is\u0020absolute\u0020to\u0020system\u0020files\nor\u0020relative\u0020to\u0020project\u0020destination\u003F",
             "url": "classes/Cecil-Config.html#method_isCacheDirIsAbsolute"
         },                {
+            "fqsen": "\\Cecil\\Config\u003A\u003Amerge\u0028\u0029",
+            "name": "merge",
+            "summary": "Merges\u0020two\u0020configuration\u0020arrays,\u0020key\u0020by\u0020key\u003A\u0020values\u0020of\u0020\u0060\u0024high\u0060\u0020take\u0020precedence\u0020over\u0020values\u0020of\u0020\u0060\u0024low\u0060.",
+            "url": "classes/Cecil-Config.html#method_merge"
+        },                {
+            "fqsen": "\\Cecil\\Config\u003A\u003AmergeValues\u0028\u0029",
+            "name": "mergeValues",
+            "summary": "Merges\u0020two\u0020values,\u0020\u0060\u0024high\u0060\u0020taking\u0020precedence\u0020over\u0020\u0060\u0024low\u0060\u003A\n\u002D\u0020scalars\u0020are\u0020replaced\u003B\n\u002D\u0020lists\u0020of\u0020values\u0020are\u0020replaced\u0020as\u0020a\u0020whole,\u0020except\u0020in\u0020preserve\u0020mode\u0020\u0028ie\u003A\u0020theme\u0020configuration\u0029\u0020where\u0020they\u0020are\u0020combined\u003B\n\u002D\u0020a\u0020map\u0020of\u0020booleans\u0020applied\u0020to\u0020a\u0020list\u0020of\u0020values\u0020adds\u0020\u0028\u0060true\u0060\u0029\u0020or\u0020removes\u0020\u0028\u0060false\u0060\u0029\u0020items\u003B\n\u002D\u0020lists\u0020of\u0020identified\u0020items\u0020\u0028ie\u003A\u0020\u0060output.formats\u0060\u0029\u0020are\u0020merged\u0020by\u0020identifier\u003B\n\u002D\u0020other\u0020lists\u0020of\u0020items\u0020\u0028ie\u003A\u0020menus\u0020entries\u0029\u0020are\u0020concatenated\u0020in\u0020merge\u0020mode,\u0020replaced\u0020otherwise\u003B\n\u002D\u0020maps\u0020are\u0020merged\u0020key\u0020by\u0020key.",
+            "url": "classes/Cecil-Config.html#method_mergeValues"
+        },                {
+            "fqsen": "\\Cecil\\Config\u003A\u003AmergeListById\u0028\u0029",
+            "name": "mergeListById",
+            "summary": "Merges\u0020two\u0020lists\u0020of\u0020items\u0020by\u0020identifier\u003A\u0020items\u0020of\u0020\u0060\u0024high\u0060\u0020override\u0020items\u0020of\u0020\u0060\u0024low\u0060\u0020with\u0020the\u0020same\u0020identifier.",
+            "url": "classes/Cecil-Config.html#method_mergeListById"
+        },                {
+            "fqsen": "\\Cecil\\Config\u003A\u003Aresolve\u0028\u0029",
+            "name": "resolve",
+            "summary": "Resolves\u0020list\u0020patches\u0020\u0028maps\u0020of\u0020booleans\u0029\u0020against\u0020default\u0020lists\u0020of\u0020values.",
+            "url": "classes/Cecil-Config.html#method_resolve"
+        },                {
+            "fqsen": "\\Cecil\\Config\u003A\u003AgetDefault\u0028\u0029",
+            "name": "getDefault",
+            "summary": "Returns\u0020the\u0020default\u0020value\u0020of\u0020a\u0020configuration\u0020key,\u0020if\u0020any.",
+            "url": "classes/Cecil-Config.html#method_getDefault"
+        },                {
+            "fqsen": "\\Cecil\\Config\u003A\u003AisValuesList\u0028\u0029",
+            "name": "isValuesList",
+            "summary": "Is\u0020the\u0020value\u0020a\u0020list\u0020of\u0020values\u0020\u0028strings\u0020or\u0020integers\u0029\u003F",
+            "url": "classes/Cecil-Config.html#method_isValuesList"
+        },                {
+            "fqsen": "\\Cecil\\Config\u003A\u003AisListPatch\u0028\u0029",
+            "name": "isListPatch",
+            "summary": "Is\u0020the\u0020value\u0020a\u0020list\u0020patch\u0020\u0028ie\u003A\u0020\u0060\u007Brss\u003A\u0020true,\u0020atom\u003A\u0020false\u007D\u0060\u0029\u003F",
+            "url": "classes/Cecil-Config.html#method_isListPatch"
+        },                {
+            "fqsen": "\\Cecil\\Config\u003A\u003AapplyListPatch\u0028\u0029",
+            "name": "applyListPatch",
+            "summary": "Applies\u0020a\u0020list\u0020patch\u0020to\u0020a\u0020list\u0020of\u0020values\u003A\u0020adds\u0020items\u0020set\u0020to\u0020\u0060true\u0060\u0020and\u0020removes\u0020items\u0020set\u0020to\u0020\u0060false\u0060.",
+            "url": "classes/Cecil-Config.html#method_applyListPatch"
+        },                {
             "fqsen": "\\Cecil\\Config\u003A\u003AsetFromEnv\u0028\u0029",
             "name": "setFromEnv",
             "summary": "Set\u0020configuration\u0020from\u0020environment\u0020variables\u0020starting\u0020with\u0020\u0022CECIL_\u0022.",
@@ -3370,6 +3410,11 @@ Search.appendIndex(
             "name": "LANG_LOCALE_PATTERN",
             "summary": "",
             "url": "classes/Cecil-Config.html#constant_LANG_LOCALE_PATTERN"
+        },                {
+            "fqsen": "\\Cecil\\Config\u003A\u003ALIST_IDENTIFIERS",
+            "name": "LIST_IDENTIFIERS",
+            "summary": "Lists\u0020of\u0020items\u0020merged\u0020by\u0020identifier,\u0020instead\u0020of\u0020being\u0020concatenated.",
+            "url": "classes/Cecil-Config.html#constant_LIST_IDENTIFIERS"
         },                {
             "fqsen": "\\Cecil\\Config\u003A\u003A\u0024data",
             "name": "data",

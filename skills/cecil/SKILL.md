@@ -116,6 +116,8 @@ Configuration is defined in `cecil.yml` or `config.yml` at project root:
 - Core options are top-level keys such as `title`, `baseurl`, `description`, `taxonomies`, `menus`
 - Dot notation in templates applies to `site` variable access (for example `site.title`)
 - Defaults are defined in `config/default.php` and base pipeline in `config/base.php`
+- A list of values (`pages.ext`, `output.pagetypeformats.<type>`, `assets.images.responsive.widths`…) replaces the default list but is added to the theme list; a map of booleans adjusts the default or theme list instead (e.g. `homepage: {rss: true, atom: false}`)
+- `output.formats` entries are merged by `name`: override a default format with only its `name` and the properties to change
 
 ## Building a Cecil Site
 
