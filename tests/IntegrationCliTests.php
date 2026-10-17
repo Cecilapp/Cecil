@@ -105,6 +105,20 @@ class IntegrationCliTests extends IntegrationTests
         self::assertStringContainsString('Environment', $output);
     }
 
+    public function testShowConfigKey(): void
+    {
+        exec('php ./bin/cecil new:site tests/demo --demo -n -f', $output, $retval);
+        self::assertTrue($retval < 1);
+        $output = [];
+        exec('php ./bin/cecil show:config tests/demo --key=pages.dir', $output, $retval);
+        self::assertTrue($retval < 1);
+        self::assertSame('pages', trim(implode("\n", $output)));
+        $output = [];
+        exec('php ./bin/cecil show:config tests/demo --key=unknown.key 2>&1', $output, $retval);
+        self::assertTrue($retval > 0);
+        self::assertStringContainsString('Configuration key "unknown.key" not found', implode("\n", $output));
+    }
+
     public function testDoctorSeo(): void
     {
         exec('php ./bin/cecil new:site tests/demo --demo -n -f 2>&1', $output, $retval);
