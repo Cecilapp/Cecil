@@ -2,6 +2,12 @@
 
 All notable changes to this project will be documented in this file. Dates are displayed in UTC.
 
+#### [9.15.0](https://github.com/Cecilapp/Cecil/compare/9.14.0...9.15.0)
+
+> 17 October 2026
+
+- feat(layouts): modernize feed and sitemap XSL stylesheets [`#2532`](https://github.com/Cecilapp/Cecil/pull/2532)
+
 #### [9.14.0](https://github.com/Cecilapp/Cecil/compare/9.13.1...9.14.0)
 
 > 16 October 2026
