@@ -60,7 +60,7 @@ class Config implements \ArrayAccess
     #[\ReturnTypeWillChange]
     public function offsetExists($offset): bool
     {
-        return $this->config->has($offset);
+        return $this->config->has($offset, $this->language);
     }
 
     /**
