@@ -2,7 +2,7 @@
 title: "Pages"
 description: "Dossier des pages, tri, pagination, chemins, corps, pages virtuelles, générateurs, etc."
 date: 2026-03-27
-updated: 2026-10-16
+updated: 2026-10-17
 -->
 # Pages
 
@@ -153,6 +153,19 @@ pages:
   body:
     highlight: false # `false` pour désactiver la coloration syntaxique
 ```
+
+Le moteur de coloration peut être changé avec l’option `engine` :
+
+```yaml
+pages:
+  body:
+    highlight:
+      enabled: true    # `true` par défaut
+      engine: tempest  # `highlightjs` (par défaut) ou `tempest`
+```
+
+- `highlightjs` : [highlight.php](https://github.com/scrivo/highlight.php), un portage PHP de highlight.js (plus de 190 langages, classes CSS `hljs-*`)
+- `tempest` : [tempest/highlight](https://github.com/tempestphp/highlight), un moteur de coloration rapide côté serveur (langages du web : PHP, HTML, CSS, JavaScript, JSON, YAML, Twig, SQL, XML, etc., classes CSS `hl-*`)
 
 ### pages.body.images
 

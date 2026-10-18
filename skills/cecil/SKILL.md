@@ -533,6 +533,19 @@ pages:
 
 Both are disabled by default (`null`).
 
+### Code Syntax Highlighting
+
+Fenced code blocks are highlighted at build time (`pages.body.highlight: true` by default). The engine can be changed:
+
+```yaml
+pages:
+  body:
+    highlight:
+      engine: tempest  # `highlightjs` (default, `hljs-*` CSS classes) or `tempest` (fewer languages, `hl-*` CSS classes)
+```
+
+The theme CSS must match the engine's classes (the built-in `partials/highlight.css.twig` handles both).
+
 ### Performance Tips
 
 1. Use `draft: true` to exclude non-published content from builds

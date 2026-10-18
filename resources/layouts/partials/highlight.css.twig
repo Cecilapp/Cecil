@@ -1,4 +1,79 @@
 {# Highlight code CSS ~#}
+{%- set highlight_engine = config.pages.body.highlight.engine ?? 'highlightjs' ~%}
+{%- if highlight_engine == 'tempest' ~%}
+      /* tempest/highlight, Atom One Light colors */
+      .hl-keyword {
+        color: #a626a4;
+      }
+      .hl-property {
+        color: #4078f2;
+      }
+      .hl-type {
+        color: #c18401;
+      }
+      .hl-generic {
+        color: #986801;
+      }
+      .hl-value {
+        color: #50a14f;
+      }
+      .hl-variable {
+        color: #e45649;
+      }
+      .hl-comment,
+      .hl-comment span {
+        color: #a0a1a7;
+        font-style: italic;
+      }
+      .hl-attribute,
+      .hl-em {
+        font-style: italic;
+      }
+      .hl-strong {
+        font-weight: bold;
+      }
+      .hl-blur {
+        filter: blur(2px);
+      }
+      .hl-addition {
+        background-color: #00ff0033;
+      }
+      .hl-deletion {
+        background-color: #ff000022;
+      }
+      .hl-gutter {
+        display: inline-block;
+        margin-right: 1ch;
+        padding: 0 1ch;
+        color: #a0a1a7;
+      }
+      @media (prefers-color-scheme: dark) {
+        /* tempest/highlight, Atom One Dark colors */
+        .hl-keyword {
+          color: #c678dd;
+        }
+        .hl-property {
+          color: #61aeee;
+        }
+        .hl-type {
+          color: #e6c07b;
+        }
+        .hl-generic {
+          color: #d19a66;
+        }
+        .hl-value {
+          color: #98c379;
+        }
+        .hl-variable {
+          color: #e06c75;
+        }
+        .hl-comment,
+        .hl-comment span,
+        .hl-gutter {
+          color: #5c6370;
+        }
+      }
+{%- else ~%}
       /* Atom One Light by Daniel Gamage */
       .hljs {
         color: #383a42;
@@ -129,3 +204,4 @@
           text-decoration: underline;
         }
       }
+{%- endif ~%}
