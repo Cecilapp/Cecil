@@ -186,7 +186,7 @@ Returns a [Low Quality Image Placeholder](https://www.guypo.com/introducing-lqip
 
 ## dominant_color
 
-Returns the dominant [hexadecimal color](https://developer.mozilla.org/en-US/docs/Web/CSS/hex-color) of an image.
+Returns the dominant color of an image, as a [CSS color value](https://developer.mozilla.org/en-US/docs/Web/CSS/color_value/rgb) (e.g. `rgb(120 85 60)`).
 
 ```twig
 {{ asset(image_path)|dominant_color }}

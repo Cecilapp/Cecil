@@ -186,7 +186,7 @@ Renvoie un [espace réservé pour une image de faible qualité](https://www.guyp
 
 ## dominant_color
 
-Renvoie la [couleur hexadécimale](https://developer.mozilla.org/fr/docs/Web/CSS/hex-color) dominante d’une image.
+Renvoie la couleur dominante d’une image, sous forme de [valeur de couleur CSS](https://developer.mozilla.org/fr/docs/Web/CSS/color_value/rgb) (par exemple `rgb(120 85 60)`).
 
 ```twig
 {{ asset(image_path)|dominant_color }}
