@@ -11,21 +11,22 @@
 
 declare(strict_types=1);
 
-// This file contains a list of deprecated configuration options that have been renamed or moved.
+// Deprecated configuration options that have been renamed, moved or removed:
+// '<old.key>' => '<new.key>' (or '' if removed), in dot notation.
 
 return [
     // changes between version 7.x and 8.x
-    'frontmatter' => 'pages:frontmatter',
-    'body' => 'pages:body',
-    'defaultpages' => 'pages:default',
-    'virtualpages' => 'pages:virtual',
-    'generators' => 'pages:generators',
-    'translations' => 'layouts:translations',
-    'extensions' => 'layouts:extensions',
+    'frontmatter' => 'pages.frontmatter',
+    'body' => 'pages.body',
+    'defaultpages' => 'pages.default',
+    'virtualpages' => 'pages.virtual',
+    'generators' => 'pages.generators',
+    'translations' => 'layouts.translations',
+    'extensions' => 'layouts.extensions',
     'postprocess' => 'optimize',
     // changes since version 8.37.0
-    'pagination' => 'pages:pagination',
-    'paths' => 'pages:paths',
+    'pagination' => 'pages.pagination',
+    'paths' => 'pages.paths',
     'pages.frontmatter.format' => 'pages.frontmatter',
     'pages.body.format' => '',
     'pages.body.images.remote.fallback.path' => 'pages.body.images.remote.fallback',

@@ -2,7 +2,7 @@
 title: "Override configuration"
 description: "Override the configuration with environment variables or a CLI option."
 date: 2021-05-07
-updated: 2026-10-16
+updated: 2026-10-17
 -->
 # Override configuration
 
@@ -40,6 +40,6 @@ You can combine multiple configuration files with the `--config` option of the `
 php cecil.phar build --config config-1.yml,config-2.yml
 ```
 
-The files are merged from left to right, after the main configuration file: a scalar value is replaced by the last one defined, maps are merged key by key and lists are concatenated.
+The files are merged from left to right, after the main configuration file: a scalar value is replaced by the last one defined, maps are merged key by key, [lists of values](index.md#lists) are replaced (or adjusted with a map of booleans), output formats are merged by `name` and other lists of entries (e.g. menus) are concatenated.
 
 ---

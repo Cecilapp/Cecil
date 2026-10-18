@@ -2,7 +2,7 @@
 title: "Architecture"
 description: "Diagram of the build pipeline and key components."
 date: 2026-05-27
-updated: 2026-10-16
+updated: 2026-10-18
 alias: documentation/architecture
 -->
 # Architecture
@@ -22,7 +22,7 @@ graph TD
 
     %% Orchestrator
     BUILDER["Builder\n(Orchestrator)"]
-    CONFIG["Configuration\n(base.php + default.php\n+ themes + cecil.yml\n+ env vars + CLI options)"]
+    CONFIG["Configuration\n(default.php\n< themes < cecil.yml\n< env vars + CLI options)"]
     CMD --> BUILDER
     CONFIG --> BUILDER
 
@@ -133,7 +133,7 @@ graph TD
 | Component           | Role                                                                                                     |
 |---------------------|----------------------------------------------------------------------------------------------------------|
 | **Builder**         | Central orchestrator that executes steps in sequence                                                     |
-| **Config**          | Merges base + default + themes + project configuration, environment variables (`CECIL_*`) and CLI options |
+| **Config**          | Merges default, themes and project configuration (`Config\Merger`), environment variables (`CECIL_*`) and CLI options, and reports deprecated options (`Config\Deprecations`) |
 | **Steps**           | Modular pipeline (16 steps), each with `init()` / `canProcess()` / `process()`                           |
 | **Collections**     | Pages, Taxonomies, Menus: core data structures                                                           |
 | **Generators**      | Create or update pages (default pages, sections, taxonomies, pagination, aliases, redirects, etc.)       |

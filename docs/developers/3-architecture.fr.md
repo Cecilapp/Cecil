@@ -2,7 +2,7 @@
 title: "Architecture"
 description: "Diagramme du processus de génération et composants clés."
 date: 2026-05-27
-updated: 2026-10-16
+updated: 2026-10-18
 alias: documentation/architecture
 path: documentation/developpeurs/architecture
 -->
@@ -23,7 +23,7 @@ graph TD
 
     %% Orchestrateur
     BUILDER["Builder\n(orchestrateur)"]
-    CONFIG["Configuration\n(base.php + default.php\n+ thèmes + cecil.yml\n+ variables d’environnement + options CLI)"]
+    CONFIG["Configuration\n(default.php\n< thèmes < cecil.yml\n< variables d’environnement + options CLI)"]
     CMD --> BUILDER
     CONFIG --> BUILDER
 
@@ -134,7 +134,7 @@ graph TD
 | Composant           | Rôle                                                                                                                     |
 |---------------------|--------------------------------------------------------------------------------------------------------------------------|
 | **Builder**         | Orchestrateur central, exécute les étapes en séquence                                                                    |
-| **Config**          | Fusionne la configuration de base + par défaut + des thèmes + du projet, les variables d’environnement (`CECIL_*`) et les options CLI |
+| **Config**          | Fusionne la configuration par défaut, des thèmes et du projet (`Config\Merger`), les variables d’environnement (`CECIL_*`) et les options CLI, et signale les options dépréciées (`Config\Deprecations`) |
 | **Steps**           | Pipeline modulaire (16 étapes), chacune avec `init()` / `canProcess()` / `process()`                                     |
 | **Collections**     | Pages, Taxonomies, Menus : structures de données centrales                                                               |
 | **Generators**      | Créent ou mettent à jour des pages (pages par défaut, sections, taxonomies, pagination, alias, redirections, etc.)       |

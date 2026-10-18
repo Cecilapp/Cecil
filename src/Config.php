@@ -13,8 +13,11 @@ declare(strict_types=1);
 
 namespace Cecil;
 
+use Cecil\Config\Deprecations;
+use Cecil\Config\Merger;
 use Cecil\Exception\ConfigException;
 use Dflydev\DotAccessData\Data;
+use Dflydev\DotAccessData\Exception\DataException;
 use Nette\Schema\Expect;
 use Nette\Schema\Processor;
 use Nette\Schema\Schema;
@@ -38,8 +41,9 @@ class Config
     public const string LANG_LOCALE_PATTERN = '[a-z]{2}(_[A-Z]{2})?(_[A-Z]{2})?'; // "fr" or "fr_FR" or "no_NO_NY"
 
     /**
-     * Configuration is a Data object.
-     * This allows to use dot notation to access configuration keys.
+     * Effective configuration: the default configuration, overridden by the themes configuration,
+     * itself overridden by the site configuration and the environment variables.
+     * This is a Data object, which allows to use dot notation to access configuration keys.
      * For example: $config->get('key.subkey') or $config->has('key.subkey').
      * @var Data
      */
@@ -48,6 +52,16 @@ class Config
      * Default configuration.
      */
     protected Data $default;
+    /**
+     * Themes configuration layer.
+     * @var array<string, mixed>
+     */
+    protected array $themes = [];
+    /**
+     * Site configuration layer.
+     * @var array<string, mixed>
+     */
+    protected array $site = [];
     /**
      * Source directory.
      * This is the directory where the source files are located.
@@ -84,9 +98,7 @@ class Config
         // default configuration
         $defaultConfigFile = Util\File::getRealPath('../config/default.php');
         $this->default = new Data(include $defaultConfigFile);
-        // base configuration
-        $baseConfigFile = Util\File::getRealPath('../config/base.php');
-        $this->data = new Data(include $baseConfigFile);
+        $this->data = new Data($this->default->export());
         // import config array if provided
         if ($config !== null) {
             $this->import($config);
@@ -96,15 +108,39 @@ class Config
     /**
      * Imports (and validate) configuration.
      * The mode can be:
-     * - Config::IMPORT_PRESERVE: preserves existing configuration and adds new keys.
-     * - Config::IMPORT_REPLACE: replaces existing configuration with new keys.
-     * - Config::IMPORT_MERGE: merges existing configuration with new keys, overriding existing keys.
+     * - Config::IMPORT_PRESERVE: imports a theme configuration, overridden by the site configuration and by previously imported themes.
+     * - Config::IMPORT_REPLACE: imports a site configuration, replacing existing lists of items.
+     * - Config::IMPORT_MERGE: imports a site configuration, concatenating existing lists of items.
+     *
+     * The effective configuration is the default configuration, overridden by the themes configuration,
+     * itself overridden by the site configuration and by the environment variables.
+     *
+     * Maps are merged key by key, lists of values are replaced as a whole (combined between themes and site),
+     * and a map of booleans applied to a list of values adds (`true`) or removes (`false`) items.
+     * @see Config::mergeValues()
+     *
      * @param array<string, mixed> $config Configuration array to import
      * @param self::IMPORT_* $mode Import mode (default: Config::IMPORT_MERGE)
+     * @param string|null    $source Source of the configuration (ie: file path), used in error messages
+     *
+     * @throws ConfigException
      */
-    public function import(array $config, int $mode = self::IMPORT_MERGE): void
+    public function import(array $config, int $mode = self::IMPORT_MERGE, ?string $source = null): void
     {
-        $this->data->import($config, $mode);
+        // deprecated options are checked before merging, to report their actual source
+        Deprecations::check($config, $source);
+        Deprecations::check($this->getEnvConfig(), 'environment variables', true);
+        if ($mode === self::IMPORT_PRESERVE) {
+            $this->themes = Merger::merge($config, $this->themes, self::IMPORT_PRESERVE);
+        } else {
+            $this->site = Merger::merge($this->site, $config, $mode);
+        }
+        $this->data = new Data(Merger::merge(
+            $this->default->export(),
+            Merger::merge($this->themes, $this->site, self::IMPORT_PRESERVE),
+            self::IMPORT_REPLACE
+        ));
+        $this->languages = null;
         $this->setFromEnv(); // override configuration with environment variables
         $this->validate();   // validate configuration
     }
@@ -151,23 +187,17 @@ class Config
      */
     public function has(string $key, ?string $language = null, bool $fallback = true): bool
     {
-        $default = $this->default->has($key);
-
         if ($language !== null) {
             $langIndex = $this->getLanguageIndex($language);
-            $keyLang = "languages.$langIndex.config.$key";
-            if ($this->data->has($keyLang)) {
+            if ($this->data->has("languages.$langIndex.config.$key")) {
                 return true;
             }
             if ($language !== $this->getLanguageDefault() && $fallback === false) {
-                return $default;
+                return $this->default->has($key);
             }
         }
-        if ($this->data->has($key)) {
-            return true;
-        }
 
-        return $default;
+        return $this->data->has($key);
     }
 
     /**
@@ -181,22 +211,22 @@ class Config
      */
     public function get(string $key, ?string $language = null, bool $fallback = true)
     {
-        $default = $this->default->has($key) ? $this->default->get($key) : null;
+        $value = $this->data->has($key) ? $this->data->get($key) : null;
         if ($language !== null) {
+            if ($language !== $this->getLanguageDefault() && $fallback === false) {
+                $value = $this->getDefault($key);
+            }
             $langIndex = $this->getLanguageIndex($language);
             $keyLang = "languages.$langIndex.config.$key";
             if ($this->data->has($keyLang)) {
-                return $this->data->get($keyLang);
+                // localized value overrides the global (or default) value
+                return $value === null
+                    ? $this->data->get($keyLang)
+                    : Merger::mergeValues($value, $this->data->get($keyLang), self::IMPORT_REPLACE, $key);
             }
-            if ($language !== $this->getLanguageDefault() && $fallback === false) {
-                return $default;
-            }
-        }
-        if ($this->data->has($key)) {
-            return $this->data->get($key);
         }
 
-        return $default;
+        return $value;
     }
 
     /**
@@ -660,16 +690,44 @@ class Config
      */
 
     /**
+     * Returns the default value of a configuration key, if any.
+     */
+    private function getDefault(string $key): mixed
+    {
+        try {
+            return $this->default->has($key) ? $this->default->get($key) : null;
+        } catch (DataException) {
+            return null;
+        }
+    }
+
+    /**
      * Set configuration from environment variables starting with "CECIL_".
      */
     private function setFromEnv(): void
     {
-        $env = array_merge(getenv() ?: [], $_ENV);
-        foreach ($env as $key => $value) {
+        foreach ($this->getEnvConfig() as $key => $value) {
+            $current = $this->data->has($key) ? $this->data->get($key) : null;
+            $this->data->set($key, Merger::mergeValues($current, $value, self::IMPORT_REPLACE, $key));
+        }
+    }
+
+    /**
+     * Returns configuration from environment variables starting with "CECIL_", indexed by configuration key
+     * (ie: `CECIL_PAGES_DIR` -> `pages.dir`).
+     *
+     * @return array<string, mixed>
+     */
+    private function getEnvConfig(): array
+    {
+        $config = [];
+        foreach (array_merge(getenv() ?: [], $_ENV) as $key => $value) {
             if (str_starts_with((string) $key, 'CECIL_')) {
-                $this->data->set(str_replace(['cecil_', '_'], ['', '.'], strtolower((string) $key)), $this->castSetValue($value));
+                $config[str_replace(['cecil_', '_'], ['', '.'], strtolower((string) $key))] = $this->castSetValue($value);
             }
         }
+
+        return $config;
     }
 
     /**
@@ -704,26 +762,6 @@ class Config
         if (!preg_match('/^' . Config::LANG_CODE_PATTERN . '$/', $this->getLanguageDefault())) {
             throw new ConfigException(\sprintf('Default language code "%s" is not valid (e.g.: "language: fr-FR").', $this->getLanguageDefault()));
         }
-
-        // check for deprecated options
-        $deprecatedConfigFile = Util\File::getRealPath('../config/deprecated.php');
-        $deprecatedConfig = require $deprecatedConfigFile;
-        array_walk($deprecatedConfig, function ($to, $from) {
-            if ($this->has($from)) {
-                if (empty($to)) {
-                    throw new ConfigException("Option `$from` is deprecated and must be removed.");
-                }
-                $path = explode(':', $to);
-                $step = 0;
-                $formatedPath = '';
-                foreach ($path as $fragment) {
-                    $step = $step + 2;
-                    $formatedPath .= "$fragment:\n" . str_pad(' ', $step);
-                }
-                $formatedPath = trim($formatedPath);
-                throw new ConfigException("Option `$from` must be moved to:\n```\n$formatedPath\n```");
-            }
-        });
     }
 
     /**

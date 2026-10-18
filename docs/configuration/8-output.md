@@ -2,7 +2,7 @@
 title: "Output"
 description: "Output directory, formats and post-processing."
 date: 2021-05-07
-updated: 2026-10-16
+updated: 2026-10-18
 -->
 # Output
 
@@ -37,7 +37,16 @@ Those formats are used in the [`output.pagetypeformats`](#output-pagetypeformats
 
 ### Default formats
 
-Cecil provides some [default formats](https://github.com/Cecilapp/Cecil/blob/main/config/base.php#L89-L197), which can be overridden in the configuration file: `html` (default), `atom`, `rss`, `json`, `xml`, `txt`, `amp`, `js`, `webmanifest`, `xsl`, `jsonfeed`, `oembed`, `embed`, `markdown`, `llms`.
+Cecil provides some [default formats](https://github.com/Cecilapp/Cecil/blob/main/config/default.php#L287-L394), which can be overridden in the configuration file: `html` (default), `atom`, `rss`, `json`, `xml`, `txt`, `amp`, `js`, `webmanifest`, `xsl`, `jsonfeed`, `oembed`, `embed`, `markdown`, `llms`.
+
+Formats are merged by `name`: to override a default format, only define its `name` and the properties to change.
+
+```yaml
+output:
+  formats:
+    - name: rss
+      filename: feed # `feed.xml` instead of `rss.xml`
+```
 
 ## output.pagetypeformats
 
@@ -59,6 +68,16 @@ Several formats can be defined for a single page type. For example, the `section
 output:
   pagetypeformats:
     section: [html, atom]
+```
+
+A list replaces the default formats of the page type (and is added to the formats defined by the theme). To add or remove a format instead, use a [map of booleans](index.md#lists):
+
+```yaml
+output:
+  pagetypeformats:
+    homepage:
+      rss: true   # adds RSS
+      atom: false # removes Atom
 ```
 
 :::info

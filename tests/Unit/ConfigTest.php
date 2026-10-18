@@ -387,6 +387,53 @@ class ConfigTest extends TestCase
         ]);
     }
 
+    public function testDeprecatedOptionIsReportedBeforeSchemaValidation(): void
+    {
+        $this->expectException(ConfigException::class);
+        $this->expectExceptionMessage("Option `pages.frontmatter.format` must be moved to:\n  ```\n  pages:\n    frontmatter: yaml\n  ```");
+
+        new Config(['pages' => ['frontmatter' => ['format' => 'yaml']]]);
+    }
+
+    public function testDeprecatedOptionsAreReportedAtOnceWithTheirSource(): void
+    {
+        try {
+            (new Config())->import([
+                'frontmatter' => 'yaml',
+                'pagination'  => ['max' => 3],
+                'pages'       => ['body' => ['format' => 'md']],
+            ], Config::IMPORT_MERGE, '"cecil.yml"');
+            self::fail('Expected deprecated options exception.');
+        } catch (ConfigException $e) {
+            self::assertStringContainsString('Deprecated configuration option(s) in "cecil.yml"', $e->getMessage());
+            self::assertStringContainsString('Option `frontmatter` must be moved to', $e->getMessage());
+            self::assertStringContainsString("pages:\n    pagination:\n      max: 3", $e->getMessage());
+            self::assertStringContainsString('Option `pages.body.format` is deprecated and must be removed.', $e->getMessage());
+        }
+    }
+
+    public function testDeprecatedOptionOfThemeIsReportedWithThemeName(): void
+    {
+        $this->expectException(ConfigException::class);
+        $this->expectExceptionMessage('Deprecated configuration option(s) in theme "hyde"');
+
+        (new Config(['title' => 'Site']))->import(['paths' => []], Config::IMPORT_PRESERVE, 'theme "hyde"');
+    }
+
+    public function testDeprecatedEnvironmentVariableIsReportedWithNewName(): void
+    {
+        putenv('CECIL_PAGES_FRONTMATTER_FORMAT=yaml');
+
+        try {
+            $this->expectException(ConfigException::class);
+            $this->expectExceptionMessage('Variable `CECIL_PAGES_FRONTMATTER_FORMAT` must be renamed to `CECIL_PAGES_FRONTMATTER`.');
+
+            new Config([]);
+        } finally {
+            putenv('CECIL_PAGES_FRONTMATTER_FORMAT');
+        }
+    }
+
     public function testEnvironmentVariablesOverrideConfigurationAndCastBooleans(): void
     {
         putenv('CECIL_TITLE=Env Title');
@@ -712,5 +759,216 @@ class ConfigTest extends TestCase
                 ],
             ],
         ]);
+    }
+
+    public function testListOfValuesIsReplacedOnMerge(): void
+    {
+        $config = new Config();
+        $config->import(['output' => ['pagetypeformats' => ['page' => ['html', 'json']]]]);
+        $config->import(['output' => ['pagetypeformats' => ['page' => ['html']]]]);
+
+        self::assertSame(['html'], $config->get('output.pagetypeformats.page'));
+    }
+
+    public function testListOfValuesIsCombinedWithPreservedList(): void
+    {
+        $config = new Config(['output' => ['pagetypeformats' => ['homepage' => ['json', 'html']]]]);
+        // ie: theme configuration
+        $config->import(['output' => ['pagetypeformats' => [
+            'homepage' => ['html', 'atom', 'search'],
+            'term'     => ['html'],
+        ]]], Config::IMPORT_PRESERVE);
+
+        self::assertSame(['json', 'html', 'atom', 'search'], $config->get('output.pagetypeformats.homepage'));
+        self::assertSame(['html'], $config->get('output.pagetypeformats.term'));
+    }
+
+    public function testListPatchRemovesValueOfPreservedList(): void
+    {
+        $config = new Config(['output' => ['pagetypeformats' => ['homepage' => ['atom' => false]]]]);
+        // ie: theme configuration
+        $config->import(['output' => ['pagetypeformats' => ['homepage' => ['html', 'atom', 'search']]]], Config::IMPORT_PRESERVE);
+
+        self::assertSame(['html', 'search'], $config->get('output.pagetypeformats.homepage'));
+    }
+
+    public function testOutputFormatsOfPreservedConfigAreKept(): void
+    {
+        $config = new Config(['output' => ['formats' => [
+            ['name' => 'custom', 'mediatype' => 'text/plain', 'extension' => 'txt'],
+        ]]]);
+        // ie: theme configuration
+        $config->import(['output' => ['formats' => [
+            ['name' => 'search', 'mediatype' => 'application/json', 'extension' => 'json'],
+        ]]], Config::IMPORT_PRESERVE);
+
+        self::assertSame('text/plain', $config->getOutputFormatProperty('custom', 'mediatype'));
+        self::assertSame('application/json', $config->getOutputFormatProperty('search', 'mediatype'));
+    }
+
+    public function testListPatchIsAppliedToDefaultList(): void
+    {
+        $config = new Config([
+            'output' => ['pagetypeformats' => ['homepage' => ['rss' => true, 'atom' => false]]],
+            'pages'  => ['ext' => ['mdx' => true, 'text' => false, 'txt' => false]],
+        ]);
+
+        self::assertSame(['html', 'rss'], $config->get('output.pagetypeformats.homepage'));
+        self::assertSame(['md', 'markdown', 'mdown', 'mkdn', 'mkd', 'mdx'], $config->get('pages.ext'));
+        self::assertSame(['md', 'markdown', 'mdown', 'mkdn', 'mkd', 'mdx'], $config->get('pages')['ext']);
+        self::assertSame(['md', 'markdown', 'mdown', 'mkdn', 'mkd', 'mdx'], $config->export()['pages']['ext']);
+    }
+
+    public function testListPatchSupportsIntegerValues(): void
+    {
+        $config = new Config(['assets' => ['images' => ['responsive' => ['widths' => [2560 => true, 480 => false]]]]]);
+
+        self::assertSame([640, 768, 1024, 1366, 1600, 1920, 2560], $config->getAssetsImagesWidths());
+    }
+
+    public function testListPatchIsAppliedToImportedList(): void
+    {
+        $config = new Config(['pages' => ['ext' => ['md', 'txt']]]);
+        $config->import(['pages' => ['ext' => ['txt' => false, 'mdx' => true]]]);
+
+        self::assertSame(['md', 'mdx'], $config->get('pages.ext'));
+    }
+
+    public function testListPatchIsAppliedToPreservedList(): void
+    {
+        $config = new Config(['pages' => ['ext' => ['mdx' => true]]]);
+        // ie: theme configuration
+        $config->import(['pages' => ['ext' => ['md', 'txt']]], Config::IMPORT_PRESERVE);
+
+        self::assertSame(['md', 'txt', 'mdx'], $config->get('pages.ext'));
+    }
+
+    public function testOutputFormatsAreMergedByName(): void
+    {
+        $config = new Config(['output' => ['formats' => [
+            ['name' => 'rss', 'filename' => 'feed'],
+            ['name' => 'custom', 'mediatype' => 'text/plain', 'extension' => 'txt'],
+        ]]]);
+
+        self::assertSame('feed', $config->getOutputFormatProperty('rss', 'filename'));
+        self::assertSame('application/rss+xml', $config->getOutputFormatProperty('rss', 'mediatype'));
+        self::assertSame('text/plain', $config->getOutputFormatProperty('custom', 'mediatype'));
+        self::assertCount(1, array_filter($config->get('output.formats'), fn ($format) => $format['name'] === 'rss'));
+    }
+
+    public function testListOfItemsIsConcatenatedOnMerge(): void
+    {
+        $config = new Config(['menus' => ['main' => [['id' => 'a']]]]);
+        $config->import(['menus' => ['main' => [['id' => 'b']]]]);
+
+        self::assertSame([['id' => 'a'], ['id' => 'b']], $config->get('menus.main'));
+    }
+
+    public function testMapIsMergedWithDefaultMap(): void
+    {
+        $config = new Config(['layouts' => ['translations' => ['formats' => [
+            'xliff' => ['loader' => 'Symfony\Component\Translation\Loader\XliffFileLoader', 'ext' => ['xlf']],
+        ]]]]);
+
+        self::assertSame(['yaml', 'mo', 'xliff'], array_keys($config->get('layouts.translations.formats')));
+        self::assertSame(['md', 'markdown', 'mdown', 'mkdn', 'mkd', 'text', 'txt'], $config->get('pages')['ext']);
+    }
+
+    public function testThemeOverridesDefaultAndSiteOverridesTheme(): void
+    {
+        $config = new Config(['description' => 'Site description']);
+        // ie: theme configuration
+        $config->import([
+            'title'       => 'Theme title',
+            'description' => 'Theme description',
+            'pages'       => ['default' => ['404' => ['title' => 'Oops']]],
+            'output'      => ['formats' => [['name' => 'rss', 'filename' => 'feed']]],
+        ], Config::IMPORT_PRESERVE);
+
+        self::assertSame('Theme title', $config->get('title'));
+        self::assertSame('Site description', $config->get('description'));
+        self::assertSame('Oops', $config->get('pages.default.404.title'));
+        self::assertSame('404', $config->get('pages.default.404.layout'));
+        self::assertSame('feed', $config->getOutputFormatProperty('rss', 'filename'));
+        self::assertSame('application/rss+xml', $config->getOutputFormatProperty('rss', 'mediatype'));
+    }
+
+    public function testFirstThemeOverridesNextThemes(): void
+    {
+        $config = new Config();
+        $config->import(['title' => 'First theme'], Config::IMPORT_PRESERVE);
+        $config->import(['title' => 'Second theme'], Config::IMPORT_PRESERVE);
+
+        self::assertSame('First theme', $config->get('title'));
+    }
+
+    public function testSiteConfigurationIsNotOverriddenByThemeImportedAfter(): void
+    {
+        $config = new Config(['pages' => ['generators' => [35 => 'App\Generator\Custom']]]);
+        $config->import(['pages' => ['generators' => [35 => 'Theme\Generator\Custom']]], Config::IMPORT_PRESERVE);
+
+        self::assertSame('App\Generator\Custom', $config->get('pages.generators.35'));
+        self::assertSame('Cecil\Generator\Section', $config->get('pages.generators.40'));
+    }
+
+    public function testLanguagesReplaceDefaultLanguages(): void
+    {
+        $config = new Config([
+            'language'  => 'fr',
+            'languages' => [['code' => 'fr', 'locale' => 'fr_FR']],
+        ]);
+
+        self::assertSame(['fr'], array_column($config->getLanguages(), 'code'));
+    }
+
+    public function testLocalizedMapIsMergedWithGlobalMap(): void
+    {
+        $config = new Config([
+            'language'  => 'en',
+            'date'      => ['format' => 'Y-m-d', 'timezone' => 'Europe/Paris'],
+            'languages' => [
+                ['code' => 'en', 'locale' => 'en_US'],
+                ['code' => 'fr', 'locale' => 'fr_FR', 'config' => ['date' => ['format' => 'j F Y']]],
+            ],
+        ]);
+
+        self::assertSame(['format' => 'j F Y', 'timezone' => 'Europe/Paris'], $config->get('date', 'fr'));
+        self::assertSame(['format' => 'j F Y'], $config->get('date', 'fr', false));
+    }
+
+    public function testBooleanShorthandEnablesOrDisablesMap(): void
+    {
+        $config = new Config(['cache' => true, 'optimize' => true, 'pages' => ['pagination' => false]]);
+
+        self::assertTrue($config->isEnabled('cache'));
+        self::assertSame('.cache', $config->get('cache.dir'));
+        self::assertTrue($config->isEnabled('optimize'));
+        self::assertTrue($config->isEnabled('optimize.html'));
+        self::assertFalse($config->isEnabled('pages.pagination'));
+        self::assertSame(5, $config->get('pages.pagination.max'));
+    }
+
+    public function testEnvironmentVariableBooleanShorthandKeepsMap(): void
+    {
+        putenv('CECIL_CACHE=true');
+
+        try {
+            $config = new Config();
+            $config->import([]);
+
+            self::assertTrue($config->isEnabled('cache'));
+            self::assertSame('.cache', $config->get('cache.dir'));
+        } finally {
+            putenv('CECIL_CACHE');
+        }
+    }
+
+    public function testExportContainsDefaultValues(): void
+    {
+        $export = (new Config(['title' => 'Exported title']))->export();
+
+        self::assertSame('Exported title', $export['title']);
+        self::assertSame('_site', $export['output']['dir']);
+        self::assertArrayHasKey('generators', $export['pages']);
     }
 }

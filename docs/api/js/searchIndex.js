@@ -3116,6 +3116,86 @@ Search.appendIndex(
             "summary": "",
             "url": "classes/Cecil-Command-UtilTranslationsExtract.html#property_extractor"
         },                {
+            "fqsen": "\\Cecil\\Config\\Deprecations",
+            "name": "Deprecations",
+            "summary": "Deprecated\u0020configuration\u0020options.",
+            "url": "classes/Cecil-Config-Deprecations.html"
+        },                {
+            "fqsen": "\\Cecil\\Config\\Deprecations\u003A\u003Acheck\u0028\u0029",
+            "name": "check",
+            "summary": "Checks\u0020a\u0020configuration\u0020for\u0020deprecated\u0020options,\u0020and\u0020reports\u0020all\u0020of\u0020them\u0020at\u0020once.",
+            "url": "classes/Cecil-Config-Deprecations.html#method_check"
+        },                {
+            "fqsen": "\\Cecil\\Config\\Deprecations\u003A\u003AdeprecatedOptionMessage\u0028\u0029",
+            "name": "deprecatedOptionMessage",
+            "summary": "Returns\u0020the\u0020message\u0020of\u0020a\u0020deprecated\u0020option,\u0020with\u0020the\u0020new\u0020configuration\u0020snippet\u0020built\u0020from\u0020the\u0020current\u0020value.",
+            "url": "classes/Cecil-Config-Deprecations.html#method_deprecatedOptionMessage"
+        },                {
+            "fqsen": "\\Cecil\\Config\\Deprecations\u003A\u003AdeprecatedVariableMessage\u0028\u0029",
+            "name": "deprecatedVariableMessage",
+            "summary": "Returns\u0020the\u0020message\u0020of\u0020a\u0020deprecated\u0020environment\u0020variable\u0020\u0028ie\u003A\u0020\u0060CECIL_PAGES_FRONTMATTER_FORMAT\u0060\u0029.",
+            "url": "classes/Cecil-Config-Deprecations.html#method_deprecatedVariableMessage"
+        },                {
+            "fqsen": "\\Cecil\\Config\\Merger",
+            "name": "Merger",
+            "summary": "Configuration\u0020merger.",
+            "url": "classes/Cecil-Config-Merger.html"
+        },                {
+            "fqsen": "\\Cecil\\Config\\Merger\u003A\u003Amerge\u0028\u0029",
+            "name": "merge",
+            "summary": "Merges\u0020two\u0020configuration\u0020arrays,\u0020key\u0020by\u0020key\u003A\u0020values\u0020of\u0020\u0060\u0024high\u0060\u0020take\u0020precedence\u0020over\u0020values\u0020of\u0020\u0060\u0024low\u0060.",
+            "url": "classes/Cecil-Config-Merger.html#method_merge"
+        },                {
+            "fqsen": "\\Cecil\\Config\\Merger\u003A\u003AmergeValues\u0028\u0029",
+            "name": "mergeValues",
+            "summary": "Merges\u0020two\u0020values,\u0020\u0060\u0024high\u0060\u0020taking\u0020precedence\u0020over\u0020\u0060\u0024low\u0060\u003A\n\u002D\u0020scalars\u0020are\u0020replaced\u003B\n\u002D\u0020a\u0020boolean\u0020applied\u0020to\u0020a\u0020map\u0020enables\u0020or\u0020disables\u0020it\u0020\u0028ie\u003A\u0020\u0060cache\u003A\u0020false\u0060\u0029,\u0020the\u0020map\u0020is\u0020kept\u003B\n\u002D\u0020lists\u0020of\u0020values\u0020are\u0020replaced\u0020as\u0020a\u0020whole,\u0020except\u0020in\u0020preserve\u0020mode\u0020\u0028ie\u003A\u0020theme\u0020configuration\u0029\u0020where\u0020they\u0020are\u0020combined\u003B\n\u002D\u0020a\u0020map\u0020of\u0020booleans\u0020applied\u0020to\u0020a\u0020list\u0020of\u0020values\u0020adds\u0020\u0028\u0060true\u0060\u0029\u0020or\u0020removes\u0020\u0028\u0060false\u0060\u0029\u0020items\u003B\n\u002D\u0020lists\u0020of\u0020identified\u0020items\u0020\u0028ie\u003A\u0020\u0060output.formats\u0060\u0029\u0020are\u0020merged\u0020by\u0020identifier\u003B\n\u002D\u0020other\u0020lists\u0020of\u0020items\u0020\u0028ie\u003A\u0020menus\u0020entries\u0029\u0020are\u0020concatenated\u0020in\u0020merge\u0020mode,\u0020replaced\u0020otherwise\u003B\n\u002D\u0020maps\u0020are\u0020merged\u0020key\u0020by\u0020key.",
+            "url": "classes/Cecil-Config-Merger.html#method_mergeValues"
+        },                {
+            "fqsen": "\\Cecil\\Config\\Merger\u003A\u003AmergeScalar\u0028\u0029",
+            "name": "mergeScalar",
+            "summary": "Merges\u0020two\u0020values,\u0020at\u0020least\u0020one\u0020of\u0020them\u0020not\u0020being\u0020an\u0020array\u003A\u0020\u0060\u0024high\u0060\u0020replaces\u0020\u0060\u0024low\u0060,\nexcept\u0020a\u0020boolean\u0020applied\u0020to\u0020a\u0020map,\u0020which\u0020enables\u0020or\u0020disables\u0020it\u0020\u0028ie\u003A\u0020\u0060cache\u003A\u0020false\u0060\u0029.",
+            "url": "classes/Cecil-Config-Merger.html#method_mergeScalar"
+        },                {
+            "fqsen": "\\Cecil\\Config\\Merger\u003A\u003AmergeLists\u0028\u0029",
+            "name": "mergeLists",
+            "summary": "Merges\u0020two\u0020lists\u003A\n\u002D\u0020lists\u0020of\u0020identified\u0020items\u0020\u0028ie\u003A\u0020\u0060output.formats\u0060\u0029\u0020are\u0020merged\u0020by\u0020identifier\u003B\n\u002D\u0020lists\u0020of\u0020values\u0020are\u0020replaced\u0020as\u0020a\u0020whole,\u0020except\u0020in\u0020preserve\u0020mode\u0020\u0028ie\u003A\u0020theme\u0020configuration\u0029\u0020where\u0020they\u0020are\u0020combined\u003B\n\u002D\u0020other\u0020lists\u0020of\u0020items\u0020\u0028ie\u003A\u0020menus\u0020entries\u0029\u0020are\u0020concatenated\u0020in\u0020merge\u0020mode,\u0020replaced\u0020otherwise.",
+            "url": "classes/Cecil-Config-Merger.html#method_mergeLists"
+        },                {
+            "fqsen": "\\Cecil\\Config\\Merger\u003A\u003AmergeListAndMap\u0028\u0029",
+            "name": "mergeListAndMap",
+            "summary": "Merges\u0020a\u0020list\u0020and\u0020a\u0020map\u003A\u0020a\u0020map\u0020of\u0020booleans\u0020applied\u0020to\u0020a\u0020list\u0020of\u0020values\u0020adds\u0020\u0028\u0060true\u0060\u0029\u0020or\u0020removes\u0020\u0028\u0060false\u0060\u0029\u0020items,\notherwise\u0020\u0060\u0024high\u0060\u0020replaces\u0020\u0060\u0024low\u0060,\u0020except\u0020an\u0020empty\u0020array\u0020\u0028ie\u003A\u0020\u0060\u007B\u007D\u0060\u0020in\u0020YAML\u0029\u0020which\u0020doesn\u0027t\u0020override\u0020a\u0020map.",
+            "url": "classes/Cecil-Config-Merger.html#method_mergeListAndMap"
+        },                {
+            "fqsen": "\\Cecil\\Config\\Merger\u003A\u003AisMap\u0028\u0029",
+            "name": "isMap",
+            "summary": "Is\u0020the\u0020value\u0020a\u0020non\u002Dempty\u0020map\u003F",
+            "url": "classes/Cecil-Config-Merger.html#method_isMap"
+        },                {
+            "fqsen": "\\Cecil\\Config\\Merger\u003A\u003AmergeListById\u0028\u0029",
+            "name": "mergeListById",
+            "summary": "Merges\u0020two\u0020lists\u0020of\u0020items\u0020by\u0020identifier\u003A\u0020items\u0020of\u0020\u0060\u0024high\u0060\u0020override\u0020items\u0020of\u0020\u0060\u0024low\u0060\u0020with\u0020the\u0020same\u0020identifier.",
+            "url": "classes/Cecil-Config-Merger.html#method_mergeListById"
+        },                {
+            "fqsen": "\\Cecil\\Config\\Merger\u003A\u003AisValuesList\u0028\u0029",
+            "name": "isValuesList",
+            "summary": "Is\u0020the\u0020value\u0020a\u0020list\u0020of\u0020values\u0020\u0028strings\u0020or\u0020integers\u0029\u003F",
+            "url": "classes/Cecil-Config-Merger.html#method_isValuesList"
+        },                {
+            "fqsen": "\\Cecil\\Config\\Merger\u003A\u003AisListPatch\u0028\u0029",
+            "name": "isListPatch",
+            "summary": "Is\u0020the\u0020value\u0020a\u0020list\u0020patch\u0020\u0028ie\u003A\u0020\u0060\u007Brss\u003A\u0020true,\u0020atom\u003A\u0020false\u007D\u0060\u0029\u003F",
+            "url": "classes/Cecil-Config-Merger.html#method_isListPatch"
+        },                {
+            "fqsen": "\\Cecil\\Config\\Merger\u003A\u003AapplyListPatch\u0028\u0029",
+            "name": "applyListPatch",
+            "summary": "Applies\u0020a\u0020list\u0020patch\u0020to\u0020a\u0020list\u0020of\u0020values\u003A\u0020adds\u0020items\u0020set\u0020to\u0020\u0060true\u0060\u0020and\u0020removes\u0020items\u0020set\u0020to\u0020\u0060false\u0060.",
+            "url": "classes/Cecil-Config-Merger.html#method_applyListPatch"
+        },                {
+            "fqsen": "\\Cecil\\Config\\Merger\u003A\u003ALIST_IDENTIFIERS",
+            "name": "LIST_IDENTIFIERS",
+            "summary": "Lists\u0020of\u0020items\u0020merged\u0020by\u0020identifier,\u0020instead\u0020of\u0020being\u0020concatenated.",
+            "url": "classes/Cecil-Config-Merger.html#constant_LIST_IDENTIFIERS"
+        },                {
             "fqsen": "\\Cecil\\Config",
             "name": "Config",
             "summary": "Configuration\u0020class.",
@@ -3321,10 +3401,20 @@ Search.appendIndex(
             "summary": "Is\u0020cache\u0020dir\u0020is\u0020absolute\u0020to\u0020system\u0020files\nor\u0020relative\u0020to\u0020project\u0020destination\u003F",
             "url": "classes/Cecil-Config.html#method_isCacheDirIsAbsolute"
         },                {
+            "fqsen": "\\Cecil\\Config\u003A\u003AgetDefault\u0028\u0029",
+            "name": "getDefault",
+            "summary": "Returns\u0020the\u0020default\u0020value\u0020of\u0020a\u0020configuration\u0020key,\u0020if\u0020any.",
+            "url": "classes/Cecil-Config.html#method_getDefault"
+        },                {
             "fqsen": "\\Cecil\\Config\u003A\u003AsetFromEnv\u0028\u0029",
             "name": "setFromEnv",
             "summary": "Set\u0020configuration\u0020from\u0020environment\u0020variables\u0020starting\u0020with\u0020\u0022CECIL_\u0022.",
             "url": "classes/Cecil-Config.html#method_setFromEnv"
+        },                {
+            "fqsen": "\\Cecil\\Config\u003A\u003AgetEnvConfig\u0028\u0029",
+            "name": "getEnvConfig",
+            "summary": "Returns\u0020configuration\u0020from\u0020environment\u0020variables\u0020starting\u0020with\u0020\u0022CECIL_\u0022,\u0020indexed\u0020by\u0020configuration\u0020key\n\u0028ie\u003A\u0020\u0060CECIL_PAGES_DIR\u0060\u0020\u002D\u003E\u0020\u0060pages.dir\u0060\u0029.",
+            "url": "classes/Cecil-Config.html#method_getEnvConfig"
         },                {
             "fqsen": "\\Cecil\\Config\u003A\u003AcastSetValue\u0028\u0029",
             "name": "castSetValue",
@@ -3373,13 +3463,23 @@ Search.appendIndex(
         },                {
             "fqsen": "\\Cecil\\Config\u003A\u003A\u0024data",
             "name": "data",
-            "summary": "Configuration\u0020is\u0020a\u0020Data\u0020object.",
+            "summary": "Effective\u0020configuration\u003A\u0020the\u0020default\u0020configuration,\u0020overridden\u0020by\u0020the\u0020themes\u0020configuration,\nitself\u0020overridden\u0020by\u0020the\u0020site\u0020configuration\u0020and\u0020the\u0020environment\u0020variables.",
             "url": "classes/Cecil-Config.html#property_data"
         },                {
             "fqsen": "\\Cecil\\Config\u003A\u003A\u0024default",
             "name": "default",
             "summary": "Default\u0020configuration.",
             "url": "classes/Cecil-Config.html#property_default"
+        },                {
+            "fqsen": "\\Cecil\\Config\u003A\u003A\u0024themes",
+            "name": "themes",
+            "summary": "Themes\u0020configuration\u0020layer.",
+            "url": "classes/Cecil-Config.html#property_themes"
+        },                {
+            "fqsen": "\\Cecil\\Config\u003A\u003A\u0024site",
+            "name": "site",
+            "summary": "Site\u0020configuration\u0020layer.",
+            "url": "classes/Cecil-Config.html#property_site"
         },                {
             "fqsen": "\\Cecil\\Config\u003A\u003A\u0024sourceDir",
             "name": "sourceDir",
@@ -5011,6 +5111,11 @@ Search.appendIndex(
             "summary": "Tests\u0020if\u0020an\u0020image\u0020Asset\u0020is\u0020square.",
             "url": "classes/Cecil-Renderer-Extension-Core.html#method_isImageSquare"
         },                {
+            "fqsen": "\\Cecil\\Renderer\\Extension\\Core\u003A\u003AisEnabled\u0028\u0029",
+            "name": "isEnabled",
+            "summary": "Tests\u0020if\u0020an\u0020option\u0020is\u0020enabled\u0020\u0028ie\u003A\u0020\u0060config.cache\u0020is\u0020enabled\u0060\u0029,\u0020like\u0020\u0060Config\u003A\u003AisEnabled\u0028\u0029\u0060\u003A\na\u0020map\u0020is\u0020enabled\u0020if\u0020it\u0020has\u0020no\u0020\u0060enabled\u0060\u0020key\u0020or\u0020if\u0020this\u0020key\u0020is\u0020\u0060true\u0060,\n\u0060false\u0060\u0020and\u0020\u0060null\u0060\u0020are\u0020disabled,\u0020any\u0020other\u0020value\u0020is\u0020enabled.",
+            "url": "classes/Cecil-Renderer-Extension-Core.html#method_isEnabled"
+        },                {
             "fqsen": "\\Cecil\\Renderer\\Extension\\Core\u003A\u003AdominantColor\u0028\u0029",
             "name": "dominantColor",
             "summary": "Returns\u0020the\u0020dominant\u0020hex\u0020color\u0020of\u0020an\u0020image\u0020asset.",
@@ -6505,6 +6610,11 @@ Search.appendIndex(
             "name": "Serve",
             "summary": "",
             "url": "namespaces/cecil-command-serve.html"
+        },                {
+            "fqsen": "\\Cecil\\Config",
+            "name": "Config",
+            "summary": "",
+            "url": "namespaces/cecil-config.html"
         },                {
             "fqsen": "\\Cecil\\Converter",
             "name": "Converter",
