@@ -101,14 +101,17 @@ class Core extends AbstractExtension
         return [
             new \Twig\TwigFilter('url', [$this, 'url'], ['needs_context' => true]),
             // assets
-            new \Twig\TwigFilter('inline', [$this, 'inline']),
+            // raw asset content (CSS, JS, SVG, etc.): not escaped in HTML, JS or CSS contexts
+            new \Twig\TwigFilter('inline', [$this, 'inline'], ['is_safe' => ['html', 'js', 'css']]),
             new \Twig\TwigFilter('fingerprint', [$this, 'fingerprint']),
             new \Twig\TwigFilter('to_css', [$this, 'toCss']),
             new \Twig\TwigFilter('minify', [$this, 'minify']),
-            new \Twig\TwigFilter('minify_css', [$this, 'minifyCss']),
-            new \Twig\TwigFilter('minify_js', [$this, 'minifyJs']),
-            new \Twig\TwigFilter('scss_to_css', [$this, 'scssToCss']),
-            new \Twig\TwigFilter('sass_to_css', [$this, 'scssToCss']),
+            // CSS code: safe in CSS templates and in HTML (e.g. inside a `<style>` element)
+            new \Twig\TwigFilter('minify_css', [$this, 'minifyCss'], ['is_safe' => ['html', 'css']]),
+            // JS code: safe in JS templates and in HTML (e.g. inside a `<script>` element)
+            new \Twig\TwigFilter('minify_js', [$this, 'minifyJs'], ['is_safe' => ['html', 'js']]),
+            new \Twig\TwigFilter('scss_to_css', [$this, 'scssToCss'], ['is_safe' => ['html', 'css']]),
+            new \Twig\TwigFilter('sass_to_css', [$this, 'scssToCss'], ['is_safe' => ['html', 'css']]),
             new \Twig\TwigFilter('resize', [$this, 'resize']),
             new \Twig\TwigFilter('maskable', [$this, 'maskable']),
             new \Twig\TwigFilter('dataurl', [$this, 'dataurl']),
