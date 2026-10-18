@@ -13,6 +13,8 @@ declare(strict_types=1);
 
 namespace Cecil;
 
+use Cecil\Config\Deprecations;
+use Cecil\Config\Merger;
 use Cecil\Exception\ConfigException;
 use Dflydev\DotAccessData\Data;
 use Dflydev\DotAccessData\Exception\DataException;
@@ -37,12 +39,6 @@ class Config
     public const int IMPORT_MERGE = 2;
     public const string LANG_CODE_PATTERN = '([a-z]{2}(-[A-Z]{2})?)'; // "fr" or "fr-FR"
     public const string LANG_LOCALE_PATTERN = '[a-z]{2}(_[A-Z]{2})?(_[A-Z]{2})?'; // "fr" or "fr_FR" or "no_NO_NY"
-    /**
-     * Lists of items merged by identifier, instead of being concatenated.
-     */
-    private const array LIST_IDENTIFIERS = [
-        'output.formats' => 'name',
-    ];
 
     /**
      * Effective configuration: the default configuration, overridden by the themes configuration,
@@ -132,16 +128,16 @@ class Config
     public function import(array $config, int $mode = self::IMPORT_MERGE, ?string $source = null): void
     {
         // deprecated options are checked before merging, to report their actual source
-        self::checkDeprecated($config, $source);
-        self::checkDeprecated($this->getEnvConfig(), 'environment variables', true);
+        Deprecations::check($config, $source);
+        Deprecations::check($this->getEnvConfig(), 'environment variables', true);
         if ($mode === self::IMPORT_PRESERVE) {
-            $this->themes = self::merge($config, $this->themes, self::IMPORT_PRESERVE);
+            $this->themes = Merger::merge($config, $this->themes, self::IMPORT_PRESERVE);
         } else {
-            $this->site = self::merge($this->site, $config, $mode);
+            $this->site = Merger::merge($this->site, $config, $mode);
         }
-        $this->data = new Data(self::merge(
+        $this->data = new Data(Merger::merge(
             $this->default->export(),
-            self::merge($this->themes, $this->site, self::IMPORT_PRESERVE),
+            Merger::merge($this->themes, $this->site, self::IMPORT_PRESERVE),
             self::IMPORT_REPLACE
         ));
         $this->languages = null;
@@ -226,7 +222,7 @@ class Config
                 // localized value overrides the global (or default) value
                 return $value === null
                     ? $this->data->get($keyLang)
-                    : self::mergeValues($value, $this->data->get($keyLang), self::IMPORT_REPLACE, $key);
+                    : Merger::mergeValues($value, $this->data->get($keyLang), self::IMPORT_REPLACE, $key);
             }
         }
 
@@ -694,97 +690,6 @@ class Config
      */
 
     /**
-     * Merges two configuration arrays, key by key: values of `$high` take precedence over values of `$low`.
-     *
-     * @param array<mixed>   $low  Lower priority configuration
-     * @param array<mixed>   $high Higher priority configuration
-     * @param self::IMPORT_* $mode Import mode
-     *
-     * @return array<mixed>
-     */
-    private static function merge(array $low, array $high, int $mode, string $path = ''): array
-    {
-        foreach ($high as $key => $value) {
-            if (!\array_key_exists($key, $low)) {
-                $low[$key] = $value;
-                continue;
-            }
-            $low[$key] = self::mergeValues($low[$key], $value, $mode, ltrim("$path.$key", '.'));
-        }
-
-        return $low;
-    }
-
-    /**
-     * Merges two values, `$high` taking precedence over `$low`:
-     * - scalars are replaced;
-     * - a boolean applied to a map enables or disables it (ie: `cache: false`), the map is kept;
-     * - lists of values are replaced as a whole, except in preserve mode (ie: theme configuration) where they are combined;
-     * - a map of booleans applied to a list of values adds (`true`) or removes (`false`) items;
-     * - lists of identified items (ie: `output.formats`) are merged by identifier;
-     * - other lists of items (ie: menus entries) are concatenated in merge mode, replaced otherwise;
-     * - maps are merged key by key.
-     *
-     * @param self::IMPORT_* $mode Import mode
-     */
-    private static function mergeValues(mixed $low, mixed $high, int $mode, string $path): mixed
-    {
-        if (\is_bool($high) && \is_array($low) && $low !== [] && !array_is_list($low)) {
-            return array_merge($low, ['enabled' => $high]);
-        }
-        if (!\is_array($high) || !\is_array($low)) {
-            return $high;
-        }
-        if (self::isListPatch($high) && self::isValuesList($low)) {
-            return self::applyListPatch($low, $high);
-        }
-        if (array_is_list($high) && array_is_list($low)) {
-            if (isset(self::LIST_IDENTIFIERS[$path])) {
-                return self::mergeListById($low, $high, self::LIST_IDENTIFIERS[$path]);
-            }
-            if (self::isValuesList($high) && self::isValuesList($low)) {
-                // values required by a theme are kept: they can only be removed with a map of booleans
-                return $mode === self::IMPORT_PRESERVE ? array_values(array_unique(array_merge($high, $low))) : $high;
-            }
-            if ($mode === self::IMPORT_MERGE) {
-                return array_merge($low, $high);
-            }
-
-            return $high;
-        }
-        if (array_is_list($high) || array_is_list($low)) {
-            // an empty array (ie: `{}` in YAML) doesn't override a map
-            return $high === [] ? $low : $high;
-        }
-
-        return self::merge($low, $high, $mode, $path);
-    }
-
-    /**
-     * Merges two lists of items by identifier: items of `$high` override items of `$low` with the same identifier.
-     *
-     * @param list<mixed> $low
-     * @param list<mixed> $high
-     *
-     * @return list<mixed>
-     */
-    private static function mergeListById(array $low, array $high, string $id): array
-    {
-        $ids = array_map(fn ($item) => \is_array($item) ? ($item[$id] ?? null) : null, $low);
-        foreach ($high as $item) {
-            $index = \is_array($item) && isset($item[$id]) ? array_search($item[$id], $ids, true) : false;
-            if ($index === false || !\is_array($low[$index])) {
-                $low[] = $item;
-                continue;
-            }
-            $low[$index] = self::merge($low[$index], $item, self::IMPORT_REPLACE);
-        }
-
-        return $low;
-    }
-
-
-    /**
      * Returns the default value of a configuration key, if any.
      */
     private function getDefault(string $key): mixed
@@ -797,72 +702,13 @@ class Config
     }
 
     /**
-     * Is the value a list of values (strings or integers)?
-     *
-     * @phpstan-assert-if-true list<string|int> $value
-     */
-    private static function isValuesList(mixed $value): bool
-    {
-        if (!\is_array($value) || !array_is_list($value)) {
-            return false;
-        }
-        foreach ($value as $item) {
-            if (!\is_string($item) && !\is_int($item)) {
-                return false;
-            }
-        }
-
-        return true;
-    }
-
-    /**
-     * Is the value a list patch (ie: `{rss: true, atom: false}`)?
-     *
-     * @phpstan-assert-if-true array<string|int, bool> $value
-     */
-    private static function isListPatch(mixed $value): bool
-    {
-        if (!\is_array($value) || array_is_list($value)) {
-            return false;
-        }
-        foreach ($value as $item) {
-            if (!\is_bool($item)) {
-                return false;
-            }
-        }
-
-        return true;
-    }
-
-    /**
-     * Applies a list patch to a list of values: adds items set to `true` and removes items set to `false`.
-     *
-     * @param list<string|int>         $list
-     * @param array<string|int, bool> $patch
-     *
-     * @return list<string|int>
-     */
-    private static function applyListPatch(array $list, array $patch): array
-    {
-        $list = array_values(array_filter($list, fn ($item) => ($patch[$item] ?? null) !== false));
-        $items = array_flip($list);
-        foreach ($patch as $item => $enabled) {
-            if ($enabled && !isset($items[$item])) {
-                $list[] = $item;
-            }
-        }
-
-        return $list;
-    }
-
-    /**
      * Set configuration from environment variables starting with "CECIL_".
      */
     private function setFromEnv(): void
     {
         foreach ($this->getEnvConfig() as $key => $value) {
             $current = $this->data->has($key) ? $this->data->get($key) : null;
-            $this->data->set($key, self::mergeValues($current, $value, self::IMPORT_REPLACE, $key));
+            $this->data->set($key, Merger::mergeValues($current, $value, self::IMPORT_REPLACE, $key));
         }
     }
 
@@ -915,62 +761,6 @@ class Config
         // default language must be valid
         if (!preg_match('/^' . Config::LANG_CODE_PATTERN . '$/', $this->getLanguageDefault())) {
             throw new ConfigException(\sprintf('Default language code "%s" is not valid (e.g.: "language: fr-FR").', $this->getLanguageDefault()));
-        }
-    }
-
-    /**
-     * Checks a configuration for deprecated options, and reports all of them at once.
-     * Keys of `$config` can be nested arrays or dot notation paths (ie: environment variables).
-     *
-     * @param array<string, mixed> $config
-     * @param bool                 $env    Options are environment variables (ie: `CECIL_PAGES_DIR`)
-     *
-     * @throws ConfigException
-     */
-    private static function checkDeprecated(array $config, ?string $source = null, bool $env = false): void
-    {
-        if ($config === []) {
-            return;
-        }
-        $data = new Data();
-        foreach ($config as $key => $value) {
-            $data->set((string) $key, $value);
-        }
-        $errors = [];
-        $deprecated = require Util\File::getRealPath('../config/deprecated.php');
-        foreach ($deprecated as $from => $to) {
-            try {
-                if (!$data->has($from)) {
-                    continue;
-                }
-            } catch (DataException) {
-                continue;
-            }
-            if ($env) {
-                $variable = fn (string $key) => 'CECIL_' . strtoupper(str_replace('.', '_', $key));
-                $errors[] = empty($to)
-                    ? \sprintf('- Variable `%s` is deprecated and must be removed.', $variable($from))
-                    : \sprintf('- Variable `%s` must be renamed to `%s`.', $variable($from), $variable($to));
-                continue;
-            }
-            if (empty($to)) {
-                $errors[] = "- Option `$from` is deprecated and must be removed.";
-                continue;
-            }
-            // builds the new configuration snippet, with the current value
-            $snippet = $data->get($from);
-            foreach (array_reverse(explode('.', $to)) as $fragment) {
-                $snippet = [$fragment => $snippet];
-            }
-            $yaml = rtrim(Yaml::dump($snippet, 10, 2));
-            $errors[] = "- Option `$from` must be moved to:\n  ```\n  " . str_replace("\n", "\n  ", $yaml) . "\n  ```";
-        }
-        if ($errors !== []) {
-            throw new ConfigException(\sprintf(
-                "Deprecated configuration option(s)%s:\n%s",
-                $source !== null ? " in $source" : '',
-                implode("\n", $errors)
-            ));
         }
     }
 

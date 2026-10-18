@@ -133,7 +133,7 @@ graph TD
 | Component           | Role                                                                                                     |
 |---------------------|----------------------------------------------------------------------------------------------------------|
 | **Builder**         | Central orchestrator that executes steps in sequence                                                     |
-| **Config**          | Merges base + default + themes + project configuration, environment variables (`CECIL_*`) and CLI options |
+| **Config**          | Merges default, themes and project configuration (`Config\Merger`), environment variables (`CECIL_*`) and CLI options, and reports deprecated options (`Config\Deprecations`) |
 | **Steps**           | Modular pipeline (16 steps), each with `init()` / `canProcess()` / `process()`                           |
 | **Collections**     | Pages, Taxonomies, Menus: core data structures                                                           |
 | **Generators**      | Create or update pages (default pages, sections, taxonomies, pagination, aliases, redirects, etc.)       |
