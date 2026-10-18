@@ -2,7 +2,7 @@
 title: "Pages"
 description: "Pages directory, sorting, pagination, paths, body, virtual pages, generators, etc."
 date: 2021-05-07
-updated: 2026-10-17
+updated: 2026-10-18
 -->
 # Pages
 
@@ -166,6 +166,10 @@ pages:
 
 - `highlightjs`: [highlight.php](https://github.com/scrivo/highlight.php), a PHP port of highlight.js (190+ languages, `hljs-*` CSS classes)
 - `tempest`: [tempest/highlight](https://github.com/tempestphp/highlight), a fast server-side highlighter (web languages: PHP, HTML, CSS, JavaScript, JSON, YAML, Twig, SQL, XML, etc., `hl-*` CSS classes)
+
+:::info
+These options only apply to Markdown content: the [`highlight`](../templates/reference/3-filters.md#highlight) filter of templates uses the [`layouts.highlight.engine`](7-layouts.md#layouts-highlight) option.
+:::
 
 ### pages.body.images
 

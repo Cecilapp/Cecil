@@ -1,8 +1,8 @@
 <!--
 title: "Layouts"
-description: "Dossier des templates, échappement, images, traductions et composants."
+description: "Dossier des templates, échappement, images, coloration syntaxique, traductions et composants."
 date: 2026-03-27
-updated: 2026-10-16
+updated: 2026-10-18
 -->
 # Layouts
 
@@ -50,6 +50,22 @@ layouts:
     mobile_suffix: ~  # suffixe de l’image variante mobile (ex. `.mobile`), désactivé par défaut
     mobile_media_query: '(max-width: 767px)' # media query de la `<source>` de la variante mobile
 ```
+
+## layouts.highlight
+
+Options de coloration syntaxique du code dans les templates.
+
+```yaml
+layouts:
+  highlight:
+    engine: highlightjs # utilisé par le filtre `highlight` : `highlightjs` (par défaut) ou `tempest`
+```
+
+Voir le filtre [`highlight`](../templates/reference/3-filters.fr.md#highlight).
+
+:::info
+Cette option ne s’applique qu’aux templates : le contenu Markdown utilise l’option [`pages.body.highlight.engine`](4-pages.fr.md#pages-body-highlight).
+:::
 
 ## layouts.translations
 

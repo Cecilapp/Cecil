@@ -44,6 +44,19 @@ class HighlighterTest extends TestCase
         HighlighterFactory::create($config);
     }
 
+    public function testFactoryReturnsGivenEngine(): void
+    {
+        self::assertInstanceOf(HighlightJs::class, HighlighterFactory::fromEngine('highlightjs'));
+        self::assertInstanceOf(Tempest::class, HighlighterFactory::fromEngine('tempest'));
+    }
+
+    public function testFactoryThrowsOnUnknownGivenEngine(): void
+    {
+        $this->expectException(ConfigException::class);
+        $this->expectExceptionMessage('Highlighter engine must be one of: "highlightjs", "tempest".');
+        HighlighterFactory::fromEngine('unknown');
+    }
+
     public function testHighlightJsHighlightsCode(): void
     {
         $highlighted = (new HighlightJs())->highlight('<?php echo "a<b";', 'php');

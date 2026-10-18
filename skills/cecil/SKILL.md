@@ -546,6 +546,8 @@ pages:
 
 The theme CSS must match the engine's classes (the built-in `partials/highlight.css.twig` handles both).
 
+In templates, the `highlight` filter does not use this option: its engine is set by `layouts.highlight.engine` (`highlightjs` by default) or by its `engine` argument: `{{ code|highlight('php', 'tempest') }}`.
+
 ### Performance Tips
 
 1. Use `draft: true` to exclude non-published content from builds

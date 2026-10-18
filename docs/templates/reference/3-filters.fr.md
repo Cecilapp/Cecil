@@ -2,7 +2,7 @@
 title: "Filtres"
 description: "filter_by, markdown_to_html, toc, slugify, excerpt, highlight, preg_*, etc."
 date: 2026-05-26
-updated: 2026-10-16
+updated: 2026-10-18
 path: documentation/templates/reference/filtres
 -->
 # Filtres
@@ -233,17 +233,30 @@ _Exemples :_
 
 ## highlight
 
-Met en surbrillance une chaîne de code avec [highlight.php](https://github.com/scrivo/highlight.php).
+Met en surbrillance une chaîne de code.
 
 ```twig
-{{ code|highlight(language) }}
+{{ code|highlight(language, engine) }}
 ```
 
-_Exemple :_
+Le moteur de coloration (`highlightjs` ou `tempest`) est l’argument optionnel `engine` ou, par défaut, l’option [`layouts.highlight.engine`](../../configuration/7-layouts.fr.md#layouts-highlight) (`highlightjs` par défaut).
+
+:::tip
+Le filtre n’utilise pas l’option [`pages.body.highlight.engine`](../../configuration/4-pages.fr.md#pages-body-highlight), qui ne s’applique qu’au contenu Markdown.
+:::
+
+Si le langage n’est pas pris en charge par le moteur, le code est retourné échappé, sans coloration (et un avertissement est journalisé).
+
+_Exemples :_
 
 ```twig
 {{ '<?php echo $highlighted->value; ?>'|highlight('php') }}
+{{ '<?php echo $highlighted->value; ?>'|highlight('php', 'tempest') }}
 ```
+
+:::info
+Chaque moteur utilise ses propres classes CSS (`hljs-*` pour `highlightjs`, `hl-*` pour `tempest`) : la feuille de style doit correspondre au moteur utilisé.
+:::
 
 ## preg_split
 

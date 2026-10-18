@@ -245,6 +245,13 @@ Instances are shared, as highlighters are stateless and costly to create.</p>
 </dt>
 <dd>Returns the highlighter of the configured engine.</dd>
 
+            <dt class="phpdocumentor-table-of-contents__entry -method -public">
+    <a class="" href="classes/Cecil-Converter-Highlighter-HighlighterFactory.html#method_fromEngine">fromEngine()</a>
+    <span>
+                                &nbsp;: <a href="classes/Cecil-Converter-Highlighter-HighlighterInterface.html"><abbr title="\Cecil\Converter\Highlighter\HighlighterInterface">HighlighterInterface</abbr></a>    </span>
+</dt>
+<dd>Returns the highlighter of the given engine.</dd>
+
     </dl>
 
 
@@ -435,6 +442,80 @@ Instances are shared, as highlighters are stateless and costly to create.</p>
             </section>
 
 </article>
+                    <article
+        class="phpdocumentor-element
+            -method
+            -public
+                                    -static                    "
+>
+    <h4 class="phpdocumentor-element__name" id="method_fromEngine">
+        fromEngine()
+        <a href="classes/Cecil-Converter-Highlighter-HighlighterFactory.html#method_fromEngine" class="headerlink"><i class="fas fa-link"></i></a>
+
+    </h4>
+    <aside class="phpdocumentor-element-found-in">
+    <abbr class="phpdocumentor-element-found-in__file" title="src/Converter/Highlighter/HighlighterFactory.php"><a href="files/src-converter-highlighter-highlighterfactory.html"><abbr title="src/Converter/Highlighter/HighlighterFactory.php">HighlighterFactory.php</abbr></a></abbr>
+    :
+    <span class="phpdocumentor-element-found-in__line">59</span>
+
+    </aside>
+
+        <p class="phpdocumentor-summary">Returns the highlighter of the given engine.</p>
+
+    <code class="phpdocumentor-code phpdocumentor-signature ">
+    <span class="phpdocumentor-signature__visibility">public</span>
+            <span class="phpdocumentor-signature__static">static</span>        <span class="phpdocumentor-signature__name">fromEngine</span><span>(</span><span class="phpdocumentor-signature__argument"><span class="phpdocumentor-signature__argument__type">mixed&nbsp;</span><span class="phpdocumentor-signature__argument__name">$engine</span></span><span class="phpdocumentor-signature__argument"><span>[</span><span>, </span><span class="phpdocumentor-signature__argument__type">string&nbsp;</span><span class="phpdocumentor-signature__argument__name">$source</span><span> = </span><span class="phpdocumentor-signature__argument__default-value">'Highlighter engine'</span><span> ]</span></span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type"><a href="classes/Cecil-Converter-Highlighter-HighlighterInterface.html"><abbr title="\Cecil\Converter\Highlighter\HighlighterInterface">HighlighterInterface</abbr></a></span></code>
+
+    <div class="phpdocumentor-label-line">
+        </div>
+    
+    
+        <h5 class="phpdocumentor-argument-list__heading">Parameters</h5>
+    <dl class="phpdocumentor-argument-list">
+                    <dt class="phpdocumentor-argument-list__entry">
+                <span class="phpdocumentor-argument-list__argument__name">$engine</span>
+                : <span class="phpdocumentor-argument-list__argument__type">mixed</span>
+                            </dt>
+            <dd class="phpdocumentor-argument-list__definition">
+                    <section class="phpdocumentor-description"><p>Engine name (one of the <code class="prettyprint">ENGINES</code> keys)</p>
+</section>
+
+            </dd>
+                    <dt class="phpdocumentor-argument-list__entry">
+                <span class="phpdocumentor-argument-list__argument__name">$source</span>
+                : <span class="phpdocumentor-argument-list__argument__type">string</span>
+                 = <span class="phpdocumentor-argument-list__argument__default-value">'Highlighter engine'</span>            </dt>
+            <dd class="phpdocumentor-argument-list__definition">
+                    <section class="phpdocumentor-description"><p>Origin of the engine name, used in the error message</p>
+</section>
+
+            </dd>
+            </dl>
+
+    
+    <h5 class="phpdocumentor-tag-list__heading" id="method_fromEngine_tags">
+        Tags
+        <a href="classes/Cecil-Converter-Highlighter-HighlighterFactory.html#method_fromEngine_tags" class="headerlink"><i class="fas fa-link"></i></a>
+
+    </h5>
+    <dl class="phpdocumentor-tag-list">
+                    <dt class="phpdocumentor-tag-list__entry">
+                <span class="phpdocumentor-tag__name">throws</span>
+            </dt>
+                            <dd class="phpdocumentor-tag-list__definition">
+                                                                <span class="phpdocumentor-tag-link"><a href="classes/Cecil-Exception-ConfigException.html"><abbr title="\Cecil\Exception\ConfigException">ConfigException</abbr></a></span>
+                                                                                    
+                                    </dd>
+                        </dl>
+
+        
+    
+            <section>
+        <h5 class="phpdocumentor-return-value__heading">Return values</h5>
+        <span class="phpdocumentor-signature__response_type"><a href="classes/Cecil-Converter-Highlighter-HighlighterInterface.html"><abbr title="\Cecil\Converter\Highlighter\HighlighterInterface">HighlighterInterface</abbr></a></span>
+            </section>
+
+</article>
             </section>
 
         
@@ -473,6 +554,7 @@ Instances are shared, as highlighters are stateless and costly to create.</p>
             <li>
                 <ul class="phpdocumentor-list -clean">
                                             <li class=""><a href="classes/Cecil-Converter-Highlighter-HighlighterFactory.html#method_create">create()</a></li>
+                                            <li class=""><a href="classes/Cecil-Converter-Highlighter-HighlighterFactory.html#method_fromEngine">fromEngine()</a></li>
                                     </ul>
             </li>
                     </ul>

@@ -189,6 +189,9 @@ return [
             'mobile_suffix' => null, // suffix of the mobile variant image file (e.g.: `.mobile` or `mobile`), null to disable
             'mobile_media_query' => '(max-width: 767px)', // media query used by mobile image `<source>`
         ],
+        'highlight' => [ // code syntax highlighting in templates
+            'engine' => 'highlightjs', // used by `highlight` filter: `highlightjs` or `tempest` (independent of `pages.body.highlight.engine`)
+        ],
         'translations' => [ // i18n
             'dir' => 'translations', // translations files directory
             'formats' => [ // translations supported formats
