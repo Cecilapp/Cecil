@@ -116,7 +116,7 @@ Configuration is defined in `cecil.yml` or `config.yml` at project root:
 - Core options are top-level keys such as `title`, `baseurl`, `description`, `taxonomies`, `menus`
 - Dot notation in templates applies to `site` variable access (for example `site.title`)
 - Defaults (including generators, default pages and output formats) are defined in `config/default.php`; priority is defaults < themes `config.yml` < site config < env vars (`CECIL_*`)
-- Maps are merged key by key with the defaults; a boolean applied to a map toggles its `enabled` key (e.g. `cache: false`)
+- Maps are merged key by key with the defaults; a boolean applied to a map toggles its `enabled` key (e.g. `cache: false`); in templates, check it with the `enabled` test (`{% if config.cache is enabled %}`)
 - A list of values (`pages.ext`, `output.pagetypeformats.<type>`, `assets.images.responsive.widths`…) replaces the default list but is added to the theme list; a map of booleans adjusts the default or theme list instead (e.g. `homepage: {rss: true, atom: false}`)
 - `output.formats` entries are merged by `name`: override a default format with only its `name` and the properties to change
 

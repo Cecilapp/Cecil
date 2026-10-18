@@ -142,6 +142,7 @@ class Core extends AbstractExtension
             new \Twig\TwigTest('asset', [$this, 'isAsset']),
             new \Twig\TwigTest('image_large', [$this, 'isImageLarge']),
             new \Twig\TwigTest('image_square', [$this, 'isImageSquare']),
+            new \Twig\TwigTest('enabled', [$this, 'isEnabled']),
         ];
     }
 
@@ -1011,6 +1012,20 @@ class Core extends AbstractExtension
     public function isImageSquare(Asset $asset): bool
     {
         return $asset['type'] == 'image' && $asset['width'] == $asset['height'];
+    }
+
+    /**
+     * Tests if an option is enabled (ie: `config.cache is enabled`), like `Config::isEnabled()`:
+     * a map is enabled if it has no `enabled` key or if this key is `true`,
+     * `false` and `null` are disabled, any other value is enabled.
+     */
+    public function isEnabled(mixed $value): bool
+    {
+        if (\is_array($value)) {
+            return !\array_key_exists('enabled', $value) || $value['enabled'] === true;
+        }
+
+        return $value !== false && $value !== null;
     }
 
     /**

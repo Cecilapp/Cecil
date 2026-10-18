@@ -2,7 +2,7 @@
 title: "Functions"
 description: "url, html, readtime, hash, cache_key, getenv, dump, tests, etc."
 date: 2021-05-07
-updated: 2026-10-16
+updated: 2026-10-18
 -->
 # Functions
 
@@ -222,6 +222,7 @@ The [_debug mode_](../../configuration/1-site.md#debug) must be enabled.
 | `asset`        | The variable is an [asset](../../assets/index.md#asset).                            |
 | `image_large`  | The asset is a landscape image of at least 600 × 315 pixels (e.g.: a cover image). |
 | `image_square` | The asset is a square image (same width and height).                                |
+| `enabled`      | The option is enabled: `true`, a map without `enabled` key or with `enabled: true`, or any other value except `false` and `null`. |
 
 _Example:_
 
@@ -231,6 +232,17 @@ _Example:_
   {{ html(image, {alt: page.title}) }}
 {% endif %}
 ```
+
+```twig
+{% if config.cache is enabled %}
+  {# `cache: false` and `cache: {enabled: false}` are both disabled #}
+{% endif %}
+```
+
+:::info
+The `enabled` test only checks the given value, not its parents: `config.optimize.html is enabled` can be true while `optimize` is disabled.
+A custom option may not exist: use the `default` filter (e.g. `config.myoption|default(false) is enabled`).
+:::
 
 ## Deprecated
 

@@ -2,7 +2,7 @@
 title: "Fonctions"
 description: "url, html, readtime, hash, cache_key, getenv, dump, tests, etc."
 date: 2026-05-26
-updated: 2026-10-16
+updated: 2026-10-18
 path: documentation/templates/reference/fonctions
 -->
 # Fonctions
@@ -223,6 +223,7 @@ Les [tests](https://twig.symfony.com/doc/tests/index.html) s’utilisent avec l�
 | `asset`        | La variable est un [asset](../../assets/index.fr.md#asset).                                       |
 | `image_large`  | L’asset est une image au format paysage d’au moins 600 × 315 pixels (ex. : une image de couverture). |
 | `image_square` | L’asset est une image carrée (largeur et hauteur identiques).                                      |
+| `enabled`      | L’option est activée : `true`, un tableau associatif sans clé `enabled` ou avec `enabled: true`, ou toute autre valeur sauf `false` et `null`. |
 
 _Exemple :_
 
@@ -232,6 +233,17 @@ _Exemple :_
   {{ html(image, {alt: page.title}) }}
 {% endif %}
 ```
+
+```twig
+{% if config.cache is enabled %}
+  {# `cache: false` et `cache: {enabled: false}` sont tous deux désactivés #}
+{% endif %}
+```
+
+:::info
+Le test `enabled` ne vérifie que la valeur donnée, pas ses parents : `config.optimize.html is enabled` peut être vrai alors que `optimize` est désactivé.
+Une option personnalisée peut ne pas exister : utilisez le filtre `default` (ex. `config.myoption|default(false) is enabled`).
+:::
 
 ## Obsolètes
 

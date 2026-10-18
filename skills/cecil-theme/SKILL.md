@@ -382,6 +382,8 @@ No automatic injection mechanism exists: a component theme plugs into a site usi
 
    Usage: `{{ include('partials/<name>.html.twig', {site}, with_context = false) }}`.
 
+   For an option accepting the `true|false` shorthand or an `enabled` key (e.g. `cache: false` is `cache: {enabled: false}`), use the `enabled` Twig test rather than testing the value: `{%- if config.cache is enabled %}` (custom options: `site.<name>|default(false) is enabled`).
+
    When a component needs code in several places, ship one partial per location (e.g. `partials/darkmodetoggle-head.html.twig` in `<head>` + `partials/darkmodetoggle.html.twig` for the button), and accept optional variables (`{class: 'ml-2', label: 'Night mode'}`).
 
    Make the component easy to restyle and to hook into:

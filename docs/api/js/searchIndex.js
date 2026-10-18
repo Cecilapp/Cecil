@@ -5006,6 +5006,11 @@ Search.appendIndex(
             "summary": "Tests\u0020if\u0020an\u0020image\u0020Asset\u0020is\u0020square.",
             "url": "classes/Cecil-Renderer-Extension-Core.html#method_isImageSquare"
         },                {
+            "fqsen": "\\Cecil\\Renderer\\Extension\\Core\u003A\u003AisEnabled\u0028\u0029",
+            "name": "isEnabled",
+            "summary": "Tests\u0020if\u0020an\u0020option\u0020is\u0020enabled\u0020\u0028ie\u003A\u0020\u0060config.cache\u0020is\u0020enabled\u0060\u0029,\u0020like\u0020\u0060Config\u003A\u003AisEnabled\u0028\u0029\u0060\u003A\na\u0020map\u0020is\u0020enabled\u0020if\u0020it\u0020has\u0020no\u0020\u0060enabled\u0060\u0020key\u0020or\u0020if\u0020this\u0020key\u0020is\u0020\u0060true\u0060,\n\u0060false\u0060\u0020and\u0020\u0060null\u0060\u0020are\u0020disabled,\u0020any\u0020other\u0020value\u0020is\u0020enabled.",
+            "url": "classes/Cecil-Renderer-Extension-Core.html#method_isEnabled"
+        },                {
             "fqsen": "\\Cecil\\Renderer\\Extension\\Core\u003A\u003AdominantColor\u0028\u0029",
             "name": "dominantColor",
             "summary": "Returns\u0020the\u0020dominant\u0020hex\u0020color\u0020of\u0020an\u0020image\u0020asset.",

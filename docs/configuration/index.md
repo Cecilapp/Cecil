@@ -44,6 +44,8 @@ A map can be enabled or disabled with a boolean, without losing its options:
 cache: false # same as `cache: {enabled: false}`
 ```
 
+In templates, use the [`enabled` test](../templates/reference/1-functions.md#tests) to check it: `{% if config.cache is enabled %}`.
+
 ## Lists
 
 When an option is a list of values (e.g. [`pages.ext`](4-pages.md), [`output.pagetypeformats`](8-output.md#output-pagetypeformats) or [`assets.images.responsive.widths`](6-assets.md)), the list you define **replaces** the default one:

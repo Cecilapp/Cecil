@@ -44,6 +44,8 @@ Un tableau associatif peut être activé ou désactivé avec un booléen, sans p
 cache: false # équivaut à `cache: {enabled: false}`
 ```
 
+Dans les templates, utilisez le [test `enabled`](../templates/reference/1-functions.fr.md#tests) pour le vérifier : `{% if config.cache is enabled %}`.
+
 ## Listes
 
 Lorsqu’une option est une liste de valeurs (ex. [`pages.ext`](4-pages.fr.md), [`output.pagetypeformats`](8-output.fr.md#output-pagetypeformats) ou [`assets.images.responsive.widths`](6-assets.fr.md)), la liste que vous définissez **remplace** celle par défaut :
