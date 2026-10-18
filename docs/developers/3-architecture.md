@@ -2,7 +2,7 @@
 title: "Architecture"
 description: "Diagram of the build pipeline and key components."
 date: 2026-05-27
-updated: 2026-10-16
+updated: 2026-10-18
 alias: documentation/architecture
 -->
 # Architecture
@@ -22,7 +22,7 @@ graph TD
 
     %% Orchestrator
     BUILDER["Builder\n(Orchestrator)"]
-    CONFIG["Configuration\n(base.php + default.php\n+ themes + cecil.yml\n+ env vars + CLI options)"]
+    CONFIG["Configuration\n(default.php\n< themes < cecil.yml\n< env vars + CLI options)"]
     CMD --> BUILDER
     CONFIG --> BUILDER
 

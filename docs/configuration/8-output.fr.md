@@ -2,7 +2,7 @@
 title: "Sortie"
 description: "Dossier de sortie, formats et post-traitement."
 date: 2026-03-27
-updated: 2026-10-17
+updated: 2026-10-18
 path: documentation/configuration/sortie
 -->
 # Sortie
@@ -38,7 +38,7 @@ Ces formats sont utilisés dans la configuration [`output.pagetypeformats`](#out
 
 ### Formats par défaut
 
-Cecil fournit quelques [formats par défaut](https://github.com/Cecilapp/Cecil/blob/main/config/base.php#L89-L197), qui peuvent être surchargés dans le fichier de configuration : `html` (par défaut), `atom`, `rss`, `json`, `xml`, `txt`, `amp`, `js`, `webmanifest`, `xsl`, `jsonfeed`, `oembed`, `embed`, `markdown`, `llms`.
+Cecil fournit quelques [formats par défaut](https://github.com/Cecilapp/Cecil/blob/main/config/default.php#L287-L394), qui peuvent être surchargés dans le fichier de configuration : `html` (par défaut), `atom`, `rss`, `json`, `xml`, `txt`, `amp`, `js`, `webmanifest`, `xsl`, `jsonfeed`, `oembed`, `embed`, `markdown`, `llms`.
 
 Les formats sont fusionnés par `name` : pour surcharger un format par défaut, définissez uniquement son `name` et les propriétés à modifier.
 

@@ -45,8 +45,9 @@ class Config
     ];
 
     /**
-     * Configuration is a Data object.
-     * This allows to use dot notation to access configuration keys.
+     * Effective configuration: the default configuration, overridden by the themes configuration,
+     * itself overridden by the site configuration and the environment variables.
+     * This is a Data object, which allows to use dot notation to access configuration keys.
      * For example: $config->get('key.subkey') or $config->has('key.subkey').
      * @var Data
      */
@@ -55,6 +56,16 @@ class Config
      * Default configuration.
      */
     protected Data $default;
+    /**
+     * Themes configuration layer.
+     * @var array<string, mixed>
+     */
+    protected array $themes = [];
+    /**
+     * Site configuration layer.
+     * @var array<string, mixed>
+     */
+    protected array $site = [];
     /**
      * Source directory.
      * This is the directory where the source files are located.
@@ -91,9 +102,7 @@ class Config
         // default configuration
         $defaultConfigFile = Util\File::getRealPath('../config/default.php');
         $this->default = new Data(include $defaultConfigFile);
-        // base configuration
-        $baseConfigFile = Util\File::getRealPath('../config/base.php');
-        $this->data = new Data(include $baseConfigFile);
+        $this->data = new Data($this->default->export());
         // import config array if provided
         if ($config !== null) {
             $this->import($config);
@@ -103,11 +112,14 @@ class Config
     /**
      * Imports (and validate) configuration.
      * The mode can be:
-     * - Config::IMPORT_PRESERVE: preserves existing configuration and adds new keys.
-     * - Config::IMPORT_REPLACE: replaces existing configuration with new keys.
-     * - Config::IMPORT_MERGE: merges existing configuration with new keys, overriding existing keys.
+     * - Config::IMPORT_PRESERVE: imports a theme configuration, overridden by the site configuration and by previously imported themes.
+     * - Config::IMPORT_REPLACE: imports a site configuration, replacing existing lists of items.
+     * - Config::IMPORT_MERGE: imports a site configuration, concatenating existing lists of items.
      *
-     * Maps are merged key by key, lists of values are replaced as a whole (combined in preserve mode),
+     * The effective configuration is the default configuration, overridden by the themes configuration,
+     * itself overridden by the site configuration and by the environment variables.
+     *
+     * Maps are merged key by key, lists of values are replaced as a whole (combined between themes and site),
      * and a map of booleans applied to a list of values adds (`true`) or removes (`false`) items.
      * @see Config::mergeValues()
      *
@@ -116,11 +128,17 @@ class Config
      */
     public function import(array $config, int $mode = self::IMPORT_MERGE): void
     {
-        $this->data = new Data(
-            $mode === self::IMPORT_PRESERVE
-                ? self::merge($config, $this->data->export(), $mode)
-                : self::merge($this->data->export(), $config, $mode)
-        );
+        if ($mode === self::IMPORT_PRESERVE) {
+            $this->themes = self::merge($config, $this->themes, self::IMPORT_PRESERVE);
+        } else {
+            $this->site = self::merge($this->site, $config, $mode);
+        }
+        $this->data = new Data(self::merge(
+            $this->default->export(),
+            self::merge($this->themes, $this->site, self::IMPORT_PRESERVE),
+            self::IMPORT_REPLACE
+        ));
+        $this->languages = null;
         $this->setFromEnv(); // override configuration with environment variables
         $this->validate();   // validate configuration
     }
@@ -132,12 +150,7 @@ class Config
      */
     public function export(): array
     {
-        $config = $this->data->export();
-        foreach ($config as $key => $value) {
-            $config[$key] = $this->resolve($value, (string) $key);
-        }
-
-        return $config;
+        return $this->data->export();
     }
 
     /**
@@ -172,23 +185,17 @@ class Config
      */
     public function has(string $key, ?string $language = null, bool $fallback = true): bool
     {
-        $default = $this->default->has($key);
-
         if ($language !== null) {
             $langIndex = $this->getLanguageIndex($language);
-            $keyLang = "languages.$langIndex.config.$key";
-            if ($this->data->has($keyLang)) {
+            if ($this->data->has("languages.$langIndex.config.$key")) {
                 return true;
             }
             if ($language !== $this->getLanguageDefault() && $fallback === false) {
-                return $default;
+                return $this->default->has($key);
             }
         }
-        if ($this->data->has($key)) {
-            return true;
-        }
 
-        return $default;
+        return $this->data->has($key);
     }
 
     /**
@@ -202,22 +209,22 @@ class Config
      */
     public function get(string $key, ?string $language = null, bool $fallback = true)
     {
-        $default = $this->default->has($key) ? $this->default->get($key) : null;
+        $value = $this->data->has($key) ? $this->data->get($key) : null;
         if ($language !== null) {
+            if ($language !== $this->getLanguageDefault() && $fallback === false) {
+                $value = $this->getDefault($key);
+            }
             $langIndex = $this->getLanguageIndex($language);
             $keyLang = "languages.$langIndex.config.$key";
             if ($this->data->has($keyLang)) {
-                return $this->resolve($this->data->get($keyLang), $key);
+                // localized value overrides the global (or default) value
+                return $value === null
+                    ? $this->data->get($keyLang)
+                    : self::mergeValues($value, $this->data->get($keyLang), self::IMPORT_REPLACE, $key);
             }
-            if ($language !== $this->getLanguageDefault() && $fallback === false) {
-                return $default;
-            }
-        }
-        if ($this->data->has($key)) {
-            return $this->resolve($this->data->get($key), $key);
         }
 
-        return $default;
+        return $value;
     }
 
     /**
@@ -705,6 +712,7 @@ class Config
     /**
      * Merges two values, `$high` taking precedence over `$low`:
      * - scalars are replaced;
+     * - a boolean applied to a map enables or disables it (ie: `cache: false`), the map is kept;
      * - lists of values are replaced as a whole, except in preserve mode (ie: theme configuration) where they are combined;
      * - a map of booleans applied to a list of values adds (`true`) or removes (`false`) items;
      * - lists of identified items (ie: `output.formats`) are merged by identifier;
@@ -715,6 +723,9 @@ class Config
      */
     private static function mergeValues(mixed $low, mixed $high, int $mode, string $path): mixed
     {
+        if (\is_bool($high) && \is_array($low) && $low !== [] && !array_is_list($low)) {
+            return array_merge($low, ['enabled' => $high]);
+        }
         if (!\is_array($high) || !\is_array($low)) {
             return $high;
         }
@@ -766,27 +777,6 @@ class Config
         return $low;
     }
 
-    /**
-     * Resolves list patches (maps of booleans) against default lists of values.
-     */
-    private function resolve(mixed $value, string $key): mixed
-    {
-        if (!\is_array($value) || array_is_list($value)) {
-            return $value;
-        }
-        $default = $this->getDefault($key);
-        if (self::isListPatch($value) && self::isValuesList($default)) {
-            return self::applyListPatch($default, $value);
-        }
-        if (!\is_array($default)) {
-            return $value;
-        }
-        foreach ($value as $subkey => $subvalue) {
-            $value[$subkey] = $this->resolve($subvalue, "$key.$subkey");
-        }
-
-        return $value;
-    }
 
     /**
      * Returns the default value of a configuration key, if any.
@@ -867,7 +857,9 @@ class Config
         $env = array_merge(getenv() ?: [], $_ENV);
         foreach ($env as $key => $value) {
             if (str_starts_with((string) $key, 'CECIL_')) {
-                $this->data->set(str_replace(['cecil_', '_'], ['', '.'], strtolower((string) $key)), $this->castSetValue($value));
+                $key = str_replace(['cecil_', '_'], ['', '.'], strtolower((string) $key));
+                $current = $this->data->has($key) ? $this->data->get($key) : null;
+                $this->data->set($key, self::mergeValues($current, $this->castSetValue($value), self::IMPORT_REPLACE, $key));
             }
         }
     }

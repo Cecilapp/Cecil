@@ -2,7 +2,7 @@
 title: "Configuration"
 description: "Configure your website with the cecil.yml file."
 date: 2021-05-07
-updated: 2026-10-17
+updated: 2026-10-18
 weight: 5
 sortby: weight
 -->
@@ -26,6 +26,23 @@ description: "Site description"
 The following pages describe the configuration options supported by Cecil.
 
 Some options specific to a command are documented with that command: `editor` ([`new:page`](../commands/2-new-page.md#open-with-your-editor)) and `doctor.*` ([`doctor`](../commands/5-doctor.md)).
+
+## Priority
+
+The configuration is built from several sources, each one overriding the previous ones:
+
+1. Cecil [default configuration](https://github.com/Cecilapp/Cecil/blob/main/config/default.php)
+2. [themes](../templates/7-extend.md#theme) configuration (the first theme overrides the next ones)
+3. site configuration (`cecil.yml`)
+4. [environment variables](11-override.md) and command line options
+
+Maps (e.g. `pages.body.images` or `pages.default`) are merged key by key: you only need to define the keys you want to change.
+
+A map can be enabled or disabled with a boolean, without losing its options:
+
+```yaml
+cache: false # same as `cache: {enabled: false}`
+```
 
 ## Lists
 

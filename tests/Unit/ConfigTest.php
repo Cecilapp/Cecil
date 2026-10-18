@@ -816,4 +816,112 @@ class ConfigTest extends TestCase
 
         self::assertSame([['id' => 'a'], ['id' => 'b']], $config->get('menus.main'));
     }
+
+    public function testMapIsMergedWithDefaultMap(): void
+    {
+        $config = new Config(['layouts' => ['translations' => ['formats' => [
+            'xliff' => ['loader' => 'Symfony\Component\Translation\Loader\XliffFileLoader', 'ext' => ['xlf']],
+        ]]]]);
+
+        self::assertSame(['yaml', 'mo', 'xliff'], array_keys($config->get('layouts.translations.formats')));
+        self::assertSame(['md', 'markdown', 'mdown', 'mkdn', 'mkd', 'text', 'txt'], $config->get('pages')['ext']);
+    }
+
+    public function testThemeOverridesDefaultAndSiteOverridesTheme(): void
+    {
+        $config = new Config(['description' => 'Site description']);
+        // ie: theme configuration
+        $config->import([
+            'title'       => 'Theme title',
+            'description' => 'Theme description',
+            'pages'       => ['default' => ['404' => ['title' => 'Oops']]],
+            'output'      => ['formats' => [['name' => 'rss', 'filename' => 'feed']]],
+        ], Config::IMPORT_PRESERVE);
+
+        self::assertSame('Theme title', $config->get('title'));
+        self::assertSame('Site description', $config->get('description'));
+        self::assertSame('Oops', $config->get('pages.default.404.title'));
+        self::assertSame('404', $config->get('pages.default.404.layout'));
+        self::assertSame('feed', $config->getOutputFormatProperty('rss', 'filename'));
+        self::assertSame('application/rss+xml', $config->getOutputFormatProperty('rss', 'mediatype'));
+    }
+
+    public function testFirstThemeOverridesNextThemes(): void
+    {
+        $config = new Config();
+        $config->import(['title' => 'First theme'], Config::IMPORT_PRESERVE);
+        $config->import(['title' => 'Second theme'], Config::IMPORT_PRESERVE);
+
+        self::assertSame('First theme', $config->get('title'));
+    }
+
+    public function testSiteConfigurationIsNotOverriddenByThemeImportedAfter(): void
+    {
+        $config = new Config(['pages' => ['generators' => [35 => 'App\Generator\Custom']]]);
+        $config->import(['pages' => ['generators' => [35 => 'Theme\Generator\Custom']]], Config::IMPORT_PRESERVE);
+
+        self::assertSame('App\Generator\Custom', $config->get('pages.generators.35'));
+        self::assertSame('Cecil\Generator\Section', $config->get('pages.generators.40'));
+    }
+
+    public function testLanguagesReplaceDefaultLanguages(): void
+    {
+        $config = new Config([
+            'language'  => 'fr',
+            'languages' => [['code' => 'fr', 'locale' => 'fr_FR']],
+        ]);
+
+        self::assertSame(['fr'], array_column($config->getLanguages(), 'code'));
+    }
+
+    public function testLocalizedMapIsMergedWithGlobalMap(): void
+    {
+        $config = new Config([
+            'language'  => 'en',
+            'date'      => ['format' => 'Y-m-d', 'timezone' => 'Europe/Paris'],
+            'languages' => [
+                ['code' => 'en', 'locale' => 'en_US'],
+                ['code' => 'fr', 'locale' => 'fr_FR', 'config' => ['date' => ['format' => 'j F Y']]],
+            ],
+        ]);
+
+        self::assertSame(['format' => 'j F Y', 'timezone' => 'Europe/Paris'], $config->get('date', 'fr'));
+        self::assertSame(['format' => 'j F Y'], $config->get('date', 'fr', false));
+    }
+
+    public function testBooleanShorthandEnablesOrDisablesMap(): void
+    {
+        $config = new Config(['cache' => true, 'optimize' => true, 'pages' => ['pagination' => false]]);
+
+        self::assertTrue($config->isEnabled('cache'));
+        self::assertSame('.cache', $config->get('cache.dir'));
+        self::assertTrue($config->isEnabled('optimize'));
+        self::assertTrue($config->isEnabled('optimize.html'));
+        self::assertFalse($config->isEnabled('pages.pagination'));
+        self::assertSame(5, $config->get('pages.pagination.max'));
+    }
+
+    public function testEnvironmentVariableBooleanShorthandKeepsMap(): void
+    {
+        putenv('CECIL_CACHE=true');
+
+        try {
+            $config = new Config();
+            $config->import([]);
+
+            self::assertTrue($config->isEnabled('cache'));
+            self::assertSame('.cache', $config->get('cache.dir'));
+        } finally {
+            putenv('CECIL_CACHE');
+        }
+    }
+
+    public function testExportContainsDefaultValues(): void
+    {
+        $export = (new Config(['title' => 'Exported title']))->export();
+
+        self::assertSame('Exported title', $export['title']);
+        self::assertSame('_site', $export['output']['dir']);
+        self::assertArrayHasKey('generators', $export['pages']);
+    }
 }

@@ -2,7 +2,7 @@
 title: "Output"
 description: "Output directory, formats and post-processing."
 date: 2021-05-07
-updated: 2026-10-17
+updated: 2026-10-18
 -->
 # Output
 
@@ -37,7 +37,7 @@ Those formats are used in the [`output.pagetypeformats`](#output-pagetypeformats
 
 ### Default formats
 
-Cecil provides some [default formats](https://github.com/Cecilapp/Cecil/blob/main/config/base.php#L89-L197), which can be overridden in the configuration file: `html` (default), `atom`, `rss`, `json`, `xml`, `txt`, `amp`, `js`, `webmanifest`, `xsl`, `jsonfeed`, `oembed`, `embed`, `markdown`, `llms`.
+Cecil provides some [default formats](https://github.com/Cecilapp/Cecil/blob/main/config/default.php#L287-L394), which can be overridden in the configuration file: `html` (default), `atom`, `rss`, `json`, `xml`, `txt`, `amp`, `js`, `webmanifest`, `xsl`, `jsonfeed`, `oembed`, `embed`, `markdown`, `llms`.
 
 Formats are merged by `name`: to override a default format, only define its `name` and the properties to change.
 

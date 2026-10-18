@@ -2,7 +2,7 @@
 title: "Architecture"
 description: "Diagramme du processus de génération et composants clés."
 date: 2026-05-27
-updated: 2026-10-16
+updated: 2026-10-18
 alias: documentation/architecture
 path: documentation/developpeurs/architecture
 -->
@@ -23,7 +23,7 @@ graph TD
 
     %% Orchestrateur
     BUILDER["Builder\n(orchestrateur)"]
-    CONFIG["Configuration\n(base.php + default.php\n+ thèmes + cecil.yml\n+ variables d’environnement + options CLI)"]
+    CONFIG["Configuration\n(default.php\n< thèmes < cecil.yml\n< variables d’environnement + options CLI)"]
     CMD --> BUILDER
     CONFIG --> BUILDER
 

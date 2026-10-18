@@ -42,7 +42,7 @@ Resolution rules (from `src/`):
 | Static files   | Themes' `static/` are copied first (reverse order), then site `static/`, so the site wins                                                                |
 | Translations   | Cecil internal → `themes/<theme>/translations/` (in `theme` list order, so the **last** theme wins between themes) → site `translations/` (site wins)    |
 | Data files     | Site `data/` and each `themes/<theme>/data/` are loaded into `site.data`                                                                                 |
-| Configuration  | `themes/<theme>/config.yml` is imported with `IMPORT_PRESERVE`: it **only adds missing keys**, site config always wins (first theme wins between themes) |
+| Configuration  | `themes/<theme>/config.yml` overrides Cecil defaults (including default pages, generators and output formats), site config always wins (first theme wins between themes) |
 
 Consequences:
 
