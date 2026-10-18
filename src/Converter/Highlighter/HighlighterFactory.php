@@ -42,10 +42,26 @@ class HighlighterFactory
      */
     public static function create(Config $config): HighlighterInterface
     {
-        $engine = $config->get('pages.body.highlight.engine') ?? self::DEFAULT_ENGINE;
+        return self::fromEngine(
+            $config->get('pages.body.highlight.engine') ?? self::DEFAULT_ENGINE,
+            'Option "pages.body.highlight.engine"'
+        );
+    }
+
+    /**
+     * Returns the highlighter of the given engine.
+     *
+     * @param mixed  $engine Engine name (one of the `ENGINES` keys)
+     * @param string $source Origin of the engine name, used in the error message
+     *
+     * @throws ConfigException
+     */
+    public static function fromEngine(mixed $engine, string $source = 'Highlighter engine'): HighlighterInterface
+    {
         if (!\is_string($engine) || !isset(self::ENGINES[$engine])) {
             throw new ConfigException(\sprintf(
-                'Option "pages.body.highlight.engine" must be one of: "%s".',
+                '%s must be one of: "%s".',
+                $source,
                 implode('", "', array_keys(self::ENGINES))
             ));
         }

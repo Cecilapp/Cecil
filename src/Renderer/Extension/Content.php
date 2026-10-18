@@ -360,10 +360,27 @@ class Content extends AbstractExtension
 
     /**
      * Highlights a code snippet.
+     *
+     * The engine is the `$engine` argument or, by default, the `layouts.highlight.engine` option
+     * (independent of the `pages.body.highlight.engine` option used by Markdown content).
+     * If the language is not supported, returns the escaped code.
      */
-    public function highlight(string $code, string $language): string
+    public function highlight(string $code, string $language, ?string $engine = null): string
     {
-        return HighlighterFactory::create($this->config)->highlight($code, $language)->html;
+        $highlighter = $engine !== null
+            ? HighlighterFactory::fromEngine($engine, 'Filter "highlight" engine')
+            : HighlighterFactory::fromEngine(
+                $this->config->get('layouts.highlight.engine') ?? HighlighterFactory::DEFAULT_ENGINE,
+                'Option "layouts.highlight.engine"'
+            );
+
+        try {
+            return $highlighter->highlight($code, $language)->html;
+        } catch (RuntimeException $e) {
+            $this->builder->getLogger()->warning(\sprintf('Filter "highlight": %s', $e->getMessage()));
+
+            return htmlspecialchars($code, ENT_QUOTES | ENT_SUBSTITUTE, 'UTF-8');
+        }
     }
 
     /**

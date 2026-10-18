@@ -2,7 +2,7 @@
 title: "Filters"
 description: "filter_by, markdown_to_html, toc, slugify, excerpt, highlight, preg_*, etc."
 date: 2021-05-07
-updated: 2026-10-16
+updated: 2026-10-18
 -->
 # Filters
 
@@ -232,17 +232,30 @@ _Examples:_
 
 ## highlight
 
-Highlights a code string with [highlight.php](https://github.com/scrivo/highlight.php).
+Highlights a code string.
 
 ```twig
-{{ code|highlight(language) }}
+{{ code|highlight(language, engine) }}
 ```
 
-_Example:_
+The highlighter engine (`highlightjs` or `tempest`) is the optional `engine` argument or, by default, the [`layouts.highlight.engine`](../../configuration/7-layouts.md#layouts-highlight) option (`highlightjs` by default).
+
+:::tip
+The filter does not use the [`pages.body.highlight.engine`](../../configuration/4-pages.md#pages-body-highlight) option, which only applies to Markdown content.
+:::
+
+If the language is not supported by the engine, the code is returned escaped, without highlighting (and a warning is logged).
+
+_Examples:_
 
 ```twig
 {{ '<?php echo $highlighted->value; ?>'|highlight('php') }}
+{{ '<?php echo $highlighted->value; ?>'|highlight('php', 'tempest') }}
 ```
+
+:::info
+Each engine uses its own CSS classes (`hljs-*` for `highlightjs`, `hl-*` for `tempest`): the stylesheet must match the engine used.
+:::
 
 ## preg_split
 

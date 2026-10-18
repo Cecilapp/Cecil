@@ -1,8 +1,8 @@
 <!--
 title: "Layouts"
-description: "Templates directory, auto-escaping, images, translations and components."
+description: "Templates directory, auto-escaping, images, highlight, translations and components."
 date: 2021-05-07
-updated: 2026-10-16
+updated: 2026-10-18
 -->
 # Layouts
 
@@ -50,6 +50,22 @@ layouts:
     mobile_suffix: ~  # suffix of the mobile variant image (e.g. `.mobile`), disabled by default
     mobile_media_query: '(max-width: 767px)' # media query of the mobile variant `<source>`
 ```
+
+## layouts.highlight
+
+Code syntax highlighting options of templates.
+
+```yaml
+layouts:
+  highlight:
+    engine: highlightjs # used by `highlight` filter: `highlightjs` (default) or `tempest`
+```
+
+See the [`highlight`](../templates/reference/3-filters.md#highlight) filter.
+
+:::info
+This option only applies to templates: Markdown content uses the [`pages.body.highlight.engine`](4-pages.md#pages-body-highlight) option.
+:::
 
 ## layouts.translations
 

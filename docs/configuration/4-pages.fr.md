@@ -2,7 +2,7 @@
 title: "Pages"
 description: "Dossier des pages, tri, pagination, chemins, corps, pages virtuelles, générateurs, etc."
 date: 2026-03-27
-updated: 2026-10-17
+updated: 2026-10-18
 -->
 # Pages
 
@@ -166,6 +166,10 @@ pages:
 
 - `highlightjs` : [highlight.php](https://github.com/scrivo/highlight.php), un portage PHP de highlight.js (plus de 190 langages, classes CSS `hljs-*`)
 - `tempest` : [tempest/highlight](https://github.com/tempestphp/highlight), un moteur de coloration rapide côté serveur (langages du web : PHP, HTML, CSS, JavaScript, JSON, YAML, Twig, SQL, XML, etc., classes CSS `hl-*`)
+
+:::info
+Ces options ne s’appliquent qu’au contenu Markdown : le filtre [`highlight`](../templates/reference/3-filters.fr.md#highlight) des templates utilise l’option [`layouts.highlight.engine`](7-layouts.fr.md#layouts-highlight).
+:::
 
 ### pages.body.images
 

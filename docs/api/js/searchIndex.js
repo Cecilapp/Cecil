@@ -3491,6 +3491,11 @@ Search.appendIndex(
             "summary": "Returns\u0020the\u0020highlighter\u0020of\u0020the\u0020configured\u0020engine.",
             "url": "classes/Cecil-Converter-Highlighter-HighlighterFactory.html#method_create"
         },                {
+            "fqsen": "\\Cecil\\Converter\\Highlighter\\HighlighterFactory\u003A\u003AfromEngine\u0028\u0029",
+            "name": "fromEngine",
+            "summary": "Returns\u0020the\u0020highlighter\u0020of\u0020the\u0020given\u0020engine.",
+            "url": "classes/Cecil-Converter-Highlighter-HighlighterFactory.html#method_fromEngine"
+        },                {
             "fqsen": "\\Cecil\\Converter\\Highlighter\\HighlighterFactory\u003A\u003ADEFAULT_ENGINE",
             "name": "DEFAULT_ENGINE",
             "summary": "",
