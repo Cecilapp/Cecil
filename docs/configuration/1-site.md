@@ -90,7 +90,7 @@ menus:
 ```
 
 :::info
-A `main` menu is automatically created with the home page entry and all sections entries (see [content management](../content/index.md)).
+A `main` menu is automatically created with the home page entry and the top-level sections entries, unless they define their own `menu` variable (see [content management](../content/index.md)).
 :::
 
 :::tip

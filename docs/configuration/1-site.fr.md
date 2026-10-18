@@ -90,7 +90,7 @@ menus:
 ```
 
 :::info
-Un menu `main` est créé automatiquement avec l’entrée de la page d’accueil et les entrées de toutes les sections (voir la [gestion du contenu](../content/index.fr.md)).
+Un menu `main` est créé automatiquement avec l’entrée de la page d’accueil et les entrées des sections de premier niveau, sauf si elles définissent leur propre variable `menu` (voir la [gestion du contenu](../content/index.fr.md)).
 :::
 
 :::tip
