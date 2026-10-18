@@ -2,6 +2,12 @@
 
 All notable changes to this project will be documented in this file. Dates are displayed in UTC.
 
+#### [9.17.0](https://github.com/Cecilapp/Cecil/compare/9.16.0...9.17.0)
+
+> 18 October 2026
+
+- feat(converter): highlighter interface with tempest/highlight engine [`#2530`](https://github.com/Cecilapp/Cecil/pull/2530)
+
 #### [9.16.0](https://github.com/Cecilapp/Cecil/compare/9.15.0...9.16.0)
 
 > 18 October 2026
