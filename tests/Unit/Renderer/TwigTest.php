@@ -79,18 +79,35 @@ class TwigTest extends TestCase
     }
 
     /**
-     * Renders a template with `layouts.autoescape: null`.
+     * Compiled templates depend on the autoescape strategy: changing
+     * `layouts.autoescape` between builds must not reuse templates
+     * compiled (and cached) with the previous strategy.
+     */
+    public function testTemplatesCacheDependsOnAutoescapeStrategy(): void
+    {
+        $variables = ['value' => "L'atelier <b>"];
+        $raw = "L'atelier <b>";
+        $escaped = 'L&#039;atelier &lt;b&gt;';
+
+        self::assertSame($raw, $this->render('test.html.twig', '{{ value }}', $variables, false, true));
+        self::assertSame($escaped, $this->render('test.html.twig', '{{ value }}', $variables, null, true));
+        self::assertSame($escaped, $this->render('test.html.twig', '{{ value }}', $variables, 'html', true));
+        self::assertSame($raw, $this->render('test.html.twig', '{{ value }}', $variables, false, true));
+    }
+
+    /**
+     * Renders a template (with `layouts.autoescape: null` by default).
      *
      * @param array<string, mixed> $variables
      */
-    private function render(string $template, string $source, array $variables = []): string
+    private function render(string $template, string $source, array $variables = [], string|false|null $autoescape = null, bool $cache = false): string
     {
         $layoutsDir = Util::joinFile($this->sourceDir, 'layouts');
         Util\File::getFS()->dumpFile(Util::joinFile($layoutsDir, $template), $source);
 
         $builder = new Builder([
-            'cache'   => ['enabled' => false],
-            'layouts' => ['autoescape' => null],
+            'cache'   => ['enabled' => $cache, 'templates' => $cache],
+            'layouts' => ['autoescape' => $autoescape],
         ]);
         $builder->setSourceDir($this->sourceDir);
         $builder->setDestinationDir($this->sourceDir);

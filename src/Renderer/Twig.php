@@ -67,9 +67,16 @@ class Twig implements RendererInterface
     public function __construct(Builder $builder, $templatesPath)
     {
         $this->builder = $builder;
-        // load layouts
-        $loader = new \Twig\Loader\FilesystemLoader($templatesPath);
         $autoescape = $this->builder->getConfig()->get('layouts.autoescape');
+        // the autoescape strategy changes how templates are compiled, but Twig doesn't take it into account
+        // to name compiled templates: a stable key of it is used to segregate them (in memory and in cache)
+        $autoescapeKey = 'autoescape-' . match (true) {
+            $autoescape === null  => 'name', // template name (extension) based strategy
+            \is_bool($autoescape) => $autoescape ? 'true' : 'false',
+            default               => preg_replace('/[^a-z0-9_-]/i', '_', (string) $autoescape),
+        };
+        // load layouts
+        $loader = new TwigFilesystemLoader($templatesPath, $autoescapeKey);
         if ($autoescape === null) {
             $autoescape = static function (string $templateName): string|false {
                 // extract the extension before ".twig" (e.g. "template.js.twig" -> "js")
@@ -97,7 +104,8 @@ class Twig implements RendererInterface
         ];
         // use Twig cache?
         if ($this->builder->getConfig()->isEnabled('cache.templates')) {
-            $loaderOptions = array_replace($loaderOptions, ['cache' => $this->builder->getConfig()->getCacheTemplatesPath()]);
+            // compiled templates are stored per autoescape strategy (also covers templates created from strings)
+            $loaderOptions = array_replace($loaderOptions, ['cache' => Util::joinFile($this->builder->getConfig()->getCacheTemplatesPath(), $autoescapeKey)]);
         }
         // create the Twig instance
         $this->twig = new \Twig\Environment($loader, $loaderOptions);
