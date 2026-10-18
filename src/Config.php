@@ -125,9 +125,15 @@ class Config
      *
      * @param array<string, mixed> $config Configuration array to import
      * @param self::IMPORT_* $mode Import mode (default: Config::IMPORT_MERGE)
+     * @param string|null    $source Source of the configuration (ie: file path), used in error messages
+     *
+     * @throws ConfigException
      */
-    public function import(array $config, int $mode = self::IMPORT_MERGE): void
+    public function import(array $config, int $mode = self::IMPORT_MERGE, ?string $source = null): void
     {
+        // deprecated options are checked before merging, to report their actual source
+        self::checkDeprecated($config, $source);
+        self::checkDeprecated($this->getEnvConfig(), 'environment variables', true);
         if ($mode === self::IMPORT_PRESERVE) {
             $this->themes = self::merge($config, $this->themes, self::IMPORT_PRESERVE);
         } else {
@@ -854,14 +860,28 @@ class Config
      */
     private function setFromEnv(): void
     {
-        $env = array_merge(getenv() ?: [], $_ENV);
-        foreach ($env as $key => $value) {
+        foreach ($this->getEnvConfig() as $key => $value) {
+            $current = $this->data->has($key) ? $this->data->get($key) : null;
+            $this->data->set($key, self::mergeValues($current, $value, self::IMPORT_REPLACE, $key));
+        }
+    }
+
+    /**
+     * Returns configuration from environment variables starting with "CECIL_", indexed by configuration key
+     * (ie: `CECIL_PAGES_DIR` -> `pages.dir`).
+     *
+     * @return array<string, mixed>
+     */
+    private function getEnvConfig(): array
+    {
+        $config = [];
+        foreach (array_merge(getenv() ?: [], $_ENV) as $key => $value) {
             if (str_starts_with((string) $key, 'CECIL_')) {
-                $key = str_replace(['cecil_', '_'], ['', '.'], strtolower((string) $key));
-                $current = $this->data->has($key) ? $this->data->get($key) : null;
-                $this->data->set($key, self::mergeValues($current, $this->castSetValue($value), self::IMPORT_REPLACE, $key));
+                $config[str_replace(['cecil_', '_'], ['', '.'], strtolower((string) $key))] = $this->castSetValue($value);
             }
         }
+
+        return $config;
     }
 
     /**
@@ -896,26 +916,62 @@ class Config
         if (!preg_match('/^' . Config::LANG_CODE_PATTERN . '$/', $this->getLanguageDefault())) {
             throw new ConfigException(\sprintf('Default language code "%s" is not valid (e.g.: "language: fr-FR").', $this->getLanguageDefault()));
         }
+    }
 
-        // check for deprecated options
-        $deprecatedConfigFile = Util\File::getRealPath('../config/deprecated.php');
-        $deprecatedConfig = require $deprecatedConfigFile;
-        array_walk($deprecatedConfig, function ($to, $from) {
-            if ($this->has($from)) {
-                if (empty($to)) {
-                    throw new ConfigException("Option `$from` is deprecated and must be removed.");
+    /**
+     * Checks a configuration for deprecated options, and reports all of them at once.
+     * Keys of `$config` can be nested arrays or dot notation paths (ie: environment variables).
+     *
+     * @param array<string, mixed> $config
+     * @param bool                 $env    Options are environment variables (ie: `CECIL_PAGES_DIR`)
+     *
+     * @throws ConfigException
+     */
+    private static function checkDeprecated(array $config, ?string $source = null, bool $env = false): void
+    {
+        if ($config === []) {
+            return;
+        }
+        $data = new Data();
+        foreach ($config as $key => $value) {
+            $data->set((string) $key, $value);
+        }
+        $errors = [];
+        $deprecated = require Util\File::getRealPath('../config/deprecated.php');
+        foreach ($deprecated as $from => $to) {
+            try {
+                if (!$data->has($from)) {
+                    continue;
                 }
-                $path = explode(':', $to);
-                $step = 0;
-                $formatedPath = '';
-                foreach ($path as $fragment) {
-                    $step = $step + 2;
-                    $formatedPath .= "$fragment:\n" . str_pad(' ', $step);
-                }
-                $formatedPath = trim($formatedPath);
-                throw new ConfigException("Option `$from` must be moved to:\n```\n$formatedPath\n```");
+            } catch (DataException) {
+                continue;
             }
-        });
+            if ($env) {
+                $variable = fn (string $key) => 'CECIL_' . strtoupper(str_replace('.', '_', $key));
+                $errors[] = empty($to)
+                    ? \sprintf('- Variable `%s` is deprecated and must be removed.', $variable($from))
+                    : \sprintf('- Variable `%s` must be renamed to `%s`.', $variable($from), $variable($to));
+                continue;
+            }
+            if (empty($to)) {
+                $errors[] = "- Option `$from` is deprecated and must be removed.";
+                continue;
+            }
+            // builds the new configuration snippet, with the current value
+            $snippet = $data->get($from);
+            foreach (array_reverse(explode('.', $to)) as $fragment) {
+                $snippet = [$fragment => $snippet];
+            }
+            $yaml = rtrim(Yaml::dump($snippet, 10, 2));
+            $errors[] = "- Option `$from` must be moved to:\n  ```\n  " . str_replace("\n", "\n  ", $yaml) . "\n  ```";
+        }
+        if ($errors !== []) {
+            throw new ConfigException(\sprintf(
+                "Deprecated configuration option(s)%s:\n%s",
+                $source !== null ? " in $source" : '',
+                implode("\n", $errors)
+            ));
+        }
     }
 
     /**

@@ -387,6 +387,53 @@ class ConfigTest extends TestCase
         ]);
     }
 
+    public function testDeprecatedOptionIsReportedBeforeSchemaValidation(): void
+    {
+        $this->expectException(ConfigException::class);
+        $this->expectExceptionMessage("Option `pages.frontmatter.format` must be moved to:\n  ```\n  pages:\n    frontmatter: yaml\n  ```");
+
+        new Config(['pages' => ['frontmatter' => ['format' => 'yaml']]]);
+    }
+
+    public function testDeprecatedOptionsAreReportedAtOnceWithTheirSource(): void
+    {
+        try {
+            (new Config())->import([
+                'frontmatter' => 'yaml',
+                'pagination'  => ['max' => 3],
+                'pages'       => ['body' => ['format' => 'md']],
+            ], Config::IMPORT_MERGE, '"cecil.yml"');
+            self::fail('Expected deprecated options exception.');
+        } catch (ConfigException $e) {
+            self::assertStringContainsString('Deprecated configuration option(s) in "cecil.yml"', $e->getMessage());
+            self::assertStringContainsString('Option `frontmatter` must be moved to', $e->getMessage());
+            self::assertStringContainsString("pages:\n    pagination:\n      max: 3", $e->getMessage());
+            self::assertStringContainsString('Option `pages.body.format` is deprecated and must be removed.', $e->getMessage());
+        }
+    }
+
+    public function testDeprecatedOptionOfThemeIsReportedWithThemeName(): void
+    {
+        $this->expectException(ConfigException::class);
+        $this->expectExceptionMessage('Deprecated configuration option(s) in theme "hyde"');
+
+        (new Config(['title' => 'Site']))->import(['paths' => []], Config::IMPORT_PRESERVE, 'theme "hyde"');
+    }
+
+    public function testDeprecatedEnvironmentVariableIsReportedWithNewName(): void
+    {
+        putenv('CECIL_PAGES_FRONTMATTER_FORMAT=yaml');
+
+        try {
+            $this->expectException(ConfigException::class);
+            $this->expectExceptionMessage('Variable `CECIL_PAGES_FRONTMATTER_FORMAT` must be renamed to `CECIL_PAGES_FRONTMATTER`.');
+
+            new Config([]);
+        } finally {
+            putenv('CECIL_PAGES_FRONTMATTER_FORMAT');
+        }
+    }
+
     public function testEnvironmentVariablesOverrideConfigurationAndCastBooleans(): void
     {
         putenv('CECIL_TITLE=Env Title');

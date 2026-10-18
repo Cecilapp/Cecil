@@ -409,7 +409,8 @@ class Builder implements BuildContextInterface, LoggerAwareInterface
         foreach ((array) $this->getConfig()->get('theme') as $theme) {
             $this->getConfig()->import(
                 Config::loadFile(Util::joinFile($this->getConfig()->getThemesPath(), $theme, 'config.yml'), true),
-                Config::IMPORT_PRESERVE
+                Config::IMPORT_PRESERVE,
+                \sprintf('theme "%s"', $theme)
             );
         }
     }

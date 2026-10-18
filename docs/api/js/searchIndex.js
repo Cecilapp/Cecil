@@ -3361,6 +3361,11 @@ Search.appendIndex(
             "summary": "Set\u0020configuration\u0020from\u0020environment\u0020variables\u0020starting\u0020with\u0020\u0022CECIL_\u0022.",
             "url": "classes/Cecil-Config.html#method_setFromEnv"
         },                {
+            "fqsen": "\\Cecil\\Config\u003A\u003AgetEnvConfig\u0028\u0029",
+            "name": "getEnvConfig",
+            "summary": "Returns\u0020configuration\u0020from\u0020environment\u0020variables\u0020starting\u0020with\u0020\u0022CECIL_\u0022,\u0020indexed\u0020by\u0020configuration\u0020key\n\u0028ie\u003A\u0020\u0060CECIL_PAGES_DIR\u0060\u0020\u002D\u003E\u0020\u0060pages.dir\u0060\u0029.",
+            "url": "classes/Cecil-Config.html#method_getEnvConfig"
+        },                {
             "fqsen": "\\Cecil\\Config\u003A\u003AcastSetValue\u0028\u0029",
             "name": "castSetValue",
             "summary": "Casts\u0020boolean\u0020value\u0020given\u0020to\u0020set\u0028\u0029\u0020as\u0020string.",
@@ -3370,6 +3375,11 @@ Search.appendIndex(
             "name": "validate",
             "summary": "Validate\u0020the\u0020configuration.",
             "url": "classes/Cecil-Config.html#method_validate"
+        },                {
+            "fqsen": "\\Cecil\\Config\u003A\u003AcheckDeprecated\u0028\u0029",
+            "name": "checkDeprecated",
+            "summary": "Checks\u0020a\u0020configuration\u0020for\u0020deprecated\u0020options,\u0020and\u0020reports\u0020all\u0020of\u0020them\u0020at\u0020once.",
+            "url": "classes/Cecil-Config.html#method_checkDeprecated"
         },                {
             "fqsen": "\\Cecil\\Config\u003A\u003AvalidateSchema\u0028\u0029",
             "name": "validateSchema",

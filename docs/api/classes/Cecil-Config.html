@@ -603,11 +603,26 @@ Checks if the key is set to `false` or if subkey `enabled` is set to `false`.</d
 <dd>Casts boolean value given to set() as string.</dd>
 
             <dt class="phpdocumentor-table-of-contents__entry -method -private">
+    <a class="" href="classes/Cecil-Config.html#method_checkDeprecated">checkDeprecated()</a>
+    <span>
+                                &nbsp;: void    </span>
+</dt>
+<dd>Checks a configuration for deprecated options, and reports all of them at once.</dd>
+
+            <dt class="phpdocumentor-table-of-contents__entry -method -private">
     <a class="" href="classes/Cecil-Config.html#method_getDefault">getDefault()</a>
     <span>
                                 &nbsp;: mixed    </span>
 </dt>
 <dd>Returns the default value of a configuration key, if any.</dd>
+
+            <dt class="phpdocumentor-table-of-contents__entry -method -private">
+    <a class="" href="classes/Cecil-Config.html#method_getEnvConfig">getEnvConfig()</a>
+    <span>
+                                &nbsp;: array&lt;string, mixed&gt;    </span>
+</dt>
+<dd>Returns configuration from environment variables starting with &quot;CECIL_&quot;, indexed by configuration key
+(ie: `CECIL_PAGES_DIR` -&gt; `pages.dir`).</dd>
 
             <dt class="phpdocumentor-table-of-contents__entry -method -private">
     <a class="" href="classes/Cecil-Config.html#method_getSchemas">getSchemas()</a>
@@ -1246,7 +1261,7 @@ If not set, it defaults to the current working directory.</p>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Config.php"><a href="files/src-config.html"><abbr title="src/Config.php">Config.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">151</span>
+    <span class="phpdocumentor-element-found-in__line">157</span>
 
     </aside>
 
@@ -1285,7 +1300,7 @@ If not set, it defaults to the current working directory.</p>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Config.php"><a href="files/src-config.html"><abbr title="src/Config.php">Config.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">210</span>
+    <span class="phpdocumentor-element-found-in__line">216</span>
 
     </aside>
 
@@ -1354,7 +1369,7 @@ If not set, it defaults to the current working directory.</p>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Config.php"><a href="files/src-config.html"><abbr title="src/Config.php">Config.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">533</span>
+    <span class="phpdocumentor-element-found-in__line">539</span>
 
     </aside>
 
@@ -1393,7 +1408,7 @@ If not set, it defaults to the current working directory.</p>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Config.php"><a href="files/src-config.html"><abbr title="src/Config.php">Config.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">523</span>
+    <span class="phpdocumentor-element-found-in__line">529</span>
 
     </aside>
 
@@ -1432,7 +1447,7 @@ If not set, it defaults to the current working directory.</p>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Config.php"><a href="files/src-config.html"><abbr title="src/Config.php">Config.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">513</span>
+    <span class="phpdocumentor-element-found-in__line">519</span>
 
     </aside>
 
@@ -1471,7 +1486,7 @@ If not set, it defaults to the current working directory.</p>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Config.php"><a href="files/src-config.html"><abbr title="src/Config.php">Config.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">424</span>
+    <span class="phpdocumentor-element-found-in__line">430</span>
 
     </aside>
 
@@ -1510,7 +1525,7 @@ If not set, it defaults to the current working directory.</p>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Config.php"><a href="files/src-config.html"><abbr title="src/Config.php">Config.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">434</span>
+    <span class="phpdocumentor-element-found-in__line">440</span>
 
     </aside>
 
@@ -1549,7 +1564,7 @@ If not set, it defaults to the current working directory.</p>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Config.php"><a href="files/src-config.html"><abbr title="src/Config.php">Config.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">478</span>
+    <span class="phpdocumentor-element-found-in__line">484</span>
 
     </aside>
 
@@ -1588,7 +1603,7 @@ If not set, it defaults to the current working directory.</p>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Config.php"><a href="files/src-config.html"><abbr title="src/Config.php">Config.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">444</span>
+    <span class="phpdocumentor-element-found-in__line">450</span>
 
     </aside>
 
@@ -1641,7 +1656,7 @@ If not set, it defaults to the current working directory.</p>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Config.php"><a href="files/src-config.html"><abbr title="src/Config.php">Config.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">462</span>
+    <span class="phpdocumentor-element-found-in__line">468</span>
 
     </aside>
 
@@ -1680,7 +1695,7 @@ If not set, it defaults to the current working directory.</p>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Config.php"><a href="files/src-config.html"><abbr title="src/Config.php">Config.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">470</span>
+    <span class="phpdocumentor-element-found-in__line">476</span>
 
     </aside>
 
@@ -1719,7 +1734,7 @@ If not set, it defaults to the current working directory.</p>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Config.php"><a href="files/src-config.html"><abbr title="src/Config.php">Config.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">329</span>
+    <span class="phpdocumentor-element-found-in__line">335</span>
 
     </aside>
 
@@ -1758,7 +1773,7 @@ If not set, it defaults to the current working directory.</p>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Config.php"><a href="files/src-config.html"><abbr title="src/Config.php">Config.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">297</span>
+    <span class="phpdocumentor-element-found-in__line">303</span>
 
     </aside>
 
@@ -1797,7 +1812,7 @@ If not set, it defaults to the current working directory.</p>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Config.php"><a href="files/src-config.html"><abbr title="src/Config.php">Config.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">621</span>
+    <span class="phpdocumentor-element-found-in__line">627</span>
 
     </aside>
 
@@ -1850,7 +1865,7 @@ If not set, it defaults to the current working directory.</p>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Config.php"><a href="files/src-config.html"><abbr title="src/Config.php">Config.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">642</span>
+    <span class="phpdocumentor-element-found-in__line">648</span>
 
     </aside>
 
@@ -1913,7 +1928,7 @@ If not set, it defaults to the current working directory.</p>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Config.php"><a href="files/src-config.html"><abbr title="src/Config.php">Config.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">657</span>
+    <span class="phpdocumentor-element-found-in__line">663</span>
 
     </aside>
 
@@ -1983,7 +1998,7 @@ If not set, it defaults to the current working directory.</p>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Config.php"><a href="files/src-config.html"><abbr title="src/Config.php">Config.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">600</span>
+    <span class="phpdocumentor-element-found-in__line">606</span>
 
     </aside>
 
@@ -2036,7 +2051,7 @@ If not set, it defaults to the current working directory.</p>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Config.php"><a href="files/src-config.html"><abbr title="src/Config.php">Config.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">380</span>
+    <span class="phpdocumentor-element-found-in__line">386</span>
 
     </aside>
 
@@ -2085,7 +2100,7 @@ If not set, it defaults to the current working directory.</p>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Config.php"><a href="files/src-config.html"><abbr title="src/Config.php">Config.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">345</span>
+    <span class="phpdocumentor-element-found-in__line">351</span>
 
     </aside>
 
@@ -2124,7 +2139,7 @@ If not set, it defaults to the current working directory.</p>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Config.php"><a href="files/src-config.html"><abbr title="src/Config.php">Config.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">337</span>
+    <span class="phpdocumentor-element-found-in__line">343</span>
 
     </aside>
 
@@ -2163,7 +2178,7 @@ If not set, it defaults to the current working directory.</p>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Config.php"><a href="files/src-config.html"><abbr title="src/Config.php">Config.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">355</span>
+    <span class="phpdocumentor-element-found-in__line">361</span>
 
     </aside>
 
@@ -2202,7 +2217,7 @@ If not set, it defaults to the current working directory.</p>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Config.php"><a href="files/src-config.html"><abbr title="src/Config.php">Config.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">494</span>
+    <span class="phpdocumentor-element-found-in__line">500</span>
 
     </aside>
 
@@ -2272,7 +2287,7 @@ If not set, it defaults to the current working directory.</p>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Config.php"><a href="files/src-config.html"><abbr title="src/Config.php">Config.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">321</span>
+    <span class="phpdocumentor-element-found-in__line">327</span>
 
     </aside>
 
@@ -2311,7 +2326,7 @@ If not set, it defaults to the current working directory.</p>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Config.php"><a href="files/src-config.html"><abbr title="src/Config.php">Config.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">313</span>
+    <span class="phpdocumentor-element-found-in__line">319</span>
 
     </aside>
 
@@ -2350,7 +2365,7 @@ If not set, it defaults to the current working directory.</p>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Config.php"><a href="files/src-config.html"><abbr title="src/Config.php">Config.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">270</span>
+    <span class="phpdocumentor-element-found-in__line">276</span>
 
     </aside>
 
@@ -2389,7 +2404,7 @@ If not set, it defaults to the current working directory.</p>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Config.php"><a href="files/src-config.html"><abbr title="src/Config.php">Config.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">416</span>
+    <span class="phpdocumentor-element-found-in__line">422</span>
 
     </aside>
 
@@ -2428,7 +2443,7 @@ If not set, it defaults to the current working directory.</p>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Config.php"><a href="files/src-config.html"><abbr title="src/Config.php">Config.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">547</span>
+    <span class="phpdocumentor-element-found-in__line">553</span>
 
     </aside>
 
@@ -2467,7 +2482,7 @@ If not set, it defaults to the current working directory.</p>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Config.php"><a href="files/src-config.html"><abbr title="src/Config.php">Config.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">584</span>
+    <span class="phpdocumentor-element-found-in__line">590</span>
 
     </aside>
 
@@ -2525,7 +2540,7 @@ If not set, it defaults to the current working directory.</p>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Config.php"><a href="files/src-config.html"><abbr title="src/Config.php">Config.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">408</span>
+    <span class="phpdocumentor-element-found-in__line">414</span>
 
     </aside>
 
@@ -2564,7 +2579,7 @@ If not set, it defaults to the current working directory.</p>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Config.php"><a href="files/src-config.html"><abbr title="src/Config.php">Config.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">400</span>
+    <span class="phpdocumentor-element-found-in__line">406</span>
 
     </aside>
 
@@ -2603,7 +2618,7 @@ If not set, it defaults to the current working directory.</p>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Config.php"><a href="files/src-config.html"><abbr title="src/Config.php">Config.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">392</span>
+    <span class="phpdocumentor-element-found-in__line">398</span>
 
     </aside>
 
@@ -2642,7 +2657,7 @@ If not set, it defaults to the current working directory.</p>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Config.php"><a href="files/src-config.html"><abbr title="src/Config.php">Config.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">186</span>
+    <span class="phpdocumentor-element-found-in__line">192</span>
 
     </aside>
 
@@ -2711,7 +2726,7 @@ If not set, it defaults to the current working directory.</p>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Config.php"><a href="files/src-config.html"><abbr title="src/Config.php">Config.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">565</span>
+    <span class="phpdocumentor-element-found-in__line">571</span>
 
     </aside>
 
@@ -2764,7 +2779,7 @@ If not set, it defaults to the current working directory.</p>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Config.php"><a href="files/src-config.html"><abbr title="src/Config.php">Config.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">129</span>
+    <span class="phpdocumentor-element-found-in__line">132</span>
 
     </aside>
 
@@ -2772,7 +2787,7 @@ If not set, it defaults to the current working directory.</p>
 
     <code class="phpdocumentor-code phpdocumentor-signature ">
     <span class="phpdocumentor-signature__visibility">public</span>
-                    <span class="phpdocumentor-signature__name">import</span><span>(</span><span class="phpdocumentor-signature__argument"><span class="phpdocumentor-signature__argument__type">array&lt;string, mixed&gt;&nbsp;</span><span class="phpdocumentor-signature__argument__name">$config</span></span><span class="phpdocumentor-signature__argument"><span>[</span><span>, </span><span class="phpdocumentor-signature__argument__type">self::IMPORT_*&nbsp;</span><span class="phpdocumentor-signature__argument__name">$mode</span><span> = </span><span class="phpdocumentor-signature__argument__default-value"><abbr title="\self::IMPORT_MERGE">self::IMPORT_MERGE</abbr></span><span> ]</span></span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">void</span></code>
+                    <span class="phpdocumentor-signature__name">import</span><span>(</span><span class="phpdocumentor-signature__argument"><span class="phpdocumentor-signature__argument__type">array&lt;string, mixed&gt;&nbsp;</span><span class="phpdocumentor-signature__argument__name">$config</span></span><span class="phpdocumentor-signature__argument"><span>[</span><span>, </span><span class="phpdocumentor-signature__argument__type">self::IMPORT_*&nbsp;</span><span class="phpdocumentor-signature__argument__name">$mode</span><span> = </span><span class="phpdocumentor-signature__argument__default-value"><abbr title="\self::IMPORT_MERGE">self::IMPORT_MERGE</abbr></span><span> ]</span></span><span class="phpdocumentor-signature__argument"><span>[</span><span>, </span><span class="phpdocumentor-signature__argument__type">string|null&nbsp;</span><span class="phpdocumentor-signature__argument__name">$source</span><span> = </span><span class="phpdocumentor-signature__argument__default-value">null</span><span> ]</span></span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">void</span></code>
 
     <div class="phpdocumentor-label-line">
         </div>
@@ -2809,6 +2824,15 @@ and a map of booleans applied to a list of values adds (<code class="prettyprint
 </section>
 
             </dd>
+                    <dt class="phpdocumentor-argument-list__entry">
+                <span class="phpdocumentor-argument-list__argument__name">$source</span>
+                : <span class="phpdocumentor-argument-list__argument__type">string|null</span>
+                 = <span class="phpdocumentor-argument-list__argument__default-value">null</span>            </dt>
+            <dd class="phpdocumentor-argument-list__definition">
+                    <section class="phpdocumentor-description"><p>Source of the configuration (ie: file path), used in error messages</p>
+</section>
+
+            </dd>
             </dl>
 
     
@@ -2824,6 +2848,13 @@ and a map of booleans applied to a list of values adds (<code class="prettyprint
                             <dd class="phpdocumentor-tag-list__definition">
                                                                                     <span class="phpdocumentor-tag-link"><a href="classes/Cecil-Config.html#method_mergeValues"><abbr title="\Cecil\Config::mergeValues()">Config::mergeValues()</abbr></a></span>
                                                                 
+                                    </dd>
+                                <dt class="phpdocumentor-tag-list__entry">
+                <span class="phpdocumentor-tag__name">throws</span>
+            </dt>
+                            <dd class="phpdocumentor-tag-list__definition">
+                                                                <span class="phpdocumentor-tag-link"><a href="classes/Cecil-Exception-ConfigException.html"><abbr title="\Cecil\Exception\ConfigException">ConfigException</abbr></a></span>
+                                                                                    
                                     </dd>
                         </dl>
 
@@ -2845,7 +2876,7 @@ and a map of booleans applied to a list of values adds (<code class="prettyprint
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Config.php"><a href="files/src-config.html"><abbr title="src/Config.php">Config.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">676</span>
+    <span class="phpdocumentor-element-found-in__line">682</span>
 
     </aside>
 
@@ -2885,7 +2916,7 @@ or relative to project destination?</p>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Config.php"><a href="files/src-config.html"><abbr title="src/Config.php">Config.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">234</span>
+    <span class="phpdocumentor-element-found-in__line">240</span>
 
     </aside>
 
@@ -2949,7 +2980,7 @@ Checks if the key is set to `false` or if subkey `enabled` is set to `false`.</p
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Config.php"><a href="files/src-config.html"><abbr title="src/Config.php">Config.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">161</span>
+    <span class="phpdocumentor-element-found-in__line">167</span>
 
     </aside>
 
@@ -3005,7 +3036,7 @@ Checks if the key is set to `false` or if subkey `enabled` is set to `false`.</p
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Config.php"><a href="files/src-config.html"><abbr title="src/Config.php">Config.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">284</span>
+    <span class="phpdocumentor-element-found-in__line">290</span>
 
     </aside>
 
@@ -3068,7 +3099,7 @@ Checks if the key is set to `false` or if subkey `enabled` is set to `false`.</p
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Config.php"><a href="files/src-config.html"><abbr title="src/Config.php">Config.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">257</span>
+    <span class="phpdocumentor-element-found-in__line">263</span>
 
     </aside>
 
@@ -3131,7 +3162,7 @@ Checks if the key is set to `false` or if subkey `enabled` is set to `false`.</p
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Config.php"><a href="files/src-config.html"><abbr title="src/Config.php">Config.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">839</span>
+    <span class="phpdocumentor-element-found-in__line">845</span>
 
     </aside>
 
@@ -3187,7 +3218,7 @@ Checks if the key is set to `false` or if subkey `enabled` is set to `false`.</p
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Config.php"><a href="files/src-config.html"><abbr title="src/Config.php">Config.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">874</span>
+    <span class="phpdocumentor-element-found-in__line">894</span>
 
     </aside>
 
@@ -3226,6 +3257,83 @@ Checks if the key is set to `false` or if subkey `enabled` is set to `false`.</p
         class="phpdocumentor-element
             -method
             -private
+                                    -static                    "
+>
+    <h4 class="phpdocumentor-element__name" id="method_checkDeprecated">
+        checkDeprecated()
+        <a href="classes/Cecil-Config.html#method_checkDeprecated" class="headerlink"><i class="fas fa-link"></i></a>
+
+    </h4>
+    <aside class="phpdocumentor-element-found-in">
+    <abbr class="phpdocumentor-element-found-in__file" title="src/Config.php"><a href="files/src-config.html"><abbr title="src/Config.php">Config.php</abbr></a></abbr>
+    :
+    <span class="phpdocumentor-element-found-in__line">930</span>
+
+    </aside>
+
+        <p class="phpdocumentor-summary">Checks a configuration for deprecated options, and reports all of them at once.</p>
+
+    <code class="phpdocumentor-code phpdocumentor-signature ">
+    <span class="phpdocumentor-signature__visibility">private</span>
+            <span class="phpdocumentor-signature__static">static</span>        <span class="phpdocumentor-signature__name">checkDeprecated</span><span>(</span><span class="phpdocumentor-signature__argument"><span class="phpdocumentor-signature__argument__type">array&lt;string, mixed&gt;&nbsp;</span><span class="phpdocumentor-signature__argument__name">$config</span></span><span class="phpdocumentor-signature__argument"><span>[</span><span>, </span><span class="phpdocumentor-signature__argument__type">string|null&nbsp;</span><span class="phpdocumentor-signature__argument__name">$source</span><span> = </span><span class="phpdocumentor-signature__argument__default-value">null</span><span> ]</span></span><span class="phpdocumentor-signature__argument"><span>[</span><span>, </span><span class="phpdocumentor-signature__argument__type">bool&nbsp;</span><span class="phpdocumentor-signature__argument__name">$env</span><span> = </span><span class="phpdocumentor-signature__argument__default-value">false</span><span> ]</span></span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">void</span></code>
+
+    <div class="phpdocumentor-label-line">
+        </div>
+    
+        <section class="phpdocumentor-description"><p>Keys of <code class="prettyprint">$config</code> can be nested arrays or dot notation paths (ie: environment variables).</p>
+</section>
+
+        <h5 class="phpdocumentor-argument-list__heading">Parameters</h5>
+    <dl class="phpdocumentor-argument-list">
+                    <dt class="phpdocumentor-argument-list__entry">
+                <span class="phpdocumentor-argument-list__argument__name">$config</span>
+                : <span class="phpdocumentor-argument-list__argument__type">array&lt;string, mixed&gt;</span>
+                            </dt>
+            <dd class="phpdocumentor-argument-list__definition">
+                
+            </dd>
+                    <dt class="phpdocumentor-argument-list__entry">
+                <span class="phpdocumentor-argument-list__argument__name">$source</span>
+                : <span class="phpdocumentor-argument-list__argument__type">string|null</span>
+                 = <span class="phpdocumentor-argument-list__argument__default-value">null</span>            </dt>
+            <dd class="phpdocumentor-argument-list__definition">
+                
+            </dd>
+                    <dt class="phpdocumentor-argument-list__entry">
+                <span class="phpdocumentor-argument-list__argument__name">$env</span>
+                : <span class="phpdocumentor-argument-list__argument__type">bool</span>
+                 = <span class="phpdocumentor-argument-list__argument__default-value">false</span>            </dt>
+            <dd class="phpdocumentor-argument-list__definition">
+                    <section class="phpdocumentor-description"><p>Options are environment variables (ie: <code class="prettyprint">CECIL_PAGES_DIR</code>)</p>
+</section>
+
+            </dd>
+            </dl>
+
+    
+    <h5 class="phpdocumentor-tag-list__heading" id="method_checkDeprecated_tags">
+        Tags
+        <a href="classes/Cecil-Config.html#method_checkDeprecated_tags" class="headerlink"><i class="fas fa-link"></i></a>
+
+    </h5>
+    <dl class="phpdocumentor-tag-list">
+                    <dt class="phpdocumentor-tag-list__entry">
+                <span class="phpdocumentor-tag__name">throws</span>
+            </dt>
+                            <dd class="phpdocumentor-tag-list__definition">
+                                                                <span class="phpdocumentor-tag-link"><a href="classes/Cecil-Exception-ConfigException.html"><abbr title="\Cecil\Exception\ConfigException">ConfigException</abbr></a></span>
+                                                                                    
+                                    </dd>
+                        </dl>
+
+        
+    
+    
+</article>
+                    <article
+        class="phpdocumentor-element
+            -method
+            -private
                                                         "
 >
     <h4 class="phpdocumentor-element__name" id="method_getDefault">
@@ -3236,7 +3344,7 @@ Checks if the key is set to `false` or if subkey `enabled` is set to `false`.</p
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Config.php"><a href="files/src-config.html"><abbr title="src/Config.php">Config.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">784</span>
+    <span class="phpdocumentor-element-found-in__line">790</span>
 
     </aside>
 
@@ -3273,6 +3381,46 @@ Checks if the key is set to `false` or if subkey `enabled` is set to `false`.</p
             -private
                                                         "
 >
+    <h4 class="phpdocumentor-element__name" id="method_getEnvConfig">
+        getEnvConfig()
+        <a href="classes/Cecil-Config.html#method_getEnvConfig" class="headerlink"><i class="fas fa-link"></i></a>
+
+    </h4>
+    <aside class="phpdocumentor-element-found-in">
+    <abbr class="phpdocumentor-element-found-in__file" title="src/Config.php"><a href="files/src-config.html"><abbr title="src/Config.php">Config.php</abbr></a></abbr>
+    :
+    <span class="phpdocumentor-element-found-in__line">875</span>
+
+    </aside>
+
+        <p class="phpdocumentor-summary">Returns configuration from environment variables starting with &quot;CECIL_&quot;, indexed by configuration key
+(ie: `CECIL_PAGES_DIR` -&gt; `pages.dir`).</p>
+
+    <code class="phpdocumentor-code phpdocumentor-signature ">
+    <span class="phpdocumentor-signature__visibility">private</span>
+                    <span class="phpdocumentor-signature__name">getEnvConfig</span><span>(</span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">array&lt;string, mixed&gt;</span></code>
+
+    <div class="phpdocumentor-label-line">
+        </div>
+    
+    
+    
+    
+
+        
+    
+            <section>
+        <h5 class="phpdocumentor-return-value__heading">Return values</h5>
+        <span class="phpdocumentor-signature__response_type">array&lt;string, mixed&gt;</span>
+            </section>
+
+</article>
+                    <article
+        class="phpdocumentor-element
+            -method
+            -private
+                                                        "
+>
     <h4 class="phpdocumentor-element__name" id="method_getSchemas">
         getSchemas()
         <a href="classes/Cecil-Config.html#method_getSchemas" class="headerlink"><i class="fas fa-link"></i></a>
@@ -3281,7 +3429,7 @@ Checks if the key is set to `false` or if subkey `enabled` is set to `false`.</p
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Config.php"><a href="files/src-config.html"><abbr title="src/Config.php">Config.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">948</span>
+    <span class="phpdocumentor-element-found-in__line">1004</span>
 
     </aside>
 
@@ -3320,7 +3468,7 @@ Checks if the key is set to `false` or if subkey `enabled` is set to `false`.</p
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Config.php"><a href="files/src-config.html"><abbr title="src/Config.php">Config.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">817</span>
+    <span class="phpdocumentor-element-found-in__line">823</span>
 
     </aside>
 
@@ -3384,7 +3532,7 @@ Checks if the key is set to `false` or if subkey `enabled` is set to `false`.</p
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Config.php"><a href="files/src-config.html"><abbr title="src/Config.php">Config.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">798</span>
+    <span class="phpdocumentor-element-found-in__line">804</span>
 
     </aside>
 
@@ -3448,7 +3596,7 @@ Checks if the key is set to `false` or if subkey `enabled` is set to `false`.</p
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Config.php"><a href="files/src-config.html"><abbr title="src/Config.php">Config.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">699</span>
+    <span class="phpdocumentor-element-found-in__line">705</span>
 
     </aside>
 
@@ -3524,7 +3672,7 @@ Checks if the key is set to `false` or if subkey `enabled` is set to `false`.</p
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Config.php"><a href="files/src-config.html"><abbr title="src/Config.php">Config.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">765</span>
+    <span class="phpdocumentor-element-found-in__line">771</span>
 
     </aside>
 
@@ -3587,7 +3735,7 @@ Checks if the key is set to `false` or if subkey `enabled` is set to `false`.</p
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Config.php"><a href="files/src-config.html"><abbr title="src/Config.php">Config.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">724</span>
+    <span class="phpdocumentor-element-found-in__line">730</span>
 
     </aside>
 
@@ -3662,7 +3810,7 @@ Checks if the key is set to `false` or if subkey `enabled` is set to `false`.</p
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Config.php"><a href="files/src-config.html"><abbr title="src/Config.php">Config.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">855</span>
+    <span class="phpdocumentor-element-found-in__line">861</span>
 
     </aside>
 
@@ -3697,7 +3845,7 @@ Checks if the key is set to `false` or if subkey `enabled` is set to `false`.</p
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Config.php"><a href="files/src-config.html"><abbr title="src/Config.php">Config.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">890</span>
+    <span class="phpdocumentor-element-found-in__line">910</span>
 
     </aside>
 
@@ -3746,7 +3894,7 @@ Checks if the key is set to `false` or if subkey `enabled` is set to `false`.</p
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Config.php"><a href="files/src-config.html"><abbr title="src/Config.php">Config.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">928</span>
+    <span class="phpdocumentor-element-found-in__line">984</span>
 
     </aside>
 
@@ -3873,7 +4021,9 @@ Checks if the key is set to `false` or if subkey `enabled` is set to `false`.</p
                                             <li class=""><a href="classes/Cecil-Config.html#method_setSourceDir">setSourceDir()</a></li>
                                             <li class=""><a href="classes/Cecil-Config.html#method_applyListPatch">applyListPatch()</a></li>
                                             <li class=""><a href="classes/Cecil-Config.html#method_castSetValue">castSetValue()</a></li>
+                                            <li class=""><a href="classes/Cecil-Config.html#method_checkDeprecated">checkDeprecated()</a></li>
                                             <li class=""><a href="classes/Cecil-Config.html#method_getDefault">getDefault()</a></li>
+                                            <li class=""><a href="classes/Cecil-Config.html#method_getEnvConfig">getEnvConfig()</a></li>
                                             <li class=""><a href="classes/Cecil-Config.html#method_getSchemas">getSchemas()</a></li>
                                             <li class=""><a href="classes/Cecil-Config.html#method_isListPatch">isListPatch()</a></li>
                                             <li class=""><a href="classes/Cecil-Config.html#method_isValuesList">isValuesList()</a></li>

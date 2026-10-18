@@ -226,10 +226,10 @@ class AbstractCommand extends Command
                 $this->config = new Config();
                 // loads and merges configuration files
                 foreach ($this->getConfigFiles() as $filePath) {
-                    $this->config->import($this->config::loadFile($filePath), Config::IMPORT_MERGE);
+                    $this->config->import($this->config::loadFile($filePath), Config::IMPORT_MERGE, \sprintf('"%s"', $filePath));
                 }
                 // merges configuration from $config parameter
-                $this->config->import($config, Config::IMPORT_MERGE);
+                $this->config->import($config, Config::IMPORT_MERGE, 'command line options');
             }
             // creates builder instance if not already done
             if ($this->builder === null) {
