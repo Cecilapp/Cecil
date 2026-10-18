@@ -727,7 +727,8 @@ A `.github/workflows/demo.yml` workflow deploys it to GitHub Pages: set `CECIL_B
 - **Theme option ignored**: the site config defines the same key; theme config never overrides site config. Lists of values are the exception: a list defined by the site (e.g. `output.pagetypeformats.homepage`) is added to the theme list, so the values required by the theme are kept; the site can only remove one with a map of booleans (e.g. `homepage: {atom: false}`).
 - **Dependent theme not loaded**: list it explicitly in the site `theme` key.
 - **Asset not found**: paths in `asset()` are relative to `assets/` (or `static/`) of the site or theme, without the directory prefix.
-- **Translations missing**: check the file name locale matches `languages[].locale` or code, then run `php cecil.phar cache:clear`.
+- **Translations missing**: check the file name locale matches `languages[].locale` or code; the translations cache is refreshed when a file is updated or removed, but not when a new one is added: run `php cecil.phar cache:clear:translations`.
+- **`Deprecated configuration option(s) in …`**: the theme's `config.yml` uses a renamed or removed option (see `config/deprecated.php`), which makes the build fail for every site using the theme; apply the snippet given in the error message.
 - Run `php cecil.phar doctor` to check theme configuration.
 
 ## Useful Resources

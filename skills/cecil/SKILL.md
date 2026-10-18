@@ -119,6 +119,7 @@ Configuration is defined in `cecil.yml` or `config.yml` at project root:
 - Maps are merged key by key with the defaults; a boolean applied to a map toggles its `enabled` key (e.g. `cache: false`); in templates, check it with the `enabled` test (`{% if config.cache is enabled %}`)
 - A list of values (`pages.ext`, `output.pagetypeformats.<type>`, `assets.images.responsive.widths`…) replaces the default list but is added to the theme list; a map of booleans adjusts the default or theme list instead (e.g. `homepage: {rss: true, atom: false}`)
 - `output.formats` entries are merged by `name`: override a default format with only its `name` and the properties to change
+- Deprecated options (renamed, moved or removed, listed in `config/deprecated.php`) make the build fail, with a message giving the source (site, theme or env vars) and the new YAML snippet to use
 
 ## Building a Cecil Site
 
@@ -375,7 +376,7 @@ Most useful variables in Twig:
 - `site.pages` - pages collection (current language)
 - `site.allpages` - pages in all languages
 - `site.taxonomies` - vocabularies and terms
-- `site.menus.<name>` - menu entries
+- `site.menus.<name>` - menu entries (a `main` menu is created automatically with the homepage and the top-level sections, unless they define their own `menu` variable)
 - `page.title`, `page.date`, `page.content`, `page.path`, `page.type`, `page.section`
 
 ### Multilingual Sites
@@ -468,7 +469,7 @@ Available in every site, without extraction (include them rather than rewriting 
 - `partials/googleanalytics.js.twig` - Google Analytics snippet
 - `partials/data.json.twig` - page data serialized as JSON (used by JSON outputs)
 - `partials/pico.css.twig`, `partials/highlight.css.twig` - CSS used by the default layouts
-- `partials/notes/<type>.html.twig` - rendering of the Markdown `:::<type>` notes (`tabs`, `code-group`, `steps`, `accordion`, `cards`), rendered during conversion with a `note` variable only (no `page` or `site`); add one to render another note type
+- `partials/notes/<type>.html.twig` - rendering of the Markdown `:::<type>` notes (`tabs`, `code-group`, `steps`, `accordion`, `cards`), rendered during conversion with a `note` variable only (no `page` or `site`); add one to render another note type. To nest notes, open the parent with a longer fence (`::::`, then `:::::`…): a note is closed by a line with at least as many `:` as its opening line
 
 If a built-in template really needs to be modified, extract them all into `layouts/` (last resort, see [Built-in Templates](#built-in-templates)):
 
@@ -729,6 +730,7 @@ When a user reports unexpected behavior or asks about a specific feature, ask th
 ### Common Issues
 
 - **Site not generating**: Check `cecil.yml` syntax and configuration
+- **`Deprecated configuration option(s)`**: move or remove the listed options as shown in the error message
 - **Missing pages**: Ensure content files are in `pages/` directory
 - **Template not loading**: Verify the `layout` front matter variable, template naming and lookup rules
 - **Build errors**: Run `php cecil.phar build -vv` for verbose output
