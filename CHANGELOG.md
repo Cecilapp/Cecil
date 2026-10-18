@@ -2,6 +2,12 @@
 
 All notable changes to this project will be documented in this file. Dates are displayed in UTC.
 
+#### [9.18.0](https://github.com/Cecilapp/Cecil/compare/9.17.1...9.18.0)
+
+> 18 October 2026
+
+- feat(config): layered configuration, lists merging and deprecations reporting [`#2531`](https://github.com/Cecilapp/Cecil/pull/2531)
+
 #### [9.17.1](https://github.com/Cecilapp/Cecil/compare/9.17.0...9.17.1)
 
 > 18 October 2026
