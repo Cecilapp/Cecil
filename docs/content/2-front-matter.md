@@ -149,7 +149,7 @@ schedule:
 ---
 ```
 
-The page is published until 2022-04-28 (if the current date is <= 2022-04-28):
+The page is published until 2022-04-28 (if the current date is < 2022-04-28, i.e. before midnight):
 
 ```yaml
 ---
@@ -157,6 +157,8 @@ schedule:
   expiry: 2022-04-28
 ---
 ```
+
+Both can be combined: the page is published if the `publish` date is reached **and** the `expiry` date is not passed.
 
 ## redirect
 
