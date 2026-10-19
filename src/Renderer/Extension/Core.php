@@ -320,13 +320,16 @@ class Core extends AbstractExtension
 
         $cache = new Cache($this->builder, 'assets');
         $cacheKey = $cache->createKey($value, name: 'css');
-        if (!$cache->has($cacheKey)) {
-            $minifier = new Minify\CSS($value);
-            $value = $minifier->minify();
-            $cache->set($cacheKey, $value, $this->config->get('cache.assets.ttl'));
+        $cachedValue = $cache->get($cacheKey);
+        if (\is_string($cachedValue)) {
+            return $cachedValue;
         }
 
-        return $cache->get($cacheKey, $value);
+        $minifier = new Minify\CSS($value);
+        $value = $minifier->minify();
+        $cache->set($cacheKey, $value, $this->config->get('cache.assets.ttl'));
+
+        return $value;
     }
 
     /**
@@ -342,13 +345,16 @@ class Core extends AbstractExtension
 
         $cache = new Cache($this->builder, 'assets');
         $cacheKey = $cache->createKey($value, name: 'js');
-        if (!$cache->has($cacheKey)) {
-            $minifier = new Minify\JS($value);
-            $value = $minifier->minify();
-            $cache->set($cacheKey, $value, $this->config->get('cache.assets.ttl'));
+        $cachedValue = $cache->get($cacheKey);
+        if (\is_string($cachedValue)) {
+            return $cachedValue;
         }
 
-        return $cache->get($cacheKey, $value);
+        $minifier = new Minify\JS($value);
+        $value = $minifier->minify();
+        $cache->set($cacheKey, $value, $this->config->get('cache.assets.ttl'));
+
+        return $value;
     }
 
     /**
@@ -362,24 +368,27 @@ class Core extends AbstractExtension
 
         $cache = new Cache($this->builder, 'assets');
         $cacheKey = $cache->createKey($value, name: 'css');
-        if (!$cache->has($cacheKey)) {
-            $scssPhp = new Compiler();
-            $outputStyles = ['expanded', 'compressed'];
-            $outputStyle = strtolower((string) $this->config->get('assets.compile.style'));
-            if (!\in_array($outputStyle, $outputStyles)) {
-                throw new ConfigException(\sprintf('"%s" value must be "%s".', 'assets.compile.style', implode('" or "', $outputStyles)));
-            }
-            $scssPhp->setOutputStyle($outputStyle == 'compressed' ? OutputStyle::COMPRESSED : OutputStyle::EXPANDED);
-            $variables = $this->config->get('assets.compile.variables');
-            if (!empty($variables)) {
-                $variables = array_map('ScssPhp\ScssPhp\ValueConverter::parseValue', $variables);
-                $scssPhp->replaceVariables($variables);
-            }
-            $value = $scssPhp->compileString($value)->getCss();
-            $cache->set($cacheKey, $value, $this->config->get('cache.assets.ttl'));
+        $cachedValue = $cache->get($cacheKey);
+        if (\is_string($cachedValue)) {
+            return $cachedValue;
         }
 
-        return $cache->get($cacheKey, $value);
+        $scssPhp = new Compiler();
+        $outputStyles = ['expanded', 'compressed'];
+        $outputStyle = strtolower((string) $this->config->get('assets.compile.style'));
+        if (!\in_array($outputStyle, $outputStyles)) {
+            throw new ConfigException(\sprintf('"%s" value must be "%s".', 'assets.compile.style', implode('" or "', $outputStyles)));
+        }
+        $scssPhp->setOutputStyle($outputStyle == 'compressed' ? OutputStyle::COMPRESSED : OutputStyle::EXPANDED);
+        $variables = $this->config->get('assets.compile.variables');
+        if (!empty($variables)) {
+            $variables = array_map('ScssPhp\ScssPhp\ValueConverter::parseValue', $variables);
+            $scssPhp->replaceVariables($variables);
+        }
+        $value = $scssPhp->compileString($value)->getCss();
+        $cache->set($cacheKey, $value, $this->config->get('cache.assets.ttl'));
+
+        return $value;
     }
 
     /**
