@@ -15,7 +15,6 @@ namespace Cecil\Generator;
 
 use Cecil\Collection\Page\Page;
 use Cecil\Collection\Page\Type;
-use Cecil\Exception\RuntimeException;
 use Cecil\Util;
 
 /**
@@ -45,11 +44,9 @@ class DefaultPages extends AbstractGenerator implements GeneratorInterface
         }
 
         foreach ($pagesConfig as $frontmatter) {
+            // the structure of each page is validated by the configuration schema
             if (isset($frontmatter['published']) && $frontmatter['published'] === false) {
                 continue;
-            }
-            if (!isset($frontmatter['path'])) {
-                throw new RuntimeException('Each pages in "pages.default" config\'s section must have a "path".');
             }
             $path = Util\Slugifier::slugify((string) $frontmatter['path']);
             foreach ($this->config->getLanguages() as $language) {

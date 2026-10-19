@@ -19,6 +19,7 @@ use Cecil\Exception\ConfigException;
 use Dflydev\DotAccessData\Data;
 use Dflydev\DotAccessData\Exception\DataException;
 use Nette\Schema\Expect;
+use Nette\Schema\Message;
 use Nette\Schema\Processor;
 use Nette\Schema\Schema;
 use Nette\Schema\ValidationException;
@@ -781,9 +782,27 @@ class Config
             try {
                 $processor->process($schema, $this->get($key));
             } catch (ValidationException $e) {
-                throw new ConfigException($e->getMessage(), previous: $e);
+                throw new ConfigException(self::schemaErrorMessage($key, $e), previous: $e);
             }
         }
+    }
+
+    /**
+     * Returns the message of a schema validation error, with the path of each item from the root of the configuration.
+     */
+    private static function schemaErrorMessage(string $key, ValidationException $e): string
+    {
+        $messages = [];
+        foreach ($e->getMessageObjects() as $message) {
+            $message->path = array_merge(explode('.', $key), $message->path);
+            if ($message->code === Message::FailedAssertion) {
+                $messages[] = \sprintf("Invalid '%s': %s", implode("\u{a0}›\u{a0}", $message->path), $message->variables['assertion'] ?? '');
+                continue;
+            }
+            $messages[] = $message->toString();
+        }
+
+        return implode("\n", $messages);
     }
 
     /**
@@ -848,6 +867,22 @@ class Config
                 'ext'         => Expect::listOf('string'),
                 'frontmatter' => Expect::anyOf('yaml', 'ini', 'toml', 'json'),
             ])->otherItems(Expect::mixed()),
+            // default pages, indexed by ID: each published page must define a `path` (other keys are front matter variables)
+            'pages.default' => Expect::arrayOf(
+                Expect::structure([
+                    'path'         => Expect::anyOf(Expect::string(), Expect::int()),
+                    'published'    => Expect::bool(),
+                    'excluded'     => Expect::bool(),
+                    'exclude'      => Expect::bool(),
+                    'multilingual' => Expect::bool(),
+                    'uglyurl'      => Expect::bool(),
+                    'output'       => Expect::anyOf(Expect::string(), Expect::listOf('string')),
+                ])->otherItems(Expect::mixed())->assert(
+                    fn ($page) => $page->published === false || $page->path !== null,
+                    'A published default page must define a `path`.'
+                ),
+                Expect::anyOf(Expect::string(), Expect::int())
+            ),
             // data files options
             'data' => Expect::structure([
                 'dir'  => Expect::string(),

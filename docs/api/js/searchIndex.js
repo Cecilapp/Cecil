@@ -3431,6 +3431,11 @@ Search.appendIndex(
             "summary": "Validates\u0020well\u002Ddefined\u0020configuration\u0020sections\u0020against\u0020a\u0020schema.",
             "url": "classes/Cecil-Config.html#method_validateSchema"
         },                {
+            "fqsen": "\\Cecil\\Config\u003A\u003AschemaErrorMessage\u0028\u0029",
+            "name": "schemaErrorMessage",
+            "summary": "Returns\u0020the\u0020message\u0020of\u0020a\u0020schema\u0020validation\u0020error,\u0020with\u0020the\u0020path\u0020of\u0020each\u0020item\u0020from\u0020the\u0020root\u0020of\u0020the\u0020configuration.",
+            "url": "classes/Cecil-Config.html#method_schemaErrorMessage"
+        },                {
             "fqsen": "\\Cecil\\Config\u003A\u003AgetSchemas\u0028\u0029",
             "name": "getSchemas",
             "summary": "Returns\u0020the\u0020validation\u0020schemas\u0020indexed\u0020by\u0020configuration\u0020key.",
