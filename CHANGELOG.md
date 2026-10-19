@@ -2,11 +2,17 @@
 
 All notable changes to this project will be documented in this file. Dates are displayed in UTC.
 
+#### [9.18.2](https://github.com/Cecilapp/Cecil/compare/9.18.1...9.18.2)
+
+> 19 October 2026
+
+- Invalidate compiled templates when autoescape changes [`#2536`](https://github.com/Cecilapp/Cecil/pull/2536)
+
 #### [9.18.1](https://github.com/Cecilapp/Cecil/compare/9.18.0...9.18.1)
 
 > 19 October 2026
 
-- fix(renderer): declare minify and inline filters as safe [`461f1a3`](https://github.com/Cecilapp/Cecil/commit/461f1a371b56461821ddb82acd077f01436a9e42)
+- Declare minify and inline filters as safe [`#2535`](https://github.com/Cecilapp/Cecil/pull/2535)
 - docs(skills): document deprecated config options errors [`3246515`](https://github.com/Cecilapp/Cecil/commit/32465154574a46458be59a4be7a55295eb7e2a94)
 - docs(front-matter): clarify schedule expiry and combined dates [`df9e9ff`](https://github.com/Cecilapp/Cecil/commit/df9e9ffd8da615f791b8472ee143d2659bcd3dc9)
 - docs(config): clarify main menu auto-generation rules [`2b28dfa`](https://github.com/Cecilapp/Cecil/commit/2b28dfa85bb65c3c57c4236f3264ef809cd6f911)
