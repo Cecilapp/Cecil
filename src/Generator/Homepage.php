@@ -22,7 +22,8 @@ use Cecil\Collection\Page\Type;
  * This class generates the homepage for each language defined in the configuration.
  * It creates a new index page for each language, collects all pages of that language,
  * sorts them, and sets the necessary variables for the homepage.
- * It also handles the case where the homepage already exists by cloning it.
+ * If the homepage already exists (e.g.: "index.md") it is updated in place (not cloned),
+ * so that references held by other objects remain the instances that will be rendered.
  * Additionally, it sets the default "main" menu and adds an alias redirection
  * from the root directory if the language prefix is enabled for the default language.
  */
@@ -42,9 +43,9 @@ class Homepage extends AbstractGenerator implements GeneratorInterface
             }
             // creates a new index page...
             $page = (new Page($pageId))->setPath('')->setVariable('title', 'Home');
-            // ... clones it if already exists
+            // ... or updates it in place if already exists
             if ($this->builder->getPages()->has($pageId)) {
-                $page = clone $this->builder->getPages()->get($pageId);
+                $page = $this->builder->getPages()->get($pageId);
             }
             /** @var \Cecil\Collection\Page\Page $page */
             $page->setType(Type::HOMEPAGE->value);

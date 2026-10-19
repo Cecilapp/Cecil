@@ -196,6 +196,23 @@ class SectionTest extends TestCase
         self::assertCount(0, $generated->get('blog')->getAncestors());
     }
 
+    public function testSectionIndexPageIsUpdatedInPlace(): void
+    {
+        // an object holds a reference to the section index page before the generator runs
+        $index = $this->page('blog', 'index.md');
+        $this->builder->setPages(new PagesCollection('all-pages', [
+            $index,
+            $this->page('blog', 'post.md'),
+        ]));
+
+        $generated = (new Section($this->builder))->runGenerate();
+
+        // the section page is the same instance as the index page
+        self::assertSame($index, $generated->get('blog'));
+        self::assertSame('section', $index->getType());
+        self::assertSame($index, $this->builder->getPages()->get('blog/post')->getParent());
+    }
+
     public function testTopLevelSectionIsFlaggedAndAddedToMainMenu(): void
     {
         $this->builder->setPages(new PagesCollection('all-pages', [

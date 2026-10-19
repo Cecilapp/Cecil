@@ -179,7 +179,7 @@
         <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Generator/Homepage.php"><a href="files/src-generator-homepage.html"><abbr title="src/Generator/Homepage.php">Homepage.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">29</span>
+    <span class="phpdocumentor-element-found-in__line">30</span>
 
     </aside>
 
@@ -189,7 +189,8 @@
     <section class="phpdocumentor-description"><p>This class generates the homepage for each language defined in the configuration.
 It creates a new index page for each language, collects all pages of that language,
 sorts them, and sets the necessary variables for the homepage.
-It also handles the case where the homepage already exists by cloning it.
+If the homepage already exists (e.g.: &quot;index.md&quot;) it is updated in place (not cloned),
+so that references held by other objects remain the instances that will be rendered.
 Additionally, it sets the default &quot;main&quot; menu and adds an alias redirection
 from the root directory if the language prefix is enabled for the default language.</p>
 </section>
@@ -481,7 +482,7 @@ from the root directory if the language prefix is enabled for the default langua
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Generator/Homepage.php"><a href="files/src-generator-homepage.html"><abbr title="src/Generator/Homepage.php">Homepage.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">34</span>
+    <span class="phpdocumentor-element-found-in__line">35</span>
 
     </aside>
 
