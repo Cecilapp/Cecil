@@ -34,7 +34,7 @@ class DoctorSeo extends AbstractCommand
     use FailOnTrait;
     use FindingsTableTrait;
 
-    private bool $includeVirtual = false;
+    private bool $includeGenerated = false;
     private bool $includeFeedback = false;
     private string $format = 'text';
 
@@ -52,7 +52,7 @@ class DoctorSeo extends AbstractCommand
                 new InputOption('config', 'c', InputOption::VALUE_REQUIRED, 'Set the path to an extra configuration file'),
                 new InputOption('page', 'p', InputOption::VALUE_REQUIRED, 'Audit a single page relative to the pages directory'),
                 new InputOption('format', null, InputOption::VALUE_REQUIRED, 'Output format: text (default) or json', 'text'),
-                new InputOption('include-virtual', null, InputOption::VALUE_NONE, 'Include virtual pages (paginated, taxonomies) in audit'),
+                new InputOption('include-generated', null, InputOption::VALUE_NONE, 'Include generated pages (sections, taxonomies, pagination, etc.) in audit'),
                 new InputOption('feedback', null, InputOption::VALUE_NONE, 'Include findings with feedback level'),
                 $this->getFailOnOption(),
             ])
@@ -72,9 +72,9 @@ To output results as JSON for CI integration:
 
   <info>%command.full_name% --format=json</>
 
-To include virtual pages (paginated, taxonomy pages):
+To include generated pages (sections, taxonomies, pagination, etc.):
 
-  <info>%command.full_name% --include-virtual</>
+  <info>%command.full_name% --include-generated</>
 
 To include findings with feedback level:
 
@@ -118,7 +118,7 @@ EOF
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $this->format = (string) ($input->getOption('format') ?? 'text');
-        $this->includeVirtual = (bool) $input->getOption('include-virtual');
+        $this->includeGenerated = (bool) $input->getOption('include-generated');
         $this->includeFeedback = (bool) $input->getOption('feedback');
         $failOn = $this->getFailOn($input);
 
@@ -135,7 +135,7 @@ EOF
         }
         $result = $doctor->audit($builder, [
             'page' => (string) ($input->getOption('page') ?? ''),
-            'include_virtual' => $this->includeVirtual,
+            'include_generated' => $this->includeGenerated,
         ]);
         if (!$this->includeFeedback) {
             $result = $this->filterResultWithoutLevel($result, 'feedback');

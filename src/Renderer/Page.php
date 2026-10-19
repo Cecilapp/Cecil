@@ -83,7 +83,7 @@ class Page
         if ($language === null || ($language == $this->config->getLanguageDefault() && !$this->config->isEnabled('language.prefix'))) {
             $language = '';
         }
-        // do not prefix "not multilingual" virtual pages
+        // do not prefix "not multilingual" pages
         if ($this->page->getVariable('multilingual') === false) {
             $language = '';
         }

@@ -87,10 +87,47 @@ class PageTest extends TestCase
         self::assertSame('homepage', $page->getType());
     }
 
-    public function testVirtualByDefault(): void
+    public function testGeneratedByDefault(): void
     {
         $page = new Page('test');
-        self::assertTrue($page->isVirtual());
+        self::assertTrue($page->isGenerated());
+    }
+
+    public function testPaginatedPageCreatedFromFileIsGenerated(): void
+    {
+        $page = new Page($this->createFileInfo('blog', 'index.md', "---\ntitle: Blog\n---\n"));
+        self::assertFalse($page->isGenerated());
+
+        $page->setVariable('paginated', true);
+        self::assertTrue($page->isGenerated());
+    }
+
+    public function testIsVirtualIsADeprecatedAliasOfIsGenerated(): void
+    {
+        $deprecations = [];
+        set_error_handler(function (int $type, string $msg) use (&$deprecations): bool {
+            $deprecations[] = $msg;
+
+            return true;
+        }, E_USER_DEPRECATED);
+        try {
+            self::assertTrue((new Page('test'))->isVirtual());
+        } finally {
+            restore_error_handler();
+        }
+        self::assertSame(['"page.virtual" is deprecated, use "page.generated" instead.'], $deprecations);
+    }
+
+    public function testShowableIncludesGeneratedPagesButNotPaginatedOrRedirectPages(): void
+    {
+        $pages = new \Cecil\Collection\Page\Collection('pages', [
+            (new Page('blog'))->setType(\Cecil\Collection\Page\Type::SECTION)->setVariable('published', true),
+            (new Page('blog/page/2'))->setVariable('published', true)->setVariable('paginated', true),
+            (new Page('old'))->setVariable('published', true)->setVariable('redirect', 'new'),
+            (new Page('robots'))->setVariable('published', true)->setVariable('excluded', true),
+        ]);
+
+        self::assertSame(['blog'], array_map(fn (Page $page) => $page->getId(), array_values($pages->showable()->toArray())));
     }
 
     public function testSetAndGetVariable(): void
@@ -208,7 +245,7 @@ class PageTest extends TestCase
         $file = $this->createFileInfo('blog', '01-hello.fr.md', "---\ntitle: Hello\n---\nBody");
         $page = new Page($file);
 
-        self::assertFalse($page->isVirtual());
+        self::assertFalse($page->isGenerated());
         self::assertSame('fr/blog/hello', $page->getId());
         self::assertSame('blog/hello', $page->getPath());
         self::assertSame('hello', $page->getSlug());

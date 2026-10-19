@@ -234,8 +234,8 @@ class LinksDoctorTest extends TestCase
     public function testPageOptionFiltersAuditedPagesButBuildsTheWholeSite(): void
     {
         $post = $this->page('blog/post', '<a href="/">Home</a>')->setVariable('filepath', 'blog' . DIRECTORY_SEPARATOR . 'post.md');
-        $virtual = $this->page('tags', '<a href="/missing/">Missing</a>')->setVirtual(true);
-        $builder = $this->builder([$this->page('', '<a href="/missing/">Missing</a>'), $post, $virtual]);
+        $generated = $this->page('tags', '<a href="/missing/">Missing</a>')->setVariable('paginated', true);
+        $builder = $this->builder([$this->page('', '<a href="/missing/">Missing</a>'), $post, $generated]);
 
         $report = (new LinksDoctor($this->checker()))->audit($builder, ['page' => 'blog/post.md']);
 
@@ -243,7 +243,7 @@ class LinksDoctorTest extends TestCase
         self::assertSame([], $report['findings']);
         self::assertSame(['dry-run' => true, 'page' => '', 'render-subset' => '', 'drafts' => false], $builder->buildOptions);
 
-        $report = (new LinksDoctor($this->checker()))->audit($builder, ['include_virtual' => true]);
+        $report = (new LinksDoctor($this->checker()))->audit($builder, ['include_generated' => true]);
         self::assertSame(3, $report['summary']['pages_audited']);
         self::assertSame(['/', '/tags/'], array_column($report['findings'], 'page'));
     }
@@ -281,11 +281,24 @@ class LinksDoctorTest extends TestCase
 
     private function page(string $path, string $body): Page
     {
-        return (new Page($path === '' ? 'index' : $path))
+        return $this->contentPage($path === '' ? 'index' : $path)
             ->setPath($path)
-            ->setVirtual(false)
             ->setVariable('published', true)
             ->addRendered(['html' => ['output' => "<!doctype html><html><head></head><body>$body</body></html>"]]);
+    }
+
+    /**
+     * Returns a page that behaves like a page created from a content file.
+     */
+    private function contentPage(string $id): Page
+    {
+        return new class ($id) extends Page {
+            #[\Override]
+            public function isGenerated(): bool
+            {
+                return $this->getVariable('paginated') === true;
+            }
+        };
     }
 
     /**

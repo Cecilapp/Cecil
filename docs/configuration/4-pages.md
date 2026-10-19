@@ -1,8 +1,8 @@
 <!--
 title: "Pages"
-description: "Pages directory, sorting, pagination, paths, body, virtual pages, generators, etc."
+description: "Pages directory, sorting, pagination, paths, body, default pages, generators, etc."
 date: 2021-05-07
-updated: 2026-10-18
+updated: 2026-10-19
 -->
 # Pages
 
@@ -243,24 +243,11 @@ pages:
       capture: before          # part to capture, `before` or `after` the separator (`before` by default)
 ```
 
-## pages.virtual
-
-Virtual pages are the best way to create pages without content (**front matter only**).
-
-It consists of a list of pages with a `path` and some front matter variables.
-
-_Example:_
-
-```yaml
-pages:
-  virtual:
-    - path: code
-      redirect: https://github.com/ArnaudLigny
-```
-
 ## pages.default
 
-Default pages are pages created automatically by Cecil (from built-in templates):
+Default pages are pages without content file (**front matter only**), indexed by ID, each one with a `path` and some front matter variables.
+
+Cecil provides built-in default pages (from built-in templates):
 
 ```yaml
 pages:
@@ -317,15 +304,27 @@ pages:
       excluded: true
 ```
 
-:::info
-The structure is almost identical to [`pages.virtual`](#pages-virtual), except the named key.
-:::
-
 Each one can be:
 
 1. disabled: `published: false`
 2. excluded from list pages: `excluded: true`
 3. excluded from localization: `multilingual: false`
+
+You can also add your own pages (a theme can do the same in its `config.yml`):
+
+```yaml
+pages:
+  default:
+    code:
+      path: code
+      redirect: https://github.com/ArnaudLigny
+```
+
+Like any other page, a default page is listed (e.g.: in `site.pages.showable`, in the sitemap, on the homepage): set `excluded: true` to keep a technical page (JSON index, manifest, etc.) out of lists.
+
+:::important
+Since version ++9.19.0++, `pages.virtual` is removed: move its pages to `pages.default`, indexed by ID (e.g.: the page path). Pages without content file are no longer excluded from lists by default.
+:::
 
 :::tip
 Since version ++8.68.0++, you can override the default `robots.txt` page by creating a page with the same `path`:
@@ -353,7 +352,6 @@ Below is the list of generators provided by Cecil, in a defined order:
 pages:
   generators:
     10: 'Cecil\Generator\DefaultPages'
-    20: 'Cecil\Generator\VirtualPages'
     30: 'Cecil\Generator\ExternalBody'
     40: 'Cecil\Generator\Section'
     50: 'Cecil\Generator\Taxonomy'

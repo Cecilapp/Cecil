@@ -96,7 +96,7 @@ theme-<name>/
 ├─ .github/workflows/demo.yml     # builds demo/ and deploys it to GitHub Pages
 ├─ .gitattributes                 # export-ignore for .*, /demo, /docs
 ├─ composer.json
-├─ config.yml                     # new virtual pages, output formats, options
+├─ config.yml                     # new generated pages, output formats, options
 ├─ theme.yml
 ├─ README.md
 ├─ assets/<name>/                 # namespaced assets (e.g. flexsearch/flexsearch.css)
@@ -336,7 +336,7 @@ Provide at least one translation file, keyed by the source string:
 
 No automatic injection mechanism exists: a component theme plugs into a site using one or more of these patterns.
 
-1. **Virtual page + output format** (no template change needed), e.g. a `_redirects` file:
+1. **Generated page + output format** (no template change needed), e.g. a `_redirects` file:
 
    ```yaml
    # config.yml
@@ -355,7 +355,7 @@ No automatic injection mechanism exists: a component theme plugs into a site usi
 
    With the layout `layouts/_default/page.redirects.twig`. Useful keys for `pages.default.<id>`: `path`, `layout`, `output`, `uglyurl`, `multilingual`, `published`, `exclude`.
 
-   For a technical virtual page (JSON index, manifest, script…), set `exclude: true` to keep it out of lists, and `serviceworker: {precache: false}` so the `pwa` theme does not precache it:
+   For a technical generated page (JSON index, manifest, script…), set `exclude: true` to keep it out of lists, and `serviceworker: {precache: false}` so the `pwa` theme does not precache it:
 
    ```yaml
    pages:
@@ -369,7 +369,7 @@ No automatic injection mechanism exists: a component theme plugs into a site usi
            precache: false
    ```
 
-   Virtual pages are multilingual by default (one file per language, e.g. `/flexsearch.json` and `/fr/flexsearch.json`); set `multilingual: false` for a single file.
+   Generated pages are multilingual by default (one file per language, e.g. `/flexsearch.json` and `/fr/flexsearch.json`); set `multilingual: false` for a single file.
 
 2. **Partial to include**, documented in the README and guarded by a feature toggle:
 
@@ -527,7 +527,7 @@ serviceworker:
 ```
 
 - Icons are generated from the site `assets/icon.png` if `manifest.icons` is not set.
-- Exclude a page from precaching with front matter `serviceworker: {precache: false}`; other component themes should do the same for their technical virtual pages.
+- Exclude a page from precaching with front matter `serviceworker: {precache: false}`; other component themes should do the same for their technical generated pages.
 - Disabling the service worker afterwards unregisters it from visitors' browsers and clears their caches.
 
 ### Dark mode toggle (`darkmodetoggle`)
@@ -717,7 +717,7 @@ A `.github/workflows/demo.yml` workflow deploys it to GitHub Pages: set `CECIL_B
 - [ ] **Twig files do not end with a trailing newline**
 - [ ] `composer.json` with `"type": "cecil-theme"` and `extra.name`
 - [ ] README with screenshot, install, usage and configuration sections
-- [ ] Component theme: assets in `assets/<name>/`, CSS classes and custom properties prefixed with `<name>`, technical virtual pages with `exclude: true` and `serviceworker.precache: false`
+- [ ] Component theme: assets in `assets/<name>/`, CSS classes and custom properties prefixed with `<name>`, technical generated pages with `exclude: true` and `serviceworker.precache: false`
 - [ ] Tested on a demo site (`demo/` + `link.php`) with `php cecil.phar build -v` and `php cecil.phar serve`, without a site `layouts/` directory
 
 ## Troubleshooting

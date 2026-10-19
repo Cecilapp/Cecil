@@ -129,7 +129,6 @@ return [
         // list of pages generators class, ordered by weight (e.g.: `<position> => 'Cecil\Generator\<class>'`)
         'generators' => [
             10 => 'Cecil\Generator\DefaultPages',
-            20 => 'Cecil\Generator\VirtualPages',
             30 => 'Cecil\Generator\ExternalBody',
             40 => 'Cecil\Generator\Section',
             50 => 'Cecil\Generator\Taxonomy',

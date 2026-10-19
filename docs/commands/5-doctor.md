@@ -2,7 +2,7 @@
 title: "doctor"
 description: "Diagnose the configuration, front matter, SEO and links."
 date: 2020-12-19
-updated: 2026-10-16
+updated: 2026-10-19
 -->
 # doctor
 
@@ -121,22 +121,22 @@ Usage:
   doctor:seo [options] [--] [<path>]
 
 Arguments:
-  path                   Use the given path as working directory
+  path                     Use the given path as working directory
 
 Options:
-  -c, --config=CONFIG    Set the path to an extra configuration file
-  -p, --page=PAGE        Audit a single page relative to the pages directory
-      --format=FORMAT    Output format: text (default) or json [default: "text"]
-      --include-virtual  Include virtual pages (paginated, taxonomies) in audit
-      --feedback         Include findings with feedback level
-      --fail-on=FAIL-ON  Return a failure exit code when findings of this level or higher are found: bad (default), ok, feedback or never [default: "bad"]
-  -h, --help             Display help for the given command. When no command is given display help for the list command
-      --silent           Do not output any message
-  -q, --quiet            Only errors are displayed. All other output is suppressed
-  -V, --version          Display this application version
-      --ansi|--no-ansi   Force (or disable --no-ansi) ANSI output
-  -n, --no-interaction   Do not ask any interactive question
-  -v|vv|vvv, --verbose   Increase the verbosity of messages: 1 for normal output, 2 for more verbose output and 3 for debug
+  -c, --config=CONFIG      Set the path to an extra configuration file
+  -p, --page=PAGE          Audit a single page relative to the pages directory
+      --format=FORMAT      Output format: text (default) or json [default: "text"]
+      --include-generated  Include generated pages (sections, taxonomies, pagination, etc.) in audit
+      --feedback           Include findings with feedback level
+      --fail-on=FAIL-ON    Return a failure exit code when findings of this level or higher are found: bad (default), ok, feedback or never [default: "bad"]
+  -h, --help               Display help for the given command. When no command is given display help for the list command
+      --silent             Do not output any message
+  -q, --quiet              Only errors are displayed. All other output is suppressed
+  -V, --version            Display this application version
+      --ansi|--no-ansi     Force (or disable --no-ansi) ANSI output
+  -n, --no-interaction     Do not ask any interactive question
+  -v|vv|vvv, --verbose     Increase the verbosity of messages: 1 for normal output, 2 for more verbose output and 3 for debug
 
 Help:
   The doctor:seo command builds the site in dry-run mode, then audits
@@ -153,9 +153,9 @@ Help:
 
     cecil.phar doctor:seo --format=json
 
-  To include virtual pages (paginated, taxonomy pages):
+  To include generated pages (sections, taxonomies, pagination, etc.):
 
-    cecil.phar doctor:seo --include-virtual
+    cecil.phar doctor:seo --include-generated
 
   To include findings with feedback level:
 
@@ -191,7 +191,7 @@ Help:
 
 The command builds the site in dry-run mode, then audits the rendered HTML output for a focused set of checks: title tag, meta description, canonical URL, heading structure, Open Graph tags, image alt attributes, estimated content length and `lang` attribute of the `<html>` element.
 
-By default, virtual pages (paginated, taxonomy pages) are excluded from the audit. Use `--include-virtual` to include them.
+By default, generated pages (pages without content file: sections, taxonomies, pagination, etc.) are excluded from the audit. Use `--include-generated` to include them.
 
 By default, findings with level `feedback` are not listed.
 
@@ -246,7 +246,7 @@ Options:
       --concurrency=CONCURRENCY  Number of concurrent external links requests
       --no-cache                 Do not use cached external links results
       --format=FORMAT            Output format: text (default) or json [default: "text"]
-      --include-virtual          Include virtual pages (paginated, taxonomies) in audit
+      --include-generated        Include generated pages (sections, taxonomies, pagination, etc.) in audit
       --feedback                 Include findings with feedback level
       --fail-on=FAIL-ON          Return a failure exit code when findings of this level or higher are found: bad (default), ok, feedback or never [default: "bad"]
   -h, --help                     Display help for the given command. When no command is given display help for the list command
@@ -305,7 +305,7 @@ Help:
 
 The command builds the site in dry-run mode, then checks the links found in the rendered HTML pages: links (`<a>`, `<area>`, `<link>`), images (`src` and `srcset`), scripts, iframes, media and inline styles. CSS files linked from the pages are also analyzed (`url()` and `@import`).
 
-- **Internal links** must target a generated page, a static file or an asset. Fragments (`#anchor`) must match an element ID of the target page. Absolute URLs starting with `baseurl` are considered internal links.
+- **Internal links** must target a page of the site, a static file or an asset. Fragments (`#anchor`) must match an element ID of the target page. Absolute URLs starting with `baseurl` are considered internal links.
 - **External links** are requested over HTTP (`HEAD`, then `GET` if the server refuses `HEAD`), concurrently. Successful results are cached (24 hours by default): use `--no-cache` to check them again.
 
 By default, only internal links are checked:
@@ -326,7 +326,7 @@ Finding levels:
 
 Links using schemes other than HTTP(S) (e.g. `mailto:`, `tel:`, `data:`) are ignored. Use `--exclude` (regular expression, case-insensitive) to ignore other links.
 
-The `--page`, `--include-virtual`, `--feedback`, `--format` and `--fail-on` options behave as with `doctor:seo` (see above).
+The `--page`, `--include-generated`, `--feedback`, `--format` and `--fail-on` options behave as with `doctor:seo` (see above).
 
 :::info
 Checking external links requires the PHP cURL extension.

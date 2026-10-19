@@ -1,8 +1,8 @@
 <!--
 title: "Pages"
-description: "Dossier des pages, tri, pagination, chemins, corps, pages virtuelles, générateurs, etc."
+description: "Dossier des pages, tri, pagination, chemins, corps, pages par défaut, générateurs, etc."
 date: 2026-03-27
-updated: 2026-10-18
+updated: 2026-10-19
 -->
 # Pages
 
@@ -243,24 +243,11 @@ pages:
       capture: before          # partie à capturer, `before` ou `after` le séparateur (`before` par défaut)
 ```
 
-## pages.virtual
-
-Les pages virtuelles sont la meilleure façon de créer des pages sans contenu (**front matter uniquement**).
-
-Il s’agit d’une liste de pages avec un `path` et quelques variables de front matter.
-
-_Exemple :_
-
-```yaml
-pages:
-  virtual:
-    - path: code
-      redirect: https://github.com/ArnaudLigny
-```
-
 ## pages.default
 
-Les pages par défaut sont des pages créées automatiquement par Cecil (à partir de templates intégrés) :
+Les pages par défaut sont des pages sans fichier de contenu (**front matter uniquement**), indexées par ID, chacune avec un `path` et quelques variables de front matter.
+
+Cecil fournit des pages par défaut intégrées (à partir de templates intégrés) :
 
 ```yaml
 pages:
@@ -317,15 +304,27 @@ pages:
       excluded: true
 ```
 
-:::info
-La structure est presque identique à celle de [`pages.virtual`](#pages-virtual), à l’exception de la clé nommée.
-:::
-
 Chaque page peut être :
 
 1. désactivée : `published: false`
 2. exclue des pages de liste : `excluded: true`
 3. exclue de la localisation : `multilingual: false`
+
+Vous pouvez aussi ajouter vos propres pages (un thème peut faire de même dans son `config.yml`) :
+
+```yaml
+pages:
+  default:
+    code:
+      path: code
+      redirect: https://github.com/ArnaudLigny
+```
+
+Comme toute autre page, une page par défaut est listée (par exemple dans `site.pages.showable`, dans le sitemap, sur la page d’accueil) : utilisez `excluded: true` pour exclure des listes une page technique (index JSON, manifeste, etc.).
+
+:::important
+Depuis la version ++9.19.0++, `pages.virtual` est supprimée : déplacez ses pages dans `pages.default`, indexées par ID (par exemple le chemin de la page). Les pages sans fichier de contenu ne sont plus exclues des listes par défaut.
+:::
 
 :::tip
 Depuis la version ++8.68.0++, vous pouvez surcharger la page `robots.txt` par défaut en créant une page avec le même `path` :
@@ -353,7 +352,6 @@ Voici la liste des générateurs fournis par Cecil, dans un ordre défini :
 pages:
   generators:
     10: 'Cecil\Generator\DefaultPages'
-    20: 'Cecil\Generator\VirtualPages'
     30: 'Cecil\Generator\ExternalBody'
     40: 'Cecil\Generator\Section'
     50: 'Cecil\Generator\Taxonomy'

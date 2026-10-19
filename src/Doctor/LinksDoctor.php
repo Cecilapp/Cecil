@@ -89,7 +89,7 @@ class LinksDoctor
     /**
      * @param array{
      *   page?: string,
-     *   include_virtual?: bool,
+     *   include_generated?: bool,
      *   feedback?: bool,
      *   internal?: bool|null,
      *   external?: bool|null,
@@ -132,7 +132,7 @@ class LinksDoctor
         $this->targets = new TargetIndex($builder, $this->extractor);
         $pages = $this->getAuditedPages(
             str_replace('\\', '/', (string) ($options['page'] ?? '')),
-            (bool) ($options['include_virtual'] ?? false)
+            (bool) ($options['include_generated'] ?? false)
         );
 
         foreach ($pages as $page) {
@@ -211,16 +211,16 @@ class LinksDoctor
      *
      * @return array<int, Page>
      */
-    private function getAuditedPages(string $filepath, bool $includeVirtual): array
+    private function getAuditedPages(string $filepath, bool $includeGenerated): array
     {
-        $pages = $this->builder->getPages()->filter(function (Page $page) use ($filepath, $includeVirtual) {
+        $pages = $this->builder->getPages()->filter(function (Page $page) use ($filepath, $includeGenerated) {
             if ($page->getVariable('published') !== true) {
                 return false;
             }
             if (!isset($page->getRendered()['html']['output'])) {
                 return false;
             }
-            if (!$includeVirtual && $page->isVirtual()) {
+            if (!$includeGenerated && $page->isGenerated()) {
                 return false;
             }
             if ($filepath !== '' && str_replace('\\', '/', (string) $page->getVariable('filepath')) !== $filepath) {

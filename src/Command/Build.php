@@ -325,14 +325,14 @@ EOF
                 $page->getVariable('language'),
                 \sprintf("%s %s", $page->getType(), $page->getType() !== \Cecil\Collection\Page\Type::PAGE->value ? "(" . \count($page->getPages() ?: []) . ")" : ''),
                 $page->getSection(),
-                $page->isVirtual() ? 'true' : 'false',
+                $page->isGenerated() ? 'true' : 'false',
             ];
         }
 
         $table = new Table($output);
         $table
             ->setHeaderTitle(\sprintf('Built pages (%s)', \count($pagesAsArray)))
-            ->setHeaders(['ID', 'Lang', 'Type', 'Section', 'Virtual'])
+            ->setHeaders(['ID', 'Lang', 'Type', 'Section', 'Generated'])
             ->setRows($pagesAsArray)
         ;
         $table->setStyle('box')->render();

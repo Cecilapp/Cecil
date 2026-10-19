@@ -40,7 +40,7 @@ class SeoDoctor
     ];
 
     /**
-     * @param array{page?: string, include_virtual?: bool} $options
+     * @param array{page?: string, include_generated?: bool} $options
      *
      * @return array{
      *   summary: array{
@@ -55,7 +55,7 @@ class SeoDoctor
      */
     public function audit(Builder $builder, array $options = []): array
     {
-        $includeVirtual = (bool) ($options['include_virtual'] ?? false);
+        $includeGenerated = (bool) ($options['include_generated'] ?? false);
         $page = (string) ($options['page'] ?? '');
 
         [$thresholds, $checks] = $this->loadConfiguration($builder);
@@ -67,14 +67,14 @@ class SeoDoctor
             'drafts' => false,
         ]);
 
-        $pages = $builder->getPages()->filter(function (Page $currentPage) use ($includeVirtual) {
+        $pages = $builder->getPages()->filter(function (Page $currentPage) use ($includeGenerated) {
             if ($currentPage->getVariable('published') !== true) {
                 return false;
             }
             if (!isset($currentPage->getRendered()['html']['output'])) {
                 return false;
             }
-            if (!$includeVirtual && $currentPage->isVirtual()) {
+            if (!$includeGenerated && $currentPage->isGenerated()) {
                 return false;
             }
 

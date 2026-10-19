@@ -68,7 +68,7 @@ Builder → Steps → Generators → Renderer → Output
 
 - **Generators** (`Generator/`): Page generators executed via priority queue
   - Generators are ordered by numeric weight; lower numbers execute first (e.g., DefaultPages at weight 10 runs before Alias at weight 80).
-  - DefaultPages (10) → VirtualPages (20) → ExternalBody (30) → Section (40) → Taxonomy (50) → Homepage (60) → Pagination (70) → Alias (80) → Redirect (90)
+  - DefaultPages (10) → ExternalBody (30) → Section (40) → Taxonomy (50) → Homepage (60) → Pagination (70) → Alias (80) → Redirect (90)
 
 - **Renderer** (`Renderer/`): Twig-based rendering with custom extensions
 - **Output**: Built static site in `_site/` directory
@@ -120,6 +120,8 @@ Configuration is defined in `cecil.yml` or `config.yml` at project root:
 - A list of values (`pages.ext`, `output.pagetypeformats.<type>`, `assets.images.responsive.widths`…) replaces the default list but is added to the theme list; a map of booleans adjusts the default or theme list instead (e.g. `homepage: {rss: true, atom: false}`)
 - `output.formats` entries are merged by `name`: override a default format with only its `name` and the properties to change
 - Deprecated options (renamed, moved or removed, listed in `config/deprecated.php`) make the build fail, with a message giving the source (site, theme or env vars) and the new YAML snippet to use
+- Pages without content file (front matter only) are declared in `pages.default`, indexed by ID (`pages.virtual` is removed); like any page they are listed (`showable`, sitemap, homepage) unless they set `excluded: true`
+- A page is "generated" (`page.generated`, formerly `page.virtual`) when it has no content file (section, term, page declared in configuration, etc.) or is a paginated page
 
 ## Building a Cecil Site
 
@@ -409,7 +411,7 @@ You can render a language switcher in templates with:
 
 Useful collection helpers:
 
-- `site.pages.showable` to skip draft/virtual/excluded pages
+- `site.pages.showable` to skip draft/paginated/redirect/excluded pages (generated sections and taxonomies are included)
 - `sort_by_weight` filter for menu entries
 
 ### Example Template
