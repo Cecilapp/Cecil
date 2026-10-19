@@ -2,6 +2,12 @@
 
 All notable changes to this project will be documented in this file. Dates are displayed in UTC.
 
+#### [9.19.0](https://github.com/Cecilapp/Cecil/compare/9.18.2...9.19.0)
+
+> 19 October 2026
+
+- Replace virtual pages with generated pages [`#2537`](https://github.com/Cecilapp/Cecil/pull/2537)
+
 #### [9.18.2](https://github.com/Cecilapp/Cecil/compare/9.18.1...9.18.2)
 
 > 19 October 2026
