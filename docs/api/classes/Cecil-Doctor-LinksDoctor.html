@@ -987,7 +987,7 @@ and <code class="prettyprint">Links\TargetIndex</code>: the remaining complexity
     
     <code class="phpdocumentor-code phpdocumentor-signature ">
     <span class="phpdocumentor-signature__visibility">public</span>
-                    <span class="phpdocumentor-signature__name">audit</span><span>(</span><span class="phpdocumentor-signature__argument"><span class="phpdocumentor-signature__argument__type"><a href="classes/Cecil-Builder.html"><abbr title="\Cecil\Builder">Builder</abbr></a>&nbsp;</span><span class="phpdocumentor-signature__argument__name">$builder</span></span><span class="phpdocumentor-signature__argument"><span>[</span><span>, </span><span class="phpdocumentor-signature__argument__type">array{page?: string, include_virtual?: bool, feedback?: bool, internal?: bool|null, external?: bool|null, exclude?: array<int,string>, timeout?: int|null, concurrency?: int|null, cache?: bool}&nbsp;</span><span class="phpdocumentor-signature__argument__name">$options</span><span> = </span><span class="phpdocumentor-signature__argument__default-value">[]</span><span> ]</span></span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">array{summary: array{pages_audited: int, links_checked: int, external_urls: int, bad_count: int, ok_count: int, feedback_count: int}, findings: array<int,array{page: string, level: string, type: string, link: string, details: string}>}</span></code>
+                    <span class="phpdocumentor-signature__name">audit</span><span>(</span><span class="phpdocumentor-signature__argument"><span class="phpdocumentor-signature__argument__type"><a href="classes/Cecil-Builder.html"><abbr title="\Cecil\Builder">Builder</abbr></a>&nbsp;</span><span class="phpdocumentor-signature__argument__name">$builder</span></span><span class="phpdocumentor-signature__argument"><span>[</span><span>, </span><span class="phpdocumentor-signature__argument__type">array{page?: string, include_generated?: bool, feedback?: bool, internal?: bool|null, external?: bool|null, exclude?: array<int,string>, timeout?: int|null, concurrency?: int|null, cache?: bool}&nbsp;</span><span class="phpdocumentor-signature__argument__name">$options</span><span> = </span><span class="phpdocumentor-signature__argument__default-value">[]</span><span> ]</span></span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">array{summary: array{pages_audited: int, links_checked: int, external_urls: int, bad_count: int, ok_count: int, feedback_count: int}, findings: array<int,array{page: string, level: string, type: string, link: string, details: string}>}</span></code>
 
     <div class="phpdocumentor-label-line">
         </div>
@@ -1004,7 +1004,7 @@ and <code class="prettyprint">Links\TargetIndex</code>: the remaining complexity
             </dd>
                     <dt class="phpdocumentor-argument-list__entry">
                 <span class="phpdocumentor-argument-list__argument__name">$options</span>
-                : <span class="phpdocumentor-argument-list__argument__type">array{page?: string, include_virtual?: bool, feedback?: bool, internal?: bool|null, external?: bool|null, exclude?: array<int,string>, timeout?: int|null, concurrency?: int|null, cache?: bool}</span>
+                : <span class="phpdocumentor-argument-list__argument__type">array{page?: string, include_generated?: bool, feedback?: bool, internal?: bool|null, external?: bool|null, exclude?: array<int,string>, timeout?: int|null, concurrency?: int|null, cache?: bool}</span>
                  = <span class="phpdocumentor-argument-list__argument__default-value">[]</span>            </dt>
             <dd class="phpdocumentor-argument-list__definition">
                 
@@ -1369,7 +1369,7 @@ and <code class="prettyprint">Links\TargetIndex</code>: the remaining complexity
 
     <code class="phpdocumentor-code phpdocumentor-signature ">
     <span class="phpdocumentor-signature__visibility">private</span>
-                    <span class="phpdocumentor-signature__name">getAuditedPages</span><span>(</span><span class="phpdocumentor-signature__argument"><span class="phpdocumentor-signature__argument__type">string&nbsp;</span><span class="phpdocumentor-signature__argument__name">$filepath</span></span><span class="phpdocumentor-signature__argument"><span>, </span><span class="phpdocumentor-signature__argument__type">bool&nbsp;</span><span class="phpdocumentor-signature__argument__name">$includeVirtual</span></span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">array&lt;int, <a href="classes/Cecil-Collection-Page-Page.html"><abbr title="\Cecil\Collection\Page\Page">Page</abbr></a>&gt;</span></code>
+                    <span class="phpdocumentor-signature__name">getAuditedPages</span><span>(</span><span class="phpdocumentor-signature__argument"><span class="phpdocumentor-signature__argument__type">string&nbsp;</span><span class="phpdocumentor-signature__argument__name">$filepath</span></span><span class="phpdocumentor-signature__argument"><span>, </span><span class="phpdocumentor-signature__argument__type">bool&nbsp;</span><span class="phpdocumentor-signature__argument__name">$includeGenerated</span></span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">array&lt;int, <a href="classes/Cecil-Collection-Page-Page.html"><abbr title="\Cecil\Collection\Page\Page">Page</abbr></a>&gt;</span></code>
 
     <div class="phpdocumentor-label-line">
         </div>
@@ -1385,7 +1385,7 @@ and <code class="prettyprint">Links\TargetIndex</code>: the remaining complexity
                 
             </dd>
                     <dt class="phpdocumentor-argument-list__entry">
-                <span class="phpdocumentor-argument-list__argument__name">$includeVirtual</span>
+                <span class="phpdocumentor-argument-list__argument__name">$includeGenerated</span>
                 : <span class="phpdocumentor-argument-list__argument__type">bool</span>
                             </dt>
             <dd class="phpdocumentor-argument-list__definition">
