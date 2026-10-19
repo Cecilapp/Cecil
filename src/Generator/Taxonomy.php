@@ -26,6 +26,8 @@ use Cecil\Util;
  * as well as a page for the vocabulary itself. The generated pages are added to the collection
  * of generated pages, and they include variables such as title, date, language, plural, and singular
  * forms of the vocabulary.
+ * An existing page with the same ID is updated in place (not cloned), so that references
+ * held by other objects remain the instances that will be rendered.
  */
 class Taxonomy extends AbstractGenerator implements GeneratorInterface
 {
@@ -63,7 +65,7 @@ class Taxonomy extends AbstractGenerator implements GeneratorInterface
                                 ->setVariable('language', $language)
                                 ->setVariable('langref', $path);
                             if ($this->builder->getPages()->has($pageId)) {
-                                $page = clone $this->builder->getPages()->get($pageId);
+                                $page = $this->builder->getPages()->get($pageId);
                             }
                             $page->setType(Type::TERM->value)
                                 ->setPages($pages)
@@ -83,7 +85,7 @@ class Taxonomy extends AbstractGenerator implements GeneratorInterface
                         $page = (new Page($pageId))->setVariable('title', ucfirst($plural))
                             ->setPath($path);
                         if ($this->builder->getPages()->has($pageId)) {
-                            $page = clone $this->builder->getPages()->get($pageId);
+                            $page = $this->builder->getPages()->get($pageId);
                             $page->unSection();
                         }
                         // creates page for each plural

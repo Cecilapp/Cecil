@@ -35,6 +35,9 @@ use Cecil\Util;
  * Navigation links follow the sections tree: pages of a root section and of all
  * its sub-sections are chained depth-first, each sub-section index page being
  * placed among the pages of its parent section, followed by its own pages.
+ *
+ * An existing section index page is updated in place (not cloned), so that references
+ * held by other objects (e.g.: taxonomy terms) remain the instances that will be rendered.
  */
 class Section extends AbstractGenerator implements GeneratorInterface
 {
@@ -114,11 +117,11 @@ class Section extends AbstractGenerator implements GeneratorInterface
                     $langref = $path;
                     if (isset($sectionIndexes[$language][$path])) {
                         // the section index page is found by its path, which may be customized
-                        $page = clone $sectionIndexes[$language][$path];
+                        $page = $sectionIndexes[$language][$path];
                         $pageId = $page->getId();
                         $langref = $page->getVariable('langref') ?? $path;
                     } elseif ($this->builder->getPages()->has($pageId)) {
-                        $page = clone $this->builder->getPages()->get($pageId);
+                        $page = $this->builder->getPages()->get($pageId);
                     }
                     $pages = new PagesCollection("section-$pageId", $pagesAsArray);
                     // cascade variables

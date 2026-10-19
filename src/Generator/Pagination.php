@@ -24,6 +24,9 @@ use Cecil\Util;
  * This generator creates paginated pages for sections, terms, and the homepage.
  * It filters the pages based on their type, checks for pagination settings,
  * and generates paginated pages accordingly.
+ * The first page is the list page itself, updated in place (not cloned), so that references
+ * held by other pages (e.g.: "parent", "sections", "prev" and "next") remain the instances
+ * that will be rendered. Other pages are clones of it.
  */
 class Pagination extends AbstractGenerator implements GeneratorInterface
 {
@@ -83,8 +86,8 @@ class Pagination extends AbstractGenerator implements GeneratorInterface
                     $page->getId() . '-page-' . ($i + 1),
                     iterator_to_array($itPagesInPagination)
                 );
-                $alteredPage = clone $page;
-                // first page (ie: blog/page/1 -> blog)
+                // first page (ie: blog/page/1 -> blog) is the list page itself
+                $alteredPage = $i > 0 ? clone $page : $page;
                 $pageId = $page->getId();
                 $alteredPage
                     ->setVariable('alias', [
@@ -139,7 +142,7 @@ class Pagination extends AbstractGenerator implements GeneratorInterface
                     $paginatorPagesCount
                 ))];
                 $paginator['links'] += ['path' => Util\Slugifier::slugify(\sprintf('%s/%s', $page->getId(), $paginationPath))];
-                // set paginator to cloned page
+                // set paginator to the page
                 $alteredPage->setPaginator($paginator);
                 $alteredPage->setVariable('pagination', $paginator); // backward compatibility
                 // updates date with the first element of the collection
