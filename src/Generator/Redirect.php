@@ -20,9 +20,9 @@ use Cecil\Collection\Page\Page;
  *
  * This class is responsible for generating redirect pages based on the
  * 'redirect' variable set in the pages. It filters the pages to find those
- * that have a 'redirect' variable defined and creates a new page with the
- * 'layout' set to 'redirect'. The generated pages are then added to the
- * collection of generated pages.
+ * that have a 'redirect' variable defined and sets their 'layout' to 'redirect'.
+ * Pages are updated in place (not cloned) so that references held by other
+ * pages (e.g.: section's pages) remain the instances that will be rendered.
  */
 class Redirect extends AbstractGenerator implements GeneratorInterface
 {
@@ -39,9 +39,8 @@ class Redirect extends AbstractGenerator implements GeneratorInterface
 
         /** @var Page $page */
         foreach ($filteredPages as $page) {
-            $alteredPage = clone $page;
-            $alteredPage->setVariable('layout', 'redirect');
-            $this->generatedPages->add($alteredPage);
+            $page->setVariable('layout', 'redirect');
+            $this->generatedPages->add($page);
         }
     }
 }
