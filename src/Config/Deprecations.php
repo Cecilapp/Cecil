@@ -73,12 +73,34 @@ final class Deprecations
         if ($to === '') {
             return "- Option `$from` is deprecated and must be removed.";
         }
+        // a list of pages (ie: `pages.virtual`) becomes a map of pages indexed by ID
+        if ($to === 'pages.default' && \is_array($value) && array_is_list($value)) {
+            $value = self::pagesListToMap($value);
+        }
         foreach (array_reverse(explode('.', $to)) as $fragment) {
             $value = [$fragment => $value];
         }
         $yaml = rtrim(Yaml::dump($value, 10, 2));
 
         return "- Option `$from` must be moved to:\n  ```\n  " . str_replace("\n", "\n  ", $yaml) . "\n  ```";
+    }
+
+    /**
+     * Converts a list of pages to a map of pages indexed by ID (the page path, or "index" for the home page).
+     *
+     * @param array<int, mixed> $pages
+     *
+     * @return array<int|string, mixed>
+     */
+    private static function pagesListToMap(array $pages): array
+    {
+        $map = [];
+        foreach ($pages as $key => $page) {
+            $id = \is_array($page) && isset($page['path']) ? (string) $page['path'] : (string) $key;
+            $map[$id !== '' ? $id : 'index'] = $page;
+        }
+
+        return $map;
     }
 
     /**

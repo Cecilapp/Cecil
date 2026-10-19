@@ -1621,14 +1621,14 @@ Search.appendIndex(
             "summary": "Get\u0020body\u0020as\u0020raw.",
             "url": "classes/Cecil-Collection-Page-Page.html#method_getBody"
         },                {
-            "fqsen": "\\Cecil\\Collection\\Page\\Page\u003A\u003AsetVirtual\u0028\u0029",
-            "name": "setVirtual",
-            "summary": "Set\u0020virtual\u0020status.",
-            "url": "classes/Cecil-Collection-Page-Page.html#method_setVirtual"
+            "fqsen": "\\Cecil\\Collection\\Page\\Page\u003A\u003AisGenerated\u0028\u0029",
+            "name": "isGenerated",
+            "summary": "Is\u0020current\u0020page\u0020generated\u003F\nA\u0020page\u0020is\u0020generated\u0020if\u0020it\u0020is\u0020not\u0020created\u0020from\u0020a\u0020content\u0020file\u0020\u0028i.e.\u003A\u0020section,\u0020term,\u0020page\u0020declared\u0020in\u0020configuration\u0029\nor\u0020if\u0020it\u0020is\u0020a\u0020paginated\u0020page\u0020\u0028i.e.\u003A\u0020\u0022blog\/page\/2\u0022\u0029.",
+            "url": "classes/Cecil-Collection-Page-Page.html#method_isGenerated"
         },                {
             "fqsen": "\\Cecil\\Collection\\Page\\Page\u003A\u003AisVirtual\u0028\u0029",
             "name": "isVirtual",
-            "summary": "Is\u0020current\u0020page\u0020is\u0020virtual\u003F",
+            "summary": "Is\u0020current\u0020page\u0020virtual\u003F",
             "url": "classes/Cecil-Collection-Page-Page.html#method_isVirtual"
         },                {
             "fqsen": "\\Cecil\\Collection\\Page\\Page\u003A\u003AsetType\u0028\u0029",
@@ -1840,11 +1840,6 @@ Search.appendIndex(
             "name": "SLUGIFY_PATTERN",
             "summary": "",
             "url": "classes/Cecil-Collection-Page-Page.html#constant_SLUGIFY_PATTERN"
-        },                {
-            "fqsen": "\\Cecil\\Collection\\Page\\Page\u003A\u003A\u0024virtual",
-            "name": "virtual",
-            "summary": "",
-            "url": "classes/Cecil-Collection-Page-Page.html#property_virtual"
         },                {
             "fqsen": "\\Cecil\\Collection\\Page\\Page\u003A\u003A\u0024file",
             "name": "file",
@@ -2691,10 +2686,10 @@ Search.appendIndex(
             "summary": "Output\u0020findings\u0020grouped\u0020by\u0020page.",
             "url": "classes/Cecil-Command-Doctor-DoctorSeo.html#method_outputFindings"
         },                {
-            "fqsen": "\\Cecil\\Command\\Doctor\\DoctorSeo\u003A\u003A\u0024includeVirtual",
-            "name": "includeVirtual",
+            "fqsen": "\\Cecil\\Command\\Doctor\\DoctorSeo\u003A\u003A\u0024includeGenerated",
+            "name": "includeGenerated",
             "summary": "",
-            "url": "classes/Cecil-Command-Doctor-DoctorSeo.html#property_includeVirtual"
+            "url": "classes/Cecil-Command-Doctor-DoctorSeo.html#property_includeGenerated"
         },                {
             "fqsen": "\\Cecil\\Command\\Doctor\\DoctorSeo\u003A\u003A\u0024includeFeedback",
             "name": "includeFeedback",
@@ -3131,6 +3126,11 @@ Search.appendIndex(
             "summary": "Returns\u0020the\u0020message\u0020of\u0020a\u0020deprecated\u0020option,\u0020with\u0020the\u0020new\u0020configuration\u0020snippet\u0020built\u0020from\u0020the\u0020current\u0020value.",
             "url": "classes/Cecil-Config-Deprecations.html#method_deprecatedOptionMessage"
         },                {
+            "fqsen": "\\Cecil\\Config\\Deprecations\u003A\u003ApagesListToMap\u0028\u0029",
+            "name": "pagesListToMap",
+            "summary": "Converts\u0020a\u0020list\u0020of\u0020pages\u0020to\u0020a\u0020map\u0020of\u0020pages\u0020indexed\u0020by\u0020ID\u0020\u0028the\u0020page\u0020path,\u0020or\u0020\u0022index\u0022\u0020for\u0020the\u0020home\u0020page\u0029.",
+            "url": "classes/Cecil-Config-Deprecations.html#method_pagesListToMap"
+        },                {
             "fqsen": "\\Cecil\\Config\\Deprecations\u003A\u003AdeprecatedVariableMessage\u0028\u0029",
             "name": "deprecatedVariableMessage",
             "summary": "Returns\u0020the\u0020message\u0020of\u0020a\u0020deprecated\u0020environment\u0020variable\u0020\u0028ie\u003A\u0020\u0060CECIL_PAGES_FRONTMATTER_FORMAT\u0060\u0029.",
@@ -3430,6 +3430,11 @@ Search.appendIndex(
             "name": "validateSchema",
             "summary": "Validates\u0020well\u002Ddefined\u0020configuration\u0020sections\u0020against\u0020a\u0020schema.",
             "url": "classes/Cecil-Config.html#method_validateSchema"
+        },                {
+            "fqsen": "\\Cecil\\Config\u003A\u003AschemaErrorMessage\u0028\u0029",
+            "name": "schemaErrorMessage",
+            "summary": "Returns\u0020the\u0020message\u0020of\u0020a\u0020schema\u0020validation\u0020error,\u0020with\u0020the\u0020path\u0020of\u0020each\u0020item\u0020from\u0020the\u0020root\u0020of\u0020the\u0020configuration.",
+            "url": "classes/Cecil-Config.html#method_schemaErrorMessage"
         },                {
             "fqsen": "\\Cecil\\Config\u003A\u003AgetSchemas\u0028\u0029",
             "name": "getSchemas",
@@ -4451,11 +4456,6 @@ Search.appendIndex(
             "summary": "Creates\u0020pages\u0020and\u0020adds\u0020it\u0020to\u0020collection.",
             "url": "classes/Cecil-Generator-DefaultPages.html#method_generate"
         },                {
-            "fqsen": "\\Cecil\\Generator\\DefaultPages\u003A\u003A\u0024configKey",
-            "name": "configKey",
-            "summary": "",
-            "url": "classes/Cecil-Generator-DefaultPages.html#property_configKey"
-        },                {
             "fqsen": "\\Cecil\\Generator\\ExternalBody",
             "name": "ExternalBody",
             "summary": "ExternalBody\u0020generator\u0020class.",
@@ -4570,26 +4570,6 @@ Search.appendIndex(
             "name": "generate",
             "summary": "Creates\u0020pages\u0020and\u0020adds\u0020it\u0020to\u0020collection.",
             "url": "classes/Cecil-Generator-Taxonomy.html#method_generate"
-        },                {
-            "fqsen": "\\Cecil\\Generator\\VirtualPages",
-            "name": "VirtualPages",
-            "summary": "VirtualPages\u0020class.",
-            "url": "classes/Cecil-Generator-VirtualPages.html"
-        },                {
-            "fqsen": "\\Cecil\\Generator\\VirtualPages\u003A\u003Agenerate\u0028\u0029",
-            "name": "generate",
-            "summary": "Creates\u0020pages\u0020and\u0020adds\u0020it\u0020to\u0020collection.",
-            "url": "classes/Cecil-Generator-VirtualPages.html#method_generate"
-        },                {
-            "fqsen": "\\Cecil\\Generator\\VirtualPages\u003A\u003AcollectPagesFromConfig\u0028\u0029",
-            "name": "collectPagesFromConfig",
-            "summary": "Collects\u0020virtual\u0020pages\u0020configuration.",
-            "url": "classes/Cecil-Generator-VirtualPages.html#method_collectPagesFromConfig"
-        },                {
-            "fqsen": "\\Cecil\\Generator\\VirtualPages\u003A\u003A\u0024configKey",
-            "name": "configKey",
-            "summary": "",
-            "url": "classes/Cecil-Generator-VirtualPages.html#property_configKey"
         },                {
             "fqsen": "\\Cecil\\Logger\\ConsoleLogger",
             "name": "ConsoleLogger",
@@ -5535,6 +5515,26 @@ Search.appendIndex(
             "name": "cacheDir",
             "summary": "Directory\u0020where\u0020cache\u0020files\u0020are\u0020stored.",
             "url": "classes/Cecil-Renderer-TwigCacheRuntimeLoader.html#property_cacheDir"
+        },                {
+            "fqsen": "\\Cecil\\Renderer\\TwigFilesystemLoader",
+            "name": "TwigFilesystemLoader",
+            "summary": "TwigFilesystemLoader\u0020class.",
+            "url": "classes/Cecil-Renderer-TwigFilesystemLoader.html"
+        },                {
+            "fqsen": "\\Cecil\\Renderer\\TwigFilesystemLoader\u003A\u003A__construct\u0028\u0029",
+            "name": "__construct",
+            "summary": "",
+            "url": "classes/Cecil-Renderer-TwigFilesystemLoader.html#method___construct"
+        },                {
+            "fqsen": "\\Cecil\\Renderer\\TwigFilesystemLoader\u003A\u003AgetCacheKey\u0028\u0029",
+            "name": "getCacheKey",
+            "summary": "\u007B\u0040inheritdoc\u007D",
+            "url": "classes/Cecil-Renderer-TwigFilesystemLoader.html#method_getCacheKey"
+        },                {
+            "fqsen": "\\Cecil\\Renderer\\TwigFilesystemLoader\u003A\u003A\u0024compilationKey",
+            "name": "compilationKey",
+            "summary": "Key\u0020appended\u0020to\u0020templates\u0020cache\u0020keys.",
+            "url": "classes/Cecil-Renderer-TwigFilesystemLoader.html#property_compilationKey"
         },                {
             "fqsen": "\\Cecil\\Step\\AbstractStep",
             "name": "AbstractStep",

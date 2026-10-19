@@ -2,7 +2,7 @@
 title: "Variables"
 description: "Variables available in templates: site, page and cecil."
 date: 2021-05-07
-updated: 2026-10-16
+updated: 2026-10-19
 -->
 # Variables
 
@@ -39,7 +39,7 @@ Can be displayed in a template with:
 ```
 
 :::important
-Use `showable` method on pages collection to return only published and not _virtual/redirect/excluded_ pages.
+Use `showable` method on pages collection to return only published and not _paginated/redirect/excluded_ pages (generated pages, such as sections or taxonomies, are included).
 
 _Example:_
 
@@ -150,7 +150,7 @@ The `page` variable contains built-in variables of a page **and** those set in t
 | `page.translations` | Collection of translated pages.                        | _Collection_     |
 
 :::important
-Use `showable` method on pages collection to return only published and not _virtual/redirect/excluded_ pages.
+Use `showable` method on pages collection to return only published and not _paginated/redirect/excluded_ pages (generated pages, such as sections or taxonomies, are included).
 
 _Example:_
 

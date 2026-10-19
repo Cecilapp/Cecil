@@ -2,7 +2,7 @@
 title: "Filtres"
 description: "filter_by, markdown_to_html, toc, slugify, excerpt, highlight, preg_*, etc."
 date: 2026-05-26
-updated: 2026-10-18
+updated: 2026-10-19
 path: documentation/templates/reference/filtres
 -->
 # Filtres
@@ -25,7 +25,7 @@ Filtre une collection de pages par nom/valeur de variable.
 {{ collection|filter_by(variable, value) }}
 ```
 
-Seules les pages standards (de type `page`, non virtuelles) sont renvoyées.
+Seules les pages standards (de type `page`, hors redirections) sont renvoyées.
 
 _Exemple :_
 
@@ -40,7 +40,7 @@ Pour les cas plus complexes, il est préférable d’utiliser le filtre natif [`
 _Exemple :_
 
 ```twig
-{% set filtered = pages|filter(p => p.virtual == false and p.id not in ['page-1', 'page-2']) %}
+{% set filtered = pages|filter(p => p.generated == false and p.id not in ['page-1', 'page-2']) %}
 ```
 
 ## markdown_to_html

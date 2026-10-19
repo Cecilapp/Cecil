@@ -53,7 +53,6 @@ class Homepage extends AbstractGenerator implements GeneratorInterface
                 return $page->getType() == Type::PAGE->value
                     && $page->getVariable('published') === true
                     && ($page->getVariable('excluded') !== true && $page->getVariable('exclude') !== true)
-                    && $page->isVirtual() === false
                     && $page->getVariable('language') == $language;
             });
             // or collects pages from a specified section

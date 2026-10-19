@@ -21,18 +21,15 @@ use Symfony\Component\Finder\SplFileInfo;
 /**
  * Page class.
  *
- * Represents a page in the collection, which can be created from a file or be virtual.
+ * Represents a page in the collection, which can be created from a file or be generated.
  * Provides methods to manage page properties, variables, and rendering.
  */
 class Page extends Item
 {
     public const string SLUGIFY_PATTERN = Util\Slugifier::SLUGIFY_PATTERN;
 
-    /** @var bool True if page is not created from a file. */
-    protected $virtual;
-
-    /** @var SplFileInfo */
-    protected $file;
+    /** @var SplFileInfo|null */
+    protected $file = null;
 
     /** @var Type Type */
     protected $type;
@@ -91,7 +88,6 @@ class Page extends Item
         $separators = $prefixSeparators ?? PrefixSuffix::DEFAULT_SEPARATORS;
 
         // default properties
-        $this->setVirtual(true);
         $this->setType(Type::PAGE);
         $this->setVariables([
             'title'            => 'Page Title',
@@ -157,7 +153,6 @@ class Page extends Item
     public function setFile(SplFileInfo $file, array $separators = PrefixSuffix::DEFAULT_SEPARATORS): self
     {
         $this->file = $file;
-        $this->setVirtual(false);
 
         /*
          * File path components
@@ -249,6 +244,9 @@ class Page extends Item
      */
     public function parse(): self
     {
+        if ($this->file === null) {
+            throw new RuntimeException(\sprintf('Unable to parse page "%s": it has no content file.', $this->getId()));
+        }
         $parser = new Parser($this->file);
         $parsed = $parser->parse();
         $this->frontmatter = $parsed->getFrontmatter();
@@ -274,21 +272,25 @@ class Page extends Item
     }
 
     /**
-     * Set virtual status.
+     * Is current page generated?
+     * A page is generated if it is not created from a content file (i.e.: section, term, page declared in configuration)
+     * or if it is a paginated page (i.e.: "blog/page/2").
      */
-    public function setVirtual(bool $virtual): self
+    public function isGenerated(): bool
     {
-        $this->virtual = $virtual;
-
-        return $this;
+        return $this->file === null || $this->getVariable('paginated') === true;
     }
 
     /**
-     * Is current page is virtual?
+     * Is current page virtual?
+     *
+     * @deprecated Use isGenerated() instead.
      */
     public function isVirtual(): bool
     {
-        return $this->virtual;
+        @trigger_error('"page.virtual" is deprecated, use "page.generated" instead.', E_USER_DEPRECATED);
+
+        return $this->isGenerated();
     }
 
     /**
@@ -382,7 +384,7 @@ class Page extends Item
         }
 
         // case of sections' pages: set section
-        if (!$this->virtual && $this->getSection() === null) {
+        if (!$this->isGenerated() && $this->getSection() === null) {
             $this->section = explode('/', $this->path)[0];
         }
         // set/update folder and slug

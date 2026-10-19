@@ -676,6 +676,44 @@ class ConfigTest extends TestCase
         ]);
     }
 
+    public function testDefaultPagesAcceptValidPages(): void
+    {
+        $config = new Config([
+            'pages' => [
+                'default' => [
+                    'code' => ['path' => 'code', 'redirect' => 'https://github.com'],
+                    'manifest' => ['path' => 'manifest', 'output' => ['json'], 'excluded' => true],
+                    'error' => ['path' => 500, 'layout' => 500],
+                    'sitemap' => ['published' => false],
+                    'unknown' => ['published' => false],
+                ],
+            ],
+        ]);
+
+        self::assertSame('code', $config->get('pages.default.code.path'));
+    }
+
+    public function testDefaultPagesRejectPublishedPageWithoutPath(): void
+    {
+        $this->expectException(ConfigException::class);
+        $this->expectExceptionMessage('A published default page must define a `path`.');
+
+        new Config([
+            'pages' => ['default' => ['code' => ['title' => 'Code']]],
+        ]);
+    }
+
+    public function testDefaultPagesRejectInvalidVariableType(): void
+    {
+        $this->expectException(ConfigException::class);
+        // the path of the item starts from the root of the configuration
+        $this->expectExceptionMessage("The item 'pages\u{a0}›\u{a0}default\u{a0}›\u{a0}code\u{a0}›\u{a0}excluded' expects to be bool, 'yes' given.");
+
+        new Config([
+            'pages' => ['default' => ['code' => ['path' => 'code', 'excluded' => 'yes']]],
+        ]);
+    }
+
     public function testDataStructureRejectsInvalidLoadType(): void
     {
         $this->expectException(ConfigException::class);

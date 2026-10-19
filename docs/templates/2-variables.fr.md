@@ -2,7 +2,7 @@
 title: "Variables"
 description: "Variables disponibles dans les templates : site, page et cecil."
 date: 2026-05-26
-updated: 2026-10-16
+updated: 2026-10-19
 -->
 # Variables
 
@@ -39,7 +39,7 @@ Peut être affiché dans un template avec :
 ```
 
 :::important
-Utilisez la méthode `showable` sur une collection de pages pour ne renvoyer que les pages publiées, non virtuelles, non redirigées et non exclues.
+Utilisez la méthode `showable` sur une collection de pages pour ne renvoyer que les pages publiées, non paginées, non redirigées et non exclues (les pages générées, comme les sections ou les taxonomies, sont incluses).
 
 _Exemple :_
 
@@ -150,7 +150,7 @@ La variable `page` contient les variables intégrées d’une page **et** celles
 | `page.translations` | Collection des pages traduites.                        | _Collection_     |
 
 :::important
-Utilisez la méthode `showable` sur une collection de pages pour ne renvoyer que les pages publiées, non virtuelles, non redirigées et non exclues.
+Utilisez la méthode `showable` sur une collection de pages pour ne renvoyer que les pages publiées, non paginées, non redirigées et non exclues (les pages générées, comme les sections ou les taxonomies, sont incluses).
 
 _Exemple :_
 

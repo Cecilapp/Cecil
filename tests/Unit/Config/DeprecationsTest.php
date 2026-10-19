@@ -34,6 +34,17 @@ class DeprecationsTest extends TestCase
         Deprecations::check(['frontmatter' => 'yaml'], '"cecil.yml"');
     }
 
+    public function testVirtualPagesListIsReportedAsDefaultPagesMap(): void
+    {
+        $this->expectException(ConfigException::class);
+        $this->expectExceptionMessage("- Option `pages.virtual` must be moved to:\n  ```\n  pages:\n    default:\n      code:\n        path: code\n        redirect: 'https://github.com'\n      index:\n        path: ''\n        title: Home\n  ```");
+
+        Deprecations::check(['pages' => ['virtual' => [
+            ['path' => 'code', 'redirect' => 'https://github.com'],
+            ['path' => '', 'title' => 'Home'],
+        ]]]);
+    }
+
     public function testRemovedOptionIsReported(): void
     {
         $this->expectException(ConfigException::class);

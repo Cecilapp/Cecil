@@ -2,7 +2,7 @@
 title: "Architecture"
 description: "Diagram of the build pipeline and key components."
 date: 2026-05-27
-updated: 2026-10-18
+updated: 2026-10-19
 alias: documentation/architecture
 -->
 # Architecture
@@ -56,7 +56,6 @@ graph TD
 
     subgraph GENERATORS["Generators (by priority)"]
         G1["DefaultPages\n(index, 404, robots, sitemap, xsl)"]
-        G2["VirtualPages"]
         G3["ExternalBody"]
         G4["Section"]
         G5["Taxonomy"]
@@ -64,7 +63,7 @@ graph TD
         G7["Pagination"]
         G8["Alias"]
         G9["Redirect"]
-        G1 --> G2 --> G3 --> G4 --> G5 --> G6 --> G7 --> G8 --> G9
+        G1 --> G3 --> G4 --> G5 --> G6 --> G7 --> G8 --> G9
     end
 
     subgraph RENDERER["Twig rendering"]

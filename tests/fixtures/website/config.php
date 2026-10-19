@@ -108,13 +108,11 @@ return [
                 'published' => false,
                 'priority' => 99,
             ],
-        ],
-        'virtual' => [
-            [
+            '_redirects' => [
                 'path' => '_redirects',
                 'output' => 'netlify_redirects',
             ],
-            [
+            'rss' => [
                 'path' => 'rss',
                 'published' => false,
             ],

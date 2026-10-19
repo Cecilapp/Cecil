@@ -151,12 +151,12 @@ class IntegrationCliTests extends IntegrationTests
         }
     }
 
-    public function testDoctorSeoIncludeVirtual(): void
+    public function testDoctorSeoIncludeGenerated(): void
     {
         exec('php ./bin/cecil new:site tests/demo --demo -n -f 2>&1', $output, $retval);
         self::assertTrue($retval < 1);
         $output = [];
-        exec('php ./bin/cecil doctor:seo tests/demo --include-virtual --fail-on=never 2>&1', $output, $retval);
+        exec('php ./bin/cecil doctor:seo tests/demo --include-generated --fail-on=never 2>&1', $output, $retval);
         $output = implode("\n", $output);
         echo $output;
         self::assertTrue($retval < 1);

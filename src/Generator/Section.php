@@ -53,7 +53,7 @@ class Section extends AbstractGenerator implements GeneratorInterface
         $sectionIndexes = [];
         /** @var Page $page */
         foreach ($this->builder->getPages() as $page) {
-            if ($page->isVirtual() || !$page->isSectionIndex()) {
+            if ($page->isGenerated() || !$page->isSectionIndex()) {
                 continue;
             }
             $path = (string) $page->getPath();

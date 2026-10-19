@@ -137,14 +137,14 @@ class SeoDoctorTest extends TestCase
     public function testPagesAreFilteredBeforeAudit(): void
     {
         $unpublished = $this->page('unpublished', $this->html())->setVariable('published', false);
-        $notRendered = (new Page('not-rendered'))->setVirtual(false)->setVariable('published', true);
-        $virtual = $this->page('virtual', $this->html())->setVirtual(true);
-        $pages = [$this->page('blog/post', $this->html()), $unpublished, $notRendered, $virtual];
+        $notRendered = $this->contentPage('not-rendered')->setVariable('published', true);
+        $generated = $this->page('generated', $this->html())->setVariable('paginated', true);
+        $pages = [$this->page('blog/post', $this->html()), $unpublished, $notRendered, $generated];
 
         $report = (new SeoDoctor())->audit($this->builder($pages));
         self::assertSame(1, $report['summary']['pages_audited']);
 
-        $report = (new SeoDoctor())->audit($this->builder($pages), ['include_virtual' => true]);
+        $report = (new SeoDoctor())->audit($this->builder($pages), ['include_generated' => true]);
         self::assertSame(2, $report['summary']['pages_audited']);
     }
 
@@ -190,11 +190,24 @@ class SeoDoctorTest extends TestCase
 
     private function page(string $path, string $html): Page
     {
-        return (new Page($path))
+        return $this->contentPage($path)
             ->setPath($path)
-            ->setVirtual(false)
             ->setVariable('published', true)
             ->addRendered(['html' => ['output' => $html]]);
+    }
+
+    /**
+     * Returns a page that behaves like a page created from a content file.
+     */
+    private function contentPage(string $id): Page
+    {
+        return new class ($id) extends Page {
+            #[\Override]
+            public function isGenerated(): bool
+            {
+                return $this->getVariable('paginated') === true;
+            }
+        };
     }
 
     private function html(

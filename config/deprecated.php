@@ -19,7 +19,7 @@ return [
     'frontmatter' => 'pages.frontmatter',
     'body' => 'pages.body',
     'defaultpages' => 'pages.default',
-    'virtualpages' => 'pages.virtual',
+    'virtualpages' => 'pages.default',
     'generators' => 'pages.generators',
     'translations' => 'layouts.translations',
     'extensions' => 'layouts.extensions',
@@ -36,4 +36,6 @@ return [
     'assets.images.resize.dir' => '',
     'cache.templates.dir' => '',
     'cache.assets.dir' => '',
+    // changes since version 9.19.0
+    'pages.virtual' => 'pages.default',
 ];

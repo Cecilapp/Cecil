@@ -2,7 +2,7 @@
 title: "Library"
 description: "Use Cecil as a PHP library: install it with Composer, then build and diagnose programmatically."
 date: 2023-12-13
-updated: 2026-10-16
+updated: 2026-10-19
 alias: documentation/library
 -->
 # Library
@@ -100,7 +100,7 @@ $diagnosis = $siteDoctor->diagnose($builder, __DIR__, ['cecil.yml']);
 $seoDoctor = new SeoDoctor();
 $seoAudit = $seoDoctor->audit($builder, [
     'page' => '',
-    'include_virtual' => false,
+    'include_generated' => false,
 ]);
 
 var_dump($diagnosis['errors'], $seoAudit['summary']);

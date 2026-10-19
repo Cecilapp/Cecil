@@ -59,7 +59,7 @@ class DoctorLinks extends AbstractCommand
                 new InputOption('concurrency', null, InputOption::VALUE_REQUIRED, 'Number of concurrent external links requests'),
                 new InputOption('no-cache', null, InputOption::VALUE_NONE, 'Do not use cached external links results'),
                 new InputOption('format', null, InputOption::VALUE_REQUIRED, 'Output format: text (default) or json', 'text'),
-                new InputOption('include-virtual', null, InputOption::VALUE_NONE, 'Include virtual pages (paginated, taxonomies) in audit'),
+                new InputOption('include-generated', null, InputOption::VALUE_NONE, 'Include generated pages (sections, taxonomies, pagination, etc.) in audit'),
                 new InputOption('feedback', null, InputOption::VALUE_NONE, 'Include findings with feedback level'),
                 $this->getFailOnOption(),
             ])
@@ -144,7 +144,7 @@ EOF
         }
         $result = $doctor->audit($builder, [
             'page' => (string) ($input->getOption('page') ?? ''),
-            'include_virtual' => (bool) $input->getOption('include-virtual'),
+            'include_generated' => (bool) $input->getOption('include-generated'),
             'feedback' => $this->includeFeedback,
             'internal' => $internal,
             'external' => $external,

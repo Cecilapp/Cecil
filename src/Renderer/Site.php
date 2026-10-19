@@ -168,7 +168,7 @@ class Site implements \ArrayAccess
     public function getPages(): \Cecil\Collection\Page\Collection
     {
         return $this->builder->getPages()->filter(function (CollectionPage $page) {
-            // We should fix case of virtual pages without language
+            // We should fix case of generated pages without language
             if (
                 $page->getVariable('language') === null
                 && $this->language == $this->config->getLanguageDefault()

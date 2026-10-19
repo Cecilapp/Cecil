@@ -65,7 +65,7 @@ class Convert extends AbstractStep
         $converter = new Converter($this->getBuilder());
         /** @var Page $page */
         foreach ($this->builder->getPages() as $page) {
-            if (!$page->isVirtual()) {
+            if (!$page->isGenerated()) {
                 $count++;
 
                 try {

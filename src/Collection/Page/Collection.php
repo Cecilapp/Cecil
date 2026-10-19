@@ -46,7 +46,7 @@ class Collection extends CecilCollection
                     $page->getVariable('excluded') !== true   // and page is listed
                     && $page->getVariable('exclude') !== true   // and backward compatibility
                 )
-                && $page->isVirtual() === false               // and page is created from a file
+                && $page->getVariable('paginated') !== true   // and page is not a paginated page
                 && $page->getVariable('redirect') === null    // and page is not a redirection
             ) {
                 return true;

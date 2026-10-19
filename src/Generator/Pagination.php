@@ -95,7 +95,6 @@ class Pagination extends AbstractGenerator implements GeneratorInterface
                     $pageId = Util\Slugifier::slugify(\sprintf('%s/%s/%s', $page->getId(), $paginationPath, $i + 1));
                     $alteredPage
                         ->setId($pageId)
-                        ->setVirtual(true)
                         ->setPath(Util\Slugifier::slugify(\sprintf('%s/%s/%s', $path, $paginationPath, $i + 1)))
                         ->unVariable('menu')
                         ->unVariable('alias')
