@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:sitemap="http://www.sitemaps.org/schemas/sitemap/0.9" version="3.0">
+<xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:sitemap="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:xhtml="http://www.w3.org/1999/xhtml" xmlns:video="http://www.google.com/schemas/sitemap-video/1.1" exclude-result-prefixes="sitemap xhtml video" version="3.0">
   <xsl:output method="html" version="1.0" encoding="utf-8" indent="yes" />
   <xsl:template match="/">
     <html xmlns="http://www.w3.org/1999/xhtml" lang="{{ site.language }}">
@@ -185,17 +185,20 @@
             box-shadow: var(--shadow);
             overflow: hidden;
           }
-          li + li {
+          .entry + .entry {
             border-top: 1px solid var(--border);
           }
-          li a {
-            display: block;
+          .entry {
+            position: relative;
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+            gap: .5rem 1rem;
             padding: .9rem 1.25rem;
             transition: background-color .15s ease;
           }
-          li a:hover {
+          .entry:hover {
             background: var(--bg);
-            text-decoration: none;
           }
           li h3 {
             margin: 0;
@@ -221,15 +224,9 @@
             text-align: center;
           }
           @media (prefers-reduced-motion: reduce) {
-            li a, .copy {
+            .entry, .copy {
               transition: none;
             }
-          }
-          li a {
-            display: flex;
-            align-items: baseline;
-            justify-content: space-between;
-            gap: 1rem;
           }
           li .loc {
             min-width: 0;
@@ -237,12 +234,55 @@
             font-size: .9375rem;
             overflow-wrap: anywhere;
           }
-          li a:hover .loc {
+          li .loc::after {
+            content: "";
+            position: absolute;
+            inset: 0;
+          }
+          .entry:hover .loc {
             color: var(--link);
+            text-decoration: none;
           }
           li time {
             flex: none;
             margin-top: 0;
+            margin-left: auto;
+          }
+          .alternates {
+            display: flex;
+            flex-wrap: wrap;
+            gap: .375rem;
+            margin: 0;
+            padding: 0;
+            list-style: none;
+          }
+          .pill {
+            position: relative;
+            z-index: 1;
+            display: inline-flex;
+            align-items: center;
+            gap: .25rem;
+            padding: 0 .5rem;
+            border: 1px solid var(--border);
+            border-radius: 999px;
+            color: var(--muted);
+            font-size: .75rem;
+            font-weight: 600;
+            line-height: 1.375rem;
+          }
+          .pill:hover {
+            border-color: var(--link);
+            color: var(--link);
+            text-decoration: none;
+          }
+          .pill svg {
+            width: .75rem;
+            height: .75rem;
+          }
+          .pill-video {
+            border-color: transparent;
+            background: var(--accent-soft);
+            color: var(--accent);
           }
         </style>
       </head>
@@ -279,14 +319,44 @@
             <h2>{% trans %}List of URLs{% endtrans %} <span class="count"><xsl:value-of select="count(sitemap:urlset/sitemap:url)" /></span></h2>
             <ol>
               <xsl:for-each select="sitemap:urlset/sitemap:url">
-              <li>
-                <a>
+              <li class="entry">
+                <a class="loc">
                   <xsl:attribute name="href"><xsl:value-of select="sitemap:loc" /></xsl:attribute>
-                  <span class="loc"><xsl:value-of select="sitemap:loc" /></span>
-                  <xsl:if test="sitemap:lastmod">
-                    <time><xsl:attribute name="datetime"><xsl:value-of select="sitemap:lastmod" /></xsl:attribute><xsl:value-of select="substring(sitemap:lastmod, 1, 10)" /></time>
-                  </xsl:if>
+                  <xsl:value-of select="sitemap:loc" />
                 </a>
+                <xsl:variable name="loc" select="sitemap:loc" />
+                <xsl:if test="xhtml:link[@rel='alternate'][@href != $loc]">
+                  <ul class="alternates" aria-label="{% trans %}Translations{% endtrans %}">
+                    <xsl:for-each select="xhtml:link[@rel='alternate'][@href != $loc]">
+                    <li>
+                      <a class="pill">
+                        <xsl:attribute name="href"><xsl:value-of select="@href" /></xsl:attribute>
+                        <xsl:attribute name="hreflang"><xsl:value-of select="@hreflang" /></xsl:attribute>
+                        <xsl:attribute name="title"><xsl:value-of select="@href" /></xsl:attribute>
+                        <xsl:value-of select="@hreflang" />
+                      </a>
+                    </li>
+                    </xsl:for-each>
+                  </ul>
+                </xsl:if>
+                <xsl:for-each select="video:video">
+                  <a class="pill pill-video">
+                    <xsl:attribute name="href">
+                      <xsl:choose>
+                        <xsl:when test="video:player_loc"><xsl:value-of select="video:player_loc" /></xsl:when>
+                        <xsl:otherwise><xsl:value-of select="video:content_loc" /></xsl:otherwise>
+                      </xsl:choose>
+                    </xsl:attribute>
+                    <xsl:attribute name="title"><xsl:value-of select="video:title" /></xsl:attribute>
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+                      <path d="M7 4.5v15a1 1 0 0 0 1.5.86l12.5-7.5a1 1 0 0 0 0-1.72L8.5 3.64A1 1 0 0 0 7 4.5z" />
+                    </svg>
+                    {% trans %}Video{% endtrans %}
+                  </a>
+                </xsl:for-each>
+                <xsl:if test="sitemap:lastmod">
+                  <time><xsl:attribute name="datetime"><xsl:value-of select="sitemap:lastmod" /></xsl:attribute><xsl:value-of select="substring(sitemap:lastmod, 1, 10)" /></time>
+                </xsl:if>
               </li>
               </xsl:for-each>
             </ol>

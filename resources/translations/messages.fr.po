@@ -75,6 +75,14 @@ msgstr "URL du Sitemap :"
 msgid "List of URLs"
 msgstr "Liste des URL"
 
+#: _default/sitemap.xsl.twig:329
+msgid "Translations"
+msgstr "Traductions"
+
+#: _default/sitemap.xsl.twig:354
+msgid "Video"
+msgstr "Vidéo"
+
 #: partials/paginator.html.twig:5 partials/paginator.html.twig:7
 msgid "Previous"
 msgstr "Précédent"
