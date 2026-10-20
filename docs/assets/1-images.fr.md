@@ -2,7 +2,7 @@
 title: "Images"
 description: "Redimensionnez, recadrez et convertissez les images, générez des images responsives et des placeholders."
 date: 2026-05-26
-updated: 2026-10-16
+updated: 2026-10-20
 -->
 # Images
 
@@ -173,7 +173,7 @@ _Exemple :_
 ```
 
 :::info
-La prise en charge de WebP et d’AVIF dépend du pilote d’images disponible (Imagick, libvips ou GD).
+La prise en charge de WebP et d’AVIF dépend du pilote d’images disponible (Imagick, libvips ou GD). La fonction `html` ignore les formats alternatifs (option `formats`) non pris en charge par le pilote.
 :::
 
 ## lqip

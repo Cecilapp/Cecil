@@ -2,7 +2,7 @@
 title: "Images"
 description: "Resize, crop and convert images, generate responsive images and placeholders."
 date: 2021-05-07
-updated: 2026-10-16
+updated: 2026-10-20
 -->
 # Images
 
@@ -173,7 +173,7 @@ _Example:_
 ```
 
 :::info
-WebP and AVIF support depends on the image driver available (Imagick, libvips or GD).
+WebP and AVIF support depends on the image driver available (Imagick, libvips or GD). The `html` function skips alternative formats (`formats` option) not supported by the driver.
 :::
 
 ## lqip

@@ -47,6 +47,9 @@ class Core extends AbstractExtension
     /** @var array<string, array{string, string}> Mobile and dark `<source>` elements of images, to avoid redundant lookups within a build. */
     private array $imageVariantsCache = [];
 
+    /** @var array<string, bool> Image formats not supported by the image driver, already logged. */
+    private array $unsupportedImageFormats = [];
+
     public function __construct(Builder $builder)
     {
         $this->builder = $builder;
@@ -543,6 +546,7 @@ class Core extends AbstractExtension
         $formats = [];
         try {
             $formats = $options['formats'] ?? (array) $this->config->get('layouts.images.formats');
+            $formats = $this->filterSupportedImageFormats((array) $formats);
             if (\count($formats) > 0) {
                 foreach ($formats as $format) {
                     try {
@@ -644,6 +648,31 @@ class Core extends AbstractExtension
         }
 
         return \sprintf('<audio%s src="%s" type="%s"></audio>', self::htmlAttributes($attributes), $this->url($context, $asset, $options), $asset['subtype']);
+    }
+
+    /**
+     * Removes image formats not supported by the image driver (e.g.: AVIF without libavif).
+     *
+     * @param array<mixed> $formats
+     *
+     * @return array<string>
+     */
+    private function filterSupportedImageFormats(array $formats): array
+    {
+        $supported = [];
+        foreach ($formats as $format) {
+            $format = (string) $format;
+            if (Image::isFormatSupported($format)) {
+                $supported[] = $format;
+                continue;
+            }
+            if (!isset($this->unsupportedImageFormats[$format])) {
+                $this->unsupportedImageFormats[$format] = true;
+                $this->builder->getLogger()->debug(\sprintf('Image format "%s" is not supported by the image driver: skipped.', $format));
+            }
+        }
+
+        return $supported;
     }
 
     /**
