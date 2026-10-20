@@ -168,4 +168,16 @@ class ImageTest extends TestCase
             $this->assertNotSame('Imagick', Image::getDriverName());
         }
     }
+
+    public function testIsFormatSupported(): void
+    {
+        if (Image::getDriverName() === null) {
+            $this->assertFalse(Image::isFormatSupported('png'));
+
+            return;
+        }
+        $this->assertTrue(Image::isFormatSupported('png'));
+        $this->assertTrue(Image::isFormatSupported('PNG'));
+        $this->assertFalse(Image::isFormatSupported('unknown'));
+    }
 }

@@ -22,6 +22,7 @@ use Intervention\Image\Drivers\Vips\Driver as VipsDriver;
 use Intervention\Image\Alignment;
 use Intervention\Image\Format;
 use Intervention\Image\ImageManager;
+use Intervention\Image\Interfaces\DriverInterface;
 use Intervention\Image\Interfaces\ImageManagerInterface;
 
 /**
@@ -50,9 +51,29 @@ class Image
     }
 
     /**
+     * Checks if the available image driver can encode the given format (e.g.: "avif").
+     */
+    public static function isFormatSupported(string $format): bool
+    {
+        static $supported = [];
+
+        $format = strtolower($format);
+        if (!isset($supported[$format])) {
+            try {
+                $driver = self::driver()[1] ?? null;
+                $supported[$format] = $driver !== null && (new $driver())->supports($format);
+            } catch (\Throwable) {
+                $supported[$format] = false;
+            }
+        }
+
+        return $supported[$format];
+    }
+
+    /**
      * Returns the available driver as [name, class], or null if none.
      *
-     * @return array{string, class-string}|null
+     * @return array{string, class-string<DriverInterface>}|null
      */
     private static function driver(): ?array
     {

@@ -61,6 +61,11 @@ Search.appendIndex(
             "summary": "Returns\u0020the\u0020name\u0020of\u0020the\u0020available\u0020image\u0020driver\u0020\u0028e.g.\u003A\u0020\u0022Imagick\u0022\u0029,\u0020or\u0020null\u0020if\u0020none.",
             "url": "classes/Cecil-Asset-Image.html#method_getDriverName"
         },                {
+            "fqsen": "\\Cecil\\Asset\\Image\u003A\u003AisFormatSupported\u0028\u0029",
+            "name": "isFormatSupported",
+            "summary": "Checks\u0020if\u0020the\u0020available\u0020image\u0020driver\u0020can\u0020encode\u0020the\u0020given\u0020format\u0020\u0028e.g.\u003A\u0020\u0022avif\u0022\u0029.",
+            "url": "classes/Cecil-Asset-Image.html#method_isFormatSupported"
+        },                {
             "fqsen": "\\Cecil\\Asset\\Image\u003A\u003Adriver\u0028\u0029",
             "name": "driver",
             "summary": "Returns\u0020the\u0020available\u0020driver\u0020as\u0020\u005Bname,\u0020class\u005D,\u0020or\u0020null\u0020if\u0020none.",
@@ -5001,6 +5006,11 @@ Search.appendIndex(
             "summary": "Builds\u0020the\u0020HTML\u0020audio\u0020element\u0020of\u0020an\u0020audio\u0020Asset.",
             "url": "classes/Cecil-Renderer-Extension-Core.html#method_htmlAudio"
         },                {
+            "fqsen": "\\Cecil\\Renderer\\Extension\\Core\u003A\u003AfilterSupportedImageFormats\u0028\u0029",
+            "name": "filterSupportedImageFormats",
+            "summary": "Removes\u0020image\u0020formats\u0020not\u0020supported\u0020by\u0020the\u0020image\u0020driver\u0020\u0028e.g.\u003A\u0020AVIF\u0020without\u0020libavif\u0029.",
+            "url": "classes/Cecil-Renderer-Extension-Core.html#method_filterSupportedImageFormats"
+        },                {
             "fqsen": "\\Cecil\\Renderer\\Extension\\Core\u003A\u003AgetImageVariantsSourceHtml\u0028\u0029",
             "name": "getImageVariantsSourceHtml",
             "summary": "Returns\u0020HTML\u0020mobile\u0020and\u0020dark\u0020\u0022source\u0022\u0020elements\u0020of\u0020an\u0020image\u0020Asset.",
@@ -5135,6 +5145,11 @@ Search.appendIndex(
             "name": "imageVariantsCache",
             "summary": "",
             "url": "classes/Cecil-Renderer-Extension-Core.html#property_imageVariantsCache"
+        },                {
+            "fqsen": "\\Cecil\\Renderer\\Extension\\Core\u003A\u003A\u0024unsupportedImageFormats",
+            "name": "unsupportedImageFormats",
+            "summary": "",
+            "url": "classes/Cecil-Renderer-Extension-Core.html#property_unsupportedImageFormats"
         },                {
             "fqsen": "\\Cecil\\Renderer\\Language",
             "name": "Language",
