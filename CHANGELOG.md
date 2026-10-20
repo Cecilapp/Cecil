@@ -2,6 +2,12 @@
 
 All notable changes to this project will be documented in this file. Dates are displayed in UTC.
 
+#### [9.19.2](https://github.com/Cecilapp/Cecil/compare/9.19.1...9.19.2)
+
+> 19 October 2026
+
+- chore(deps): update intervention/image packages [`a6e3913`](https://github.com/Cecilapp/Cecil/commit/a6e3913ebb804c2dcef5646883f3f8d46c92f076)
+
 #### [9.19.0](https://github.com/Cecilapp/Cecil/compare/9.18.2...9.19.0)
 
 > 19 October 2026
