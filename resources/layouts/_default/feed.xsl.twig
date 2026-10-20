@@ -193,7 +193,10 @@
             border-top: 1px solid var(--border);
           }
           li a {
-            display: block;
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+            gap: .5rem 1rem;
             padding: .9rem 1.25rem;
             transition: background-color .15s ease;
           }
@@ -202,6 +205,7 @@
             text-decoration: none;
           }
           li h3 {
+            min-width: 0;
             margin: 0;
             color: var(--heading);
             font-size: 1rem;
@@ -212,8 +216,8 @@
             color: var(--link);
           }
           li time {
-            display: block;
-            margin-top: .15rem;
+            flex: none;
+            margin-left: auto;
             color: var(--muted);
             font-size: .8125rem;
             font-variant-numeric: tabular-nums;
