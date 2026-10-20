@@ -152,6 +152,16 @@ pagination: false
 ---
 ```
 
+Si la pagination est [désactivée globalement](../configuration/4-pages.fr.md#desactiver-la-pagination), elle peut être activée pour une _Section_ (`max` et `path` reprennent par défaut la configuration globale) :
+
+```yaml
+---
+pagination:
+  enabled: true
+  max: 5
+---
+```
+
 ### cascade
 
 Toutes les variables de `cascade` sont ajoutées au front matter de toutes les pages de la _Section_ (y compris les pages de ses [sous-sections](#sous-section)).

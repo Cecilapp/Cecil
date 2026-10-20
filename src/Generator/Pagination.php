@@ -24,6 +24,7 @@ use Cecil\Util;
  * This generator creates paginated pages for sections, terms, and the homepage.
  * It filters the pages based on their type, checks for pagination settings,
  * and generates paginated pages accordingly.
+ * If pagination is disabled globally, a list page can still enable it with `pagination.enabled: true`.
  * The first page is the list page itself, updated in place (not cloned), so that references
  * held by other pages (e.g.: "parent", "sections", "prev" and "next") remain the instances
  * that will be rendered. Other pages are clones of it.
@@ -36,10 +37,8 @@ class Pagination extends AbstractGenerator implements GeneratorInterface
     #[\Override]
     public function generate(): void
     {
-        // disable pagination globally
-        if (!$this->config->isEnabled('pages.pagination')) {
-            return;
-        }
+        // is pagination enabled globally?
+        $enabledGlobally = $this->config->isEnabled('pages.pagination');
 
         // filters list pages (home, sections and terms)
         $listPages = $this->builder->getPages()->filter(function (Page $page) {
@@ -61,6 +60,10 @@ class Pagination extends AbstractGenerator implements GeneratorInterface
             // page configuration
             $pagePagination = $page->getVariable('pagination');
             if ($pagePagination === false || (isset($pagePagination['enabled']) && $pagePagination['enabled'] === false)) {
+                continue;
+            }
+            // disabled globally: only list pages that explicitly enable it are paginated
+            if (!$enabledGlobally && !(\is_array($pagePagination) && ($pagePagination['enabled'] ?? false) === true)) {
                 continue;
             }
             if (isset($pagePagination['max'])) {

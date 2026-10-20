@@ -79,6 +79,18 @@ pages:
   pagination: false
 ```
 
+Ou :
+
+```yaml
+pages:
+  pagination:
+    enabled: false
+```
+
+:::tip
+Lorsque la pagination est désactivée globalement, une page de liste peut tout de même l’activer dans son [front matter](../content/1-pages.fr.md#pagination) avec `pagination.enabled: true`.
+:::
+
 ## pages.paths
 
 Applique un [`path`](../content/2-front-matter.fr.md#variables-predefinies) personnalisé à toutes les pages d’une **_section_**.
