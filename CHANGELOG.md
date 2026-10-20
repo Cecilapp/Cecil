@@ -2,6 +2,12 @@
 
 All notable changes to this project will be documented in this file. Dates are displayed in UTC.
 
+#### [9.20.1](https://github.com/Cecilapp/Cecil/compare/9.20.0...9.20.1)
+
+> 20 October 2026
+
+- Skip image formats not supported by the driver in html function [`#2541`](https://github.com/Cecilapp/Cecil/pull/2541)
+
 #### [9.20.0](https://github.com/Cecilapp/Cecil/compare/9.19.2...9.20.0)
 
 > 20 October 2026
