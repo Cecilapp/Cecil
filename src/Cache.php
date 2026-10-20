@@ -222,6 +222,10 @@ class Cache implements CacheInterface
         // asset
         if ($value instanceof Asset) {
             $name = "{$value['_path']}_{$value['ext']}";
+            // bundle: distinguishes bundles sharing the same filename (e.g.: default "styles.css")
+            if (\is_array($value['files']) && \count($value['files']) > 1) {
+                $name .= '_' . hash('adler32', implode('|', $value['files']));
+            }
             $hash = $value['hash'];
         }
 

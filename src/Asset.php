@@ -202,6 +202,9 @@ class Asset implements \ArrayAccess
                     throw new RuntimeException(\sprintf('Unable to handle asset "%s".', $paths[$i]), previous: $e);
                 }
             }
+            // content is not cached here: its content file path (e.g.: the default bundle filename)
+            // may be shared by different assets, and would be overwritten
+            unset($this->data['content']);
             $this->cache->set($locateCacheKey, $this->data);
         }
         $this->data = $this->cache->getWithoutContent($locateCacheKey);
@@ -227,8 +230,11 @@ class Asset implements \ArrayAccess
         }
         $cacheKey = $this->cache->createKey($this, tags: $this->cacheTags);
         if (!$this->cache->has($cacheKey)) {
-            // loads content before processing (path may change)
-            $this->getContent();
+            // loads content from source file(s) before processing (path may change)
+            $this->data['content'] = '';
+            foreach ($this->data['files'] as $file) {
+                $this->data['content'] .= Util\File::fileGetContents($file);
+            }
             // fingerprinting
             if ($options['fingerprint']) {
                 $this->doFingerprint();

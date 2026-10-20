@@ -44,7 +44,15 @@ class AssetTest extends TestCase
 
     protected function tearDown(): void
     {
+        self::setBuildId(null);
         $this->filesystem->remove($this->root);
+    }
+
+    private static function setBuildId(?string $id): void
+    {
+        \Closure::bind(static function (?string $id): void {
+            self::$buildId = $id;
+        }, null, Builder::class)($id);
     }
 
     public function testArrayAccessMethodsManipulateData(): void
@@ -623,6 +631,51 @@ class AssetTest extends TestCase
         self::assertSame('css', $asset['ext']);
         self::assertSame('text/css', $asset['subtype']);
         self::assertSame('body{color:red}', trim((string) $asset['content']));
+    }
+
+    public function testBundlesWithDefaultFilenameAndDifferentContentCoexistInCache(): void
+    {
+        $assetsDir = $this->sourceDir . DIRECTORY_SEPARATOR . 'assets';
+        $this->filesystem->dumpFile($assetsDir . DIRECTORY_SEPARATOR . 'a.css', '.a{color:red}');
+        $this->filesystem->dumpFile($assetsDir . DIRECTORY_SEPARATOR . 'b.css', '.b{color:blue}');
+        $this->filesystem->dumpFile($assetsDir . DIRECTORY_SEPARATOR . 'styles.css', '.s{color:green}');
+
+        $builder = new Builder([
+            'baseurl' => 'https://example.com/',
+            'assets'  => ['fingerprint' => true, 'minify' => false],
+        ], new PrintLogger(Builder::VERBOSITY_VERBOSE));
+        $builder->setSourceDir($this->sourceDir);
+        $builder->setDestinationDir($this->destinationDir);
+        $builder->setPages(new PagesCollection('pages'));
+        $cache = new Cache($builder, 'assets');
+        self::setBuildId('test');
+
+        // same bundle used on several pages, interleaved with another bundle
+        $bundles = [
+            ['a.css', 'styles.css'],
+            ['a.css', 'b.css', 'styles.css'],
+            ['a.css', 'styles.css'],
+            ['a.css', 'b.css', 'styles.css'],
+        ];
+        $paths = [];
+        foreach ($bundles as $files) {
+            $asset = new Asset($builder, $files);
+            $asset->save();
+            $paths[implode(',', $files)] = $asset['path'];
+            self::assertSame(
+                implode('', array_map(fn ($file) => file_get_contents($assetsDir . DIRECTORY_SEPARATOR . $file), $files)),
+                $asset['content']
+            );
+        }
+
+        self::assertCount(2, array_unique($paths));
+        foreach ($paths as $path) {
+            self::assertMatchesRegularExpression('#^/styles\.[a-f0-9]+\.css$#', $path);
+        }
+        self::assertSame(array_values($paths), $builder->getAssetsList());
+        foreach ($builder->getAssetsList() as $path) {
+            self::assertFileExists($cache->getContentFile($path));
+        }
     }
 
     public function testStaticHelpersDelegateToLocator(): void
