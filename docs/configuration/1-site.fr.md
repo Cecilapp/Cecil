@@ -2,7 +2,7 @@
 title: "Options du site"
 description: "title, baseurl, menus, taxonomies, theme, date, metatags, debug, etc."
 date: 2026-03-27
-updated: 2026-10-16
+updated: 2026-10-20
 -->
 # Options du site
 
@@ -299,6 +299,10 @@ metatags:
   dc: false                # includes Dublin Core meta tags (`false` by default)
   data: false              # includes JSON-LD structured data (`false` by default)
 ```
+
+:::info
+Les pages dont les directives `robots` (`metatags.robots` dans le front matter, ou l’option de site `metatags.robots` par défaut) contiennent `noindex` sont exclues du sitemap XML.
+:::
 
 ## debug
 

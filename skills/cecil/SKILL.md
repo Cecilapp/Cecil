@@ -325,7 +325,7 @@ Always use the built-in `partials/metatags.html.twig` partial in the `<head>` of
 It generates:
 
 - `<title>` (page title + divider + site title; site title + baseline on the homepage; page number on paginated lists)
-- `description`, `keywords` (from `tags`), `author`, `robots` (`noindex` on paginated pages)
+- `description`, `keywords` (from `tags`), `author`, `robots` (`noindex` on paginated pages; pages with a `noindex` `metatags.robots` are also excluded from the sitemap)
 - favicons (from `favicon.ico`, `favicon.svg`, `favicon.png` assets, resized)
 - `prev`/`next`/`first`/`last` links, canonical and alternate formats, feeds, `hreflang` alternates
 - `rel=me` links, Open Graph, Facebook, Twitter/X Card, Fediverse creator
