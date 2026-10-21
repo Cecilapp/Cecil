@@ -344,6 +344,10 @@ metatags:
 L’auteur d’un article est construit à partir de `author` dans le front matter (`name`, `url`, `image`, `title`) et des entrées `social.*.url` de la page. Sans auteur, l’éditeur est utilisé.
 :::
 
+:::tip
+En [mode debug](#debug), le JSON-LD est indenté pour être lisible (sauf si les fichiers HTML sont [optimisés](10-server.fr.md#optimisation)).
+:::
+
 ## debug
 
 Active le _mode debug_, utilisé pour afficher des informations de débogage comme des journaux très verbeux, le dump Twig, le profileur Twig, la sourcemap SCSS, etc.

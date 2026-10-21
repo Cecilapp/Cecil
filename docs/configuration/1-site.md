@@ -344,6 +344,10 @@ metatags:
 The author of an article is built from the `author` front matter (`name`, `url`, `image`, `title`) and from `social.*.url` page entries. Without author, the publisher is used.
 :::
 
+:::tip
+In [debug mode](#debug), the JSON-LD is pretty-printed to be human readable (unless HTML files are [optimized](10-server.md#optimize)).
+:::
+
 ## debug
 
 Enables the _debug mode_, used to display debug information like very verbose logs, Twig dump, Twig profiler, SCSS sourcemap, etc.

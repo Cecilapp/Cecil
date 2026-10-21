@@ -172,5 +172,10 @@
     }|filter(v => v is not empty)]) -%}
   {%- endfor -%}
   {%- set graph = graph|merge([{'@type': 'ItemList', '@id': home_url ~ '#navigation', itemListElement: navigation}]) -%}
+{%- endif -%}
+{%- set json_flags = constant('JSON_UNESCAPED_SLASHES') b-or constant('JSON_UNESCAPED_UNICODE') b-or constant('JSON_HEX_TAG') b-or constant('JSON_INVALID_UTF8_SUBSTITUTE') -%}
+{#- human readable in debug mode #}
+{%- if site.debug -%}
+  {%- set json_flags = json_flags b-or constant('JSON_PRETTY_PRINT') -%}
 {%- endif ~%}
-    <script type="application/ld+json">{{ {'@context': 'https://schema.org', '@graph': graph}|json_encode(constant('JSON_UNESCAPED_SLASHES') b-or constant('JSON_UNESCAPED_UNICODE') b-or constant('JSON_HEX_TAG') b-or constant('JSON_INVALID_UTF8_SUBSTITUTE'))|raw }}</script>
+    <script type="application/ld+json">{{ {'@context': 'https://schema.org', '@graph': graph}|json_encode(json_flags)|raw }}</script>
