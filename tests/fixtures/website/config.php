@@ -86,9 +86,13 @@ return [
         ],
     ],
     'metatags' => [
-        'jsonld' => [
+        'data' => [
             'enabled' => true,
-            'articles' => 'blog',
+            'article' => 'BlogPosting',
+            'publisher' => [
+                'type' => 'Organization',
+                'name' => 'Cecil "SSG"</script>',
+            ],
         ],
     ],
     'pages' => [

@@ -2,7 +2,7 @@
 title: "Options du site"
 description: "title, baseurl, menus, taxonomies, theme, date, metatags, debug, etc."
 date: 2026-03-27
-updated: 2026-10-20
+updated: 2026-10-21
 -->
 # Options du site
 
@@ -293,15 +293,59 @@ metatags:
   navigation: true         # includes previous and next links (`true` by default)
   image: true              # includes image (`true` by default)
   og: true                 # includes Open Graph meta tags (`true` by default)
-  articles: "blog"         # articles' section (`blog` by default)
+  articles: "blog"         # articles' section(s): a section or a list of sections (`blog` by default)
   twitter: true            # includes Twitter/X Card meta tags (`true` by default)
   mastodon: true           # includes Mastodon meta tags (`true` by default)
   dc: false                # includes Dublin Core meta tags (`false` by default)
-  data: false              # includes JSON-LD structured data (`false` by default)
+  data: false              # includes JSON-LD structured data (`false` by default), see below for options
 ```
 
 :::info
 Les pages dont les directives `robots` (`metatags.robots` dans le front matter, ou l’option de site `metatags.robots` par défaut) contiennent `noindex` sont exclues du sitemap XML.
+:::
+
+### Données structurées
+
+Lorsqu’elles sont activées, les données structurées sont ajoutées sous la forme d’un graphe [JSON-LD](https://json-ld.org) d’entités liées ([schema.org](https://schema.org)) :
+
+- `WebSite` et son éditeur (`Organization` ou `Person`)
+- `WebPage` (`CollectionPage` pour la page d’accueil, les sections et les pages de taxonomies), sauf pour la page 404
+- `BreadcrumbList` : accueil, sections parentes (ou vocabulaire) et page courante
+- `BlogPosting` pour les pages de la ou des sections d’articles (voir `metatags.articles`)
+- `VideoObject` pour les pages avec une vidéo et une image (utilisée comme vignette)
+- `ItemList` des entrées du menu principal
+
+`metatags.data` accepte `true` ou un ensemble d’options :
+
+```yaml
+metatags:
+  data:
+    enabled: true            # enables JSON-LD structured data (`true` if `data` is a map)
+    article: BlogPosting     # schema.org type of articles (`BlogPosting` by default, e.g. `NewsArticle`)
+    publisher:               # entity that publishes the site
+      type: Organization       # `Organization` (default) or `Person` (personal site)
+      name: <name>             # site title by default (site author name for a `Person`)
+      logo: logo.png           # favicon image (`favicon.png`) by default
+      url: <url>               # site URL by default
+      sameAs: [<url>, <url>]   # `url` of `social` entries by default
+```
+
+Le front matter d’une page peut surcharger certaines options :
+
+```yaml
+metatags:
+  data:
+    enabled: false           # disables structured data for this page
+    type: AboutPage          # page type (e.g. `AboutPage`, `ContactPage`, `ProfilePage`, `FAQPage`)
+    article: NewsArticle     # article type
+```
+
+:::info
+L’auteur d’un article est construit à partir de `author` dans le front matter (`name`, `url`, `image`, `title`) et des entrées `social.*.url` de la page. Sans auteur, l’éditeur est utilisé.
+:::
+
+:::tip
+En [mode debug](#debug), le JSON-LD est indenté pour être lisible (sauf si les fichiers HTML sont [optimisés](10-server.fr.md#optimisation)).
 :::
 
 ## debug

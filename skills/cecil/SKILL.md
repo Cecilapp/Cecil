@@ -347,9 +347,28 @@ Important:
     og: true
     twitter: true
     mastodon: true
-    articles: "blog"     # section rendered as Open Graph "article"
+    articles: "blog"     # section(s) rendered as Open Graph "article" and JSON-LD `BlogPosting`
     dc: false            # Dublin Core
-    data: false          # JSON-LD structured data
+    data: false          # JSON-LD structured data (`true` or a map of options)
+  ```
+
+- JSON-LD structured data (`metatags.data`) is a `@graph` of linked entities (`WebSite`, publisher, `WebPage`/`CollectionPage`, `BreadcrumbList`, `BlogPosting`, `VideoObject`, main menu `ItemList`). For a personal site, set the publisher as a `Person`; per page, set a specific type (`AboutPage`, `ContactPage`, etc.):
+
+  ```yaml
+  metatags:
+    data:
+      article: BlogPosting   # or NewsArticle
+      publisher:
+        type: Person         # Organization by default
+        name: "Jane Doe"     # site title (or site author for a Person) by default
+        logo: logo.png       # favicon image by default
+  ```
+
+  ```yaml
+  # page front matter
+  metatags:
+    data:
+      type: AboutPage
   ```
 
 - Override `title` or `image` for a specific template:

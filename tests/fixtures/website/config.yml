@@ -61,9 +61,12 @@ podcast:
     - 'Society & Culture'
     - History
 metatags:
-  jsonld:
+  data:
     enabled: true
-    articles: blog
+    article: BlogPosting
+    publisher:
+      type: Organization
+      name: "Cecil \"SSG\"</script>"
 pages:
   pagination: true
   paths:

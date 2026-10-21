@@ -2,7 +2,7 @@
 title: "Site options"
 description: "title, baseurl, menus, taxonomies, theme, date, metatags, debug, etc."
 date: 2021-05-07
-updated: 2026-10-20
+updated: 2026-10-21
 -->
 # Site options
 
@@ -293,15 +293,59 @@ metatags:
   navigation: true         # includes previous and next links (`true` by default)
   image: true              # includes image (`true` by default)
   og: true                 # includes Open Graph meta tags (`true` by default)
-  articles: "blog"         # articles' section (`blog` by default)
+  articles: "blog"         # articles' section(s): a section or a list of sections (`blog` by default)
   twitter: true            # includes Twitter/X Card meta tags (`true` by default)
   mastodon: true           # includes Mastodon meta tags (`true` by default)
   dc: false                # includes Dublin Core meta tags (`false` by default)
-  data: false              # includes JSON-LD structured data (`false` by default)
+  data: false              # includes JSON-LD structured data (`false` by default), see below for options
 ```
 
 :::info
 Pages whose `robots` directives (`metatags.robots` in front matter, or the `metatags.robots` site option as fallback) contain `noindex` are excluded from the XML sitemap.
+:::
+
+### Structured data
+
+When enabled, structured data are added as a [JSON-LD](https://json-ld.org) graph of linked entities ([schema.org](https://schema.org)):
+
+- `WebSite` and its publisher (`Organization` or `Person`)
+- `WebPage` (`CollectionPage` for the homepage, sections and taxonomies pages), except for the 404 page
+- `BreadcrumbList`: home, ancestor sections (or vocabulary) and current page
+- `BlogPosting` for pages of the articles' section(s) (see `metatags.articles`)
+- `VideoObject` for pages with a video and an image (used as thumbnail)
+- `ItemList` of the main menu entries
+
+`metatags.data` accepts `true` or a map of options:
+
+```yaml
+metatags:
+  data:
+    enabled: true            # enables JSON-LD structured data (`true` if `data` is a map)
+    article: BlogPosting     # schema.org type of articles (`BlogPosting` by default, e.g. `NewsArticle`)
+    publisher:               # entity that publishes the site
+      type: Organization       # `Organization` (default) or `Person` (personal site)
+      name: <name>             # site title by default (site author name for a `Person`)
+      logo: logo.png           # favicon image (`favicon.png`) by default
+      url: <url>               # site URL by default
+      sameAs: [<url>, <url>]   # `url` of `social` entries by default
+```
+
+The page front matter can override some options:
+
+```yaml
+metatags:
+  data:
+    enabled: false           # disables structured data for this page
+    type: AboutPage          # page type (e.g. `AboutPage`, `ContactPage`, `ProfilePage`, `FAQPage`)
+    article: NewsArticle     # article type
+```
+
+:::info
+The author of an article is built from the `author` front matter (`name`, `url`, `image`, `title`) and from `social.*.url` page entries. Without author, the publisher is used.
+:::
+
+:::tip
+In [debug mode](#debug), the JSON-LD is pretty-printed to be human readable (unless HTML files are [optimized](10-server.md#optimize)).
 :::
 
 ## debug

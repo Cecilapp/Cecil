@@ -1,158 +1,181 @@
-{#- Structured data ~#}
-    <script type="application/ld+json">{%- apply minify_js ~%}
-      [
-{#- WebSite ~#}
-        {%- cache cache_key('jsonld-website') ~%}
-        {
-          "@context": "https://schema.org",
-          "@type": "WebSite",
-          "name": "{{ site.title|e('js') }}",
-          "description": "{{ site.description|e('js') }}",
-          "url": "{{ url(site.home, {canonical: true}) }}"
-          {%- if site.image|default ~%},
-          "image": [
-            "{{ url(asset(site.image), {canonical: true}) }}"
-          ]
-          {%- endif ~%}
-          {%- set socials = page.social|default(site.social|default([]))|filter((v) => v['url'] is defined) -%}
-          {%- if socials|length > 0 ~%},
-          "sameAs": [
-            {%- for social in socials ~%}
-            "{{ social.url }}"{% if not loop.last %},{% endif %}
-            {%- endfor ~%}
-          ]
-          {%- endif ~%}
-        }
-        {%- endcache ~%}
-{#- SiteNavigationElement ~#}
-        {%- set items = site.menus.main|default([])|filter(i => i.id != site.home)|sort_by_weight -%}
-        {%- if items|length > 0 -%}
-        {%- cache cache_key('jsonld-navigation', site.menus.main) -%}
-        ,{
-          "@context": "http://schema.org",
-          "@type": "ItemList",
-          "itemListElement": [
-            {%- for item in site.menus.main|filter(i => i.id != site.home)|sort_by_weight ~%}
-            {
-              "@type": "SiteNavigationElement",
-              "position": {{ loop.index }},
-              "name": "{{ site.page(item.id).title|default(item.name)|e('js') }}",
-              "description": "{{ site.page(item.id).description|default|e('js') }}",
-              "url": "{{ url(item.url, {canonical: true}) }}"
-            }{%- if not loop.last %},{% endif -%}
-            {%~ endfor ~%}
-          ]
-        }
-        {%- endcache ~%}
-        {%- endif -%}
-{#- WebPage ~#}
-        {%- if page.id != '404' -%}
-        ,{
-          "@context": "http://schema.org",
-          "@type": "WebPage",
-          "name": "{{ title|default(page.title)|e('js') }}",
-          "description": "{{ page.description|default(site.description)|e('js') }}",
-          "publisher": {
-            "@type": "Organization",
-            "name": "{{ site.title|e('js') }}",
-            {%- set icon_asset = asset('icon.png', {ignore_missing: true}) ~%}
-            {%- if not icon_asset.missing ~%}
-            "logo": "{{ url(icon_asset, {canonical: true}) }}",
-            {%- endif ~%}
-            "url": "{{ url(site.home, {canonical: true}) }}"
-          }
-        }
-        {%- endif ~%}
-        {%- if page.section -%}
-{#- BreadcrumbList -#}
-        ,{
-          "@context": "https://schema.org",
-          "@type": "BreadcrumbList",
-          "itemListElement": [{
-            "@type": "ListItem",
-            "position": 1,
-            "name": "{{ site.page(page.section).title|default(page.section)|e('js') }}",
-            "item": "{{ url(page.section, {canonical: true}) }}"
-          {%- if page.type != 'section' ~%}
-          },{
-            "@type": "ListItem",
-            "position": 2,
-            "name": "{{ title|default(page.title)|e('js') }}",
-            "item": "{{ url(page, {canonical: true}) }}"
-          {%- endif ~%}
-          }]
-        }
-{#- NewsArticle ~#}
-          {%- if page.section == config.metatags.articles|default('blog') and page.type != 'section' -%}
-        ,{
-          "@context": "https://schema.org",
-          "@type": "NewsArticle",
-          "mainEntityOfPage": {
-            "@type": "WebPage",
-            "@id": "{{ url(page, {canonical: true}) }}"
-          },
-          "headline": "{{ title|default(page.title)|e('js') }}",
-          {%- if image|default ~%}
-          "image": [
-            "{{ url(image is asset ? image : asset(image), {canonical: true}) }}"
-          ],
-          {%- endif ~%}
-          "datePublished": "{{ page.date|date('c') }}",
-          {%- if page.updated|default ~%}
-          "dateModified": "{{ page.updated|date('c') }}",
-          {%- endif ~%}
-          {%- if author.name|default ~%}
-          "author": {
-            "@type": "Person",
-            "name": "{{ author.name|e('js') }}"
-            {%- if author.url|default ~%},
-            "url": "{{ author.url }}"
-            {%- endif ~%}
-            {%- if author.image|default ~%},
-            "image": "{{ author.image }}"
-            {%- endif ~%}
-            {%- if author.title|default ~%},
-            "jobTitle": "{{ author.title }}"
-            {%- endif ~%}
-            {%- if author.email|default ~%},
-            "email": "{{ author.email }}"
-            {%- endif ~%}
-            {%- if author.telephone|default ~%},
-            "telephone": "{{ author.telephone }}"
-            {%- endif ~%}
-          },
-          {%- endif ~%}
-          "publisher": {
-            "@type": "Organization",
-            "name": "{{ site.title|e('js') }}",
-            {%- set icon_asset = asset('icon.png', {ignore_missing: true}) ~%}
-            {%- if not icon_asset.missing ~%}
-            "logo": "{{ url(icon_asset, {canonical: true}) }}",
-            {%- endif ~%}
-            "url": "{{ url(site.home, {canonical: true}) }}"
-          }
-        }
-          {%- endif ~%}
-        {%- endif ~%}
-{#- VideoObject ~#}
-        {%- if page.videos[0]|default -%}
-        ,{
-          "@context": "https://schema.org",
-          "@type": "VideoObject",
-          "name": "{{ title|default(page.title)|e('js') }}",
-          {%- if page.description|default ~%}
-          "description": "{{ page.description|e('js') }}",
-          {%- endif ~%}
-          {%- if image|default ~%}
-          "thumbnailUrl": [
-            "{{ url((image is asset ? image : asset(image))|resize(640), {canonical: true}) }}"
-          ],
-          {%- endif ~%}
-          "uploadDate": "{{ page.date|date('c') }}",
-          "duration": "{{ asset(page.videos[0]).video.duration|duration_to_iso8601 }}",
-          "contentUrl": "{{ url(asset(page.videos[0]), {canonical: true}) }}",
-          "embedUrl": "{{ url(page, {canonical: true, format: 'embed'}) }}"
-        }
-        {%- endif ~%}
-      ]
-    {% endapply %}</script>
+{#- Structured data (JSON-LD)
+    params: page, title (raw), author (normalized hash), image (path or asset)
+    the graph is built as a hash and serialized with `json_encode`: no manual escaping needed ~#}
+{#- options: `metatags.data` (or legacy `metatags.jsonld`) can be a boolean or a hash of options #}
+{%- set site_options = site.metatags.data ?? site.metatags.jsonld ?? {} -%}
+{%- set site_options = site_options is iterable ? site_options : {} -%}
+{%- set page_options = page.metatags.data ?? {} -%}
+{%- set page_options = page_options is iterable ? page_options : {} -%}
+{%- set language = site.language ~ '' -%}
+{%- set home_url = url(site.home, {canonical: true}) -%}
+{%- set page_url = url(page, {canonical: true}) -%}
+{%- set title = title|default(page.title) -%}
+{%- set description = page.description|default(site.description|default) -%}
+{%- set website_id = home_url ~ '#website' -%}
+{%- set publisher_id = home_url ~ '#publisher' -%}
+{%- set webpage_id = page_url ~ '#webpage' -%}
+{%- set breadcrumb_id = page_url ~ '#breadcrumb' -%}
+{%- set graph = [] -%}
+{#- image #}
+{%- set image_url = null -%}
+{%- if image|default -%}
+  {%- set image_url = url(image is asset ? image : asset(image), {canonical: true}) -%}
+{%- endif -%}
+{#- Publisher: Organization (default) or Person #}
+{%- set publisher_options = site_options.publisher ?? {} -%}
+{%- set publisher_type = publisher_options.type ?? 'Organization' -%}
+{%- set site_author = site.author ?? null -%}
+{%- set site_author_name = site_author is iterable ? (site_author.name ?? null) : site_author -%}
+{%- set publisher_name = publisher_options.name ?? (publisher_type == 'Person' ? site_author_name|default(site.title) : site.title) -%}
+{%- set publisher_logo = null -%}
+{%- for logo in [publisher_options.logo ?? null, site.metatags.favicon.image ?? 'favicon.png', 'icon.png']|filter(l => l is not empty) -%}
+  {%- if publisher_logo is null -%}
+    {%- set logo_asset = logo is asset ? logo : asset(logo, {ignore_missing: true}) -%}
+    {%- if not logo_asset.missing -%}
+      {%- set publisher_logo = url(logo_asset, {canonical: true}) -%}
+    {%- endif -%}
+  {%- endif -%}
+{%- endfor -%}
+{%- set publisher_same_as = [] -%}
+{%- for social in publisher_options.sameAs ?? site.social|default([])|filter(s => s is iterable and s.url is defined)|map(s => s.url) -%}
+  {%- set publisher_same_as = publisher_same_as|merge([social]) -%}
+{%- endfor -%}
+{%- set publisher = {
+  '@type': publisher_type,
+  '@id': publisher_id,
+  name: publisher_name,
+  url: publisher_options.url ?? home_url,
+  logo: publisher_type == 'Organization' ? publisher_logo : null,
+  image: publisher_type == 'Person' ? publisher_logo : null,
+  sameAs: publisher_same_as,
+}|filter(v => v is not empty) -%}
+{#- WebSite #}
+{%- set website_image = null -%}
+{%- if site.image|default -%}
+  {%- set website_image = url(asset(site.image), {canonical: true}) -%}
+{%- endif -%}
+{%- set graph = graph|merge([{
+  '@type': 'WebSite',
+  '@id': website_id,
+  url: home_url,
+  name: site.title,
+  description: site.description|default,
+  inLanguage: language,
+  image: website_image,
+  publisher: {'@id': publisher_id},
+}|filter(v => v is not empty), publisher]) -%}
+{%- if page.id != '404' -%}
+{#- BreadcrumbList: home > ancestor sections (or vocabulary) > page #}
+  {%- set has_breadcrumb = page.type != 'homepage' and page.id != site.home -%}
+  {%- if has_breadcrumb -%}
+    {%- set crumbs = [{name: site.page(site.home).title|default(site.title), item: home_url}] -%}
+    {%- if page.type == 'term' and page.plural is defined -%}
+      {%- set crumbs = crumbs|merge([{name: page.plural|capitalize, item: url(page.plural, {canonical: true, language: site.language})}]) -%}
+    {%- endif -%}
+    {%- for section in page.ancestors|reverse -%}
+      {%- set crumbs = crumbs|merge([{name: section.title, item: url(section, {canonical: true})}]) -%}
+    {%- endfor -%}
+    {%- set crumbs = crumbs|merge([{name: title, item: page_url}]) -%}
+    {%- set crumb_items = [] -%}
+    {%- for crumb in crumbs -%}
+      {%- set crumb_items = crumb_items|merge([{'@type': 'ListItem', position: loop.index, name: crumb.name, item: crumb.item}]) -%}
+    {%- endfor -%}
+  {%- endif -%}
+{#- WebPage (CollectionPage for list pages, or the type set in front matter: `AboutPage`, `ContactPage`, etc.) #}
+  {#- list pages dates are generated (e.g. build date), they are not exposed #}
+  {%- set is_list = page.type in ['homepage', 'section', 'vocabulary', 'term'] -%}
+  {%- set webpage_type = page_options.type ?? (is_list ? 'CollectionPage' : 'WebPage') -%}
+  {%- set graph = graph|merge([{
+    '@type': webpage_type,
+    '@id': webpage_id,
+    url: page_url,
+    name: title,
+    description: description,
+    inLanguage: language,
+    isPartOf: {'@id': website_id},
+    datePublished: not is_list and page.date is defined and page.date is not empty ? page.date|date('c') : null,
+    dateModified: not is_list and page.updated is defined and page.updated is not empty ? page.updated|date('c') : null,
+    primaryImageOfPage: image_url ? {'@type': 'ImageObject', url: image_url} : null,
+    breadcrumb: has_breadcrumb ? {'@id': breadcrumb_id} : null,
+  }|filter(v => v is not empty)]) -%}
+  {%- if has_breadcrumb -%}
+    {%- set graph = graph|merge([{'@type': 'BreadcrumbList', '@id': breadcrumb_id, itemListElement: crumb_items}]) -%}
+  {%- endif -%}
+{#- Article: pages of the articles' section(s) #}
+  {%- set articles = site.metatags.articles|default('blog') -%}
+  {%- set articles = articles is iterable ? articles : [articles] -%}
+  {%- if page.type == 'page' and page.section in articles -%}
+    {%- set article_author = {'@id': publisher_id} -%}
+    {%- if author.name|default -%}
+      {%- set author_image = null -%}
+      {%- if author.image|default -%}
+        {%- set author_image = author.image matches '{^(https?:)?//}' ? author.image : url(asset(author.image), {canonical: true}) -%}
+      {%- endif -%}
+      {%- set author_same_as = [] -%}
+      {%- for social in page.social|default([])|filter(s => s is iterable and s.url is defined)|map(s => s.url) -%}
+        {%- set author_same_as = author_same_as|merge([social]) -%}
+      {%- endfor -%}
+      {%- set article_author = {
+        '@type': author.type ?? 'Person',
+        name: author.name,
+        url: author.url|default ? url(author.url, {canonical: true}) : null,
+        image: author_image,
+        jobTitle: author.title ?? null,
+        sameAs: author_same_as,
+      }|filter(v => v is not empty) -%}
+    {%- endif -%}
+    {%- set article_section = site.page(page.section) -%}
+    {%- set graph = graph|merge([{
+      '@type': page_options.article ?? site_options.article ?? 'BlogPosting',
+      '@id': page_url ~ '#article',
+      mainEntityOfPage: {'@id': webpage_id},
+      headline: title|length > 110 ? title|slice(0, 109) ~ '…' : title,
+      description: description,
+      image: image_url ? [image_url] : null,
+      datePublished: page.date is defined and page.date is not empty ? page.date|date('c') : null,
+      dateModified: (page.updated ?? page.date ?? null) is not empty ? (page.updated ?? page.date)|date('c') : null,
+      author: article_author,
+      publisher: {'@id': publisher_id},
+      inLanguage: language,
+      articleSection: article_section ? article_section.title : page.section,
+      keywords: page.tags is defined and page.tags is iterable ? page.tags|join(', ') : null,
+    }|filter(v => v is not empty)]) -%}
+  {%- endif -%}
+{#- VideoObject: requires a thumbnail #}
+  {%- if (page.videos[0] ?? false) and image_url -%}
+    {%- set video_asset = asset(page.videos[0]) -%}
+    {%- set graph = graph|merge([{
+      '@type': 'VideoObject',
+      '@id': page_url ~ '#video',
+      name: title,
+      description: description,
+      thumbnailUrl: [url((image is asset ? image : asset(image))|resize(640), {canonical: true})],
+      uploadDate: page.date is defined and page.date is not empty ? page.date|date('c') : null,
+      duration: video_asset.video.duration|default ? video_asset.video.duration|duration_to_iso8601 : null,
+      contentUrl: url(video_asset, {canonical: true}),
+      embedUrl: 'embed' in page.output|default([]) ? url(page, {canonical: true, format: 'embed'}) : null,
+    }|filter(v => v is not empty)]) -%}
+  {%- endif -%}
+{%- endif -%}
+{#- SiteNavigationElement: main menu entries #}
+{%- set items = site.menus.main|default([])|filter(i => i.id != site.home)|sort_by_weight -%}
+{%- if items|length > 0 -%}
+  {%- set navigation = [] -%}
+  {%- for item in items -%}
+    {%- set item_page = site.page(item.id) -%}
+    {%- set navigation = navigation|merge([{
+      '@type': 'SiteNavigationElement',
+      position: loop.index,
+      name: item_page ? item_page.title : item.name,
+      description: item_page ? item_page.description|default : null,
+      url: url(item.url, {canonical: true}),
+    }|filter(v => v is not empty)]) -%}
+  {%- endfor -%}
+  {%- set graph = graph|merge([{'@type': 'ItemList', '@id': home_url ~ '#navigation', itemListElement: navigation}]) -%}
+{%- endif -%}
+{%- set json_flags = constant('JSON_UNESCAPED_SLASHES') b-or constant('JSON_UNESCAPED_UNICODE') b-or constant('JSON_HEX_TAG') b-or constant('JSON_INVALID_UTF8_SUBSTITUTE') -%}
+{#- human readable in debug mode #}
+{%- if site.debug -%}
+  {%- set json_flags = json_flags b-or constant('JSON_PRETTY_PRINT') -%}
+{%- endif ~%}
+    <script type="application/ld+json">{{ {'@context': 'https://schema.org', '@graph': graph}|json_encode(json_flags)|raw }}</script>

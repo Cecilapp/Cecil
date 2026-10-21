@@ -42,14 +42,15 @@
 {% set keywords = page.tags|default([])|iterable|merge(site.keywords|default([])|iterable)|unique %}
 {# author #}
 {% if author is empty %}
-{% set author = page.author|default(site.author|default)|e %}
+{#- raw (unescaped) value: each output applies its own escaping strategy #}
+{% set author = page.author|default(site.author|default) %}
 {% endif %}
 {% if author is not empty %}
   {%- if author is not iterable %}
     {%- set author = {name: author} %}
   {%- endif %}
   {%- if author.firstname is defined and author.lastname is defined %}
-    {%- set author = author|merge({name: author.firstname|e ~ ' ' ~ author.lastname|e}) %}
+    {%- set author = author|merge({name: author.firstname ~ ' ' ~ author.lastname}) %}
   {%- endif %}
 {% endif %}
 {# robots #}
@@ -102,7 +103,8 @@
   {%- set opengraph = opengraph|merge({audio: audio_asset}) %}
 {% endif %}
 {#- OG: article #}
-{% if page.section == site.metatags.articles|default('blog') %}
+{%- set articles = site.metatags.articles|default('blog') %}
+{% if page.section in (articles is iterable ? articles : [articles]) %}
   {%- set opengraph = opengraph|merge({type: 'article'}) %}
 {% endif %}
 {#- OG: image #}
@@ -335,7 +337,14 @@
   {%- endblock metatags_dc ~%}
   {#- template: structured data ~#}
   {%- block metatags_structured_data ~%}
-  {%- if page.metatags.data ?? config.metatags.data ?? config.metatags.jsonld ?? false ~%}
+  {#- `metatags.data` (or legacy `metatags.jsonld`): a boolean or a hash of options (`enabled: false` disables it) ~#}
+  {%- set data_enabled = site.metatags.data ?? site.metatags.jsonld ?? false -%}
+  {%- set data_enabled = data_enabled is iterable ? (data_enabled.enabled ?? true) : data_enabled -%}
+  {%- set data_page = page.metatags.data ?? null -%}
+  {%- if data_page is not null -%}
+    {%- set data_enabled = data_page is iterable ? (data_page.enabled ?? data_enabled) : data_page -%}
+  {%- endif -%}
+  {%- if data_enabled ~%}
   {#- with_context=false: jsonld.js.twig has its own (JS) escaping strategy,
       it must not inherit `title` already HTML-escaped for this template ~#}
   {{- include('partials/jsonld.js.twig', {page: page, title: title_raw, author: author, image: image}, with_context=false) ~}}
