@@ -111,6 +111,39 @@ class IntegrationTests extends \PHPUnit\Framework\TestCase
         self::assertNotEmpty($jsonLdMatches, 'JSON-LD script block not found on page with backslash in title');
         self::assertJson($jsonLdMatches[1], 'JSON-LD block is not valid JSON when the page title contains a backslash');
 
+        // JSON-LD structured data: a valid graph of linked entities, raw (not HTML-escaped) values, no `</script>` break out
+        $htmlArticle = Util\File::fileGetContents(Util::joinFile($this->destination, '_site/blog/post-with-author/index.html'));
+        self::assertNotFalse($htmlArticle);
+        self::assertSame(1, preg_match_all('/<script[^>]*application\/ld\+json[^>]*>(.*?)<\/script>/s', $htmlArticle, $jsonLdMatches), 'JSON-LD script block is not unique or is broken');
+        $jsonLd = json_decode($jsonLdMatches[1][0], true);
+        self::assertIsArray($jsonLd, 'JSON-LD block is not valid JSON');
+        self::assertSame('https://schema.org', $jsonLd['@context']);
+        $nodes = array_column($jsonLd['@graph'], null, '@type');
+        foreach (['WebSite', 'Organization', 'WebPage', 'BreadcrumbList', 'BlogPosting'] as $type) {
+            self::assertArrayHasKey($type, $nodes, \sprintf('JSON-LD node "%s" not found', $type));
+        }
+        self::assertSame('Cecil "SSG"</script>', $nodes['Organization']['name']);
+        self::assertSame($nodes['Organization']['@id'], $nodes['WebSite']['publisher']['@id']);
+        self::assertSame($nodes['WebSite']['@id'], $nodes['WebPage']['isPartOf']['@id']);
+        self::assertSame($nodes['WebPage']['@id'], $nodes['BlogPosting']['mainEntityOfPage']['@id']);
+        self::assertSame('Post With "author" & </script>', $nodes['BlogPosting']['headline']);
+        self::assertSame('Description with "quotes" and \\ backslash', $nodes['BlogPosting']['description']);
+        self::assertSame('Person', $nodes['BlogPosting']['author']['@type']);
+        self::assertSame('Jane O\'Brien "JOB"', $nodes['BlogPosting']['author']['name']);
+        self::assertSame(['https://github.com/jane'], $nodes['BlogPosting']['author']['sameAs']);
+        self::assertArrayNotHasKey('email', $nodes['BlogPosting']['author']);
+        self::assertArrayNotHasKey('telephone', $nodes['BlogPosting']['author']);
+        self::assertStringStartsWith('2026-10-22', $nodes['BlogPosting']['dateModified']);
+        // breadcrumb: home > blog > page
+        self::assertCount(3, $nodes['BreadcrumbList']['itemListElement']);
+        self::assertSame([1, 2, 3], array_column($nodes['BreadcrumbList']['itemListElement'], 'position'));
+        // the HTML `author` meta is escaped only once
+        self::assertStringContainsString('content="Jane O&#039;Brien &quot;JOB&quot;"', $htmlArticle);
+        // list pages are `CollectionPage`
+        $htmlBlog = Util\File::fileGetContents(Util::joinFile($this->destination, '_site/blog/index.html'));
+        self::assertNotFalse($htmlBlog);
+        self::assertStringContainsString('"@type":"CollectionPage"', $htmlBlog);
+
         // a sub-section (nested or not) falls back to the layouts of its ancestor sections (here: `sub-sections/list.html.twig`)
         foreach (['sub-sections', 'sub-sections/child', 'sub-sections/child/grandchild'] as $section) {
             $htmlSection = Util\File::fileGetContents(Util::joinFile($this->destination, '_site', $section, 'index.html'));
