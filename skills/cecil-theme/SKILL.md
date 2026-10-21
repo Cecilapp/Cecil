@@ -161,7 +161,10 @@ static:
 
 Rules:
 
-- Never rely on a key being set: users may override or remove it. In templates, always guard with `|default()` or `??` (e.g. `site.<name>.reverse|default(false)`).
+- Never rely on a key being set: users may override or remove it. In templates, always guard with `??` or `|default()`, knowing that `|default()` also replaces **empty** values (`false`, `''`, `0`, `[]`), not only undefined ones:
+  - use `??` when the user can disable or empty an option, and the fallback is truthy: `site.<name>.breadcrumb ?? true`, `site.<name>.logo ?? 'logo.svg'` (`logo: ''` hides it), `site.<name>.toc.min ?? 2` (`0` is kept). With `|default(true)`, `breadcrumb: false` would be ignored.
+  - `|default()` is fine when the fallback is falsy (`site.<name>.reverse|default(false)`, `page.blocks|default([])`), or when an empty value must be replaced (`|default('Latest posts')`).
+  - wrap `??` in parentheses inside a condition combined with other operators: `(site.<name>.toc.enabled ?? true) and (page.toc ?? true)`.
 - Cecil has no default vocabularies: declare `taxonomies` if the theme displays tags or categories.
 - Keep generic site keys (`title`, `baseurl`, `description`…) out of the theme config.
 
@@ -307,6 +310,12 @@ Put processed files in `assets/` and reference them with `asset()`:
 ```
 
 - Always build links with `url()` (pages, menu entries, paths, assets), never hardcode `site.baseurl`.
+- Link to the Cecil website with the `cecil` global variable, never a hardcoded `https://cecil.app`: `cecil.url` is already absolute (it includes the version as anchor), so don't pass it to `url()`. `cecil.poweredby` (`Cecil v<version>`) and `cecil.version` are available for the label:
+
+  ```twig
+  {% trans with {'%cecil%': '<a href="' ~ cecil.url ~ '">Cecil</a>'} %}Powered by %cecil%{% endtrans %}
+  <a href="{{ cecil.url }}">{{ cecil.poweredby }}</a>
+  ```
 - Filter collections: `site.pages.showable|filter_by('section', 'blog')|sort_by_date|slice(0, 5)`.
 - Tags links: `url('tags/' ~ tag|slugify)` or iterate `site.taxonomies.tags`.
 - Get a specific page: `site.page('about')`.
@@ -711,7 +720,8 @@ A `.github/workflows/demo.yml` workflow deploys it to GitHub Pages: set `CECIL_B
 - [ ] `partials/metatags.html.twig` included in every HTML base layout `<head>`, with no duplicated `<title>`/meta tags (unless the user declined it)
 - [ ] Other built-in partials reused (`paginator`, `navigation`, `breadcrumb`…)
 - [ ] All links built with `url()`, all processed files with `asset()`
-- [ ] Every option guarded with `|default()` or `??`
+- [ ] Links to the Cecil website use `{{ cecil.url }}` (not a hardcoded URL, not wrapped in `url()`)
+- [ ] Every option guarded with `??` or `|default()`; `??` for options that can be set to `false`, `''` or `0` with a truthy fallback (never `|default(true)`)
 - [ ] Every UI string wrapped in `trans`, at least one `translations/messages.<locale>.yml`
 - [ ] 2-space indentation in Twig/YAML/JSON/CSS, LF line endings
 - [ ] **Twig files do not end with a trailing newline**
