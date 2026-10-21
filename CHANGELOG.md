@@ -2,6 +2,18 @@
 
 All notable changes to this project will be documented in this file. Dates are displayed in UTC.
 
+#### [9.21.0](https://github.com/Cecilapp/Cecil/compare/9.20.2...9.21.0)
+
+> 21 October 2026
+
+- Allow a list page to enable pagination when it is disabled globally [`#2543`](https://github.com/Cecilapp/Cecil/pull/2543)
+
+#### [9.20.2](https://github.com/Cecilapp/Cecil/compare/9.20.1...9.20.2)
+
+> 20 October 2026
+
+- Fix bundles sharing the default filename in assets cache [`#2542`](https://github.com/Cecilapp/Cecil/pull/2542)
+
 #### [9.20.1](https://github.com/Cecilapp/Cecil/compare/9.20.0...9.20.1)
 
 > 20 October 2026
