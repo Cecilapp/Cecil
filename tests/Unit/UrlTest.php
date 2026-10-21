@@ -48,4 +48,49 @@ class UrlTest extends TestCase
 
         self::assertSame('/categories/Data%20Sovereignty', (string) new Url($builder, 'categories/Data Sovereignty'));
     }
+
+    public function testLanguagePrefixIsNotDoubled(): void
+    {
+        $builder = new Builder([
+            'baseurl'   => 'https://example.com/',
+            'language'  => 'en',
+            'languages' => [
+                ['code' => 'en', 'name' => 'English', 'locale' => 'en_US'],
+                ['code' => 'fr', 'name' => 'Français', 'locale' => 'fr_FR'],
+            ],
+        ]);
+        $builder->setPages(new PagesCollection('all-pages'));
+
+        self::assertSame('/fr/docs/', (string) new Url($builder, 'docs/', ['language' => 'fr']));
+        self::assertSame('/fr/docs/', (string) new Url($builder, 'fr/docs/', ['language' => 'fr']));
+        self::assertSame('/fr/docs/', (string) new Url($builder, '/fr/docs/', ['language' => 'fr']));
+        self::assertSame('/fr/', (string) new Url($builder, '/fr', ['language' => 'fr']));
+    }
+
+    public function testLanguagePrefixIsNotDoubledWithBasepath(): void
+    {
+        $builder = new Builder([
+            'baseurl'   => 'https://demo.cecil.app/test/',
+            'language'  => 'en',
+            'languages' => [
+                ['code' => 'en', 'name' => 'English', 'locale' => 'en_US'],
+                ['code' => 'fr', 'name' => 'Français', 'locale' => 'fr_FR'],
+            ],
+        ]);
+        $builder->setPages(new PagesCollection('all-pages'));
+
+        self::assertSame('/test/fr/docs/', (string) new Url($builder, 'docs/', ['language' => 'fr']));
+        self::assertSame('/test/fr/docs/', (string) new Url($builder, 'fr/docs/', ['language' => 'fr']));
+        self::assertSame('/test/fr/docs/', (string) new Url($builder, '/fr/docs/', ['language' => 'fr']));
+        self::assertSame('/test/fr/', (string) new Url($builder, '/fr', ['language' => 'fr']));
+        // absolute path already prefixed with base path
+        self::assertSame('/test/fr/docs/', (string) new Url($builder, '/test/fr/docs/', ['language' => 'fr']));
+        self::assertSame('/test/fr/docs/', (string) new Url($builder, '/test/docs/', ['language' => 'fr']));
+        self::assertSame('/test/docs/', (string) new Url($builder, '/test/docs/'));
+        self::assertSame('/test/', (string) new Url($builder, '/test'));
+        // relative path is not considered as prefixed with base path
+        self::assertSame('/test/test/docs/', (string) new Url($builder, 'test/docs/'));
+        // canonical URL
+        self::assertSame('https://demo.cecil.app/test/fr/docs/', (string) new Url($builder, '/fr/docs/', ['language' => 'fr', 'canonical' => true]));
+    }
 }

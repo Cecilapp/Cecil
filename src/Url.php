@@ -130,11 +130,18 @@ class Url
                         $this->url = (string) new self($this->builder, $this->builder->getPages()->get($pageId), $options);
                         break;
                     default:
+                        // remove base path prefix of an absolute path (e.g.: "/test/fr/docs/")
+                        $prefix = trim((string) parse_url((string) $this->config->get('baseurl'), PHP_URL_PATH), '/');
+                        if ($prefix && ($value === "/$prefix" || Util\Str::startsWith($value, "/$prefix/"))) {
+                            $value = substr($value, \strlen($prefix) + 1);
+                        }
+                        // relative URL may start with a slash (e.g.: "/fr/docs/")
+                        $value = ltrim($value, '/');
                         // remove double language prefix
-                        if ($lang && Util\Str::startsWith($value, $lang)) {
+                        if ($lang && ($value . '/' === $lang || Util\Str::startsWith($value, $lang))) {
                             $value = substr($value, \strlen($lang));
                         }
-                        $this->url = $base . '/' . $lang . self::encode(ltrim($value, '/'));
+                        $this->url = $base . '/' . $lang . self::encode($value);
                 }
         }
     }
