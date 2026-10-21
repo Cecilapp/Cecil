@@ -2,6 +2,12 @@
 
 All notable changes to this project will be documented in this file. Dates are displayed in UTC.
 
+#### [9.22.0](https://github.com/Cecilapp/Cecil/compare/9.21.0...9.22.0)
+
+> 21 October 2026
+
+- Rework JSON-LD structured data as a graph of linked entities [`#2544`](https://github.com/Cecilapp/Cecil/pull/2544)
+
 #### [9.21.0](https://github.com/Cecilapp/Cecil/compare/9.20.2...9.21.0)
 
 > 21 October 2026
