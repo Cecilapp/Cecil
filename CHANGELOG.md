@@ -2,6 +2,12 @@
 
 All notable changes to this project will be documented in this file. Dates are displayed in UTC.
 
+#### [9.22.1](https://github.com/Cecilapp/Cecil/compare/9.22.0...9.22.1)
+
+> 21 October 2026
+
+- fix(url): prevent doubled language prefix with base path [`b70b75a`](https://github.com/Cecilapp/Cecil/commit/b70b75a3bd10f02aaf17270683350fb637f2c169)
+
 #### [9.22.0](https://github.com/Cecilapp/Cecil/compare/9.21.0...9.22.0)
 
 > 21 October 2026
