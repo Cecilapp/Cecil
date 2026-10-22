@@ -6,3 +6,6 @@ contact_links:
   - name: Cecil community support
     url: https://github.com/Cecilapp/Cecil/discussions
     about: Please ask and answer questions here.
+  - name: Security vulnerability
+    url: https://github.com/Cecilapp/Cecil/security/policy
+    about: Please report security vulnerabilities privately, not in a public issue.

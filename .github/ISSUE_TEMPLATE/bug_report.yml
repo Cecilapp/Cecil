@@ -1,6 +1,5 @@
 name: "🐞 Bug report"
 description: "Create a report to help us improve."
-#labels: [bug]
 type: bug
 projects: ["Cecilapp/2"]
 assignees:
@@ -9,6 +8,13 @@ body:
   - type: markdown
     attributes:
       value: "Thanks for taking the time to fill out this bug report!"
+  - type: checkboxes
+    id: preflight
+    attributes:
+      label: "Preliminary checks"
+      options:
+        - label: "I have searched the existing issues and this bug has not already been reported."
+          required: true
   - type: textarea
     id: description
     attributes:
@@ -24,7 +30,9 @@ body:
       placeholder: |
         1. Create a new website
         2. Build it
-        4. See error
+        3. See error
+    validations:
+      required: true
   - type: textarea
     id: expected
     attributes:
@@ -35,19 +43,40 @@ body:
   - type: input
     id: version
     attributes:
-      label: "Version"
-      description: "What version of Cecil are you running?"
-      placeholder: "8.0.0"
+      label: "Cecil version"
+      description: "What version of Cecil are you running? (`cecil --version`)"
+      placeholder: "9.22.1"
+    validations:
+      required: true
+  - type: dropdown
+    id: install
+    attributes:
+      label: "Installation method"
+      description: "How did you install Cecil?"
+      options:
+        - "Phar"
+        - "Composer (global)"
+        - "Composer (project dependency)"
+        - "Other"
     validations:
       required: true
   - type: input
+    id: php
+    attributes:
+      label: "PHP version"
+      description: "What version of PHP are you using? (`php --version`)"
+      placeholder: "8.3.12"
+    validations:
+      required: true
+  - type: input
+    id: os
     attributes:
       label: "Operating System"
       description: "What operating system are you using?"
-      placeholder: "macOS Big Sur"
+      placeholder: "macOS 15 Sequoia"
   - type: textarea
     id: logs
     attributes:
       label: "Relevant log output"
       description: "Please copy and paste any relevant log output. This will be automatically formatted into code, so no need for backticks."
-      render: shell
+      render: text
