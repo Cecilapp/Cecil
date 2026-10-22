@@ -597,7 +597,7 @@ Assets referenced by a component (e.g. `flexsearch/flexsearch.css`) must be guar
 
 ### composer.json
 
-Themes are installed with Composer thanks to `cecil/theme-installer`, which copies the package to `themes/<extra.name>` (`extra.name` is **required**):
+Themes are installed with Composer thanks to `cecil/theme-installer` (2.1+), which copies the package to `themes/<theme-name>`:
 
 ```json
 {
@@ -607,10 +607,12 @@ Themes are installed with Composer thanks to `cecil/theme-installer`, which copi
   "keywords": ["Cecil", "theme", "<name>"],
   "license": "MIT",
   "require": {
-    "cecil/theme-installer": "^1.4||^2.0"
+    "cecil/theme-installer": "^2.1"
   },
   "extra": {
-    "name": "<name>"
+    "cecil": {
+      "theme-name": "<name>"
+    }
   },
   "minimum-stability": "dev",
   "prefer-stable": true,
@@ -622,8 +624,12 @@ Themes are installed with Composer thanks to `cecil/theme-installer`, which copi
 }
 ```
 
+- The theme name is resolved in this order: `extra.cecil.theme-name`, then `extra.name` (legacy, still used by the official themes and still supported), then the package name without the `theme-`/`cecil-theme-` prefix or `-theme` suffix (`vendor/theme-foo` → `foo`). Always set `extra.cecil.theme-name` explicitly: it must match the name used in `theme`.
+- The theme name may only contain letters, digits, `.`, `_` and `-`, and must start with a letter or a digit; otherwise the installation fails.
+- `extra.cecil.theme-name` requires `cecil/theme-installer` `^2.1` (PHP 8.1+, Composer 2): older installers only read `extra.name` and fail without it.
+- `config.allow-plugins` here only serves the theme's own development; the Cecil **project** must allow the plugin too (see the README outline below).
 - Use `"description": "Cecil component theme <Name>"` for a component theme.
-- Add a branch alias for the development branch, e.g. `"extra": {"name": "<name>", "branch-alias": {"dev-main": "1.x-dev"}}`.
+- Add a branch alias for the development branch, e.g. `"extra": {"cecil": {"theme-name": "<name>"}, "branch-alias": {"dev-main": "1.x-dev"}}`.
 - Declare dependent themes in `require` (e.g. `"cecil/theme-fontawesome": "^1.5"`) **and** tell the user to add them to `theme`.
 - Tailwind themes can add a builder:
 
@@ -666,6 +672,20 @@ The _<Name>_ theme for [Cecil](https://cecil.app) is …
 ## Features
 
 ## Installation
+
+Allow the theme installer plugin in the `composer.json` file of your Cecil project (required since Composer 2.2):
+
+```json
+{
+  "config": {
+    "allow-plugins": {
+      "cecil/theme-installer": true
+    }
+  }
+}
+```
+
+Then require the theme:
 
 ```bash
 composer require cecil/theme-<name>
@@ -739,14 +759,15 @@ A `.github/workflows/demo.yml` workflow deploys it to GitHub Pages: set `CECIL_B
 - [ ] Every UI string wrapped in `trans`, at least one `translations/messages.<locale>.yml`
 - [ ] 2-space indentation in Twig/YAML/JSON/CSS, LF line endings
 - [ ] **Twig files do not end with a trailing newline**
-- [ ] `composer.json` with `"type": "cecil-theme"` and `extra.name`
+- [ ] `composer.json` with `"type": "cecil-theme"`, `extra.cecil.theme-name` and `"cecil/theme-installer": "^2.1"`
 - [ ] README with screenshot, install, usage and configuration sections
 - [ ] Component theme: assets in `assets/<name>/`, CSS classes and custom properties prefixed with `<name>`, technical generated pages with `excluded: true` and `serviceworker.precache: false`
 - [ ] Tested on a demo site (`demo/` + `link.php`) with `php cecil.phar build -v` and `php cecil.phar serve`, without a site `layouts/` directory
 
 ## Troubleshooting
 
-- **`Theme "<name>" not found`**: the folder must be `themes/<name>/` (matching `extra.name`) and contain `layouts/` or `config.yml`.
+- **`Theme "<name>" not found`**: the folder must be `themes/<name>/` (matching the theme name resolved by the installer: `extra.cecil.theme-name`, `extra.name` or the package name) and contain `layouts/` or `config.yml`.
+- **Theme installed in `vendor/` instead of `themes/`**: the project doesn't allow the plugin; add `"cecil/theme-installer": true` to `config.allow-plugins` in the project's `composer.json`, then reinstall.
 - **`The ".../themes/<name>/layouts" directory does not exist`**: the theme has a `config.yml` but no `layouts/` directory; add one, even empty.
 - **Theme layout ignored**: a site `layouts/` file with the same path, or any file (site, theme or built-in) matching a higher-priority lookup name, wins (e.g. the built-in `_default/home.html.twig` before the theme `_default/list.html.twig`); check with `php cecil.phar build -vv`, or remove the site layout.
 - **Theme data missing (`site.data.*`)**: the site has no `data/` directory; create one.
