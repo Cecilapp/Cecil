@@ -16,6 +16,7 @@ Short, actionable instructions for coding agents working in this repository.
 - Run full quality checks: `composer code`
 - Static analysis: `composer code:analyse`
 - Style checks: `composer code:style`
+- Style fixes (PHP CS Fixer): `composer code:fix`
 - Twig templates lint: `composer code:twig`
 - Tests (unit + integration): `composer test`
 - Unit tests only: `composer test:unit`
@@ -54,7 +55,7 @@ Short, actionable instructions for coding agents working in this repository.
    */
   ```
 
-- Prefix native PHP function calls with `\` (`\count()`, `\array_map()`, `\is_string()`, etc.)
+- Prefix only compiler-optimized native PHP functions with `\` (`\count()`, `\is_string()`, `\in_array()`, `\sprintf()`, etc.), not the others (`preg_match()`, `array_map()`, `str_starts_with()`, etc.): this is enforced by the `native_function_invocation` rule of PHP CS Fixer, so run `composer code:fix` rather than prefixing by hand.
 - Use `?Type` for nullable parameters
 - When modifying existing files, do not reformat unrelated lines and keep public APIs and behavior unchanged unless explicitly requested. If a touched file lacks the header or strict types, add them.
 - Twig/YAML/JS use 2 spaces
