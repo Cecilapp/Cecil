@@ -37,11 +37,30 @@ Short, actionable instructions for coding agents working in this repository.
 
 ## Coding Conventions
 
-- PHP 8.3+, strict types, PSR-12 style
+- PHP 8.3+, strict types (`declare(strict_types=1);` in every PHP file), PSR-12 style
 - Use 4 spaces in PHP files
+- Every PHP file starts with the Cecil header (see `header_comment` in `.php-cs-fixer.php`):
+
+  ```php
+  <?php
+
+  /**
+   * This file is part of Cecil.
+   *
+   * (c) Arnaud Ligny <arnaud@ligny.fr>
+   *
+   * For the full copyright and license information, please view the LICENSE
+   * file that was distributed with this source code.
+   */
+  ```
+
+- Prefix native PHP function calls with `\` (`\count()`, `\array_map()`, `\is_string()`, etc.)
+- Use `?Type` for nullable parameters
+- When modifying existing files, do not reformat unrelated lines and keep public APIs and behavior unchanged unless explicitly requested. If a touched file lacks the header or strict types, add them.
 - Twig/YAML/JS use 2 spaces
 - All Twig template files (*.twig) anywhere in the repository must not end with a trailing newline. Remove any trailing newline when creating or editing these files.
 - Markdown trailing spaces are semantically meaningful (they produce line breaks). Never remove trailing spaces from Markdown files, even when reformatting or cleaning up content, unless the user explicitly confirms the spaces are unintentional.
+- Commit messages follow [Conventional Commits](https://www.conventionalcommits.org/en/v1.0.0/), with a first line of 72 characters or less (see [CONTRIBUTING.md](CONTRIBUTING.md#commit-messages)).
 
 ## Framework Conventions
 

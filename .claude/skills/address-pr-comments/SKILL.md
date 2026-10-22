@@ -1,13 +1,11 @@
 ---
-name: address-pr-comments-cecil
+name: address-pr-comments
 description: Standard workflow to address pull request review comments in Cecil. Use when responding to review feedback, fixing requested changes, or preparing a clear reviewer reply with reproduction, fix, tests, and response.
 ---
 
-# Address PR Comments (Cecil)
+# Address PR Comments
 
 Use this workflow to process review feedback consistently.
-
-Response profile: Standard.
 
 ## Scope
 
@@ -15,6 +13,11 @@ Response profile: Standard.
 - Goal: produce a correct fix and a reviewer-ready response.
 
 ## Required Sequence
+
+0. Fetch comments
+- General comments and reviews: `gh pr view <number> --comments`
+- Inline comments (with file and line): `gh api repos/{owner}/{repo}/pulls/<number>/comments`
+- If no PR number is given, use the PR of the current branch (`gh pr view --json number`).
 
 1. Reproduction
 - Identify the exact issue described by the reviewer.
@@ -24,7 +27,7 @@ Response profile: Standard.
 2. Fix
 - Implement the minimal safe change.
 - Preserve existing public behavior unless the review explicitly requests a behavior change.
-- Follow project conventions in `AGENTS.md` and `.github/instructions/php-src.instructions.md`.
+- Follow project conventions in `AGENTS.md`.
 
 3. Tests and checks
 - Run the smallest relevant checks first.
@@ -37,6 +40,9 @@ Response profile: Standard.
 - Summarize validation performed and outcomes.
 - Call out risks, assumptions, and follow-ups if any.
 - Keep details concise but sufficient for asynchronous review (what changed, why, and proof of validation).
+- Show the response to the user and post it only after confirmation:
+  - general reply: `gh pr comment <number> --body-file <file>`
+  - inline reply: `gh api repos/{owner}/{repo}/pulls/<number>/comments/<comment_id>/replies -F body=@<file>`
 
 ## Output Template
 
