@@ -2,6 +2,17 @@
 
 All notable changes to this project will be documented in this file. Dates are displayed in UTC.
 
+#### [9.22.2](https://github.com/Cecilapp/Cecil/compare/9.22.1...9.22.2)
+
+> 22 October 2026
+
+- fix(themes): support themes without layouts and load theme data [`56c8c6c`](https://github.com/Cecilapp/Cecil/commit/56c8c6c37f620c265726dfd6f885dc572744d64a)
+- chore(agents): migrate AI tooling config to Claude [`7944bed`](https://github.com/Cecilapp/Cecil/commit/7944bed4791a5123d810c311bf2729f49f655b8c)
+- docs(skills): sync cecil and cecil-theme skills with current Cecil [`f326856`](https://github.com/Cecilapp/Cecil/commit/f3268562fb1d0c26cfca9d2c0f239278a6c8663d)
+- chore(github): improve issue templates [`32b43de`](https://github.com/Cecilapp/Cecil/commit/32b43deb889c7d7e20a45864fc5caa1d4058c398)
+- chore(github): expand pull request template [`99896d0`](https://github.com/Cecilapp/Cecil/commit/99896d047949b3144e9cd50e57da20264eb7b115)
+- docs(skills): clarify option guards and Cecil website links in cecil-theme [`fcea194`](https://github.com/Cecilapp/Cecil/commit/fcea1945b48972b082b4186974017bafc71c86f3)
+
 #### [9.22.1](https://github.com/Cecilapp/Cecil/compare/9.22.0...9.22.1)
 
 > 21 October 2026
