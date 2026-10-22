@@ -19,7 +19,7 @@ Les deux sont désactivés par défaut.
 Depuis la version ++8.114.0++, le format `llms` génère la page d’accueil sous la forme d’un fichier `llms.txt` à la racine du site. Il contient :
 
 - le titre et la description du site ;
-- les liens du menu principal ;
+- les liens du menu principal (les URL externes sont ignorées) ;
 - les sections de premier niveau et leurs pages (les sous-sections sont imbriquées), avec leur titre et leur description.
 
 Pour l’activer, ajoutez le format à la page d’accueil :

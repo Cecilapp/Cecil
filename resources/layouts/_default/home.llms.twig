@@ -3,8 +3,8 @@
 
 {# description of the site #}
 > {{ site.description }}
-{# main menu links (except home page) #}
-{%- set menu = site.menus.main|default([])|filter(i => i.id != site.home)|sort_by_weight -%}
+{# main menu links (except home page and external URLs) #}
+{%- set menu = site.menus.main|default([])|filter(i => i.id != site.home and i is not external)|sort_by_weight -%}
 {%- if menu|length > 0 %}
 
 {% for item in menu -%}

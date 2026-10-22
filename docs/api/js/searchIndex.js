@@ -5106,6 +5106,11 @@ Search.appendIndex(
             "summary": "Tests\u0020if\u0020an\u0020option\u0020is\u0020enabled\u0020\u0028ie\u003A\u0020\u0060config.cache\u0020is\u0020enabled\u0060\u0029,\u0020like\u0020\u0060Config\u003A\u003AisEnabled\u0028\u0029\u0060\u003A\na\u0020map\u0020is\u0020enabled\u0020if\u0020it\u0020has\u0020no\u0020\u0060enabled\u0060\u0020key\u0020or\u0020if\u0020this\u0020key\u0020is\u0020\u0060true\u0060,\n\u0060false\u0060\u0020and\u0020\u0060null\u0060\u0020are\u0020disabled,\u0020any\u0020other\u0020value\u0020is\u0020enabled.",
             "url": "classes/Cecil-Renderer-Extension-Core.html#method_isEnabled"
         },                {
+            "fqsen": "\\Cecil\\Renderer\\Extension\\Core\u003A\u003AisExternal\u0028\u0029",
+            "name": "isExternal",
+            "summary": "Tests\u0020if\u0020an\u0020URL\u0020\u0028or\u0020the\u0020URL\u0020of\u0020a\u0020menu\u0020entry\u0029\u0020is\u0020external\u0020\u0028ie\u003A\u0020\u0060item\u0020is\u0020external\u0060\u0029\u003A\nan\u0020URL\u0020with\u0020a\u0020scheme\u0020\u0028\u0060https\u003A\u0060,\u0020\u0060mailto\u003A\u0060,\u0020etc.\u0029\u0020or\u0020protocol\u002Drelative\u0020\u0028\u0060\/\/\u0060\u0029\u0020is\u0020external,\nunless\u0020it\u0020starts\u0020with\u0020the\u0020\u0060baseurl\u0060.",
+            "url": "classes/Cecil-Renderer-Extension-Core.html#method_isExternal"
+        },                {
             "fqsen": "\\Cecil\\Renderer\\Extension\\Core\u003A\u003AdominantColor\u0028\u0029",
             "name": "dominantColor",
             "summary": "Returns\u0020the\u0020dominant\u0020hex\u0020color\u0020of\u0020an\u0020image\u0020asset.",
