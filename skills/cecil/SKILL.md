@@ -560,7 +560,7 @@ Cecil Twig helpers commonly used in templates (full list in the [templates refer
 - Asset filters: `resize`, `webp`, `avif`, `lqip`, `dataurl`, `inline`, `minify`, `fingerprint`, `to_css`
 - Content filters: `markdown_to_html`, `toc`, `excerpt`, `excerpt_html`, `slugify`, `highlight`
 - Collection filters: `filter_by`, `sort_by_date`, `sort_by_title`, `sort_by_weight`
-- Tests: `enabled` (config options), `asset`, `image_large`, `image_square`
+- Tests: `enabled` (config options), `external` (URL or menu entry outside the site), `asset`, `image_large`, `image_square`
 
 ```twig
 {{ html(asset(page.image), {alt: page.title}, {responsive: true, formats: ['webp']}) }}

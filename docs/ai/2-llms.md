@@ -18,7 +18,7 @@ Both are disabled by default.
 Since version ++8.114.0++, the `llms` format renders the homepage as a `llms.txt` file at the root of the site. It contains:
 
 - the site title and description;
-- the links of the main menu;
+- the links of the main menu (external URLs are ignored);
 - the top-level sections and their pages (sub-sections are nested), with their title and description.
 
 To enable it, add the format to the homepage:

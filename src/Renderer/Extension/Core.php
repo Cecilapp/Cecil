@@ -17,6 +17,7 @@ use Cecil\Asset;
 use Cecil\Asset\Image;
 use Cecil\Builder;
 use Cecil\Cache;
+use Cecil\Collection\Menu\Entry as MenuEntry;
 use Cecil\Config;
 use Cecil\Exception\ConfigException;
 use Cecil\Exception\RuntimeException;
@@ -149,6 +150,7 @@ class Core extends AbstractExtension
             new \Twig\TwigTest('image_large', [$this, 'isImageLarge']),
             new \Twig\TwigTest('image_square', [$this, 'isImageSquare']),
             new \Twig\TwigTest('enabled', [$this, 'isEnabled']),
+            new \Twig\TwigTest('external', [$this, 'isExternal']),
         ];
     }
 
@@ -1058,6 +1060,24 @@ class Core extends AbstractExtension
         }
 
         return $value !== false && $value !== null;
+    }
+
+    /**
+     * Tests if an URL (or the URL of a menu entry) is external (ie: `item is external`):
+     * an URL with a scheme (`https:`, `mailto:`, etc.) or protocol-relative (`//`) is external,
+     * unless it starts with the `baseurl`.
+     *
+     * @param MenuEntry|string|null $value
+     */
+    public function isExternal($value): bool
+    {
+        $url = (string) ($value instanceof MenuEntry ? $value->getUrl() : $value);
+        if (!preg_match('~^(?:[a-z][a-z0-9+.-]*:|//)~i', $url)) {
+            return false;
+        }
+        $baseurl = rtrim((string) $this->config->get('baseurl'), '/');
+
+        return !($baseurl && ($url === $baseurl || str_starts_with($url, "$baseurl/")));
     }
 
     /**

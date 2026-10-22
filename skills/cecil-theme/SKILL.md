@@ -321,6 +321,7 @@ Put processed files in `assets/` and reference them with `asset()`:
 ```
 
 - Always build links with `url()` (pages, menu entries, paths, assets), never hardcode `site.baseurl`.
+- Use the `external` test to detect links outside the site (e.g. `{% if entry is external %} rel="noopener" target="_blank"{% endif %}`), rather than matching `http`.
 - Link to the Cecil website with the `cecil` global variable, never a hardcoded `https://cecil.app`: `cecil.url` is already absolute (it includes the version as anchor), so don't pass it to `url()`. `cecil.poweredby` (`Cecil v<version>`) and `cecil.version` are available for the label:
 
   ```twig

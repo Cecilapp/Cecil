@@ -2,7 +2,7 @@
 title: "Fonctions"
 description: "url, html, readtime, hash, cache_key, getenv, dump, tests, etc."
 date: 2026-05-26
-updated: 2026-10-18
+updated: 2026-10-22
 path: documentation/templates/reference/fonctions
 -->
 # Fonctions
@@ -224,6 +224,7 @@ Les [tests](https://twig.symfony.com/doc/tests/index.html) s’utilisent avec l�
 | `image_large`  | L’asset est une image au format paysage d’au moins 600 × 315 pixels (ex. : une image de couverture). |
 | `image_square` | L’asset est une image carrée (largeur et hauteur identiques).                                      |
 | `enabled`      | L’option est activée : `true`, un tableau associatif sans clé `enabled` ou avec `enabled: true`, ou toute autre valeur sauf `false` et `null`. |
+| `external`     | L’URL (ou l’URL d’une entrée de menu) est externe : elle a un schéma (`https:`, `mailto:`, etc.) ou commence par `//`, et ne commence pas par `baseurl`. |
 
 _Exemple :_
 
@@ -238,6 +239,12 @@ _Exemple :_
 {% if config.cache is enabled %}
   {# `cache: false` et `cache: {enabled: false}` sont tous deux désactivés #}
 {% endif %}
+```
+
+```twig
+{% for item in site.menus.main|sort_by_weight %}
+  <a href="{{ url(item.url) }}"{% if item is external %} rel="noopener" target="_blank"{% endif %}>{{ item.name }}</a>
+{% endfor %}
 ```
 
 :::info
