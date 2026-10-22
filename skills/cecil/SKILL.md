@@ -109,6 +109,34 @@ In templates, use `page.parent`, `page.ancestors`, `page.sections` and `page.top
 
 Previous/next navigation (`page.prev` / `page.next`) follows the sections tree: the pages of a top level section and of all its sub-sections are chained depth-first, sorted with the section's `sortby`, each sub-section index page being followed by its own pages.
 
+### Front Matter
+
+Front matter is YAML by default (`pages.frontmatter` also accepts `ini`, `toml` and `json`). Common variables:
+
+| Variable                     | Purpose                                                                                                   |
+|------------------------------|-----------------------------------------------------------------------------------------------------------|
+| `title`, `description`       | Title (default: file name without prefix and language suffix) and description                            |
+| `date`, `updated`            | Creation and update dates                                                                                 |
+| `layout`                     | Template to use (see [Lookup Rules](#lookup-rules-how-cecil-chooses-a-template))                         |
+| `slug`, `path`               | Override the URL (values must already be slugified)                                                       |
+| `weight`                     | Sort order                                                                                                |
+| `published` / `draft`        | `draft: true` is the same as `published: false` (preview with `build --drafts` / `serve --drafts`)        |
+| `schedule`                   | `{publish: <date>, expiry: <date>}`: published if `publish` is reached **and** `expiry` is not passed     |
+| `menu`                       | Add the page to a menu (e.g. `menu: main` or `menu: {main: {weight: 10}}`)                                |
+| `redirect`, `alias`          | Redirect the page to a URL; generate redirections from old paths to the page                             |
+| `output`                     | Output format(s) of the page (e.g. `[html, json]`)                                                        |
+| `uglyurl`                    | `true` to output `page.html` instead of `page/index.html`                                                 |
+| `excluded`                   | `true` to hide the page from lists, sitemap and feeds (formerly `exclude`)                                |
+| `language`, `langref`        | Language code (default: file suffix) and translations reference                                          |
+
+A file name prefix sets the `date` (`2019-04-23_My post.md`) or the `weight` (`1_First project.md`) of the page; separators are `-` and `_` by default (`pages.prefix.separator`).
+
+A section (`<section>/index.md`) also accepts:
+
+- `sortby`: `date` (default), `updated`, `title` or `weight`, or a map `{variable: date, desc_title: false, reverse: false}` (`desc_title` sorts pages with the same date by descending title); the site default is `pages.sortby`
+- `pagination`: `{max: 5, path: page}` to override `pages.pagination`, `false` to disable it, or `{enabled: true}` to enable it when it is disabled globally (`pages.pagination: false`)
+- `cascade` (variables propagated to the section pages) and `circular` (circular prev/next navigation)
+
 ### Configuration
 
 Configuration is defined in `cecil.yml` or `config.yml` at project root:
@@ -219,21 +247,25 @@ Output is generated in `_site/` directory.
 
 | Command                                    | Purpose                                                                                                     |
 |--------------------------------------------|-------------------------------------------------------------------------------------------------------------|
-| `php cecil.phar new:site`                  | Create a new website                                                                                        |
+| `php cecil.phar new:site`                  | Create a new website (`--demo` to add demo content)                                                         |
 | `php cecil.phar new:page`                  | Create a new page                                                                                           |
-| `php cecil.phar build`                     | Build the static site                                                                                       |
-| `php cecil.phar serve`                     | Start local server with live reload                                                                         |
+| `php cecil.phar build`                     | Build the static site (`--drafts`, `--optimize`, `--baseurl`, `--output`, `--config`, `--page`, `--dry-run`, `--clear-cache`) |
+| `php cecil.phar serve`                     | Start local server with live reload (same options as `build`, plus `--open`, `--host`, `--port`, `--no-watch`) |
 | `php cecil.phar serve --incremental`       | Serve with incremental builds (rebuild only changed pages)                                                  |
+| `php cecil.phar serve --background`        | Run the server in the background (`serve:log` to show its log)                                              |
 | `php cecil.phar serve:stop`                | Stop the local server                                                                                       |
 | `php cecil.phar edit`                      | Open pages directory with the configured editor                                                             |
 | `php cecil.phar show:config`               | Display effective configuration (`--key=pages.dir` to show a single key)                                    |
 | `php cecil.phar show:content`              | Display content tree (pages, data, static files)                                                            |
 | `php cecil.phar doctor`                    | Diagnose site and environment (see also `doctor:frontmatter`, `doctor:seo`, `doctor:links`, `doctor:cache`) |
 | `php cecil.phar cache:clear`               | Clear all cache files (or only `cache:clear:assets`, `cache:clear:templates`, `cache:clear:translations`)   |
-| `php cecil.phar clear`                     | Remove generated files (or only `clear:output`, `clear:temporary`)                                          |
-| `php cecil.phar util:templates:extract`    | Extract built-in templates into `layouts/`                                                                  |
+| `php cecil.phar clear`                     | Remove generated files (or only `clear:output`, `clear:temporary` / `clear:tmp`)                            |
+| `php cecil.phar util:templates:extract`    | Extract built-in templates into `layouts/` (Phar and standalone binary only)                                |
 | `php cecil.phar util:translations:extract` | Extract translation strings from templates                                                                  |
-| `php cecil.phar self-update`               | Update Cecil to the latest version                                                                          |
+| `php cecil.phar about`                     | Display Cecil version and environment information                                                           |
+| `php cecil.phar self-update`               | Update Cecil to the latest version (Phar only)                                                              |
+
+`doctor:links` and `doctor:seo` return a failure exit code according to `--fail-on`: `bad` (default), `ok`, `feedback` or `never`. `doctor:links` also accepts `--page`, `--exclude`, `--format=json` and `--include-generated`; its defaults can be set under the `doctor.links` configuration key.
 
 ## Template Development
 
@@ -250,8 +282,8 @@ layouts/(<section>/)<type>|<layout>.<format>(.<language>).twig
 Examples:
 
 - `layouts/page.html.twig` - default page template
-- `layouts/list.html.twig` - section/home/term listing template
-- `layouts/blog/list.rss.twig` - RSS template for `blog` section
+- `layouts/list.html.twig` - section/home listing template
+- `layouts/blog/list.atom.twig` - Atom feed template for `blog` section (RSS is not output by default: enable it with `output.pagetypeformats.section: {rss: true}`)
 - `layouts/page.html.fr.twig` - French page template
 - `layouts/_default/page.html.twig` - fallback template
 
@@ -291,7 +323,8 @@ Cecil embeds default templates in [`resources/layouts/`](https://github.com/Ceci
 
 - `_default/` - fallback layouts: `page.html.twig`, `list.html.twig`, `home.html.twig`, `vocabulary.html.twig`, `term.html.twig`, `404.html.twig`, `404.json.twig`, `redirect.html.twig`, feeds (`list.atom.twig`, `list.rss.twig`, `list.jsonfeed.twig`), embeds (`page.embed.twig`, `page.oembed.twig`), JSON/Markdown/LLMs outputs, `sitemap.xml.twig`, `robots.txt.twig`, etc.
 - `partials/` - reusable fragments (see [Built-in Partials](#built-in-partials-and-utilities))
-- `extended/` - advanced/alternative variants
+- `extended/` - base templates extended by other built-ins (`feed.twig`, extended by the Atom, RSS and JSON Feed templates)
+- `components/` - none built-in, but site and theme [components](#components) live in `layouts/components/`
 - `shortcodes.twig` - built-in shortcodes
 
 Rules to follow:
@@ -343,11 +376,12 @@ Important:
       divider: " &middot; "
       only: false        # page title only
     robots: "index,follow"
-    favicon: true
+    image: true          # default social image (`false` to disable)
+    favicon: true        # or `{enabled: true, image: favicon.png, sizes: {...}}`
     og: true
     twitter: true
     mastodon: true
-    articles: "blog"     # section(s) rendered as Open Graph "article" and JSON-LD `BlogPosting`
+    articles: "blog"     # site config only: section(s) rendered as Open Graph "article" and JSON-LD `BlogPosting`
     dc: false            # Dublin Core
     data: false          # JSON-LD structured data (`true` or a map of options)
   ```
@@ -500,14 +534,17 @@ php cecil.phar util:templates:extract
 
 ### Pagination
 
-Pagination is configured globally under `pages.pagination`, and can be overridden in section front matter.
+Pagination is configured globally under `pages.pagination` (defaults: `max: 5`, `path: page`), and can be overridden in section front matter (see [Front Matter](#front-matter)).
 
 ```yaml
 pages:
   pagination:
-    max: 5
-    path: page
+    max: 10
 ```
+
+`pages.pagination: false` disables it globally; a section can then enable it again with `pagination: {enabled: true}`.
+
+In templates, paginated lists expose `page.paginator` (`pages`, `count`, `current`, `links`).
 
 In list templates, include paginator links with:
 
@@ -517,11 +554,28 @@ In list templates, include paginator links with:
 
 ### Custom Filters and Functions
 
-Core Twig helpers commonly used in Cecil templates:
+Cecil Twig helpers commonly used in templates (full list in the [templates reference](https://cecil.app/documentation/templates/reference/)):
 
-- `url()` - generate internal/absolute URLs depending on config
-- `asset()` - reference and process assets
-- `include()` - compose templates with partials/components
+- Functions: `url()` (internal/absolute URLs), `asset()` (reference and process assets), `html()` (HTML element of an asset: `<img>`, `<picture>`, `<link>`, `<script>`), `image()`, `css()`, `js()`, `integrity()`, `readtime()`
+- Asset filters: `resize`, `webp`, `avif`, `lqip`, `dataurl`, `inline`, `minify`, `fingerprint`, `to_css`
+- Content filters: `markdown_to_html`, `toc`, `excerpt`, `excerpt_html`, `slugify`, `highlight`
+- Collection filters: `filter_by`, `sort_by_date`, `sort_by_title`, `sort_by_weight`
+- Tests: `enabled` (config options), `asset`, `image_large`, `image_square`
+
+```twig
+{{ html(asset(page.image), {alt: page.title}, {responsive: true, formats: ['webp']}) }}
+```
+
+The `html` **filter** (`asset|html`) is deprecated: use the `html()` function.
+
+### Components
+
+Reusable Twig components are stored in `layouts/components/` (e.g. `layouts/components/button.twig`) and used with the `x` tag or an HTML-like syntax; the `slot` variable holds the inner content and `attributes` the passed attributes:
+
+```twig
+{% x:button with {class: 'primary'} %}Click me{% endx %}
+<x-button class="primary">Click me</x-button>
+```
 
 ## Build Optimization
 
@@ -576,7 +630,7 @@ In templates, the `highlight` filter does not use this option: its engine is set
 ### Performance Tips
 
 1. Use `draft: true` to exclude non-published content from builds
-2. Enable asset minification and fingerprinting in production
+2. Enable output optimization in production (`optimize: true` or `build --optimize`); asset minification and fingerprinting are already enabled by default
 3. Use output and format settings adapted to your pages types
 4. Use responsive image options and image optimization when needed
 
@@ -612,22 +666,7 @@ pages:
 
 > Note: use single backslashes in YAML. Double backslashes (`\\`) are only needed inside JSON or PHP strings.
 
-### Custom Commands
-
-Create CLI commands by extending `AbstractCommand`:
-
-```php
-<?php
-
-namespace MyProject\Command;
-
-use Cecil\Command\AbstractCommand;
-
-class MyCommand extends AbstractCommand
-{
-    // Implementation
-}
-```
+### Twig Extensions and Post-processors
 
 You can also extend Twig (via `layouts.extensions`) and post-process output (via `output.postprocessors`).
 
@@ -662,7 +701,7 @@ Cecil generates pure static HTML, compatible with:
 ### Build & Deploy Workflow
 
 ```bash
-# Check links (add --external to also check external links); fails on broken links
+# Check internal links (add --internal --external to also check external links); fails on broken links
 php cecil.phar doctor:links
 
 # Build

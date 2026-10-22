@@ -41,15 +41,18 @@ Resolution rules (from `src/`):
 | Assets         | `assets/` → `themes/<theme>/assets/` → `static/` → `themes/<theme>/static/` (Sass import paths also include the theme's dirs)                            |
 | Static files   | Themes' `static/` are copied first (reverse order), then site `static/`, so the site wins                                                                |
 | Translations   | Cecil internal → `themes/<theme>/translations/` (in `theme` list order, so the **last** theme wins between themes) → site `translations/` (site wins)    |
-| Data files     | Site `data/` and each `themes/<theme>/data/` are loaded into `site.data`                                                                                 |
+| Data files     | Site `data/` and each `themes/<theme>/data/` are loaded into `site.data`, **only if the site has a `data/` directory** (theme data is ignored otherwise)  |
 | Configuration  | `themes/<theme>/config.yml` overrides Cecil defaults (including default pages, generators and output formats), site config always wins (first theme wins between themes) |
 
 Consequences:
 
 - The config file **must** be named `config.yml` (not `config.yaml`); it's the only one loaded.
-- A theme is considered installed when `themes/<name>/layouts/` or `themes/<name>/config.yml` exists; otherwise the build fails with `Theme "<name>" not found. Did you forgot to install it?`.
+- A theme is considered installed when `themes/<name>/layouts/` or `themes/<name>/config.yml` exists; otherwise the build fails with `Theme "<name>" not found. Did you forgot to install it?`. Always ship a `layouts/` directory (even empty): a theme without one fails at rendering (`The ".../themes/<name>/layouts" directory does not exist`, see [#2545](https://github.com/Cecilapp/Cecil/issues/2545)).
+- Layouts are resolved **per candidate name**: for each name of the lookup rules, Cecil checks the site, then the themes, then the built-in templates, before trying the next name. So a built-in `_default/home`, `_default/term`, `_default/vocabulary` or `_default/404` is picked before a theme's `_default/list` or `_default/page`: ship these layouts in the theme to control them. The built-ins extend `['page.html.twig', '_default/page.html.twig']` and fill the `content` block, so the theme base layout must define a `content` block.
 - Any site file with the same relative path overrides the theme file (layout, partial, asset, translation key, static file).
-- Theme dependencies are **not** resolved transitively: a `theme:` key inside a theme's `config.yml` is ignored as soon as the site defines `theme`. Document the full list the user must declare (e.g. `theme: [links, fontawesome]`).
+- A list of values defined by a theme (e.g. `static.exclude`, `output.pagetypeformats.<type>`) **replaces** Cecil's default list; only a site list is combined with the theme list.
+- Theme dependencies are only partially resolved: when the site uses the list form (`theme: [a]`) and theme `a` declares `theme: [b]`, `b` is added and its layouts, assets, static files and translations are used, but **its `config.yml` is not loaded**; with the string form (`theme: a`), `b` is ignored. Document the full list the user must declare (e.g. `theme: [links, fontawesome]`).
+- A theme can also ship PHP classes in `themes/<name>/extensions/` (autoloaded, path matching the namespace), registered in its `config.yml` as Twig extensions (`layouts.extensions`) or generators (`pages.generators`).
 
 ## Theme Structure
 
@@ -69,15 +72,18 @@ theme-<name>/
 │  └─ screenshot.png
 ├─ assets/                 # processed by asset(): css/, sass/, js/, images
 ├─ static/                 # copied as-is: favicon.ico, fonts/
-├─ data/                   # optional data files (site.data.*)
+├─ data/                   # optional data files (site.data.*), loaded only if the site has a data/ dir
+├─ extensions/             # optional PHP classes (Twig extensions, generators)
 ├─ layouts/
 │  ├─ _default/
-│  │  ├─ page.html.twig    # base layout (defines blocks)
-│  │  ├─ list.html.twig    # sections, homepage fallback, terms
-│  │  ├─ home.html.twig    # optional
-│  │  ├─ term.html.twig    # optional
-│  │  └─ vocabulary.html.twig
+│  │  ├─ page.html.twig    # base layout (defines blocks, including `content`)
+│  │  ├─ list.html.twig    # sections
+│  │  ├─ home.html.twig    # otherwise the built-in one is used
+│  │  ├─ term.html.twig    # otherwise the built-in one is used
+│  │  ├─ vocabulary.html.twig
+│  │  └─ 404.html.twig
 │  ├─ <section>/           # optional per-section layouts (e.g. blog/page.html.twig)
+│  ├─ components/          # optional Twig components ({% x:<name> %} or <x-name>)
 │  ├─ partials/            # header, footer, nav, pagination, post-item...
 │  │  └─ notes/            # optional Markdown notes templates (`:::<type>` → <type>.html.twig)
 │  └─ macros/              # optional reusable macros
@@ -129,7 +135,7 @@ rm -rf layouts            # make sure the theme's layouts are used
 mkdir -p themes/<name>
 ```
 
-Develop the theme directly in `themes/<name>/` and enable it in the site `config.yml`:
+Develop the theme directly in `themes/<name>/` and enable it in the site `cecil.yml` (created by `new:site`; `config.yml` is only loaded when there is no `cecil.yml`):
 
 ```yaml
 theme:
@@ -146,11 +152,7 @@ taxonomies:
   tags: tag
 pages:
   pagination:
-    max: 5
-    path: page
-static:
-  exclude:
-    - '*.scss'
+    max: 10       # only set what differs from Cecil defaults
 # Theme options
 <name>:
   sidebar:
@@ -166,6 +168,7 @@ Rules:
   - `|default()` is fine when the fallback is falsy (`site.<name>.reverse|default(false)`, `page.blocks|default([])`), or when an empty value must be replaced (`|default('Latest posts')`).
   - wrap `??` in parentheses inside a condition combined with other operators: `(site.<name>.toc.enabled ?? true) and (page.toc ?? true)`.
 - Cecil has no default vocabularies: declare `taxonomies` if the theme displays tags or categories.
+- Avoid redefining Cecil's lists of values (`static.exclude`, `pages.ext`…): a theme list replaces the default list instead of extending it.
 - Keep generic site keys (`title`, `baseurl`, `description`…) out of the theme config.
 
 ### Step 3: Write `theme.yml` (optional metadata)
@@ -220,7 +223,10 @@ author:
 Guidelines:
 
 - **Always include `partials/metatags.html.twig`** in the `<head>` of every HTML base layout, and never hand-write `<title>`, description, canonical, Open Graph or Twitter tags next to it (they would be duplicated). Since it replaces the theme's own `<title>`, confirm with the user first, explaining the benefit in one line, e.g.: _"I'll use Cecil's built-in metatags partial: it generates the title, description, canonical, favicons, Open Graph/Twitter cards, feeds, hreflang alternates (and optional JSON-LD) from front matter and config, with no code to maintain. OK?"_ Only skip it if the user explicitly declines; in that case, document in the README which tags the theme outputs.
-- Reuse the other Cecil built-in partials instead of re-implementing them: `partials/paginator.html.twig`, `partials/navigation.html.twig`, `partials/breadcrumb.html.twig`, `partials/languages.html.twig`, `partials/theme-selector.html.twig`.
+- Metatags already links the favicons (`favicon.svg`, `favicon.png` resized, `favicon.ico`, from assets or static) and outputs JSON-LD as a linked graph (`WebSite`, `WebPage`, `BreadcrumbList`, `BlogPosting`…) when `metatags.data` is enabled: don't add favicon links or a separate JSON-LD/breadcrumb schema. Ship `assets/favicon.png` (or `.svg`) instead.
+- Reuse the other Cecil built-in partials instead of re-implementing them: `partials/paginator.html.twig`, `partials/navigation.html.twig` (expects a `menu` variable: `{menu: site.menus.main}`), `partials/breadcrumb.html.twig`, `partials/languages.html.twig`, `partials/theme-selector.html.twig`.
+- **Code highlighting**: when replacing `_default/page.html.twig`, keep the code blocks styled, e.g. `<style>{{ include('partials/highlight.css.twig') }}</style>` when `config.pages.body.highlight` is enabled, or ship CSS for both engines' classes (`hljs-*` for `highlightjs`, `hl-*` for `tempest`, see `pages.body.highlight.engine`).
+- **Markdown notes**: `:::<type>` notes render as `<aside class="note note-<type>">`, and the built-in `tabs`, `code-group`, `steps`, `accordion` and `cards` types as `<div class="note note-<type>">` (no JavaScript); style these classes. A theme can override or add `partials/notes/<type>.html.twig`, which only receives a `note` variable (no `page` or `site`).
 - Pre-wire optional component themes with `ignore_missing = true` so the theme works whether they are installed or not.
 - Pass an isolated context (`with_context = false`) to partials that only need `site`/`page`.
 
@@ -249,8 +255,8 @@ List layout idiom (set the pages variable **before** `extends`):
 {% if page.pages is defined %}
 {% set pages = page.pages %}
 {% endif %}
-{% if page.pagination.pages is defined %}
-{% set pages = page.pagination.pages %}
+{% if page.paginator.pages is defined %}
+{% set pages = page.paginator.pages %}
 {% endif %}
 {% extends ['page.html.twig', '_default/page.html.twig'] %}
 
@@ -270,7 +276,11 @@ Section alias (e.g. reuse the blog list for the `section` fallback):
 {% extends 'blog/list.html.twig' %}
 ```
 
-Remember the lookup rules when naming layouts (see the `cecil` skill, "Lookup Rules"): `<section>/page`, `<section>/list`, `section/<section>`, `taxonomy/<plural>`, `term`, `vocabulary`, `_default/*`. For non-HTML outputs, the file name is `<layout>.<format>.twig` (e.g. `list.rss.twig`, `page.webmanifest.twig`).
+To map a whole section to another section's layouts, the site (or the theme config) can use `layouts.sections` (e.g. `layouts: {sections: {news: blog}}`).
+
+Remember the lookup rules when naming layouts (see the `cecil` skill, "Lookup Rules"): `<section>/index`, `<section>/page`, `<section>/list`, `section/<section>`, parent sections, `_default/section`, `index`/`home`, `taxonomy/<plural>`, `taxonomy/<singular>`, `term`, `vocabulary`, `_default/*`, with optional language variants (`page.html.fr.twig`). For non-HTML outputs, the file name is `<layout>.<format>.twig` (e.g. `list.rss.twig`, `page.webmanifest.twig`).
+
+Non-HTML built-ins a theme may override: feeds (`_default/list.atom.twig`, `list.rss.twig`, `list.jsonfeed.twig`, all extending `extended/feed.twig`), their XSL stylesheets (`_default/feed.xsl.twig`, `_default/sitemap.xsl.twig`), `_default/sitemap.xml.twig`, `_default/robots.txt.twig`, `_default/home.llms.twig`, the `*.markdown.twig` and `*.json.twig` outputs, `_default/404.html.twig` and `_default/redirect.html.twig`. Override them only when needed: they receive Cecil fixes and features.
 
 ### Step 6: Assets
 
@@ -284,17 +294,18 @@ Put processed files in `assets/` and reference them with `asset()`:
 {# remote asset, downloaded at build time #}
 {{ html(asset('https://cdn.jsdelivr.net/npm/lib/dist/lib.min.js', {filename: 'lib.min.js', minify: false}), {defer: ''}) }}
 {# responsive image #}
-{{ asset(post.image)|html({alt: post.title}, {responsive: true, formats: ['webp']}) }}
+{{ html(asset(post.image), {alt: post.title}, {responsive: true, formats: ['webp']}) }}
 {# optional asset #}
 {% set logo = asset(site.logo|default('logo.svg'), {ignore_missing: true}) %}
-{% if not logo.missing %}{{ logo|html({alt: site.title}) }}{% endif %}
+{% if not logo.missing %}{{ html(logo, {alt: site.title}) }}{% endif %}
 {# small inline CSS/JS #}
 <style>{% apply minify_css %}.hero { color: red; }{% endapply %}</style>
 ```
 
-- Use `static/` for files that must keep their name and not be processed: `favicon.ico`, web fonts, `robots.txt` overrides, etc. Link them with `url('favicon.ico')`.
+- Use the `html()` function (the `|html` filter is deprecated).
+- Use `static/` for files that must keep their name and not be processed: web fonts, `robots.txt` overrides, etc. Link them with `url()` (favicons are already linked by metatags).
 - Leave minification and fingerprinting to the site config (`assets.minify`, `assets.fingerprint`) rather than forcing them in templates.
-- If the theme uses Sass partials in `assets/`, exclude sources from the copy with `static.exclude: ['*.scss']`.
+- Sass sources in `assets/` are not copied to the output (only `static/` is), and `*.scss` is already excluded by default: no `static.exclude` is needed.
 - For Tailwind CSS, commit the compiled file (e.g. `assets/styles.css`) and provide build scripts (see "Packaging").
 
 ### Step 7: Menus, URLs and collections
@@ -338,8 +349,8 @@ Provide at least one translation file, keyed by the source string:
 "%title% on GitHub": "%title% sur GitHub"
 ```
 
-- File names follow `messages.<locale>.<ext>` (`yml`, `yaml`, `po`/`mo`…), where `<locale>` matches the language locale or code (`fr`, `fr_FR`).
-- Extract strings with `php cecil.phar util:translations:extract --locale=fr --save --theme=<name>`.
+- File names follow `messages.<locale>.<ext>` (`yml`/`yaml`, or compiled `mo`; `.po` files are not loaded), where `<locale>` is the language locale (`fr_FR`) or its first two letters (`fr`).
+- Extract strings with `php cecil.phar util:translations:extract --locale=fr --save --theme=<name>`: the file is written to the **site** `translations/` directory (`messages.fr.yaml`), move it into `themes/<name>/translations/`.
 
 ## Component Themes Patterns
 
@@ -362,9 +373,9 @@ No automatic injection mechanism exists: a component theme plugs into a site usi
          extension: ""
    ```
 
-   With the layout `layouts/_default/page.redirects.twig`. Useful keys for `pages.default.<id>`: `path`, `layout`, `output`, `uglyurl`, `multilingual`, `published`, `exclude`.
+   With the layout `layouts/_default/page.redirects.twig`. Useful keys for `pages.default.<id>`: `path`, `layout`, `output`, `uglyurl`, `multilingual`, `published`, `excluded`.
 
-   For a technical generated page (JSON index, manifest, script…), set `exclude: true` to keep it out of lists, and `serviceworker: {precache: false}` so the `pwa` theme does not precache it:
+   For a technical generated page (JSON index, manifest, script…), set `excluded: true` to keep it out of lists, and `serviceworker: {precache: false}` so the `pwa` theme does not precache it:
 
    ```yaml
    pages:
@@ -373,7 +384,7 @@ No automatic injection mechanism exists: a component theme plugs into a site usi
          path: flexsearch
          layout: flexsearch      # layouts/_default/flexsearch.json.twig
          output: json
-         exclude: true
+         excluded: true
          serviceworker:
            precache: false
    ```
@@ -412,7 +423,7 @@ No automatic injection mechanism exists: a component theme plugs into a site usi
    {%- endmacro -%}
    ```
 
-   Usage: `{% import 'macros/icons.twig' as icons %}{{ icons.svg('github', 16) }}`.
+   Usage: `{% import 'macros/icons.twig' as icons %}{{ icons.svg('github', 16) }}`. Data files shipped in the theme `data/` are only loaded if the site has a `data/` directory: document it, or embed the data in the macro.
 
 4. **Section-specific layouts** applied automatically when the site has a matching section (e.g. `layouts/episodes/list.rss.twig` for a podcast).
 
@@ -423,6 +434,8 @@ No automatic injection mechanism exists: a component theme plugs into a site usi
      {{ include('partials/blocks/' ~ block.name ~ '.html.twig', {block}, ignore_missing = true) }}
    {% endfor %}
    ```
+
+6. **Twig components** in `layouts/components/<name>.twig`, used with `{% x:<name> with {...} %}…{% endx %}` or `<x-<name>>…</x-<name>>` (`slot` holds the inner content, `attributes` the passed attributes).
 
 ## Official Component Themes
 
@@ -503,7 +516,7 @@ flexsearch:
       date: true
 ```
 
-Pages with `exclude: true` are not indexed. Styles are overridable with `--flexsearch-*` custom properties.
+Pages with `excluded: true` are not indexed. Styles are overridable with `--flexsearch-*` custom properties.
 
 ### PWA (`pwa`)
 
@@ -662,7 +675,7 @@ composer require cecil/theme-<name>
 
 ## Usage
 
-Add `<name>` in the `theme` section of your `config.yml`:
+Add `<name>` in the `theme` section of your configuration file (`cecil.yml`):
 
 ```yaml
 theme:
@@ -716,7 +729,8 @@ A `.github/workflows/demo.yml` workflow deploys it to GitHub Pages: set `CECIL_B
 ## Conventions Checklist
 
 - [ ] `config.yml` (not `.yaml`) with theme options under a `<name>:` namespace
-- [ ] Layouts in `layouts/_default/`, children extend `['page.html.twig', '_default/page.html.twig']`
+- [ ] Layouts in `layouts/_default/` (including `home`, `term`, `vocabulary` and `404` to override the built-ins), children extend `['page.html.twig', '_default/page.html.twig']`, base layout defines a `content` block
+- [ ] Code blocks styled for the configured highlight engine, Markdown notes classes styled
 - [ ] `partials/metatags.html.twig` included in every HTML base layout `<head>`, with no duplicated `<title>`/meta tags (unless the user declined it)
 - [ ] Other built-in partials reused (`paginator`, `navigation`, `breadcrumb`…)
 - [ ] All links built with `url()`, all processed files with `asset()`
@@ -727,17 +741,19 @@ A `.github/workflows/demo.yml` workflow deploys it to GitHub Pages: set `CECIL_B
 - [ ] **Twig files do not end with a trailing newline**
 - [ ] `composer.json` with `"type": "cecil-theme"` and `extra.name`
 - [ ] README with screenshot, install, usage and configuration sections
-- [ ] Component theme: assets in `assets/<name>/`, CSS classes and custom properties prefixed with `<name>`, technical generated pages with `exclude: true` and `serviceworker.precache: false`
+- [ ] Component theme: assets in `assets/<name>/`, CSS classes and custom properties prefixed with `<name>`, technical generated pages with `excluded: true` and `serviceworker.precache: false`
 - [ ] Tested on a demo site (`demo/` + `link.php`) with `php cecil.phar build -v` and `php cecil.phar serve`, without a site `layouts/` directory
 
 ## Troubleshooting
 
 - **`Theme "<name>" not found`**: the folder must be `themes/<name>/` (matching `extra.name`) and contain `layouts/` or `config.yml`.
-- **Theme layout ignored**: a site `layouts/` file with the same path (or a higher-priority lookup name) wins; check with `php cecil.phar build -vv`, or remove the site layout.
+- **`The ".../themes/<name>/layouts" directory does not exist`**: the theme has a `config.yml` but no `layouts/` directory; add one, even empty.
+- **Theme layout ignored**: a site `layouts/` file with the same path, or any file (site, theme or built-in) matching a higher-priority lookup name, wins (e.g. the built-in `_default/home.html.twig` before the theme `_default/list.html.twig`); check with `php cecil.phar build -vv`, or remove the site layout.
+- **Theme data missing (`site.data.*`)**: the site has no `data/` directory; create one.
 - **Theme option ignored**: the site config defines the same key; theme config never overrides site config. Lists of values are the exception: a list defined by the site (e.g. `output.pagetypeformats.homepage`) is added to the theme list, so the values required by the theme are kept; the site can only remove one with a map of booleans (e.g. `homepage: {atom: false}`).
-- **Dependent theme not loaded**: list it explicitly in the site `theme` key.
+- **Dependent theme not loaded (or its options missing)**: list it explicitly in the site `theme` key; a dependency declared in a theme's `config.yml` never has its own `config.yml` loaded.
 - **Asset not found**: paths in `asset()` are relative to `assets/` (or `static/`) of the site or theme, without the directory prefix.
-- **Translations missing**: check the file name locale matches `languages[].locale` or code; the translations cache is refreshed when a file is updated or removed, but not when a new one is added: run `php cecil.phar cache:clear:translations`.
+- **Translations missing**: check the file name matches `messages.<locale>` or `messages.<first two letters of the locale>` (e.g. `fr_FR` → `messages.fr_FR.yml` or `messages.fr.yml`); the translations cache is refreshed when a file is updated or removed, but not when a new one is added: run `php cecil.phar cache:clear:translations`.
 - **`Deprecated configuration option(s) in …`**: the theme's `config.yml` uses a renamed or removed option (see `config/deprecated.php`), which makes the build fail for every site using the theme; apply the snippet given in the error message.
 - Run `php cecil.phar doctor` to check theme configuration.
 
