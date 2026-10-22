@@ -245,6 +245,8 @@ npx skills add cecilapp/cecil
 
 Once installed, ask your agent to create, build, configure, or deploy a Cecil site and it will use the skill automatically.
 
+See the [AI documentation](https://cecil.app/documentation/ai/) for more details, including how to generate a `llms.txt` file and Markdown versions of your pages.
+
 ## Sponsors
 
 [![Aperture Lab](https://avatars.githubusercontent.com/u/10225022?s=100)](https://aperturelab.fr "Aperture Lab")&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;

@@ -12,6 +12,7 @@ Source files of the Cecil documentation, published at <https://cecil.app/documen
 - [Commands](commands/index.md)
 - [Deploy](deploy/index.md)
 - [Developers](developers/index.md)
+- [AI](ai/index.md)
 
 The PHP API reference, generated with [phpDocumentor](https://phpdoc.org), lives in [api/](api/).
 
