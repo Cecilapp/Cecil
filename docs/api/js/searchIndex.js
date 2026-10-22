@@ -5646,6 +5646,11 @@ Search.appendIndex(
             "summary": "Process\u0020implementation.",
             "url": "classes/Cecil-Step-Data-Load.html#method_process"
         },                {
+            "fqsen": "\\Cecil\\Step\\Data\\Load\u003A\u003AgetDataDirs\u0028\u0029",
+            "name": "getDataDirs",
+            "summary": "Returns\u0020existing\u0020data\u0020directories\u0020\u0028site\u0020and\u0020themes\u0029.",
+            "url": "classes/Cecil-Step-Data-Load.html#method_getDataDirs"
+        },                {
             "fqsen": "\\Cecil\\Step\\Data\\Load\u003A\u003ApathToArray\u0028\u0029",
             "name": "pathToArray",
             "summary": "Puts\u0020a\u0020path\/value\u0020couple\u0020into\u0020an\u0020array.",

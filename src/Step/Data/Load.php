@@ -48,7 +48,7 @@ class Load extends AbstractStep
      */
     public function init(array $options): void
     {
-        if (is_dir($this->config->getDataPath()) && $this->config->isEnabled('data.load')) {
+        if ($this->config->isEnabled('data.load') && !empty($this->getDataDirs())) {
             $this->canProcess = true;
         }
     }
@@ -60,18 +60,9 @@ class Load extends AbstractStep
     {
         $files = Finder::create()
             ->files()
-            ->in($this->config->getDataPath())
+            ->in($this->getDataDirs())
             ->name('/\.(' . implode('|', (array) $this->config->get('data.ext')) . ')$/')
             ->sortByName(true);
-
-        if ($this->config->hasTheme()) {
-            $themes = $this->config->getTheme();
-            foreach ($themes ?? [] as $theme) {
-                if (Util\File::getFS()->exists($this->config->getThemeDirPath($theme, 'data'))) {
-                    $files->in($this->config->getThemeDirPath($theme, 'data'));
-                }
-            }
-        }
 
         $total = \count($files);
 
@@ -147,6 +138,31 @@ class Load extends AbstractStep
             $message = \sprintf('File "%s" loaded', $file->getRelativePathname());
             $this->builder->getLogger()->info($message, ['progress' => [$count, $total]]);
         }
+    }
+
+    /**
+     * Returns existing data directories (site and themes).
+     *
+     * @return string[]
+     */
+    private function getDataDirs(): array
+    {
+        $dirs = [];
+
+        // data/
+        if (is_dir($this->config->getDataPath())) {
+            $dirs[] = $this->config->getDataPath();
+        }
+        // <theme>/data/
+        if ($this->config->hasTheme()) {
+            foreach ($this->config->getTheme() ?? [] as $theme) {
+                if (is_dir($this->config->getThemeDirPath($theme, 'data'))) {
+                    $dirs[] = $this->config->getThemeDirPath($theme, 'data');
+                }
+            }
+        }
+
+        return $dirs;
     }
 
     /**

@@ -550,6 +550,25 @@ class ConfigTest extends TestCase
         self::assertTrue($config->hasTheme());
     }
 
+    public function testGetLayoutsPathsSkipsThemeWithoutLayoutsDirectory(): void
+    {
+        $source = $this->tmpDir . DIRECTORY_SEPARATOR . 'source';
+        $destination = $this->tmpDir . DIRECTORY_SEPARATOR . 'destination';
+        $themesDir = $source . DIRECTORY_SEPARATOR . 'themes';
+        $this->filesystem->mkdir([$source, $destination, $themesDir . DIRECTORY_SEPARATOR . 'config-only', $themesDir . DIRECTORY_SEPARATOR . 'with-layouts' . DIRECTORY_SEPARATOR . 'layouts']);
+        file_put_contents($themesDir . DIRECTORY_SEPARATOR . 'config-only' . DIRECTORY_SEPARATOR . 'config.yml', "title: Theme\n");
+
+        $config = new Config();
+        $config->setSourceDir($source);
+        $config->setDestinationDir($destination);
+        $config->import(['theme' => ['config-only', 'with-layouts']]);
+
+        $paths = $config->getLayoutsPaths();
+
+        self::assertContains($config->getThemeDirPath('with-layouts'), $paths);
+        self::assertNotContains($config->getThemeDirPath('config-only'), $paths);
+    }
+
     public function testHasWithLanguageAndFallbackDisabledUsesDefaultPresence(): void
     {
         $config = new Config();

@@ -366,7 +366,10 @@ class Config
         // <theme>/layouts/
         if ($this->hasTheme()) {
             foreach ($this->getTheme() ?? [] as $theme) {
-                $paths[] = $this->getThemeDirPath($theme);
+                // a theme may not have layouts (e.g.: config/data/assets only)
+                if (is_dir($this->getThemeDirPath($theme))) {
+                    $paths[] = $this->getThemeDirPath($theme);
+                }
             }
         }
         // resources/layouts/

@@ -41,13 +41,13 @@ Resolution rules (from `src/`):
 | Assets         | `assets/` → `themes/<theme>/assets/` → `static/` → `themes/<theme>/static/` (Sass import paths also include the theme's dirs)                            |
 | Static files   | Themes' `static/` are copied first (reverse order), then site `static/`, so the site wins                                                                |
 | Translations   | Cecil internal → `themes/<theme>/translations/` (in `theme` list order, so the **last** theme wins between themes) → site `translations/` (site wins)    |
-| Data files     | Site `data/` and each `themes/<theme>/data/` are loaded into `site.data`, **only if the site has a `data/` directory** (theme data is ignored otherwise)  |
+| Data files     | Site `data/` and each `themes/<theme>/data/` are loaded into `site.data` (theme data is loaded even if the site has no `data/` directory)                |
 | Configuration  | `themes/<theme>/config.yml` overrides Cecil defaults (including default pages, generators and output formats), site config always wins (first theme wins between themes) |
 
 Consequences:
 
 - The config file **must** be named `config.yml` (not `config.yaml`); it's the only one loaded.
-- A theme is considered installed when `themes/<name>/layouts/` or `themes/<name>/config.yml` exists; otherwise the build fails with `Theme "<name>" not found. Did you forgot to install it?`. Always ship a `layouts/` directory (even empty): a theme without one fails at rendering (`The ".../themes/<name>/layouts" directory does not exist`, see [#2545](https://github.com/Cecilapp/Cecil/issues/2545)).
+- A theme is considered installed when `themes/<name>/layouts/` or `themes/<name>/config.yml` exists; otherwise the build fails with `Theme "<name>" not found. Did you forgot to install it?`. A theme without `layouts/` (config, data or assets only) is supported.
 - Layouts are resolved **per candidate name**: for each name of the lookup rules, Cecil checks the site, then the themes, then the built-in templates, before trying the next name. So a built-in `_default/home`, `_default/term`, `_default/vocabulary` or `_default/404` is picked before a theme's `_default/list` or `_default/page`: ship these layouts in the theme to control them. The built-ins extend `['page.html.twig', '_default/page.html.twig']` and fill the `content` block, so the theme base layout must define a `content` block.
 - Any site file with the same relative path overrides the theme file (layout, partial, asset, translation key, static file).
 - A list of values defined by a theme (e.g. `static.exclude`, `output.pagetypeformats.<type>`) **replaces** Cecil's default list; only a site list is combined with the theme list.
@@ -72,7 +72,7 @@ theme-<name>/
 │  └─ screenshot.png
 ├─ assets/                 # processed by asset(): css/, sass/, js/, images
 ├─ static/                 # copied as-is: favicon.ico, fonts/
-├─ data/                   # optional data files (site.data.*), loaded only if the site has a data/ dir
+├─ data/                   # optional data files (site.data.*)
 ├─ extensions/             # optional PHP classes (Twig extensions, generators)
 ├─ layouts/
 │  ├─ _default/
@@ -423,7 +423,7 @@ No automatic injection mechanism exists: a component theme plugs into a site usi
    {%- endmacro -%}
    ```
 
-   Usage: `{% import 'macros/icons.twig' as icons %}{{ icons.svg('github', 16) }}`. Data files shipped in the theme `data/` are only loaded if the site has a `data/` directory: document it, or embed the data in the macro.
+   Usage: `{% import 'macros/icons.twig' as icons %}{{ icons.svg('github', 16) }}`. Data files shipped in the theme `data/` are available as `site.data.*`.
 
 4. **Section-specific layouts** applied automatically when the site has a matching section (e.g. `layouts/episodes/list.rss.twig` for a podcast).
 
