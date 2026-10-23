@@ -588,7 +588,7 @@ class ConfigTest extends TestCase
         $config = new Config();
         $config->import([]);
 
-        self::assertSame('en_EN', $config->getLanguageProperty('locale'));
+        self::assertSame('en_US', $config->getLanguageProperty('locale'));
     }
 
     public function testGetOutputFormatPropertyCanReturnArrayProperty(): void
