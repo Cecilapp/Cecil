@@ -433,6 +433,13 @@ and code highlighting.</p>
 <dd>{@inheritdoc}</dd>
 
             <dt class="phpdocumentor-table-of-contents__entry -method -protected">
+    <a class="" href="classes/Cecil-Converter-Parsedown.html#method_noteText">noteText()</a>
+    <span>
+                                &nbsp;: string    </span>
+</dt>
+<dd>Converts the Markdown of a note, while the document is being parsed.</dd>
+
+            <dt class="phpdocumentor-table-of-contents__entry -method -protected">
     <a class="" href="classes/Cecil-Converter-Parsedown.html#method_noteVariables">noteVariables()</a>
     <span>
                                 &nbsp;: array{type: string, id: string, content: string, intro: string, items: list<array{title: string|null, heading: string|null, id: string|null, link: string|null, url: string|null, language: string|null, content: string}>}    </span>
@@ -1333,7 +1340,7 @@ and code highlighting.</p>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Converter/Parsedown.php"><a href="files/src-converter-parsedown.html"><abbr title="src/Converter/Parsedown.php">Parsedown.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">1007</span>
+    <span class="phpdocumentor-element-found-in__line">1023</span>
 
     </aside>
 
@@ -1593,7 +1600,7 @@ as a note is closed by a fence at least as long as its opening fence.</p>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Converter/Parsedown.php"><a href="files/src-converter-parsedown.html"><abbr title="src/Converter/Parsedown.php">Parsedown.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">1118</span>
+    <span class="phpdocumentor-element-found-in__line">1134</span>
 
     </aside>
 
@@ -1644,7 +1651,7 @@ as a note is closed by a fence at least as long as its opening fence.</p>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Converter/Parsedown.php"><a href="files/src-converter-parsedown.html"><abbr title="src/Converter/Parsedown.php">Parsedown.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">991</span>
+    <span class="phpdocumentor-element-found-in__line">1007</span>
 
     </aside>
 
@@ -1683,7 +1690,7 @@ as a note is closed by a fence at least as long as its opening fence.</p>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Converter/Parsedown.php"><a href="files/src-converter-parsedown.html"><abbr title="src/Converter/Parsedown.php">Parsedown.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">983</span>
+    <span class="phpdocumentor-element-found-in__line">999</span>
 
     </aside>
 
@@ -1732,7 +1739,7 @@ as a note is closed by a fence at least as long as its opening fence.</p>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Converter/Parsedown.php"><a href="files/src-converter-parsedown.html"><abbr title="src/Converter/Parsedown.php">Parsedown.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">946</span>
+    <span class="phpdocumentor-element-found-in__line">962</span>
 
     </aside>
 
@@ -2069,6 +2076,58 @@ as a note is closed by a fence at least as long as its opening fence.</p>
             -protected
                                                         "
 >
+    <h4 class="phpdocumentor-element__name" id="method_noteText">
+        noteText()
+        <a href="classes/Cecil-Converter-Parsedown.html#method_noteText" class="headerlink"><i class="fas fa-link"></i></a>
+
+    </h4>
+    <aside class="phpdocumentor-element-found-in">
+    <abbr class="phpdocumentor-element-found-in__file" title="src/Converter/Parsedown.php"><a href="files/src-converter-parsedown.html"><abbr title="src/Converter/Parsedown.php">Parsedown.php</abbr></a></abbr>
+    :
+    <span class="phpdocumentor-element-found-in__line">949</span>
+
+    </aside>
+
+        <p class="phpdocumentor-summary">Converts the Markdown of a note, while the document is being parsed.</p>
+
+    <code class="phpdocumentor-code phpdocumentor-signature ">
+    <span class="phpdocumentor-signature__visibility">protected</span>
+                    <span class="phpdocumentor-signature__name">noteText</span><span>(</span><span class="phpdocumentor-signature__argument"><span class="phpdocumentor-signature__argument__type">string&nbsp;</span><span class="phpdocumentor-signature__argument__name">$text</span></span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">string</span></code>
+
+    <div class="phpdocumentor-label-line">
+        </div>
+    
+        <section class="phpdocumentor-description"><p>Parsedown resets the definitions (footnotes, abbreviations and references) on each conversion:
+those of the document are restored, otherwise they are lost for the rest of the document.</p>
+</section>
+
+        <h5 class="phpdocumentor-argument-list__heading">Parameters</h5>
+    <dl class="phpdocumentor-argument-list">
+                    <dt class="phpdocumentor-argument-list__entry">
+                <span class="phpdocumentor-argument-list__argument__name">$text</span>
+                : <span class="phpdocumentor-argument-list__argument__type">string</span>
+                            </dt>
+            <dd class="phpdocumentor-argument-list__definition">
+                
+            </dd>
+            </dl>
+
+    
+
+        
+    
+            <section>
+        <h5 class="phpdocumentor-return-value__heading">Return values</h5>
+        <span class="phpdocumentor-signature__response_type">string</span>
+            </section>
+
+</article>
+                    <article
+        class="phpdocumentor-element
+            -method
+            -protected
+                                                        "
+>
     <h4 class="phpdocumentor-element__name" id="method_noteVariables">
         noteVariables()
         <a href="classes/Cecil-Converter-Parsedown.html#method_noteVariables" class="headerlink"><i class="fas fa-link"></i></a>
@@ -2140,7 +2199,7 @@ as a note is closed by a fence at least as long as its opening fence.</p>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Converter/Parsedown.php"><a href="files/src-converter-parsedown.html"><abbr title="src/Converter/Parsedown.php">Parsedown.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">1043</span>
+    <span class="phpdocumentor-element-found-in__line">1059</span>
 
     </aside>
 
@@ -2189,7 +2248,7 @@ as a note is closed by a fence at least as long as its opening fence.</p>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Converter/Parsedown.php"><a href="files/src-converter-parsedown.html"><abbr title="src/Converter/Parsedown.php">Parsedown.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">960</span>
+    <span class="phpdocumentor-element-found-in__line">976</span>
 
     </aside>
 
@@ -2385,7 +2444,7 @@ as a note is closed by a fence at least as long as its opening fence.</p>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Converter/Parsedown.php"><a href="files/src-converter-parsedown.html"><abbr title="src/Converter/Parsedown.php">Parsedown.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">1090</span>
+    <span class="phpdocumentor-element-found-in__line">1106</span>
 
     </aside>
 
@@ -2438,7 +2497,7 @@ while &quot;größe&quot; becomes &quot;grosse&quot;.</p>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Converter/Parsedown.php"><a href="files/src-converter-parsedown.html"><abbr title="src/Converter/Parsedown.php">Parsedown.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">1104</span>
+    <span class="phpdocumentor-element-found-in__line">1120</span>
 
     </aside>
 
@@ -2489,7 +2548,7 @@ while &quot;größe&quot; becomes &quot;grosse&quot;.</p>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Converter/Parsedown.php"><a href="files/src-converter-parsedown.html"><abbr title="src/Converter/Parsedown.php">Parsedown.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">1423</span>
+    <span class="phpdocumentor-element-found-in__line">1439</span>
 
     </aside>
 
@@ -2545,7 +2604,7 @@ while &quot;größe&quot; becomes &quot;grosse&quot;.</p>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Converter/Parsedown.php"><a href="files/src-converter-parsedown.html"><abbr title="src/Converter/Parsedown.php">Parsedown.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">1489</span>
+    <span class="phpdocumentor-element-found-in__line">1505</span>
 
     </aside>
 
@@ -2594,7 +2653,7 @@ while &quot;größe&quot; becomes &quot;grosse&quot;.</p>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Converter/Parsedown.php"><a href="files/src-converter-parsedown.html"><abbr title="src/Converter/Parsedown.php">Parsedown.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">1353</span>
+    <span class="phpdocumentor-element-found-in__line">1369</span>
 
     </aside>
 
@@ -2650,7 +2709,7 @@ while &quot;größe&quot; becomes &quot;grosse&quot;.</p>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Converter/Parsedown.php"><a href="files/src-converter-parsedown.html"><abbr title="src/Converter/Parsedown.php">Parsedown.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">1467</span>
+    <span class="phpdocumentor-element-found-in__line">1483</span>
 
     </aside>
 
@@ -2706,7 +2765,7 @@ while &quot;größe&quot; becomes &quot;grosse&quot;.</p>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Converter/Parsedown.php"><a href="files/src-converter-parsedown.html"><abbr title="src/Converter/Parsedown.php">Parsedown.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">1299</span>
+    <span class="phpdocumentor-element-found-in__line">1315</span>
 
     </aside>
 
@@ -2754,7 +2813,7 @@ while &quot;größe&quot; becomes &quot;grosse&quot;.</p>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Converter/Parsedown.php"><a href="files/src-converter-parsedown.html"><abbr title="src/Converter/Parsedown.php">Parsedown.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">1149</span>
+    <span class="phpdocumentor-element-found-in__line">1165</span>
 
     </aside>
 
@@ -2809,7 +2868,7 @@ while &quot;größe&quot; becomes &quot;grosse&quot;.</p>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Converter/Parsedown.php"><a href="files/src-converter-parsedown.html"><abbr title="src/Converter/Parsedown.php">Parsedown.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">1236</span>
+    <span class="phpdocumentor-element-found-in__line">1252</span>
 
     </aside>
 
@@ -2878,7 +2937,7 @@ while &quot;größe&quot; becomes &quot;grosse&quot;.</p>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Converter/Parsedown.php"><a href="files/src-converter-parsedown.html"><abbr title="src/Converter/Parsedown.php">Parsedown.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">1160</span>
+    <span class="phpdocumentor-element-found-in__line">1176</span>
 
     </aside>
 
@@ -2926,7 +2985,7 @@ while &quot;größe&quot; becomes &quot;grosse&quot;.</p>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Converter/Parsedown.php"><a href="files/src-converter-parsedown.html"><abbr title="src/Converter/Parsedown.php">Parsedown.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">1169</span>
+    <span class="phpdocumentor-element-found-in__line">1185</span>
 
     </aside>
 
@@ -2974,7 +3033,7 @@ while &quot;größe&quot; becomes &quot;grosse&quot;.</p>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Converter/Parsedown.php"><a href="files/src-converter-parsedown.html"><abbr title="src/Converter/Parsedown.php">Parsedown.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">1271</span>
+    <span class="phpdocumentor-element-found-in__line">1287</span>
 
     </aside>
 
@@ -3043,7 +3102,7 @@ while &quot;größe&quot; becomes &quot;grosse&quot;.</p>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Converter/Parsedown.php"><a href="files/src-converter-parsedown.html"><abbr title="src/Converter/Parsedown.php">Parsedown.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">1214</span>
+    <span class="phpdocumentor-element-found-in__line">1230</span>
 
     </aside>
 
@@ -3098,7 +3157,7 @@ while &quot;größe&quot; becomes &quot;grosse&quot;.</p>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Converter/Parsedown.php"><a href="files/src-converter-parsedown.html"><abbr title="src/Converter/Parsedown.php">Parsedown.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">1202</span>
+    <span class="phpdocumentor-element-found-in__line">1218</span>
 
     </aside>
 
@@ -3153,7 +3212,7 @@ while &quot;größe&quot; becomes &quot;grosse&quot;.</p>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Converter/Parsedown.php"><a href="files/src-converter-parsedown.html"><abbr title="src/Converter/Parsedown.php">Parsedown.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">1190</span>
+    <span class="phpdocumentor-element-found-in__line">1206</span>
 
     </aside>
 
@@ -3208,7 +3267,7 @@ while &quot;größe&quot; becomes &quot;grosse&quot;.</p>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Converter/Parsedown.php"><a href="files/src-converter-parsedown.html"><abbr title="src/Converter/Parsedown.php">Parsedown.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">1314</span>
+    <span class="phpdocumentor-element-found-in__line">1330</span>
 
     </aside>
 
@@ -3263,7 +3322,7 @@ while &quot;größe&quot; becomes &quot;grosse&quot;.</p>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Converter/Parsedown.php"><a href="files/src-converter-parsedown.html"><abbr title="src/Converter/Parsedown.php">Parsedown.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">1404</span>
+    <span class="phpdocumentor-element-found-in__line">1420</span>
 
     </aside>
 
@@ -3315,7 +3374,7 @@ Remote and missing files are linked as is.</p>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Converter/Parsedown.php"><a href="files/src-converter-parsedown.html"><abbr title="src/Converter/Parsedown.php">Parsedown.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">1294</span>
+    <span class="phpdocumentor-element-found-in__line">1310</span>
 
     </aside>
 
@@ -3354,7 +3413,7 @@ Remote and missing files are linked as is.</p>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Converter/Parsedown.php"><a href="files/src-converter-parsedown.html"><abbr title="src/Converter/Parsedown.php">Parsedown.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">1531</span>
+    <span class="phpdocumentor-element-found-in__line">1547</span>
 
     </aside>
 
@@ -3403,7 +3462,7 @@ Remote and missing files are linked as is.</p>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Converter/Parsedown.php"><a href="files/src-converter-parsedown.html"><abbr title="src/Converter/Parsedown.php">Parsedown.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">1178</span>
+    <span class="phpdocumentor-element-found-in__line">1194</span>
 
     </aside>
 
@@ -3451,7 +3510,7 @@ Remote and missing files are linked as is.</p>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Converter/Parsedown.php"><a href="files/src-converter-parsedown.html"><abbr title="src/Converter/Parsedown.php">Parsedown.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">1130</span>
+    <span class="phpdocumentor-element-found-in__line">1146</span>
 
     </aside>
 
@@ -3504,7 +3563,7 @@ Remote and missing files are linked as is.</p>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Converter/Parsedown.php"><a href="files/src-converter-parsedown.html"><abbr title="src/Converter/Parsedown.php">Parsedown.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">1324</span>
+    <span class="phpdocumentor-element-found-in__line">1340</span>
 
     </aside>
 
@@ -3560,7 +3619,7 @@ Remote and missing files are linked as is.</p>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Converter/Parsedown.php"><a href="files/src-converter-parsedown.html"><abbr title="src/Converter/Parsedown.php">Parsedown.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">1336</span>
+    <span class="phpdocumentor-element-found-in__line">1352</span>
 
     </aside>
 
@@ -3665,6 +3724,7 @@ Remote and missing files are linked as is.</p>
                                             <li class=""><a href="classes/Cecil-Converter-Parsedown.html#method_inlineLink">inlineLink()</a></li>
                                             <li class=""><a href="classes/Cecil-Converter-Parsedown.html#method_inlineUrl">inlineUrl()</a></li>
                                             <li class=""><a href="classes/Cecil-Converter-Parsedown.html#method_inlineUrlTag">inlineUrlTag()</a></li>
+                                            <li class=""><a href="classes/Cecil-Converter-Parsedown.html#method_noteText">noteText()</a></li>
                                             <li class=""><a href="classes/Cecil-Converter-Parsedown.html#method_noteVariables">noteVariables()</a></li>
                                             <li class=""><a href="classes/Cecil-Converter-Parsedown.html#method_parseAttributeData">parseAttributeData()</a></li>
                                             <li class=""><a href="classes/Cecil-Converter-Parsedown.html#method_renderNote">renderNote()</a></li>

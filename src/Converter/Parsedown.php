@@ -741,7 +741,7 @@ class Parsedown extends \ParsedownToc
             return $block;
         }
 
-        $block['element']['rawHtml'] = $this->text($text);
+        $block['element']['rawHtml'] = $this->noteText($text);
 
         return $block;
     }
@@ -778,11 +778,11 @@ class Parsedown extends \ParsedownToc
         $segments = $this->splitNote($text);
         // headings
         if (\count($segments['items']) > 0) {
-            $note['intro'] = $this->text(implode("\n", $segments['intro']));
+            $note['intro'] = $this->noteText(implode("\n", $segments['intro']));
             $content = [$note['intro']];
             foreach ($segments['items'] as $segment) {
-                $heading = $this->text($segment['heading']);
-                $body = $this->text(implode("\n", $segment['lines']));
+                $heading = $this->noteText($segment['heading']);
+                $body = $this->noteText(implode("\n", $segment['lines']));
                 $title = preg_match('/^<h4[^>]*>(.*)<\/h4>$/s', $heading, $matches) ? $matches[1] : strip_tags($heading);
                 $id = preg_match('/^<h4[^>]*\sid="([^"]*)"/', $heading, $matches) ? html_entity_decode($matches[1], \ENT_QUOTES | \ENT_HTML5) : null;
                 $note['items'][] = array_merge($item, ['title' => $title, 'heading' => $heading, 'id' => $id, 'content' => $body]);
@@ -795,7 +795,7 @@ class Parsedown extends \ParsedownToc
         }
         // list
         if (($entries = $this->splitNoteList($text)) !== null) {
-            $note['content'] = $this->text($text);
+            $note['content'] = $this->noteText($text);
             foreach ($entries as $entry) {
                 $html = trim($this->line($entry));
                 $title = $link = $url = null;
@@ -814,7 +814,7 @@ class Parsedown extends \ParsedownToc
         // code blocks
         if (($blocks = $this->splitNoteCode($text)) !== null) {
             foreach ($blocks as $block) {
-                $html = $this->text($block['code']);
+                $html = $this->noteText($block['code']);
                 $note['items'][] = array_merge($item, ['title' => $block['language'] !== null ? htmlspecialchars($block['language']) : null, 'language' => $block['language'], 'content' => $html]);
             }
             $note['content'] = implode("\n", array_column($note['items'], 'content'));
@@ -822,7 +822,7 @@ class Parsedown extends \ParsedownToc
             return $note;
         }
         // no items
-        $note['content'] = $note['intro'] = $this->text($text);
+        $note['content'] = $note['intro'] = $this->noteText($text);
 
         return $note;
     }
@@ -938,6 +938,22 @@ class Parsedown extends \ParsedownToc
         }
 
         return \count($blocks) > 0 ? $blocks : null;
+    }
+
+    /**
+     * Converts the Markdown of a note, while the document is being parsed.
+     *
+     * Parsedown resets the definitions (footnotes, abbreviations and references) on each conversion:
+     * those of the document are restored, otherwise they are lost for the rest of the document.
+     */
+    protected function noteText(string $text): string
+    {
+        $definitions = $this->DefinitionData; // @phpstan-ignore property.notFound
+        try {
+            return $this->text($text);
+        } finally {
+            $this->DefinitionData = $definitions; // @phpstan-ignore property.notFound
+        }
     }
 
     /**
