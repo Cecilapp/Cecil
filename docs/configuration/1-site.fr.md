@@ -177,7 +177,7 @@ theme: hyde
 
 ```yaml
 theme:
-  - serviceworker
+  - pwa
   - hyde
 ```
 
