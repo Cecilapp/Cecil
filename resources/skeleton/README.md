@@ -1,39 +1,9 @@
-# My website
+# Cecil skeleton
 
-This website is built with [Cecil](https://cecil.app), a static site generator.
+Files used by the `new:site` command to create a new website (see `src/Command/NewSite.php`):
 
-## Usage
+- `base/`: always copied (except `cecil.yml`, used as a template to create the configuration file)
+- `demo/`: copied with the `--demo` option
+- `deploy/github-pages.yml`: copied to `.github/workflows/build-and-deploy.yml` if a GitHub Pages workflow is requested
 
-Preview the website locally (with live reload):
-
-```bash
-cecil serve
-```
-
-Build the website (in the `_site/` directory):
-
-```bash
-cecil build
-```
-
-Create a new page:
-
-```bash
-cecil new:page
-```
-
-> [!TIP]
-> If you use the Phar file, replace `cecil` with `php cecil.phar`.
-
-## Structure
-
-- `cecil.yml`: configuration
-- `pages/`: content, written in Markdown
-- `layouts/`: Twig templates (overrides the built-in ones)
-- `assets/`: images, styles and scripts, processed by Cecil
-- `data/`: data files (YAML, JSON, CSV, etc.)
-- `static/`: files copied as is
-
-## Documentation
-
-<https://cecil.app/documentation/>
+Dot files are not embedded in the Phar: `base/gitignore` is renamed to `.gitignore` when copied.

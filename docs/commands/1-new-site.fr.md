@@ -55,6 +55,7 @@ La commande crée les fichiers suivants :
 - `cecil.yml` : la configuration, avec des exemples commentés des options courantes
 - `pages/index.md` : la page d'accueil
 - `assets/favicon.png` et `assets/icon.png` : le favicon et l'image par défaut des cartes des réseaux sociaux
+- `static/favicon.ico` : le favicon historique
 - `README.md` et `.gitignore` (`_site/`, `.cache/` et `.cecil/`), s'ils n'existent pas déjà
 - `.github/workflows/build-and-deploy.yml` : un workflow GitHub Actions pour [déployer sur GitHub Pages](../deploy/2-continuous-deployment.fr.md#github-pages), si demandé
 

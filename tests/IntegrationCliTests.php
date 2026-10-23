@@ -70,6 +70,7 @@ class IntegrationCliTests extends IntegrationTests
         self::assertFileExists(Util::joinFile(__DIR__, 'demo', 'README.md'));
         self::assertFileExists(Util::joinFile(__DIR__, 'demo', '.gitignore'));
         self::assertFileExists(Util::joinFile(__DIR__, 'demo', 'pages', 'index.md'));
+        self::assertFileExists(Util::joinFile(__DIR__, 'demo', 'static', 'favicon.ico'));
         self::assertDirectoryDoesNotExist(Util::joinFile(__DIR__, 'demo', 'pages', 'blog'));
         $output = [];
         exec('php ./bin/cecil build tests/demo', $output, $retval);

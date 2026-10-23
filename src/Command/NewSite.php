@@ -36,6 +36,27 @@ use Symfony\Component\Yaml\Yaml;
 class NewSite extends AbstractCommand
 {
     /**
+     * Skeleton directory: `base/` files are always copied, `demo/` files with the `--demo` option.
+     */
+    public const string SKELETON_DIR = 'resources/skeleton';
+
+    /**
+     * Skeleton files renamed when copied (dot files are not embedded in the Phar).
+     */
+    public const array SKELETON_RENAME = [
+        'gitignore' => '.gitignore',
+    ];
+
+    /**
+     * Files not overridden if they already exist (e.g.: in an existing repository).
+     */
+    public const array SKELETON_PRESERVE = [
+        'README.md',
+        '.gitignore',
+        '.github/workflows/build-and-deploy.yml',
+    ];
+
+    /**
      * Additional language of the demo content (translated pages).
      */
     public const array DEMO_LANGUAGE = [
@@ -111,7 +132,7 @@ EOF
             Util\File::getFS()->mkdir($this->getPath(false));
             // create config file from the skeleton one (to keep comments)
             $configYaml = $this->createConfig(
-                Util\File::getFS()->readFile(Util::joinPath($this->rootPath, 'resources/skeleton', self::CONFIG_FILE[0])),
+                Util\File::getFS()->readFile(Util::joinPath($this->rootPath, self::SKELETON_DIR, 'base', self::CONFIG_FILE[0])),
                 [
                     'title'       => $title,
                     'baseline'    => $baseline,
@@ -134,66 +155,15 @@ EOF
             ) {
                 Util\File::getFS()->mkdir(Util::joinPath($this->getPath(), $value));
             }
-            // copy files
-            foreach (
-                [
-                    'assets/favicon.png',
-                    'assets/icon.png',
-                    'pages/index.md',
-                ] as $value
-            ) {
-                Util\File::getFS()->copy(
-                    Util::joinPath($this->rootPath, 'resources/skeleton', $value),
-                    Util::joinPath($this->getPath(), $value)
-                );
-                Util\File::getFS()->chmod(Util::joinPath($this->getPath(), $value), 0777 & ~umask()); // make it writable for demo content
-            }
-            // copy project files, without overriding existing ones (e.g.: in an existing repository)
-            $files = [
-                'README.md' => 'README.md',
-                'gitignore' => '.gitignore', // dot files are not embedded in the Phar
-            ];
-            if ($deploy) {
-                $files['deploy/github-pages.yml'] = '.github/workflows/build-and-deploy.yml';
-            }
-            foreach ($files as $source => $target) {
-                if (Util\File::getFS()->exists(Util::joinPath($this->getPath(), $target))) {
-                    continue;
-                }
-                Util\File::getFS()->copy(
-                    Util::joinPath($this->rootPath, 'resources/skeleton', $source),
-                    Util::joinPath($this->getPath(), $target)
-                );
-                Util\File::getFS()->chmod(Util::joinPath($this->getPath(), $target), 0777 & ~umask());
-            }
-            // demo: copy all files
+            // copy base files (except the config file, already created)
+            $this->copySkeleton('base', fn (string $path): bool => $path != self::CONFIG_FILE[0]);
+            // demo: copy demo files (translated pages are useless if their language is the main one)
             if ($demo) {
-                foreach (
-                    [
-                        (string) $this->getBuilder()->getConfig()->get('assets.dir'),
-                        (string) $this->getBuilder()->getConfig()->get('data.dir'),
-                        (string) $this->getBuilder()->getConfig()->get('layouts.dir'),
-                        (string) $this->getBuilder()->getConfig()->get('pages.dir'),
-                        (string) $this->getBuilder()->getConfig()->get('static.dir'),
-                        (string) $this->getBuilder()->getConfig()->get('layouts.translations.dir'),
-                    ] as $value
-                ) {
-                    Util\File::getFS()->mirror(
-                        Util::joinPath($this->rootPath, 'resources/skeleton', $value),
-                        Util::joinPath($this->getPath(), $value)
-                    );
-                    // files are read-only in the Phar: make them writable (otherwise rebuilds can't overwrite them)
-                    Util\File::getFS()->chmod(Util::joinPath($this->getPath(), $value), 0777 & ~umask(), 0000, true);
-                }
-                // translated demo pages are useless if their language is the main one
-                if ($this->isDemoLanguage($language)) {
-                    Util\File::getFS()->remove(
-                        Finder::create()
-                            ->files()
-                            ->in(Util::joinPath($this->getPath(), (string) $this->getBuilder()->getConfig()->get('pages.dir')))
-                            ->name('*.' . self::DEMO_LANGUAGE['code'] . '.md')
-                    );
-                }
+                $this->copySkeleton('demo', fn (string $path): bool => !$this->isDemoLanguage($language) || !str_ends_with($path, '.' . self::DEMO_LANGUAGE['code'] . '.md'));
+            }
+            // deploy: copy the GitHub Pages workflow
+            if ($deploy) {
+                $this->copySkeletonFile('deploy/github-pages.yml', '.github/workflows/build-and-deploy.yml');
             }
             // done
             if ($output->isDecorated()) {
@@ -261,6 +231,34 @@ EOF
         }
 
         return $this->replaceConfigEntry($yaml, 'language', $language);
+    }
+
+    /**
+     * Copies files of a skeleton sub directory (e.g.: `base` or `demo`), accepted by the filter (with their relative path).
+     */
+    private function copySkeleton(string $dir, ?callable $filter = null): void
+    {
+        foreach (Finder::create()->files()->in(Util::joinPath($this->rootPath, self::SKELETON_DIR, $dir)) as $file) {
+            $path = str_replace('\\', '/', $file->getRelativePathname());
+            if ($filter !== null && !$filter($path)) {
+                continue;
+            }
+            $this->copySkeletonFile(Util::joinPath($dir, $path), self::SKELETON_RENAME[$path] ?? $path);
+        }
+    }
+
+    /**
+     * Copies a skeleton file to the site, unless it must be preserved.
+     */
+    private function copySkeletonFile(string $source, string $target): void
+    {
+        $targetPath = Util::joinPath($this->getPath(), $target);
+        if (\in_array($target, self::SKELETON_PRESERVE) && Util\File::getFS()->exists($targetPath)) {
+            return;
+        }
+        Util\File::getFS()->copy(Util::joinPath($this->rootPath, self::SKELETON_DIR, $source), $targetPath);
+        // files are read-only in the Phar: make them writable (otherwise rebuilds can't overwrite them)
+        Util\File::getFS()->chmod($targetPath, 0777 & ~umask());
     }
 
     /**
