@@ -190,6 +190,22 @@ class ParsedownTest extends TestCase
         self::assertStringContainsString('<aside class="note note-tip"><p>Advice.</p></aside>', $html);
     }
 
+    public function testFootnoteAndAbbreviationDefinedBeforeANote(): void
+    {
+        $html = $this->parsedown->text("Text[^1] in HTML.\n\n[^1]: Footnote.\n\n*[HTML]: HyperText Markup Language\n\n:::tip\nAdvice.\n:::");
+
+        self::assertStringContainsString('<a href="#fn:1" class="footnote-ref">1</a>', $html);
+        self::assertStringContainsString('<abbr title="HyperText Markup Language">HTML</abbr>', $html);
+        self::assertStringContainsString('<li id="fn:1">', $html);
+    }
+
+    public function testReferenceLinkDefinedBeforeANote(): void
+    {
+        $html = $this->parsedown->text("A [link][cecil].\n\n[cecil]: https://cecil.app\n\n:::steps\n#### One\nDo it.\n:::");
+
+        self::assertMatchesRegularExpression('#<a href="https://cecil\.app"[^>]*>link</a>#', $html);
+    }
+
     public function testNoteTemplateCanBeOverridden(): void
     {
         $this->filesystem->dumpFile($this->sourceDir . '/layouts/partials/notes/tip.html.twig', '<div class="tip">{{ note.content }}</div>');
