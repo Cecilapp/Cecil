@@ -1,0 +1,41 @@
+name: Build and deploy to GitHub Pages
+on:
+  push:
+    branches: [master, main]
+  workflow_dispatch:
+concurrency:
+  group: pages
+  cancel-in-progress: true
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout source
+        uses: actions/checkout@v7
+      - name: Restore Cecil cache
+        uses: actions/cache/restore@v6
+        with:
+          path: ./.cache
+          key: cecil-cache-
+          restore-keys: |
+            cecil-cache-
+      - name: Build site
+        uses: Cecilapp/Cecil-Action@v4
+      - name: Save Cecil cache
+        uses: actions/cache/save@v6
+        with:
+          path: ./.cache
+          key: cecil-cache-${{ hashFiles('./.cache/**/*') }}
+  deploy:
+    needs: build
+    permissions:
+      pages: write
+      id-token: write
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    runs-on: ubuntu-latest
+    steps:
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v5

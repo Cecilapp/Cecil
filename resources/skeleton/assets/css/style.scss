@@ -1,0 +1,25 @@
+// Site styles, compiled by Cecil (see `layouts/page.html.twig`)
+$gap: 1rem;
+
+.footer-links ul {
+  display: flex;
+  flex-wrap: wrap;
+  gap: $gap;
+  padding: 0;
+  li {
+    list-style: none;
+  }
+}
+
+.toc {
+  margin-bottom: $gap * 2;
+  summary {
+    font-weight: bold;
+  }
+}
+
+article time {
+  display: block;
+  margin-bottom: $gap;
+  color: var(--pico-muted-color);
+}

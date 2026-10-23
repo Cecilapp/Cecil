@@ -203,7 +203,7 @@ If Cecil is already installed globally (Homebrew `brew install cecilapp/tap/ceci
 
 ### Step 2: Create a New Site
 
-Use the `new:site` command to scaffold a new website. It asks questions (title, baseline, base URL, etc.): in a non-interactive shell, add `-n` to use the defaults, then edit `cecil.yml`:
+Use the `new:site` command to scaffold a new website. It asks questions (title, baseline, base URL, author, language, GitHub Pages workflow, etc.) and creates `cecil.yml`, `pages/index.md`, a `README.md` and a `.gitignore`: in a non-interactive shell, add `-n` to use the defaults, then edit `cecil.yml`:
 
 ```bash
 php cecil.phar new:site -n          # `--demo` adds demo content, `--force` overrides an existing site

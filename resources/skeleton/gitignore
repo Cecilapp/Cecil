@@ -1,0 +1,4 @@
+# Cecil
+_site/
+.cache/
+.cecil/

@@ -1,10 +1,29 @@
+# Site configuration: https://cecil.app/documentation/configuration/
 title: Site title
 baseline: ''
 baseurl: https://domain.tld/
 description: Site description.
-author:
-  name: Cecil
-  url: https://cecil.app
-image: icon.png
+language: en
+#author:
+#  name: Your name
+#  url: https://example.com/
+image: icon.png # default image of social networks cards, stored in `assets/`
 taxonomies:
   tags: tag
+## Additional entries of the main menu (pages are added with their `menu` front matter variable)
+#menus:
+#  main:
+#    - id: github
+#      name: GitHub
+#      url: https://github.com/
+#      weight: 99
+## Number of pages per page of a paginated list
+#pages:
+#  pagination:
+#    max: 5
+## Dates format
+#date:
+#  format: 'F j, Y'
+## Default robots directive
+#metatags:
+#  robots: index,follow

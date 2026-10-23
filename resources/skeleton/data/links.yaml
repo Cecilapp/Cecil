@@ -1,0 +1,5 @@
+# Links displayed in the footer (see `layouts/page.html.twig`)
+- name: Documentation
+  url: https://cecil.app/documentation/
+- name: GitHub
+  url: https://github.com/Cecilapp/Cecil

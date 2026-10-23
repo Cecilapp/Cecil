@@ -2831,6 +2831,36 @@ Search.appendIndex(
             "summary": "\u007B\u0040inheritdoc\u007D",
             "url": "classes/Cecil-Command-NewSite.html#method_execute"
         },                {
+            "fqsen": "\\Cecil\\Command\\NewSite\u003A\u003AvalidateLanguageCode\u0028\u0029",
+            "name": "validateLanguageCode",
+            "summary": "Validates\u0020a\u0020language\u0020code\u0020\u0028e.g.\u003A\u0020\u0022en\u0022,\u0020\u0022fr\u0022\u0020or\u0020\u0022fr\u002DFR\u0022\u0029.",
+            "url": "classes/Cecil-Command-NewSite.html#method_validateLanguageCode"
+        },                {
+            "fqsen": "\\Cecil\\Command\\NewSite\u003A\u003AcreateConfig\u0028\u0029",
+            "name": "createConfig",
+            "summary": "Creates\u0020the\u0020configuration\u0020YAML\u0020from\u0020the\u0020skeleton\u0020one,\u0020by\u0020replacing\u0020values\u0020\u0028and\u0020keeping\u0020comments\u0029.",
+            "url": "classes/Cecil-Command-NewSite.html#method_createConfig"
+        },                {
+            "fqsen": "\\Cecil\\Command\\NewSite\u003A\u003AreplaceConfigEntry\u0028\u0029",
+            "name": "replaceConfigEntry",
+            "summary": "Replaces\u0020a\u0020top\u0020level\u0020entry\u0020\u0028one\u0020line\u0029\u0020of\u0020a\u0020YAML\u0020string.",
+            "url": "classes/Cecil-Command-NewSite.html#method_replaceConfigEntry"
+        },                {
+            "fqsen": "\\Cecil\\Command\\NewSite\u003A\u003AisDemoLanguage\u0028\u0029",
+            "name": "isDemoLanguage",
+            "summary": "Is\u0020the\u0020language\u0020\u0028or\u0020its\u0020primary\u0020language\u0029\u0020the\u0020language\u0020of\u0020the\u0020translated\u0020demo\u0020content\u003F",
+            "url": "classes/Cecil-Command-NewSite.html#method_isDemoLanguage"
+        },                {
+            "fqsen": "\\Cecil\\Command\\NewSite\u003A\u003AgetLanguageName\u0028\u0029",
+            "name": "getLanguageName",
+            "summary": "Returns\u0020the\u0020name\u0020of\u0020a\u0020language\u0020in\u0020this\u0020language,\u0020if\u0020the\u0020Intl\u0020extension\u0020is\u0020available.",
+            "url": "classes/Cecil-Command-NewSite.html#method_getLanguageName"
+        },                {
+            "fqsen": "\\Cecil\\Command\\NewSite\u003A\u003ADEMO_LANGUAGE",
+            "name": "DEMO_LANGUAGE",
+            "summary": "Additional\u0020language\u0020of\u0020the\u0020demo\u0020content\u0020\u0028translated\u0020pages\u0029.",
+            "url": "classes/Cecil-Command-NewSite.html#constant_DEMO_LANGUAGE"
+        },                {
             "fqsen": "\\Cecil\\Command\\SelfUpdate",
             "name": "SelfUpdate",
             "summary": "SelfUpdate\u0020command.",
@@ -3755,6 +3785,11 @@ Search.appendIndex(
             "name": "splitNoteCode",
             "summary": "Returns\u0020the\u0020fenced\u0020code\u0020blocks\u0020of\u0020a\u0020note\u0020made\u0020only\u0020of\u0020code\u0020blocks,\u0020or\u0020null.",
             "url": "classes/Cecil-Converter-Parsedown.html#method_splitNoteCode"
+        },                {
+            "fqsen": "\\Cecil\\Converter\\Parsedown\u003A\u003AnoteText\u0028\u0029",
+            "name": "noteText",
+            "summary": "Converts\u0020the\u0020Markdown\u0020of\u0020a\u0020note,\u0020while\u0020the\u0020document\u0020is\u0020being\u0020parsed.",
+            "url": "classes/Cecil-Converter-Parsedown.html#method_noteText"
         },                {
             "fqsen": "\\Cecil\\Converter\\Parsedown\u003A\u003AhasNoteTemplate\u0028\u0029",
             "name": "hasNoteTemplate",

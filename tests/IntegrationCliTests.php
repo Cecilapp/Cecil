@@ -62,6 +62,20 @@ class IntegrationCliTests extends IntegrationTests
         self::assertTrue($retval < 1);
     }
 
+    public function testNewSiteWithoutDemo(): void
+    {
+        exec('php ./bin/cecil new:site tests/demo -n -f', $output, $retval);
+        self::assertTrue($retval < 1);
+        self::assertFileExists(Util::joinFile(__DIR__, 'demo', 'cecil.yml'));
+        self::assertFileExists(Util::joinFile(__DIR__, 'demo', 'README.md'));
+        self::assertFileExists(Util::joinFile(__DIR__, 'demo', '.gitignore'));
+        self::assertFileExists(Util::joinFile(__DIR__, 'demo', 'pages', 'index.md'));
+        self::assertDirectoryDoesNotExist(Util::joinFile(__DIR__, 'demo', 'pages', 'blog'));
+        $output = [];
+        exec('php ./bin/cecil build tests/demo', $output, $retval);
+        self::assertTrue($retval < 1);
+    }
+
     public function testBuildVerbose(): void
     {
         exec('php ./bin/cecil new:site tests/demo --demo -n -f', $output, $retval);

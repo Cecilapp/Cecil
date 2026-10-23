@@ -2,7 +2,7 @@
 title: "new:site"
 description: "Créer un nouveau site."
 date: 2026-03-27
-updated: 2026-10-16
+updated: 2026-10-24
 path: documentation/commandes/new-site
 -->
 # new:site
@@ -34,7 +34,7 @@ Options:
 
 Help:
   The new:site command creates a new website in the current directory, or in <path> if provided.
-  If you run this command without any options, it will ask you for the website title, baseline, base URL, description, etc.
+  If you run this command without any options, it will ask you for the website title, baseline, base URL, description, author, language, etc.
 
     cecil.phar new:site
     cecil.phar new:site path/to/the/working/directory
@@ -47,3 +47,15 @@ Help:
 
     cecil.phar new:site --force
 ```
+
+## Fichiers créés
+
+La commande crée les fichiers suivants :
+
+- `cecil.yml` : la configuration, avec des exemples commentés des options courantes
+- `pages/index.md` : la page d'accueil
+- `assets/favicon.png` et `assets/icon.png` : le favicon et l'image par défaut des cartes des réseaux sociaux
+- `README.md` et `.gitignore` (`_site/`, `.cache/` et `.cecil/`), s'ils n'existent pas déjà
+- `.github/workflows/build-and-deploy.yml` : un workflow GitHub Actions pour [déployer sur GitHub Pages](../deploy/2-continuous-deployment.fr.md#github-pages), si demandé
+
+Avec l'option `--demo`, elle ajoute aussi du contenu de démonstration : un blog (avec tags, pagination, un brouillon et une traduction en français), une section de documentation (triée par poids, avec une table des matières activée par `cascade`), des templates personnalisés, une feuille de style Sass, un fichier de données et des traductions.
