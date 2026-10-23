@@ -2,6 +2,15 @@
 
 All notable changes to this project will be documented in this file. Dates are displayed in UTC.
 
+#### [9.23.0](https://github.com/Cecilapp/Cecil/compare/9.22.2...9.23.0)
+
+> 23 October 2026
+
+- feat(twig): add `external` test for URLs and menu entries [`#2546`](https://github.com/Cecilapp/Cecil/pull/2546)
+- docs(ai): add AI documentation section [`87c2814`](https://github.com/Cecilapp/Cecil/commit/87c2814f351ed1c36b0fe07ee93501983eeaf5a9)
+- docs(skills): align cecil-theme with theme-installer 2.1 [`d72231a`](https://github.com/Cecilapp/Cecil/commit/d72231aa4ab5d41f13981242070d3bd414f2fa9a)
+- docs(agents): clarify native function prefix rule [`a7e3bf4`](https://github.com/Cecilapp/Cecil/commit/a7e3bf4b29043b136bfac37adee99a9be7680761)
+
 #### [9.22.2](https://github.com/Cecilapp/Cecil/compare/9.22.1...9.22.2)
 
 > 22 October 2026
