@@ -58,7 +58,7 @@ return [
         [
             'code' => 'en',
             'name' => 'English',
-            'locale' => 'en_EN',
+            'locale' => 'en_US',
             'enabled' => true,
         ],
     ],
