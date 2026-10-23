@@ -2,7 +2,7 @@
 title: "Content for LLMs"
 description: "Render a llms.txt file and Markdown versions of your pages for language models."
 date: 2026-10-22
-updated: 2026-10-22
+updated: 2026-10-23
 -->
 # Content for LLMs
 
@@ -31,6 +31,24 @@ output:
 ```
 
 With the [metatags](../configuration/1-site.md#metatags) template, the HTML homepage references the file with a `<link rel="describedby" type="text/markdown">` tag.
+
+### HTTP headers
+
+You can also advertise the file to crawlers and agents with HTTP headers, using the [`server.headers`](../configuration/10-server.md#serverheaders) option:
+
+```yaml
+server:
+  headers:
+    - path: /*
+      headers:
+        # LLMs
+        - key: Link
+          value: '</llms.txt>; rel="llms-txt"'
+        - key: X-Llms-Txt
+          value: /llms.txt
+```
+
+These headers are only applied by the local preview server. To deploy them, use the [_Headers_ component theme](https://github.com/Cecilapp/theme-headers): it generates a `_headers` file (supported by Netlify, statichost and Cloudflare Pages) including the headers defined in `server.headers`.
 
 ### Exclude content
 

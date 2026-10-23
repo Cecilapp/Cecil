@@ -2,7 +2,7 @@
 title: "Contenu pour les LLM"
 description: "Générez un fichier llms.txt et des versions Markdown de vos pages pour les modèles de langage."
 date: 2026-10-22
-updated: 2026-10-22
+updated: 2026-10-23
 path: documentation/ia/llms
 -->
 # Contenu pour les LLM
@@ -32,6 +32,24 @@ output:
 ```
 
 Avec le template [metatags](../configuration/1-site.fr.md#metatags), la page d’accueil HTML référence le fichier avec une balise `<link rel="describedby" type="text/markdown">`.
+
+### En-têtes HTTP
+
+Vous pouvez également signaler le fichier aux robots et aux agents avec des en-têtes HTTP, via l’option [`server.headers`](../configuration/10-server.fr.md#serverheaders) :
+
+```yaml
+server:
+  headers:
+    - path: /*
+      headers:
+        # LLMs
+        - key: Link
+          value: '</llms.txt>; rel="llms-txt"'
+        - key: X-Llms-Txt
+          value: /llms.txt
+```
+
+Ces en-têtes ne sont appliqués que par le serveur de prévisualisation local. Pour les déployer, utilisez le [thème composant _Headers_](https://github.com/Cecilapp/theme-headers) : il génère un fichier `_headers` (pris en charge par Netlify, statichost et Cloudflare Pages) incluant les en-têtes définis dans `server.headers`.
 
 ### Exclure du contenu
 
