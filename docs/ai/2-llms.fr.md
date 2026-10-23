@@ -89,6 +89,22 @@ output: [html, markdown]
 
 Avec le template [metatags](../configuration/1-site.fr.md#metatags), la page HTML référence sa version Markdown avec une balise `<link rel="alternate" type="text/markdown">`. Les liens de `llms.txt` pointent vers la version Markdown des pages lorsqu’elle existe.
 
+### Empêcher l’indexation
+
+Pour empêcher les moteurs de recherche d’indexer les pages Markdown (contenu dupliqué des pages HTML), ajoutez un en-tête HTTP `X-Robots-Tag` avec l’option [`server.headers`](../configuration/10-server.fr.md#serverheaders) :
+
+```yaml
+server:
+  headers:
+    # Markdown outputs
+    - path: "/*.md"
+      headers:
+        - key: X-Robots-Tag
+          value: noindex
+```
+
+Comme pour les [en-têtes de `llms.txt`](#en-tetes-http), utilisez le [thème composant _Headers_](https://github.com/Cecilapp/theme-headers) pour le déployer.
+
 ## Templates
 
 Pour personnaliser ces sorties, surchargez les templates par défaut dans votre répertoire `layouts` (voir les [règles de recherche](../templates/1-lookup-rules.fr.md)) :
