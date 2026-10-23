@@ -22,7 +22,7 @@ Avec [GitHub CLI](https://cli.github.com) :
 gh skill install cecilapp/cecil
 ```
 
-Ou avec [`npx skills`](https://github.com/vercel-labs/skills) :
+Ou avec [`npx skills`](https://www.skills.sh) :
 
 ```bash
 npx skills add cecilapp/cecil
