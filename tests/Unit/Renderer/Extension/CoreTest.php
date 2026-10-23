@@ -18,6 +18,7 @@ use Cecil\Collection\Menu\Entry as MenuEntry;
 use Cecil\Renderer\Extension\Core;
 use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
+use Symfony\Component\Filesystem\Filesystem;
 use Twig\Environment;
 use Twig\Loader\ArrayLoader;
 
@@ -88,5 +89,30 @@ class CoreTest extends TestCase
             'cache'    => $builder->getConfig()->get('cache'),
             'optimize' => $builder->getConfig()->get('optimize'),
         ]));
+    }
+
+    public function testAssetFiltersReuseCachedResults(): void
+    {
+        $filesystem = new Filesystem();
+        $destinationDir = sys_get_temp_dir() . DIRECTORY_SEPARATOR . 'cecil-core-test-' . uniqid('', true);
+        $filesystem->mkdir($destinationDir);
+
+        try {
+            $builder = (new Builder())->setDestinationDir($destinationDir);
+            $core = new Core($builder);
+            $css = 'a { color: red; }';
+            $js = 'const answer = 42;';
+            $scss = '$color: red; a { color: $color; }';
+
+            $cssResult = $core->minifyCss($css);
+            $jsResult = $core->minifyJs($js);
+            $scssResult = $core->scssToCss($scss);
+
+            self::assertSame($cssResult, $core->minifyCss($css));
+            self::assertSame($jsResult, $core->minifyJs($js));
+            self::assertSame($scssResult, $core->scssToCss($scss));
+        } finally {
+            $filesystem->remove($destinationDir);
+        }
     }
 }
