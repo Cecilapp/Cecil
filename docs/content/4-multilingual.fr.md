@@ -2,7 +2,7 @@
 title: "Multilingue"
 description: "Traduisez les pages via le nom de fichier ou le front matter et liez les pages traduites."
 date: 2026-03-27
-updated: 2026-10-16
+updated: 2026-10-24
 path: documentation/contenu/multilingue
 -->
 # Multilingue
@@ -69,3 +69,12 @@ langref: my-page-ref
 ```
 
 :::
+
+## Moteurs de recherche
+
+Les templates intégrés déclarent les pages traduites aux moteurs de recherche via des alternates `hreflang`, dans le `<head>` HTML et dans le sitemap XML :
+
+- chaque page se liste elle-même ainsi que ses traductions
+- `x-default` pointe vers la version dans la langue par défaut, et est omis lorsque la page n’a pas de version dans la langue par défaut
+
+Le sitemap XML liste les pages de toutes les langues, y compris les pages qui ne sont pas traduites dans la langue par défaut.
