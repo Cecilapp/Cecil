@@ -1,15 +1,15 @@
 <!--
 title: "Architecture"
-description: "Diagram of the build pipeline and key components."
+description: "Diagrams of the build pipeline and of the technical architecture, and key components."
 date: 2026-05-27
-updated: 2026-10-19
+updated: 2026-10-24
 alias: documentation/architecture
 -->
 # Architecture
 
-This page gives an overview of Cecil’s build pipeline and its key components.
+This page gives an overview of Cecil’s build pipeline, its technical architecture and its key components.
 
-## Diagram
+## Build pipeline
 
 ```mermaid
 graph TD
@@ -48,6 +48,8 @@ graph TD
     BUILDER --> PIPELINE
 
     %% Subsystems
+    CONV["Converter\n(Parsedown + highlighter)"]
+
     subgraph COLLECTIONS["Collections"]
         PC["PagesCollection\n(Page objects)"]
         TC["TaxonomiesCollection\n(vocabularies/terms)"]
@@ -68,7 +70,7 @@ graph TD
 
     subgraph RENDERER["Twig rendering"]
         TW["Twig engine"]
-        EXT["Extensions\n(Core, Content, Collection)"]
+        EXT["Extensions\n(Core, Content, Collection,\nTranslation, Intl, Components)"]
         PP["PostProcessors\n(generator meta tag, excerpts, links)"]
         TH["Themes / Layouts"]
         TW --> EXT
@@ -83,6 +85,8 @@ graph TD
         AO["Optimizer\n(CSS/JS minification,\nimage optimization)"]
     end
 
+    CACHE[".cache/\n(assets, templates, translations)"]
+
     subgraph OUTPUT["Output (_site/)"]
         HTML["pages (HTML, XML, JSON, etc.)"]
         CSS2["CSS/JS assets"]
@@ -90,6 +94,7 @@ graph TD
         SF["static files"]
     end
 
+    S5 --> CONV
     S4 --> PC
     S6 --> TC
     S8 --> MC
@@ -100,16 +105,22 @@ graph TD
     PC --> RENDERER
     TC --> RENDERER
     MC --> RENDERER
+    S2 -- "site.data" --> RENDERER
+    S3 -- "site.static" --> RENDERER
 
-    %% assets are created and processed by templates (asset() function), then saved
+    %% assets are created by the converter (Markdown images, links) and by templates (asset() function),
+    %% processed and stored in cache, then copied to the output
+    CONV --> ASSETS
     EXT --> ASSETS
-    ASSETS --> S12
+    ASSETS --> CACHE
+    CACHE --> S12
 
     RENDERER --> S11
     S11 --> HTML
     S12 --> CSS2
     S12 --> IMG
     S9 --> SF
+    S13 -. "optimize files in place" .-> OUTPUT
 
     %% Inputs
     subgraph INPUT["Sources"]
@@ -118,13 +129,129 @@ graph TD
         STATIC["static/"]
         ASSETSDIR["assets/"]
         LAYOUTS["layouts/\n(Twig templates)"]
+        TRANS["translations/"]
+        THEMES["themes/\n(config, layouts, assets,\nstatic, data, translations)"]
     end
 
     MD --> S1
     DATA --> S2
     STATIC --> S3
+    STATIC --> S9
     ASSETSDIR --> AL
     LAYOUTS --> TH
+    TRANS --> EXT
+    THEMES --> CONFIG
+    THEMES --> TH
+```
+
+## Technical architecture
+
+The diagram below shows how the code is organized in layers, from the command line to the file system, and which libraries each component relies on.
+
+```mermaid
+graph TB
+    %% Distribution and entry points
+    subgraph ENTRY["Entry points"]
+        BIN["bin/cecil\n(Composer)"]
+        PHAR["cecil.phar\n(Box, self-update)"]
+    end
+
+    subgraph CONSOLE["Console layer (Symfony Console)"]
+        APP["Application"]
+        ENV[".env\n(phpdotenv)"]
+        BUILD["build"]
+        SERVE["serve"]
+        DOCTOR["doctor:*"]
+        OTHERS["new:* / show:* / clear / cache:clear / util:*"]
+        APP --> BUILD
+        APP --> SERVE
+        APP --> DOCTOR
+        APP --> OTHERS
+        ENV --> APP
+    end
+
+    BIN --> APP
+    PHAR --> APP
+
+    subgraph DEV["Local server (serve)"]
+        PHPS["PHP built-in server\n(.cecil/router.php)"]
+        WATCH["FileWatcher\n(changes.flag)"]
+        PROC["Build sub-process\n(Symfony Process)"]
+        LR["livereload.js\n(Server-Sent Events)"]
+        WATCH -- "rebuild" --> PROC
+        WATCH -- "notify" --> PHPS
+        PHPS --> LR
+    end
+
+    SERVE --> DEV
+
+    subgraph CORE["Core"]
+        BUILDER["Builder\n(steps orchestration, metrics)"]
+        CFG["Config\n(Merger, Deprecations,\nnette/schema)"]
+        LOG["Logger\n(PSR-3: Console, Progress, Print)"]
+        STEPS["Steps\n(StepInterface)"]
+        COLL["Collections\n(Page, Taxonomy, Menu)"]
+        GEN["Generators\n(GeneratorManager)"]
+        BUILDER --> CFG
+        BUILDER --> LOG
+        BUILDER --> STEPS
+        STEPS --> COLL
+        STEPS --> GEN
+    end
+
+    BUILD --> BUILDER
+    PROC --> BUILDER
+    OTHERS --> BUILDER
+
+    subgraph SERVICES["Services"]
+        CONV["Converter\n(Parsedown Extra + TOC,\nhighlight.php / Tempest)"]
+        REND["Renderer\n(Twig, Symfony Translation,\nTwig Components)"]
+        ASSET["Asset\n(Locator, Compiler, Image, Optimizer)"]
+        CACHE["Cache\n(PSR-16, files)"]
+        DOC["Doctor\n(Site, Frontmatter, Links, SEO)"]
+    end
+
+    STEPS --> CONV
+    STEPS --> REND
+    STEPS --> ASSET
+    REND --> ASSET
+    CONV --> ASSET
+    ASSET --> CACHE
+    REND --> CACHE
+    DOCTOR --> DOC
+    DOC --> BUILDER
+
+    subgraph LIBS["Main libraries"]
+        L1["Symfony\n(Finder, Filesystem, Yaml,\nSerializer, Validator, DomCrawler)"]
+        L2["scssphp"]
+        L3["Intervention Image\n(GD, Imagick, libvips)"]
+        L4["matthiasmullie/minify\nvoku/html-min"]
+        L5["spatie/image-optimizer\n(external binaries)"]
+        L6["yosymfony/toml"]
+        L7["getID3, mp3info\n(audio/video metadata)"]
+    end
+
+    CORE --> L1
+    ASSET --> L2
+    ASSET --> L3
+    ASSET --> L4
+    STEPS --> L4
+    ASSET --> L5
+    CONV --> L6
+    ASSET --> L7
+
+    subgraph FS["File system"]
+        SRC["Sources\n(pages/, data/, assets/, static/,\nlayouts/, translations/, themes/)"]
+        CACHEDIR[".cache/"]
+        TMP[".cecil/\n(router, live reload, metrics, logs)"]
+        OUT["_site/"]
+    end
+
+    STEPS -- "read" --> SRC
+    CACHE --> CACHEDIR
+    STEPS -- "write" --> OUT
+    PHPS -- "serve" --> OUT
+    DEV --> TMP
 ```
 
 ## Key components
@@ -135,6 +262,9 @@ graph TD
 | **Config**          | Merges default, themes and project configuration (`Config\Merger`), environment variables (`CECIL_*`) and CLI options, and reports deprecated options (`Config\Deprecations`) |
 | **Steps**           | Modular pipeline (16 steps), each with `init()` / `canProcess()` / `process()`                           |
 | **Collections**     | Pages, Taxonomies, Menus: core data structures                                                           |
+| **Converter**       | Parses the front matter (YAML, INI, TOML or JSON) and converts Markdown to HTML (Parsedown, code highlighting) |
 | **Generators**      | Create or update pages (default pages, sections, taxonomies, pagination, aliases, redirects, etc.)       |
 | **Renderer (Twig)** | Applies templates + extensions + post-processors                                                         |
-| **Assets**          | Created from templates: compiles SCSS, minifies, resizes and converts images, fingerprints files         |
+| **Assets**          | Created from Markdown content and templates: compiles SCSS, minifies, resizes and converts images, fingerprints files |
+| **Cache**           | Stores processed assets, compiled templates and translations in `.cache/` to speed up subsequent builds  |
+| **Doctor**          | Diagnoses the project: front matter, links, SEO, cache (`doctor` commands)                               |
