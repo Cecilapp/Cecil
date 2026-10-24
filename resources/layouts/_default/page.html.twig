@@ -137,6 +137,26 @@
       body > main {
         padding-top: calc(var(--pico-block-spacing-vertical) * .75);
       }
+      /* Breadcrumb */
+      nav[aria-label=breadcrumb] {
+        --pico-nav-breadcrumb-divider: "\0203A";
+        --pico-nav-link-spacing-horizontal: .5rem;
+        margin-bottom: calc(var(--pico-spacing) / 2);
+        font-size: .875em;
+      }
+      nav[aria-label=breadcrumb] ul li:not(:last-child)::after {
+        font-weight: 300;
+        opacity: .7;
+      }
+      nav[aria-label=breadcrumb] a {
+        text-decoration: none;
+      }
+      nav[aria-label=breadcrumb] a:hover {
+        text-decoration: underline;
+      }
+      nav[aria-label=breadcrumb] a[aria-current]:not([aria-current=false]) {
+        color: var(--pico-muted-color);
+      }
       /* Footer */
       body > footer {
         border-top: 1px solid var(--pico-muted-border-color);
