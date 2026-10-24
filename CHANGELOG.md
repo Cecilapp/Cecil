@@ -2,6 +2,20 @@
 
 All notable changes to this project will be documented in this file. Dates are displayed in UTC.
 
+#### [9.23.1](https://github.com/Cecilapp/Cecil/compare/9.23.0...9.23.1)
+
+> 24 October 2026
+
+- fix(converter): keep Markdown definitions when rendering notes [`#2547`](https://github.com/Cecilapp/Cecil/pull/2547)
+- docs(skills): split skills into references and fill doc gaps [`da7f9ed`](https://github.com/Cecilapp/Cecil/commit/da7f9edcb0b75217f4e56443b6f63906ee995dcf)
+- chore(deps): update composer dependencies [`b0660c2`](https://github.com/Cecilapp/Cecil/commit/b0660c2355964d4b27db6aa6ada2924c8868fa76)
+- docs(ai): add HTTP headers section to llms page [`0e1f93a`](https://github.com/Cecilapp/Cecil/commit/0e1f93a92c3d9a593d9c0a84460773ac7c587637)
+- docs(ai): add Markdown pages noindex header guide [`3c782a4`](https://github.com/Cecilapp/Cecil/commit/3c782a4e9d9f176554a5cffafaf54e86f7afd680)
+- docs: update npx skills link to skills.sh [`de7dce3`](https://github.com/Cecilapp/Cecil/commit/de7dce3967ed3779fd3823d701202412f673cf1b)
+- docs(configuration): rename serviceworker theme to pwa [`01dc00a`](https://github.com/Cecilapp/Cecil/commit/01dc00aa9df45395cfacc4fde6489573130d13fa)
+- test(config): fix expected locale in language test [`1788d5d`](https://github.com/Cecilapp/Cecil/commit/1788d5d9fe83401f40f2ef7e43a76a4c84930bf8)
+- fix(config): correct English locale to en_US [`1c5d321`](https://github.com/Cecilapp/Cecil/commit/1c5d321829cbedcf612237114ccf5bdce7be6100)
+
 #### [9.23.0](https://github.com/Cecilapp/Cecil/compare/9.22.2...9.23.0)
 
 > 23 October 2026
