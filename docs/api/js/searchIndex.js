@@ -3756,6 +3756,11 @@ Search.appendIndex(
             "summary": "Returns\u0020the\u0020fenced\u0020code\u0020blocks\u0020of\u0020a\u0020note\u0020made\u0020only\u0020of\u0020code\u0020blocks,\u0020or\u0020null.",
             "url": "classes/Cecil-Converter-Parsedown.html#method_splitNoteCode"
         },                {
+            "fqsen": "\\Cecil\\Converter\\Parsedown\u003A\u003AnoteText\u0028\u0029",
+            "name": "noteText",
+            "summary": "Converts\u0020the\u0020Markdown\u0020of\u0020a\u0020note,\u0020while\u0020the\u0020document\u0020is\u0020being\u0020parsed.",
+            "url": "classes/Cecil-Converter-Parsedown.html#method_noteText"
+        },                {
             "fqsen": "\\Cecil\\Converter\\Parsedown\u003A\u003AhasNoteTemplate\u0028\u0029",
             "name": "hasNoteTemplate",
             "summary": "Checks\u0020if\u0020a\u0020note\u0020type\u0020has\u0020a\u0020template.",
@@ -3800,6 +3805,11 @@ Search.appendIndex(
             "name": "element",
             "summary": "\u007B\u0040inheritdoc\u007D",
             "url": "classes/Cecil-Converter-Parsedown.html#method_element"
+        },                {
+            "fqsen": "\\Cecil\\Converter\\Parsedown\u003A\u003AremoveHeadingAnchor\u0028\u0029",
+            "name": "removeHeadingAnchor",
+            "summary": "Removes\u0020the\u0020anchor\u0020link\u0020of\u0020a\u0020heading\u0020HTML.",
+            "url": "classes/Cecil-Converter-Parsedown.html#method_removeHeadingAnchor"
         },                {
             "fqsen": "\\Cecil\\Converter\\Parsedown\u003A\u003AnormalizePath\u0028\u0029",
             "name": "normalizePath",
@@ -3940,6 +3950,11 @@ Search.appendIndex(
             "name": "language",
             "summary": "",
             "url": "classes/Cecil-Converter-Parsedown.html#property_language"
+        },                {
+            "fqsen": "\\Cecil\\Converter\\Parsedown\u003A\u003A\u0024anchors",
+            "name": "anchors",
+            "summary": "",
+            "url": "classes/Cecil-Converter-Parsedown.html#property_anchors"
         },                {
             "fqsen": "\\Cecil\\Converter\\Parsedown\u003A\u003A\u0024highlighter",
             "name": "highlighter",

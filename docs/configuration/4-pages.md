@@ -2,7 +2,7 @@
 title: "Pages"
 description: "Pages directory, sorting, pagination, paths, body, default pages, generators, etc."
 date: 2021-05-07
-updated: 2026-10-19
+updated: 2026-10-24
 -->
 # Pages
 
@@ -154,6 +154,16 @@ Headers used to build the table of contents (`[h2, h3]` by default).
 pages:
   body:
     toc: [h2, h3]
+```
+
+### pages.body.anchors
+
+Headings with an anchor link (`[h2, h3]` by default): an empty `<a class="heading-anchor" href="#<id>">` element is added at the end of each of these headings that have an ID, to be styled by templates (e.g.: a `#` displayed on hover).
+
+```yaml
+pages:
+  body:
+    anchors: [h2, h3] # set to false to disable anchors
 ```
 
 ### pages.body.highlight

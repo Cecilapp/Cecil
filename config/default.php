@@ -91,6 +91,7 @@ return [
         'frontmatter' => 'yaml', // front matter format: `yaml`, `ini`, `toml` or `json`
         'body' => [
             'toc' => ['h2', 'h3'], // headers used to build the table of contents
+            'anchors' => ['h2', 'h3'], // headings (with an ID) with an anchor link, `false` to disable
             'highlight' => true, // enables code syntax highlighting (`{engine: tempest}` to use tempest/highlight instead of highlight.js)
             'images' => [
                 'formats' => [], // creates and adds formats images as `source` (e.g.: ['avif', 'webp'])

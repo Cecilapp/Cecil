@@ -116,7 +116,7 @@ class ParsedownTest extends TestCase
 
         self::assertStringContainsString('<p class="note-tab-title">bash</p>', $html);
         self::assertStringContainsString('<p class="note-tab-title">php</p>', $html);
-        self::assertSame(2, substr_count($html, '<pre>'));
+        self::assertSame(2, substr_count($html, '<pre data-lang='));
     }
 
     public function testCardsNoteIsSplitOnListEntries(): void
@@ -173,7 +173,7 @@ class ParsedownTest extends TestCase
     {
         $html = $this->parsedown->text("::::info\n```md\n:::tip\n:::\n```\n::::\n\nOutside.");
 
-        self::assertStringStartsWith('<aside class="note note-info"><pre><code', $html);
+        self::assertStringStartsWith('<aside class="note note-info"><pre data-lang="md"><code', $html);
         self::assertStringContainsString('>:::tip' . "\n" . ':::</code></pre></aside>', $html);
         self::assertStringNotContainsString('<aside class="note note-tip">', $html);
         self::assertStringEndsWith('<p>Outside.</p>', $html);
@@ -226,6 +226,43 @@ class ParsedownTest extends TestCase
         $html = $parsedown->text(":::tip\nadvice\n:::");
 
         self::assertSame('<aside class="note note-tip"><p>advice</p></aside>', $html);
+    }
+
+    public function testHeadingsHaveAnAnchorLinkByDefault(): void
+    {
+        $html = $this->parsedown->text("## Heading\n\n### Sub heading {#custom}\n\n#### Not anchored");
+
+        self::assertStringContainsString('<h2 id="heading">Heading<a class="heading-anchor" href="#heading" aria-hidden="true" tabindex="-1"></a></h2>', $html);
+        self::assertStringContainsString('<h3 id="custom">Sub heading<a class="heading-anchor" href="#custom" aria-hidden="true" tabindex="-1"></a></h3>', $html);
+        self::assertStringContainsString('<h4>Not anchored</h4>', $html);
+    }
+
+    public function testHeadingsAnchorsCanBeDisabled(): void
+    {
+        $this->builder->getConfig()->import(['pages' => ['body' => ['anchors' => false]]]);
+        $parsedown = new Parsedown($this->builder);
+
+        $html = $parsedown->text('## Heading');
+
+        self::assertSame('<h2 id="heading">Heading</h2>', $html);
+    }
+
+    public function testHeadingAnchorIsNotPartOfANoteItemTitle(): void
+    {
+        $this->builder->getConfig()->import(['pages' => ['body' => ['anchors' => ['h2', 'h3', 'h4']]]]);
+        $parsedown = new Parsedown($this->builder);
+
+        $html = $parsedown->text(":::accordion\n#### Question {#q1}\nAnswer.\n:::");
+
+        self::assertStringContainsString('<summary>Question</summary>', $html);
+    }
+
+    public function testFencedCodeHasALanguageDataAttribute(): void
+    {
+        $html = $this->parsedown->text("```php\necho 1;\n```\n\n```\nno language\n```");
+
+        self::assertStringContainsString('<pre data-lang="php"><code class="language-php', $html);
+        self::assertStringContainsString('<pre><code translate="no">no language', $html);
     }
 
     public function testFencedCodeIsHighlightedWithHighlightJsByDefault(): void

@@ -2,7 +2,7 @@
 title: "Markdown"
 description: "Syntaxe et extensions Markdown : attributs, liens, images, table des matières, notes, coloration syntaxique, etc."
 date: 2026-03-27
-updated: 2026-10-17
+updated: 2026-10-24
 path: documentation/contenu/markdown
 -->
 # Markdown
@@ -356,6 +356,16 @@ Vous pouvez définir une valeur pour l’attribut `placeholder` de chaque image 
 :::warning
 Les placeholders ne s’appliquent qu’aux images JPEG, PNG et GIF, et l’option `lqip` n’est pas compatible avec les GIF animés.
 :::
+
+## Ancres des titres
+
+Un lien d’ancre est ajouté à la fin des titres `h2` et `h3` (voir l’option [`pages.body.anchors`](../configuration/4-pages.fr.md#pages-body-anchors)), pour faire un lien vers un titre d’une page :
+
+```html
+<h2 id="heading">Heading<a class="heading-anchor" href="#heading" aria-hidden="true" tabindex="-1"></a></h2>
+```
+
+Le lien est vide : les templates par défaut affichent un `#` au survol.
 
 ## Table des matières
 
@@ -711,6 +721,8 @@ Vous pouvez personnaliser le style de coloration syntaxique en créant votre pro
 :::tip
 Vous pouvez aussi utiliser [tempest/highlight](https://github.com/tempestphp/highlight) à la place de highlight.js avec l’option [`pages.body.highlight.engine`](../configuration/4-pages.fr.md#pages-body-highlight). Il est plus rapide, mais prend en charge moins de langages. Il utilise les classes CSS `hl-*` : consultez les [thèmes de tempest/highlight](https://github.com/tempestphp/highlight/tree/main/src/Themes/Css).
 :::
+
+Le langage d’un bloc de code est ajouté à l’attribut `data-lang` de l’élément `<pre>` (ex. : `<pre data-lang="php">`) : les templates par défaut l’affichent comme une étiquette.
 
 ## Texte inséré
 

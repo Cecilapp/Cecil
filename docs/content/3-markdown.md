@@ -2,7 +2,7 @@
 title: "Markdown"
 description: "Markdown syntax and extensions: attributes, links, images, table of contents, notes, syntax highlight, etc."
 date: 2021-05-07
-updated: 2026-10-17
+updated: 2026-10-24
 -->
 # Markdown
 
@@ -355,6 +355,16 @@ You can set a value to the `placeholder` attribute for each image with the [`pla
 :::warning
 Placeholders are only applied to JPEG, PNG and GIF images, and the `lqip` option is not compatible with animated GIF.
 :::
+
+## Heading anchors
+
+An anchor link is added at the end of `h2` and `h3` headings (see the [`pages.body.anchors`](../configuration/4-pages.md#pages-body-anchors) option), to link to a heading of a page:
+
+```html
+<h2 id="heading">Heading<a class="heading-anchor" href="#heading" aria-hidden="true" tabindex="-1"></a></h2>
+```
+
+The link is empty: the default templates display a `#` on hover.
 
 ## Table of contents
 
@@ -710,6 +720,8 @@ You can customize the syntax highlighting style by creating your own theme. See 
 :::tip
 You can also use [tempest/highlight](https://github.com/tempestphp/highlight) instead of highlight.js with the [`pages.body.highlight.engine`](../configuration/4-pages.md#pages-body-highlight) option. It's faster, but supports fewer languages. It uses `hl-*` CSS classes: see the [tempest/highlight themes](https://github.com/tempestphp/highlight/tree/main/src/Themes/Css).
 :::
+
+The language of a code block is added to the `data-lang` attribute of the `<pre>` element (e.g.: `<pre data-lang="php">`): the default templates display it as a label.
 
 ## Inserted text
 
