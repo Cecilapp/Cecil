@@ -176,7 +176,7 @@
         <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Command/NewSite.php"><a href="files/src-command-newsite.html"><abbr title="src/Command/NewSite.php">NewSite.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">33</span>
+    <span class="phpdocumentor-element-found-in__line">36</span>
 
     </aside>
 
@@ -184,7 +184,8 @@
 
 
     <section class="phpdocumentor-description"><p>This command creates a new website in the specified directory or the current directory if no path is provided.
-It prompts the user for various details about the website, such as title, baseline, base URL, description, and author information.
+It prompts the user for various details about the website, such as title, baseline, base URL, description, author and language.
+It also creates a README and a .gitignore file, and can add a GitHub Pages deployment workflow.
 It can also add demo content if the <code class="prettyprint">--demo</code> option is provided.
 If the <code class="prettyprint">--force</code> option is used, it will override an existing website in the specified directory.</p>
 </section>
@@ -218,6 +219,13 @@ If the <code class="prettyprint">--force</code> option is used, it will override
 </dt>
 
             <dt class="phpdocumentor-table-of-contents__entry -constant -public">
+    <a class="" href="classes/Cecil-Command-NewSite.html#constant_DEMO_LANGUAGE">DEMO_LANGUAGE</a>
+    <span>
+        &nbsp;: array&lt;string|int, mixed&gt;&nbsp;= [&#039;code&#039; =&gt; &#039;fr&#039;, &#039;name&#039; =&gt; &#039;Français&#039;, &#039;locale&#039;...                            </span>
+</dt>
+<dd>Additional language of the demo content (translated pages).</dd>
+
+            <dt class="phpdocumentor-table-of-contents__entry -constant -public">
     <a class="" href="classes/Cecil-Command-AbstractCommand.html#constant_EXCLUDED_CMD">EXCLUDED_CMD</a>
     <span>
         &nbsp;: array&lt;string|int, mixed&gt;&nbsp;= [&#039;about&#039;, &#039;new:site&#039;, &#039;self-update&#039;, &#039;serve:stop&#039;]                            </span>
@@ -234,6 +242,27 @@ If the <code class="prettyprint">--force</code> option is used, it will override
     <span>
         &nbsp;: string&nbsp;= \Cecil\Builder::TMP_DIR . &#039;/preview&#039;                            </span>
 </dt>
+
+            <dt class="phpdocumentor-table-of-contents__entry -constant -public">
+    <a class="" href="classes/Cecil-Command-NewSite.html#constant_SKELETON_DIR">SKELETON_DIR</a>
+    <span>
+        &nbsp;: string&nbsp;= &#039;resources/skeleton&#039;                            </span>
+</dt>
+<dd>Skeleton directory: `base/` files are always copied, `demo/` files with the `--demo` option.</dd>
+
+            <dt class="phpdocumentor-table-of-contents__entry -constant -public">
+    <a class="" href="classes/Cecil-Command-NewSite.html#constant_SKELETON_PRESERVE">SKELETON_PRESERVE</a>
+    <span>
+        &nbsp;: array&lt;string|int, mixed&gt;&nbsp;= [&#039;README.md&#039;, &#039;.gitignore&#039;, &#039;.github/workflows/...                            </span>
+</dt>
+<dd>Files not overridden if they already exist (e.g.: in an existing repository).</dd>
+
+            <dt class="phpdocumentor-table-of-contents__entry -constant -public">
+    <a class="" href="classes/Cecil-Command-NewSite.html#constant_SKELETON_RENAME">SKELETON_RENAME</a>
+    <span>
+        &nbsp;: array&lt;string|int, mixed&gt;&nbsp;= [&#039;gitignore&#039; =&gt; &#039;.gitignore&#039;]                            </span>
+</dt>
+<dd>Skeleton files renamed when copied (dot files are not embedded in the Phar).</dd>
 
     </dl>
 
@@ -298,6 +327,13 @@ If the <code class="prettyprint">--force</code> option is used, it will override
 <dd>{@inheritdoc}</dd>
 
             <dt class="phpdocumentor-table-of-contents__entry -method -public">
+    <a class="" href="classes/Cecil-Command-NewSite.html#method_validateLanguageCode">validateLanguageCode()</a>
+    <span>
+                                &nbsp;: string    </span>
+</dt>
+<dd>Validates a language code (e.g.: &quot;en&quot;, &quot;fr&quot; or &quot;fr-FR&quot;).</dd>
+
+            <dt class="phpdocumentor-table-of-contents__entry -method -public">
     <a class="" href="classes/Cecil-Command-AbstractCommand.html#method_validateUrl">validateUrl()</a>
     <span>
                                 &nbsp;: string    </span>
@@ -317,6 +353,13 @@ If the <code class="prettyprint">--force</code> option is used, it will override
                                 &nbsp;: mixed    </span>
 </dt>
 <dd>{@inheritdoc}</dd>
+
+            <dt class="phpdocumentor-table-of-contents__entry -method -protected">
+    <a class="" href="classes/Cecil-Command-NewSite.html#method_createConfig">createConfig()</a>
+    <span>
+                                &nbsp;: string    </span>
+</dt>
+<dd>Creates the configuration YAML from the skeleton one, by replacing values (and keeping comments).</dd>
 
             <dt class="phpdocumentor-table-of-contents__entry -method -protected">
     <a class="" href="classes/Cecil-Command-NewSite.html#method_execute">execute()</a>
@@ -374,6 +417,41 @@ If the <code class="prettyprint">--force</code> option is used, it will override
 </dt>
 <dd>Opens path with editor.</dd>
 
+            <dt class="phpdocumentor-table-of-contents__entry -method -private">
+    <a class="" href="classes/Cecil-Command-NewSite.html#method_copySkeleton">copySkeleton()</a>
+    <span>
+                                &nbsp;: void    </span>
+</dt>
+<dd>Copies files of a skeleton sub directory (e.g.: `base` or `demo`), accepted by the filter (with their relative path).</dd>
+
+            <dt class="phpdocumentor-table-of-contents__entry -method -private">
+    <a class="" href="classes/Cecil-Command-NewSite.html#method_copySkeletonFile">copySkeletonFile()</a>
+    <span>
+                                &nbsp;: void    </span>
+</dt>
+<dd>Copies a skeleton file to the site, unless it must be preserved.</dd>
+
+            <dt class="phpdocumentor-table-of-contents__entry -method -private">
+    <a class="" href="classes/Cecil-Command-NewSite.html#method_getLanguageName">getLanguageName()</a>
+    <span>
+                                &nbsp;: string    </span>
+</dt>
+<dd>Returns the name of a language in this language, if the Intl extension is available.</dd>
+
+            <dt class="phpdocumentor-table-of-contents__entry -method -private">
+    <a class="" href="classes/Cecil-Command-NewSite.html#method_isDemoLanguage">isDemoLanguage()</a>
+    <span>
+                                &nbsp;: bool    </span>
+</dt>
+<dd>Is the language (or its primary language) the language of the translated demo content?</dd>
+
+            <dt class="phpdocumentor-table-of-contents__entry -method -private">
+    <a class="" href="classes/Cecil-Command-NewSite.html#method_replaceConfigEntry">replaceConfigEntry()</a>
+    <span>
+                                &nbsp;: string    </span>
+</dt>
+<dd>Replaces a top level entry (one line) of a YAML string.</dd>
+
     </dl>
 
 
@@ -406,6 +484,37 @@ If the <code class="prettyprint">--force</code> option is used, it will override
         <span class="phpdocumentor-signature__type">array&lt;string|int, mixed&gt;</span>
     <span class="phpdocumentor-signature__name">CONFIG_FILE</span>
     = <span class="phpdocumentor-signature__default-value">[&#039;cecil.yml&#039;, &#039;config.yml&#039;]</span>
+</code>
+
+
+    
+    
+    
+
+        
+    </article>
+                    <article class="phpdocumentor-element -constant -public ">
+    <h4 class="phpdocumentor-element__name" id="constant_DEMO_LANGUAGE">
+        DEMO_LANGUAGE
+        <a href="classes/Cecil-Command-NewSite.html#constant_DEMO_LANGUAGE" class="headerlink"><i class="fas fa-link"></i></a>
+
+    </h4>
+
+    <aside class="phpdocumentor-element-found-in">
+    <abbr class="phpdocumentor-element-found-in__file" title="src/Command/NewSite.php"><a href="files/src-command-newsite.html"><abbr title="src/Command/NewSite.php">NewSite.php</abbr></a></abbr>
+    :
+    <span class="phpdocumentor-element-found-in__line">62</span>
+
+    </aside>
+
+        <p class="phpdocumentor-summary">Additional language of the demo content (translated pages).</p>
+
+    
+    <code class="phpdocumentor-signature phpdocumentor-code ">
+    <span class="phpdocumentor-signature__visibility">public</span>
+        <span class="phpdocumentor-signature__type">array&lt;string|int, mixed&gt;</span>
+    <span class="phpdocumentor-signature__name">DEMO_LANGUAGE</span>
+    = <span class="phpdocumentor-signature__default-value">[&#039;code&#039; =&gt; &#039;fr&#039;, &#039;name&#039; =&gt; &#039;Français&#039;, &#039;locale&#039; =&gt; &#039;fr_FR&#039;]</span>
 </code>
 
 
@@ -496,6 +605,99 @@ If the <code class="prettyprint">--force</code> option is used, it will override
         <span class="phpdocumentor-signature__type">string</span>
     <span class="phpdocumentor-signature__name">SERVE_OUTPUT</span>
     = <span class="phpdocumentor-signature__default-value">\Cecil\Builder::TMP_DIR . &#039;/preview&#039;</span>
+</code>
+
+
+    
+    
+    
+
+        
+    </article>
+                    <article class="phpdocumentor-element -constant -public ">
+    <h4 class="phpdocumentor-element__name" id="constant_SKELETON_DIR">
+        SKELETON_DIR
+        <a href="classes/Cecil-Command-NewSite.html#constant_SKELETON_DIR" class="headerlink"><i class="fas fa-link"></i></a>
+
+    </h4>
+
+    <aside class="phpdocumentor-element-found-in">
+    <abbr class="phpdocumentor-element-found-in__file" title="src/Command/NewSite.php"><a href="files/src-command-newsite.html"><abbr title="src/Command/NewSite.php">NewSite.php</abbr></a></abbr>
+    :
+    <span class="phpdocumentor-element-found-in__line">41</span>
+
+    </aside>
+
+        <p class="phpdocumentor-summary">Skeleton directory: `base/` files are always copied, `demo/` files with the `--demo` option.</p>
+
+    
+    <code class="phpdocumentor-signature phpdocumentor-code ">
+    <span class="phpdocumentor-signature__visibility">public</span>
+        <span class="phpdocumentor-signature__type">string</span>
+    <span class="phpdocumentor-signature__name">SKELETON_DIR</span>
+    = <span class="phpdocumentor-signature__default-value">&#039;resources/skeleton&#039;</span>
+</code>
+
+
+    
+    
+    
+
+        
+    </article>
+                    <article class="phpdocumentor-element -constant -public ">
+    <h4 class="phpdocumentor-element__name" id="constant_SKELETON_PRESERVE">
+        SKELETON_PRESERVE
+        <a href="classes/Cecil-Command-NewSite.html#constant_SKELETON_PRESERVE" class="headerlink"><i class="fas fa-link"></i></a>
+
+    </h4>
+
+    <aside class="phpdocumentor-element-found-in">
+    <abbr class="phpdocumentor-element-found-in__file" title="src/Command/NewSite.php"><a href="files/src-command-newsite.html"><abbr title="src/Command/NewSite.php">NewSite.php</abbr></a></abbr>
+    :
+    <span class="phpdocumentor-element-found-in__line">53</span>
+
+    </aside>
+
+        <p class="phpdocumentor-summary">Files not overridden if they already exist (e.g.: in an existing repository).</p>
+
+    
+    <code class="phpdocumentor-signature phpdocumentor-code ">
+    <span class="phpdocumentor-signature__visibility">public</span>
+        <span class="phpdocumentor-signature__type">array&lt;string|int, mixed&gt;</span>
+    <span class="phpdocumentor-signature__name">SKELETON_PRESERVE</span>
+    = <span class="phpdocumentor-signature__default-value">[&#039;README.md&#039;, &#039;.gitignore&#039;, &#039;.github/workflows/build-and-deploy.yml&#039;]</span>
+</code>
+
+
+    
+    
+    
+
+        
+    </article>
+                    <article class="phpdocumentor-element -constant -public ">
+    <h4 class="phpdocumentor-element__name" id="constant_SKELETON_RENAME">
+        SKELETON_RENAME
+        <a href="classes/Cecil-Command-NewSite.html#constant_SKELETON_RENAME" class="headerlink"><i class="fas fa-link"></i></a>
+
+    </h4>
+
+    <aside class="phpdocumentor-element-found-in">
+    <abbr class="phpdocumentor-element-found-in__file" title="src/Command/NewSite.php"><a href="files/src-command-newsite.html"><abbr title="src/Command/NewSite.php">NewSite.php</abbr></a></abbr>
+    :
+    <span class="phpdocumentor-element-found-in__line">46</span>
+
+    </aside>
+
+        <p class="phpdocumentor-summary">Skeleton files renamed when copied (dot files are not embedded in the Phar).</p>
+
+    
+    <code class="phpdocumentor-signature phpdocumentor-code ">
+    <span class="phpdocumentor-signature__visibility">public</span>
+        <span class="phpdocumentor-signature__type">array&lt;string|int, mixed&gt;</span>
+    <span class="phpdocumentor-signature__name">SKELETON_RENAME</span>
+    = <span class="phpdocumentor-signature__default-value">[&#039;gitignore&#039; =&gt; &#039;.gitignore&#039;]</span>
 </code>
 
 
@@ -845,6 +1047,69 @@ If the <code class="prettyprint">--force</code> option is used, it will override
             -public
                                     -static                    "
 >
+    <h4 class="phpdocumentor-element__name" id="method_validateLanguageCode">
+        validateLanguageCode()
+        <a href="classes/Cecil-Command-NewSite.html#method_validateLanguageCode" class="headerlink"><i class="fas fa-link"></i></a>
+
+    </h4>
+    <aside class="phpdocumentor-element-found-in">
+    <abbr class="phpdocumentor-element-found-in__file" title="src/Command/NewSite.php"><a href="files/src-command-newsite.html"><abbr title="src/Command/NewSite.php">NewSite.php</abbr></a></abbr>
+    :
+    <span class="phpdocumentor-element-found-in__line">193</span>
+
+    </aside>
+
+        <p class="phpdocumentor-summary">Validates a language code (e.g.: &quot;en&quot;, &quot;fr&quot; or &quot;fr-FR&quot;).</p>
+
+    <code class="phpdocumentor-code phpdocumentor-signature ">
+    <span class="phpdocumentor-signature__visibility">public</span>
+            <span class="phpdocumentor-signature__static">static</span>        <span class="phpdocumentor-signature__name">validateLanguageCode</span><span>(</span><span class="phpdocumentor-signature__argument"><span class="phpdocumentor-signature__argument__type">string&nbsp;</span><span class="phpdocumentor-signature__argument__name">$code</span></span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">string</span></code>
+
+    <div class="phpdocumentor-label-line">
+        </div>
+    
+    
+        <h5 class="phpdocumentor-argument-list__heading">Parameters</h5>
+    <dl class="phpdocumentor-argument-list">
+                    <dt class="phpdocumentor-argument-list__entry">
+                <span class="phpdocumentor-argument-list__argument__name">$code</span>
+                : <span class="phpdocumentor-argument-list__argument__type">string</span>
+                            </dt>
+            <dd class="phpdocumentor-argument-list__definition">
+                
+            </dd>
+            </dl>
+
+    
+    <h5 class="phpdocumentor-tag-list__heading" id="method_validateLanguageCode_tags">
+        Tags
+        <a href="classes/Cecil-Command-NewSite.html#method_validateLanguageCode_tags" class="headerlink"><i class="fas fa-link"></i></a>
+
+    </h5>
+    <dl class="phpdocumentor-tag-list">
+                    <dt class="phpdocumentor-tag-list__entry">
+                <span class="phpdocumentor-tag__name">throws</span>
+            </dt>
+                            <dd class="phpdocumentor-tag-list__definition">
+                                                                <span class="phpdocumentor-tag-link"><a href="classes/Cecil-Exception-RuntimeException.html"><abbr title="\Cecil\Exception\RuntimeException">RuntimeException</abbr></a></span>
+                                                                                    
+                                    </dd>
+                        </dl>
+
+        
+    
+            <section>
+        <h5 class="phpdocumentor-return-value__heading">Return values</h5>
+        <span class="phpdocumentor-signature__response_type">string</span>
+            </section>
+
+</article>
+                    <article
+        class="phpdocumentor-element
+            -method
+            -public
+                                    -static                    "
+>
     <h4 class="phpdocumentor-element__name" id="method_validateUrl">
         validateUrl()
         <a href="classes/Cecil-Command-AbstractCommand.html#method_validateUrl" class="headerlink"><i class="fas fa-link"></i></a>
@@ -955,7 +1220,7 @@ If the <code class="prettyprint">--force</code> option is used, it will override
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Command/NewSite.php"><a href="files/src-command-newsite.html"><abbr title="src/Command/NewSite.php">NewSite.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">38</span>
+    <span class="phpdocumentor-element-found-in__line">71</span>
 
     </aside>
 
@@ -993,6 +1258,69 @@ If the <code class="prettyprint">--force</code> option is used, it will override
             -protected
                                                         "
 >
+    <h4 class="phpdocumentor-element__name" id="method_createConfig">
+        createConfig()
+        <a href="classes/Cecil-Command-NewSite.html#method_createConfig" class="headerlink"><i class="fas fa-link"></i></a>
+
+    </h4>
+    <aside class="phpdocumentor-element-found-in">
+    <abbr class="phpdocumentor-element-found-in__file" title="src/Command/NewSite.php"><a href="files/src-command-newsite.html"><abbr title="src/Command/NewSite.php">NewSite.php</abbr></a></abbr>
+    :
+    <span class="phpdocumentor-element-found-in__line">207</span>
+
+    </aside>
+
+        <p class="phpdocumentor-summary">Creates the configuration YAML from the skeleton one, by replacing values (and keeping comments).</p>
+
+    <code class="phpdocumentor-code phpdocumentor-signature ">
+    <span class="phpdocumentor-signature__visibility">protected</span>
+                    <span class="phpdocumentor-signature__name">createConfig</span><span>(</span><span class="phpdocumentor-signature__argument"><span class="phpdocumentor-signature__argument__type">string&nbsp;</span><span class="phpdocumentor-signature__argument__name">$yaml</span></span><span class="phpdocumentor-signature__argument"><span>, </span><span class="phpdocumentor-signature__argument__type">array&lt;string, mixed&gt;&nbsp;</span><span class="phpdocumentor-signature__argument__name">$values</span></span><span class="phpdocumentor-signature__argument"><span>[</span><span>, </span><span class="phpdocumentor-signature__argument__type">bool&nbsp;</span><span class="phpdocumentor-signature__argument__name">$demo</span><span> = </span><span class="phpdocumentor-signature__argument__default-value">false</span><span> ]</span></span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">string</span></code>
+
+    <div class="phpdocumentor-label-line">
+        </div>
+    
+    
+        <h5 class="phpdocumentor-argument-list__heading">Parameters</h5>
+    <dl class="phpdocumentor-argument-list">
+                    <dt class="phpdocumentor-argument-list__entry">
+                <span class="phpdocumentor-argument-list__argument__name">$yaml</span>
+                : <span class="phpdocumentor-argument-list__argument__type">string</span>
+                            </dt>
+            <dd class="phpdocumentor-argument-list__definition">
+                
+            </dd>
+                    <dt class="phpdocumentor-argument-list__entry">
+                <span class="phpdocumentor-argument-list__argument__name">$values</span>
+                : <span class="phpdocumentor-argument-list__argument__type">array&lt;string, mixed&gt;</span>
+                            </dt>
+            <dd class="phpdocumentor-argument-list__definition">
+                
+            </dd>
+                    <dt class="phpdocumentor-argument-list__entry">
+                <span class="phpdocumentor-argument-list__argument__name">$demo</span>
+                : <span class="phpdocumentor-argument-list__argument__type">bool</span>
+                 = <span class="phpdocumentor-argument-list__argument__default-value">false</span>            </dt>
+            <dd class="phpdocumentor-argument-list__definition">
+                
+            </dd>
+            </dl>
+
+    
+
+        
+    
+            <section>
+        <h5 class="phpdocumentor-return-value__heading">Return values</h5>
+        <span class="phpdocumentor-signature__response_type">string</span>
+            </section>
+
+</article>
+                    <article
+        class="phpdocumentor-element
+            -method
+            -protected
+                                                        "
+>
     <h4 class="phpdocumentor-element__name" id="method_execute">
         execute()
         <a href="classes/Cecil-Command-NewSite.html#method_execute" class="headerlink"><i class="fas fa-link"></i></a>
@@ -1001,7 +1329,7 @@ If the <code class="prettyprint">--force</code> option is used, it will override
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Command/NewSite.php"><a href="files/src-command-newsite.html"><abbr title="src/Command/NewSite.php">NewSite.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">73</span>
+    <span class="phpdocumentor-element-found-in__line">106</span>
 
     </aside>
 
@@ -1453,6 +1781,271 @@ If the <code class="prettyprint">--force</code> option is used, it will override
     
     
 </article>
+                    <article
+        class="phpdocumentor-element
+            -method
+            -private
+                                                        "
+>
+    <h4 class="phpdocumentor-element__name" id="method_copySkeleton">
+        copySkeleton()
+        <a href="classes/Cecil-Command-NewSite.html#method_copySkeleton" class="headerlink"><i class="fas fa-link"></i></a>
+
+    </h4>
+    <aside class="phpdocumentor-element-found-in">
+    <abbr class="phpdocumentor-element-found-in__file" title="src/Command/NewSite.php"><a href="files/src-command-newsite.html"><abbr title="src/Command/NewSite.php">NewSite.php</abbr></a></abbr>
+    :
+    <span class="phpdocumentor-element-found-in__line">239</span>
+
+    </aside>
+
+        <p class="phpdocumentor-summary">Copies files of a skeleton sub directory (e.g.: `base` or `demo`), accepted by the filter (with their relative path).</p>
+
+    <code class="phpdocumentor-code phpdocumentor-signature ">
+    <span class="phpdocumentor-signature__visibility">private</span>
+                    <span class="phpdocumentor-signature__name">copySkeleton</span><span>(</span><span class="phpdocumentor-signature__argument"><span class="phpdocumentor-signature__argument__type">string&nbsp;</span><span class="phpdocumentor-signature__argument__name">$dir</span></span><span class="phpdocumentor-signature__argument"><span>[</span><span>, </span><span class="phpdocumentor-signature__argument__type">callable|null&nbsp;</span><span class="phpdocumentor-signature__argument__name">$filter</span><span> = </span><span class="phpdocumentor-signature__argument__default-value">null</span><span> ]</span></span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">void</span></code>
+
+    <div class="phpdocumentor-label-line">
+        </div>
+    
+    
+        <h5 class="phpdocumentor-argument-list__heading">Parameters</h5>
+    <dl class="phpdocumentor-argument-list">
+                    <dt class="phpdocumentor-argument-list__entry">
+                <span class="phpdocumentor-argument-list__argument__name">$dir</span>
+                : <span class="phpdocumentor-argument-list__argument__type">string</span>
+                            </dt>
+            <dd class="phpdocumentor-argument-list__definition">
+                
+            </dd>
+                    <dt class="phpdocumentor-argument-list__entry">
+                <span class="phpdocumentor-argument-list__argument__name">$filter</span>
+                : <span class="phpdocumentor-argument-list__argument__type">callable|null</span>
+                 = <span class="phpdocumentor-argument-list__argument__default-value">null</span>            </dt>
+            <dd class="phpdocumentor-argument-list__definition">
+                
+            </dd>
+            </dl>
+
+    
+
+        
+    
+    
+</article>
+                    <article
+        class="phpdocumentor-element
+            -method
+            -private
+                                                        "
+>
+    <h4 class="phpdocumentor-element__name" id="method_copySkeletonFile">
+        copySkeletonFile()
+        <a href="classes/Cecil-Command-NewSite.html#method_copySkeletonFile" class="headerlink"><i class="fas fa-link"></i></a>
+
+    </h4>
+    <aside class="phpdocumentor-element-found-in">
+    <abbr class="phpdocumentor-element-found-in__file" title="src/Command/NewSite.php"><a href="files/src-command-newsite.html"><abbr title="src/Command/NewSite.php">NewSite.php</abbr></a></abbr>
+    :
+    <span class="phpdocumentor-element-found-in__line">253</span>
+
+    </aside>
+
+        <p class="phpdocumentor-summary">Copies a skeleton file to the site, unless it must be preserved.</p>
+
+    <code class="phpdocumentor-code phpdocumentor-signature ">
+    <span class="phpdocumentor-signature__visibility">private</span>
+                    <span class="phpdocumentor-signature__name">copySkeletonFile</span><span>(</span><span class="phpdocumentor-signature__argument"><span class="phpdocumentor-signature__argument__type">string&nbsp;</span><span class="phpdocumentor-signature__argument__name">$source</span></span><span class="phpdocumentor-signature__argument"><span>, </span><span class="phpdocumentor-signature__argument__type">string&nbsp;</span><span class="phpdocumentor-signature__argument__name">$target</span></span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">void</span></code>
+
+    <div class="phpdocumentor-label-line">
+        </div>
+    
+    
+        <h5 class="phpdocumentor-argument-list__heading">Parameters</h5>
+    <dl class="phpdocumentor-argument-list">
+                    <dt class="phpdocumentor-argument-list__entry">
+                <span class="phpdocumentor-argument-list__argument__name">$source</span>
+                : <span class="phpdocumentor-argument-list__argument__type">string</span>
+                            </dt>
+            <dd class="phpdocumentor-argument-list__definition">
+                
+            </dd>
+                    <dt class="phpdocumentor-argument-list__entry">
+                <span class="phpdocumentor-argument-list__argument__name">$target</span>
+                : <span class="phpdocumentor-argument-list__argument__type">string</span>
+                            </dt>
+            <dd class="phpdocumentor-argument-list__definition">
+                
+            </dd>
+            </dl>
+
+    
+
+        
+    
+    
+</article>
+                    <article
+        class="phpdocumentor-element
+            -method
+            -private
+                                                        "
+>
+    <h4 class="phpdocumentor-element__name" id="method_getLanguageName">
+        getLanguageName()
+        <a href="classes/Cecil-Command-NewSite.html#method_getLanguageName" class="headerlink"><i class="fas fa-link"></i></a>
+
+    </h4>
+    <aside class="phpdocumentor-element-found-in">
+    <abbr class="phpdocumentor-element-found-in__file" title="src/Command/NewSite.php"><a href="files/src-command-newsite.html"><abbr title="src/Command/NewSite.php">NewSite.php</abbr></a></abbr>
+    :
+    <span class="phpdocumentor-element-found-in__line">283</span>
+
+    </aside>
+
+        <p class="phpdocumentor-summary">Returns the name of a language in this language, if the Intl extension is available.</p>
+
+    <code class="phpdocumentor-code phpdocumentor-signature ">
+    <span class="phpdocumentor-signature__visibility">private</span>
+                    <span class="phpdocumentor-signature__name">getLanguageName</span><span>(</span><span class="phpdocumentor-signature__argument"><span class="phpdocumentor-signature__argument__type">string&nbsp;</span><span class="phpdocumentor-signature__argument__name">$code</span></span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">string</span></code>
+
+    <div class="phpdocumentor-label-line">
+        </div>
+    
+    
+        <h5 class="phpdocumentor-argument-list__heading">Parameters</h5>
+    <dl class="phpdocumentor-argument-list">
+                    <dt class="phpdocumentor-argument-list__entry">
+                <span class="phpdocumentor-argument-list__argument__name">$code</span>
+                : <span class="phpdocumentor-argument-list__argument__type">string</span>
+                            </dt>
+            <dd class="phpdocumentor-argument-list__definition">
+                
+            </dd>
+            </dl>
+
+    
+
+        
+    
+            <section>
+        <h5 class="phpdocumentor-return-value__heading">Return values</h5>
+        <span class="phpdocumentor-signature__response_type">string</span>
+            </section>
+
+</article>
+                    <article
+        class="phpdocumentor-element
+            -method
+            -private
+                                                        "
+>
+    <h4 class="phpdocumentor-element__name" id="method_isDemoLanguage">
+        isDemoLanguage()
+        <a href="classes/Cecil-Command-NewSite.html#method_isDemoLanguage" class="headerlink"><i class="fas fa-link"></i></a>
+
+    </h4>
+    <aside class="phpdocumentor-element-found-in">
+    <abbr class="phpdocumentor-element-found-in__file" title="src/Command/NewSite.php"><a href="files/src-command-newsite.html"><abbr title="src/Command/NewSite.php">NewSite.php</abbr></a></abbr>
+    :
+    <span class="phpdocumentor-element-found-in__line">275</span>
+
+    </aside>
+
+        <p class="phpdocumentor-summary">Is the language (or its primary language) the language of the translated demo content?</p>
+
+    <code class="phpdocumentor-code phpdocumentor-signature ">
+    <span class="phpdocumentor-signature__visibility">private</span>
+                    <span class="phpdocumentor-signature__name">isDemoLanguage</span><span>(</span><span class="phpdocumentor-signature__argument"><span class="phpdocumentor-signature__argument__type">string&nbsp;</span><span class="phpdocumentor-signature__argument__name">$code</span></span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">bool</span></code>
+
+    <div class="phpdocumentor-label-line">
+        </div>
+    
+    
+        <h5 class="phpdocumentor-argument-list__heading">Parameters</h5>
+    <dl class="phpdocumentor-argument-list">
+                    <dt class="phpdocumentor-argument-list__entry">
+                <span class="phpdocumentor-argument-list__argument__name">$code</span>
+                : <span class="phpdocumentor-argument-list__argument__type">string</span>
+                            </dt>
+            <dd class="phpdocumentor-argument-list__definition">
+                
+            </dd>
+            </dl>
+
+    
+
+        
+    
+            <section>
+        <h5 class="phpdocumentor-return-value__heading">Return values</h5>
+        <span class="phpdocumentor-signature__response_type">bool</span>
+            </section>
+
+</article>
+                    <article
+        class="phpdocumentor-element
+            -method
+            -private
+                                                        "
+>
+    <h4 class="phpdocumentor-element__name" id="method_replaceConfigEntry">
+        replaceConfigEntry()
+        <a href="classes/Cecil-Command-NewSite.html#method_replaceConfigEntry" class="headerlink"><i class="fas fa-link"></i></a>
+
+    </h4>
+    <aside class="phpdocumentor-element-found-in">
+    <abbr class="phpdocumentor-element-found-in__file" title="src/Command/NewSite.php"><a href="files/src-command-newsite.html"><abbr title="src/Command/NewSite.php">NewSite.php</abbr></a></abbr>
+    :
+    <span class="phpdocumentor-element-found-in__line">267</span>
+
+    </aside>
+
+        <p class="phpdocumentor-summary">Replaces a top level entry (one line) of a YAML string.</p>
+
+    <code class="phpdocumentor-code phpdocumentor-signature ">
+    <span class="phpdocumentor-signature__visibility">private</span>
+                    <span class="phpdocumentor-signature__name">replaceConfigEntry</span><span>(</span><span class="phpdocumentor-signature__argument"><span class="phpdocumentor-signature__argument__type">string&nbsp;</span><span class="phpdocumentor-signature__argument__name">$yaml</span></span><span class="phpdocumentor-signature__argument"><span>, </span><span class="phpdocumentor-signature__argument__type">string&nbsp;</span><span class="phpdocumentor-signature__argument__name">$key</span></span><span class="phpdocumentor-signature__argument"><span>, </span><span class="phpdocumentor-signature__argument__type">string&nbsp;</span><span class="phpdocumentor-signature__argument__name">$entry</span></span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">string</span></code>
+
+    <div class="phpdocumentor-label-line">
+        </div>
+    
+    
+        <h5 class="phpdocumentor-argument-list__heading">Parameters</h5>
+    <dl class="phpdocumentor-argument-list">
+                    <dt class="phpdocumentor-argument-list__entry">
+                <span class="phpdocumentor-argument-list__argument__name">$yaml</span>
+                : <span class="phpdocumentor-argument-list__argument__type">string</span>
+                            </dt>
+            <dd class="phpdocumentor-argument-list__definition">
+                
+            </dd>
+                    <dt class="phpdocumentor-argument-list__entry">
+                <span class="phpdocumentor-argument-list__argument__name">$key</span>
+                : <span class="phpdocumentor-argument-list__argument__type">string</span>
+                            </dt>
+            <dd class="phpdocumentor-argument-list__definition">
+                
+            </dd>
+                    <dt class="phpdocumentor-argument-list__entry">
+                <span class="phpdocumentor-argument-list__argument__name">$entry</span>
+                : <span class="phpdocumentor-argument-list__argument__type">string</span>
+                            </dt>
+            <dd class="phpdocumentor-argument-list__definition">
+                
+            </dd>
+            </dl>
+
+    
+
+        
+    
+            <section>
+        <h5 class="phpdocumentor-return-value__heading">Return values</h5>
+        <span class="phpdocumentor-signature__response_type">string</span>
+            </section>
+
+</article>
             </section>
 
         
@@ -1476,9 +2069,13 @@ If the <code class="prettyprint">--force</code> option is used, it will override
                 <li>
                     <ul class="phpdocumentor-list -clean">
                                                     <li class=""><a href="classes/Cecil-Command-AbstractCommand.html#constant_CONFIG_FILE">CONFIG_FILE</a></li>
+                                                    <li class=""><a href="classes/Cecil-Command-NewSite.html#constant_DEMO_LANGUAGE">DEMO_LANGUAGE</a></li>
                                                     <li class=""><a href="classes/Cecil-Command-AbstractCommand.html#constant_EXCLUDED_CMD">EXCLUDED_CMD</a></li>
                                                     <li class=""><a href="classes/Cecil-Command-AbstractCommand.html#constant_PID_FILE">PID_FILE</a></li>
                                                     <li class=""><a href="classes/Cecil-Command-AbstractCommand.html#constant_SERVE_OUTPUT">SERVE_OUTPUT</a></li>
+                                                    <li class=""><a href="classes/Cecil-Command-NewSite.html#constant_SKELETON_DIR">SKELETON_DIR</a></li>
+                                                    <li class=""><a href="classes/Cecil-Command-NewSite.html#constant_SKELETON_PRESERVE">SKELETON_PRESERVE</a></li>
+                                                    <li class=""><a href="classes/Cecil-Command-NewSite.html#constant_SKELETON_RENAME">SKELETON_RENAME</a></li>
                                             </ul>
                 </li>
             
@@ -1498,9 +2095,11 @@ If the <code class="prettyprint">--force</code> option is used, it will override
                                             <li class=""><a href="classes/Cecil-Command-AbstractCommand.html#method_getProcessedHelp">getProcessedHelp()</a></li>
                                             <li class=""><a href="classes/Cecil-Command-AbstractCommand.html#method_notification">notification()</a></li>
                                             <li class=""><a href="classes/Cecil-Command-AbstractCommand.html#method_run">run()</a></li>
+                                            <li class=""><a href="classes/Cecil-Command-NewSite.html#method_validateLanguageCode">validateLanguageCode()</a></li>
                                             <li class=""><a href="classes/Cecil-Command-AbstractCommand.html#method_validateUrl">validateUrl()</a></li>
                                             <li class=""><a href="classes/Cecil-Command-AbstractCommand.html#method_binName">binName()</a></li>
                                             <li class=""><a href="classes/Cecil-Command-NewSite.html#method_configure">configure()</a></li>
+                                            <li class=""><a href="classes/Cecil-Command-NewSite.html#method_createConfig">createConfig()</a></li>
                                             <li class=""><a href="classes/Cecil-Command-NewSite.html#method_execute">execute()</a></li>
                                             <li class=""><a href="classes/Cecil-Command-AbstractCommand.html#method_getBuilder">getBuilder()</a></li>
                                             <li class=""><a href="classes/Cecil-Command-AbstractCommand.html#method_getConfigFiles">getConfigFiles()</a></li>
@@ -1509,6 +2108,11 @@ If the <code class="prettyprint">--force</code> option is used, it will override
                                             <li class=""><a href="classes/Cecil-Command-AbstractCommand.html#method_locateAdditionalConfigFiles">locateAdditionalConfigFiles()</a></li>
                                             <li class=""><a href="classes/Cecil-Command-AbstractCommand.html#method_locateConfigFile">locateConfigFile()</a></li>
                                             <li class=""><a href="classes/Cecil-Command-AbstractCommand.html#method_openEditor">openEditor()</a></li>
+                                            <li class=""><a href="classes/Cecil-Command-NewSite.html#method_copySkeleton">copySkeleton()</a></li>
+                                            <li class=""><a href="classes/Cecil-Command-NewSite.html#method_copySkeletonFile">copySkeletonFile()</a></li>
+                                            <li class=""><a href="classes/Cecil-Command-NewSite.html#method_getLanguageName">getLanguageName()</a></li>
+                                            <li class=""><a href="classes/Cecil-Command-NewSite.html#method_isDemoLanguage">isDemoLanguage()</a></li>
+                                            <li class=""><a href="classes/Cecil-Command-NewSite.html#method_replaceConfigEntry">replaceConfigEntry()</a></li>
                                     </ul>
             </li>
                     </ul>

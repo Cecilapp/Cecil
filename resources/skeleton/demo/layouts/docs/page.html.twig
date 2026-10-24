@@ -1,0 +1,15 @@
+{% extends 'page.html.twig' %}
+
+{%- block content ~%}
+{#- the `toc` variable is defined for all pages of the section by `cascade` (see `pages/docs/index.md`) ~#}
+{%- if page.toc ?? false ~%}
+<details class="toc" open>
+  <summary>{% trans %}On this page{% endtrans %}</summary>
+  {{ page.body|toc }}
+</details>
+{%- endif ~%}
+{{ page.content }}
+<footer>
+  {{- include('partials/page-navigation.html.twig', {page: page}, with_context=false) ~}}
+</footer>
+{%- endblock content ~%}

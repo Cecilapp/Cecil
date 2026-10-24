@@ -1,0 +1,21 @@
+{% extends '_default/page.html.twig' %}
+
+{#- adds the site stylesheet, compiled from Sass ~#}
+{%- block head_css ~%}
+    {{- parent() ~}}
+    {{ css(asset('css/style.scss')) }}
+{%- endblock head_css ~%}
+
+{#- adds the links of the `data/links.yaml` data file ~#}
+{%- block footer ~%}
+      {%- if site.data.links is defined ~%}
+      <nav class="footer-links">
+        <ul>
+          {%- for link in site.data.links ~%}
+          <li><a href="{{ link.url }}">{{ link.name|e }}</a></li>
+          {%- endfor ~%}
+        </ul>
+      </nav>
+      {%- endif ~%}
+      {{- parent() ~}}
+{%- endblock footer ~%}

@@ -2831,6 +2831,61 @@ Search.appendIndex(
             "summary": "\u007B\u0040inheritdoc\u007D",
             "url": "classes/Cecil-Command-NewSite.html#method_execute"
         },                {
+            "fqsen": "\\Cecil\\Command\\NewSite\u003A\u003AvalidateLanguageCode\u0028\u0029",
+            "name": "validateLanguageCode",
+            "summary": "Validates\u0020a\u0020language\u0020code\u0020\u0028e.g.\u003A\u0020\u0022en\u0022,\u0020\u0022fr\u0022\u0020or\u0020\u0022fr\u002DFR\u0022\u0029.",
+            "url": "classes/Cecil-Command-NewSite.html#method_validateLanguageCode"
+        },                {
+            "fqsen": "\\Cecil\\Command\\NewSite\u003A\u003AcreateConfig\u0028\u0029",
+            "name": "createConfig",
+            "summary": "Creates\u0020the\u0020configuration\u0020YAML\u0020from\u0020the\u0020skeleton\u0020one,\u0020by\u0020replacing\u0020values\u0020\u0028and\u0020keeping\u0020comments\u0029.",
+            "url": "classes/Cecil-Command-NewSite.html#method_createConfig"
+        },                {
+            "fqsen": "\\Cecil\\Command\\NewSite\u003A\u003AcopySkeleton\u0028\u0029",
+            "name": "copySkeleton",
+            "summary": "Copies\u0020files\u0020of\u0020a\u0020skeleton\u0020sub\u0020directory\u0020\u0028e.g.\u003A\u0020\u0060base\u0060\u0020or\u0020\u0060demo\u0060\u0029,\u0020accepted\u0020by\u0020the\u0020filter\u0020\u0028with\u0020their\u0020relative\u0020path\u0029.",
+            "url": "classes/Cecil-Command-NewSite.html#method_copySkeleton"
+        },                {
+            "fqsen": "\\Cecil\\Command\\NewSite\u003A\u003AcopySkeletonFile\u0028\u0029",
+            "name": "copySkeletonFile",
+            "summary": "Copies\u0020a\u0020skeleton\u0020file\u0020to\u0020the\u0020site,\u0020unless\u0020it\u0020must\u0020be\u0020preserved.",
+            "url": "classes/Cecil-Command-NewSite.html#method_copySkeletonFile"
+        },                {
+            "fqsen": "\\Cecil\\Command\\NewSite\u003A\u003AreplaceConfigEntry\u0028\u0029",
+            "name": "replaceConfigEntry",
+            "summary": "Replaces\u0020a\u0020top\u0020level\u0020entry\u0020\u0028one\u0020line\u0029\u0020of\u0020a\u0020YAML\u0020string.",
+            "url": "classes/Cecil-Command-NewSite.html#method_replaceConfigEntry"
+        },                {
+            "fqsen": "\\Cecil\\Command\\NewSite\u003A\u003AisDemoLanguage\u0028\u0029",
+            "name": "isDemoLanguage",
+            "summary": "Is\u0020the\u0020language\u0020\u0028or\u0020its\u0020primary\u0020language\u0029\u0020the\u0020language\u0020of\u0020the\u0020translated\u0020demo\u0020content\u003F",
+            "url": "classes/Cecil-Command-NewSite.html#method_isDemoLanguage"
+        },                {
+            "fqsen": "\\Cecil\\Command\\NewSite\u003A\u003AgetLanguageName\u0028\u0029",
+            "name": "getLanguageName",
+            "summary": "Returns\u0020the\u0020name\u0020of\u0020a\u0020language\u0020in\u0020this\u0020language,\u0020if\u0020the\u0020Intl\u0020extension\u0020is\u0020available.",
+            "url": "classes/Cecil-Command-NewSite.html#method_getLanguageName"
+        },                {
+            "fqsen": "\\Cecil\\Command\\NewSite\u003A\u003ASKELETON_DIR",
+            "name": "SKELETON_DIR",
+            "summary": "Skeleton\u0020directory\u003A\u0020\u0060base\/\u0060\u0020files\u0020are\u0020always\u0020copied,\u0020\u0060demo\/\u0060\u0020files\u0020with\u0020the\u0020\u0060\u002D\u002Ddemo\u0060\u0020option.",
+            "url": "classes/Cecil-Command-NewSite.html#constant_SKELETON_DIR"
+        },                {
+            "fqsen": "\\Cecil\\Command\\NewSite\u003A\u003ASKELETON_RENAME",
+            "name": "SKELETON_RENAME",
+            "summary": "Skeleton\u0020files\u0020renamed\u0020when\u0020copied\u0020\u0028dot\u0020files\u0020are\u0020not\u0020embedded\u0020in\u0020the\u0020Phar\u0029.",
+            "url": "classes/Cecil-Command-NewSite.html#constant_SKELETON_RENAME"
+        },                {
+            "fqsen": "\\Cecil\\Command\\NewSite\u003A\u003ASKELETON_PRESERVE",
+            "name": "SKELETON_PRESERVE",
+            "summary": "Files\u0020not\u0020overridden\u0020if\u0020they\u0020already\u0020exist\u0020\u0028e.g.\u003A\u0020in\u0020an\u0020existing\u0020repository\u0029.",
+            "url": "classes/Cecil-Command-NewSite.html#constant_SKELETON_PRESERVE"
+        },                {
+            "fqsen": "\\Cecil\\Command\\NewSite\u003A\u003ADEMO_LANGUAGE",
+            "name": "DEMO_LANGUAGE",
+            "summary": "Additional\u0020language\u0020of\u0020the\u0020demo\u0020content\u0020\u0028translated\u0020pages\u0029.",
+            "url": "classes/Cecil-Command-NewSite.html#constant_DEMO_LANGUAGE"
+        },                {
             "fqsen": "\\Cecil\\Command\\SelfUpdate",
             "name": "SelfUpdate",
             "summary": "SelfUpdate\u0020command.",
@@ -3755,6 +3810,11 @@ Search.appendIndex(
             "name": "splitNoteCode",
             "summary": "Returns\u0020the\u0020fenced\u0020code\u0020blocks\u0020of\u0020a\u0020note\u0020made\u0020only\u0020of\u0020code\u0020blocks,\u0020or\u0020null.",
             "url": "classes/Cecil-Converter-Parsedown.html#method_splitNoteCode"
+        },                {
+            "fqsen": "\\Cecil\\Converter\\Parsedown\u003A\u003AnoteText\u0028\u0029",
+            "name": "noteText",
+            "summary": "Converts\u0020the\u0020Markdown\u0020of\u0020a\u0020note,\u0020while\u0020the\u0020document\u0020is\u0020being\u0020parsed.",
+            "url": "classes/Cecil-Converter-Parsedown.html#method_noteText"
         },                {
             "fqsen": "\\Cecil\\Converter\\Parsedown\u003A\u003AhasNoteTemplate\u0028\u0029",
             "name": "hasNoteTemplate",

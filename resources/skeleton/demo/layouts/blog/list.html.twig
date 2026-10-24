@@ -1,0 +1,30 @@
+{% extends 'page.html.twig' %}
+
+{%- block content ~%}
+<header>
+  <h1>{{ page.title|e }}</h1>
+</header>
+{%- if page.content ~%}
+<section>
+  {{- page.content ~}}
+</section>
+{%- endif ~%}
+{%- for p in page.paginator.pages ?? page.pages ~%}
+<article>
+  <header>
+    <h2><a href="{{ url(p) }}">{{ p.title|e }}</a></h2>
+    <time datetime="{{ p.date|date('c') }}">{{ p.date|format_date('long') }}</time>
+  </header>
+  {%- set excerpt = p.content|excerpt_html ~%}
+  {{ excerpt }}
+  {%- if excerpt != p.content ~%}
+  <footer class="page-nav">
+    <a class="page-nav next" href="{{ url(p) }}#more">{% trans %}Read more{% endtrans %}</a>
+  </footer>
+  {%- endif ~%}
+</article>
+{%- endfor ~%}
+<footer>
+  {{- include('partials/paginator.html.twig', {page: page}, with_context=false) ~}}
+</footer>
+{%- endblock content ~%}
