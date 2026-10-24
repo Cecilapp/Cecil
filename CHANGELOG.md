@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. Dates are displayed in UTC.
 
+#### [9.24.0](https://github.com/Cecilapp/Cecil/compare/9.23.1...9.24.0)
+
+> 24 October 2026
+
+- feat(layouts): improve default layouts rendering [`#2549`](https://github.com/Cecilapp/Cecil/pull/2549)
+- feat(new:site): improve the new site skeleton [`#2548`](https://github.com/Cecilapp/Cecil/pull/2548)
+
 #### [9.23.1](https://github.com/Cecilapp/Cecil/compare/9.23.0...9.23.1)
 
 > 24 October 2026
