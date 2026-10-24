@@ -8,24 +8,33 @@
 {% if page.paginator.pages is defined %}
   {%- set pages = page.paginator.pages -%}
 {% endif %}
+{# dates are displayed if pages are sorted by date #}
+{% set sortby = page.sortby|default(config.pages.sortby) %}
+{% set show_date = (sortby is iterable ? sortby.variable|default('date') : sortby) == 'date' %}
 
 {% extends ['page.html.twig', '_default/page.html.twig'] %}
 
       {%- block content ~%}
+      {%- if page.type != 'homepage' ~%}
       <header>
-        {%- if page.type != 'homepage' %}<h1>{{ page.title }}</h1>{% endif ~%}
+        <h1>{{ page.title }}</h1>
       </header>
+      {%- endif ~%}
       {%- if page.content ~%}
       <section>
         {{- page.content ~}}
       </section>
       {%- endif ~%}
       {%- for p in pages ~%}
-      <article>
+      <article class="list-item">
         <h2><a href="{{ url(p) }}">{{ p.title|e }}</a></h2>
+        {%- if show_date and p.date is defined and p.date ~%}
+        <time datetime="{{ p.date|date('c') }}">{{ p.date|format_date('long') }}</time>
+        {%- endif ~%}
+        {%- if p.description|default ~%}
+        <p>{{ p.description|e }}</p>
+        {%- endif ~%}
       </article>
       {%- endfor ~%}
-      <footer>
-        {{- include('partials/paginator.html.twig', {page: page}, with_context=false) ~}}
-      </footer>
+      {{- include('partials/paginator.html.twig', {page: page}, with_context=false) ~}}
       {%- endblock content ~%}

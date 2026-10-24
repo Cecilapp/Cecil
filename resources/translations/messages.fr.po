@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "POT-Creation-Date: 2026-07-05 01:03+0200\n"
-"PO-Revision-Date: 2026-10-17 12:00+0200\n"
+"PO-Revision-Date: 2026-10-24 12:00+0200\n"
 "Last-Translator: Arnaud Ligny <arnaud@ligny.fr>\n"
 "Language-Team: \n"
 "Language: fr\n"
@@ -94,3 +94,23 @@ msgstr "Précédent"
 #: partials/paginator.html.twig:10 partials/paginator.html.twig:12
 msgid "Next"
 msgstr "Suivant"
+
+#: _default/page.html.twig
+msgid "Skip to content"
+msgstr "Aller au contenu"
+
+#: _default/page.html.twig
+msgid "Languages"
+msgstr "Langues"
+
+#: partials/paginator.html.twig
+msgid "Pagination"
+msgstr "Pagination"
+
+#: partials/breadcrumb.html.twig
+msgid "Home"
+msgstr "Accueil"
+
+#: partials/theme-selector.html.twig
+msgid "Change theme color"
+msgstr "Changer le thème de couleur"

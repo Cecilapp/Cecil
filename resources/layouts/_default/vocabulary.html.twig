@@ -1,12 +1,15 @@
 {% extends ['page.html.twig', '_default/page.html.twig'] %}
 
       {%- block content ~%}
+      <header>
+        <h1>{{ page.title }}</h1>
+      </header>
       {{- parent() ~}}
-      <ul>
-        {%- for term in page.terms ~%}
-        <li>
-          <a href="{{ url(term.id, {language: site.language}) }}">{{ term.name }}</a> ({{ term|length }})
-        </li>
-        {%- endfor ~%}
-      </ul>
+      <nav class="terms">
+        <ul>
+          {%- for term in page.terms ~%}
+          <li><a class="term" href="{{ url(term.id, {language: site.language}) }}">{{ term.name }}<small>{{ term|length }}</small></a></li>
+          {%- endfor ~%}
+        </ul>
+      </nav>
       {%- endblock ~%}

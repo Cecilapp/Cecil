@@ -1,28 +1,64 @@
 {# Highlight code CSS ~#}
 {%- set highlight_engine = config.pages.body.highlight.engine ?? 'highlightjs' ~%}
+      /* Atom One Light / Atom One Dark colors (dark colors follow the color scheme and the theme selector) */
+      :root {
+        --cecil-hl-base: #383a42;
+        --cecil-hl-comment: #a0a1a7;
+        --cecil-hl-keyword: #a626a4;
+        --cecil-hl-red: #e45649;
+        --cecil-hl-cyan: #0184bb;
+        --cecil-hl-green: #50a14f;
+        --cecil-hl-orange: #986801;
+        --cecil-hl-blue: #4078f2;
+        --cecil-hl-yellow: #c18401;
+      }
+      @media only screen and (prefers-color-scheme: dark) {
+        :root:not([data-theme=light]) {
+          --cecil-hl-base: #abb2bf;
+          --cecil-hl-comment: #5c6370;
+          --cecil-hl-keyword: #c678dd;
+          --cecil-hl-red: #e06c75;
+          --cecil-hl-cyan: #56b6c2;
+          --cecil-hl-green: #98c379;
+          --cecil-hl-orange: #d19a66;
+          --cecil-hl-blue: #61aeee;
+          --cecil-hl-yellow: #e6c07b;
+        }
+      }
+      [data-theme=dark] {
+        --cecil-hl-base: #abb2bf;
+        --cecil-hl-comment: #5c6370;
+        --cecil-hl-keyword: #c678dd;
+        --cecil-hl-red: #e06c75;
+        --cecil-hl-cyan: #56b6c2;
+        --cecil-hl-green: #98c379;
+        --cecil-hl-orange: #d19a66;
+        --cecil-hl-blue: #61aeee;
+        --cecil-hl-yellow: #e6c07b;
+      }
 {%- if highlight_engine == 'tempest' ~%}
-      /* tempest/highlight, Atom One Light colors */
+      /* tempest/highlight */
       .hl-keyword {
-        color: #a626a4;
+        color: var(--cecil-hl-keyword);
       }
       .hl-property {
-        color: #4078f2;
+        color: var(--cecil-hl-blue);
       }
       .hl-type {
-        color: #c18401;
+        color: var(--cecil-hl-yellow);
       }
       .hl-generic {
-        color: #986801;
+        color: var(--cecil-hl-orange);
       }
       .hl-value {
-        color: #50a14f;
+        color: var(--cecil-hl-green);
       }
       .hl-variable {
-        color: #e45649;
+        color: var(--cecil-hl-red);
       }
       .hl-comment,
       .hl-comment span {
-        color: #a0a1a7;
+        color: var(--cecil-hl-comment);
         font-style: italic;
       }
       .hl-attribute,
@@ -45,66 +81,39 @@
         display: inline-block;
         margin-right: 1ch;
         padding: 0 1ch;
-        color: #a0a1a7;
-      }
-      @media (prefers-color-scheme: dark) {
-        /* tempest/highlight, Atom One Dark colors */
-        .hl-keyword {
-          color: #c678dd;
-        }
-        .hl-property {
-          color: #61aeee;
-        }
-        .hl-type {
-          color: #e6c07b;
-        }
-        .hl-generic {
-          color: #d19a66;
-        }
-        .hl-value {
-          color: #98c379;
-        }
-        .hl-variable {
-          color: #e06c75;
-        }
-        .hl-comment,
-        .hl-comment span,
-        .hl-gutter {
-          color: #5c6370;
-        }
+        color: var(--cecil-hl-comment);
       }
 {%- else ~%}
-      /* Atom One Light by Daniel Gamage */
+      /* highlight.js, by Daniel Gamage */
       .hljs {
-        color: #383a42;
-        /*background: #fafafa;*/
+        color: var(--cecil-hl-base);
       }
       .hljs-comment,
       .hljs-quote {
-        color: #a0a1a7;
+        color: var(--cecil-hl-comment);
         font-style: italic;
       }
       .hljs-doctag,
       .hljs-keyword,
       .hljs-formula {
-        color: #a626a4;
+        color: var(--cecil-hl-keyword);
       }
       .hljs-section,
       .hljs-name,
       .hljs-selector-tag,
       .hljs-deletion,
       .hljs-subst {
-        color: #e45649;
+        color: var(--cecil-hl-red);
       }
       .hljs-literal {
-        color: #0184bb;
+        color: var(--cecil-hl-cyan);
       }
       .hljs-string,
       .hljs-regexp,
       .hljs-addition,
       .hljs-attribute,
       .hljs-meta .hljs-string {
-        color: #50a14f;
+        color: var(--cecil-hl-green);
       }
       .hljs-attr,
       .hljs-variable,
@@ -114,7 +123,7 @@
       .hljs-selector-attr,
       .hljs-selector-pseudo,
       .hljs-number {
-        color: #986801;
+        color: var(--cecil-hl-orange);
       }
       .hljs-symbol,
       .hljs-bullet,
@@ -122,12 +131,12 @@
       .hljs-meta,
       .hljs-selector-id,
       .hljs-title {
-        color: #4078f2;
+        color: var(--cecil-hl-blue);
       }
       .hljs-built_in,
       .hljs-title.class_,
       .hljs-class .hljs-title {
-        color: #c18401;
+        color: var(--cecil-hl-yellow);
       }
       .hljs-emphasis {
         font-style: italic;
@@ -137,71 +146,5 @@
       }
       .hljs-link {
         text-decoration: underline;
-      }
-      @media (prefers-color-scheme: dark) {
-        /* Atom One Dark by Daniel Gamage */
-        .hljs {
-          color: #abb2bf;
-          /*background: #282c34;*/
-        }
-        .hljs-comment,
-        .hljs-quote {
-          color: #5c6370;
-          font-style: italic;
-        }
-        .hljs-doctag,
-        .hljs-keyword,
-        .hljs-formula {
-          color: #c678dd;
-        }
-        .hljs-section,
-        .hljs-name,
-        .hljs-selector-tag,
-        .hljs-deletion,
-        .hljs-subst {
-          color: #e06c75;
-        }
-        .hljs-literal {
-          color: #56b6c2;
-        }
-        .hljs-string,
-        .hljs-regexp,
-        .hljs-addition,
-        .hljs-attribute,
-        .hljs-meta .hljs-string {
-          color: #98c379;
-        }
-        .hljs-attr,
-        .hljs-variable,
-        .hljs-template-variable,
-        .hljs-type,
-        .hljs-selector-class,
-        .hljs-selector-attr,
-        .hljs-selector-pseudo,
-        .hljs-number {
-          color: #d19a66;
-        }
-        .hljs-symbol,
-        .hljs-bullet,
-        .hljs-link,
-        .hljs-meta,
-        .hljs-selector-id,
-        .hljs-title {
-          color: #61aeee;
-        }
-        .hljs-built_in,
-        .hljs-title.class_,
-        .hljs-class .hljs-title {
-          color: #e6c07b;
-        }
-        .hljs-emphasis {
-          font-style: italic;
-        }
-        .hljs-strong {
-          font-weight: bold;
-        }
-        .hljs-link {
-          text-decoration: underline;
-        }
       }
 {%- endif ~%}

@@ -13,6 +13,29 @@
     <style>{% apply minify_css ~%}
       {{- include('partials/pico.css.twig') ~}}
       /* Pico CSS overrides */
+      :root {
+        --cecil-note-info: #0172ad;
+        --cecil-note-tip: #398712;
+        --cecil-note-important: #8352c5;
+        --cecil-note-warning: #b45309;
+        --cecil-note-caution: #d93526;
+      }
+      @media only screen and (prefers-color-scheme: dark) {
+        :root:not([data-theme=light]) {
+          --cecil-note-info: #4cb2e8;
+          --cecil-note-tip: #6cc24a;
+          --cecil-note-important: #b38ae8;
+          --cecil-note-warning: #f0a43a;
+          --cecil-note-caution: #f06048;
+        }
+      }
+      [data-theme=dark] {
+        --cecil-note-info: #4cb2e8;
+        --cecil-note-tip: #6cc24a;
+        --cecil-note-important: #b38ae8;
+        --cecil-note-warning: #f0a43a;
+        --cecil-note-caution: #f06048;
+      }
       @media (min-width: 1024px) {
         body > header,
         body > main,
@@ -27,30 +50,42 @@
       img {
         margin-bottom: calc(var(--pico-spacing) / 2);
       }
-      body>header {
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-        flex-direction: column;
+      /* Skip link */
+      .skip-link {
+        position: absolute;
+        top: -100px;
+        left: 1rem;
+        z-index: 10;
+        padding: .5rem 1rem;
+        border-radius: var(--pico-border-radius);
+        background: var(--pico-primary-background);
+        color: var(--pico-primary-inverse);
       }
-      body>header>hgroup>p {
+      .skip-link:focus {
+        top: 1rem;
+      }
+      /* Header */
+      body > header {
+        display: flex;
+        flex-wrap: wrap;
+        align-items: center;
+        justify-content: center;
+        column-gap: var(--pico-spacing);
+        padding-bottom: var(--pico-spacing);
+        border-bottom: 1px solid var(--pico-muted-border-color);
+      }
+      body > header > hgroup {
+        flex-basis: 100%;
+        margin-bottom: 0;
         text-align: center;
       }
-      @media (width >= 48rem) {
-        body>header {
-          flex-direction: row;
-          align-items: flex-start;
-          gap: calc(var(--pico-spacing) * 1);
-        }
-        body>header>hgroup>p {
-          text-align: left;
-        }
+      body > header > hgroup > p:empty {
+        display: none;
       }
       .site-title {
         --pico-font-weight: 700;
         --pico-font-size: 2rem;
         --pico-line-height: 1.125;
-        --pico-typography-spacing-top: 3rem;
         --pico-color: var(--pico-h1-color);
         margin-top: 0;
         margin-bottom: 0;
@@ -59,6 +94,111 @@
         font-size: var(--pico-font-size);
         line-height: var(--pico-line-height);
         font-family: var(--pico-font-family);
+      }
+      .site-title a {
+        --pico-color: inherit;
+        color: inherit;
+        text-decoration: none;
+      }
+      body > header nav {
+        justify-content: center;
+      }
+      body > header nav a[aria-current] {
+        color: var(--pico-primary-hover);
+        font-weight: 600;
+        text-decoration: underline;
+        text-underline-offset: .4em;
+      }
+      .site-tools {
+        display: flex;
+        align-items: center;
+        gap: var(--pico-spacing);
+      }
+      .site-tools nav a {
+        margin: 0;
+        padding: 0;
+      }
+      .languages a {
+        font-size: .875em;
+        text-decoration: none;
+      }
+      @media (width >= 48rem) {
+        body > header {
+          justify-content: space-between;
+        }
+        body > header > hgroup {
+          flex-basis: auto;
+          text-align: left;
+        }
+        body > header nav {
+          margin-left: auto;
+        }
+      }
+      body > main {
+        padding-top: calc(var(--pico-block-spacing-vertical) * .75);
+      }
+      /* Footer */
+      body > footer {
+        border-top: 1px solid var(--pico-muted-border-color);
+        color: var(--pico-muted-color);
+      }
+      /* Headings anchors */
+      main :is(h2, h3, h4, h5, h6)[id] {
+        scroll-margin-top: var(--pico-spacing);
+      }
+      .heading-anchor {
+        margin-left: .4em;
+        color: var(--pico-muted-color);
+        text-decoration: none;
+        opacity: 0;
+        transition: opacity .2s;
+      }
+      .heading-anchor::before {
+        content: "#";
+      }
+      :is(h2, h3, h4, h5, h6):hover .heading-anchor,
+      .heading-anchor:focus {
+        opacity: 1;
+      }
+      /* Code */
+      pre[data-lang] {
+        position: relative;
+      }
+      pre[data-lang]::before {
+        content: attr(data-lang);
+        position: absolute;
+        top: .25rem;
+        right: .5rem;
+        color: var(--pico-muted-color);
+        font-size: .7rem;
+        text-transform: uppercase;
+        letter-spacing: .05em;
+      }
+      /* Lists of pages */
+      main article.list-item {
+        margin: 0;
+        padding: var(--pico-spacing) 0;
+        border-bottom: 1px solid var(--pico-muted-border-color);
+        border-radius: 0;
+        background: none;
+        box-shadow: none;
+      }
+      main article.list-item:last-of-type {
+        border-bottom: none;
+      }
+      main article.list-item h2 {
+        margin-bottom: .25rem;
+        font-size: 1.375rem;
+      }
+      main article.list-item h2 a {
+        text-decoration: none;
+      }
+      main article.list-item p {
+        margin: .25rem 0 0;
+      }
+      main time {
+        color: var(--pico-muted-color);
+        font-size: .875em;
       }
       /* Cecil features */
       .page-nav {
@@ -78,54 +218,220 @@
         content: "\00203A";
         margin-left: .5rem;
       }
-      .term:before {
-        content: "#";
+      .paginator {
+        justify-content: center;
+        margin-top: var(--pico-spacing);
       }
-      /* Notes */
-      main .note {
-        position: relative;
-        padding: 1rem;
-        margin-bottom: 1rem;
-        border-radius: 0.25rem;
-        border: 1px solid var(--pico-color);
-        border-left-width: 4px;
+      .paginator ul {
+        gap: .25rem;
+        margin: 0;
+        padding: 0;
       }
-      main .note > p {
+      .paginator li {
+        padding: 0;
+        list-style: none;
+      }
+      .paginator a,
+      .paginator span {
+        display: inline-block;
+        margin: 0;
+        min-width: 2.25rem;
+        padding: .25rem .6rem;
+        border-radius: var(--pico-border-radius);
+        text-align: center;
+        text-decoration: none;
+      }
+      .paginator a[aria-current] {
+        background: var(--pico-primary-background);
+        color: var(--pico-primary-inverse);
+      }
+      .paginator span {
+        color: var(--pico-muted-color);
+        opacity: .6;
+      }
+      /* Terms */
+      nav.terms ul {
+        flex-wrap: wrap;
+        gap: .5rem;
+        margin: 0 0 var(--pico-spacing);
+        padding: 0;
+      }
+      .terms li {
+        margin: 0;
+        padding: 0;
+        list-style: none;
+      }
+      .terms .term {
         margin: 0;
       }
-      main .note-info {
-        border: 1px solid blue;
-        border-left-width: 4px;
+      .term {
+        display: inline-block;
+        padding: .1rem .65rem;
+        border: 1px solid var(--pico-muted-border-color);
+        border-radius: 1rem;
+        font-size: .875rem;
+        text-decoration: none;
       }
-      main .note-tip {
-        border: 1px solid green;
-        border-left-width: 4px;
+      .term:before {
+        content: "#";
+        color: var(--pico-muted-color);
       }
-      main .note-important {
-        border: 1px solid purple;
-        border-left-width: 4px;
+      .term small {
+        margin-left: .35rem;
+        color: var(--pico-muted-color);
       }
-      main .note-warning {
-        border: 1px solid orange;
-        border-left-width: 4px;
+      /* Notes */
+      main aside.note {
+        --cecil-note-color: var(--pico-muted-color);
+        position: relative;
+        margin-bottom: var(--pico-spacing);
+        padding: .75rem 1rem;
+        border-left: 4px solid var(--cecil-note-color);
+        border-radius: var(--pico-border-radius);
+        background: color-mix(in srgb, var(--cecil-note-color) 8%, transparent);
       }
-      main .note-caution {
-        border: 1px solid red;
-        border-left-width: 4px;
+      main aside.note > :last-child {
+        margin-bottom: 0;
+      }
+      main aside.note:is(.note-info, .note-tip, .note-important, .note-warning, .note-caution) {
+        padding-left: 2.75rem;
+      }
+      main aside.note:is(.note-info, .note-tip, .note-important, .note-warning, .note-caution)::before {
+        content: "";
+        position: absolute;
+        top: .85rem;
+        left: .9rem;
+        width: 1.2rem;
+        height: 1.2rem;
+        background-color: var(--cecil-note-color);
+        -webkit-mask: var(--cecil-note-icon) no-repeat center / contain;
+        mask: var(--cecil-note-icon) no-repeat center / contain;
+      }
+      main aside.note-info {
+        --cecil-note-color: var(--cecil-note-info);
+        --cecil-note-icon: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Ccircle cx='12' cy='12' r='10'/%3E%3Cpath d='M12 16v-4M12 8h.01'/%3E%3C/svg%3E");
+      }
+      main aside.note-tip {
+        --cecil-note-color: var(--cecil-note-tip);
+        --cecil-note-icon: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M9 18h6M10 22h4M12 2a7 7 0 0 0-4 12.7V17h8v-2.3A7 7 0 0 0 12 2z'/%3E%3C/svg%3E");
+      }
+      main aside.note-important {
+        --cecil-note-color: var(--cecil-note-important);
+        --cecil-note-icon: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z'/%3E%3Cpath d='M12 7v4M12 14h.01'/%3E%3C/svg%3E");
+      }
+      main aside.note-warning {
+        --cecil-note-color: var(--cecil-note-warning);
+        --cecil-note-icon: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M10.3 3.9 1.8 18a2 2 0 0 0 1.7 3h17a2 2 0 0 0 1.7-3L13.7 3.9a2 2 0 0 0-3.4 0z'/%3E%3Cpath d='M12 9v4M12 17h.01'/%3E%3C/svg%3E");
+      }
+      main aside.note-caution {
+        --cecil-note-color: var(--cecil-note-caution);
+        --cecil-note-icon: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M7.9 2h8.2L22 7.9v8.2L16.1 22H7.9L2 16.1V7.9z'/%3E%3Cpath d='M12 8v4M12 16h.01'/%3E%3C/svg%3E");
+      }
+      /* Notes templates (tabs, code group, steps, accordion and cards) */
+      main div.note {
+        margin-bottom: var(--pico-spacing);
+      }
+      .note-tab {
+        margin-bottom: var(--pico-spacing);
+        padding: var(--pico-spacing);
+        border: 1px solid var(--pico-muted-border-color);
+        border-radius: var(--pico-border-radius);
+      }
+      .note-tab > :last-child {
+        margin-bottom: 0;
+      }
+      .note-tab > h4:first-child,
+      .note-tab-title {
+        margin-bottom: .5rem;
+        color: var(--pico-muted-color);
+        font-size: .8rem;
+        font-weight: 600;
+        text-transform: uppercase;
+        letter-spacing: .05em;
+      }
+      .note-steps-list {
+        margin: 0;
+        padding: 0;
+        counter-reset: step;
+      }
+      .note-steps-list > .note-step {
+        position: relative;
+        padding: 0 0 var(--pico-spacing) 2.75rem;
+        list-style: none;
+        counter-increment: step;
+      }
+      .note-steps-list > .note-step::before {
+        content: counter(step);
+        position: absolute;
+        top: 0;
+        left: 0;
+        display: grid;
+        place-items: center;
+        width: 1.9rem;
+        height: 1.9rem;
+        border-radius: 50%;
+        background: var(--pico-primary-background);
+        color: var(--pico-primary-inverse);
+        font-size: .9rem;
+        font-weight: 600;
+      }
+      .note-steps-list > .note-step:not(:last-child)::after {
+        content: "";
+        position: absolute;
+        top: 2.3rem;
+        bottom: .4rem;
+        left: calc(.95rem - 1px);
+        width: 2px;
+        background: var(--pico-muted-border-color);
+      }
+      .note-step > h4:first-child {
+        margin-bottom: .5rem;
+        line-height: 1.9rem;
+      }
+      .note-accordion-item {
+        margin: 0;
+        padding: .5rem 0;
+        border-bottom: 1px solid var(--pico-muted-border-color);
+      }
+      .note-accordion-item > summary {
+        font-weight: 600;
+      }
+      .note-accordion-content {
+        padding-top: .5rem;
+      }
+      .note-cards-list {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(14rem, 1fr));
+        gap: var(--pico-spacing);
+        margin: 0;
+        padding: 0;
+      }
+      .note-card {
+        margin: 0;
+        padding: var(--pico-spacing);
+        border: 1px solid var(--pico-muted-border-color);
+        border-radius: var(--pico-border-radius);
+        list-style: none;
+      }
+      .note-card-title {
+        margin-bottom: .25rem;
+        font-weight: 600;
+      }
+      .note-card-content > :last-child {
+        margin-bottom: 0;
       }
       /* Theme selector */
       #theme-toggle {
-        position: absolute;
-        top: 0;
-        right: 0;
         --pico-background-color: transparent;
         --pico-border-color: transparent;
         --pico-color: var(--pico-muted-color);
+        margin: 0;
+        padding: .25rem;
         border: none;
-        outline:none;
+        outline: none;
       }
-      #theme-toggle:focus {
-        outline-style: none;
+      #theme-toggle:focus-visible {
+        outline: 2px solid var(--pico-primary-focus);
         box-shadow: none;
       }
       {%- set highlight_config = config.pages.body.highlight ?? true ~%}
@@ -136,21 +442,29 @@
     {%- endblock head_css ~%}
   </head>
   <body>
+    <a class="skip-link" href="#main">{% trans %}Skip to content{% endtrans %}</a>
     <header>
       {%- block header ~%}
       <hgroup>
         {%- if page.type == 'homepage' ~%}
         <h1>{{ site.title }}</h1>
         {%- else ~%}
-        <div class="site-title">{{ site.title }}</div>
+        <div class="site-title"><a href="{{ url(site.home) }}">{{ site.title }}</a></div>
         {%- endif ~%}
         <p>{{ site.baseline }}</p>
       </hgroup>
-      {{- include('partials/navigation.html.twig', {menu: site.menus.main}, with_context=false) ~}}
-      {{- include('partials/theme-selector.html.twig', {}, with_context=false) ~}}
+      {{- include('partials/navigation.html.twig', {menu: site.menus.main, page: page}, with_context=false) ~}}
+      <div class="site-tools">
+        {%- if page.translations|default([])|length >= 1 ~%}
+        <nav class="languages" aria-label="{% trans %}Languages{% endtrans %}">
+          {{- include('partials/languages.html.twig', {page: page, label: 'code'}, with_context=false) ~}}
+        </nav>
+        {%- endif ~%}
+        {{- include('partials/theme-selector.html.twig', {}, with_context=false) ~}}
+      </div>
       {%- endblock header ~%}
     </header>
-    <main>
+    <main id="main">
       {{- include('partials/breadcrumb.html.twig') ~}}
       {%- block content ~%}
       {{- page.content ~}}

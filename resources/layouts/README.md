@@ -24,7 +24,7 @@ This directory contains built-in Twig layout templates provided by Cecil.
 - `home.llms.twig`: `llms.txt` template listing top level sections and their pages.
 - `home.markdown.twig`: Markdown representation of the homepage (sections and their pages).
 - `list.atom.twig`: Atom feed template.
-- `list.html.twig`: List of pages, with optional pagination.
+- `list.html.twig`: List of pages (with their date if sorted by date, and their description), with optional pagination.
 - `list.json.twig`: JSON representation of a list of pages.
 - `list.jsonfeed.twig`: JSON Feed format template.
 - `list.markdown.twig`: Markdown representation of a list of pages.
@@ -39,7 +39,7 @@ This directory contains built-in Twig layout templates provided by Cecil.
 - `sitemap.xml.twig`: `sitemap.xml` template listing pages.
 - `sitemap.xsl.twig` : XSL stylesheet used to render the sitemap XML in browsers.
 - `term.html.twig` : List of pages of a taxonomy term, with a link to its vocabulary.
-- `vocabulary.html.twig` : Simple list of all terms in a vocabulary.
+- `vocabulary.html.twig` : List of all terms in a vocabulary, as badges with their number of pages.
 
 ### `partials/`
 
@@ -49,13 +49,13 @@ This directory contains built-in Twig layout templates provided by Cecil.
 - `data.json.twig`: Reusable JSON serialization fragment for page/list data.
 - `feeds-from-section.html.twig`: Links to section feeds (Atom, RSS, JSON Feed).
 - `googleanalytics.js.twig`: Google Analytics integration snippet.
-- `highlight.css.twig`: Code syntax highlighting CSS used by default templates.
+- `highlight.css.twig`: Code syntax highlighting CSS used by default templates (light and dark colors, following the theme selector).
 - `jsonld.js.twig`: Structured data output in JSON-LD format.
 - `languages.html.twig`: Basic language switcher.
 - `metatags.html.twig`: Centralized metatags template (title, description, canonical, Open Graph, Twitter card, etc.).
-- `navigation.html.twig`: Main menu navigation.
+- `navigation.html.twig`: Main menu navigation (the current entry is marked with `aria-current`).
 - `page-navigation.html.twig`: Previous/next navigation between pages.
-- `paginator.html.twig`: Simple paginated navigation for list templates.
+- `paginator.html.twig`: Paginated navigation for list templates (previous, pages numbers and next).
 - `pico.css.twig`: [Pico CSS](https://picocss.com) fragment used by default templates.
 - `terms-list.html.twig`: Terms list rendering helper for taxonomy-related outputs.
 - `theme-selector.html.twig`: Light/dark theme toggle button.

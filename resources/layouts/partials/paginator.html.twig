@@ -1,15 +1,25 @@
-          {%- if page.paginator ~%}
+{#- paginated navigation: previous, pages numbers and next ~#}
+          {%- if page.paginator and page.paginator.count > 1 ~%}
           {%- set links = page.paginator.links ~%}
-          <div class="page-nav">
-            {%- if links.prev is defined ~%}
-            <a class="page-nav prev" href="{{ url(links.prev) }}">{% trans %}Previous{% endtrans %}</a>
-            {%- else ~%}
-            <span class="page-nav prev">{% trans %}Previous{% endtrans %}</span>
-            {%- endif ~%}
-            {%- if links.next is defined ~%}
-            <a class="page-nav next" href="{{ url(links.next) }}">{% trans %}Next{% endtrans %}</a>
-            {%- else ~%}
-            <span class="page-nav next">{% trans %}Next{% endtrans %}</span>
-            {%- endif ~%}
-          </div>
+          <nav class="paginator" aria-label="{% trans %}Pagination{% endtrans %}">
+            <ul>
+              <li>
+                {%- if links.prev is defined ~%}
+                <a href="{{ url(links.prev) }}" rel="prev">‹ {% trans %}Previous{% endtrans %}</a>
+                {%- else ~%}
+                <span aria-disabled="true">‹ {% trans %}Previous{% endtrans %}</span>
+                {%- endif ~%}
+              </li>
+              {%- for index in 1..page.paginator.count ~%}
+              <li><a href="{{ url(index == 1 ? links.first : links.path ~ '/' ~ index) }}"{% if index == page.paginator.current %} aria-current="page"{% endif %}>{{ index }}</a></li>
+              {%- endfor ~%}
+              <li>
+                {%- if links.next is defined ~%}
+                <a href="{{ url(links.next) }}" rel="next">{% trans %}Next{% endtrans %} ›</a>
+                {%- else ~%}
+                <span aria-disabled="true">{% trans %}Next{% endtrans %} ›</span>
+                {%- endif ~%}
+              </li>
+            </ul>
+          </nav>
           {%- endif ~%}
