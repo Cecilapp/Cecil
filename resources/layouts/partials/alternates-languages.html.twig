@@ -1,15 +1,14 @@
-{%- if page.translations|default({})|length >= 1 -%}
+{%- if page.translations|default({})|length >= 1 and page.language is defined -%}
+  {#- current language ~#}
+    <link rel="alternate" hreflang="{{ page.language }}" href="{{ url(page, {canonical: true}) }}">
+  {#- other languages -#}
   {%- for alternate in page.translations ~%}
     <link rel="alternate" hreflang="{{ alternate.language }}" href="{{ url(alternate, {canonical: true}) }}">
   {%- endfor ~%}
   {#- default language -#}
   {%- set defaultLanguage = config.language|default(site.language) -%}
-  {%- set defaultPage = page -%}
-  {%- if page.language|default != defaultLanguage -%}
-    {%- set translatedDefaultPage = page.translations|filter(translation => translation.language == defaultLanguage)|first -%}
-    {%- if translatedDefaultPage is not empty -%}
-      {%- set defaultPage = translatedDefaultPage -%}
-    {%- endif -%}
-  {%- endif ~%}
+  {%- set defaultPage = page.language == defaultLanguage ? page : page.translations|filter(translation => translation.language == defaultLanguage)|first -%}
+  {%- if defaultPage ~%}
     <link rel="alternate" hreflang="x-default" href="{{ url(defaultPage, {canonical: true}) }}">
+  {%- endif -%}
 {%- endif -%}

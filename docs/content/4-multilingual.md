@@ -2,7 +2,7 @@
 title: "Multilingual"
 description: "Translate pages through file name or front matter and link translated pages."
 date: 2021-05-07
-updated: 2026-10-16
+updated: 2026-10-24
 -->
 # Multilingual
 
@@ -68,3 +68,12 @@ langref: my-page-ref
 ```
 
 :::
+
+## Search engines
+
+The built-in templates declare translated pages to search engines with `hreflang` alternates, in the HTML `<head>` and in the XML sitemap:
+
+- each page lists itself and its translations
+- `x-default` points to the version in the default language, and is omitted when the page has no version in the default language
+
+The XML sitemap lists the pages of all languages, including pages that are not translated into the default language.
