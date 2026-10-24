@@ -1,8 +1,12 @@
+{#- params: menu, page (optional, to highlight the current entry) ~#}
       {%- if menu|length > 1 ~%}
+      {%- set current_url = page|default ? url(page) : null ~%}
       <nav>
         <ul>
         {%- for item in site.menus[menu]|sort_by_weight ~%}
-          <li><a href="{{ url(item.url) }}" data-weight="{{ item.weight }}">{{ item.name }}</a></li>
+          {%- set item_url = url(item.url) ~%}
+          {%- set current = current_url and item_url == current_url ? 'page' : (page.section|default and item.id == page.section ? 'true' : null) ~%}
+          <li><a href="{{ item_url }}" data-weight="{{ item.weight }}"{% if current %} aria-current="{{ current }}"{% endif %}>{{ item.name }}</a></li>
         {%- endfor ~%}
         </ul>
       </nav>

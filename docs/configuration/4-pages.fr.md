@@ -2,7 +2,7 @@
 title: "Pages"
 description: "Dossier des pages, tri, pagination, chemins, corps, pages par défaut, générateurs, etc."
 date: 2026-03-27
-updated: 2026-10-19
+updated: 2026-10-24
 -->
 # Pages
 
@@ -154,6 +154,16 @@ En-têtes utilisés pour construire la table des matières (`[h2, h3]` par défa
 pages:
   body:
     toc: [h2, h3]
+```
+
+### pages.body.anchors
+
+Titres avec un lien d’ancre (`[h2, h3]` par défaut) : un élément `<a class="heading-anchor" href="#<id>">` vide est ajouté à la fin de chacun de ces titres ayant un ID, pour être stylé par les templates (ex. : un `#` affiché au survol).
+
+```yaml
+pages:
+  body:
+    anchors: [h2, h3] # false pour désactiver les ancres
 ```
 
 ### pages.body.highlight

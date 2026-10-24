@@ -2,7 +2,7 @@
 
       {%- block content ~%}
       {{- parent() ~}}
-      <nav>
-        <a href="{{ url(page.plural, {language: site.language}) }}">{{ page.plural|capitalize }}</a>
-      </nav>
+      <p>
+        <a href="{{ url(page.plural, {language: site.language}) }}">‹ {{ page.plural|capitalize }}</a>
+      </p>
       {%- endblock content ~%}

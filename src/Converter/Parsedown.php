@@ -68,6 +68,9 @@ class Parsedown extends \ParsedownToc
     /** @var string|null */
     protected $language;
 
+    /** @var list<string> Headings (e.g.: `h2`) with an anchor link. */
+    protected array $anchors = [];
+
     /** Code highlighter, created on the first fenced code block. */
     protected ?HighlighterInterface $highlighter = null;
 
@@ -98,6 +101,10 @@ class Parsedown extends \ParsedownToc
 
         // "notes" block
         $this->BlockTypes[':'][] = 'Note';
+
+        // headings anchors
+        $anchors = $this->config->get('pages.body.anchors');
+        $this->anchors = \is_array($anchors) ? array_values(array_map('strval', $anchors)) : [];
 
         // reset static caches when the build ID changes (e.g. watch mode with multiple builds)
         $currentBuildId = Builder::getBuildId();
@@ -783,7 +790,7 @@ class Parsedown extends \ParsedownToc
             foreach ($segments['items'] as $segment) {
                 $heading = $this->noteText($segment['heading']);
                 $body = $this->noteText(implode("\n", $segment['lines']));
-                $title = preg_match('/^<h4[^>]*>(.*)<\/h4>$/s', $heading, $matches) ? $matches[1] : strip_tags($heading);
+                $title = preg_match('/^<h4[^>]*>(.*)<\/h4>$/s', $heading, $matches) ? $this->removeHeadingAnchor($matches[1]) : strip_tags($heading);
                 $id = preg_match('/^<h4[^>]*\sid="([^"]*)"/', $heading, $matches) ? html_entity_decode($matches[1], \ENT_QUOTES | \ENT_HTML5) : null;
                 $note['items'][] = array_merge($item, ['title' => $title, 'heading' => $heading, 'id' => $id, 'content' => $body]);
                 $content[] = $heading;
@@ -1027,8 +1034,14 @@ class Parsedown extends \ParsedownToc
             $block['element']['element']['attributes'] = [];
         }
         $block['element']['element']['attributes']['translate'] = 'no';
+        // language of the code, available to style it (e.g.: as a label)
+        $class = (string) ($block['element']['element']['attributes']['class'] ?? '');
+        if (str_starts_with($class, 'language-')) {
+            $block['element']['attributes']['data-lang'] = substr($class, \strlen('language-'));
+        }
 
-        if (!$this->config->isEnabled('pages.body.highlight')) {
+        // no highlighting without language
+        if (!$this->config->isEnabled('pages.body.highlight') || $class === '') {
             return $block;
         }
 
@@ -1125,7 +1138,7 @@ class Parsedown extends \ParsedownToc
     /**
      * {@inheritdoc}
      *
-     * XHTML closing tag to HTML5 closing tag.
+     * XHTML closing tag to HTML5 closing tag, and adds an anchor link to headings with an ID.
      *
      * @param array<string, mixed> $Element
      *
@@ -1133,7 +1146,24 @@ class Parsedown extends \ParsedownToc
      */
     protected function element(array $Element)
     {
-        return str_replace(' />', '>', parent::element($Element)); // @phpstan-ignore staticMethod.notFound
+        $html = str_replace(' />', '>', parent::element($Element)); // @phpstan-ignore staticMethod.notFound
+
+        $name = $Element['name'] ?? null;
+        $id = $Element['attributes']['id'] ?? null;
+        if (\is_string($name) && \in_array($name, $this->anchors, true) && \is_string($id) && $id !== '' && str_ends_with($html, "</$name>")) {
+            $anchor = \sprintf('<a class="heading-anchor" href="#%s" aria-hidden="true" tabindex="-1"></a>', htmlspecialchars($id, \ENT_QUOTES, 'UTF-8'));
+            $html = substr($html, 0, -\strlen("</$name>")) . $anchor . "</$name>";
+        }
+
+        return $html;
+    }
+
+    /**
+     * Removes the anchor link of a heading HTML.
+     */
+    protected function removeHeadingAnchor(string $html): string
+    {
+        return preg_replace('/<a class="heading-anchor"[^>]*><\/a>/', '', $html) ?? $html;
     }
 
     /**

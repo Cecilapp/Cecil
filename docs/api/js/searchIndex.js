@@ -3861,6 +3861,11 @@ Search.appendIndex(
             "summary": "\u007B\u0040inheritdoc\u007D",
             "url": "classes/Cecil-Converter-Parsedown.html#method_element"
         },                {
+            "fqsen": "\\Cecil\\Converter\\Parsedown\u003A\u003AremoveHeadingAnchor\u0028\u0029",
+            "name": "removeHeadingAnchor",
+            "summary": "Removes\u0020the\u0020anchor\u0020link\u0020of\u0020a\u0020heading\u0020HTML.",
+            "url": "classes/Cecil-Converter-Parsedown.html#method_removeHeadingAnchor"
+        },                {
             "fqsen": "\\Cecil\\Converter\\Parsedown\u003A\u003AnormalizePath\u0028\u0029",
             "name": "normalizePath",
             "summary": "Turns\u0020a\u0020path\u0020relative\u0020to\u0020static\u0020or\u0020assets\u0020into\u0020a\u0020website\u0020relative\u0020path.",
@@ -4000,6 +4005,11 @@ Search.appendIndex(
             "name": "language",
             "summary": "",
             "url": "classes/Cecil-Converter-Parsedown.html#property_language"
+        },                {
+            "fqsen": "\\Cecil\\Converter\\Parsedown\u003A\u003A\u0024anchors",
+            "name": "anchors",
+            "summary": "",
+            "url": "classes/Cecil-Converter-Parsedown.html#property_anchors"
         },                {
             "fqsen": "\\Cecil\\Converter\\Parsedown\u003A\u003A\u0024highlighter",
             "name": "highlighter",
