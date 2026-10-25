@@ -135,6 +135,7 @@ public: _site
 - **Cloudflare Pages**: framework preset `None`, build command as above, build output directory `_site`.
 - **Render** (`render.yaml`): `runtime: static`, `buildCommand` as above, `staticPublishPath: ./_site`.
 - Cloudflare Pages has no PHP, and Render only PHP 7.3: the script then uses the standalone binary and installs themes from `composer.lock` (commit it).
+- The script deduces the build context and the base URL from the platform; a `CECIL_ENV` variable takes precedence. On Cloudflare Pages and Render, production builds keep the `baseurl` of the site configuration (set it to the custom domain).
 
 ## Manual Deployment
 

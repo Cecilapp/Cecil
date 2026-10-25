@@ -2,11 +2,13 @@
 title: "Jamstack platforms"
 description: "Netlify, Vercel, statichost, Cloudflare Pages, Render."
 date: 2020-12-19
-updated: 2026-10-16
+updated: 2026-10-25
 -->
 # Jamstack platforms
 
 Jamstack platforms can build and deploy your Cecil site automatically on each push to your Git repository.
+
+The build script deduces the build context (`production` or `preview`) and the base URL from the platform. A `CECIL_ENV` environment variable you define takes precedence over the deduced build context.
 
 ## Netlify
 
@@ -65,6 +67,8 @@ public: _site
 
 :::info
 Cloudflare Pages doesn’t provide PHP: the build script uses the Cecil [standalone binary](../getting-started/2-installation.md#standalone-binary) instead, and installs themes from `composer.lock`.
+
+In production (`main` or `master` branch), the `baseurl` of the site configuration is used: preview deployments use their own URL.
 :::
 
 > Cloudflare Pages is a Jamstack platform for frontend developers to collaborate and deploy websites.
@@ -83,6 +87,8 @@ Build configurations:
 
 :::info
 Render only provides PHP 7.3: the build script uses the Cecil [standalone binary](../getting-started/2-installation.md#standalone-binary) instead, and installs themes from `composer.lock`.
+
+In production, the `baseurl` of the site configuration is used: pull request previews use their own URL.
 :::
 
 > Render is a unified cloud to build and run all your apps and websites with free TLS certificates, global CDN, private networks and auto deploys from Git.

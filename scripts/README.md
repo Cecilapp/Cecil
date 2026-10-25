@@ -17,7 +17,7 @@ Builds a Cecil website, locally or on a CI/CD platform: statichost, GitLab, GitH
 
 The script:
 
-1. detects the platform and sets the build context (`production` or `preview`) and the base URL (on GitLab: `environment:url` of the job; on GitHub Actions: build context only)
+1. detects the platform and deduces the build context (`production` or `preview`) and the base URL (on GitLab: `environment:url` of the job; on GitHub Actions: build context only; on Cloudflare Pages and Render: preview deployments only, the `baseurl` of the site configuration is used in production)
 2. installs PHP and the image optimization tools (Vercel only)
 3. checks that PHP 8.3 or higher is available
 4. downloads `cecil.phar` (or the standalone binary without PHP) if the `cecil` command is not available, and verifies its checksum
@@ -27,7 +27,7 @@ The script:
 | Variable | Description | Default |
 | --- | --- | --- |
 | `PHP_VERSION` | PHP version to install (Vercel only) | `8.3` |
-| `CECIL_ENV` | Build context | `preview` |
+| `CECIL_ENV` | Build context (takes precedence over the deduced one) | deduced from the platform, or `preview` |
 | `CECIL_VERSION` | Cecil version to download | latest |
 | `CECIL_CMD_OPTIONS` | Extra options for the `build` command, separated by spaces (e.g.: `--optimize`) | _empty_ |
 

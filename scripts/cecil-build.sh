@@ -14,10 +14,6 @@ export PHP_MIN_VERSION="8.3"
 if [ -z "${PHP_VERSION}" ]; then
   export PHP_VERSION="8.3"
 fi
-# Specify build context with `CECIL_ENV`
-if [ -z "${CECIL_ENV}" ]; then
-  export CECIL_ENV="preview"
-fi
 # Specify Cecil CLI options with `CECIL_CMD_OPTIONS` (e.g.: `--optimize`)
 if [ -z "${CECIL_CMD_OPTIONS}" ]; then
   CECIL_CMD_OPTIONS=""
@@ -28,6 +24,7 @@ export -n CECIL_CMD_OPTIONS CECIL_VERSION
 
 # Running on?
 RUNNING_ON="unknown"
+PLATFORM_ENV="preview"
 BASE_URL="" # `URL` is a Netlify variable
 if [ "$CI" = "true" ]; then
   RUNNING_ON="statichost?"
@@ -56,18 +53,18 @@ echo "------------------------------------"
 case $RUNNING_ON in
   "GitLab")
     if [ -n "$CI_COMMIT_BRANCH" ] && [ "$CI_COMMIT_BRANCH" = "$CI_DEFAULT_BRANCH" ]; then
-      export CECIL_ENV="production"
+      PLATFORM_ENV="production"
     fi
     BASE_URL=$CI_ENVIRONMENT_URL # set by `environment:url` of the job
     ;;
   "GitHub")
     if [ "$GITHUB_REF" = "refs/heads/master" ] || [ "$GITHUB_REF" = "refs/heads/main" ]; then
-      export CECIL_ENV="production"
+      PLATFORM_ENV="production"
     fi
     ;;
   "Netlify")
     if [ "$CONTEXT" = "production" ]; then
-      export CECIL_ENV="production"
+      PLATFORM_ENV="production"
       BASE_URL=$URL
     else
       BASE_URL=$DEPLOY_PRIME_URL
@@ -75,7 +72,7 @@ case $RUNNING_ON in
     ;;
   "Vercel")
     if [ "$VERCEL_ENV" = "production" ]; then
-      export CECIL_ENV="production"
+      PLATFORM_ENV="production"
       BASE_URL="https://$VERCEL_PROJECT_PRODUCTION_URL" # see https://vercel.com/docs/environment-variables/system-environment-variables
     else
       BASE_URL="https://$VERCEL_URL"
@@ -89,19 +86,28 @@ case $RUNNING_ON in
     npm install -g svgo
     ;;
   "CFPages")
+    # in production, `CF_PAGES_URL` is the deployment URL (e.g.: `https://<hash>.<project>.pages.dev`), not the site domain
     if [ "$CF_PAGES_BRANCH" = "master" ] || [ "$CF_PAGES_BRANCH" = "main" ]; then
-      export CECIL_ENV="production"
+      PLATFORM_ENV="production"
+    else
+      BASE_URL=$CF_PAGES_URL
     fi
-    BASE_URL=$CF_PAGES_URL
     ;;
   "Render")
-    export CECIL_ENV="production"
+    # in production, `RENDER_EXTERNAL_URL` is the `onrender.com` URL, not the custom domain
     if [ "$IS_PULL_REQUEST" = "true" ]; then
-      export CECIL_ENV="preview"
+      BASE_URL=$RENDER_EXTERNAL_URL
+    else
+      PLATFORM_ENV="production"
     fi
-    BASE_URL=$RENDER_EXTERNAL_URL
     ;;
 esac
+
+# Specify build context with `CECIL_ENV` (`production` or `preview`), otherwise it's deduced from the platform
+if [ -z "${CECIL_ENV}" ]; then
+  export CECIL_ENV="$PLATFORM_ENV"
+fi
+echo "Build context: ${CECIL_ENV}"
 
 # Checks PHP version
 # Without a compatible PHP version, the Cecil standalone binary is used
