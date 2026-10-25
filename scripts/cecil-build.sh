@@ -1,9 +1,10 @@
 #!/bin/bash
+set -o pipefail
 #export LC_ALL=$(locale -a|grep -ix 'c.utf-\?8' || echo C)
 export LC_ALL=C.UTF-8
 export LANG=C.UTF-8
 
-# This script build a Cecil website (locally, on statichost / GitLab / Netlify / Vercel / Cloudflare Pages / Render).
+# This script build a Cecil website (locally, on statichost / GitLab / GitHub Actions / Netlify / Vercel / Cloudflare Pages / Render).
 # It is intended to be used on CI / CD.
 
 # Requirements
@@ -28,12 +29,14 @@ export -n CECIL_CMD_OPTIONS CECIL_VERSION
 # Running on?
 RUNNING_ON="unknown"
 BASE_URL="" # `URL` is a Netlify variable
-
 if [ "$CI" = "true" ]; then
   RUNNING_ON="statichost?"
 fi
 if [ "$GITLAB_CI" = "true" ]; then
   RUNNING_ON="GitLab"
+fi
+if [ "$GITHUB_ACTIONS" = "true" ]; then
+  RUNNING_ON="GitHub"
 fi
 if [ "$NETLIFY" = "true" ]; then
   RUNNING_ON="Netlify"
@@ -51,6 +54,17 @@ echo "------------------------------------"
 echo "Running Cecil build on ${RUNNING_ON}"
 echo "------------------------------------"
 case $RUNNING_ON in
+  "GitLab")
+    if [ -n "$CI_COMMIT_BRANCH" ] && [ "$CI_COMMIT_BRANCH" = "$CI_DEFAULT_BRANCH" ]; then
+      export CECIL_ENV="production"
+    fi
+    BASE_URL=$CI_ENVIRONMENT_URL # set by `environment:url` of the job
+    ;;
+  "GitHub")
+    if [ "$GITHUB_REF" = "refs/heads/master" ] || [ "$GITHUB_REF" = "refs/heads/main" ]; then
+      export CECIL_ENV="production"
+    fi
+    ;;
   "Netlify")
     if [ "$CONTEXT" = "production" ]; then
       export CECIL_ENV="production"
@@ -71,10 +85,7 @@ case $RUNNING_ON in
     echo "Installing PHP ${PHP_VERSION}..."
     dnf install -y php$PHP_VERSION php$PHP_VERSION-{common,mbstring,gd,bcmath,xml,fpm,intl,zip}
     echo "Installing libs..."
-    dnf install -y gettext
-    dnf install -y pngquant
-    dnf install -y libwebp-devel
-    dnf install -y libwebp-tools
+    dnf install -y gettext pngquant libwebp-tools
     npm install -g svgo
     ;;
   "CFPages")
@@ -125,7 +136,7 @@ if [ $CECIL_IS_INSTALLED -ne 0 ]; then
         exit 1
         ;;
     esac
-    if [ -z $CECIL_VERSION ]; then
+    if [ -z "$CECIL_VERSION" ]; then
       CECIL_BIN_URL="https://github.com/Cecilapp/Cecil/releases/latest/download"
       echo "Downloading Cecil standalone binary..."
     else
@@ -146,7 +157,7 @@ if [ $CECIL_IS_INSTALLED -ne 0 ]; then
     if [ $? -ne 0 ]; then
       echo "Checksum verification of Cecil standalone binary failed."; exit 1
     fi
-    chmod +x $CECIL_BIN
+    chmod +x "$CECIL_BIN"
     CECIL_CMD="./$CECIL_BIN"
   else
     if [ -z "$CECIL_VERSION" ]; then
@@ -249,24 +260,25 @@ for (const p of JSON.parse(require("fs").readFileSync("composer.lock", "utf8")).
 fi
 
 # Adds CLI options
-if [ ! -z "${BASE_URL}" ]; then
-  CECIL_CMD_OPTIONS="--baseurl=${BASE_URL} ${CECIL_CMD_OPTIONS}"
+# `CECIL_CMD_OPTIONS` is split on whitespace
+read -r -a CECIL_BUILD_OPTIONS <<< "$CECIL_CMD_OPTIONS"
+if [ -n "${BASE_URL}" ]; then
+  CECIL_BUILD_OPTIONS=("--baseurl=${BASE_URL}" "${CECIL_BUILD_OPTIONS[@]}")
 fi
 if [ "$CECIL_ENV" = "production" ]; then
-  CECIL_CMD_OPTIONS="-v ${CECIL_CMD_OPTIONS}"
+  CECIL_BUILD_OPTIONS=(-v "${CECIL_BUILD_OPTIONS[@]}")
 else
-  CECIL_CMD_OPTIONS="-vv ${CECIL_CMD_OPTIONS}"
+  CECIL_BUILD_OPTIONS=(-vv "${CECIL_BUILD_OPTIONS[@]}")
 fi
 
 # Run build
-CECIL_CMD_OPTIONS="${CECIL_CMD_OPTIONS%[[:space:]]}"
-echo "Running \"${CECIL_CMD} build ${CECIL_CMD_OPTIONS}\"";
-$CECIL_CMD build $CECIL_CMD_OPTIONS
+echo "Running \"${CECIL_CMD} build ${CECIL_BUILD_OPTIONS[*]}\"";
+$CECIL_CMD build "${CECIL_BUILD_OPTIONS[@]}"
 BUILD_SUCCESS=$?
 
 # Build success? Can deploy?
 if [ $BUILD_SUCCESS -ne 0 ]; then
-  echo "Build fail."; exit 1
+  echo "Build fail."; exit $BUILD_SUCCESS
 fi
 
 exit 0
