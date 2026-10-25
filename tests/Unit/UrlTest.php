@@ -93,4 +93,28 @@ class UrlTest extends TestCase
         // canonical URL
         self::assertSame('https://demo.cecil.app/test/fr/docs/', (string) new Url($builder, '/fr/docs/', ['language' => 'fr', 'canonical' => true]));
     }
+
+    /**
+     * An empty value (or "/") returns the base URL with a trailing slash, like the home page URL.
+     */
+    public function testEmptyValueIsHomeUrl(): void
+    {
+        foreach (
+            [
+                'https://example.com/'         => ['/', 'https://example.com/'],
+                'https://demo.cecil.app/test/' => ['/test/', 'https://demo.cecil.app/test/'],
+            ] as $baseurl => [$expected, $expectedCanonical]
+        ) {
+            $builder = new Builder(['baseurl' => $baseurl]);
+            $home = (new Page('index'))->setPath('');
+            $builder->setPages(new PagesCollection('all-pages', [$home]));
+
+            self::assertSame($expected, (string) new Url($builder, $home));
+            self::assertSame($expected, (string) new Url($builder, '/'));
+            self::assertSame($expected, (string) new Url($builder, ''));
+            self::assertSame($expected, (string) new Url($builder, null));
+            self::assertSame($expectedCanonical, (string) new Url($builder, '/', ['canonical' => true]));
+            self::assertSame($expectedCanonical, (string) new Url($builder, $home, ['canonical' => true]));
+        }
+    }
 }
