@@ -19,12 +19,16 @@ if [ -z "${CECIL_ENV}" ]; then
 fi
 # Specify Cecil CLI options with `CECIL_CMD_OPTIONS` (e.g.: `--optimize`)
 if [ -z "${CECIL_CMD_OPTIONS}" ]; then
-  export CECIL_CMD_OPTIONS=""
+  CECIL_CMD_OPTIONS=""
 fi
+# Variables prefixed with `CECIL_` override Cecil configuration (e.g.: `CECIL_VERSION` -> `version`):
+# script variables must not be passed to Cecil
+export -n CECIL_CMD_OPTIONS CECIL_VERSION
 
 # Running on?
 RUNNING_ON="unknown"
-URL=""
+BASE_URL="" # `URL` is a Netlify variable
+
 if [ "$CI" = "true" ]; then
   RUNNING_ON="statichost?"
 fi
@@ -50,17 +54,17 @@ case $RUNNING_ON in
   "Netlify")
     if [ "$CONTEXT" = "production" ]; then
       export CECIL_ENV="production"
-      URL=$URL
+      BASE_URL=$URL
     else
-      URL=$DEPLOY_PRIME_URL
+      BASE_URL=$DEPLOY_PRIME_URL
     fi
     ;;
   "Vercel")
     if [ "$VERCEL_ENV" = "production" ]; then
       export CECIL_ENV="production"
-      URL="https://$VERCEL_PROJECT_PRODUCTION_URL" # see https://vercel.com/docs/environment-variables/system-environment-variables
+      BASE_URL="https://$VERCEL_PROJECT_PRODUCTION_URL" # see https://vercel.com/docs/environment-variables/system-environment-variables
     else
-      URL="https://$VERCEL_URL"
+      BASE_URL="https://$VERCEL_URL"
     fi
     # Install PHP and libs
     dnf clean metadata
@@ -77,14 +81,14 @@ case $RUNNING_ON in
     if [ "$CF_PAGES_BRANCH" = "master" ] || [ "$CF_PAGES_BRANCH" = "main" ]; then
       export CECIL_ENV="production"
     fi
-    URL=$CF_PAGES_URL
+    BASE_URL=$CF_PAGES_URL
     ;;
   "Render")
     export CECIL_ENV="production"
     if [ "$IS_PULL_REQUEST" = "true" ]; then
       export CECIL_ENV="preview"
     fi
-    URL=$RENDER_EXTERNAL_URL
+    BASE_URL=$RENDER_EXTERNAL_URL
     ;;
 esac
 
@@ -145,20 +149,25 @@ if [ $CECIL_IS_INSTALLED -ne 0 ]; then
     chmod +x $CECIL_BIN
     CECIL_CMD="./$CECIL_BIN"
   else
-    if [ -z $CECIL_VERSION ]; then
+    if [ -z "$CECIL_VERSION" ]; then
+      CECIL_PHAR_URL="https://cecil.app"
       echo "Downloading Cecil..."
-      curl -sSOL https://cecil.app/cecil.phar
     else
+      CECIL_PHAR_URL="https://cecil.app/download/$CECIL_VERSION"
       echo "Downloading Cecil ${CECIL_VERSION}..."
-      if [ $(curl -LI https://cecil.app/download/$CECIL_VERSION/cecil.phar -o /dev/null -w '%{http_code}\n' -s) == '200' ]; then
-        curl -sSOL https://cecil.app/download/$CECIL_VERSION/cecil.phar
-      else
-        echo "Unable to download Cecil $CECIL_VERSION from Cecil.app. Trying from GitHub's release.";
-        if [ $(curl -LI https://github.com/Cecilapp/Cecil/releases/download/$CECIL_VERSION/cecil.phar -o /dev/null -w '%{http_code}\n' -s) != '200' ]; then
-        echo "Unable to download Cecil $CECIL_VERSION from GitHub"; exit 1
-        fi
-        curl -sSOL https://github.com/Cecilapp/Cecil/releases/download/$CECIL_VERSION/cecil.phar
+    fi
+    if curl -sSfLO "$CECIL_PHAR_URL/cecil.phar" && curl -sSfLO "$CECIL_PHAR_URL/cecil.phar.sha1"; then
+      # Verify checksum
+      if [ "$(php -r 'echo sha1_file("cecil.phar");')" != "$(tr -d '[:space:]' < cecil.phar.sha1)" ]; then
+        echo "Checksum verification of Cecil failed."; exit 1
       fi
+    elif [ -n "$CECIL_VERSION" ]; then
+      echo "Unable to download Cecil $CECIL_VERSION from Cecil.app. Trying from GitHub's release (without checksum verification)."
+      if ! curl -sSfLO "https://github.com/Cecilapp/Cecil/releases/download/$CECIL_VERSION/cecil.phar"; then
+        echo "Unable to download Cecil $CECIL_VERSION from GitHub."; exit 1
+      fi
+    else
+      echo "Unable to download Cecil."; exit 1
     fi
     CECIL_CMD="php cecil.phar"
   fi
@@ -175,7 +184,19 @@ if [ -f "./composer.json" ]; then
     COMPOSER_CMD="composer"
     if [ $COMPOSER_IS_INSTALLED -ne 0 ]; then
       echo "Composer is required. Downloading..."
-      curl -sS https://getcomposer.org/installer | php
+      # see https://getcomposer.org/doc/faqs/how-to-install-composer-programmatically.md
+      COMPOSER_INSTALLER_SIG=$(curl -sSfL https://composer.github.io/installer.sig)
+      curl -sSfL https://getcomposer.org/installer -o composer-setup.php
+      if [ -z "$COMPOSER_INSTALLER_SIG" ] || [ "$(php -r 'echo @hash_file("sha384", "composer-setup.php");')" != "$COMPOSER_INSTALLER_SIG" ]; then
+        rm -f composer-setup.php
+        echo "Unable to download Composer installer (or its checksum verification failed)."; exit 1
+      fi
+      php composer-setup.php --quiet
+      COMPOSER_SETUP_SUCCESS=$?
+      rm -f composer-setup.php
+      if [ $COMPOSER_SETUP_SUCCESS -ne 0 ]; then
+        echo "Unable to install Composer."; exit 1
+      fi
       COMPOSER_CMD="php composer.phar"
     else
       echo "$($COMPOSER_CMD --version) is available."
@@ -183,9 +204,10 @@ if [ -f "./composer.json" ]; then
     echo "Installing themes..."
     # Composer cache dir: "composer-cache"
     COMPOSER_CACHE_DIR=composer-cache $COMPOSER_CMD install --prefer-dist --no-dev --no-progress --no-interaction --quiet
-    if [ $? -eq 0 ]; then
-        echo "OK"
+    if [ $? -ne 0 ]; then
+      echo "Unable to install themes."; exit 1
     fi
+    echo "OK"
   else
     # Composer requires PHP: themes are downloaded from GitHub, at the versions locked in composer.lock
     echo "Installing themes from composer.lock..."
@@ -227,8 +249,8 @@ for (const p of JSON.parse(require("fs").readFileSync("composer.lock", "utf8")).
 fi
 
 # Adds CLI options
-if [ ! -z "${URL}" ]; then
-  CECIL_CMD_OPTIONS="--baseurl=${URL} ${CECIL_CMD_OPTIONS}"
+if [ ! -z "${BASE_URL}" ]; then
+  CECIL_CMD_OPTIONS="--baseurl=${BASE_URL} ${CECIL_CMD_OPTIONS}"
 fi
 if [ "$CECIL_ENV" = "production" ]; then
   CECIL_CMD_OPTIONS="-v ${CECIL_CMD_OPTIONS}"

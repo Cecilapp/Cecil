@@ -20,8 +20,8 @@ The script:
 1. detects the platform and sets the build context (`production` or `preview`) and the base URL
 2. installs PHP and the image optimization tools (Vercel only)
 3. checks that PHP 8.3 or higher is available
-4. downloads `cecil.phar` if the `cecil` command is not available
-5. installs themes with Composer if a `composer.json` file is present
+4. downloads `cecil.phar` (or the standalone binary without PHP) if the `cecil` command is not available, and verifies its checksum
+5. installs themes with Composer if a `composer.json` file is present (Composer installer checksum is verified), and stops on failure
 6. runs `cecil build` with the computed options
 
 | Variable | Description | Default |
