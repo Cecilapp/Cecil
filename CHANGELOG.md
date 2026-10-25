@@ -2,6 +2,12 @@
 
 All notable changes to this project will be documented in this file. Dates are displayed in UTC.
 
+#### [9.24.1](https://github.com/Cecilapp/Cecil/compare/9.24.0...9.24.1)
+
+> 24 October 2026
+
+- feat(layouts): complete hreflang alternates in HTML and sitemap [`#2550`](https://github.com/Cecilapp/Cecil/pull/2550)
+
 #### [9.24.0](https://github.com/Cecilapp/Cecil/compare/9.23.1...9.24.0)
 
 > 24 October 2026
