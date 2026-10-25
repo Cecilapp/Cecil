@@ -71,9 +71,9 @@ class Url
             }
         }
 
-        // if value is empty returns base URL
+        // if value is empty returns base URL (with a trailing slash, like the home page URL)
         if (\is_null($value) || empty($value) || $value == '/') {
-            $this->url = $base;
+            $this->url = $base . '/';
 
             return;
         }
