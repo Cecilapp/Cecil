@@ -108,6 +108,11 @@ if [ -z "${CECIL_ENV}" ]; then
   export CECIL_ENV="$PLATFORM_ENV"
 fi
 echo "Build context: ${CECIL_ENV}"
+if [ -n "${BASE_URL}" ]; then
+  echo "Base URL: ${BASE_URL}"
+else
+  echo "Base URL: from site configuration"
+fi
 
 # Checks PHP version
 # Without a compatible PHP version, the Cecil standalone binary is used
