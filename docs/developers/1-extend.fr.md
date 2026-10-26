@@ -389,37 +389,37 @@ Créez une classe PHP héritant de `Cecil\Plugin\AbstractPlugin` (qui donne acc�
 
 **Exemple :**
 
-_/themes/paper/extensions/Paper/PaperPlugin.php_
+_/themes/example/extensions/Example/ExamplePlugin.php_
 
 ```php
 <?php
-namespace Paper;
+namespace Example;
 
 use Cecil\Event\BuildEvents;
 use Cecil\Plugin\AbstractPlugin;
 use Cecil\Plugin\Registry;
 
-class PaperPlugin extends AbstractPlugin
+class ExamplePlugin extends AbstractPlugin
 {
     public function register(Registry $registry): void
     {
         $registry
-            ->config(['paper' => ['feed' => ['limit' => 10]]]) // options par défaut
-            ->twigExtension(Twig\PaperExtension::class)
+            ->config(['example' => ['feed' => ['limit' => 10]]]) // options par défaut
+            ->twigExtension(Twig\ExampleExtension::class)
             ->generator(Generator\Feed::class, priority: 35)
             ->postProcessor(PostProcessor\Minify::class)
             ->subscriber(SearchIndex::class)
-            ->listen(BuildEvents::BUILD_FINISHED, fn () => $this->builder->getLogger()->notice('Paper is ready'));
+            ->listen(BuildEvents::BUILD_FINISHED, fn () => $this->builder->getLogger()->notice('Example is ready'));
     }
 }
 ```
 
-_/themes/paper/config.yml_
+_/themes/example/config.yml_
 
 ```yaml
 extensions:
   plugins:
-    Paper: Paper\PaperPlugin
+    Example: Example\ExamplePlugin
 ```
 
 Les extensions enregistrées par un plugin sont nommées d’après le nom court de leur classe (par ex. `Feed`), sauf si un `name` est fourni, et utilisent la priorité par défaut (`100`), sauf si une `priority` est fournie. La configuration du plugin a la priorité la plus faible : la configuration du site (et des thèmes) peut remplacer ses options, et désactiver (`Feed: false`) ou déplacer (`Feed: { priority: 45 }`) ses extensions par leur nom.
