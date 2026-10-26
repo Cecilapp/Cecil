@@ -839,7 +839,8 @@ class Config
             ),
             // extensions loading options
             'extensions' => Expect::structure([
-                'strict' => Expect::bool(),
+                'strict'   => Expect::bool(),
+                'autoload' => Expect::arrayOf(Expect::string(), Expect::string()),
             ])->otherItems(Expect::mixed()),
             // each output format must define a `name` and a `mediatype`
             'output.formats' => Expect::arrayOf(

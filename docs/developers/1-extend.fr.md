@@ -10,7 +10,23 @@ path: documentation/developpeurs/etendre
 
 Comme Cecil est écrit en PHP, il est facile d’en étendre les capacités.
 
-Les classes personnalisées sont chargées automatiquement depuis le répertoire `extensions` de votre site (ou d’un thème) : la classe `Cecil\Generator\MyGenerator` est chargée depuis `extensions/Cecil/Generator/MyGenerator.php`.
+## Chargement automatique
+
+Les classes personnalisées sont chargées automatiquement depuis le répertoire `extensions` de votre site (ou d’un thème), le chemin du fichier correspondant à l’espace de noms : la classe `MySite\Generator\MyGenerator` est chargée depuis `extensions/MySite/Generator/MyGenerator.php`.
+
+Pour utiliser une autre organisation, déclarez des correspondances [PSR-4](https://www.php-fig.org/psr/psr-4/), relatives au répertoire du site (ou du thème) :
+
+```yaml
+extensions:
+  autoload:
+    'MySite\': src/ # `MySite\Generator\MyGenerator` est chargée depuis `src/Generator/MyGenerator.php`
+```
+
+Si vos extensions dépendent de bibliothèques tierces, installez-les avec [Composer](https://getcomposer.org) dans le répertoire `extensions` (`composer require <paquet> --working-dir=extensions`) : `extensions/vendor/autoload.php` est chargé automatiquement, y compris avec le phar de Cecil. Les bibliothèques déjà fournies par Cecil ne sont pas remplacées.
+
+:::important
+Utilisez votre propre espace de noms (par ex. `MySite\` ou le nom de votre thème) : l’espace de noms `Cecil\` est réservé, et son utilisation pour des classes personnalisées est dépréciée.
+:::
 
 ## Configuration
 
@@ -33,27 +49,29 @@ extensions:
 ```
 
 :::important
-Depuis Cecil 9, les extensions doivent être indexées par nom : une priorité en clé (par ex. `35: Cecil\Generator\Database`) est refusée, utilisez `Database: { class: Cecil\Generator\Database, priority: 35 }` à la place.
+Depuis Cecil 9, les extensions doivent être indexées par nom : une priorité en clé (par ex. `35: MySite\Generator\Database`) est refusée, utilisez `Database: { class: MySite\Generator\Database, priority: 35 }` à la place.
 :::
 
 ## Générateurs de pages
 
 Un générateur permet de créer des pages sans fichiers Markdown (avec des données provenant d’une API ou d’une base de données, par exemple), ou de modifier des pages existantes.
 
-Créez une nouvelle classe PHP dans l’espace de noms `Cecil\Generator`, héritant de `AbstractGenerator`, puis ajoutez-la à la liste [`pages.generators`](../configuration/4-pages.fr.md#pages-generators).
+Créez une nouvelle classe PHP héritant de `Cecil\Generator\AbstractGenerator`, puis ajoutez-la à la liste [`pages.generators`](../configuration/4-pages.fr.md#pages-generators).
 
 Les générateurs intégrés utilisent les priorités `10` à `90` : choisissez la priorité de votre générateur selon les pages dont il a besoin (par ex. après `Section` pour accéder aux pages de sections).
 
 **Exemple :**
 
-_/extensions/Cecil/Generator/DummyPage.php_
+_/extensions/MySite/Generator/DummyPage.php_
 
 ```php
 <?php
-namespace Cecil\Generator;
+namespace MySite\Generator;
 
 use Cecil\Collection\Page\Page;
 use Cecil\Collection\Page\Type;
+use Cecil\Generator\AbstractGenerator;
+use Cecil\Generator\GeneratorInterface;
 
 class DummyPage extends AbstractGenerator implements GeneratorInterface
 {
@@ -73,14 +91,16 @@ class DummyPage extends AbstractGenerator implements GeneratorInterface
 }
 ```
 
-_/extensions/Cecil/Generator/Database.php_
+_/extensions/MySite/Generator/Database.php_
 
 ```php
 <?php
-namespace Cecil\Generator;
+namespace MySite\Generator;
 
 use Cecil\Collection\Page\Page;
 use Cecil\Collection\Page\Type;
+use Cecil\Generator\AbstractGenerator;
+use Cecil\Generator\GeneratorInterface;
 
 class Database extends AbstractGenerator implements GeneratorInterface
 {
@@ -110,27 +130,27 @@ _configuration_
 ```yaml
 pages:
   generators:
-    DummyPage: Cecil\Generator\DummyPage
-    Database: { class: Cecil\Generator\Database, priority: 35 }
+    DummyPage: MySite\Generator\DummyPage
+    Database: { class: MySite\Generator\Database, priority: 35 }
 ```
 
 ## Extension Twig
 
 Vous pouvez ajouter des [fonctions](../templates/reference/1-functions.fr.md) et des [filtres](../templates/reference/3-filters.fr.md) personnalisés :
 
-1. [créez une extension Twig](https://twig.symfony.com/doc/advanced.html#creating-an-extension) dans l’espace de noms `Cecil\Renderer\Extension`
-2. ajoutez le fichier PHP dans le répertoire `extensions`
+1. [créez une extension Twig](https://twig.symfony.com/doc/advanced.html#creating-an-extension)
+2. ajoutez le fichier PHP dans le répertoire `extensions` (voir [Chargement automatique](#chargement-automatique))
 3. ajoutez-la à la configuration [`layouts.extensions`](../configuration/7-layouts.fr.md#layouts-extensions)
 
 Le constructeur de l’extension reçoit l’instance de `Cecil\Builder`, qui donne accès à la configuration et au contenu du site.
 
 **Exemple :**
 
-_/extensions/Cecil/Renderer/Extension/MyTwigExtension.php_
+_/extensions/MySite/Twig/MyTwigExtension.php_
 
 ```php
 <?php
-namespace Cecil\Renderer\Extension;
+namespace MySite\Twig;
 
 class MyTwigExtension extends \Twig\Extension\AbstractExtension
 {
@@ -149,26 +169,27 @@ _configuration_
 ```yaml
 layouts:
   extensions:
-    MyExtension: Cecil\Renderer\Extension\MyTwigExtension
+    MyExtension: MySite\Twig\MyTwigExtension
 ```
 
 ## Post-processeurs de sortie
 
 Vous pouvez post-traiter le rendu des pages.
 
-Créez une nouvelle classe PHP dans l’espace de noms `Cecil\Renderer\PostProcessor`, héritant de `AbstractPostProcessor`, puis ajoutez-la à la liste [`output.postprocessors`](../configuration/8-output.fr.md#output-postprocessors).
+Créez une nouvelle classe PHP héritant de `Cecil\Renderer\PostProcessor\AbstractPostProcessor`, puis ajoutez-la à la liste [`output.postprocessors`](../configuration/8-output.fr.md#output-postprocessors).
 
 Les post-processeurs intégrés (`GeneratorMetaTag`, `HtmlExcerpt` et `MarkdownLink`) utilisent les priorités `10` à `30` : ils sont donc exécutés en premier par défaut.
 
 **Exemple :**
 
-_/extensions/Cecil/Renderer/PostProcessor/MyProcessor.php_
+_/extensions/MySite/PostProcessor/MyProcessor.php_
 
 ```php
 <?php
-namespace Cecil\Renderer\PostProcessor;
+namespace MySite\PostProcessor;
 
 use Cecil\Collection\Page\Page;
+use Cecil\Renderer\PostProcessor\AbstractPostProcessor;
 
 class MyProcessor extends AbstractPostProcessor
 {
@@ -194,7 +215,7 @@ _configuration_
 ```yaml
 output:
   postprocessors:
-    MyProcessor: Cecil\Renderer\PostProcessor\MyProcessor
+    MyProcessor: MySite\PostProcessor\MyProcessor
 ```
 
 ## Événements de build

@@ -440,8 +440,11 @@ return [
             'ext' => ['jpeg', 'jpg', 'png', 'gif', 'webp', 'svg', 'avif'], // supported files extensions
         ],
     ],
-    'extensions' => [ // extensions (generators, Twig extensions, post processors) loading
+    'extensions' => [ // extensions (generators, Twig extensions, post processors, events subscribers) loading
         'strict' => true, // an extension that cannot be loaded fails the build (only logged with `false`)
+        'autoload' => [ // PSR-4 mappings, relative to the site or theme directory (classes are also loaded from `extensions/<namespace path>/`)
+            //'<Namespace>\\' => '<dir>',
+        ],
         'subscribers' => [ // build events subscribers, indexed by name
             //'<name>' => '<class>',
         ],

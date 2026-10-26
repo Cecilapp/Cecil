@@ -1,6 +1,6 @@
 # Extensions and Plugins
 
-Custom PHP classes live in `extensions/` (or `themes/<theme>/extensions/`), autoloaded by Cecil: the file path must match the class namespace (e.g. `extensions/MyProject/Generator/CustomGenerator.php`).
+Custom PHP classes live in `extensions/` (or `themes/<theme>/extensions/`), autoloaded by Cecil: the file path must match the class namespace (e.g. `extensions/MyProject/Generator/CustomGenerator.php`), unless a PSR-4 mapping is declared (`extensions.autoload: {'MyProject\': src/}`, relative to the site or theme directory). Use your own namespace: `Cecil\` is reserved (deprecated for custom classes, reported as a warning). Third-party libraries installed with Composer in `extensions/` (`composer require <package> --working-dir=extensions`) are loaded from `extensions/vendor/autoload.php`, also with the phar.
 
 > Note: use single backslashes for class names in YAML. Double backslashes (`\\`) are only needed inside JSON or PHP strings.
 

@@ -18,6 +18,7 @@ use Cecil\Event\BuildEvent;
 use Cecil\Event\BuildEvents;
 use Cecil\Event\StepEvent;
 use Cecil\Exception\RuntimeException;
+use Cecil\Extension\Autoloader;
 use Cecil\Extension\Loader;
 use Cecil\Generator\GeneratorManager;
 use Cecil\Logger\PrintLogger;
@@ -251,6 +252,11 @@ class Builder implements BuildContextInterface, LoggerAwareInterface
      * @var bool
      */
     protected $subscribersLoaded = false;
+    /**
+     * Extensions autoloader.
+     * @var Autoloader|null
+     */
+    protected $autoloader;
 
     /**
      * @param Config|array<string, mixed>|null $config
@@ -314,7 +320,8 @@ class Builder implements BuildContextInterface, LoggerAwareInterface
         // set build ID (unique, even for builds started within the same second)
         self::$buildId = hash('xxh32', uniqid('', true) . self::$version);
 
-        // loads event subscribers
+        // loads extensions dependencies and event subscribers
+        $this->getAutoloader()->requireVendors();
         $this->loadSubscribers();
         $this->getEventDispatcher()->dispatch(new BuildEvent($this), BuildEvents::BUILD_START);
 
@@ -386,8 +393,8 @@ class Builder implements BuildContextInterface, LoggerAwareInterface
 
         // import themes configuration
         $this->importThemesConfig();
-        // autoloads local extensions
-        Util::autoload($this, 'extensions');
+        // autoloads extensions (once)
+        $this->getAutoloader()->register();
 
         return $this;
     }
@@ -707,6 +714,18 @@ class Builder implements BuildContextInterface, LoggerAwareInterface
         }
 
         return $this->eventDispatcher;
+    }
+
+    /**
+     * Returns the extensions autoloader.
+     */
+    public function getAutoloader(): Autoloader
+    {
+        if ($this->autoloader === null) {
+            $this->autoloader = new Autoloader($this);
+        }
+
+        return $this->autoloader;
     }
 
     /**

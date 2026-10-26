@@ -9,7 +9,23 @@ alias: documentation/extend
 
 Because Cecil is written in PHP, it's easy to extend its capabilities.
 
-Custom classes are autoloaded from the `extensions` directory of your site (or of a theme): the class `Cecil\Generator\MyGenerator` is loaded from `extensions/Cecil/Generator/MyGenerator.php`.
+## Autoloading
+
+Custom classes are autoloaded from the `extensions` directory of your site (or of a theme), the file path matching the namespace: the class `MySite\Generator\MyGenerator` is loaded from `extensions/MySite/Generator/MyGenerator.php`.
+
+To use another layout, declare [PSR-4](https://www.php-fig.org/psr/psr-4/) mappings, relative to the site (or theme) directory:
+
+```yaml
+extensions:
+  autoload:
+    'MySite\': src/ # `MySite\Generator\MyGenerator` is loaded from `src/Generator/MyGenerator.php`
+```
+
+If your extensions depend on third-party libraries, install them with [Composer](https://getcomposer.org) in the `extensions` directory (`composer require <package> --working-dir=extensions`): `extensions/vendor/autoload.php` is loaded automatically, even with the Cecil phar. Libraries already provided by Cecil are not overridden.
+
+:::important
+Use your own namespace (e.g.: `MySite\` or the name of your theme): the `Cecil\` namespace is reserved, and using it for custom classes is deprecated.
+:::
 
 ## Configuration
 
@@ -32,27 +48,29 @@ extensions:
 ```
 
 :::important
-Since Cecil 9, extensions must be indexed by name: a priority as key (e.g.: `35: Cecil\Generator\Database`) is rejected, use `Database: { class: Cecil\Generator\Database, priority: 35 }` instead.
+Since Cecil 9, extensions must be indexed by name: a priority as key (e.g.: `35: MySite\Generator\Database`) is rejected, use `Database: { class: MySite\Generator\Database, priority: 35 }` instead.
 :::
 
 ## Page generators
 
 A generator helps you create pages without Markdown files (for example, with data from an API or a database) or alter existing pages.
 
-Create a new PHP class in the `Cecil\Generator` namespace, extending `AbstractGenerator`, and add it to the [`pages.generators`](../configuration/4-pages.md#pages-generators) list.
+Create a new PHP class extending `Cecil\Generator\AbstractGenerator`, and add it to the [`pages.generators`](../configuration/4-pages.md#pages-generators) list.
 
 Built-in generators use the priorities `10` to `90`: choose the priority of your generator depending on the pages it needs (e.g.: after `Section` to access sections pages).
 
 **Example:**
 
-_/extensions/Cecil/Generator/DummyPage.php_
+_/extensions/MySite/Generator/DummyPage.php_
 
 ```php
 <?php
-namespace Cecil\Generator;
+namespace MySite\Generator;
 
 use Cecil\Collection\Page\Page;
 use Cecil\Collection\Page\Type;
+use Cecil\Generator\AbstractGenerator;
+use Cecil\Generator\GeneratorInterface;
 
 class DummyPage extends AbstractGenerator implements GeneratorInterface
 {
@@ -72,14 +90,16 @@ class DummyPage extends AbstractGenerator implements GeneratorInterface
 }
 ```
 
-_/extensions/Cecil/Generator/Database.php_
+_/extensions/MySite/Generator/Database.php_
 
 ```php
 <?php
-namespace Cecil\Generator;
+namespace MySite\Generator;
 
 use Cecil\Collection\Page\Page;
 use Cecil\Collection\Page\Type;
+use Cecil\Generator\AbstractGenerator;
+use Cecil\Generator\GeneratorInterface;
 
 class Database extends AbstractGenerator implements GeneratorInterface
 {
@@ -109,27 +129,27 @@ _configuration_
 ```yaml
 pages:
   generators:
-    DummyPage: Cecil\Generator\DummyPage
-    Database: { class: Cecil\Generator\Database, priority: 35 }
+    DummyPage: MySite\Generator\DummyPage
+    Database: { class: MySite\Generator\Database, priority: 35 }
 ```
 
 ## Twig extension
 
 You can add custom [functions](../templates/reference/1-functions.md) and [filters](../templates/reference/3-filters.md):
 
-1. [create a Twig extension](https://twig.symfony.com/doc/advanced.html#creating-an-extension) in the `Cecil\Renderer\Extension` namespace
-2. add the PHP file in the `extensions` directory
+1. [create a Twig extension](https://twig.symfony.com/doc/advanced.html#creating-an-extension)
+2. add the PHP file in the `extensions` directory (see [Autoloading](#autoloading))
 3. add it to the [`layouts.extensions`](../configuration/7-layouts.md#layouts-extensions) configuration
 
 The extension constructor receives the `Cecil\Builder` instance, which gives access to the configuration and the site content.
 
 **Example:**
 
-_/extensions/Cecil/Renderer/Extension/MyTwigExtension.php_
+_/extensions/MySite/Twig/MyTwigExtension.php_
 
 ```php
 <?php
-namespace Cecil\Renderer\Extension;
+namespace MySite\Twig;
 
 class MyTwigExtension extends \Twig\Extension\AbstractExtension
 {
@@ -148,26 +168,27 @@ _configuration_
 ```yaml
 layouts:
   extensions:
-    MyExtension: Cecil\Renderer\Extension\MyTwigExtension
+    MyExtension: MySite\Twig\MyTwigExtension
 ```
 
 ## Output post-processors
 
 You can post-process the rendered output of pages.
 
-Create a new PHP class in the `Cecil\Renderer\PostProcessor` namespace, extending `AbstractPostProcessor`, and add it to the [`output.postprocessors`](../configuration/8-output.md#output-postprocessors) list.
+Create a new PHP class extending `Cecil\Renderer\PostProcessor\AbstractPostProcessor`, and add it to the [`output.postprocessors`](../configuration/8-output.md#output-postprocessors) list.
 
 Built-in post-processors (`GeneratorMetaTag`, `HtmlExcerpt` and `MarkdownLink`) use the priorities `10` to `30`, so they run first by default.
 
 **Example:**
 
-_/extensions/Cecil/Renderer/PostProcessor/MyProcessor.php_
+_/extensions/MySite/PostProcessor/MyProcessor.php_
 
 ```php
 <?php
-namespace Cecil\Renderer\PostProcessor;
+namespace MySite\PostProcessor;
 
 use Cecil\Collection\Page\Page;
+use Cecil\Renderer\PostProcessor\AbstractPostProcessor;
 
 class MyProcessor extends AbstractPostProcessor
 {
@@ -193,7 +214,7 @@ _configuration_
 ```yaml
 output:
   postprocessors:
-    MyProcessor: Cecil\Renderer\PostProcessor\MyProcessor
+    MyProcessor: MySite\PostProcessor\MyProcessor
 ```
 
 ## Build events
