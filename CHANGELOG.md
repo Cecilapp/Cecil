@@ -2,6 +2,17 @@
 
 All notable changes to this project will be documented in this file. Dates are displayed in UTC.
 
+#### [9.24.2](https://github.com/Cecilapp/Cecil/compare/9.24.1...9.24.2)
+
+> 25 October 2026
+
+- fix(url): add trailing slash to the base URL of an empty value [`#2554`](https://github.com/Cecilapp/Cecil/pull/2554)
+- feat(scripts): support GitLab and GitHub Actions in cecil-build [`#2553`](https://github.com/Cecilapp/Cecil/pull/2553)
+- fix(scripts): fix Netlify base URL and verify downloads in cecil-build [`#2552`](https://github.com/Cecilapp/Cecil/pull/2552)
+- docs(architecture): fix build pipeline diagram and add technical architecture diagram [`#2551`](https://github.com/Cecilapp/Cecil/pull/2551)
+- fix(scripts): keep config baseurl in production on CF Pages and Render [`3b3090a`](https://github.com/Cecilapp/Cecil/commit/3b3090aae84180444dadda31fff4bfee532a998f)
+- feat(scripts): show base URL used by cecil-build [`1bdae49`](https://github.com/Cecilapp/Cecil/commit/1bdae49abb8e1de6eebd4b58b4b0167055386885)
+
 #### [9.24.1](https://github.com/Cecilapp/Cecil/compare/9.24.0...9.24.1)
 
 > 24 October 2026
