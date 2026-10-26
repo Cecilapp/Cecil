@@ -646,6 +646,11 @@ Search.appendIndex(
             "summary": "Records\u0020a\u0020layout\u0020cache\u0020access\u0020during\u0020rendering.",
             "url": "classes/Cecil-BuildContextInterface.html#method_recordLayoutCacheAccess"
         },                {
+            "fqsen": "\\Cecil\\BuildContextInterface\u003A\u003AgetEventDispatcher\u0028\u0029",
+            "name": "getEventDispatcher",
+            "summary": "Returns\u0020the\u0020build\u0020events\u0020dispatcher.",
+            "url": "classes/Cecil-BuildContextInterface.html#method_getEventDispatcher"
+        },                {
             "fqsen": "\\Cecil\\Builder",
             "name": "Builder",
             "summary": "The\u0020main\u0020Cecil\u0020builder\u0020class.",
@@ -811,6 +816,16 @@ Search.appendIndex(
             "summary": "Returns\u0020Renderer\u0020object.",
             "url": "classes/Cecil-Builder.html#method_getRenderer"
         },                {
+            "fqsen": "\\Cecil\\Builder\u003A\u003AgetEventDispatcher\u0028\u0029",
+            "name": "getEventDispatcher",
+            "summary": "Returns\u0020the\u0020build\u0020events\u0020dispatcher,\u0020to\u0020add\u0020listeners\u0020or\u0020subscribers.",
+            "url": "classes/Cecil-Builder.html#method_getEventDispatcher"
+        },                {
+            "fqsen": "\\Cecil\\Builder\u003A\u003AloadSubscribers\u0028\u0029",
+            "name": "loadSubscribers",
+            "summary": "Adds\u0020the\u0020event\u0020subscribers\u0020declared\u0020in\u0020the\u0020\u0060extensions.subscribers\u0060\u0020configuration\u0020\u0028once\u0029.",
+            "url": "classes/Cecil-Builder.html#method_loadSubscribers"
+        },                {
             "fqsen": "\\Cecil\\Builder\u003A\u003AgetMetrics\u0028\u0029",
             "name": "getMetrics",
             "summary": "Returns\u0020metrics\u0020array.",
@@ -975,6 +990,16 @@ Search.appendIndex(
             "name": "buildId",
             "summary": "Current\u0020build\u0020ID.",
             "url": "classes/Cecil-Builder.html#property_buildId"
+        },                {
+            "fqsen": "\\Cecil\\Builder\u003A\u003A\u0024eventDispatcher",
+            "name": "eventDispatcher",
+            "summary": "Build\u0020events\u0020dispatcher.",
+            "url": "classes/Cecil-Builder.html#property_eventDispatcher"
+        },                {
+            "fqsen": "\\Cecil\\Builder\u003A\u003A\u0024subscribersLoaded",
+            "name": "subscribersLoaded",
+            "summary": "Are\u0020the\u0020event\u0020subscribers\u0020of\u0020the\u0020configuration\u0020loaded\u003F",
+            "url": "classes/Cecil-Builder.html#property_subscribersLoaded"
         },                {
             "fqsen": "\\Cecil\\Cache",
             "name": "Cache",
@@ -4446,6 +4471,201 @@ Search.appendIndex(
             "summary": "Validate\u0020URL.",
             "url": "classes/Cecil-Doctor-SiteDoctor.html#method_validateUrl"
         },                {
+            "fqsen": "\\Cecil\\Event\\AbstractSubscriber",
+            "name": "AbstractSubscriber",
+            "summary": "Event\u0020subscriber\u0020abstract\u0020class.",
+            "url": "classes/Cecil-Event-AbstractSubscriber.html"
+        },                {
+            "fqsen": "\\Cecil\\Event\\AbstractSubscriber\u003A\u003A__construct\u0028\u0029",
+            "name": "__construct",
+            "summary": "",
+            "url": "classes/Cecil-Event-AbstractSubscriber.html#method___construct"
+        },                {
+            "fqsen": "\\Cecil\\Event\\AbstractSubscriber\u003A\u003A\u0024builder",
+            "name": "builder",
+            "summary": "",
+            "url": "classes/Cecil-Event-AbstractSubscriber.html#property_builder"
+        },                {
+            "fqsen": "\\Cecil\\Event\\AbstractSubscriber\u003A\u003A\u0024config",
+            "name": "config",
+            "summary": "",
+            "url": "classes/Cecil-Event-AbstractSubscriber.html#property_config"
+        },                {
+            "fqsen": "\\Cecil\\Event\\BuildEvent",
+            "name": "BuildEvent",
+            "summary": "Build\u0020event.",
+            "url": "classes/Cecil-Event-BuildEvent.html"
+        },                {
+            "fqsen": "\\Cecil\\Event\\BuildEvent\u003A\u003A__construct\u0028\u0029",
+            "name": "__construct",
+            "summary": "",
+            "url": "classes/Cecil-Event-BuildEvent.html#method___construct"
+        },                {
+            "fqsen": "\\Cecil\\Event\\BuildEvent\u003A\u003AgetBuilder\u0028\u0029",
+            "name": "getBuilder",
+            "summary": "Returns\u0020the\u0020build\u0020context.",
+            "url": "classes/Cecil-Event-BuildEvent.html#method_getBuilder"
+        },                {
+            "fqsen": "\\Cecil\\Event\\BuildEvent\u003A\u003AgetOptions\u0028\u0029",
+            "name": "getOptions",
+            "summary": "Returns\u0020the\u0020build\u0020options.",
+            "url": "classes/Cecil-Event-BuildEvent.html#method_getOptions"
+        },                {
+            "fqsen": "\\Cecil\\Event\\BuildEvent\u003A\u003A\u0024builder",
+            "name": "builder",
+            "summary": "",
+            "url": "classes/Cecil-Event-BuildEvent.html#property_builder"
+        },                {
+            "fqsen": "\\Cecil\\Event\\BuildEvents",
+            "name": "BuildEvents",
+            "summary": "Build\u0020events\u0020names.",
+            "url": "classes/Cecil-Event-BuildEvents.html"
+        },                {
+            "fqsen": "\\Cecil\\Event\\BuildEvents\u003A\u003ABUILD_START",
+            "name": "BUILD_START",
+            "summary": "Dispatched\u0020before\u0020the\u0020first\u0020step\u0020of\u0020the\u0020build.",
+            "url": "classes/Cecil-Event-BuildEvents.html#constant_BUILD_START"
+        },                {
+            "fqsen": "\\Cecil\\Event\\BuildEvents\u003A\u003ABUILD_FINISHED",
+            "name": "BUILD_FINISHED",
+            "summary": "Dispatched\u0020after\u0020the\u0020last\u0020step\u0020of\u0020the\u0020build.",
+            "url": "classes/Cecil-Event-BuildEvents.html#constant_BUILD_FINISHED"
+        },                {
+            "fqsen": "\\Cecil\\Event\\BuildEvents\u003A\u003ASTEP_PRE",
+            "name": "STEP_PRE",
+            "summary": "Dispatched\u0020before\u0020each\u0020processed\u0020step.",
+            "url": "classes/Cecil-Event-BuildEvents.html#constant_STEP_PRE"
+        },                {
+            "fqsen": "\\Cecil\\Event\\BuildEvents\u003A\u003ASTEP_POST",
+            "name": "STEP_POST",
+            "summary": "Dispatched\u0020after\u0020each\u0020processed\u0020step.",
+            "url": "classes/Cecil-Event-BuildEvents.html#constant_STEP_POST"
+        },                {
+            "fqsen": "\\Cecil\\Event\\BuildEvents\u003A\u003APAGE_CREATED",
+            "name": "PAGE_CREATED",
+            "summary": "Dispatched\u0020after\u0020a\u0020page\u0020is\u0020created\u0020from\u0020a\u0020content\u0020file.",
+            "url": "classes/Cecil-Event-BuildEvents.html#constant_PAGE_CREATED"
+        },                {
+            "fqsen": "\\Cecil\\Event\\BuildEvents\u003A\u003APAGE_CONVERTED",
+            "name": "PAGE_CONVERTED",
+            "summary": "Dispatched\u0020after\u0020a\u0020page\u0020is\u0020converted\u0020\u0028front\u0020matter\u0020and\u0020body\u0029.",
+            "url": "classes/Cecil-Event-BuildEvents.html#constant_PAGE_CONVERTED"
+        },                {
+            "fqsen": "\\Cecil\\Event\\BuildEvents\u003A\u003APAGE_RENDERED",
+            "name": "PAGE_RENDERED",
+            "summary": "Dispatched\u0020after\u0020a\u0020page\u0020is\u0020rendered\u0020in\u0020an\u0020output\u0020format\u0020\u0028after\u0020post\u002Dprocessors\u0029\u003A\u0020the\u0020output\u0020can\u0020be\u0020modified.",
+            "url": "classes/Cecil-Event-BuildEvents.html#constant_PAGE_RENDERED"
+        },                {
+            "fqsen": "\\Cecil\\Event\\BuildEvents\u003A\u003APAGE_SAVED",
+            "name": "PAGE_SAVED",
+            "summary": "Dispatched\u0020after\u0020a\u0020rendered\u0020page\u0020is\u0020saved\u0020to\u0020an\u0020output\u0020file.",
+            "url": "classes/Cecil-Event-BuildEvents.html#constant_PAGE_SAVED"
+        },                {
+            "fqsen": "\\Cecil\\Event\\PageEvent",
+            "name": "PageEvent",
+            "summary": "Page\u0020event.",
+            "url": "classes/Cecil-Event-PageEvent.html"
+        },                {
+            "fqsen": "\\Cecil\\Event\\PageEvent\u003A\u003A__construct\u0028\u0029",
+            "name": "__construct",
+            "summary": "",
+            "url": "classes/Cecil-Event-PageEvent.html#method___construct"
+        },                {
+            "fqsen": "\\Cecil\\Event\\PageEvent\u003A\u003AgetPage\u0028\u0029",
+            "name": "getPage",
+            "summary": "Returns\u0020the\u0020page.",
+            "url": "classes/Cecil-Event-PageEvent.html#method_getPage"
+        },                {
+            "fqsen": "\\Cecil\\Event\\PageEvent\u003A\u003A\u0024page",
+            "name": "page",
+            "summary": "",
+            "url": "classes/Cecil-Event-PageEvent.html#property_page"
+        },                {
+            "fqsen": "\\Cecil\\Event\\PageRenderedEvent",
+            "name": "PageRenderedEvent",
+            "summary": "Page\u0020rendered\u0020event.",
+            "url": "classes/Cecil-Event-PageRenderedEvent.html"
+        },                {
+            "fqsen": "\\Cecil\\Event\\PageRenderedEvent\u003A\u003A__construct\u0028\u0029",
+            "name": "__construct",
+            "summary": "",
+            "url": "classes/Cecil-Event-PageRenderedEvent.html#method___construct"
+        },                {
+            "fqsen": "\\Cecil\\Event\\PageRenderedEvent\u003A\u003AgetFormat\u0028\u0029",
+            "name": "getFormat",
+            "summary": "Returns\u0020the\u0020output\u0020format\u0020name\u0020\u0028e.g.\u003A\u0020\u0022html\u0022\u0029.",
+            "url": "classes/Cecil-Event-PageRenderedEvent.html#method_getFormat"
+        },                {
+            "fqsen": "\\Cecil\\Event\\PageRenderedEvent\u003A\u003AgetOutput\u0028\u0029",
+            "name": "getOutput",
+            "summary": "Returns\u0020the\u0020rendered\u0020output.",
+            "url": "classes/Cecil-Event-PageRenderedEvent.html#method_getOutput"
+        },                {
+            "fqsen": "\\Cecil\\Event\\PageRenderedEvent\u003A\u003AsetOutput\u0028\u0029",
+            "name": "setOutput",
+            "summary": "Replaces\u0020the\u0020rendered\u0020output.",
+            "url": "classes/Cecil-Event-PageRenderedEvent.html#method_setOutput"
+        },                {
+            "fqsen": "\\Cecil\\Event\\PageRenderedEvent\u003A\u003A\u0024format",
+            "name": "format",
+            "summary": "",
+            "url": "classes/Cecil-Event-PageRenderedEvent.html#property_format"
+        },                {
+            "fqsen": "\\Cecil\\Event\\PageRenderedEvent\u003A\u003A\u0024output",
+            "name": "output",
+            "summary": "",
+            "url": "classes/Cecil-Event-PageRenderedEvent.html#property_output"
+        },                {
+            "fqsen": "\\Cecil\\Event\\PageSavedEvent",
+            "name": "PageSavedEvent",
+            "summary": "Page\u0020saved\u0020event.",
+            "url": "classes/Cecil-Event-PageSavedEvent.html"
+        },                {
+            "fqsen": "\\Cecil\\Event\\PageSavedEvent\u003A\u003A__construct\u0028\u0029",
+            "name": "__construct",
+            "summary": "",
+            "url": "classes/Cecil-Event-PageSavedEvent.html#method___construct"
+        },                {
+            "fqsen": "\\Cecil\\Event\\PageSavedEvent\u003A\u003AgetFormat\u0028\u0029",
+            "name": "getFormat",
+            "summary": "Returns\u0020the\u0020output\u0020format\u0020name\u0020\u0028e.g.\u003A\u0020\u0022html\u0022\u0029.",
+            "url": "classes/Cecil-Event-PageSavedEvent.html#method_getFormat"
+        },                {
+            "fqsen": "\\Cecil\\Event\\PageSavedEvent\u003A\u003AgetPathname\u0028\u0029",
+            "name": "getPathname",
+            "summary": "Returns\u0020the\u0020path\u0020of\u0020the\u0020saved\u0020file.",
+            "url": "classes/Cecil-Event-PageSavedEvent.html#method_getPathname"
+        },                {
+            "fqsen": "\\Cecil\\Event\\PageSavedEvent\u003A\u003A\u0024format",
+            "name": "format",
+            "summary": "",
+            "url": "classes/Cecil-Event-PageSavedEvent.html#property_format"
+        },                {
+            "fqsen": "\\Cecil\\Event\\PageSavedEvent\u003A\u003A\u0024pathname",
+            "name": "pathname",
+            "summary": "",
+            "url": "classes/Cecil-Event-PageSavedEvent.html#property_pathname"
+        },                {
+            "fqsen": "\\Cecil\\Event\\StepEvent",
+            "name": "StepEvent",
+            "summary": "Step\u0020event.",
+            "url": "classes/Cecil-Event-StepEvent.html"
+        },                {
+            "fqsen": "\\Cecil\\Event\\StepEvent\u003A\u003A__construct\u0028\u0029",
+            "name": "__construct",
+            "summary": "",
+            "url": "classes/Cecil-Event-StepEvent.html#method___construct"
+        },                {
+            "fqsen": "\\Cecil\\Event\\StepEvent\u003A\u003AgetStep\u0028\u0029",
+            "name": "getStep",
+            "summary": "Returns\u0020the\u0020step.",
+            "url": "classes/Cecil-Event-StepEvent.html#method_getStep"
+        },                {
+            "fqsen": "\\Cecil\\Event\\StepEvent\u003A\u003A\u0024step",
+            "name": "step",
+            "summary": "",
+            "url": "classes/Cecil-Event-StepEvent.html#property_step"
+        },                {
             "fqsen": "\\Cecil\\Exception\\ConfigException",
             "name": "ConfigException",
             "summary": "ConfigException\u0020class.",
@@ -6775,6 +6995,11 @@ Search.appendIndex(
             "name": "Links",
             "summary": "",
             "url": "namespaces/cecil-doctor-links.html"
+        },                {
+            "fqsen": "\\Cecil\\Event",
+            "name": "Event",
+            "summary": "",
+            "url": "namespaces/cecil-event.html"
         },                {
             "fqsen": "\\Cecil\\Exception",
             "name": "Exception",

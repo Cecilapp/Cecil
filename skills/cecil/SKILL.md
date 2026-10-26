@@ -33,7 +33,7 @@ This file covers what most tasks need. Read the matching reference **before** wo
 | [references/multilingual.md](references/multilingual.md) | Adding languages, translating pages, translating templates UI strings (`trans`, `translations/` files) or localizing dates |
 | [references/assets.md](references/assets.md)           | Handling assets in templates (`asset()`, `html()`, images, resize, responsive, CDN), Sass, code highlighting, or optimizing the build |
 | [references/ai.md](references/ai.md)                   | Making the site AI-friendly: `llms.txt`, Markdown output of pages, HTTP headers, blocking AI crawlers (`robots.txt`) |
-| [references/extending.md](references/extending.md)     | Writing PHP extensions (custom generators, Twig extensions, post-processors) or using Cecil as a PHP library |
+| [references/extending.md](references/extending.md)     | Writing PHP extensions (custom generators, Twig extensions, post-processors, build events subscribers) or using Cecil as a PHP library |
 | [references/deployment.md](references/deployment.md)   | Deploying the generated site (GitHub Pages, GitLab Pages, Netlify, Vercel, Cloudflare Pages, etc.)           |
 | [references/workflows.md](references/workflows.md)     | Creating a blog, custom pages, dynamic content (Twig in a page body), shortcodes or a search page            |
 
@@ -50,7 +50,7 @@ my-site/
 ├── static/    # Static files copied as-is
 ├── data/      # Data collections (YAML/JSON/...)
 ├── translations/ # UI strings translations (messages.<locale>.yaml)
-├── extensions/ # Custom PHP classes (generators, Twig extensions, post-processors)
+├── extensions/ # Custom PHP classes (generators, Twig extensions, post-processors, event subscribers)
 ├── .cache/    # Build cache (generated, `cache.dir`)
 └── _site/     # Generated site (`output.dir` or `--output`)
 ```

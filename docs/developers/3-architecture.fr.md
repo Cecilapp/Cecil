@@ -2,7 +2,7 @@
 title: "Architecture"
 description: "Diagrammes du pipeline de génération et de l’architecture technique, et composants clés."
 date: 2026-05-27
-updated: 2026-10-24
+updated: 2026-10-26
 alias: documentation/architecture
 path: documentation/developpeurs/architecture
 -->
@@ -265,6 +265,8 @@ graph TB
 | **Collections**     | Pages, Taxonomies, Menus : structures de données centrales                                                               |
 | **Converter**       | Analyse le front matter (YAML, INI, TOML ou JSON) et convertit le Markdown en HTML (Parsedown, coloration syntaxique)    |
 | **Generators**      | Créent ou mettent à jour des pages (pages par défaut, sections, taxonomies, pagination, alias, redirections, etc.)       |
+| **Extensions**      | Générateurs, extensions Twig, post-processeurs et abonnés aux événements déclarés par nom, chargés et validés par `Extension\Loader` |
+| **Events**          | Événements de build (`Event\BuildEvents`) déclenchés autour du build, de chaque étape et du cycle de vie de chaque page, pour [étendre Cecil](1-extend.fr.md#evenements-de-build) |
 | **Renderer (Twig)** | Applique les templates + extensions + post-processeurs                                                                   |
 | **Assets**          | Créés depuis le contenu Markdown et les templates : compilent le SCSS, minifient, redimensionnent et convertissent les images, ajoutent une empreinte aux fichiers |
 | **Cache**           | Stocke les assets traités, les templates compilés et les traductions dans `.cache/` pour accélérer les builds suivants   |

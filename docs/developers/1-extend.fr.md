@@ -1,6 +1,6 @@
 <!--
 title: "Étendre Cecil"
-description: "Créez des générateurs de pages, ajoutez des extensions Twig et post-traitez les fichiers de sortie."
+description: "Créez des générateurs de pages, ajoutez des extensions Twig, post-traitez les fichiers de sortie et écoutez les événements de build."
 date: 2026-03-27
 updated: 2026-10-26
 alias: documentation/etendre
@@ -14,7 +14,7 @@ Les classes personnalisées sont chargées automatiquement depuis le répertoire
 
 ## Configuration
 
-Les générateurs de pages, les extensions Twig et les post-processeurs de sortie se déclarent de la même façon, sous forme de liste indexée par nom :
+Les générateurs de pages, les extensions Twig, les post-processeurs de sortie et les abonnés aux [événements de build](#evenements-de-build) se déclarent de la même façon, sous forme de liste indexée par nom :
 
 ```yaml
 <clé>:
@@ -196,3 +196,75 @@ output:
   postprocessors:
     MyProcessor: Cecil\Renderer\PostProcessor\MyProcessor
 ```
+
+## Événements de build
+
+Des événements sont déclenchés pendant le build : écoutez-les pour exécuter votre propre code avant ou après le build, chaque étape, ou à chaque étape du cycle de vie d’une page (par ex. pour créer un index de recherche, notifier un service ou modifier la sortie des pages).
+
+| Événement        | Constante                     | Quand                                                                | Classe d’événement  |
+|------------------|-------------------------------|----------------------------------------------------------------------|---------------------|
+| `build.start`    | `BuildEvents::BUILD_START`    | avant la première étape                                              | `BuildEvent`        |
+| `build.finished` | `BuildEvents::BUILD_FINISHED` | après la dernière étape                                              | `BuildEvent`        |
+| `step.pre`       | `BuildEvents::STEP_PRE`       | avant chaque étape                                                   | `StepEvent`         |
+| `step.post`      | `BuildEvents::STEP_POST`      | après chaque étape                                                   | `StepEvent`         |
+| `page.created`   | `BuildEvents::PAGE_CREATED`   | après la création d’une page à partir d’un fichier de contenu        | `PageEvent`         |
+| `page.converted` | `BuildEvents::PAGE_CONVERTED` | après la conversion d’une page publiée (front matter et corps)       | `PageEvent`         |
+| `page.rendered`  | `BuildEvents::PAGE_RENDERED`  | après le rendu d’une page dans un format (après post-processeurs)    | `PageRenderedEvent` |
+| `page.saved`     | `BuildEvents::PAGE_SAVED`     | après l’enregistrement d’une page rendue dans un fichier             | `PageSavedEvent`    |
+
+Chaque événement donne accès au contexte du build (`getBuilder()`) et à ses options (`getOptions()`) ; `StepEvent` ajoute `getStep()`, `PageEvent` ajoute `getPage()`, `PageRenderedEvent` ajoute `getFormat()`, `getOutput()` et `setOutput()`, `PageSavedEvent` ajoute `getFormat()` et `getPathname()`.
+
+Créez un [abonné aux événements](https://symfony.com/doc/current/components/event_dispatcher.html#using-event-subscribers) héritant de `Cecil\Event\AbstractSubscriber` (qui donne accès à `$this->builder` et `$this->config`), puis ajoutez-le à la liste `extensions.subscribers`.
+
+**Exemple :**
+
+_/extensions/MySite/SearchIndex.php_
+
+```php
+<?php
+namespace MySite;
+
+use Cecil\Event\AbstractSubscriber;
+use Cecil\Event\BuildEvent;
+use Cecil\Event\BuildEvents;
+use Cecil\Event\PageEvent;
+
+class SearchIndex extends AbstractSubscriber
+{
+    private array $index = [];
+
+    public static function getSubscribedEvents(): array
+    {
+        return [
+            BuildEvents::PAGE_CONVERTED => 'onPageConverted',
+            BuildEvents::BUILD_FINISHED => 'onBuildFinished',
+        ];
+    }
+
+    public function onPageConverted(PageEvent $event): void
+    {
+        $page = $event->getPage();
+        $this->index[] = ['title' => $page->getVariable('title'), 'path' => $page->getPath()];
+    }
+
+    public function onBuildFinished(BuildEvent $event): void
+    {
+        if ($event->getOptions()['dry-run']) {
+            return;
+        }
+        file_put_contents($this->config->getOutputPath() . '/search.json', json_encode($this->index));
+    }
+}
+```
+
+_configuration_
+
+```yaml
+extensions:
+  subscribers:
+    SearchIndex: MySite\SearchIndex
+```
+
+:::tip
+En utilisant Cecil comme [bibliothèque PHP](2-library.fr.md), des écouteurs peuvent aussi être ajoutés directement au dispatcher avant le build : `$builder->getEventDispatcher()->addListener(BuildEvents::PAGE_SAVED, $callable)`.
+:::

@@ -442,5 +442,8 @@ return [
     ],
     'extensions' => [ // extensions (generators, Twig extensions, post processors) loading
         'strict' => true, // an extension that cannot be loaded fails the build (only logged with `false`)
+        'subscribers' => [ // build events subscribers, indexed by name
+            //'<name>' => '<class>',
+        ],
     ],
 ];

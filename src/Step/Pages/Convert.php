@@ -17,6 +17,8 @@ use Cecil\Builder;
 use Cecil\Collection\Page\Page;
 use Cecil\Converter\Converter;
 use Cecil\Converter\ConverterInterface;
+use Cecil\Event\BuildEvents;
+use Cecil\Event\PageEvent;
 use Cecil\Exception\RuntimeException;
 use Cecil\Step\AbstractStep;
 use Cecil\Util;
@@ -93,6 +95,9 @@ class Convert extends AbstractStep
                 if ($page->getVariable('published')) {
                     $this->builder->getPages()->replace($page->getId(), $convertedPage);
                     $statusMessage = '';
+                    if ($this->builder->getEventDispatcher()->hasListeners(BuildEvents::PAGE_CONVERTED)) {
+                        $this->builder->getEventDispatcher()->dispatch(new PageEvent($this->builder, $convertedPage), BuildEvents::PAGE_CONVERTED);
+                    }
                 }
                 $this->builder->getLogger()->info($message . $statusMessage, ['progress' => [$count, $total]]);
             }

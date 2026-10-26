@@ -109,7 +109,46 @@ output:
     MyProcessor: MyProject\Renderer\PostProcessor\MyProcessor
 ```
 
-Generators, Twig extensions and post-processors share the same syntax: `<name>: <class>`, `<name>: { class: <class>, priority: <int> }` or `<name>: false`. If an extension can't be loaded (unknown class, wrong interface, invalid option), the build fails with `Unable to load extension "<name>" (<config key>)`; set `extensions.strict: false` to only log the error and skip the extension.
+## Build Events
+
+Run code around the build, each step or each page with an event subscriber extending `Cecil\Event\AbstractSubscriber` (`$this->builder`, `$this->config`), registered with `extensions.subscribers`:
+
+```php
+<?php
+
+namespace MyProject;
+
+use Cecil\Event\AbstractSubscriber;
+use Cecil\Event\BuildEvents;
+use Cecil\Event\PageRenderedEvent;
+
+class Banner extends AbstractSubscriber
+{
+    public static function getSubscribedEvents(): array
+    {
+        return [BuildEvents::PAGE_RENDERED => 'onPageRendered'];
+    }
+
+    public function onPageRendered(PageRenderedEvent $event): void
+    {
+        if ($event->getFormat() === 'html') {
+            $event->setOutput(str_replace('<body>', '<body><div class="banner">Beta</div>', $event->getOutput()));
+        }
+    }
+}
+```
+
+```yaml
+extensions:
+  subscribers:
+    Banner: MyProject\Banner
+```
+
+Events (`Cecil\Event\BuildEvents`): `build.start` / `build.finished` (`BuildEvent`), `step.pre` / `step.post` (`StepEvent`, `getStep()`), `page.created` (from a content file) / `page.converted` (published pages) (`PageEvent`, `getPage()`), `page.rendered` (`PageRenderedEvent`, `getFormat()`, `getOutput()`, `setOutput()`, after post-processors), `page.saved` (`PageSavedEvent`, `getFormat()`, `getPathname()`). With Cecil as a library, use `$builder->getEventDispatcher()->addListener(...)` before `build()`.
+
+## Extensions Configuration
+
+Generators, Twig extensions, post-processors and event subscribers share the same syntax: `<name>: <class>`, `<name>: { class: <class>, priority: <int> }` or `<name>: false`. If an extension can't be loaded (unknown class, wrong interface, invalid option), the build fails with `Unable to load extension "<name>" (<config key>)`; set `extensions.strict: false` to only log the error and skip the extension.
 
 ## Use Cecil as a PHP Library
 

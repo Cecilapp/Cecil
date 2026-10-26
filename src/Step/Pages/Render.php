@@ -17,6 +17,8 @@ use Cecil\Asset\Image;
 use Cecil\Builder;
 use Cecil\Collection\Page\Collection;
 use Cecil\Collection\Page\Page;
+use Cecil\Event\BuildEvents;
+use Cecil\Event\PageRenderedEvent;
 use Cecil\Exception\ConfigException;
 use Cecil\Exception\RuntimeException;
 use Cecil\Extension\Loader;
@@ -228,6 +230,11 @@ class Render extends AbstractStep
                     }
                     foreach ($postprocessors as $postprocessor) {
                         $output = $postprocessor->process($page, $output, $format);
+                    }
+                    if ($this->builder->getEventDispatcher()->hasListeners(BuildEvents::PAGE_RENDERED)) {
+                        $output = $this->builder->getEventDispatcher()
+                            ->dispatch(new PageRenderedEvent($this->builder, $page, $format, $output), BuildEvents::PAGE_RENDERED)
+                            ->getOutput();
                     }
                     $rendered[$format] = [
                         'output'   => $output,
