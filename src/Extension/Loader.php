@@ -123,11 +123,28 @@ class Loader
 
             throw new RuntimeException(\sprintf('extensions must be indexed by name%s.', $hint));
         }
+        $entry = $this->toMap($entry);
+        if ($entry === null || ($entry['enabled'] ?? true) === false) {
+            return null;
+        }
+
+        return ['name' => $name] + $this->validate($entry);
+    }
+
+    /**
+     * Converts an extension entry to a map of options, or returns null if it is disabled (`false`).
+     *
+     * @return array<mixed>|null
+     *
+     * @throws RuntimeException
+     */
+    private function toMap(mixed $entry): ?array
+    {
         if ($entry === false || $entry === null) {
             return null;
         }
         if (\is_string($entry)) {
-            $entry = ['class' => $entry];
+            return ['class' => $entry];
         }
         if (!\is_array($entry)) {
             throw new RuntimeException('an extension must be a class name, a map (`class`, `priority`, `enabled`) or `false`.');
@@ -135,9 +152,21 @@ class Loader
         if ($unknown = array_diff(array_keys($entry), self::ENTRY_KEYS)) {
             throw new RuntimeException(\sprintf('unknown option(s) "%s" (allowed: %s).', implode('", "', $unknown), implode(', ', self::ENTRY_KEYS)));
         }
-        if (($entry['enabled'] ?? true) === false) {
-            return null;
-        }
+
+        return $entry;
+    }
+
+    /**
+     * Validates the options of an enabled extension, and returns its class and priority.
+     *
+     * @param array<mixed> $entry
+     *
+     * @return array{class: string, priority: int}
+     *
+     * @throws RuntimeException
+     */
+    private function validate(array $entry): array
+    {
         if (!isset($entry['class']) || !\is_string($entry['class']) || trim($entry['class']) === '') {
             throw new RuntimeException('option "class" is required.');
         }
@@ -146,7 +175,6 @@ class Loader
         }
 
         return [
-            'name'     => $name,
             'class'    => ltrim($entry['class'], '\\'),
             'priority' => $entry['priority'] ?? self::DEFAULT_PRIORITY,
         ];
