@@ -292,6 +292,7 @@ Output is generated in `_site/` directory.
 |--------------------------------------------|-------------------------------------------------------------------------------------------------------------|
 | `php cecil.phar new:site`                  | Create a new website (`-n` non-interactive, `--demo` to add demo content, `--force`)                        |
 | `php cecil.phar new:page`                  | Create a new page (`--name`, `--prefix`, `--slugify`, `--force`, `--open`, `--editor`)                      |
+| `php cecil.phar new:extension`             | Create an extension skeleton (`--type`: generator, twig, postprocessor, subscriber or plugin; `--name`, `--namespace`, `--force`) |
 | `php cecil.phar build`                     | Build the static site (`--drafts`, `--optimize` / `--no-optimize`, `--baseurl`, `--output`, `--config`, `--page`, `--dry-run`, `--clear-cache[=<regex>]`, `--metrics`, `--show-pages`, `--render-subset`, `--notify`) |
 | `php cecil.phar serve`                     | Start local server on `http://localhost:8000` with live reload (`--drafts`, `--optimize`, `--config`, `--page`, `--clear-cache`, `--metrics`, `--open`/`-o`, `--host`, `--port`, `--no-watch`, `--timeout`, `--notify`, `--no-ignore-vcs`); no `--baseurl`, `--output` or `--dry-run` |
 | `php cecil.phar serve --incremental`       | Serve with incremental builds (rebuild only changed pages)                                                  |

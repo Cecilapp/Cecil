@@ -77,7 +77,7 @@ class GeneratorManager extends \SplPriorityQueue
             $this->top();
             while ($this->valid()) {
                 $count = $total - $this->key();
-                $countPagesAdded = $countPagesUpdated = 0;
+                $countPagesAdded = $countPagesUpdated = $countPagesRemoved = 0;
                 /** @var AbstractGenerator $generator */
                 $generator = $this->current();
                 /** @var PagesCollection $generatedPages */
@@ -92,7 +92,16 @@ class GeneratorManager extends \SplPriorityQueue
                         $countPagesUpdated++;
                     }
                 }
+                foreach ($generator->getRemovedPages() as $id) {
+                    if ($pagesCollection->has($id)) {
+                        $pagesCollection->remove($id);
+                        $countPagesRemoved++;
+                    }
+                }
                 $message = \sprintf('%s "%s" pages generated and %s pages updated', $countPagesAdded, Util::formatClassName($generator), $countPagesUpdated);
+                if ($countPagesRemoved > 0) {
+                    $message .= \sprintf(' (%s pages removed)', $countPagesRemoved);
+                }
                 $this->builder->getLogger()->info($message, ['progress' => [$count, $total]]);
 
                 $this->next();

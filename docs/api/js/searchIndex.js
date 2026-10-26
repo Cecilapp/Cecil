@@ -2851,6 +2851,36 @@ Search.appendIndex(
             "summary": "\u007B\u0040inheritdoc\u007D",
             "url": "classes/Cecil-Command-ListCommand.html#method_configure"
         },                {
+            "fqsen": "\\Cecil\\Command\\NewExtension",
+            "name": "NewExtension",
+            "summary": "NewExtension\u0020command.",
+            "url": "classes/Cecil-Command-NewExtension.html"
+        },                {
+            "fqsen": "\\Cecil\\Command\\NewExtension\u003A\u003Aconfigure\u0028\u0029",
+            "name": "configure",
+            "summary": "\u007B\u0040inheritdoc\u007D",
+            "url": "classes/Cecil-Command-NewExtension.html#method_configure"
+        },                {
+            "fqsen": "\\Cecil\\Command\\NewExtension\u003A\u003Aexecute\u0028\u0029",
+            "name": "execute",
+            "summary": "\u007B\u0040inheritdoc\u007D",
+            "url": "classes/Cecil-Command-NewExtension.html#method_execute"
+        },                {
+            "fqsen": "\\Cecil\\Command\\NewExtension\u003A\u003AgetContent\u0028\u0029",
+            "name": "getContent",
+            "summary": "Returns\u0020the\u0020content\u0020of\u0020the\u0020class\u0020file.",
+            "url": "classes/Cecil-Command-NewExtension.html#method_getContent"
+        },                {
+            "fqsen": "\\Cecil\\Command\\NewExtension\u003A\u003AgetConfigSnippet\u0028\u0029",
+            "name": "getConfigSnippet",
+            "summary": "Returns\u0020the\u0020YAML\u0020configuration\u0020snippet\u0020to\u0020enable\u0020the\u0020extension.",
+            "url": "classes/Cecil-Command-NewExtension.html#method_getConfigSnippet"
+        },                {
+            "fqsen": "\\Cecil\\Command\\NewExtension\u003A\u003ATYPES",
+            "name": "TYPES",
+            "summary": "Extension\u0020types\u003A\u0020sub\u002Dnamespace,\u0020configuration\u0020key\u0020and\u0020class\u0020template.",
+            "url": "classes/Cecil-Command-NewExtension.html#constant_TYPES"
+        },                {
             "fqsen": "\\Cecil\\Command\\NewPage",
             "name": "NewPage",
             "summary": "NewPage\u0020command.",
@@ -4861,6 +4891,16 @@ Search.appendIndex(
             "summary": "Run\u0020the\u0020\u0060generate\u0060\u0020method\u0020of\u0020the\u0020generator\u0020and\u0020returns\u0020pages.",
             "url": "classes/Cecil-Generator-AbstractGenerator.html#method_runGenerate"
         },                {
+            "fqsen": "\\Cecil\\Generator\\AbstractGenerator\u003A\u003AgetRemovedPages\u0028\u0029",
+            "name": "getRemovedPages",
+            "summary": "Returns\u0020the\u0020IDs\u0020of\u0020the\u0020pages\u0020to\u0020remove\u0020from\u0020the\u0020site.",
+            "url": "classes/Cecil-Generator-AbstractGenerator.html#method_getRemovedPages"
+        },                {
+            "fqsen": "\\Cecil\\Generator\\AbstractGenerator\u003A\u003AremovePage\u0028\u0029",
+            "name": "removePage",
+            "summary": "Removes\u0020a\u0020page\u0020from\u0020the\u0020site\u0020\u0028once\u0020the\u0020generator\u0020has\u0020run\u0029.",
+            "url": "classes/Cecil-Generator-AbstractGenerator.html#method_removePage"
+        },                {
             "fqsen": "\\Cecil\\Generator\\AbstractGenerator\u003A\u003A\u0024builder",
             "name": "builder",
             "summary": "",
@@ -4875,6 +4915,11 @@ Search.appendIndex(
             "name": "generatedPages",
             "summary": "",
             "url": "classes/Cecil-Generator-AbstractGenerator.html#property_generatedPages"
+        },                {
+            "fqsen": "\\Cecil\\Generator\\AbstractGenerator\u003A\u003A\u0024removedPages",
+            "name": "removedPages",
+            "summary": "",
+            "url": "classes/Cecil-Generator-AbstractGenerator.html#property_removedPages"
         },                {
             "fqsen": "\\Cecil\\Generator\\Alias",
             "name": "Alias",

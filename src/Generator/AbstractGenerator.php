@@ -33,6 +33,9 @@ abstract class AbstractGenerator implements GeneratorInterface
     /** @var PagesCollection */
     protected $generatedPages;
 
+    /** @var array<string, string> IDs of the pages to remove from the site */
+    protected $removedPages = [];
+
     /**
      * {@inheritdoc}
      */
@@ -74,5 +77,23 @@ abstract class AbstractGenerator implements GeneratorInterface
         });
 
         return $this->generatedPages;
+    }
+
+    /**
+     * Returns the IDs of the pages to remove from the site.
+     *
+     * @return list<string>
+     */
+    public function getRemovedPages(): array
+    {
+        return array_values($this->removedPages);
+    }
+
+    /**
+     * Removes a page from the site (once the generator has run).
+     */
+    protected function removePage(string $id): void
+    {
+        $this->removedPages[$id] = $id;
     }
 }

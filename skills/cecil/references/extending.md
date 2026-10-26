@@ -1,6 +1,6 @@
 # Extensions and Plugins
 
-Custom PHP classes live in `extensions/` (or `themes/<theme>/extensions/`), autoloaded by Cecil: the file path must match the class namespace (e.g. `extensions/MyProject/Generator/CustomGenerator.php`), unless a PSR-4 mapping is declared (`extensions.autoload: {'MyProject\': src/}`, relative to the site or theme directory). Use your own namespace: `Cecil\` is reserved (deprecated for custom classes, reported as a warning). Third-party libraries installed with Composer in `extensions/` (`composer require <package> --working-dir=extensions`) are loaded from `extensions/vendor/autoload.php`, also with the phar.
+Scaffold an extension with `php cecil.phar new:extension --type=<generator|twig|postprocessor|subscriber|plugin> --name=<Class> --namespace=<MySite> -n` (prints the configuration to enable it). Custom PHP classes live in `extensions/` (or `themes/<theme>/extensions/`), autoloaded by Cecil: the file path must match the class namespace (e.g. `extensions/MyProject/Generator/CustomGenerator.php`), unless a PSR-4 mapping is declared (`extensions.autoload: {'MyProject\': src/}`, relative to the site or theme directory). Use your own namespace: `Cecil\` is reserved (deprecated for custom classes, reported as a warning). Third-party libraries installed with Composer in `extensions/` (`composer require <package> --working-dir=extensions`) are loaded from `extensions/vendor/autoload.php`, also with the phar.
 
 > Note: use single backslashes for class names in YAML. Double backslashes (`\\`) are only needed inside JSON or PHP strings.
 
@@ -42,7 +42,7 @@ pages:
     Custom: { class: MyProject\Generator\CustomGenerator, priority: 35 } # after ExternalBody (30), before Section (40)
 ```
 
-Built-in generators are named `DefaultPages` (10), `ExternalBody` (30), `Section` (40), `Taxonomy` (50), `Homepage` (60), `Pagination` (70), `Alias` (80) and `Redirect` (90): disable one with `<Name>: false`, move one with `<Name>: { priority: <int> }`. A priority as key (`35: <class>`) is rejected since Cecil 9. A generator that must be listed in sections, taxonomies or paginated lists has to run before them.
+Built-in generators are named `DefaultPages` (10), `ExternalBody` (30), `Section` (40), `Taxonomy` (50), `Homepage` (60), `Pagination` (70), `Alias` (80) and `Redirect` (90): disable one with `<Name>: false`, move one with `<Name>: { priority: <int> }`. A priority as key (`35: <class>`) is rejected since Cecil 9. A generator that must be listed in sections, taxonomies or paginated lists has to run before them. A generator can also remove existing pages with `$this->removePage('<page-id>')`.
 
 ## Twig Extensions
 

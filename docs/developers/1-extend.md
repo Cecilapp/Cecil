@@ -9,6 +9,10 @@ alias: documentation/extend
 
 Because Cecil is written in PHP, it's easy to extend its capabilities.
 
+:::tip
+Use the [`new:extension`](../commands/6-new-extension.md) command to create the skeleton of an extension: `cecil new:extension --type=generator --name=Database --namespace=MySite`.
+:::
+
 ## Autoloading
 
 Custom classes are autoloaded from the `extensions` directory of your site (or of a theme), the file path matching the namespace: the class `MySite\Generator\MyGenerator` is loaded from `extensions/MySite/Generator/MyGenerator.php`.
@@ -58,6 +62,8 @@ A generator helps you create pages without Markdown files (for example, with dat
 Create a new PHP class extending `Cecil\Generator\AbstractGenerator`, and add it to the [`pages.generators`](../configuration/4-pages.md#pages-generators) list.
 
 Built-in generators use the priorities `10` to `90`: choose the priority of your generator depending on the pages it needs (e.g.: after `Section` to access sections pages).
+
+A generator adds pages to `$this->generatedPages` (a page with the ID of an existing page replaces it), and can remove existing pages with `$this->removePage('<page-id>')`.
 
 **Example:**
 

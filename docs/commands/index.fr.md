@@ -2,7 +2,7 @@
 title: "Commandes"
 description: "Référence des commandes et options de la CLI de Cecil."
 date: 2026-03-27
-updated: 2026-10-17
+updated: 2026-10-26
 weight: 6
 sortby: weight
 path: documentation/commandes
@@ -35,6 +35,7 @@ Available commands:
   doctor:links               Checks internal and external links of the rendered pages
   doctor:seo                 Audits rendered HTML pages for common SEO issues
  new
+  new:extension              Creates a new extension
   new:page                   Creates a new page
   new:site                   Creates a new website
  serve
