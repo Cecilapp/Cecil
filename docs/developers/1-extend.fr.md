@@ -45,15 +45,17 @@ Les générateurs de pages, les extensions Twig, les post-processeurs de sortie,
 
 - Les extensions sont exécutées par ordre croissant de priorité ; sans priorité, elles sont exécutées après les extensions intégrées (priorité `100`), dans leur ordre de déclaration.
 - Une extension intégrée peut être désactivée (`Redirect: false`) ou déplacée (`Section: { priority: 45 }`) par son nom.
-- Une extension qui ne peut pas être chargée (classe inconnue, mauvaise interface, option invalide) fait échouer le build. Pour simplement journaliser l’erreur et ignorer l’extension, désactivez le mode strict :
+- Une extension qui ne peut pas être chargée (classe inconnue, mauvaise interface, option invalide) est ignorée et l’erreur est journalisée. Pour faire échouer le build à la place, activez le mode strict (`false` journalise seulement l’erreur, sans l’avertissement concernant Cecil 10) :
 
 ```yaml
 extensions:
-  strict: false
+  strict: true
 ```
 
 :::important
-Depuis Cecil 9, les extensions doivent être indexées par nom : une priorité en clé (par ex. `35: MySite\Generator\Database`) est refusée, utilisez `Database: { class: MySite\Generator\Database, priority: 35 }` à la place.
+Indexer les extensions par priorité (par ex. `35: MySite\Generator\Database`) ou par position (une liste) est déprécié : c’est encore pris en charge, avec un avertissement, mais ne le sera plus dans Cecil 10. Utilisez `Database: { class: MySite\Generator\Database, priority: 35 }` à la place.
+
+Dans Cecil 10, le mode strict sera activé par défaut.
 :::
 
 ## Générateurs de pages

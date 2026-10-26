@@ -4851,6 +4851,16 @@ Search.appendIndex(
             "summary": "Normalizes\u0020an\u0020extension\u0020entry,\u0020or\u0020returns\u0020null\u0020if\u0020it\u0020is\u0020disabled.",
             "url": "classes/Cecil-Extension-Loader.html#method_normalize"
         },                {
+            "fqsen": "\\Cecil\\Extension\\Loader\u003A\u003AnormalizeLegacy\u0028\u0029",
+            "name": "normalizeLegacy",
+            "summary": "Normalizes\u0020a\u0020legacy\u0020extension\u0020entry,\u0020indexed\u0020by\u0020its\u0020priority\u0020\u0028generators\u0029\u0020or\u0020by\u0020its\u0020position\u0020\u0028deprecated\u0029\u003A\nit\u0020is\u0020named\u0020after\u0020the\u0020built\u002Din\u0020generator\u0020with\u0020the\u0020same\u0020priority\u0020\u0028that\u0020it\u0020replaces\u0029,\u0020or\u0020after\u0020its\u0020short\u0020class\u0020name.",
+            "url": "classes/Cecil-Extension-Loader.html#method_normalizeLegacy"
+        },                {
+            "fqsen": "\\Cecil\\Extension\\Loader\u003A\u003AgetBuiltIns\u0028\u0029",
+            "name": "getBuiltIns",
+            "summary": "Returns\u0020the\u0020priorities\u0020of\u0020the\u0020built\u002Din\u0020extensions\u0020of\u0020the\u0020configuration\u0020\u0060\u0024key\u0060,\u0020indexed\u0020by\u0020name.",
+            "url": "classes/Cecil-Extension-Loader.html#method_getBuiltIns"
+        },                {
             "fqsen": "\\Cecil\\Extension\\Loader\u003A\u003AtoMap\u0028\u0029",
             "name": "toMap",
             "summary": "Converts\u0020an\u0020extension\u0020entry\u0020to\u0020a\u0020map\u0020of\u0020options,\u0020or\u0020returns\u0020null\u0020if\u0020it\u0020is\u0020disabled\u0020\u0028\u0060false\u0060\u0029.",

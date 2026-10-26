@@ -44,15 +44,17 @@ Page generators, Twig extensions, output post-processors, [build events](#build-
 
 - Extensions run in ascending order of their priority; without a priority, they run after the built-in ones (priority `100`), in their declaration order.
 - A built-in extension can be disabled (`Redirect: false`) or moved (`Section: { priority: 45 }`) by its name.
-- An extension that cannot be loaded (unknown class, wrong interface, invalid option) fails the build. To log the error and skip the extension instead, disable the strict mode:
+- An extension that cannot be loaded (unknown class, wrong interface, invalid option) is skipped and the error is logged. To fail the build instead, enable the strict mode (`false` only logs the error, without the Cecil 10 warning):
 
 ```yaml
 extensions:
-  strict: false
+  strict: true
 ```
 
 :::important
-Since Cecil 9, extensions must be indexed by name: a priority as key (e.g.: `35: MySite\Generator\Database`) is rejected, use `Database: { class: MySite\Generator\Database, priority: 35 }` instead.
+Indexing extensions by priority (e.g.: `35: MySite\Generator\Database`) or by position (a list) is deprecated: it is still supported, with a warning, but will not be in Cecil 10. Use `Database: { class: MySite\Generator\Database, priority: 35 }` instead.
+
+In Cecil 10, the strict mode will be enabled by default.
 :::
 
 ## Page generators

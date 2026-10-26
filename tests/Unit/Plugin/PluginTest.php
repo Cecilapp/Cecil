@@ -83,7 +83,7 @@ class PluginTest extends TestCase
 
     public function testInvalidPluginFailsTheBuild(): void
     {
-        $builder = $this->createBuilder(['extensions' => ['plugins' => ['Invalid' => PluginGenerator::class]]]);
+        $builder = $this->createBuilder(['extensions' => ['strict' => true, 'plugins' => ['Invalid' => PluginGenerator::class]]]);
 
         $this->expectException(RuntimeException::class);
         $this->expectExceptionMessage('Unable to load extension "Invalid" (extensions.plugins)');

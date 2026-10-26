@@ -42,7 +42,7 @@ pages:
     Custom: { class: MyProject\Generator\CustomGenerator, priority: 35 } # after ExternalBody (30), before Section (40)
 ```
 
-Built-in generators are named `DefaultPages` (10), `ExternalBody` (30), `Section` (40), `Taxonomy` (50), `Homepage` (60), `Pagination` (70), `Alias` (80) and `Redirect` (90): disable one with `<Name>: false`, move one with `<Name>: { priority: <int> }`. A priority as key (`35: <class>`) is rejected since Cecil 9. A generator that must be listed in sections, taxonomies or paginated lists has to run before them. A generator can also remove existing pages with `$this->removePage('<page-id>')`.
+Built-in generators are named `DefaultPages` (10), `ExternalBody` (30), `Section` (40), `Taxonomy` (50), `Homepage` (60), `Pagination` (70), `Alias` (80) and `Redirect` (90): disable one with `<Name>: false`, move one with `<Name>: { priority: <int> }`. A priority as key (`35: <class>`, the former syntax) is deprecated: still supported with a warning (a key matching a built-in priority replaces that built-in), removed in Cecil 10. A generator that must be listed in sections, taxonomies or paginated lists has to run before them. A generator can also remove existing pages with `$this->removePage('<page-id>')`.
 
 ## Twig Extensions
 
@@ -188,7 +188,7 @@ Registered extensions are named after their short class name (or `name:`), with 
 
 ## Extensions Configuration
 
-Generators, Twig extensions, post-processors, event subscribers and plugins share the same syntax: `<name>: <class>`, `<name>: { class: <class>, priority: <int> }` or `<name>: false`. If an extension can't be loaded (unknown class, wrong interface, invalid option), the build fails with `Unable to load extension "<name>" (<config key>)`; set `extensions.strict: false` to only log the error and skip the extension.
+Generators, Twig extensions, post-processors, event subscribers and plugins share the same syntax: `<name>: <class>`, `<name>: { class: <class>, priority: <int> }` or `<name>: false`. If an extension can't be loaded (unknown class, wrong interface, invalid option), the error `Unable to load extension "<name>" (<config key>)` is logged and the extension skipped; set `extensions.strict: true` to fail the build (the default in Cecil 10), or `false` to silence the Cecil 10 warning.
 
 ## Use Cecil as a PHP Library
 

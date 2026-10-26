@@ -443,7 +443,7 @@ return [
         ],
     ],
     'extensions' => [ // extensions (generators, Twig extensions, post processors, events subscribers) loading
-        'strict' => true, // an extension that cannot be loaded fails the build (only logged with `false`)
+        'strict' => null, // `true`: an extension that cannot be loaded fails the build; `false`: the error is only logged; `null`: logged, with a warning (fails the build in Cecil 10)
         'autoload' => [ // PSR-4 mappings, relative to the site or theme directory (classes are also loaded from `extensions/<namespace path>/`)
             //'<Namespace>\\' => '<dir>',
         ],

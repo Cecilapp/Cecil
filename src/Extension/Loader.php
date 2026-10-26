@@ -15,6 +15,7 @@ namespace Cecil\Extension;
 
 use Cecil\BuildContextInterface;
 use Cecil\Exception\RuntimeException;
+use Cecil\Util;
 
 /**
  * Extensions loader.
@@ -26,7 +27,8 @@ use Cecil\Exception\RuntimeException;
  * - `<name>: false` (disabled)
  *
  * Extensions are sorted by ascending priority (declaration order for equal priorities).
- * An invalid extension fails the build, unless `extensions.strict` is disabled: the error is then logged and the extension skipped.
+ * An invalid extension fails the build if `extensions.strict` is enabled, otherwise the error is logged and the extension skipped
+ * (legacy entries indexed by priority or position are still supported, with a deprecation warning).
  */
 class Loader
 {
@@ -57,10 +59,11 @@ class Loader
      */
     public function getDefinitions(string $key, string $interface): array
     {
+        // indexed by name: a legacy entry (indexed by priority) can replace a built-in extension
         $definitions = [];
         foreach ((array) $this->builder->getConfig()->get($key) as $name => $entry) {
             try {
-                $definition = $this->normalize($name, $entry);
+                $definition = $this->normalize($key, $name, $entry);
                 if ($definition === null) {
                     $this->builder->getLogger()->debug(\sprintf('Extension "%s" (%s) disabled', $name, $key));
                     continue;
@@ -72,11 +75,12 @@ class Loader
                 if (!is_a($class, $interface, true)) {
                     throw new RuntimeException(\sprintf('class "%s" must implement "%s".', $class, $interface));
                 }
-                $definitions[] = ['name' => $definition['name'], 'class' => $class, 'priority' => $definition['priority']];
+                $definitions[$definition['name']] = ['name' => $definition['name'], 'class' => $class, 'priority' => $definition['priority']];
             } catch (RuntimeException $e) {
                 $this->handleError($key, (string) $name, $e);
             }
         }
+        $definitions = array_values($definitions);
         usort($definitions, fn (array $a, array $b) => $a['priority'] <=> $b['priority']);
 
         return $definitions;
@@ -116,12 +120,10 @@ class Loader
      *
      * @throws RuntimeException
      */
-    protected function normalize(int|string $name, mixed $entry): ?array
+    protected function normalize(string $key, int|string $name, mixed $entry): ?array
     {
         if (\is_int($name)) {
-            $hint = \is_string($entry) ? \sprintf(' (e.g.: `%s: {class: %s, priority: %s}`)', basename(str_replace('\\', '/', $entry)), $entry, $name) : '';
-
-            throw new RuntimeException(\sprintf('extensions must be indexed by name%s.', $hint));
+            return $this->normalizeLegacy($key, $name, $entry);
         }
         $entry = $this->toMap($entry);
         if ($entry === null || ($entry['enabled'] ?? true) === false) {
@@ -129,6 +131,63 @@ class Loader
         }
 
         return ['name' => $name] + $this->validate($entry);
+    }
+
+    /**
+     * Normalizes a legacy extension entry, indexed by its priority (generators) or by its position (deprecated):
+     * it is named after the built-in generator with the same priority (that it replaces), or after its short class name.
+     *
+     * @deprecated since Cecil 9.25, removed in Cecil 10
+     *
+     * @return array{name: string, class: string, priority: int}
+     *
+     * @throws RuntimeException
+     */
+    private function normalizeLegacy(string $key, int $index, mixed $entry): array
+    {
+        if (!\is_string($entry) || trim($entry) === '') {
+            throw new RuntimeException('extensions must be indexed by name.');
+        }
+        $class = ltrim($entry, '\\');
+        $priority = $key === 'pages.generators' ? $index : self::DEFAULT_PRIORITY;
+        $builtIns = $this->getBuiltIns($key);
+        $name = $key === 'pages.generators' ? array_search($priority, $builtIns, true) : false;
+        if ($name === false) {
+            $name = basename(str_replace('\\', '/', $class));
+            // doesn't replace a built-in extension with the same short class name
+            if (isset($builtIns[$name])) {
+                $name .= "-$index";
+            }
+        }
+        $this->builder->getLogger()->warning(\sprintf(
+            'Extension "%s" (%s) is indexed by %s, which is deprecated and will not be supported in Cecil 10: use `%s: %s` instead.',
+            $class,
+            $key,
+            $key === 'pages.generators' ? 'its priority' : 'its position',
+            $name,
+            $key === 'pages.generators' ? "{class: $class, priority: $priority}" : $class
+        ));
+
+        return ['name' => $name, 'class' => $class, 'priority' => $priority];
+    }
+
+    /**
+     * Returns the priorities of the built-in extensions of the configuration `$key`, indexed by name.
+     *
+     * @return array<string, int>
+     */
+    private function getBuiltIns(string $key): array
+    {
+        $defaults = require Util\File::getRealPath('../config/default.php');
+        foreach (explode('.', $key) as $fragment) {
+            $defaults = $defaults[$fragment] ?? [];
+        }
+        $builtIns = [];
+        foreach ((array) $defaults as $name => $entry) {
+            $builtIns[(string) $name] = \is_array($entry) ? (int) ($entry['priority'] ?? self::DEFAULT_PRIORITY) : self::DEFAULT_PRIORITY;
+        }
+
+        return $builtIns;
     }
 
     /**
@@ -188,8 +247,13 @@ class Loader
     protected function handleError(string $key, string $name, RuntimeException $e): void
     {
         $message = \sprintf('Unable to load extension "%s" (%s): %s', $name, $key, $e->getMessage());
-        if ($this->builder->getConfig()->isEnabled('extensions.strict')) {
+        $strict = $this->builder->getConfig()->get('extensions.strict');
+        if ($strict === true) {
             throw new RuntimeException($message, previous: $e);
+        }
+        // not explicitly disabled: will fail the build in Cecil 10
+        if ($strict === null) {
+            $message .= ' (this will fail the build in Cecil 10: fix the extension, or set `extensions.strict` to `true` to fail now or to `false` to keep ignoring it)';
         }
         $this->builder->getLogger()->error($message);
     }

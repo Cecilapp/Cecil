@@ -98,7 +98,7 @@ class BuildEventsTest extends TestCase
 
     public function testInvalidSubscriberFailsTheBuild(): void
     {
-        $builder = $this->createBuilder(['extensions' => ['subscribers' => ['Invalid' => \stdClass::class]]]);
+        $builder = $this->createBuilder(['extensions' => ['strict' => true, 'subscribers' => ['Invalid' => \stdClass::class]]]);
 
         $this->expectException(RuntimeException::class);
         $this->expectExceptionMessage('Unable to load extension "Invalid" (extensions.subscribers)');

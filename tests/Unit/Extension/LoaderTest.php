@@ -16,7 +16,9 @@ namespace Cecil\Test\Unit\Extension;
 use Cecil\Builder;
 use Cecil\Exception\RuntimeException;
 use Cecil\Extension\Loader;
+use Cecil\Generator\AbstractGenerator;
 use Cecil\Generator\GeneratorInterface;
+use Cecil\Generator\Section;
 use Cecil\Renderer\PostProcessor\HtmlExcerpt;
 use Cecil\Renderer\PostProcessor\MarkdownLink;
 use Cecil\Renderer\PostProcessor\PostProcessorInterface;
@@ -73,7 +75,7 @@ class LoaderTest extends TestCase
      */
     public static function invalidEntryProvider(): iterable
     {
-        yield 'priority as key' => [[35 => 'App\Generator\Database'], '`Database: {class: App\Generator\Database, priority: 35}`'];
+        yield 'map indexed by position' => [[0 => ['class' => HtmlExcerpt::class]], 'extensions must be indexed by name'];
         yield 'class not found' => [['Missing' => 'App\Generator\Missing'], 'class "App\Generator\Missing" not found'];
         yield 'wrong interface' => [['Wrong' => HtmlExcerpt::class], 'must implement'];
         yield 'missing class' => [['NoClass' => ['priority' => 10]], 'option "class" is required'];
@@ -85,7 +87,7 @@ class LoaderTest extends TestCase
     #[DataProvider('invalidEntryProvider')]
     public function testInvalidEntryFailsInStrictMode(mixed $generators, string $message): void
     {
-        $builder = new Builder(['pages' => ['generators' => $generators]]);
+        $builder = new Builder(['extensions' => ['strict' => true], 'pages' => ['generators' => $generators]]);
 
         $this->expectException(RuntimeException::class);
         $this->expectExceptionMessage($message);
@@ -95,17 +97,7 @@ class LoaderTest extends TestCase
 
     public function testInvalidEntryIsLoggedAndSkippedWhenNotStrict(): void
     {
-        $logger = new class () extends AbstractLogger {
-            /** @var list<string> */
-            public array $errors = [];
-
-            public function log($level, \Stringable|string $message, array $context = []): void
-            {
-                if ($level === 'error') {
-                    $this->errors[] = (string) $message;
-                }
-            }
-        };
+        $logger = $this->createLogger();
         $builder = new Builder([
             'extensions' => ['strict' => false],
             'pages'      => ['generators' => ['Missing' => 'App\Generator\Missing']],
@@ -113,7 +105,83 @@ class LoaderTest extends TestCase
         $definitions = (new Loader($builder))->getDefinitions('pages.generators', GeneratorInterface::class);
 
         self::assertCount(8, $definitions);
-        self::assertCount(1, $logger->errors);
-        self::assertStringContainsString('Unable to load extension "Missing" (pages.generators)', $logger->errors[0]);
+        self::assertCount(1, $logger->messages['error']);
+        self::assertStringContainsString('Unable to load extension "Missing" (pages.generators)', $logger->messages['error'][0]);
+        self::assertStringNotContainsString('Cecil 10', $logger->messages['error'][0]);
+    }
+
+    public function testInvalidEntryIsLoggedWithWarningByDefault(): void
+    {
+        $logger = $this->createLogger();
+        $builder = new Builder(['pages' => ['generators' => ['Missing' => 'App\Generator\Missing']]], $logger);
+        $definitions = (new Loader($builder))->getDefinitions('pages.generators', GeneratorInterface::class);
+
+        self::assertCount(8, $definitions);
+        self::assertStringContainsString('this will fail the build in Cecil 10', $logger->messages['error'][0]);
+    }
+
+    public function testLegacyGeneratorIndexedByPriority(): void
+    {
+        $logger = $this->createLogger();
+        $builder = new Builder(['pages' => ['generators' => [35 => LegacyGenerator::class]]], $logger);
+        $definitions = (new Loader($builder))->getDefinitions('pages.generators', GeneratorInterface::class);
+
+        self::assertContains(['name' => 'LegacyGenerator', 'class' => LegacyGenerator::class, 'priority' => 35], $definitions);
+        self::assertSame('Section', $definitions[3]['name']);
+        self::assertStringContainsString('use `LegacyGenerator: {class: ' . LegacyGenerator::class . ', priority: 35}`', $logger->messages['warning'][0]);
+    }
+
+    public function testLegacyGeneratorReplacesBuiltInWithSamePriority(): void
+    {
+        $builder = new Builder(['pages' => ['generators' => [40 => LegacyGenerator::class]]], $this->createLogger());
+        $definitions = (new Loader($builder))->getDefinitions('pages.generators', GeneratorInterface::class);
+
+        self::assertCount(8, $definitions);
+        self::assertContains(['name' => 'Section', 'class' => LegacyGenerator::class, 'priority' => 40], $definitions);
+    }
+
+    public function testLegacyGeneratorDoesNotReplaceBuiltInWithSameName(): void
+    {
+        $builder = new Builder(['pages' => ['generators' => [99 => Section::class]]], $this->createLogger());
+        $definitions = (new Loader($builder))->getDefinitions('pages.generators', GeneratorInterface::class);
+
+        self::assertCount(9, $definitions);
+        self::assertSame(['name' => 'Section-99', 'class' => Section::class, 'priority' => 99], end($definitions));
+    }
+
+    public function testLegacyListOfPostProcessors(): void
+    {
+        $logger = $this->createLogger();
+        $builder = new Builder(['output' => ['postprocessors' => [MarkdownLink::class]]], $logger);
+        $postprocessors = (new Loader($builder))->load('output.postprocessors', PostProcessorInterface::class);
+
+        // as before, a list replaces the built-in post-processors (map) of the default configuration
+        self::assertSame(['MarkdownLink-0'], array_keys($postprocessors));
+        self::assertStringContainsString('is indexed by its position', $logger->messages['warning'][0]);
+    }
+
+    /**
+     * Returns a logger collecting messages by level.
+     *
+     * @return AbstractLogger&object{messages: array<string, list<string>>}
+     */
+    private function createLogger(): AbstractLogger
+    {
+        return new class () extends AbstractLogger {
+            /** @var array<string, list<string>> */
+            public array $messages = ['error' => [], 'warning' => []];
+
+            public function log($level, \Stringable|string $message, array $context = []): void
+            {
+                $this->messages[(string) $level][] = (string) $message;
+            }
+        };
+    }
+}
+
+class LegacyGenerator extends AbstractGenerator
+{
+    public function generate(): void
+    {
     }
 }

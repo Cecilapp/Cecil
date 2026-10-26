@@ -185,7 +185,7 @@
         <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Extension/Loader.php"><a href="files/src-extension-loader.html"><abbr title="src/Extension/Loader.php">Loader.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">31</span>
+    <span class="phpdocumentor-element-found-in__line">33</span>
 
     </aside>
 
@@ -200,7 +200,8 @@ as a map of entries indexed by name:</p>
 <li><code class="prettyprint">&lt;name&gt;: false</code> (disabled)</li>
 </ul>
 <p>Extensions are sorted by ascending priority (declaration order for equal priorities).
-An invalid extension fails the build, unless <code class="prettyprint">extensions.strict</code> is disabled: the error is then logged and the extension skipped.</p>
+An invalid extension fails the build if <code class="prettyprint">extensions.strict</code> is enabled, otherwise the error is logged and the extension skipped
+(legacy entries indexed by priority or position are still supported, with a deprecation warning).</p>
 </section>
 
 
@@ -297,6 +298,21 @@ An invalid extension fails the build, unless <code class="prettyprint">extension
 <dd>Normalizes an extension entry, or returns null if it is disabled.</dd>
 
             <dt class="phpdocumentor-table-of-contents__entry -method -private">
+    <a class="" href="classes/Cecil-Extension-Loader.html#method_getBuiltIns">getBuiltIns()</a>
+    <span>
+                                &nbsp;: array&lt;string, int&gt;    </span>
+</dt>
+<dd>Returns the priorities of the built-in extensions of the configuration `$key`, indexed by name.</dd>
+
+            <dt class="phpdocumentor-table-of-contents__entry -method -private">
+    <a class="-deprecated" href="classes/Cecil-Extension-Loader.html#method_normalizeLegacy">normalizeLegacy()</a>
+    <span>
+                                &nbsp;: array{name: string, class: string, priority: int}    </span>
+</dt>
+<dd>Normalizes a legacy extension entry, indexed by its priority (generators) or by its position (deprecated):
+it is named after the built-in generator with the same priority (that it replaces), or after its short class name.</dd>
+
+            <dt class="phpdocumentor-table-of-contents__entry -method -private">
     <a class="" href="classes/Cecil-Extension-Loader.html#method_toMap">toMap()</a>
     <span>
                                 &nbsp;: array&lt;string|int, mixed&gt;|null    </span>
@@ -331,7 +347,7 @@ An invalid extension fails the build, unless <code class="prettyprint">extension
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Extension/Loader.php"><a href="files/src-extension-loader.html"><abbr title="src/Extension/Loader.php">Loader.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">36</span>
+    <span class="phpdocumentor-element-found-in__line">38</span>
 
     </aside>
 
@@ -362,7 +378,7 @@ An invalid extension fails the build, unless <code class="prettyprint">extension
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Extension/Loader.php"><a href="files/src-extension-loader.html"><abbr title="src/Extension/Loader.php">Loader.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">41</span>
+    <span class="phpdocumentor-element-found-in__line">43</span>
 
     </aside>
 
@@ -409,7 +425,7 @@ An invalid extension fails the build, unless <code class="prettyprint">extension
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Extension/Loader.php"><a href="files/src-extension-loader.html"><abbr title="src/Extension/Loader.php">Loader.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">43</span>
+    <span class="phpdocumentor-element-found-in__line">45</span>
 
     </aside>
 
@@ -451,7 +467,7 @@ An invalid extension fails the build, unless <code class="prettyprint">extension
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Extension/Loader.php"><a href="files/src-extension-loader.html"><abbr title="src/Extension/Loader.php">Loader.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">43</span>
+    <span class="phpdocumentor-element-found-in__line">45</span>
 
     </aside>
 
@@ -495,7 +511,7 @@ An invalid extension fails the build, unless <code class="prettyprint">extension
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Extension/Loader.php"><a href="files/src-extension-loader.html"><abbr title="src/Extension/Loader.php">Loader.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">58</span>
+    <span class="phpdocumentor-element-found-in__line">60</span>
 
     </aside>
 
@@ -573,7 +589,7 @@ An invalid extension fails the build, unless <code class="prettyprint">extension
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Extension/Loader.php"><a href="files/src-extension-loader.html"><abbr title="src/Extension/Loader.php">Loader.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">97</span>
+    <span class="phpdocumentor-element-found-in__line">101</span>
 
     </aside>
 
@@ -653,7 +669,7 @@ An invalid extension fails the build, unless <code class="prettyprint">extension
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Extension/Loader.php"><a href="files/src-extension-loader.html"><abbr title="src/Extension/Loader.php">Loader.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">188</span>
+    <span class="phpdocumentor-element-found-in__line">247</span>
 
     </aside>
 
@@ -726,7 +742,7 @@ An invalid extension fails the build, unless <code class="prettyprint">extension
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Extension/Loader.php"><a href="files/src-extension-loader.html"><abbr title="src/Extension/Loader.php">Loader.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">119</span>
+    <span class="phpdocumentor-element-found-in__line">123</span>
 
     </aside>
 
@@ -734,7 +750,7 @@ An invalid extension fails the build, unless <code class="prettyprint">extension
 
     <code class="phpdocumentor-code phpdocumentor-signature ">
     <span class="phpdocumentor-signature__visibility">protected</span>
-                    <span class="phpdocumentor-signature__name">normalize</span><span>(</span><span class="phpdocumentor-signature__argument"><span class="phpdocumentor-signature__argument__type">int|string&nbsp;</span><span class="phpdocumentor-signature__argument__name">$name</span></span><span class="phpdocumentor-signature__argument"><span>, </span><span class="phpdocumentor-signature__argument__type">mixed&nbsp;</span><span class="phpdocumentor-signature__argument__name">$entry</span></span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">array{name: string, class: string, priority: int}|null</span></code>
+                    <span class="phpdocumentor-signature__name">normalize</span><span>(</span><span class="phpdocumentor-signature__argument"><span class="phpdocumentor-signature__argument__type">string&nbsp;</span><span class="phpdocumentor-signature__argument__name">$key</span></span><span class="phpdocumentor-signature__argument"><span>, </span><span class="phpdocumentor-signature__argument__type">int|string&nbsp;</span><span class="phpdocumentor-signature__argument__name">$name</span></span><span class="phpdocumentor-signature__argument"><span>, </span><span class="phpdocumentor-signature__argument__type">mixed&nbsp;</span><span class="phpdocumentor-signature__argument__name">$entry</span></span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">array{name: string, class: string, priority: int}|null</span></code>
 
     <div class="phpdocumentor-label-line">
         </div>
@@ -742,6 +758,13 @@ An invalid extension fails the build, unless <code class="prettyprint">extension
     
         <h5 class="phpdocumentor-argument-list__heading">Parameters</h5>
     <dl class="phpdocumentor-argument-list">
+                    <dt class="phpdocumentor-argument-list__entry">
+                <span class="phpdocumentor-argument-list__argument__name">$key</span>
+                : <span class="phpdocumentor-argument-list__argument__type">string</span>
+                            </dt>
+            <dd class="phpdocumentor-argument-list__definition">
+                
+            </dd>
                     <dt class="phpdocumentor-argument-list__entry">
                 <span class="phpdocumentor-argument-list__argument__name">$name</span>
                 : <span class="phpdocumentor-argument-list__argument__type">int|string</span>
@@ -788,6 +811,140 @@ An invalid extension fails the build, unless <code class="prettyprint">extension
             -private
                                                         "
 >
+    <h4 class="phpdocumentor-element__name" id="method_getBuiltIns">
+        getBuiltIns()
+        <a href="classes/Cecil-Extension-Loader.html#method_getBuiltIns" class="headerlink"><i class="fas fa-link"></i></a>
+
+    </h4>
+    <aside class="phpdocumentor-element-found-in">
+    <abbr class="phpdocumentor-element-found-in__file" title="src/Extension/Loader.php"><a href="files/src-extension-loader.html"><abbr title="src/Extension/Loader.php">Loader.php</abbr></a></abbr>
+    :
+    <span class="phpdocumentor-element-found-in__line">179</span>
+
+    </aside>
+
+        <p class="phpdocumentor-summary">Returns the priorities of the built-in extensions of the configuration `$key`, indexed by name.</p>
+
+    <code class="phpdocumentor-code phpdocumentor-signature ">
+    <span class="phpdocumentor-signature__visibility">private</span>
+                    <span class="phpdocumentor-signature__name">getBuiltIns</span><span>(</span><span class="phpdocumentor-signature__argument"><span class="phpdocumentor-signature__argument__type">string&nbsp;</span><span class="phpdocumentor-signature__argument__name">$key</span></span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">array&lt;string, int&gt;</span></code>
+
+    <div class="phpdocumentor-label-line">
+        </div>
+    
+    
+        <h5 class="phpdocumentor-argument-list__heading">Parameters</h5>
+    <dl class="phpdocumentor-argument-list">
+                    <dt class="phpdocumentor-argument-list__entry">
+                <span class="phpdocumentor-argument-list__argument__name">$key</span>
+                : <span class="phpdocumentor-argument-list__argument__type">string</span>
+                            </dt>
+            <dd class="phpdocumentor-argument-list__definition">
+                
+            </dd>
+            </dl>
+
+    
+
+        
+    
+            <section>
+        <h5 class="phpdocumentor-return-value__heading">Return values</h5>
+        <span class="phpdocumentor-signature__response_type">array&lt;string, int&gt;</span>
+            </section>
+
+</article>
+                    <article
+        class="phpdocumentor-element
+            -method
+            -private
+            -deprecated                                            "
+>
+    <h4 class="phpdocumentor-element__name" id="method_normalizeLegacy">
+        normalizeLegacy()
+        <a href="classes/Cecil-Extension-Loader.html#method_normalizeLegacy" class="headerlink"><i class="fas fa-link"></i></a>
+
+    </h4>
+    <aside class="phpdocumentor-element-found-in">
+    <abbr class="phpdocumentor-element-found-in__file" title="src/Extension/Loader.php"><a href="files/src-extension-loader.html"><abbr title="src/Extension/Loader.php">Loader.php</abbr></a></abbr>
+    :
+    <span class="phpdocumentor-element-found-in__line">146</span>
+
+    </aside>
+
+        <p class="phpdocumentor-summary">Normalizes a legacy extension entry, indexed by its priority (generators) or by its position (deprecated):
+it is named after the built-in generator with the same priority (that it replaces), or after its short class name.</p>
+
+    <code class="phpdocumentor-code phpdocumentor-signature -deprecated">
+    <span class="phpdocumentor-signature__visibility">private</span>
+                    <span class="phpdocumentor-signature__name">normalizeLegacy</span><span>(</span><span class="phpdocumentor-signature__argument"><span class="phpdocumentor-signature__argument__type">string&nbsp;</span><span class="phpdocumentor-signature__argument__name">$key</span></span><span class="phpdocumentor-signature__argument"><span>, </span><span class="phpdocumentor-signature__argument__type">int&nbsp;</span><span class="phpdocumentor-signature__argument__name">$index</span></span><span class="phpdocumentor-signature__argument"><span>, </span><span class="phpdocumentor-signature__argument__type">mixed&nbsp;</span><span class="phpdocumentor-signature__argument__name">$entry</span></span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">array{name: string, class: string, priority: int}</span></code>
+
+    <div class="phpdocumentor-label-line">
+        </div>
+                <div class="phpdocumentor-admonition">
+        <svg class="phpdocumentor-admonition__icon" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"></path></svg>
+            <article>
+                <p>since Cecil 9.25, removed in Cecil 10</p>
+
+            </article>
+        </div>
+    
+    
+        <h5 class="phpdocumentor-argument-list__heading">Parameters</h5>
+    <dl class="phpdocumentor-argument-list">
+                    <dt class="phpdocumentor-argument-list__entry">
+                <span class="phpdocumentor-argument-list__argument__name">$key</span>
+                : <span class="phpdocumentor-argument-list__argument__type">string</span>
+                            </dt>
+            <dd class="phpdocumentor-argument-list__definition">
+                
+            </dd>
+                    <dt class="phpdocumentor-argument-list__entry">
+                <span class="phpdocumentor-argument-list__argument__name">$index</span>
+                : <span class="phpdocumentor-argument-list__argument__type">int</span>
+                            </dt>
+            <dd class="phpdocumentor-argument-list__definition">
+                
+            </dd>
+                    <dt class="phpdocumentor-argument-list__entry">
+                <span class="phpdocumentor-argument-list__argument__name">$entry</span>
+                : <span class="phpdocumentor-argument-list__argument__type">mixed</span>
+                            </dt>
+            <dd class="phpdocumentor-argument-list__definition">
+                
+            </dd>
+            </dl>
+
+    
+    <h5 class="phpdocumentor-tag-list__heading" id="method_normalizeLegacy_tags">
+        Tags
+        <a href="classes/Cecil-Extension-Loader.html#method_normalizeLegacy_tags" class="headerlink"><i class="fas fa-link"></i></a>
+
+    </h5>
+    <dl class="phpdocumentor-tag-list">
+                    <dt class="phpdocumentor-tag-list__entry">
+                <span class="phpdocumentor-tag__name">throws</span>
+            </dt>
+                            <dd class="phpdocumentor-tag-list__definition">
+                                                                <span class="phpdocumentor-tag-link"><a href="classes/Cecil-Exception-RuntimeException.html"><abbr title="\Cecil\Exception\RuntimeException">RuntimeException</abbr></a></span>
+                                                                                    
+                                    </dd>
+                        </dl>
+
+        
+    
+            <section>
+        <h5 class="phpdocumentor-return-value__heading">Return values</h5>
+        <span class="phpdocumentor-signature__response_type">array{name: string, class: string, priority: int}</span>
+            </section>
+
+</article>
+                    <article
+        class="phpdocumentor-element
+            -method
+            -private
+                                                        "
+>
     <h4 class="phpdocumentor-element__name" id="method_toMap">
         toMap()
         <a href="classes/Cecil-Extension-Loader.html#method_toMap" class="headerlink"><i class="fas fa-link"></i></a>
@@ -796,7 +953,7 @@ An invalid extension fails the build, unless <code class="prettyprint">extension
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Extension/Loader.php"><a href="files/src-extension-loader.html"><abbr title="src/Extension/Loader.php">Loader.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">141</span>
+    <span class="phpdocumentor-element-found-in__line">200</span>
 
     </aside>
 
@@ -859,7 +1016,7 @@ An invalid extension fails the build, unless <code class="prettyprint">extension
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Extension/Loader.php"><a href="files/src-extension-loader.html"><abbr title="src/Extension/Loader.php">Loader.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">168</span>
+    <span class="phpdocumentor-element-found-in__line">227</span>
 
     </aside>
 
@@ -950,6 +1107,8 @@ An invalid extension fails the build, unless <code class="prettyprint">extension
                                             <li class=""><a href="classes/Cecil-Extension-Loader.html#method_load">load()</a></li>
                                             <li class=""><a href="classes/Cecil-Extension-Loader.html#method_handleError">handleError()</a></li>
                                             <li class=""><a href="classes/Cecil-Extension-Loader.html#method_normalize">normalize()</a></li>
+                                            <li class=""><a href="classes/Cecil-Extension-Loader.html#method_getBuiltIns">getBuiltIns()</a></li>
+                                            <li class="-deprecated"><a href="classes/Cecil-Extension-Loader.html#method_normalizeLegacy">normalizeLegacy()</a></li>
                                             <li class=""><a href="classes/Cecil-Extension-Loader.html#method_toMap">toMap()</a></li>
                                             <li class=""><a href="classes/Cecil-Extension-Loader.html#method_validate">validate()</a></li>
                                     </ul>
