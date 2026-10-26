@@ -109,7 +109,15 @@
                 
             </li>
                     <li>
+                <a href="namespaces/cecil-event.html" class="">Event</a>
+                
+            </li>
+                    <li>
                 <a href="namespaces/cecil-exception.html" class="">Exception</a>
+                
+            </li>
+                    <li>
+                <a href="namespaces/cecil-extension.html" class="">Extension</a>
                 
             </li>
                     <li>
@@ -118,6 +126,10 @@
             </li>
                     <li>
                 <a href="namespaces/cecil-logger.html" class="">Logger</a>
+                
+            </li>
+                    <li>
+                <a href="namespaces/cecil-plugin.html" class="">Plugin</a>
                 
             </li>
                     <li>
@@ -244,6 +256,12 @@ If a page already exists with the same ID (i.e.: created from a content file), i
                         &nbsp;: <a href="classes/Cecil-Collection-Page-Collection.html"><abbr title="\Cecil\Collection\Page\Collection">Collection</abbr></a>            </span>
 </dt>
 
+            <dt class="phpdocumentor-table-of-contents__entry -property -protected">
+    <a class="" href="classes/Cecil-Generator-AbstractGenerator.html#property_removedPages">$removedPages</a>
+    <span>
+                        &nbsp;: array&lt;string, string&gt;            </span>
+</dt>
+
     </dl>
 
 <h4 id="toc-methods">
@@ -267,6 +285,13 @@ If a page already exists with the same ID (i.e.: created from a content file), i
 <dd>Creates pages and adds it to collection.</dd>
 
             <dt class="phpdocumentor-table-of-contents__entry -method -public">
+    <a class="" href="classes/Cecil-Generator-AbstractGenerator.html#method_getRemovedPages">getRemovedPages()</a>
+    <span>
+                                &nbsp;: array&lt;int, string&gt;    </span>
+</dt>
+<dd>Returns the IDs of the pages to remove from the site.</dd>
+
+            <dt class="phpdocumentor-table-of-contents__entry -method -public">
     <a class="" href="classes/Cecil-Generator-AbstractGenerator.html#method_runGenerate">runGenerate()</a>
     <span>
                                 &nbsp;: <a href="classes/Cecil-Collection-Page-Collection.html"><abbr title="\Cecil\Collection\Page\Collection">Collection</abbr></a>    </span>
@@ -279,6 +304,13 @@ If a page already exists with the same ID (i.e.: created from a content file), i
                                 &nbsp;: <a href="classes/Cecil-Builder.html"><abbr title="\Cecil\Builder">Builder</abbr></a>    </span>
 </dt>
 <dd>Returns the concrete Builder, required by components that depend on more than BuildContextInterface.</dd>
+
+            <dt class="phpdocumentor-table-of-contents__entry -method -protected">
+    <a class="" href="classes/Cecil-Generator-AbstractGenerator.html#method_removePage">removePage()</a>
+    <span>
+                                &nbsp;: void    </span>
+</dt>
+<dd>Removes a page from the site (once the generator has run).</dd>
 
     </dl>
 
@@ -404,6 +436,45 @@ If a page already exists with the same ID (i.e.: created from a content file), i
         
 
 </article>
+                    <article
+        class="
+            phpdocumentor-element
+            -property
+            -protected
+                                                                    "
+>
+    <h4 class="phpdocumentor-element__name" id="property_removedPages">
+        $removedPages
+        <a href="classes/Cecil-Generator-AbstractGenerator.html#property_removedPages" class="headerlink"><i class="fas fa-link"></i></a>
+
+        <span class="phpdocumentor-element__modifiers">
+                                            </span>
+    </h4>
+    <aside class="phpdocumentor-element-found-in">
+    <abbr class="phpdocumentor-element-found-in__file" title="src/Generator/AbstractGenerator.php"><a href="files/src-generator-abstractgenerator.html"><abbr title="src/Generator/AbstractGenerator.php">AbstractGenerator.php</abbr></a></abbr>
+    :
+    <span class="phpdocumentor-element-found-in__line">37</span>
+
+    </aside>
+
+    
+    
+    <code class="phpdocumentor-code phpdocumentor-signature ">
+        <span class="phpdocumentor-signature__visibility">protected</span>
+            <span class="phpdocumentor-signature__type">array&lt;string, string&gt;</span>
+    <span class="phpdocumentor-signature__name">$removedPages</span>
+     = <span class="phpdocumentor-signature__default-value">[]</span></code>
+
+    
+        <section class="phpdocumentor-description"><p>IDs of the pages to remove from the site</p>
+</section>
+
+    
+
+        
+        
+
+</article>
             </section>
 
             <section class="phpdocumentor-methods">
@@ -426,7 +497,7 @@ If a page already exists with the same ID (i.e.: created from a content file), i
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Generator/AbstractGenerator.php"><a href="files/src-generator-abstractgenerator.html"><abbr title="src/Generator/AbstractGenerator.php">AbstractGenerator.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">39</span>
+    <span class="phpdocumentor-element-found-in__line">42</span>
 
     </aside>
 
@@ -520,6 +591,45 @@ If a page already exists with the same ID (i.e.: created from a content file), i
             -public
                                                         "
 >
+    <h4 class="phpdocumentor-element__name" id="method_getRemovedPages">
+        getRemovedPages()
+        <a href="classes/Cecil-Generator-AbstractGenerator.html#method_getRemovedPages" class="headerlink"><i class="fas fa-link"></i></a>
+
+    </h4>
+    <aside class="phpdocumentor-element-found-in">
+    <abbr class="phpdocumentor-element-found-in__file" title="src/Generator/AbstractGenerator.php"><a href="files/src-generator-abstractgenerator.html"><abbr title="src/Generator/AbstractGenerator.php">AbstractGenerator.php</abbr></a></abbr>
+    :
+    <span class="phpdocumentor-element-found-in__line">87</span>
+
+    </aside>
+
+        <p class="phpdocumentor-summary">Returns the IDs of the pages to remove from the site.</p>
+
+    <code class="phpdocumentor-code phpdocumentor-signature ">
+    <span class="phpdocumentor-signature__visibility">public</span>
+                    <span class="phpdocumentor-signature__name">getRemovedPages</span><span>(</span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">array&lt;int, string&gt;</span></code>
+
+    <div class="phpdocumentor-label-line">
+        </div>
+    
+    
+    
+    
+
+        
+    
+            <section>
+        <h5 class="phpdocumentor-return-value__heading">Return values</h5>
+        <span class="phpdocumentor-signature__response_type">array&lt;int, string&gt;</span>
+            </section>
+
+</article>
+                    <article
+        class="phpdocumentor-element
+            -method
+            -public
+                                                        "
+>
     <h4 class="phpdocumentor-element__name" id="method_runGenerate">
         runGenerate()
         <a href="classes/Cecil-Generator-AbstractGenerator.html#method_runGenerate" class="headerlink"><i class="fas fa-link"></i></a>
@@ -528,7 +638,7 @@ If a page already exists with the same ID (i.e.: created from a content file), i
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Generator/AbstractGenerator.php"><a href="files/src-generator-abstractgenerator.html"><abbr title="src/Generator/AbstractGenerator.php">AbstractGenerator.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">65</span>
+    <span class="phpdocumentor-element-found-in__line">68</span>
 
     </aside>
 
@@ -567,7 +677,7 @@ If a page already exists with the same ID (i.e.: created from a content file), i
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Generator/AbstractGenerator.php"><a href="files/src-generator-abstractgenerator.html"><abbr title="src/Generator/AbstractGenerator.php">AbstractGenerator.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">53</span>
+    <span class="phpdocumentor-element-found-in__line">56</span>
 
     </aside>
 
@@ -606,6 +716,51 @@ If a page already exists with the same ID (i.e.: created from a content file), i
             </section>
 
 </article>
+                    <article
+        class="phpdocumentor-element
+            -method
+            -protected
+                                                        "
+>
+    <h4 class="phpdocumentor-element__name" id="method_removePage">
+        removePage()
+        <a href="classes/Cecil-Generator-AbstractGenerator.html#method_removePage" class="headerlink"><i class="fas fa-link"></i></a>
+
+    </h4>
+    <aside class="phpdocumentor-element-found-in">
+    <abbr class="phpdocumentor-element-found-in__file" title="src/Generator/AbstractGenerator.php"><a href="files/src-generator-abstractgenerator.html"><abbr title="src/Generator/AbstractGenerator.php">AbstractGenerator.php</abbr></a></abbr>
+    :
+    <span class="phpdocumentor-element-found-in__line">95</span>
+
+    </aside>
+
+        <p class="phpdocumentor-summary">Removes a page from the site (once the generator has run).</p>
+
+    <code class="phpdocumentor-code phpdocumentor-signature ">
+    <span class="phpdocumentor-signature__visibility">protected</span>
+                    <span class="phpdocumentor-signature__name">removePage</span><span>(</span><span class="phpdocumentor-signature__argument"><span class="phpdocumentor-signature__argument__type">string&nbsp;</span><span class="phpdocumentor-signature__argument__name">$id</span></span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">void</span></code>
+
+    <div class="phpdocumentor-label-line">
+        </div>
+    
+    
+        <h5 class="phpdocumentor-argument-list__heading">Parameters</h5>
+    <dl class="phpdocumentor-argument-list">
+                    <dt class="phpdocumentor-argument-list__entry">
+                <span class="phpdocumentor-argument-list__argument__name">$id</span>
+                : <span class="phpdocumentor-argument-list__argument__type">string</span>
+                            </dt>
+            <dd class="phpdocumentor-argument-list__definition">
+                
+            </dd>
+            </dl>
+
+    
+
+        
+    
+    
+</article>
             </section>
 
         
@@ -631,6 +786,7 @@ If a page already exists with the same ID (i.e.: created from a content file), i
                                                     <li class=""><a href="classes/Cecil-Generator-AbstractGenerator.html#property_builder">$builder</a></li>
                                                     <li class=""><a href="classes/Cecil-Generator-AbstractGenerator.html#property_config">$config</a></li>
                                                     <li class=""><a href="classes/Cecil-Generator-AbstractGenerator.html#property_generatedPages">$generatedPages</a></li>
+                                                    <li class=""><a href="classes/Cecil-Generator-AbstractGenerator.html#property_removedPages">$removedPages</a></li>
                                             </ul>
                 </li>
             
@@ -639,8 +795,10 @@ If a page already exists with the same ID (i.e.: created from a content file), i
                 <ul class="phpdocumentor-list -clean">
                                             <li class=""><a href="classes/Cecil-Generator-AbstractGenerator.html#method___construct">__construct()</a></li>
                                             <li class=""><a href="classes/Cecil-Generator-DefaultPages.html#method_generate">generate()</a></li>
+                                            <li class=""><a href="classes/Cecil-Generator-AbstractGenerator.html#method_getRemovedPages">getRemovedPages()</a></li>
                                             <li class=""><a href="classes/Cecil-Generator-AbstractGenerator.html#method_runGenerate">runGenerate()</a></li>
                                             <li class=""><a href="classes/Cecil-Generator-AbstractGenerator.html#method_getBuilder">getBuilder()</a></li>
+                                            <li class=""><a href="classes/Cecil-Generator-AbstractGenerator.html#method_removePage">removePage()</a></li>
                                     </ul>
             </li>
                     </ul>

@@ -1,6 +1,6 @@
 # Extensions and Plugins
 
-Custom PHP classes live in `extensions/` (or `themes/<theme>/extensions/`), autoloaded by Cecil: the file path must match the class namespace (e.g. `extensions/MyProject/Generator/CustomGenerator.php`).
+Scaffold an extension with `php cecil.phar new:extension --type=<generator|twig|postprocessor|subscriber|plugin> --name=<Class> --namespace=<MySite> -n` (prints the configuration to enable it). Custom PHP classes live in `extensions/` (or `themes/<theme>/extensions/`), autoloaded by Cecil: the file path must match the class namespace (e.g. `extensions/MyProject/Generator/CustomGenerator.php`), unless a PSR-4 mapping is declared (`extensions.autoload: {'MyProject\': src/}`, relative to the site or theme directory). Use your own namespace: `Cecil\` is reserved (deprecated for custom classes, reported as a warning). Third-party libraries installed with Composer in `extensions/` (`composer require <package> --working-dir=extensions`) are loaded from `extensions/vendor/autoload.php`, also with the phar.
 
 > Note: use single backslashes for class names in YAML. Double backslashes (`\\`) are only needed inside JSON or PHP strings.
 
@@ -34,15 +34,15 @@ class CustomGenerator extends AbstractGenerator implements GeneratorInterface
 }
 ```
 
-Register it with `pages.generators`, keyed by priority (lower runs first):
+Register it with `pages.generators`, indexed by name (lower priority runs first, default priority is `100`):
 
 ```yaml
 pages:
   generators:
-    35: MyProject\Generator\CustomGenerator # after ExternalBody (30), before Section (40)
+    Custom: { class: MyProject\Generator\CustomGenerator, priority: 35 } # after ExternalBody (30), before Section (40)
 ```
 
-Built-in generators use the keys `10`, `30`, `40`, `50`, `60`, `70`, `80` and `90`: reusing one **replaces** that built-in generator. A generator that must be listed in sections, taxonomies or paginated lists has to run before them.
+Built-in generators are named `DefaultPages` (10), `ExternalBody` (30), `Section` (40), `Taxonomy` (50), `Homepage` (60), `Pagination` (70), `Alias` (80) and `Redirect` (90): disable one with `<Name>: false`, move one with `<Name>: { priority: <int> }`. A priority as key (`35: <class>`, the former syntax) is deprecated: still supported with a warning (a key matching a built-in priority replaces that built-in), removed in Cecil 10. A generator that must be listed in sections, taxonomies or paginated lists has to run before them. A generator can also remove existing pages with `$this->removePage('<page-id>')`.
 
 ## Twig Extensions
 
@@ -80,7 +80,7 @@ The class is instantiated with the `Cecil\Builder` instance as constructor argum
 
 ## Output Post-processors
 
-Post-process the rendered output of each page by extending `AbstractPostProcessor` (built-in post-processors run first):
+Post-process the rendered output of each page by extending `AbstractPostProcessor` (built-in post-processors use the priorities 10 to 30, so they run first by default):
 
 ```php
 <?php
@@ -109,7 +109,86 @@ output:
     MyProcessor: MyProject\Renderer\PostProcessor\MyProcessor
 ```
 
-If a Twig extension or post-processor class can't be loaded, the build doesn't fail: an error is logged (`Unable to add Twig extension`, `Unable to load output post processor`), visible with `-v`.
+## Markdown Converter
+
+Front matter and Markdown body are converted by the class set in `pages.converter` (default `Cecil\Converter\Converter`, also used by the `markdown_to_html` filter and external pages; `toc` uses the Markdown parser directly). Replace it with a class implementing `Cecil\Converter\ConverterInterface` (constructor receives the `Builder`), typically extending `Cecil\Converter\Converter` and overriding `convertBody()` to pre/post-process Markdown. To add Markdown syntax, set `pages.body.parser` to a class extending `Cecil\Converter\Parsedown` (Parsedown 1.x + Extra): register a marker in `$this->InlineTypes['<char>'][] = '<Type>'` (and append it to `$this->inlineMarkerList`) handled by `inline<Type>($Excerpt)`, or in `$this->BlockTypes` handled by `block<Type>()` / `block<Type>Continue()` / `block<Type>Complete()`; used by the default converter, `markdown_to_html` and `toc`.
+
+## Build Events
+
+Run code around the build, each step or each page with an event subscriber extending `Cecil\Event\AbstractSubscriber` (`$this->builder`, `$this->config`), registered with `extensions.subscribers`:
+
+```php
+<?php
+
+namespace MyProject;
+
+use Cecil\Event\AbstractSubscriber;
+use Cecil\Event\BuildEvents;
+use Cecil\Event\PageRenderedEvent;
+
+class Banner extends AbstractSubscriber
+{
+    public static function getSubscribedEvents(): array
+    {
+        return [BuildEvents::PAGE_RENDERED => 'onPageRendered'];
+    }
+
+    public function onPageRendered(PageRenderedEvent $event): void
+    {
+        if ($event->getFormat() === 'html') {
+            $event->setOutput(str_replace('<body>', '<body><div class="banner">Beta</div>', $event->getOutput()));
+        }
+    }
+}
+```
+
+```yaml
+extensions:
+  subscribers:
+    Banner: MyProject\Banner
+```
+
+Events (`Cecil\Event\BuildEvents`): `build.start` / `build.finished` (`BuildEvent`), `step.pre` / `step.post` (`StepEvent`, `getStep()`), `page.created` (from a content file) / `page.converted` (published pages) (`PageEvent`, `getPage()`), `page.rendered` (`PageRenderedEvent`, `getFormat()`, `getOutput()`, `setOutput()`, after post-processors), `page.saved` (`PageSavedEvent`, `getFormat()`, `getPathname()`). With Cecil as a library, use `$builder->getEventDispatcher()->addListener(...)` before `build()`.
+
+## Plugins
+
+A plugin registers a set of extensions from a single class extending `Cecil\Plugin\AbstractPlugin`, declared once in `extensions.plugins` (the recommended way for a theme to ship extensions, in its `config.yml`):
+
+```php
+<?php
+
+namespace MyTheme;
+
+use Cecil\Event\BuildEvents;
+use Cecil\Plugin\AbstractPlugin;
+use Cecil\Plugin\Registry;
+
+class MyThemePlugin extends AbstractPlugin
+{
+    public function register(Registry $registry): void
+    {
+        $registry
+            ->config(['mytheme' => ['option' => true]])          // default options
+            ->twigExtension(Twig\MyExtension::class)              // `layouts.extensions.MyExtension`
+            ->generator(Generator\Feed::class, priority: 35)      // `pages.generators.Feed`
+            ->postProcessor(PostProcessor\Minify::class)           // `output.postprocessors.Minify`
+            ->subscriber(SearchIndex::class)                       // `extensions.subscribers.SearchIndex`
+            ->listen(BuildEvents::BUILD_FINISHED, fn () => null);      // event listener
+    }
+}
+```
+
+```yaml
+extensions:
+  plugins:
+    MyTheme: MyTheme\MyThemePlugin
+```
+
+Registered extensions are named after their short class name (or `name:`), with the default priority `100` (or `priority:`). The plugin configuration has the lowest precedence: site and themes configuration can override its options and disable (`Feed: false`) or move (`Feed: {priority: 45}`) its extensions.
+
+## Extensions Configuration
+
+Generators, Twig extensions, post-processors, event subscribers and plugins share the same syntax: `<name>: <class>`, `<name>: { class: <class>, priority: <int> }` or `<name>: false`. If an extension can't be loaded (unknown class, wrong interface, invalid option), the error `Unable to load extension "<name>" (<config key>)` is logged and the extension skipped; set `extensions.strict: true` to fail the build (the default in Cecil 10), or `false` to silence the Cecil 10 warning.
 
 ## Use Cecil as a PHP Library
 

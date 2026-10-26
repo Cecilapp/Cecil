@@ -17,10 +17,14 @@ use Cecil\Asset\Image;
 use Cecil\Builder;
 use Cecil\Collection\Page\Collection;
 use Cecil\Collection\Page\Page;
+use Cecil\Event\BuildEvents;
+use Cecil\Event\PageRenderedEvent;
 use Cecil\Exception\ConfigException;
 use Cecil\Exception\RuntimeException;
+use Cecil\Extension\Loader;
 use Cecil\Renderer\Config;
 use Cecil\Renderer\Layout;
+use Cecil\Renderer\PostProcessor\PostProcessorInterface;
 use Cecil\Renderer\Site;
 use Cecil\Renderer\Twig;
 use Cecil\Step\AbstractStep;
@@ -132,21 +136,7 @@ class Render extends AbstractStep
 
         // renders each page
         $count = 0;
-        $postprocessors = [];
-        foreach ((array) $this->config->get('output.postprocessors') as $name => $postprocessor) {
-            try {
-                if (!class_exists($postprocessor)) {
-                    throw new RuntimeException(\sprintf('Class "%s" not found', $postprocessor));
-                }
-                if (!is_a($postprocessor, \Cecil\Renderer\PostProcessor\PostProcessorInterface::class, true)) {
-                    throw new RuntimeException(\sprintf('Class "%s" must implement "%s"', $postprocessor, \Cecil\Renderer\PostProcessor\PostProcessorInterface::class));
-                }
-                $postprocessors[] = new $postprocessor($this->builder);
-                $this->builder->getLogger()->debug(\sprintf('Output post processor "%s" loaded', $name));
-            } catch (\Exception $e) {
-                $this->builder->getLogger()->error(\sprintf('Unable to load output post processor "%s": %s', $name, $e->getMessage()));
-            }
-        }
+        $postprocessors = (new Loader($this->builder))->load('output.postprocessors', PostProcessorInterface::class);
 
         // some cache to avoid multiple calls
         $cache = [];
@@ -240,6 +230,11 @@ class Render extends AbstractStep
                     }
                     foreach ($postprocessors as $postprocessor) {
                         $output = $postprocessor->process($page, $output, $format);
+                    }
+                    if ($this->builder->getEventDispatcher()->hasListeners(BuildEvents::PAGE_RENDERED)) {
+                        $output = $this->builder->getEventDispatcher()
+                            ->dispatch(new PageRenderedEvent($this->builder, $page, $format, $output), BuildEvents::PAGE_RENDERED)
+                            ->getOutput();
                     }
                     $rendered[$format] = [
                         'output'   => $output,

@@ -33,7 +33,7 @@ This file covers what most tasks need. Read the matching reference **before** wo
 | [references/multilingual.md](references/multilingual.md) | Adding languages, translating pages, translating templates UI strings (`trans`, `translations/` files) or localizing dates |
 | [references/assets.md](references/assets.md)           | Handling assets in templates (`asset()`, `html()`, images, resize, responsive, CDN), Sass, code highlighting, or optimizing the build |
 | [references/ai.md](references/ai.md)                   | Making the site AI-friendly: `llms.txt`, Markdown output of pages, HTTP headers, blocking AI crawlers (`robots.txt`) |
-| [references/extending.md](references/extending.md)     | Writing PHP extensions (custom generators, Twig extensions, post-processors) or using Cecil as a PHP library |
+| [references/extending.md](references/extending.md)     | Writing PHP extensions (custom generators, Twig extensions, post-processors, build events subscribers, plugins) or using Cecil as a PHP library |
 | [references/deployment.md](references/deployment.md)   | Deploying the generated site (GitHub Pages, GitLab Pages, Netlify, Vercel, Cloudflare Pages, etc.)           |
 | [references/workflows.md](references/workflows.md)     | Creating a blog, custom pages, dynamic content (Twig in a page body), shortcodes or a search page            |
 
@@ -50,7 +50,7 @@ my-site/
 ├── static/    # Static files copied as-is
 ├── data/      # Data collections (YAML/JSON/...)
 ├── translations/ # UI strings translations (messages.<locale>.yaml)
-├── extensions/ # Custom PHP classes (generators, Twig extensions, post-processors)
+├── extensions/ # Custom PHP classes (generators, Twig extensions, post-processors, event subscribers)
 ├── .cache/    # Build cache (generated, `cache.dir`)
 └── _site/     # Generated site (`output.dir` or `--output`)
 ```
@@ -89,7 +89,7 @@ Builder → Steps → Generators → Renderer → Output
   - Optimize: HTML, CSS, JS and images
 
 - **Generators** (`Generator/`): Page generators executed via priority queue
-  - Generators are ordered by numeric weight; lower numbers execute first (e.g., DefaultPages at weight 10 runs before Alias at weight 80).
+  - Generators are indexed by name and ordered by priority; lower numbers execute first (e.g., `DefaultPages` at priority 10 runs before `Alias` at priority 80).
   - DefaultPages (10) → ExternalBody (30) → Section (40) → Taxonomy (50) → Homepage (60) → Pagination (70) → Alias (80) → Redirect (90)
 
 - **Renderer** (`Renderer/`): Twig-based rendering with custom extensions
@@ -292,6 +292,7 @@ Output is generated in `_site/` directory.
 |--------------------------------------------|-------------------------------------------------------------------------------------------------------------|
 | `php cecil.phar new:site`                  | Create a new website (`-n` non-interactive, `--demo` to add demo content, `--force`)                        |
 | `php cecil.phar new:page`                  | Create a new page (`--name`, `--prefix`, `--slugify`, `--force`, `--open`, `--editor`)                      |
+| `php cecil.phar new:extension`             | Create an extension skeleton (`--type`: generator, twig, postprocessor, subscriber or plugin; `--name`, `--namespace`, `--force`) |
 | `php cecil.phar build`                     | Build the static site (`--drafts`, `--optimize` / `--no-optimize`, `--baseurl`, `--output`, `--config`, `--page`, `--dry-run`, `--clear-cache[=<regex>]`, `--metrics`, `--show-pages`, `--render-subset`, `--notify`) |
 | `php cecil.phar serve`                     | Start local server on `http://localhost:8000` with live reload (`--drafts`, `--optimize`, `--config`, `--page`, `--clear-cache`, `--metrics`, `--open`/`-o`, `--host`, `--port`, `--no-watch`, `--timeout`, `--notify`, `--no-ignore-vcs`); no `--baseurl`, `--output` or `--dry-run` |
 | `php cecil.phar serve --incremental`       | Serve with incremental builds (rebuild only changed pages)                                                  |

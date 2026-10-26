@@ -14,6 +14,8 @@ declare(strict_types=1);
 namespace Cecil\Step\Pages;
 
 use Cecil\Collection\Page\Page;
+use Cecil\Event\BuildEvents;
+use Cecil\Event\PageSavedEvent;
 use Cecil\Exception\RuntimeException;
 use Cecil\Renderer\Page as PageRenderer;
 use Cecil\Step\AbstractStep;
@@ -78,6 +80,9 @@ class Save extends AbstractStep
                     Util\File::getFS()->dumpFile($pathname, $rendered['output']);
                 } catch (\Symfony\Component\Filesystem\Exception\IOException $e) {
                     throw new RuntimeException($e->getMessage());
+                }
+                if ($this->builder->getEventDispatcher()->hasListeners(BuildEvents::PAGE_SAVED)) {
+                    $this->builder->getEventDispatcher()->dispatch(new PageSavedEvent($this->builder, $page, $format, $pathname), BuildEvents::PAGE_SAVED);
                 }
 
                 $files[] = $this->builder->isDebug() ? $pathname : substr($pathname, \strlen($this->config->getOutputPath()) + 1);

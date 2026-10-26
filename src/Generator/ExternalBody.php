@@ -14,7 +14,6 @@ declare(strict_types=1);
 namespace Cecil\Generator;
 
 use Cecil\Collection\Page\Page;
-use Cecil\Converter\Converter;
 use Cecil\Exception\RuntimeException;
 use Cecil\Util;
 
@@ -50,7 +49,7 @@ class ExternalBody extends AbstractGenerator implements GeneratorInterface
                 if ($language === $this->builder->getConfig()->getLanguageDefault()) {
                     $language = null;
                 }
-                $html = (new Converter($this->getBuilder()))->convertBody($pageContent, $language);
+                $html = $this->getBuilder()->getConverter()->convertBody($pageContent, $language);
                 $page->setBodyHtml($html);
 
                 $this->generatedPages->add($page);

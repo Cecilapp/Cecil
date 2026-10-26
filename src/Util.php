@@ -190,24 +190,12 @@ class Util
 
     /**
      * Loads class from the source directory, in the given subdirectory $dir.
+     *
+     * @deprecated use \Cecil\Extension\Autoloader instead
      */
     public static function autoload(Builder $builder, string $dir): void
     {
-        spl_autoload_register(function ($className) use ($builder, $dir) {
-            $classFile = Util::joinFile($builder->getConfig()->getSourceDir(), $dir, "$className.php");
-            if (is_readable($classFile)) {
-                require $classFile;
-                return;
-            }
-            // in themes
-            foreach ($builder->getConfig()->getTheme() ?? [] as $theme) {
-                $classFile = Util::joinFile($builder->getConfig()->getThemeDirPath($theme, $dir), "$className.php");
-                if (is_readable($classFile)) {
-                    require $classFile;
-                    return;
-                }
-            }
-        });
+        (new Extension\Autoloader($builder, $dir))->register();
     }
 
     /**

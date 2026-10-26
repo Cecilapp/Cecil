@@ -61,7 +61,7 @@ Consequences:
 - Any site file with the same relative path overrides the theme file (layout, partial, asset, translation key, static file).
 - A list of values defined by a theme (e.g. `static.exclude`, `output.pagetypeformats.<type>`) **replaces** Cecil's default list; only a site list is combined with the theme list.
 - Theme dependencies are only partially resolved: when the site uses the list form (`theme: [a]`) and theme `a` declares `theme: [b]`, `b` is added and its layouts, assets, static files and translations are used, but **its `config.yml` is not loaded**; with the string form (`theme: a`), `b` is ignored. Document the full list the user must declare (e.g. `theme: [links, fontawesome]`).
-- A theme can also ship PHP classes in `themes/<name>/extensions/` (autoloaded, path matching the namespace), registered in its `config.yml` as Twig extensions (`layouts.extensions`) or generators (`pages.generators`).
+- A theme can also ship PHP classes in `themes/<name>/extensions/` (autoloaded, path matching the namespace or `extensions.autoload` PSR-4 mappings; use the theme name as namespace, not the reserved `Cecil\`), registered in its `config.yml` as Twig extensions (`layouts.extensions`), generators (`pages.generators`), post-processors (`output.postprocessors`) or build events subscribers (`extensions.subscribers`); prefer a single plugin (`extensions.plugins`, a class extending `Cecil\Plugin\AbstractPlugin`) registering all of them.
 
 ## Theme Structure
 

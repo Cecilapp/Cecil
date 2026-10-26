@@ -77,6 +77,37 @@ class IntegrationCliTests extends IntegrationTests
         self::assertTrue($retval < 1);
     }
 
+    public function testNewExtension(): void
+    {
+        exec('php ./bin/cecil new:site tests/demo -n -f', $output, $retval);
+        self::assertTrue($retval < 1);
+        foreach (['generator' => 'Generator/Feed', 'subscriber' => 'Subscriber/Notify', 'plugin' => 'MyPlugin'] as $type => $path) {
+            $name = basename($path);
+            exec("php ./bin/cecil new:extension tests/demo --type=$type --name=$name --namespace=MySite -n", $output, $retval);
+            self::assertTrue($retval < 1);
+            self::assertFileExists(Util::joinFile(__DIR__, 'demo', 'extensions', 'MySite', "$path.php"));
+        }
+        // the reserved namespace is rejected
+        exec('php ./bin/cecil new:extension tests/demo --type=twig --name=Foo --namespace=Cecil -n 2>&1', $output, $retval);
+        self::assertTrue($retval > 0);
+        // the generated extensions can be enabled and built
+        file_put_contents(Util::joinFile(__DIR__, 'demo', 'cecil.yml'), <<<'YAML'
+
+            pages:
+              generators:
+                Feed: MySite\Generator\Feed
+            extensions:
+              subscribers:
+                Notify: MySite\Subscriber\Notify
+              plugins:
+                MyPlugin: MySite\MyPlugin
+            YAML, FILE_APPEND);
+        $output = [];
+        exec('php ./bin/cecil build tests/demo', $output, $retval);
+        self::assertTrue($retval < 1);
+        self::assertFileExists(Util::joinFile(__DIR__, 'demo', '_site', 'feed', 'index.html'));
+    }
+
     public function testBuildVerbose(): void
     {
         exec('php ./bin/cecil new:site tests/demo --demo -n -f', $output, $retval);

@@ -64,7 +64,7 @@ class Converter implements ConverterInterface
      */
     public function convertBody(string $string, ?string $language = null): string
     {
-        $parsedown = new Parsedown($this->builder, ['language' => $language]);
+        $parsedown = ParserFactory::create($this->builder, ['language' => $language]);
 
         return $parsedown->text($string);
     }

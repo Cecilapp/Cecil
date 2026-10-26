@@ -13,6 +13,8 @@ declare(strict_types=1);
 
 namespace Cecil\Step\Pages;
 
+use Cecil\Extension\Loader;
+use Cecil\Generator\GeneratorInterface;
 use Cecil\Generator\GeneratorManager;
 use Cecil\Step\AbstractStep;
 
@@ -49,16 +51,12 @@ class Generate extends AbstractStep
     public function process(): void
     {
         $generatorManager = new GeneratorManager($this->builder);
-        $generators = (array) $this->config->get('pages.generators');
-        array_walk($generators, function ($generator, $priority) use ($generatorManager) {
-            if (!is_a($generator, \Cecil\Generator\GeneratorInterface::class, true)) {
-                $message = \sprintf('Unable to load generator "%s" (priority: %s).', $generator, $priority);
-                $this->builder->getLogger()->error($message);
-
-                return;
-            }
-            $generatorManager->addGenerator(new $generator($this->builder), $priority);
-        });
+        $generators = (new Loader($this->builder))->load('pages.generators', GeneratorInterface::class);
+        // generators are already sorted by priority: their position is used to keep the declaration order of equal priorities
+        $position = 0;
+        foreach ($generators as $generator) {
+            $generatorManager->addGenerator($generator, $position++);
+        }
         $pages = $generatorManager->process();
         $this->builder->setPages($pages);
     }

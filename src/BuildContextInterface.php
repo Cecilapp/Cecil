@@ -16,6 +16,7 @@ namespace Cecil;
 use Cecil\Collection\Page\Collection as PagesCollection;
 use Cecil\Config;
 use Psr\Log\LoggerInterface;
+use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\Finder\Finder;
 
 /**
@@ -141,4 +142,9 @@ interface BuildContextInterface
      * Records a layout cache access during rendering.
      */
     public function recordLayoutCacheAccess(bool $hit): void;
+
+    /**
+     * Returns the build events dispatcher.
+     */
+    public function getEventDispatcher(): EventDispatcherInterface;
 }

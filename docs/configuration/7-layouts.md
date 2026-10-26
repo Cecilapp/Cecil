@@ -2,7 +2,7 @@
 title: "Layouts"
 description: "Templates directory, auto-escaping, images, highlight, translations and components."
 date: 2021-05-07
-updated: 2026-10-18
+updated: 2026-10-26
 -->
 # Layouts
 
@@ -91,13 +91,15 @@ Each translation format defines:
 
 ## layouts.extensions
 
-List of [Twig extensions](../developers/1-extend.md#twig-extension) classes to load (empty by default).
+[Twig extensions](../developers/1-extend.md#twig-extension) to load, indexed by name (empty by default).
 
 ```yaml
 layouts:
   extensions:
     <name>: <class>
 ```
+
+See [Extensions](../developers/1-extend.md#configuration) for the full syntax.
 
 ## layouts.components
 

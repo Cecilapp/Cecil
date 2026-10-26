@@ -961,11 +961,20 @@ class ConfigTest extends TestCase
 
     public function testSiteConfigurationIsNotOverriddenByThemeImportedAfter(): void
     {
-        $config = new Config(['pages' => ['generators' => [35 => 'App\Generator\Custom']]]);
-        $config->import(['pages' => ['generators' => [35 => 'Theme\Generator\Custom']]], Config::IMPORT_PRESERVE);
+        $config = new Config(['pages' => ['generators' => ['Custom' => 'App\Generator\Custom']]]);
+        $config->import(['pages' => ['generators' => ['Custom' => 'Theme\Generator\Custom']]], Config::IMPORT_PRESERVE);
 
-        self::assertSame('App\Generator\Custom', $config->get('pages.generators.35'));
-        self::assertSame('Cecil\Generator\Section', $config->get('pages.generators.40'));
+        self::assertSame('App\Generator\Custom', $config->get('pages.generators.Custom'));
+        self::assertSame('Cecil\Generator\Section', $config->get('pages.generators.Section.class'));
+    }
+
+    public function testBuiltInExtensionCanBeDisabledOrMoved(): void
+    {
+        $config = new Config(['pages' => ['generators' => ['Redirect' => false, 'Section' => ['priority' => 45]]]]);
+
+        self::assertFalse($config->get('pages.generators.Redirect.enabled'));
+        self::assertSame('Cecil\Generator\Section', $config->get('pages.generators.Section.class'));
+        self::assertSame(45, $config->get('pages.generators.Section.priority'));
     }
 
     public function testLanguagesReplaceDefaultLanguages(): void

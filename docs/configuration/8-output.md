@@ -2,7 +2,7 @@
 title: "Output"
 description: "Output directory, formats and post-processing."
 date: 2021-05-07
-updated: 2026-10-18
+updated: 2026-10-26
 -->
 # Output
 
@@ -109,17 +109,19 @@ output:
 
 ## output.postprocessors
 
-List of output post processors classes, used to modify the output files after they have been generated.
+Output post processors, indexed by name and run in ascending order of their priority, used to modify the output files after they have been generated.
 
 Default post processors:
 
 ```yaml
 output:
   postprocessors:
-    GeneratorMetaTag: 'Cecil\Renderer\PostProcessor\GeneratorMetaTag'
-    HtmlExcerpt: 'Cecil\Renderer\PostProcessor\HtmlExcerpt'
-    MarkdownLink: 'Cecil\Renderer\PostProcessor\MarkdownLink'
+    GeneratorMetaTag: { class: Cecil\Renderer\PostProcessor\GeneratorMetaTag, priority: 10 }
+    HtmlExcerpt:      { class: Cecil\Renderer\PostProcessor\HtmlExcerpt, priority: 20 }
+    MarkdownLink:     { class: Cecil\Renderer\PostProcessor\MarkdownLink, priority: 30 }
 ```
+
+A post processor can be disabled by its name (e.g.: `GeneratorMetaTag: false`). See [Extensions](../developers/1-extend.md#configuration) for the full syntax.
 
 :::tip
 You can extend Cecil capabilities with an [Output post processor](../developers/1-extend.md#output-post-processors).

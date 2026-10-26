@@ -15,7 +15,7 @@ namespace Cecil\Doctor;
 
 use Cecil\Builder;
 use Cecil\Collection\Page\Page;
-use Cecil\Converter\Converter;
+use Cecil\Converter\ConverterInterface;
 use Cecil\Exception\RuntimeException;
 use Cecil\Step\Pages\Load as PagesLoadStep;
 use Symfony\Component\Finder\Finder;
@@ -60,7 +60,7 @@ class FrontmatterDoctor
         }
 
         $format = (string) $builder->getConfig()->get('pages.frontmatter');
-        $converter = new Converter($builder);
+        $converter = $builder->getConverter();
 
         $filesScanned = 0;
         $filesWithFrontmatter = 0;
@@ -133,7 +133,7 @@ class FrontmatterDoctor
     /**
      * @return array<int, array{line: int|null, details: string}>
      */
-    private function collectFrontmatterErrors(Converter $converter, string $frontmatter, string $format): array
+    private function collectFrontmatterErrors(ConverterInterface $converter, string $frontmatter, string $format): array
     {
         if ($format !== 'yaml') {
             try {

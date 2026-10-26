@@ -14,11 +14,22 @@ declare(strict_types=1);
 namespace Cecil;
 
 use Cecil\Collection\Page\Collection as PagesCollection;
+use Cecil\Converter\ConverterInterface;
+use Cecil\Event\BuildEvent;
+use Cecil\Event\BuildEvents;
+use Cecil\Event\StepEvent;
 use Cecil\Exception\RuntimeException;
+use Cecil\Extension\Autoloader;
+use Cecil\Extension\Loader;
 use Cecil\Generator\GeneratorManager;
 use Cecil\Logger\PrintLogger;
+use Cecil\Plugin\PluginInterface;
+use Cecil\Plugin\Registry;
 use Psr\Log\LoggerAwareInterface;
 use Psr\Log\LoggerInterface;
+use Symfony\Component\EventDispatcher\EventDispatcher;
+use Symfony\Component\EventDispatcher\EventDispatcherInterface;
+use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\Finder\Finder;
 
 /**
@@ -233,6 +244,32 @@ class Builder implements BuildContextInterface, LoggerAwareInterface
      * @see \Cecil\Builder::build()
      */
     protected static $buildId;
+    /**
+     * Build events dispatcher.
+     * @var EventDispatcherInterface|null
+     * @see \Cecil\Event\BuildEvents
+     */
+    protected $eventDispatcher;
+    /**
+     * Are the event subscribers of the configuration loaded?
+     * @var bool
+     */
+    protected $subscribersLoaded = false;
+    /**
+     * Are the plugins of the configuration loaded?
+     * @var bool
+     */
+    protected $pluginsLoaded = false;
+    /**
+     * Extensions autoloader.
+     * @var Autoloader|null
+     */
+    protected $autoloader;
+    /**
+     * Front matter and body converter.
+     * @var ConverterInterface|null
+     */
+    protected $converter;
 
     /**
      * @param Config|array<string, mixed>|null $config
@@ -296,6 +333,12 @@ class Builder implements BuildContextInterface, LoggerAwareInterface
         // set build ID (unique, even for builds started within the same second)
         self::$buildId = hash('xxh32', uniqid('', true) . self::$version);
 
+        // loads extensions dependencies, plugins and event subscribers
+        $this->getAutoloader()->requireVendors();
+        $this->loadPlugins();
+        $this->loadSubscribers();
+        $this->getEventDispatcher()->dispatch(new BuildEvent($this), BuildEvents::BUILD_START);
+
         // process each step
         $steps = [];
         // init...
@@ -314,7 +357,9 @@ class Builder implements BuildContextInterface, LoggerAwareInterface
             $this->getLogger()->notice($step->getName(), ['step' => [$stepNumber, $stepsTotal]]);
             $stepStartTime = microtime(true);
             $stepStartMemory = memory_get_usage();
+            $this->getEventDispatcher()->dispatch(new StepEvent($this, $step), BuildEvents::STEP_PRE);
             $step->process();
+            $this->getEventDispatcher()->dispatch(new StepEvent($this, $step), BuildEvents::STEP_POST);
             // step duration and memory usage
             $stepDuration = microtime(true) - $stepStartTime;
             $this->metrics['steps'][$stepNumber]['name'] = $step->getName();
@@ -328,6 +373,7 @@ class Builder implements BuildContextInterface, LoggerAwareInterface
                 $this->metrics['steps'][$stepNumber]['memory']
             ));
         }
+        $this->getEventDispatcher()->dispatch(new BuildEvent($this), BuildEvents::BUILD_FINISHED);
         // build duration and memory usage
         $totalDuration = microtime(true) - $startTime;
         $this->metrics['total']['duration'] = Util::convertDuration($totalDuration);
@@ -361,8 +407,8 @@ class Builder implements BuildContextInterface, LoggerAwareInterface
 
         // import themes configuration
         $this->importThemesConfig();
-        // autoloads local extensions
-        Util::autoload($this, 'extensions');
+        // autoloads extensions (once)
+        $this->getAutoloader()->register();
 
         return $this;
     }
@@ -668,6 +714,85 @@ class Builder implements BuildContextInterface, LoggerAwareInterface
     public function getRenderer(): Renderer\Twig
     {
         return $this->renderer;
+    }
+
+    /**
+     * Returns the build events dispatcher, to add listeners or subscribers.
+     *
+     * @see \Cecil\Event\BuildEvents
+     */
+    public function getEventDispatcher(): EventDispatcherInterface
+    {
+        if ($this->eventDispatcher === null) {
+            $this->eventDispatcher = new EventDispatcher();
+        }
+
+        return $this->eventDispatcher;
+    }
+
+    /**
+     * Returns the front matter and body converter, defined by the `pages.converter` configuration.
+     *
+     * @throws RuntimeException
+     */
+    public function getConverter(): ConverterInterface
+    {
+        if ($this->converter === null) {
+            $class = (string) $this->getConfig()->get('pages.converter');
+            if (!is_a($class, ConverterInterface::class, true)) {
+                throw new RuntimeException(\sprintf('Configuration: the converter class "%s" (`pages.converter`) must exist and implement "%s".', $class, ConverterInterface::class));
+            }
+            $this->converter = new $class($this);
+        }
+
+        return $this->converter;
+    }
+
+    /**
+     * Returns the extensions autoloader.
+     */
+    public function getAutoloader(): Autoloader
+    {
+        if ($this->autoloader === null) {
+            $this->autoloader = new Autoloader($this);
+        }
+
+        return $this->autoloader;
+    }
+
+    /**
+     * Registers the plugins declared in the `extensions.plugins` configuration (once).
+     *
+     * @throws RuntimeException
+     */
+    protected function loadPlugins(): void
+    {
+        if ($this->pluginsLoaded) {
+            return;
+        }
+        foreach ((new Loader($this))->load('extensions.plugins', PluginInterface::class) as $name => $plugin) {
+            $registry = new Registry($this, $name);
+            $plugin->register($registry);
+            $registry->apply();
+            $this->getLogger()->debug(\sprintf('Plugin "%s" registered', $name));
+        }
+        $this->pluginsLoaded = true;
+    }
+
+    /**
+     * Adds the event subscribers declared in the `extensions.subscribers` configuration (once).
+     *
+     * @throws RuntimeException
+     */
+    protected function loadSubscribers(): void
+    {
+        if ($this->subscribersLoaded) {
+            return;
+        }
+        foreach ((new Loader($this))->load('extensions.subscribers', EventSubscriberInterface::class) as $subscriber) {
+            $this->getEventDispatcher()->addSubscriber($subscriber);
+        }
+        $this->subscribersLoaded = true;
     }
 
     /**

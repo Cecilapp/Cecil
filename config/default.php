@@ -89,7 +89,9 @@ return [
         //    ]
         //],
         'frontmatter' => 'yaml', // front matter format: `yaml`, `ini`, `toml` or `json`
+        'converter' => 'Cecil\Converter\Converter', // front matter and body converter class (must implement `Cecil\Converter\ConverterInterface`)
         'body' => [
+            'parser' => 'Cecil\Converter\Parsedown', // Markdown parser class (must extend `Cecil\Converter\Parsedown`)
             'toc' => ['h2', 'h3'], // headers used to build the table of contents
             'anchors' => ['h2', 'h3'], // headings (with an ID) with an anchor link, `false` to disable
             'highlight' => true, // enables code syntax highlighting (`{engine: tempest}` to use tempest/highlight instead of highlight.js)
@@ -127,16 +129,16 @@ return [
                 'capture' => 'before', // part to capture, `before` or `after` the separator
             ],
         ],
-        // list of pages generators class, ordered by weight (e.g.: `<position> => 'Cecil\Generator\<class>'`)
+        // pages generators, indexed by name and run by ascending priority (e.g.: `'<name>' => ['class' => 'Cecil\Generator\<class>', 'priority' => <int>]`)
         'generators' => [
-            10 => 'Cecil\Generator\DefaultPages',
-            30 => 'Cecil\Generator\ExternalBody',
-            40 => 'Cecil\Generator\Section',
-            50 => 'Cecil\Generator\Taxonomy',
-            60 => 'Cecil\Generator\Homepage',
-            70 => 'Cecil\Generator\Pagination',
-            80 => 'Cecil\Generator\Alias',
-            90 => 'Cecil\Generator\Redirect',
+            'DefaultPages' => ['class' => 'Cecil\Generator\DefaultPages', 'priority' => 10],
+            'ExternalBody' => ['class' => 'Cecil\Generator\ExternalBody', 'priority' => 30],
+            'Section'      => ['class' => 'Cecil\Generator\Section', 'priority' => 40],
+            'Taxonomy'     => ['class' => 'Cecil\Generator\Taxonomy', 'priority' => 50],
+            'Homepage'     => ['class' => 'Cecil\Generator\Homepage', 'priority' => 60],
+            'Pagination'   => ['class' => 'Cecil\Generator\Pagination', 'priority' => 70],
+            'Alias'        => ['class' => 'Cecil\Generator\Alias', 'priority' => 80],
+            'Redirect'     => ['class' => 'Cecil\Generator\Redirect', 'priority' => 90],
         ],
         'default' => [ // default pages, merged by ID
             'index' => [
@@ -273,8 +275,8 @@ return [
                 ],
             ],
         ],
-        'extensions' => [ // list of Twig extensions class
-            //'<name>' => 'Cecil\Renderer\Extension\<class>',
+        'extensions' => [ // Twig extensions, indexed by name
+            //'<name>' => '<class>',
         ],
         'components' => [ // components
             'dir' => 'components', // components directory
@@ -396,10 +398,10 @@ return [
                 'extension' => 'txt',
             ]
         ],
-        'postprocessors' => [ // list of output post processors class
-            'GeneratorMetaTag' => 'Cecil\Renderer\PostProcessor\GeneratorMetaTag',
-            'HtmlExcerpt'      => 'Cecil\Renderer\PostProcessor\HtmlExcerpt',
-            'MarkdownLink'     => 'Cecil\Renderer\PostProcessor\MarkdownLink',
+        'postprocessors' => [ // output post processors, indexed by name and run by ascending priority
+            'GeneratorMetaTag' => ['class' => 'Cecil\Renderer\PostProcessor\GeneratorMetaTag', 'priority' => 10],
+            'HtmlExcerpt'      => ['class' => 'Cecil\Renderer\PostProcessor\HtmlExcerpt', 'priority' => 20],
+            'MarkdownLink'     => ['class' => 'Cecil\Renderer\PostProcessor\MarkdownLink', 'priority' => 30],
         ],
         'pagetypeformats' => [ // formats applied by page type
             'page' => ['html'],
@@ -438,6 +440,18 @@ return [
         'images' => [
             'enabled' => true, // enables images files optimization
             'ext' => ['jpeg', 'jpg', 'png', 'gif', 'webp', 'svg', 'avif'], // supported files extensions
+        ],
+    ],
+    'extensions' => [ // extensions (generators, Twig extensions, post processors, events subscribers) loading
+        'strict' => null, // `true`: an extension that cannot be loaded fails the build; `false`: the error is only logged; `null`: logged, with a warning (fails the build in Cecil 10)
+        'autoload' => [ // PSR-4 mappings, relative to the site or theme directory (classes are also loaded from `extensions/<namespace path>/`)
+            //'<Namespace>\\' => '<dir>',
+        ],
+        'subscribers' => [ // build events subscribers, indexed by name
+            //'<name>' => '<class>',
+        ],
+        'plugins' => [ // plugins (registering a set of extensions), indexed by name
+            //'<name>' => '<class>',
         ],
     ],
 ];

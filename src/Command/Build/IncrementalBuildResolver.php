@@ -15,7 +15,6 @@ namespace Cecil\Command\Build;
 
 use Cecil\Builder;
 use Cecil\Collection\Page\Page;
-use Cecil\Converter\Converter;
 use Cecil\Renderer\Layout;
 use Cecil\Util;
 use Cecil\Util\FileWatcherResult;
@@ -135,7 +134,7 @@ class IncrementalBuildResolver
             $finder->ignoreVCSIgnored(true);
         }
 
-        $converter = new Converter($this->builder);
+        $converter = $this->builder->getConverter();
         $frontmatterFormat = (string) $config->get('pages.frontmatter');
         $impactedPages = [];
 

@@ -15,6 +15,8 @@ namespace Cecil\Step\Pages;
 
 use Cecil\Collection\Page\Collection as PagesCollection;
 use Cecil\Collection\Page\Page;
+use Cecil\Event\BuildEvents;
+use Cecil\Event\PageEvent;
 use Cecil\Exception\RuntimeException;
 use Cecil\Step\AbstractStep;
 use Cecil\Util;
@@ -123,6 +125,9 @@ class Create extends AbstractStep
 
             // add the page to pages collection
             $this->builder->getPages()->add($page);
+            if ($this->builder->getEventDispatcher()->hasListeners(BuildEvents::PAGE_CREATED)) {
+                $this->builder->getEventDispatcher()->dispatch(new PageEvent($this->builder, $page), BuildEvents::PAGE_CREATED);
+            }
 
             $message = \sprintf('Page "%s" created', $page->getId());
             $this->builder->getLogger()->info($message, ['progress' => [$count, $total]]);

@@ -2,7 +2,7 @@
 title: "Layouts"
 description: "Dossier des templates, échappement, images, coloration syntaxique, traductions et composants."
 date: 2026-03-27
-updated: 2026-10-18
+updated: 2026-10-26
 -->
 # Layouts
 
@@ -91,13 +91,15 @@ Chaque format de traduction définit :
 
 ## layouts.extensions
 
-Liste des classes d’[extensions Twig](../developers/1-extend.fr.md#extension-twig) à charger (vide par défaut).
+[Extensions Twig](../developers/1-extend.fr.md#extension-twig) à charger, indexées par nom (vide par défaut).
 
 ```yaml
 layouts:
   extensions:
     <name>: <class>
 ```
+
+Voir [Extensions](../developers/1-extend.fr.md#configuration) pour la syntaxe complète.
 
 ## layouts.components
 
