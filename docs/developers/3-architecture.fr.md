@@ -12,6 +12,29 @@ Cette page présente une vue d’ensemble du pipeline de génération de Cecil, 
 
 ## Pipeline de génération
 
+### Vue d’ensemble du pipeline
+
+```mermaid
+graph LR
+    SRC["Sources\n(pages, données, assets,\nfichiers statiques, layouts, thèmes)"]
+    CFG["Configuration"]
+    EXTS["Extensions\n(plugins, événements)"]
+    BUILDER["Builder"]
+    LOAD["Chargement\n(pages, données,\nfichiers statiques)"]
+    CONVERT["Création et conversion\n(pages, taxonomies)"]
+    GENERATE["Génération\n(générateurs, menus)"]
+    RENDER["Rendu\n(Twig)"]
+    SAVE["Enregistrement et optimisation\n(pages, assets,\nfichiers statiques)"]
+    OUT["_site/"]
+
+    CFG --> BUILDER
+    EXTS --> BUILDER
+    SRC --> LOAD
+    BUILDER --> LOAD --> CONVERT --> GENERATE --> RENDER --> SAVE --> OUT
+```
+
+### Pipeline détaillé
+
 ```mermaid
 graph TD
     %% Entrée
@@ -23,9 +46,17 @@ graph TD
 
     %% Orchestrateur
     BUILDER["Builder\n(orchestrateur)"]
-    CONFIG["Configuration\n(default.php\n< thèmes < cecil.yml\n< variables d’environnement + options CLI)"]
+    CONFIG["Configuration\n(plugins < default.php\n< thèmes < cecil.yml\n< variables d’environnement + options CLI)"]
     CMD --> BUILDER
     CONFIG --> BUILDER
+
+    %% Extensions
+    EXTN["Extensions\n(Autoloader + Loader :\nplugins, abonnés aux événements,\ngénérateurs, extensions Twig,\npost-processeurs)"]
+    EVENTS["Événements de build\n(build.*, step.*, page.*)"]
+    BUILDER --> EXTN
+    EXTN -- "configuration des plugins" --> CONFIG
+    BUILDER -. "déclenche" .-> EVENTS
+    EVENTS -. "notifie les abonnés" .-> EXTN
 
     %% Pipeline
     subgraph PIPELINE["Pipeline de génération (étapes)"]
@@ -49,7 +80,7 @@ graph TD
     BUILDER --> PIPELINE
 
     %% Sous-systèmes
-    CONV["Convertisseur\n(Parsedown + coloration syntaxique)"]
+    CONV["Convertisseur\n(pages.converter, pages.body.parser :\nParsedown + coloration syntaxique)"]
 
     subgraph COLLECTIONS["Collections"]
         PC["PagesCollection\n(objets Page)"]
@@ -66,13 +97,14 @@ graph TD
         G7["Pagination"]
         G8["Alias"]
         G9["Redirect"]
-        G1 --> G3 --> G4 --> G5 --> G6 --> G7 --> G8 --> G9
+        G10["Générateurs personnalisés\n(priorité 100 par défaut)"]
+        G1 --> G3 --> G4 --> G5 --> G6 --> G7 --> G8 --> G9 --> G10
     end
 
     subgraph RENDERER["Rendu Twig"]
         TW["Moteur Twig"]
-        EXT["Extensions\n(Core, Content, Collection,\nTranslation, Intl, Components)"]
-        PP["PostProcessors\n(balise meta generator, extraits, liens)"]
+        EXT["Extensions Twig\n(Core, Content, Collection,\nTranslation, Intl, Components\n+ personnalisées)"]
+        PP["PostProcessors\n(balise meta generator, extraits, liens\n+ personnalisés)"]
         TH["Thèmes / Layouts"]
         TW --> EXT
         TW --> PP
@@ -102,6 +134,10 @@ graph TD
     S7 --> GENERATORS
     GENERATORS --> PC
     S10 --> RENDERER
+    EXTN --> GENERATORS
+    EXTN --> EXT
+    EXTN --> PP
+    PIPELINE -. "step.*, page.*" .-> EVENTS
 
     PC --> RENDERER
     TC --> RENDERER
@@ -131,7 +167,8 @@ graph TD
         ASSETSDIR["assets/"]
         LAYOUTS["layouts/\n(templates Twig)"]
         TRANS["translations/"]
-        THEMES["themes/\n(config, layouts, assets,\nstatic, data, translations)"]
+        THEMES["themes/\n(config, layouts, assets,\nstatic, data, translations,\nextensions)"]
+        EXTDIR["extensions/\n(classes PHP)"]
     end
 
     MD --> S1
@@ -143,11 +180,37 @@ graph TD
     TRANS --> EXT
     THEMES --> CONFIG
     THEMES --> TH
+    THEMES --> EXTN
+    EXTDIR --> EXTN
 ```
 
 ## Architecture technique
 
-Le diagramme ci-dessous montre l’organisation du code en couches, de la ligne de commande jusqu’au système de fichiers, ainsi que les bibliothèques sur lesquelles s’appuie chaque composant.
+Les diagrammes ci-dessous montrent l’organisation du code en couches, de la ligne de commande jusqu’au système de fichiers, ainsi que les bibliothèques sur lesquelles s’appuie chaque composant.
+
+### Vue d’ensemble de l’architecture
+
+```mermaid
+graph TB
+    ENTRY["Points d’entrée\n(bin/cecil, cecil.phar)"]
+    CONSOLE["Console\n(commandes)"]
+    DEV["Serveur local\n(serve, live reload)"]
+    CORE["Cœur\n(Builder, Config, Steps,\nCollections, Generators)"]
+    EXTS["Extensions\n(plugins, événements)"]
+    SERVICES["Services\n(Converter, Renderer,\nAssets, Cache, Doctor)"]
+    LIBS["Bibliothèques\n(Symfony, Twig, Parsedown,\nscssphp, Intervention Image, ...)"]
+    FS["Système de fichiers\n(sources, .cache/, _site/)"]
+
+    ENTRY --> CONSOLE --> CORE
+    CONSOLE --> DEV --> CORE
+    CORE <--> EXTS
+    CORE --> SERVICES
+    CORE --> FS
+    SERVICES --> FS
+    SERVICES --> LIBS
+```
+
+### Architecture détaillée
 
 ```mermaid
 graph TB
@@ -204,8 +267,23 @@ graph TB
     PROC --> BUILDER
     OTHERS --> BUILDER
 
+    subgraph EXTS["Extensions"]
+        AUTO["Autoloader\n(extensions/, PSR-4,\nextensions/vendor/)"]
+        LOADER["Loader\n(par nom et priorité,\nextensions.strict)"]
+        PLUG["Plugins\n(Registry)"]
+        EVT["Dispatcher d’événements\n(BuildEvents, abonnés)"]
+        PLUG --> LOADER
+    end
+
+    BUILDER --> AUTO
+    BUILDER --> PLUG
+    PLUG -- "configuration par défaut" --> CFG
+    BUILDER -- "déclenche" --> EVT
+    STEPS -- "déclenche" --> EVT
+    LOADER --> GEN
+
     subgraph SERVICES["Services"]
-        CONV["Converter\n(Parsedown Extra + TOC,\nhighlight.php / Tempest)"]
+        CONV["Converter\n(ConverterInterface, Parsedown Extra + TOC,\nhighlight.php / Tempest)"]
         REND["Renderer\n(Twig, Symfony Translation,\nTwig Components)"]
         ASSET["Asset\n(Locator, Compiler, Image, Optimizer)"]
         CACHE["Cache\n(PSR-16, fichiers)"]
@@ -221,9 +299,10 @@ graph TB
     REND --> CACHE
     DOCTOR --> DOC
     DOC --> BUILDER
+    LOADER --> REND
 
     subgraph LIBS["Principales bibliothèques"]
-        L1["Symfony\n(Finder, Filesystem, Yaml,\nSerializer, Validator, DomCrawler)"]
+        L1["Symfony\n(Finder, Filesystem, Yaml, Serializer,\nValidator, DomCrawler, EventDispatcher)"]
         L2["scssphp"]
         L3["Intervention Image\n(GD, Imagick, libvips)"]
         L4["matthiasmullie/minify\nvoku/html-min"]
@@ -242,13 +321,14 @@ graph TB
     ASSET --> L7
 
     subgraph FS["Système de fichiers"]
-        SRC["Sources\n(pages/, data/, assets/, static/,\nlayouts/, translations/, themes/)"]
+        SRC["Sources\n(pages/, data/, assets/, static/,\nlayouts/, translations/, themes/,\nextensions/)"]
         CACHEDIR[".cache/"]
         TMP[".cecil/\n(routeur, live reload, métriques, logs)"]
         OUT["_site/"]
     end
 
     STEPS -- "lecture" --> SRC
+    AUTO -- "lecture" --> SRC
     CACHE --> CACHEDIR
     STEPS -- "écriture" --> OUT
     PHPS -- "sert" --> OUT
@@ -260,10 +340,10 @@ graph TB
 | Composant           | Rôle                                                                                                                     |
 |---------------------|--------------------------------------------------------------------------------------------------------------------------|
 | **Builder**         | Orchestrateur central, exécute les étapes en séquence                                                                    |
-| **Config**          | Fusionne la configuration par défaut, des thèmes et du projet (`Config\Merger`), les variables d’environnement (`CECIL_*`) et les options CLI, et signale les options dépréciées (`Config\Deprecations`) |
+| **Config**          | Fusionne la configuration des plugins, par défaut, des thèmes et du projet (`Config\Merger`), les variables d’environnement (`CECIL_*`) et les options CLI, et signale les options dépréciées (`Config\Deprecations`) |
 | **Steps**           | Pipeline modulaire (16 étapes), chacune avec `init()` / `canProcess()` / `process()`                                     |
 | **Collections**     | Pages, Taxonomies, Menus : structures de données centrales                                                               |
-| **Converter**       | Analyse le front matter (YAML, INI, TOML ou JSON) et convertit le Markdown en HTML (Parsedown, coloration syntaxique)    |
+| **Converter**       | Analyse le front matter (YAML, INI, TOML ou JSON) et convertit le Markdown en HTML (Parsedown, coloration syntaxique) ; remplaçable via `pages.converter` et `pages.body.parser` |
 | **Generators**      | Créent ou mettent à jour des pages (pages par défaut, sections, taxonomies, pagination, alias, redirections, etc.)       |
 | **Extensions**      | Générateurs, extensions Twig, post-processeurs, abonnés aux événements et plugins déclarés par nom, chargés et validés par `Extension\Loader`, chargés automatiquement par `Extension\Autoloader` |
 | **Events**          | Événements de build (`Event\BuildEvents`) déclenchés autour du build, de chaque étape et du cycle de vie de chaque page, pour [étendre Cecil](1-extend.fr.md#evenements-de-build) |
