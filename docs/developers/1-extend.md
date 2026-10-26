@@ -225,7 +225,7 @@ output:
 
 ## Markdown converter
 
-The front matter and the Markdown body of pages are converted by the class defined in [`pages.converter`](../configuration/4-pages.md#pages-converter). It is also used by the `markdown_to_html` filter and for external pages (the `toc` filter still relies on the built-in parser).
+The front matter and the Markdown body of pages are converted by the class defined in [`pages.converter`](../configuration/4-pages.md#pages-converter). It is also used by the `markdown_to_html` filter and for external pages (the `toc` filter uses the [Markdown parser](#markdown-parser) directly).
 
 To change the conversion, create a PHP class implementing `Cecil\Converter\ConverterInterface` (its constructor receives the `Cecil\Builder` instance), or extending the default `Cecil\Converter\Converter` class.
 
@@ -254,6 +254,58 @@ _configuration_
 ```yaml
 pages:
   converter: MySite\Converter
+```
+
+## Markdown parser
+
+To add your own Markdown syntax, replace the Markdown parser used by the default converter (and by the `markdown_to_html` and `toc` filters) with the [`pages.body.parser`](../configuration/4-pages.md#pages-body-parser) option.
+
+Create a PHP class extending `Cecil\Converter\Parsedown`, based on [Parsedown](https://github.com/erusev/parsedown) (1.x) and [Parsedown Extra](https://github.com/erusev/parsedown-extra), and register your syntax with its extension mechanism: a marker character in `$this->InlineTypes` (or `$this->BlockTypes`) refers to an `inline<Type>()` method (or `block<Type>()`, `block<Type>Continue()` and `block<Type>Complete()` methods).
+
+:::warning
+A custom parser relies on Parsedown internals: it may need to be updated when Cecil upgrades Parsedown.
+:::
+
+**Example:**
+
+_/extensions/MySite/Parsedown.php_
+
+```php
+<?php
+namespace MySite;
+
+use Cecil\Builder;
+
+class Parsedown extends \Cecil\Converter\Parsedown
+{
+    public function __construct(Builder $builder, ?array $options = null)
+    {
+        parent::__construct($builder, $options);
+        // `==text==` → `<mark>text</mark>`
+        $this->InlineTypes['='][] = 'Mark';
+        $this->inlineMarkerList .= '=';
+    }
+
+    protected function inlineMark($Excerpt)
+    {
+        if (preg_match('/^==(?=\S)(.+?)(?<=\S)==/', $Excerpt['text'], $matches)) {
+            return [
+                'extent'  => \strlen($matches[0]),
+                'element' => ['name' => 'mark', 'text' => $matches[1], 'handler' => 'line'],
+            ];
+        }
+
+        return null;
+    }
+}
+```
+
+_configuration_
+
+```yaml
+pages:
+  body:
+    parser: MySite\Parsedown
 ```
 
 ## Build events

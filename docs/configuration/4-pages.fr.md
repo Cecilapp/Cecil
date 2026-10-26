@@ -157,6 +157,16 @@ Options du corps des pages.
 Pour savoir comment ces options influencent votre contenu, voir la documentation _[Contenu > Markdown](../content/3-markdown.fr.md)_.
 :::
 
+### pages.body.parser
+
+Classe de l’analyseur Markdown (`Cecil\Converter\Parsedown` par défaut). Elle doit hériter de `Cecil\Converter\Parsedown` : voir [Analyseur Markdown](../developers/1-extend.fr.md#analyseur-markdown) pour ajouter votre propre syntaxe.
+
+```yaml
+pages:
+  body:
+    parser: Cecil\Converter\Parsedown
+```
+
 ### pages.body.toc
 
 En-têtes utilisés pour construire la table des matières (`[h2, h3]` par défaut).

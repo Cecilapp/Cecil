@@ -111,7 +111,7 @@ output:
 
 ## Markdown Converter
 
-Front matter and Markdown body are converted by the class set in `pages.converter` (default `Cecil\Converter\Converter`, also used by the `markdown_to_html` filter and external pages; `toc` still uses the built-in parser). Replace it with a class implementing `Cecil\Converter\ConverterInterface` (constructor receives the `Builder`), typically extending `Cecil\Converter\Converter` and overriding `convertBody()` to pre/post-process Markdown.
+Front matter and Markdown body are converted by the class set in `pages.converter` (default `Cecil\Converter\Converter`, also used by the `markdown_to_html` filter and external pages; `toc` uses the Markdown parser directly). Replace it with a class implementing `Cecil\Converter\ConverterInterface` (constructor receives the `Builder`), typically extending `Cecil\Converter\Converter` and overriding `convertBody()` to pre/post-process Markdown. To add Markdown syntax, set `pages.body.parser` to a class extending `Cecil\Converter\Parsedown` (Parsedown 1.x + Extra): register a marker in `$this->InlineTypes['<char>'][] = '<Type>'` (and append it to `$this->inlineMarkerList`) handled by `inline<Type>($Excerpt)`, or in `$this->BlockTypes` handled by `block<Type>()` / `block<Type>Continue()` / `block<Type>Complete()`; used by the default converter, `markdown_to_html` and `toc`.
 
 ## Build Events
 

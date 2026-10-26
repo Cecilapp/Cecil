@@ -17,7 +17,7 @@ use Cecil\Builder;
 use Cecil\Config;
 use Cecil\Util;
 use Cecil\Converter\Highlighter\HighlighterFactory;
-use Cecil\Converter\Parsedown;
+use Cecil\Converter\ParserFactory;
 use Cecil\Exception\RuntimeException;
 use Symfony\Component\Yaml\Exception\ParseException;
 use Symfony\Component\Yaml\Yaml;
@@ -170,7 +170,7 @@ class Content extends AbstractExtension
         $selectors = $selectors ?? (array) $this->config->get('pages.body.toc');
 
         try {
-            $parsedown = new Parsedown($this->builder, ['selectors' => $selectors, 'base_url' => $url]);
+            $parsedown = ParserFactory::create($this->builder, ['selectors' => $selectors, 'base_url' => $url]);
             $parsedown->body($markdown);
             $return = $parsedown->contentsList($format);
         } catch (\Exception) {

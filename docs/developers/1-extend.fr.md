@@ -226,7 +226,7 @@ output:
 
 ## Convertisseur Markdown
 
-Le front matter et le corps Markdown des pages sont convertis par la classe définie dans [`pages.converter`](../configuration/4-pages.fr.md#pages-converter). Elle est aussi utilisée par le filtre `markdown_to_html` et pour les pages externes (le filtre `toc` repose toujours sur l’analyseur intégré).
+Le front matter et le corps Markdown des pages sont convertis par la classe définie dans [`pages.converter`](../configuration/4-pages.fr.md#pages-converter). Elle est aussi utilisée par le filtre `markdown_to_html` et pour les pages externes (le filtre `toc` utilise directement l’[analyseur Markdown](#analyseur-markdown)).
 
 Pour modifier la conversion, créez une classe PHP implémentant `Cecil\Converter\ConverterInterface` (son constructeur reçoit l’instance de `Cecil\Builder`), ou héritant de la classe par défaut `Cecil\Converter\Converter`.
 
@@ -255,6 +255,58 @@ _configuration_
 ```yaml
 pages:
   converter: MySite\Converter
+```
+
+## Analyseur Markdown
+
+Pour ajouter votre propre syntaxe Markdown, remplacez l’analyseur Markdown utilisé par le convertisseur par défaut (et par les filtres `markdown_to_html` et `toc`) avec l’option [`pages.body.parser`](../configuration/4-pages.fr.md#pages-body-parser).
+
+Créez une classe PHP héritant de `Cecil\Converter\Parsedown`, basée sur [Parsedown](https://github.com/erusev/parsedown) (1.x) et [Parsedown Extra](https://github.com/erusev/parsedown-extra), et déclarez votre syntaxe avec son mécanisme d’extension : un caractère déclencheur dans `$this->InlineTypes` (ou `$this->BlockTypes`) fait référence à une méthode `inline<Type>()` (ou aux méthodes `block<Type>()`, `block<Type>Continue()` et `block<Type>Complete()`).
+
+:::warning
+Un analyseur personnalisé repose sur le fonctionnement interne de Parsedown : il peut nécessiter une mise à jour quand Cecil met à jour Parsedown.
+:::
+
+**Exemple :**
+
+_/extensions/MySite/Parsedown.php_
+
+```php
+<?php
+namespace MySite;
+
+use Cecil\Builder;
+
+class Parsedown extends \Cecil\Converter\Parsedown
+{
+    public function __construct(Builder $builder, ?array $options = null)
+    {
+        parent::__construct($builder, $options);
+        // `==texte==` → `<mark>texte</mark>`
+        $this->InlineTypes['='][] = 'Mark';
+        $this->inlineMarkerList .= '=';
+    }
+
+    protected function inlineMark($Excerpt)
+    {
+        if (preg_match('/^==(?=\S)(.+?)(?<=\S)==/', $Excerpt['text'], $matches)) {
+            return [
+                'extent'  => \strlen($matches[0]),
+                'element' => ['name' => 'mark', 'text' => $matches[1], 'handler' => 'line'],
+            ];
+        }
+
+        return null;
+    }
+}
+```
+
+_configuration_
+
+```yaml
+pages:
+  body:
+    parser: MySite\Parsedown
 ```
 
 ## Événements de build

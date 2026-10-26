@@ -91,6 +91,7 @@ return [
         'frontmatter' => 'yaml', // front matter format: `yaml`, `ini`, `toml` or `json`
         'converter' => 'Cecil\Converter\Converter', // front matter and body converter class (must implement `Cecil\Converter\ConverterInterface`)
         'body' => [
+            'parser' => 'Cecil\Converter\Parsedown', // Markdown parser class (must extend `Cecil\Converter\Parsedown`)
             'toc' => ['h2', 'h3'], // headers used to build the table of contents
             'anchors' => ['h2', 'h3'], // headings (with an ID) with an anchor link, `false` to disable
             'highlight' => true, // enables code syntax highlighting (`{engine: tempest}` to use tempest/highlight instead of highlight.js)

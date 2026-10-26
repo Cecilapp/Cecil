@@ -4116,6 +4116,16 @@ Search.appendIndex(
             "summary": "Notes\u0020rendered\u0020with\u0020a\u0020template,\u0020used\u0020to\u0020build\u0020unique\u0020IDs.",
             "url": "classes/Cecil-Converter-Parsedown.html#property_notesCount"
         },                {
+            "fqsen": "\\Cecil\\Converter\\ParserFactory",
+            "name": "ParserFactory",
+            "summary": "Markdown\u0020parser\u0020factory.",
+            "url": "classes/Cecil-Converter-ParserFactory.html"
+        },                {
+            "fqsen": "\\Cecil\\Converter\\ParserFactory\u003A\u003Acreate\u0028\u0029",
+            "name": "create",
+            "summary": "Creates\u0020a\u0020Markdown\u0020parser.",
+            "url": "classes/Cecil-Converter-ParserFactory.html#method_create"
+        },                {
             "fqsen": "\\Cecil\\Doctor\\FrontmatterDoctor",
             "name": "FrontmatterDoctor",
             "summary": "Front\u0020matter\u0020diagnosis\u0020domain\u0020service.",

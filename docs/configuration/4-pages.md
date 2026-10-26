@@ -157,6 +157,16 @@ Page body options.
 To know how these options impact your content see _[Content > Markdown](../content/3-markdown.md)_ documentation.
 :::
 
+### pages.body.parser
+
+Markdown parser class (`Cecil\Converter\Parsedown` by default). It must extend `Cecil\Converter\Parsedown`: see [Markdown parser](../developers/1-extend.md#markdown-parser) to add your own syntax.
+
+```yaml
+pages:
+  body:
+    parser: Cecil\Converter\Parsedown
+```
+
 ### pages.body.toc
 
 Headers used to build the table of contents (`[h2, h3]` by default).
