@@ -109,6 +109,10 @@ output:
     MyProcessor: MyProject\Renderer\PostProcessor\MyProcessor
 ```
 
+## Markdown Converter
+
+Front matter and Markdown body are converted by the class set in `pages.converter` (default `Cecil\Converter\Converter`, also used by the `markdown_to_html` filter and external pages; `toc` still uses the built-in parser). Replace it with a class implementing `Cecil\Converter\ConverterInterface` (constructor receives the `Builder`), typically extending `Cecil\Converter\Converter` and overriding `convertBody()` to pre/post-process Markdown.
+
 ## Build Events
 
 Run code around the build, each step or each page with an event subscriber extending `Cecil\Event\AbstractSubscriber` (`$this->builder`, `$this->config`), registered with `extensions.subscribers`:

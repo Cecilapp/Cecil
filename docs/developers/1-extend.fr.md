@@ -218,6 +218,39 @@ output:
     MyProcessor: MySite\PostProcessor\MyProcessor
 ```
 
+## Convertisseur Markdown
+
+Le front matter et le corps Markdown des pages sont convertis par la classe définie dans [`pages.converter`](../configuration/4-pages.fr.md#pages-converter). Elle est aussi utilisée par le filtre `markdown_to_html` et pour les pages externes (le filtre `toc` repose toujours sur l’analyseur intégré).
+
+Pour modifier la conversion, créez une classe PHP implémentant `Cecil\Converter\ConverterInterface` (son constructeur reçoit l’instance de `Cecil\Builder`), ou héritant de la classe par défaut `Cecil\Converter\Converter`.
+
+**Exemple :**
+
+_/extensions/MySite/Converter.php_
+
+```php
+<?php
+namespace MySite;
+
+class Converter extends \Cecil\Converter\Converter
+{
+    public function convertBody(string $string, ?string $language = null): string
+    {
+        // remplace `[[page-id]]` par un lien, avant la conversion par défaut
+        $string = preg_replace('/\[\[([a-z0-9-\/]+)\]\]/', '[$1]($1.md)', $string);
+
+        return parent::convertBody($string, $language);
+    }
+}
+```
+
+_configuration_
+
+```yaml
+pages:
+  converter: MySite\Converter
+```
+
 ## Événements de build
 
 Des événements sont déclenchés pendant le build : écoutez-les pour exécuter votre propre code avant ou après le build, chaque étape, ou à chaque étape du cycle de vie d’une page (par ex. pour créer un index de recherche, notifier un service ou modifier la sortie des pages).

@@ -89,6 +89,7 @@ return [
         //    ]
         //],
         'frontmatter' => 'yaml', // front matter format: `yaml`, `ini`, `toml` or `json`
+        'converter' => 'Cecil\Converter\Converter', // front matter and body converter class (must implement `Cecil\Converter\ConverterInterface`)
         'body' => [
             'toc' => ['h2', 'h3'], // headers used to build the table of contents
             'anchors' => ['h2', 'h3'], // headings (with an ID) with an anchor link, `false` to disable

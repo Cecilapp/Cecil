@@ -821,6 +821,11 @@ Search.appendIndex(
             "summary": "Returns\u0020the\u0020build\u0020events\u0020dispatcher,\u0020to\u0020add\u0020listeners\u0020or\u0020subscribers.",
             "url": "classes/Cecil-Builder.html#method_getEventDispatcher"
         },                {
+            "fqsen": "\\Cecil\\Builder\u003A\u003AgetConverter\u0028\u0029",
+            "name": "getConverter",
+            "summary": "Returns\u0020the\u0020front\u0020matter\u0020and\u0020body\u0020converter,\u0020defined\u0020by\u0020the\u0020\u0060pages.converter\u0060\u0020configuration.",
+            "url": "classes/Cecil-Builder.html#method_getConverter"
+        },                {
             "fqsen": "\\Cecil\\Builder\u003A\u003AgetAutoloader\u0028\u0029",
             "name": "getAutoloader",
             "summary": "Returns\u0020the\u0020extensions\u0020autoloader.",
@@ -1020,6 +1025,11 @@ Search.appendIndex(
             "name": "autoloader",
             "summary": "Extensions\u0020autoloader.",
             "url": "classes/Cecil-Builder.html#property_autoloader"
+        },                {
+            "fqsen": "\\Cecil\\Builder\u003A\u003A\u0024converter",
+            "name": "converter",
+            "summary": "Front\u0020matter\u0020and\u0020body\u0020converter.",
+            "url": "classes/Cecil-Builder.html#property_converter"
         },                {
             "fqsen": "\\Cecil\\Cache",
             "name": "Cache",

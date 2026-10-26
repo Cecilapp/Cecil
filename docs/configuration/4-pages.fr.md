@@ -138,6 +138,17 @@ pages:
   frontmatter: yaml
 ```
 
+## pages.converter
+
+Classe utilisée pour convertir le front matter et le corps Markdown des pages (`Cecil\Converter\Converter` par défaut).
+
+```yaml
+pages:
+  converter: Cecil\Converter\Converter
+```
+
+Voir [Convertisseur Markdown](../developers/1-extend.fr.md#convertisseur-markdown) pour utiliser le vôtre.
+
 ## pages.body
 
 Options du corps des pages.

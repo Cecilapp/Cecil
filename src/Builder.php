@@ -14,6 +14,7 @@ declare(strict_types=1);
 namespace Cecil;
 
 use Cecil\Collection\Page\Collection as PagesCollection;
+use Cecil\Converter\ConverterInterface;
 use Cecil\Event\BuildEvent;
 use Cecil\Event\BuildEvents;
 use Cecil\Event\StepEvent;
@@ -264,6 +265,11 @@ class Builder implements BuildContextInterface, LoggerAwareInterface
      * @var Autoloader|null
      */
     protected $autoloader;
+    /**
+     * Front matter and body converter.
+     * @var ConverterInterface|null
+     */
+    protected $converter;
 
     /**
      * @param Config|array<string, mixed>|null $config
@@ -722,6 +728,24 @@ class Builder implements BuildContextInterface, LoggerAwareInterface
         }
 
         return $this->eventDispatcher;
+    }
+
+    /**
+     * Returns the front matter and body converter, defined by the `pages.converter` configuration.
+     *
+     * @throws RuntimeException
+     */
+    public function getConverter(): ConverterInterface
+    {
+        if ($this->converter === null) {
+            $class = (string) $this->getConfig()->get('pages.converter');
+            if (!is_a($class, ConverterInterface::class, true)) {
+                throw new RuntimeException(\sprintf('Configuration: the converter class "%s" (`pages.converter`) must exist and implement "%s".', $class, ConverterInterface::class));
+            }
+            $this->converter = new $class($this);
+        }
+
+        return $this->converter;
     }
 
     /**

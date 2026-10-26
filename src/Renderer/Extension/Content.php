@@ -140,8 +140,7 @@ class Content extends AbstractExtension
         $markdown = $markdown ?? '';
 
         try {
-            $parsedown = new Parsedown($this->builder);
-            $html = $parsedown->text($markdown);
+            $html = $this->builder->getConverter()->convertBody($markdown);
         } catch (\Exception $e) {
             throw new RuntimeException(
                 '"markdown_to_html" filter can not convert supplied Markdown.',

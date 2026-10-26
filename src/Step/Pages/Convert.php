@@ -15,7 +15,6 @@ namespace Cecil\Step\Pages;
 
 use Cecil\Builder;
 use Cecil\Collection\Page\Page;
-use Cecil\Converter\Converter;
 use Cecil\Converter\ConverterInterface;
 use Cecil\Event\BuildEvents;
 use Cecil\Event\PageEvent;
@@ -64,7 +63,7 @@ class Convert extends AbstractStep
 
         $total = \count($this->builder->getPages());
         $count = 0;
-        $converter = new Converter($this->getBuilder());
+        $converter = $this->getBuilder()->getConverter();
         /** @var Page $page */
         foreach ($this->builder->getPages() as $page) {
             if (!$page->isGenerated()) {
@@ -114,7 +113,7 @@ class Convert extends AbstractStep
     public function convertPage(Builder $builder, Page $page, ?string $format = null, ?ConverterInterface $converter = null): Page
     {
         $format = $format ?? (string) $builder->getConfig()->get('pages.frontmatter');
-        $converter = $converter ?? new Converter($builder);
+        $converter = $converter ?? $builder->getConverter();
 
         // converts front matter
         if ($page->getFrontmatter()) {
