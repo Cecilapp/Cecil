@@ -826,6 +826,11 @@ Search.appendIndex(
             "summary": "Returns\u0020the\u0020extensions\u0020autoloader.",
             "url": "classes/Cecil-Builder.html#method_getAutoloader"
         },                {
+            "fqsen": "\\Cecil\\Builder\u003A\u003AloadPlugins\u0028\u0029",
+            "name": "loadPlugins",
+            "summary": "Registers\u0020the\u0020plugins\u0020declared\u0020in\u0020the\u0020\u0060extensions.plugins\u0060\u0020configuration\u0020\u0028once\u0029.",
+            "url": "classes/Cecil-Builder.html#method_loadPlugins"
+        },                {
             "fqsen": "\\Cecil\\Builder\u003A\u003AloadSubscribers\u0028\u0029",
             "name": "loadSubscribers",
             "summary": "Adds\u0020the\u0020event\u0020subscribers\u0020declared\u0020in\u0020the\u0020\u0060extensions.subscribers\u0060\u0020configuration\u0020\u0028once\u0029.",
@@ -1005,6 +1010,11 @@ Search.appendIndex(
             "name": "subscribersLoaded",
             "summary": "Are\u0020the\u0020event\u0020subscribers\u0020of\u0020the\u0020configuration\u0020loaded\u003F",
             "url": "classes/Cecil-Builder.html#property_subscribersLoaded"
+        },                {
+            "fqsen": "\\Cecil\\Builder\u003A\u003A\u0024pluginsLoaded",
+            "name": "pluginsLoaded",
+            "summary": "Are\u0020the\u0020plugins\u0020of\u0020the\u0020configuration\u0020loaded\u003F",
+            "url": "classes/Cecil-Builder.html#property_pluginsLoaded"
         },                {
             "fqsen": "\\Cecil\\Builder\u003A\u003A\u0024autoloader",
             "name": "autoloader",
@@ -5116,6 +5126,96 @@ Search.appendIndex(
             "summary": "",
             "url": "classes/Cecil-Logger-ProgressConsoleLogger.html#property_lastAdvancedStep"
         },                {
+            "fqsen": "\\Cecil\\Plugin\\AbstractPlugin",
+            "name": "AbstractPlugin",
+            "summary": "Plugin\u0020abstract\u0020class.",
+            "url": "classes/Cecil-Plugin-AbstractPlugin.html"
+        },                {
+            "fqsen": "\\Cecil\\Plugin\\AbstractPlugin\u003A\u003A__construct\u0028\u0029",
+            "name": "__construct",
+            "summary": "",
+            "url": "classes/Cecil-Plugin-AbstractPlugin.html#method___construct"
+        },                {
+            "fqsen": "\\Cecil\\Plugin\\AbstractPlugin\u003A\u003A\u0024builder",
+            "name": "builder",
+            "summary": "",
+            "url": "classes/Cecil-Plugin-AbstractPlugin.html#property_builder"
+        },                {
+            "fqsen": "\\Cecil\\Plugin\\AbstractPlugin\u003A\u003A\u0024config",
+            "name": "config",
+            "summary": "",
+            "url": "classes/Cecil-Plugin-AbstractPlugin.html#property_config"
+        },                {
+            "fqsen": "\\Cecil\\Plugin\\PluginInterface",
+            "name": "PluginInterface",
+            "summary": "Plugin\u0020interface.",
+            "url": "classes/Cecil-Plugin-PluginInterface.html"
+        },                {
+            "fqsen": "\\Cecil\\Plugin\\PluginInterface\u003A\u003Aregister\u0028\u0029",
+            "name": "register",
+            "summary": "Registers\u0020the\u0020plugin\u0020extensions.",
+            "url": "classes/Cecil-Plugin-PluginInterface.html#method_register"
+        },                {
+            "fqsen": "\\Cecil\\Plugin\\Registry",
+            "name": "Registry",
+            "summary": "Plugin\u0020registry.",
+            "url": "classes/Cecil-Plugin-Registry.html"
+        },                {
+            "fqsen": "\\Cecil\\Plugin\\Registry\u003A\u003A__construct\u0028\u0029",
+            "name": "__construct",
+            "summary": "",
+            "url": "classes/Cecil-Plugin-Registry.html#method___construct"
+        },                {
+            "fqsen": "\\Cecil\\Plugin\\Registry\u003A\u003Agenerator\u0028\u0029",
+            "name": "generator",
+            "summary": "Registers\u0020a\u0020pages\u0020generator.",
+            "url": "classes/Cecil-Plugin-Registry.html#method_generator"
+        },                {
+            "fqsen": "\\Cecil\\Plugin\\Registry\u003A\u003AtwigExtension\u0028\u0029",
+            "name": "twigExtension",
+            "summary": "Registers\u0020a\u0020Twig\u0020extension.",
+            "url": "classes/Cecil-Plugin-Registry.html#method_twigExtension"
+        },                {
+            "fqsen": "\\Cecil\\Plugin\\Registry\u003A\u003ApostProcessor\u0028\u0029",
+            "name": "postProcessor",
+            "summary": "Registers\u0020an\u0020output\u0020post\u002Dprocessor.",
+            "url": "classes/Cecil-Plugin-Registry.html#method_postProcessor"
+        },                {
+            "fqsen": "\\Cecil\\Plugin\\Registry\u003A\u003Asubscriber\u0028\u0029",
+            "name": "subscriber",
+            "summary": "Registers\u0020a\u0020build\u0020events\u0020subscriber.",
+            "url": "classes/Cecil-Plugin-Registry.html#method_subscriber"
+        },                {
+            "fqsen": "\\Cecil\\Plugin\\Registry\u003A\u003Alisten\u0028\u0029",
+            "name": "listen",
+            "summary": "Adds\u0020a\u0020build\u0020event\u0020listener.",
+            "url": "classes/Cecil-Plugin-Registry.html#method_listen"
+        },                {
+            "fqsen": "\\Cecil\\Plugin\\Registry\u003A\u003A\u0024config",
+            "name": "config",
+            "summary": "Configuration\u0020registered\u0020by\u0020the\u0020plugin.",
+            "url": "classes/Cecil-Plugin-Registry.html#property_config"
+        },                {
+            "fqsen": "\\Cecil\\Plugin\\Registry\u003A\u003Aapply\u0028\u0029",
+            "name": "apply",
+            "summary": "Adds\u0020the\u0020registered\u0020configuration\u0020to\u0020the\u0020site\u0020configuration,\u0020with\u0020the\u0020lowest\u0020precedence.",
+            "url": "classes/Cecil-Plugin-Registry.html#method_apply"
+        },                {
+            "fqsen": "\\Cecil\\Plugin\\Registry\u003A\u003Aextension\u0028\u0029",
+            "name": "extension",
+            "summary": "Registers\u0020an\u0020extension\u0020in\u0020the\u0020given\u0020configuration\u0020key,\u0020indexed\u0020by\u0020its\u0020name\u0020\u0028the\u0020short\u0020class\u0020name\u0020by\u0020default\u0029.",
+            "url": "classes/Cecil-Plugin-Registry.html#method_extension"
+        },                {
+            "fqsen": "\\Cecil\\Plugin\\Registry\u003A\u003A\u0024builder",
+            "name": "builder",
+            "summary": "",
+            "url": "classes/Cecil-Plugin-Registry.html#property_builder"
+        },                {
+            "fqsen": "\\Cecil\\Plugin\\Registry\u003A\u003A\u0024plugin",
+            "name": "plugin",
+            "summary": "",
+            "url": "classes/Cecil-Plugin-Registry.html#property_plugin"
+        },                {
             "fqsen": "\\Cecil\\Renderer\\Config",
             "name": "Config",
             "summary": "Config\u0020renderer\u0020class.",
@@ -7105,6 +7205,11 @@ Search.appendIndex(
             "name": "Logger",
             "summary": "",
             "url": "namespaces/cecil-logger.html"
+        },                {
+            "fqsen": "\\Cecil\\Plugin",
+            "name": "Plugin",
+            "summary": "",
+            "url": "namespaces/cecil-plugin.html"
         },                {
             "fqsen": "\\Cecil\\Renderer",
             "name": "Renderer",

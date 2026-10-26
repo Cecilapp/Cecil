@@ -29,7 +29,7 @@ Use your own namespace (e.g.: `MySite\` or the name of your theme): the `Cecil\`
 
 ## Configuration
 
-Page generators, Twig extensions, output post-processors and [build events](#build-events) subscribers are declared the same way, as a map indexed by name:
+Page generators, Twig extensions, output post-processors, [build events](#build-events) subscribers and [plugins](#plugins) are declared the same way, as a map indexed by name:
 
 ```yaml
 <key>:
@@ -288,3 +288,46 @@ extensions:
 :::tip
 When using Cecil as a [PHP library](2-library.md), listeners can also be added directly to the dispatcher before the build: `$builder->getEventDispatcher()->addListener(BuildEvents::PAGE_SAVED, $callable)`.
 :::
+
+## Plugins
+
+A plugin is a single entry point that registers a set of extensions: generators, Twig extensions, post-processors, event subscribers and listeners, and default configuration. It's the recommended way to ship extensions with a theme: enabling the theme enables its plugin, with no other configuration.
+
+Create a PHP class extending `Cecil\Plugin\AbstractPlugin` (which gives access to `$this->builder` and `$this->config`), and add it to the `extensions.plugins` list.
+
+**Example:**
+
+_/themes/paper/extensions/Paper/PaperPlugin.php_
+
+```php
+<?php
+namespace Paper;
+
+use Cecil\Event\BuildEvents;
+use Cecil\Plugin\AbstractPlugin;
+use Cecil\Plugin\Registry;
+
+class PaperPlugin extends AbstractPlugin
+{
+    public function register(Registry $registry): void
+    {
+        $registry
+            ->config(['paper' => ['feed' => ['limit' => 10]]]) // default options
+            ->twigExtension(Twig\PaperExtension::class)
+            ->generator(Generator\Feed::class, priority: 35)
+            ->postProcessor(PostProcessor\Minify::class)
+            ->subscriber(SearchIndex::class)
+            ->listen(BuildEvents::BUILD_FINISHED, fn () => $this->builder->getLogger()->notice('Paper is ready'));
+    }
+}
+```
+
+_/themes/paper/config.yml_
+
+```yaml
+extensions:
+  plugins:
+    Paper: Paper\PaperPlugin
+```
+
+Extensions registered by a plugin are named after their short class name (e.g.: `Feed`), unless a `name` is given, and use the default priority (`100`) unless a `priority` is given. The plugin configuration has the lowest precedence: the site (and themes) configuration can override its options, and disable (`Feed: false`) or move (`Feed: { priority: 45 }`) its extensions by name.

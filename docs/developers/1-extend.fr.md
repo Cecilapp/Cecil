@@ -30,7 +30,7 @@ Utilisez votre propre espace de noms (par ex. `MySite\` ou le nom de votre thèm
 
 ## Configuration
 
-Les générateurs de pages, les extensions Twig, les post-processeurs de sortie et les abonnés aux [événements de build](#evenements-de-build) se déclarent de la même façon, sous forme de liste indexée par nom :
+Les générateurs de pages, les extensions Twig, les post-processeurs de sortie, les abonnés aux [événements de build](#evenements-de-build) et les [plugins](#plugins) se déclarent de la même façon, sous forme de liste indexée par nom :
 
 ```yaml
 <clé>:
@@ -289,3 +289,46 @@ extensions:
 :::tip
 En utilisant Cecil comme [bibliothèque PHP](2-library.fr.md), des écouteurs peuvent aussi être ajoutés directement au dispatcher avant le build : `$builder->getEventDispatcher()->addListener(BuildEvents::PAGE_SAVED, $callable)`.
 :::
+
+## Plugins
+
+Un plugin est un point d’entrée unique qui enregistre un ensemble d’extensions : générateurs, extensions Twig, post-processeurs, abonnés et écouteurs d’événements, et configuration par défaut. C’est la façon recommandée de fournir des extensions avec un thème : activer le thème active son plugin, sans autre configuration.
+
+Créez une classe PHP héritant de `Cecil\Plugin\AbstractPlugin` (qui donne accès à `$this->builder` et `$this->config`), puis ajoutez-la à la liste `extensions.plugins`.
+
+**Exemple :**
+
+_/themes/paper/extensions/Paper/PaperPlugin.php_
+
+```php
+<?php
+namespace Paper;
+
+use Cecil\Event\BuildEvents;
+use Cecil\Plugin\AbstractPlugin;
+use Cecil\Plugin\Registry;
+
+class PaperPlugin extends AbstractPlugin
+{
+    public function register(Registry $registry): void
+    {
+        $registry
+            ->config(['paper' => ['feed' => ['limit' => 10]]]) // options par défaut
+            ->twigExtension(Twig\PaperExtension::class)
+            ->generator(Generator\Feed::class, priority: 35)
+            ->postProcessor(PostProcessor\Minify::class)
+            ->subscriber(SearchIndex::class)
+            ->listen(BuildEvents::BUILD_FINISHED, fn () => $this->builder->getLogger()->notice('Paper is ready'));
+    }
+}
+```
+
+_/themes/paper/config.yml_
+
+```yaml
+extensions:
+  plugins:
+    Paper: Paper\PaperPlugin
+```
+
+Les extensions enregistrées par un plugin sont nommées d’après le nom court de leur classe (par ex. `Feed`), sauf si un `name` est fourni, et utilisent la priorité par défaut (`100`), sauf si une `priority` est fournie. La configuration du plugin a la priorité la plus faible : la configuration du site (et des thèmes) peut remplacer ses options, et désactiver (`Feed: false`) ou déplacer (`Feed: { priority: 45 }`) ses extensions par leur nom.

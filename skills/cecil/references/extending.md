@@ -146,9 +146,45 @@ extensions:
 
 Events (`Cecil\Event\BuildEvents`): `build.start` / `build.finished` (`BuildEvent`), `step.pre` / `step.post` (`StepEvent`, `getStep()`), `page.created` (from a content file) / `page.converted` (published pages) (`PageEvent`, `getPage()`), `page.rendered` (`PageRenderedEvent`, `getFormat()`, `getOutput()`, `setOutput()`, after post-processors), `page.saved` (`PageSavedEvent`, `getFormat()`, `getPathname()`). With Cecil as a library, use `$builder->getEventDispatcher()->addListener(...)` before `build()`.
 
+## Plugins
+
+A plugin registers a set of extensions from a single class extending `Cecil\Plugin\AbstractPlugin`, declared once in `extensions.plugins` (the recommended way for a theme to ship extensions, in its `config.yml`):
+
+```php
+<?php
+
+namespace MyTheme;
+
+use Cecil\Event\BuildEvents;
+use Cecil\Plugin\AbstractPlugin;
+use Cecil\Plugin\Registry;
+
+class MyThemePlugin extends AbstractPlugin
+{
+    public function register(Registry $registry): void
+    {
+        $registry
+            ->config(['mytheme' => ['option' => true]])          // default options
+            ->twigExtension(Twig\MyExtension::class)              // `layouts.extensions.MyExtension`
+            ->generator(Generator\Feed::class, priority: 35)      // `pages.generators.Feed`
+            ->postProcessor(PostProcessor\Minify::class)           // `output.postprocessors.Minify`
+            ->subscriber(SearchIndex::class)                       // `extensions.subscribers.SearchIndex`
+            ->listen(BuildEvents::BUILD_FINISHED, fn () => null);      // event listener
+    }
+}
+```
+
+```yaml
+extensions:
+  plugins:
+    MyTheme: MyTheme\MyThemePlugin
+```
+
+Registered extensions are named after their short class name (or `name:`), with the default priority `100` (or `priority:`). The plugin configuration has the lowest precedence: site and themes configuration can override its options and disable (`Feed: false`) or move (`Feed: {priority: 45}`) its extensions.
+
 ## Extensions Configuration
 
-Generators, Twig extensions, post-processors and event subscribers share the same syntax: `<name>: <class>`, `<name>: { class: <class>, priority: <int> }` or `<name>: false`. If an extension can't be loaded (unknown class, wrong interface, invalid option), the build fails with `Unable to load extension "<name>" (<config key>)`; set `extensions.strict: false` to only log the error and skip the extension.
+Generators, Twig extensions, post-processors, event subscribers and plugins share the same syntax: `<name>: <class>`, `<name>: { class: <class>, priority: <int> }` or `<name>: false`. If an extension can't be loaded (unknown class, wrong interface, invalid option), the build fails with `Unable to load extension "<name>" (<config key>)`; set `extensions.strict: false` to only log the error and skip the extension.
 
 ## Use Cecil as a PHP Library
 

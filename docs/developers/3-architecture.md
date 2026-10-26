@@ -264,7 +264,7 @@ graph TB
 | **Collections**     | Pages, Taxonomies, Menus: core data structures                                                           |
 | **Converter**       | Parses the front matter (YAML, INI, TOML or JSON) and converts Markdown to HTML (Parsedown, code highlighting) |
 | **Generators**      | Create or update pages (default pages, sections, taxonomies, pagination, aliases, redirects, etc.)       |
-| **Extensions**      | Generators, Twig extensions, post-processors and event subscribers declared by name, loaded and validated by `Extension\Loader` |
+| **Extensions**      | Generators, Twig extensions, post-processors, event subscribers and plugins declared by name, loaded and validated by `Extension\Loader`, autoloaded by `Extension\Autoloader` |
 | **Events**          | Build events (`Event\BuildEvents`) dispatched around the build, each step and each page lifecycle, to [extend Cecil](1-extend.md#build-events) |
 | **Renderer (Twig)** | Applies templates + extensions + post-processors                                                         |
 | **Assets**          | Created from Markdown content and templates: compiles SCSS, minifies, resizes and converts images, fingerprints files |

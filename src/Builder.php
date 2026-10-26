@@ -22,6 +22,8 @@ use Cecil\Extension\Autoloader;
 use Cecil\Extension\Loader;
 use Cecil\Generator\GeneratorManager;
 use Cecil\Logger\PrintLogger;
+use Cecil\Plugin\PluginInterface;
+use Cecil\Plugin\Registry;
 use Psr\Log\LoggerAwareInterface;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\EventDispatcher\EventDispatcher;
@@ -253,6 +255,11 @@ class Builder implements BuildContextInterface, LoggerAwareInterface
      */
     protected $subscribersLoaded = false;
     /**
+     * Are the plugins of the configuration loaded?
+     * @var bool
+     */
+    protected $pluginsLoaded = false;
+    /**
      * Extensions autoloader.
      * @var Autoloader|null
      */
@@ -320,8 +327,9 @@ class Builder implements BuildContextInterface, LoggerAwareInterface
         // set build ID (unique, even for builds started within the same second)
         self::$buildId = hash('xxh32', uniqid('', true) . self::$version);
 
-        // loads extensions dependencies and event subscribers
+        // loads extensions dependencies, plugins and event subscribers
         $this->getAutoloader()->requireVendors();
+        $this->loadPlugins();
         $this->loadSubscribers();
         $this->getEventDispatcher()->dispatch(new BuildEvent($this), BuildEvents::BUILD_START);
 
@@ -726,6 +734,25 @@ class Builder implements BuildContextInterface, LoggerAwareInterface
         }
 
         return $this->autoloader;
+    }
+
+    /**
+     * Registers the plugins declared in the `extensions.plugins` configuration (once).
+     *
+     * @throws RuntimeException
+     */
+    protected function loadPlugins(): void
+    {
+        if ($this->pluginsLoaded) {
+            return;
+        }
+        foreach ((new Loader($this))->load('extensions.plugins', PluginInterface::class) as $name => $plugin) {
+            $registry = new Registry($this, $name);
+            $plugin->register($registry);
+            $registry->apply();
+            $this->getLogger()->debug(\sprintf('Plugin "%s" registered', $name));
+        }
+        $this->pluginsLoaded = true;
     }
 
     /**

@@ -448,5 +448,8 @@ return [
         'subscribers' => [ // build events subscribers, indexed by name
             //'<name>' => '<class>',
         ],
+        'plugins' => [ // plugins (registering a set of extensions), indexed by name
+            //'<name>' => '<class>',
+        ],
     ],
 ];
