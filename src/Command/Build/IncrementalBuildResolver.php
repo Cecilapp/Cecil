@@ -193,7 +193,9 @@ class IncrementalBuildResolver
             $queue[] = $id;
         }
 
-        while (($current = array_shift($queue)) !== null) {
+        $queueIndex = 0;
+        while (isset($queue[$queueIndex])) {
+            $current = $queue[$queueIndex++];
             foreach ($reverseDependencies[$current] ?? [] as $dependent) {
                 if (!isset($affected[$dependent])) {
                     $affected[$dependent] = true;
