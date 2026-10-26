@@ -34,15 +34,15 @@ class CustomGenerator extends AbstractGenerator implements GeneratorInterface
 }
 ```
 
-Register it with `pages.generators`, keyed by priority (lower runs first):
+Register it with `pages.generators`, indexed by name (lower priority runs first, default priority is `100`):
 
 ```yaml
 pages:
   generators:
-    35: MyProject\Generator\CustomGenerator # after ExternalBody (30), before Section (40)
+    Custom: { class: MyProject\Generator\CustomGenerator, priority: 35 } # after ExternalBody (30), before Section (40)
 ```
 
-Built-in generators use the keys `10`, `30`, `40`, `50`, `60`, `70`, `80` and `90`: reusing one **replaces** that built-in generator. A generator that must be listed in sections, taxonomies or paginated lists has to run before them.
+Built-in generators are named `DefaultPages` (10), `ExternalBody` (30), `Section` (40), `Taxonomy` (50), `Homepage` (60), `Pagination` (70), `Alias` (80) and `Redirect` (90): disable one with `<Name>: false`, move one with `<Name>: { priority: <int> }`. A priority as key (`35: <class>`) is rejected since Cecil 9. A generator that must be listed in sections, taxonomies or paginated lists has to run before them.
 
 ## Twig Extensions
 
@@ -80,7 +80,7 @@ The class is instantiated with the `Cecil\Builder` instance as constructor argum
 
 ## Output Post-processors
 
-Post-process the rendered output of each page by extending `AbstractPostProcessor` (built-in post-processors run first):
+Post-process the rendered output of each page by extending `AbstractPostProcessor` (built-in post-processors use the priorities 10 to 30, so they run first by default):
 
 ```php
 <?php
@@ -109,7 +109,7 @@ output:
     MyProcessor: MyProject\Renderer\PostProcessor\MyProcessor
 ```
 
-If a Twig extension or post-processor class can't be loaded, the build doesn't fail: an error is logged (`Unable to add Twig extension`, `Unable to load output post processor`), visible with `-v`.
+Generators, Twig extensions and post-processors share the same syntax: `<name>: <class>`, `<name>: { class: <class>, priority: <int> }` or `<name>: false`. If an extension can't be loaded (unknown class, wrong interface, invalid option), the build fails with `Unable to load extension "<name>" (<config key>)`; set `extensions.strict: false` to only log the error and skip the extension.
 
 ## Use Cecil as a PHP Library
 

@@ -2,7 +2,7 @@
 title: "Pages"
 description: "Pages directory, sorting, pagination, paths, body, default pages, generators, etc."
 date: 2021-05-07
-updated: 2026-10-24
+updated: 2026-10-26
 -->
 # Pages
 
@@ -368,20 +368,31 @@ Disallow: /
 
 Generators are used by Cecil to create additional pages (e.g.: sitemap, feed, pagination, etc.) from existing pages, or from other sources like the configuration file or external sources.
 
-Below is the list of generators provided by Cecil, in a defined order:
+Generators are indexed by name and run in ascending order of their priority. Below is the list of generators provided by Cecil:
 
 ```yaml
 pages:
   generators:
-    10: 'Cecil\Generator\DefaultPages'
-    30: 'Cecil\Generator\ExternalBody'
-    40: 'Cecil\Generator\Section'
-    50: 'Cecil\Generator\Taxonomy'
-    60: 'Cecil\Generator\Homepage'
-    70: 'Cecil\Generator\Pagination'
-    80: 'Cecil\Generator\Alias'
-    90: 'Cecil\Generator\Redirect'
+    DefaultPages: { class: Cecil\Generator\DefaultPages, priority: 10 }
+    ExternalBody: { class: Cecil\Generator\ExternalBody, priority: 30 }
+    Section:      { class: Cecil\Generator\Section, priority: 40 }
+    Taxonomy:     { class: Cecil\Generator\Taxonomy, priority: 50 }
+    Homepage:     { class: Cecil\Generator\Homepage, priority: 60 }
+    Pagination:   { class: Cecil\Generator\Pagination, priority: 70 }
+    Alias:        { class: Cecil\Generator\Alias, priority: 80 }
+    Redirect:     { class: Cecil\Generator\Redirect, priority: 90 }
 ```
+
+A built-in generator can be disabled or moved by its name:
+
+```yaml
+pages:
+  generators:
+    Redirect: false            # disabled
+    Section: { priority: 45 }  # moved
+```
+
+See [Extensions](../developers/1-extend.md#configuration) for the full syntax.
 
 :::tip
 You can extend Cecil with [Pages generator](../developers/1-extend.md#page-generators).

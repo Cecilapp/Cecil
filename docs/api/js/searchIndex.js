@@ -4471,6 +4471,51 @@ Search.appendIndex(
             "summary": "",
             "url": "classes/Cecil-Exception-RuntimeException.html#method___construct"
         },                {
+            "fqsen": "\\Cecil\\Extension\\Loader",
+            "name": "Loader",
+            "summary": "Extensions\u0020loader.",
+            "url": "classes/Cecil-Extension-Loader.html"
+        },                {
+            "fqsen": "\\Cecil\\Extension\\Loader\u003A\u003A__construct\u0028\u0029",
+            "name": "__construct",
+            "summary": "",
+            "url": "classes/Cecil-Extension-Loader.html#method___construct"
+        },                {
+            "fqsen": "\\Cecil\\Extension\\Loader\u003A\u003AgetDefinitions\u0028\u0029",
+            "name": "getDefinitions",
+            "summary": "Returns\u0020the\u0020valid\u0020and\u0020enabled\u0020extensions\u0020definitions\u0020of\u0020the\u0020configuration\u0020\u0060\u0024key\u0060,\u0020sorted\u0020by\u0020priority.",
+            "url": "classes/Cecil-Extension-Loader.html#method_getDefinitions"
+        },                {
+            "fqsen": "\\Cecil\\Extension\\Loader\u003A\u003Aload\u0028\u0029",
+            "name": "load",
+            "summary": "Returns\u0020the\u0020instances\u0020of\u0020valid\u0020and\u0020enabled\u0020extensions\u0020of\u0020the\u0020configuration\u0020\u0060\u0024key\u0060,\u0020indexed\u0020by\u0020name\u0020and\u0020sorted\u0020by\u0020priority.",
+            "url": "classes/Cecil-Extension-Loader.html#method_load"
+        },                {
+            "fqsen": "\\Cecil\\Extension\\Loader\u003A\u003Anormalize\u0028\u0029",
+            "name": "normalize",
+            "summary": "Normalizes\u0020an\u0020extension\u0020entry,\u0020or\u0020returns\u0020null\u0020if\u0020it\u0020is\u0020disabled.",
+            "url": "classes/Cecil-Extension-Loader.html#method_normalize"
+        },                {
+            "fqsen": "\\Cecil\\Extension\\Loader\u003A\u003AhandleError\u0028\u0029",
+            "name": "handleError",
+            "summary": "Throws\u0020the\u0020error\u0020in\u0020strict\u0020mode,\u0020logs\u0020it\u0020otherwise.",
+            "url": "classes/Cecil-Extension-Loader.html#method_handleError"
+        },                {
+            "fqsen": "\\Cecil\\Extension\\Loader\u003A\u003ADEFAULT_PRIORITY",
+            "name": "DEFAULT_PRIORITY",
+            "summary": "Default\u0020priority\u0020of\u0020an\u0020extension\u003A\u0020after\u0020built\u002Din\u0020extensions.",
+            "url": "classes/Cecil-Extension-Loader.html#constant_DEFAULT_PRIORITY"
+        },                {
+            "fqsen": "\\Cecil\\Extension\\Loader\u003A\u003AENTRY_KEYS",
+            "name": "ENTRY_KEYS",
+            "summary": "Allowed\u0020keys\u0020of\u0020an\u0020extension\u0020entry.",
+            "url": "classes/Cecil-Extension-Loader.html#constant_ENTRY_KEYS"
+        },                {
+            "fqsen": "\\Cecil\\Extension\\Loader\u003A\u003A\u0024builder",
+            "name": "builder",
+            "summary": "",
+            "url": "classes/Cecil-Extension-Loader.html#property_builder"
+        },                {
             "fqsen": "\\Cecil\\Generator\\AbstractGenerator",
             "name": "AbstractGenerator",
             "summary": "Generator\u0020abstract\u0020class.",
@@ -6735,6 +6780,11 @@ Search.appendIndex(
             "name": "Exception",
             "summary": "",
             "url": "namespaces/cecil-exception.html"
+        },                {
+            "fqsen": "\\Cecil\\Extension",
+            "name": "Extension",
+            "summary": "",
+            "url": "namespaces/cecil-extension.html"
         },                {
             "fqsen": "\\Cecil\\Generator",
             "name": "Generator",

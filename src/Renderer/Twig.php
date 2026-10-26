@@ -14,7 +14,7 @@ declare(strict_types=1);
 namespace Cecil\Renderer;
 
 use Cecil\Builder;
-use Cecil\Exception\RuntimeException;
+use Cecil\Extension\Loader;
 use Cecil\Renderer\Extension\Collection as CollectionExtension;
 use Cecil\Renderer\Extension\Content as ContentExtension;
 use Cecil\Renderer\Extension\Core as CoreExtension;
@@ -197,21 +197,8 @@ class Twig implements RendererInterface
             $this->twig->addExtension(new \Twig\Extension\ProfilerExtension($this->profile));
         }
         // loads custom extensions
-        if ($this->builder->getConfig()->has('layouts.extensions')) {
-            foreach ((array) $this->builder->getConfig()->get('layouts.extensions') as $name => $class) {
-                try {
-                    if (!class_exists($class)) {
-                        throw new RuntimeException(\sprintf('Class "%s" not found', $class));
-                    }
-                    if (!is_a($class, \Twig\Extension\ExtensionInterface::class, true)) {
-                        throw new RuntimeException(\sprintf('Class "%s" must implement "%s".', $class, \Twig\Extension\ExtensionInterface::class));
-                    }
-                    $this->twig->addExtension(new $class($this->builder));
-                    $this->builder->getLogger()->debug(\sprintf('Twig extension "%s" added', $name));
-                } catch (RuntimeException | \Error $e) {
-                    $this->builder->getLogger()->error(\sprintf('Unable to add Twig extension "%s": %s', $name, $e->getMessage()));
-                }
-            }
+        foreach ((new Loader($this->builder))->load('layouts.extensions', \Twig\Extension\ExtensionInterface::class) as $extension) {
+            $this->twig->addExtension($extension);
         }
     }
 

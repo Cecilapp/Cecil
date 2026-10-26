@@ -2,7 +2,7 @@
 title: "Sortie"
 description: "Dossier de sortie, formats et post-traitement."
 date: 2026-03-27
-updated: 2026-10-18
+updated: 2026-10-26
 path: documentation/configuration/sortie
 -->
 # Sortie
@@ -110,17 +110,19 @@ output:
 
 ## output.postprocessors
 
-Liste des classes de post-processeurs de sortie, utilisés pour modifier les fichiers de sortie après leur génération.
+Post-processeurs de sortie, indexés par nom et exécutés par ordre croissant de priorité, utilisés pour modifier les fichiers de sortie après leur génération.
 
 Post-processeurs par défaut :
 
 ```yaml
 output:
   postprocessors:
-    GeneratorMetaTag: 'Cecil\Renderer\PostProcessor\GeneratorMetaTag'
-    HtmlExcerpt: 'Cecil\Renderer\PostProcessor\HtmlExcerpt'
-    MarkdownLink: 'Cecil\Renderer\PostProcessor\MarkdownLink'
+    GeneratorMetaTag: { class: Cecil\Renderer\PostProcessor\GeneratorMetaTag, priority: 10 }
+    HtmlExcerpt:      { class: Cecil\Renderer\PostProcessor\HtmlExcerpt, priority: 20 }
+    MarkdownLink:     { class: Cecil\Renderer\PostProcessor\MarkdownLink, priority: 30 }
 ```
+
+Un post-processeur peut être désactivé par son nom (par ex. `GeneratorMetaTag: false`). Voir [Extensions](../developers/1-extend.fr.md#configuration) pour la syntaxe complète.
 
 :::tip
 Vous pouvez étendre les capacités de Cecil avec un [post-processeur de sortie](../developers/1-extend.fr.md#post-processeurs-de-sortie).

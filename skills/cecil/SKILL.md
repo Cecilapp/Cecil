@@ -89,7 +89,7 @@ Builder → Steps → Generators → Renderer → Output
   - Optimize: HTML, CSS, JS and images
 
 - **Generators** (`Generator/`): Page generators executed via priority queue
-  - Generators are ordered by numeric weight; lower numbers execute first (e.g., DefaultPages at weight 10 runs before Alias at weight 80).
+  - Generators are indexed by name and ordered by priority; lower numbers execute first (e.g., `DefaultPages` at priority 10 runs before `Alias` at priority 80).
   - DefaultPages (10) → ExternalBody (30) → Section (40) → Taxonomy (50) → Homepage (60) → Pagination (70) → Alias (80) → Redirect (90)
 
 - **Renderer** (`Renderer/`): Twig-based rendering with custom extensions

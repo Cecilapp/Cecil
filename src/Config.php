@@ -837,6 +837,10 @@ class Config
                     'The cache directory (`cache.dir`) must not be empty when cache is enabled.'
                 )
             ),
+            // extensions loading options
+            'extensions' => Expect::structure([
+                'strict' => Expect::bool(),
+            ])->otherItems(Expect::mixed()),
             // each output format must define a `name` and a `mediatype`
             'output.formats' => Expect::arrayOf(
                 Expect::structure([

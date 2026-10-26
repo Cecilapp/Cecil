@@ -2,7 +2,7 @@
 title: "Pages"
 description: "Dossier des pages, tri, pagination, chemins, corps, pages par défaut, générateurs, etc."
 date: 2026-03-27
-updated: 2026-10-24
+updated: 2026-10-26
 -->
 # Pages
 
@@ -368,20 +368,31 @@ Disallow: /
 
 Cecil utilise les générateurs pour créer des pages supplémentaires (par ex. sitemap, flux, pagination, etc.) à partir de pages existantes, ou à partir d’autres sources comme le fichier de configuration ou des sources externes.
 
-Voici la liste des générateurs fournis par Cecil, dans un ordre défini :
+Les générateurs sont indexés par nom et exécutés par ordre croissant de priorité. Voici la liste des générateurs fournis par Cecil :
 
 ```yaml
 pages:
   generators:
-    10: 'Cecil\Generator\DefaultPages'
-    30: 'Cecil\Generator\ExternalBody'
-    40: 'Cecil\Generator\Section'
-    50: 'Cecil\Generator\Taxonomy'
-    60: 'Cecil\Generator\Homepage'
-    70: 'Cecil\Generator\Pagination'
-    80: 'Cecil\Generator\Alias'
-    90: 'Cecil\Generator\Redirect'
+    DefaultPages: { class: Cecil\Generator\DefaultPages, priority: 10 }
+    ExternalBody: { class: Cecil\Generator\ExternalBody, priority: 30 }
+    Section:      { class: Cecil\Generator\Section, priority: 40 }
+    Taxonomy:     { class: Cecil\Generator\Taxonomy, priority: 50 }
+    Homepage:     { class: Cecil\Generator\Homepage, priority: 60 }
+    Pagination:   { class: Cecil\Generator\Pagination, priority: 70 }
+    Alias:        { class: Cecil\Generator\Alias, priority: 80 }
+    Redirect:     { class: Cecil\Generator\Redirect, priority: 90 }
 ```
+
+Un générateur intégré peut être désactivé ou déplacé par son nom :
+
+```yaml
+pages:
+  generators:
+    Redirect: false            # désactivé
+    Section: { priority: 45 }  # déplacé
+```
+
+Voir [Extensions](../developers/1-extend.fr.md#configuration) pour la syntaxe complète.
 
 :::tip
 Vous pouvez étendre Cecil avec un [générateur de pages](../developers/1-extend.fr.md#generateurs-de-pages).

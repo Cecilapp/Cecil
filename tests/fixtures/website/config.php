@@ -104,8 +104,8 @@ return [
             ],
         ],
         'generators' => [
-            99 => 'Cecil\Generator\TestError',
-            100 => 'Cecil\Generator\TitleReplace',
+            'TestError' => ['class' => 'Cecil\Generator\TestError', 'priority' => 99],
+            'TitleReplace' => 'Cecil\Generator\TitleReplace',
         ],
         'default' => [
             'sitemap' => [
@@ -219,4 +219,7 @@ return [
     ],
     'cache' => true,
     'optimize' => true,
+    'extensions' => [
+        'strict' => false, // tests unloadable extensions
+    ],
 ];

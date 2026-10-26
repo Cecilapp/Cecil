@@ -22,7 +22,6 @@ return [
     'virtualpages' => 'pages.default',
     'generators' => 'pages.generators',
     'translations' => 'layouts.translations',
-    'extensions' => 'layouts.extensions',
     'postprocess' => 'optimize',
     // changes since version 8.37.0
     'pagination' => 'pages.pagination',

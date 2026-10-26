@@ -2,7 +2,7 @@
 title: "Étendre Cecil"
 description: "Créez des générateurs de pages, ajoutez des extensions Twig et post-traitez les fichiers de sortie."
 date: 2026-03-27
-updated: 2026-10-16
+updated: 2026-10-26
 alias: documentation/etendre
 path: documentation/developpeurs/etendre
 -->
@@ -12,13 +12,37 @@ Comme Cecil est écrit en PHP, il est facile d’en étendre les capacités.
 
 Les classes personnalisées sont chargées automatiquement depuis le répertoire `extensions` de votre site (ou d’un thème) : la classe `Cecil\Generator\MyGenerator` est chargée depuis `extensions/Cecil/Generator/MyGenerator.php`.
 
+## Configuration
+
+Les générateurs de pages, les extensions Twig et les post-processeurs de sortie se déclarent de la même façon, sous forme de liste indexée par nom :
+
+```yaml
+<clé>:
+  <nom>: <classe>                                         # priorité par défaut (100)
+  <nom>: { class: <classe>, priority: <int> }             # priorité explicite
+  <nom>: false                                            # désactivé
+```
+
+- Les extensions sont exécutées par ordre croissant de priorité ; sans priorité, elles sont exécutées après les extensions intégrées (priorité `100`), dans leur ordre de déclaration.
+- Une extension intégrée peut être désactivée (`Redirect: false`) ou déplacée (`Section: { priority: 45 }`) par son nom.
+- Une extension qui ne peut pas être chargée (classe inconnue, mauvaise interface, option invalide) fait échouer le build. Pour simplement journaliser l’erreur et ignorer l’extension, désactivez le mode strict :
+
+```yaml
+extensions:
+  strict: false
+```
+
+:::important
+Depuis Cecil 9, les extensions doivent être indexées par nom : une priorité en clé (par ex. `35: Cecil\Generator\Database`) est refusée, utilisez `Database: { class: Cecil\Generator\Database, priority: 35 }` à la place.
+:::
+
 ## Générateurs de pages
 
 Un générateur permet de créer des pages sans fichiers Markdown (avec des données provenant d’une API ou d’une base de données, par exemple), ou de modifier des pages existantes.
 
-Créez une nouvelle classe PHP dans l’espace de noms `Cecil\Generator`, héritant de `AbstractGenerator`, puis ajoutez le nom de la classe à la liste [`pages.generators`](../configuration/4-pages.fr.md#pages-generators).
+Créez une nouvelle classe PHP dans l’espace de noms `Cecil\Generator`, héritant de `AbstractGenerator`, puis ajoutez-la à la liste [`pages.generators`](../configuration/4-pages.fr.md#pages-generators).
 
-Les générateurs sont exécutés par ordre croissant de leur clé (priorité). Les générateurs intégrés utilisent les clés `10` à `90` : utilisez une autre clé, sinon le générateur intégré est remplacé.
+Les générateurs intégrés utilisent les priorités `10` à `90` : choisissez la priorité de votre générateur selon les pages dont il a besoin (par ex. après `Section` pour accéder aux pages de sections).
 
 **Exemple :**
 
@@ -86,9 +110,8 @@ _configuration_
 ```yaml
 pages:
   generators:
-    # priorité : nom de la classe
-    99: Cecil\Generator\DummyPage
-    35: Cecil\Generator\Database
+    DummyPage: Cecil\Generator\DummyPage
+    Database: { class: Cecil\Generator\Database, priority: 35 }
 ```
 
 ## Extension Twig
@@ -97,7 +120,7 @@ Vous pouvez ajouter des [fonctions](../templates/reference/1-functions.fr.md) et
 
 1. [créez une extension Twig](https://twig.symfony.com/doc/advanced.html#creating-an-extension) dans l’espace de noms `Cecil\Renderer\Extension`
 2. ajoutez le fichier PHP dans le répertoire `extensions`
-3. ajoutez le nom de la classe à la configuration [`layouts.extensions`](../configuration/7-layouts.fr.md#layouts-extensions)
+3. ajoutez-la à la configuration [`layouts.extensions`](../configuration/7-layouts.fr.md#layouts-extensions)
 
 Le constructeur de l’extension reçoit l’instance de `Cecil\Builder`, qui donne accès à la configuration et au contenu du site.
 
@@ -133,9 +156,9 @@ layouts:
 
 Vous pouvez post-traiter le rendu des pages.
 
-Créez une nouvelle classe PHP dans l’espace de noms `Cecil\Renderer\PostProcessor`, héritant de `AbstractPostProcessor`, puis ajoutez le nom de la classe à la liste [`output.postprocessors`](../configuration/8-output.fr.md#output-postprocessors).
+Créez une nouvelle classe PHP dans l’espace de noms `Cecil\Renderer\PostProcessor`, héritant de `AbstractPostProcessor`, puis ajoutez-la à la liste [`output.postprocessors`](../configuration/8-output.fr.md#output-postprocessors).
 
-Les post-processeurs intégrés (`GeneratorMetaTag`, `HtmlExcerpt` et `MarkdownLink`) sont exécutés en premier.
+Les post-processeurs intégrés (`GeneratorMetaTag`, `HtmlExcerpt` et `MarkdownLink`) utilisent les priorités `10` à `30` : ils sont donc exécutés en premier par défaut.
 
 **Exemple :**
 
