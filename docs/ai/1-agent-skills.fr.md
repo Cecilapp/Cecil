@@ -2,7 +2,7 @@
 title: "Skills d’agents"
 description: "Installez les skills Cecil pour aider les agents de code IA à créer des sites et des thèmes."
 date: 2026-10-22
-updated: 2026-10-22
+updated: 2026-10-27
 path: documentation/ia/skills-agents
 -->
 # Skills d’agents
@@ -28,6 +28,17 @@ Ou avec [`npx skills`](https://www.skills.sh) :
 npx skills add cecilapp/cecil
 ```
 
+### Plugin Claude Code
+
+Avec [Claude Code](https://code.claude.com), vous pouvez aussi installer les skills sous forme de plugin, depuis la [marketplace Cecil](https://github.com/Cecilapp/claude-plugins) :
+
+```text
+/plugin marketplace add Cecilapp/claude-plugins
+/plugin install cecil@cecil
+```
+
+Le plugin récupère uniquement les skills depuis le dépôt Cecil et les maintient à jour. Elles sont alors aussi disponibles via `/cecil:cecil` et `/cecil:cecil-theme`.
+
 ## Utilisation
 
 Une fois installées, demandez à votre agent de créer, générer, configurer ou déployer un site Cecil, ou de créer un thème : il utilise automatiquement la skill correspondante.
@@ -39,5 +50,5 @@ _Exemples de prompts :_
 - « Transforme les layouts de ce site en un thème Cecil réutilisable. »
 
 :::tip
-Les skills évoluent avec Cecil : réinstallez-les après une mise à jour de Cecil pour bénéficier des dernières instructions.
+Les skills évoluent avec Cecil : réinstallez-les après une mise à jour de Cecil pour bénéficier des dernières instructions (le plugin Claude Code est mis à jour automatiquement).
 :::

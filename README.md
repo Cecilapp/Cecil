@@ -243,6 +243,13 @@ Or with [`npx skills`](https://www.skills.sh):
 npx skills add cecilapp/cecil
 ```
 
+Or, with [Claude Code](https://code.claude.com), as a plugin:
+
+```text
+/plugin marketplace add Cecilapp/claude-plugins
+/plugin install cecil@cecil
+```
+
 Once installed, ask your agent to create, build, configure, or deploy a Cecil site and it will use the skill automatically.
 
 See the [AI documentation](https://cecil.app/documentation/ai/) for more details, including how to generate a `llms.txt` file and Markdown versions of your pages.
