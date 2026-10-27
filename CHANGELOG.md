@@ -2,6 +2,12 @@
 
 All notable changes to this project will be documented in this file. Dates are displayed in UTC.
 
+#### [9.25.0](https://github.com/Cecilapp/Cecil/compare/9.24.2...9.25.0)
+
+> 26 October 2026
+
+- feat(extensions): rework the extension mechanism [`#2564`](https://github.com/Cecilapp/Cecil/pull/2564)
+
 #### [9.24.2](https://github.com/Cecilapp/Cecil/compare/9.24.1...9.24.2)
 
 > 25 October 2026
