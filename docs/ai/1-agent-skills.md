@@ -15,13 +15,7 @@ Cecil provides [agent skills](https://agentskills.io): instructions that AI codi
 
 ## Install
 
-With the [GitHub CLI](https://cli.github.com):
-
-```bash
-gh skill install cecilapp/cecil
-```
-
-Or with [`npx skills`](https://www.skills.sh):
+Install the skills in your project with [`npx skills`](https://www.skills.sh), which detects your coding agents and adds the skills where they expect them:
 
 ```bash
 npx skills add cecilapp/cecil

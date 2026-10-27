@@ -16,13 +16,7 @@ Cecil fournit des [skills d’agents](https://agentskills.io) : des instructions
 
 ## Installation
 
-Avec [GitHub CLI](https://cli.github.com) :
-
-```bash
-gh skill install cecilapp/cecil
-```
-
-Ou avec [`npx skills`](https://www.skills.sh) :
+Installez les skills dans votre projet avec [`npx skills`](https://www.skills.sh), qui détecte vos agents de code et ajoute les skills là où ils les attendent :
 
 ```bash
 npx skills add cecilapp/cecil
