@@ -90,6 +90,14 @@ class ParsedownTest extends TestCase
         self::assertStringContainsString('<a href="/videos/missing.mp4">Video</a>', $html);
     }
 
+    public function testEmbeddedGistLinkIsAClosedScript(): void
+    {
+        $html = $this->parsedown->text("[](https://gist.github.com/user/0123456789abcdef){embed=true}\n\nAfter.");
+
+        self::assertStringContainsString('<script src="https://gist.github.com/user/0123456789abcdef.js"></script>', $html);
+        self::assertStringEndsWith('<p>After.</p>', $html);
+    }
+
     public function testNoteWithoutTemplateIsAnAside(): void
     {
         $html = $this->parsedown->text(":::tip\n**Tip:** advice.\n:::");

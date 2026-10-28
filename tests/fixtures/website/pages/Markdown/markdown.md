@@ -43,7 +43,7 @@ title: Markdown
 
 #### GitHub Gist link
 
-[Cecil build script](<https://gist.github.com/ArnaudLigny/6b2aa9e6b25581c96435e9296efe0c0e){embed=true>}
+[Cecil build script](https://gist.github.com/ArnaudLigny/6b2aa9e6b25581c96435e9296efe0c0e){embed=true}
 
 #### Video link
 
