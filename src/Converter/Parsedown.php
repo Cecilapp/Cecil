@@ -1516,7 +1516,7 @@ class Parsedown extends \ParsedownToc
             'extent'  => $link['extent'],
             'element' => [
                 'name'       => 'script',
-                'text'       => $link['element']['text'],
+                'text'       => '', // an empty text (not null) is required to render the closing tag
                 'attributes' => [
                     'src'   => $url . '.js',
                     'title' => $link['element']['attributes']['title'],
