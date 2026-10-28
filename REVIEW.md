@@ -9,6 +9,7 @@ Review the diff with emphasis on:
 
 - behavioral regressions
 - architecture boundary violations (Builder -> Steps -> Generators -> Renderer -> Output)
+- breaking changes to public APIs and extension points (generators, Twig extensions, post-processors, build events, plugins)
 - project convention mismatches
 - missing or weak test coverage
 - operational and release risks
@@ -22,8 +23,8 @@ Default profile: strict.
 
 ## Checklist
 
-1. Map affected architecture zones (`src/Step/`, `src/Generator/`, `src/Renderer/`, `config/`).
-2. Check PHP conventions from [AGENTS.md](AGENTS.md): strict types, Cecil header, PSR-12, `\`-prefixed native function calls, `?Type` for nullable parameters, no unrelated reformatting.
+1. Map affected architecture zones (`src/Step/`, `src/Generator/`, `src/Renderer/`, `src/Command/`, `src/Extension/`, `src/Event/`, `src/Plugin/`, `config/`).
+2. Check PHP conventions from [AGENTS.md](AGENTS.md): strict types, Cecil header, PSR-12, `\` prefix only on compiler-optimized native functions, `?Type` for nullable parameters, no unrelated reformatting.
 3. Check generator priorities stay coherent with the expected extraction order.
 4. Check tests: new Generators, Steps and Commands need a test; CLI-facing behavior needs `composer test:cli` coverage.
 5. Check documentation impact for behavior or architecture changes:
@@ -31,6 +32,7 @@ Default profile: strict.
    - each edited `.md` doc has its `.fr.md` counterpart updated
    - the frontmatter `updated` date is bumped
    - agent skills in [skills/](skills/) stay consistent
+   - API documentation in [docs/api/](docs/api/) is regenerated when `src/` changes
 6. Check `*.twig` files do not end with a trailing newline, and Markdown trailing spaces are preserved.
 
 Do not request `CHANGELOG.md` updates: it is generated automatically.
