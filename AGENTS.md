@@ -8,16 +8,19 @@ Short, actionable instructions for coding agents working in this repository.
 - Contribution process: [CONTRIBUTING.md](CONTRIBUTING.md)
 - Command reference: [docs/commands/index.md](docs/commands/index.md)
 - Architecture: [docs/developers/3-architecture.md](docs/developers/3-architecture.md)
+- Extension mechanism (generators, Twig extensions, post-processors, events, plugins): [docs/developers/1-extend.md](docs/developers/1-extend.md)
+- Code review guidelines: [REVIEW.md](REVIEW.md)
 - If any of the linked reference files are missing or unreadable, stop and notify the user before proceeding, as the missing document may contain requirements critical to the task.
 
 ## Critical Commands
 
 - Install dependencies: `composer install`
-- Run full quality checks: `composer code`
-- Static analysis: `composer code:analyse`
-- Style checks: `composer code:style`
+- Run full quality checks: `composer code` (runs `code:analyse`, `code:md`, `code:fix`, `code:style` and `code:twig`; note that `code:fix` rewrites files)
+- Static analysis (PHPStan level 8): `composer code:analyse`
+- Mess detection (PHPMD): `composer code:md`
+- Style checks (PHP_CodeSniffer): `composer code:style`
 - Style fixes (PHP CS Fixer): `composer code:fix`
-- Twig templates lint: `composer code:twig`
+- Twig templates lint (`resources/`): `composer code:twig`
 - Tests (unit + integration): `composer test`
 - Unit tests only: `composer test:unit`
 - Integration tests only: `composer test:integration`
@@ -33,6 +36,7 @@ Short, actionable instructions for coding agents working in this repository.
 - Pipeline steps live in `src/Step/`
 - Page generators live in `src/Generator/` (priority-based execution)
 - Rendering stack lives in `src/Renderer/`
+- Extensions are loaded by `src/Extension/` (`Loader`, `Autoloader`); build events live in `src/Event/` (`BuildEvents`), plugins in `src/Plugin/` (`Registry`)
 - Unit tests live in `tests/Unit/` (`*Test.php`), integration tests in `tests/IntegrationTests.php` and `tests/IntegrationCliTests.php`, fixtures in `tests/fixtures/`
 - When adding a new Generator, Step, or Command, add a corresponding test under the relevant test directory and verify it passes with `composer test`. CLI-facing behavior must also be covered by `composer test:cli`.
 
@@ -68,6 +72,8 @@ Short, actionable instructions for coding agents working in this repository.
 - New commands should extend `AbstractCommand`
 - New generators should extend `AbstractGenerator`
 - New steps should extend `AbstractStep`
+- New event subscribers should extend `Cecil\Event\AbstractSubscriber`
+- New plugins should extend `Cecil\Plugin\AbstractPlugin`
 - Use PSR-3 `LoggerInterface` for logging
 - Use PSR-16 `SimpleCacheInterface` for caching
 - Exceptions should implement/extend `Cecil\Exception\ExceptionInterface`
