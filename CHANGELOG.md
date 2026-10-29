@@ -2,6 +2,19 @@
 
 All notable changes to this project will be documented in this file. Dates are displayed in UTC.
 
+#### [9.25.1](https://github.com/Cecilapp/Cecil/compare/9.25.0...9.25.1)
+
+> 28 October 2026
+
+- fix(parsedown): close embedded script tag [`#2566`](https://github.com/Cecilapp/Cecil/pull/2566)
+- docs(ai): document the Claude Code plugin install [`#2565`](https://github.com/Cecilapp/Cecil/pull/2565)
+- docs(architecture): add extensions and overview diagrams [`94c5617`](https://github.com/Cecilapp/Cecil/commit/94c561744f248c982e63719093537656682d929c)
+- docs(ai): remove GitHub CLI skill install instructions [`4f2cee1`](https://github.com/Cecilapp/Cecil/commit/4f2cee1ef3ee974f1e4f8d0a18f9d280fd411d8d)
+- docs(agents): document extensions, events and plugins [`47610bd`](https://github.com/Cecilapp/Cecil/commit/47610bd627497f6657b77299ab914626ed4367b1)
+- docs(readme): remove gh skill install instructions [`3104dd4`](https://github.com/Cecilapp/Cecil/commit/3104dd45b2f68f36973b373e9d858b8f36eec85f)
+- docs(agents): sync agent and review guidelines [`eea6ef7`](https://github.com/Cecilapp/Cecil/commit/eea6ef71466ff30e84d7bae5c839abb9c431d46d)
+- docs(demo): update demo GIFs and video [`332c7b9`](https://github.com/Cecilapp/Cecil/commit/332c7b937dd77610582ff7c8f4990ff8ff834cc1)
+
 #### [9.25.0](https://github.com/Cecilapp/Cecil/compare/9.24.2...9.25.0)
 
 > 26 October 2026
