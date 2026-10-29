@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "5725a43a9f2bbc52cb5fab3cd5de6fc1",
+    "content-hash": "149fbe0c3d7eb1ca23ba1e67ab5194fa",
     "packages": [
         {
             "name": "benjaminhoegh/parsedown-toc",
@@ -5127,27 +5127,32 @@
         },
         {
             "name": "tempest/highlight",
-            "version": "v2.x-dev",
+            "version": "2.12.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/tempestphp/highlight.git",
-                "reference": "f0d415eab9b129abf60a68dfb6e26da7c28c025d"
+                "reference": "4b1ab4561b95cd414caddb1a108afc403b09a2ce"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/tempestphp/highlight/zipball/f0d415eab9b129abf60a68dfb6e26da7c28c025d",
-                "reference": "f0d415eab9b129abf60a68dfb6e26da7c28c025d",
+                "url": "https://api.github.com/repos/tempestphp/highlight/zipball/4b1ab4561b95cd414caddb1a108afc403b09a2ce",
+                "reference": "4b1ab4561b95cd414caddb1a108afc403b09a2ce",
                 "shasum": ""
             },
             "require": {
                 "php": "^8.3"
             },
             "require-dev": {
+                "assertchris/ellison": "^1.0.2",
                 "friendsofphp/php-cs-fixer": "^3.21",
-                "larapack/dd": "^1.1",
                 "league/commonmark": "^2.4",
                 "phpstan/phpstan": "^1.10.0",
-                "phpunit/phpunit": "^10.0"
+                "phpunit/phpunit": "^10.0",
+                "symfony/var-dumper": "^6.4|^7.0"
+            },
+            "suggest": {
+                "assertchris/ellison": "Allows you to analyse sentence complexity",
+                "league/commonmark": "Adds markdown support"
             },
             "type": "library",
             "autoload": {
@@ -5168,7 +5173,7 @@
             "description": "Fast, extensible, server-side code highlighting",
             "support": {
                 "issues": "https://github.com/tempestphp/highlight/issues",
-                "source": "https://github.com/tempestphp/highlight/tree/v2"
+                "source": "https://github.com/tempestphp/highlight/tree/2.12.1"
             },
             "funding": [
                 {
@@ -5176,7 +5181,7 @@
                     "type": "github"
                 }
             ],
-            "time": "2024-04-15T07:24:27+00:00"
+            "time": "2026-09-30T11:13:22+00:00"
         },
         {
             "name": "twig/cache-extra",
