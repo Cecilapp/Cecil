@@ -33,7 +33,7 @@ class Tempest implements HighlighterInterface
     {
         $this->highlighter = new Highlighter();
         // tempest/highlight silently falls back to plain text for unknown languages
-        $this->languages = array_fill_keys(array_keys((fn () => $this->languages)->call($this->highlighter)), true);
+        $this->languages = array_fill_keys($this->highlighter->getSupportedLanguageNames(), true);
     }
 
     #[\Override]
