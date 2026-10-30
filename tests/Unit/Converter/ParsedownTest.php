@@ -98,6 +98,36 @@ class ParsedownTest extends TestCase
         self::assertStringEndsWith('<p>After.</p>', $html);
     }
 
+    public function testEmbeddedLocalVideoIsClosedWithTheLinkTextAsFallback(): void
+    {
+        $html = $this->parsedown->text("[My *video*](/videos/test.mp4){embed=true controls}\n\nAfter.");
+
+        self::assertMatchesRegularExpression('#<video controls="" src="/videos/test\.[a-f0-9]{32}\.mp4" style="[^"]*">My <em>video</em></video>#', $html);
+        self::assertStringEndsWith('<p>After.</p>', $html);
+    }
+
+    public function testEmbeddedLocalAudioWithoutTextIsClosed(): void
+    {
+        $html = $this->parsedown->text("[](/audio/test.mp3){embed=true controls}\n\nAfter.");
+
+        self::assertMatchesRegularExpression('#<audio controls="" src="/audio/test\.[a-f0-9]{32}\.mp3"></audio>#', $html);
+        self::assertStringEndsWith('<p>After.</p>', $html);
+    }
+
+    public function testEmbeddedVideoServiceIframeIsTitledWithTheLinkText(): void
+    {
+        $html = $this->parsedown->text('[A *YouTube* video & more](https://www.youtube.com/watch?v=dQw4w9WgXcQ){embed=true}');
+
+        self::assertStringContainsString('<iframe src="https://www.youtube-nocookie.com/embed/dQw4w9WgXcQ" loading="lazy" width="640" height="360" title="A YouTube video &amp; more"', $html);
+    }
+
+    public function testEmbeddedVideoServiceIframeWithoutTextHasNoTitle(): void
+    {
+        $html = $this->parsedown->text('[](https://www.youtube.com/watch?v=dQw4w9WgXcQ){embed=true}');
+
+        self::assertStringNotContainsString('title=', $html);
+    }
+
     public function testNoteWithoutTemplateIsAnAside(): void
     {
         $html = $this->parsedown->text(":::tip\n**Tip:** advice.\n:::");

@@ -1401,7 +1401,9 @@ class Parsedown extends \ParsedownToc
         $block = [
             'extent'  => $link['extent'],
             'element' => [
-                'text' => $link['element']['text'],
+                // the text of the link is the fallback content (and closes the element, even if empty)
+                'handler'      => $link['element']['handler'],
+                'nonNestables' => $link['element']['nonNestables'] ?? [],
             ],
         ];
         $block['element']['attributes'] = $link['element']['attributes'];
@@ -1477,7 +1479,7 @@ class Parsedown extends \ParsedownToc
                     'loading'         => 'lazy',
                     'width'           => '640',
                     'height'          => '360',
-                    'title'           => $link['element']['text'],
+                    'title'           => $this->getLinkText($link),
                     'frameborder'     => '0',
                     'allow'           => 'accelerometer;autoplay;encrypted-media;gyroscope;picture-in-picture;fullscreen;web-share;',
                     'allowfullscreen' => '',
@@ -1501,6 +1503,20 @@ class Parsedown extends \ParsedownToc
                 ],
             ],
         ];
+    }
+
+    /**
+     * Returns the plain text of a link element (`null` if empty).
+     *
+     * Parsedown 1.8 keeps the text of a link in its handler argument, not in a `text` key.
+     *
+     * @param array<string, mixed> $link
+     */
+    private function getLinkText(array $link): ?string
+    {
+        $text = trim(strip_tags($this->line((string) ($link['element']['handler']['argument'] ?? ''))));
+
+        return $text === '' ? null : html_entity_decode($text, \ENT_QUOTES | \ENT_HTML5);
     }
 
     /**
