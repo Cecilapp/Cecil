@@ -856,6 +856,11 @@ Search.appendIndex(
             "summary": "Returns\u0020current\u0020build\u0020ID.",
             "url": "classes/Cecil-Builder.html#method_getBuildId"
         },                {
+            "fqsen": "\\Cecil\\Builder\u003A\u003AgenerateBuildId\u0028\u0029",
+            "name": "generateBuildId",
+            "summary": "Generates\u0020a\u0020build\u0020ID\u0020\u0028unique,\u0020even\u0020for\u0020builds\u0020started\u0020within\u0020the\u0020same\u0020second\u0029.",
+            "url": "classes/Cecil-Builder.html#method_generateBuildId"
+        },                {
             "fqsen": "\\Cecil\\Builder\u003A\u003AcheckErrors\u0028\u0029",
             "name": "checkErrors",
             "summary": "Log\u0020soft\u0020errors.",
@@ -3823,7 +3828,7 @@ Search.appendIndex(
         },                {
             "fqsen": "\\Cecil\\Converter\\Parsedown\u003A\u003A__construct\u0028\u0029",
             "name": "__construct",
-            "summary": "",
+            "summary": "Options\u003A\n\u002D\u0020\u0060selectors\u0060\u003A\u0020headings\u0020of\u0020the\u0020table\u0020of\u0020contents\u0020\u0028\u0060pages.body.toc\u0060\u0020by\u0020default\u0029\u003B\n\u002D\u0020\u0060language\u0060\u003A\u0020language\u0020of\u0020the\u0020content\u003B\n\u002D\u0020\u0060assets\u0060\u003A\u0020\u0060false\u0060\u0020to\u0020keep\u0020the\u0020files\u0020of\u0020the\u0020body\u0020\u0028images,\u0020video\u0020and\u0020audio\u0029\u0020as\u0020they\u0020are,\u0020instead\u0020of\n\u0020\u0020processing\u0020them\u0020as\u0020assets\u0020\u0028located,\u0020resized,\u0020converted,\u0020copied\u0029\u003A\u0020e.g.\u0020to\u0020convert\u0020a\u0020page\u0020outside\u0020of\u0020a\u0020build\u003B\n\u002D\u0020\u0060asset_url\u0060\u003A\u0020with\u0020\u0060assets\u0060\u0020set\u0020to\u0020\u0060false\u0060,\u0020a\u0020callable\u0020returning\u0020the\u0020URL\u0020of\u0020a\u0020local\u0020file\u0020from\u0020its\u0020path\u0020in\u0020the\u0020body.",
             "url": "classes/Cecil-Converter-Parsedown.html#method___construct"
         },                {
             "fqsen": "\\Cecil\\Converter\\Parsedown\u003A\u003AinlineInsert\u0028\u0029",
@@ -4036,6 +4041,16 @@ Search.appendIndex(
             "summary": "Returns\u0020the\u0020URL\u0020of\u0020a\u0020not\u0020embedded\u0020local\u0020media\u0020\u0028video\u0020or\u0020audio\u0029\u0020link.",
             "url": "classes/Cecil-Converter-Parsedown.html#method_getMediaLinkUrl"
         },                {
+            "fqsen": "\\Cecil\\Converter\\Parsedown\u003A\u003AgetMediaUrl\u0028\u0029",
+            "name": "getMediaUrl",
+            "summary": "Returns\u0020the\u0020URL\u0020of\u0020an\u0020embedded\u0020media\u0020file\u0020\u0028video,\u0020audio\u0020or\u0020poster\u0029.",
+            "url": "classes/Cecil-Converter-Parsedown.html#method_getMediaUrl"
+        },                {
+            "fqsen": "\\Cecil\\Converter\\Parsedown\u003A\u003AgetFileUrl\u0028\u0029",
+            "name": "getFileUrl",
+            "summary": "Returns\u0020the\u0020URL\u0020of\u0020a\u0020file\u0020of\u0020the\u0020body\u0020not\u0020processed\u0020as\u0020an\u0020asset\u003A\ngiven\u0020by\u0020the\u0020\u0060asset_url\u0060\u0020option\u0020for\u0020a\u0020local\u0020file,\u0020as\u0020is\u0020otherwise.",
+            "url": "classes/Cecil-Converter-Parsedown.html#method_getFileUrl"
+        },                {
             "fqsen": "\\Cecil\\Converter\\Parsedown\u003A\u003AcreateEmbeddedVideoFromLink\u0028\u0029",
             "name": "createEmbeddedVideoFromLink",
             "summary": "Create\u0020an\u0020embedded\u0020video\u0020iframe\u0020element\u0020from\u0020a\u0020link\u0020element\u0020and\u0020an\u0020URL.",
@@ -4090,6 +4105,16 @@ Search.appendIndex(
             "name": "language",
             "summary": "",
             "url": "classes/Cecil-Converter-Parsedown.html#property_language"
+        },                {
+            "fqsen": "\\Cecil\\Converter\\Parsedown\u003A\u003A\u0024assets",
+            "name": "assets",
+            "summary": "Are\u0020the\u0020files\u0020of\u0020the\u0020body\u0020\u0028images,\u0020video\u0020and\u0020audio\u0029\u0020processed\u0020as\u0020assets\u003F",
+            "url": "classes/Cecil-Converter-Parsedown.html#property_assets"
+        },                {
+            "fqsen": "\\Cecil\\Converter\\Parsedown\u003A\u003A\u0024assetUrl",
+            "name": "assetUrl",
+            "summary": "",
+            "url": "classes/Cecil-Converter-Parsedown.html#property_assetUrl"
         },                {
             "fqsen": "\\Cecil\\Converter\\Parsedown\u003A\u003A\u0024anchors",
             "name": "anchors",

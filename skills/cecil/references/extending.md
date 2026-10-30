@@ -213,6 +213,8 @@ To process images with libvips, also `composer require intervention/image-driver
 
 The doctors are also available programmatically: `Cecil\Doctor\SiteDoctor`, `FrontmatterDoctor`, `SeoDoctor` and `LinksDoctor` (see the [library documentation](https://cecil.app/documentation/developers/library/)).
 
+To convert Markdown like Cecil without building (e.g. a live preview), `Cecil\Converter\ParserFactory::create($builder, ['language' => ..., 'assets' => false, 'asset_url' => fn (string $path): string => ...])->text($markdown)`: the site's parser (`pages.body.parser`) and `pages.body` configuration are used; with `assets: false` the files of the body (images, video, audio) are kept as they are (no processing, no exception for a missing image), local ones pointed to by `asset_url`.
+
 ## Code Quality Standards
 
 When extending or contributing to Cecil:

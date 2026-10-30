@@ -68,6 +68,12 @@ class Parsedown extends \ParsedownToc
     /** @var string|null */
     protected $language;
 
+    /** Are the files of the body (images, video and audio) processed as assets? */
+    protected bool $assets = true;
+
+    /** @var (\Closure(string): string)|null URL of a local file of the body, when files are not processed as assets. */
+    protected ?\Closure $assetUrl = null;
+
     /** @var list<string> Headings (e.g.: `h2`) with an anchor link. */
     protected array $anchors = [];
 
@@ -84,7 +90,14 @@ class Parsedown extends \ParsedownToc
     protected int $notesCount = 0;
 
     /**
-     * @param array<string, mixed>|null $options Parsedown options (e.g. 'selectors', 'language')
+     * Options:
+     * - `selectors`: headings of the table of contents (`pages.body.toc` by default);
+     * - `language`: language of the content;
+     * - `assets`: `false` to keep the files of the body (images, video and audio) as they are, instead of
+     *   processing them as assets (located, resized, converted, copied): e.g. to convert a page outside of a build;
+     * - `asset_url`: with `assets` set to `false`, a callable returning the URL of a local file from its path in the body.
+     *
+     * @param array<string, mixed>|null $options Parsedown options (e.g. 'selectors', 'language', 'assets', 'asset_url')
      */
     public function __construct(Builder $builder, ?array $options = null)
     {
@@ -119,6 +132,8 @@ class Parsedown extends \ParsedownToc
         $options = array_merge([
             'selectors' => (array) $this->config->get('pages.body.toc'),
             'language'  => null,
+            'assets'    => true,
+            'asset_url' => null,
         ], $options ?? []);
         $language = $options['language'];
         if (\is_scalar($language)) {
@@ -127,7 +142,9 @@ class Parsedown extends \ParsedownToc
         } else {
             $this->language = null;
         }
-        unset($options['language']);
+        $this->assets = (bool) $options['assets'];
+        $this->assetUrl = \is_callable($options['asset_url']) ? \Closure::fromCallable($options['asset_url']) : null;
+        unset($options['language'], $options['assets'], $options['asset_url']);
 
         parent::__construct();
         parent::setOptions($options);
@@ -342,6 +359,13 @@ class Parsedown extends \ParsedownToc
             }
             $InlineImage['element']['attributes']['class'] .= ' ' . (string) $this->config->get('pages.body.images.class');
             $InlineImage['element']['attributes']['class'] = trim($InlineImage['element']['attributes']['class']);
+        }
+
+        // not processed as an asset?
+        if (!$this->assets) {
+            $InlineImage['element']['attributes']['src'] = $this->getFileUrl((string) $InlineImage['element']['attributes']['src']);
+
+            return $this->createFigure($InlineImage);
         }
 
         // disable remote image handling?
@@ -1406,10 +1430,7 @@ class Parsedown extends \ParsedownToc
         ];
         $block['element']['attributes'] = $link['element']['attributes'];
         unset($block['element']['attributes']['href']);
-        $block['element']['attributes']['src'] = new Url(
-            $this->builder,
-            $this->getCachedAsset((string) $link['element']['attributes']['href'], [])
-        );
+        $block['element']['attributes']['src'] = $this->getMediaUrl((string) $link['element']['attributes']['href']);
         switch ($type) {
             case 'video':
                 $block['element']['name'] = 'video';
@@ -1421,10 +1442,7 @@ class Parsedown extends \ParsedownToc
                     $block['element']['attributes']['playsinline'] = '';
                 }
                 if (isset($block['element']['attributes']['poster'])) {
-                    $block['element']['attributes']['poster'] = new Url(
-                        $this->builder,
-                        $this->getCachedAsset((string) $block['element']['attributes']['poster'], [])
-                    );
+                    $block['element']['attributes']['poster'] = $this->getMediaUrl((string) $block['element']['attributes']['poster']);
                 }
                 if (!\array_key_exists('style', $block['element']['attributes'])) {
                     $block['element']['attributes']['style'] = '';
@@ -1447,8 +1465,11 @@ class Parsedown extends \ParsedownToc
      * The local file is handled as an asset, so its URL matches the published (and fingerprinted) file.
      * Remote and missing files are linked as is.
      */
-    private function getMediaLinkUrl(string $href): Url
+    private function getMediaLinkUrl(string $href): Url|string
     {
+        if (!$this->assets) {
+            return $this->getFileUrl($href);
+        }
         if (!Util\File::isRemote($href)) {
             $asset = $this->getCachedAsset($href, ['ignore_missing' => true]);
             if (!$asset->isMissing()) {
@@ -1457,6 +1478,31 @@ class Parsedown extends \ParsedownToc
         }
 
         return new Url($this->builder, $href);
+    }
+
+    /**
+     * Returns the URL of an embedded media file (video, audio or poster).
+     */
+    private function getMediaUrl(string $path): Url|string
+    {
+        if (!$this->assets) {
+            return $this->getFileUrl($path);
+        }
+
+        return new Url($this->builder, $this->getCachedAsset($path, []));
+    }
+
+    /**
+     * Returns the URL of a file of the body not processed as an asset:
+     * given by the `asset_url` option for a local file, as is otherwise.
+     */
+    private function getFileUrl(string $path): string
+    {
+        if ($this->assetUrl === null || $path === '' || Util\File::isRemote($path) || str_starts_with($path, 'data:')) {
+            return $path;
+        }
+
+        return (string) ($this->assetUrl)($path);
     }
 
     /**

@@ -1,8 +1,8 @@
 <!--
 title: "Bibliothèque"
-description: "Utilisez Cecil comme bibliothèque PHP : installez-le avec Composer, puis générez et diagnostiquez par programmation."
+description: "Utilisez Cecil comme bibliothèque PHP : installez-le avec Composer, puis générez, convertissez du Markdown et diagnostiquez par programmation."
 date: 2026-03-27
-updated: 2026-10-19
+updated: 2026-10-30
 alias: documentation/bibliotheque
 path: documentation/developpeurs/bibliotheque
 -->
@@ -72,6 +72,42 @@ La méthode `build()` accepte un tableau d’options :
 | `render-subset` | Effectue le rendu d’un sous-ensemble nommé de pages.     | `''`       |
 
 Ces options correspondent à celles de la commande [`build`](../commands/4-build.fr.md).
+
+### Markdown
+
+Convertissez du Markdown en HTML comme le fait Cecil (analyseur Markdown du site, configuration [`pages.body`](../configuration/4-pages.fr.md#pages-body), notes, coloration du code), sans générer le site : par exemple pour prévisualiser une page pendant sa rédaction.
+
+```php
+<?php
+
+require_once 'vendor/autoload.php';
+
+use Cecil\Builder;
+use Cecil\Converter\ParserFactory;
+
+$builder = Builder::create(require 'config.php')->setSourceDir(__DIR__);
+
+$parser = ParserFactory::create($builder, [
+    'language'  => 'fr',
+    'assets'    => false,
+    'asset_url' => fn (string $path): string => 'http://localhost:8000' . $path,
+]);
+
+echo $parser->text(file_get_contents('pages/index.md'));
+```
+
+Les options de l’analyseur Markdown :
+
+| Option      | Description                                                                                                                                                         | Par défaut       |
+| ----------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------- |
+| `language`  | Langue du contenu.                                                                                                                                                  | `null`           |
+| `selectors` | Titres de la table des matières.                                                                                                                                    | `pages.body.toc` |
+| `assets`    | Traite les fichiers du corps (images, vidéo et audio) comme des assets (localisés, redimensionnés, convertis, copiés) : avec `false`, ils sont gardés tels quels.   | `true`           |
+| `asset_url` | Avec `assets` à `false`, un callable qui renvoie l’URL d’un fichier local à partir de son chemin dans le corps.                                                     | `null`           |
+
+:::tip
+Sans traiter les fichiers comme des assets, une image manquante ne lève pas d’exception, rien n’est écrit dans le cache et les images distantes ne sont pas téléchargées.
+:::
 
 ### Diagnostics
 

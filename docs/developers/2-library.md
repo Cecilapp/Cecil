@@ -1,8 +1,8 @@
 <!--
 title: "Library"
-description: "Use Cecil as a PHP library: install it with Composer, then build and diagnose programmatically."
+description: "Use Cecil as a PHP library: install it with Composer, then build, convert Markdown and diagnose programmatically."
 date: 2023-12-13
-updated: 2026-10-19
+updated: 2026-10-30
 alias: documentation/library
 -->
 # Library
@@ -71,6 +71,42 @@ The `build()` method accepts an array of options:
 | `render-subset` | Renders a named subset of pages.                         | `''`    |
 
 These options match the [`build`](../commands/4-build.md) command options.
+
+### Markdown
+
+Convert Markdown to HTML like Cecil does (Markdown parser of the site, [`pages.body`](../configuration/4-pages.md#pages-body) configuration, notes, code highlighting), without building the website: e.g. to preview a page while it is edited.
+
+```php
+<?php
+
+require_once 'vendor/autoload.php';
+
+use Cecil\Builder;
+use Cecil\Converter\ParserFactory;
+
+$builder = Builder::create(require 'config.php')->setSourceDir(__DIR__);
+
+$parser = ParserFactory::create($builder, [
+    'language'  => 'en',
+    'assets'    => false,
+    'asset_url' => fn (string $path): string => 'http://localhost:8000' . $path,
+]);
+
+echo $parser->text(file_get_contents('pages/index.md'));
+```
+
+The Markdown parser options:
+
+| Option      | Description                                                                                                                                          | Default             |
+| ----------- | ---------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------- |
+| `language`  | Language of the content.                                                                                                                             | `null`              |
+| `selectors` | Headings of the table of contents.                                                                                                                   | `pages.body.toc`    |
+| `assets`    | Processes the files of the body (images, video and audio) as assets (located, resized, converted, copied): with `false`, they are kept as they are.  | `true`              |
+| `asset_url` | With `assets` set to `false`, a callable returning the URL of a local file from its path in the body.                                                | `null`              |
+
+:::tip
+Without processing the files as assets, a missing image does not throw an exception, nothing is written to the cache, and remote images are not downloaded.
+:::
 
 ### Diagnostics
 
