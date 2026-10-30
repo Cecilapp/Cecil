@@ -145,11 +145,15 @@ class BuilderTest extends TestCase
         self::assertSame([], $builder->getBuildOptions());
     }
 
-    public function testGetBuildIdThrowsTypeErrorBeforeBuildInitialization(): void
+    public function testBuildIdIsSetWhenTheBuilderIsCreated(): void
     {
-        $this->expectException(\TypeError::class);
+        new Builder(['baseurl' => 'https://example.com/'], new NullLogger());
+        $buildId = Builder::getBuildId();
+        new Builder(['baseurl' => 'https://example.com/'], new NullLogger());
 
-        Builder::getBuildId();
+        self::assertNotSame('', $buildId);
+        // caches scoped to the build ID are not shared between Builders
+        self::assertNotSame($buildId, Builder::getBuildId());
     }
 
     public function testBuildIdIsUniquePerBuild(): void

@@ -23,13 +23,6 @@ use Psr\Log\NullLogger;
 
 class CustomParserTest extends TestCase
 {
-    protected function setUp(): void
-    {
-        // the build ID is normally set by Builder::build() (and resets Parsedown static caches)
-        \Closure::bind(static function (): void {
-            self::$buildId = uniqid('test', true);
-        }, null, Builder::class)();
-    }
     public function testDefaultParser(): void
     {
         $builder = new Builder(['baseurl' => 'https://example.com/'], new NullLogger());

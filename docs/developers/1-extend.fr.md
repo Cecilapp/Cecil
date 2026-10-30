@@ -2,7 +2,7 @@
 title: "Étendre Cecil"
 description: "Créez des générateurs de pages, ajoutez des extensions Twig, post-traitez les fichiers de sortie et écoutez les événements de build."
 date: 2026-03-27
-updated: 2026-10-26
+updated: 2026-10-30
 alias: documentation/etendre
 path: documentation/developpeurs/etendre
 -->
@@ -268,6 +268,8 @@ Créez une classe PHP héritant de `Cecil\Converter\Parsedown`, basée sur [Pars
 :::warning
 Un analyseur personnalisé repose sur le fonctionnement interne de Parsedown : il peut nécessiter une mise à jour quand Cecil met à jour Parsedown.
 :::
+
+L’analyseur peut aussi être créé en dehors d’une génération (voir [Bibliothèque](2-library.fr.md#markdown)) : transmettez les options au constructeur parent, et ne dépendez pas de l’état d’une génération (par exemple la collection des pages).
 
 **Exemple :**
 
