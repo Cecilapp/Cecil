@@ -4056,6 +4056,11 @@ Search.appendIndex(
             "summary": "Create\u0020an\u0020embedded\u0020video\u0020iframe\u0020element\u0020from\u0020a\u0020link\u0020element\u0020and\u0020an\u0020URL.",
             "url": "classes/Cecil-Converter-Parsedown.html#method_createEmbeddedVideoFromLink"
         },                {
+            "fqsen": "\\Cecil\\Converter\\Parsedown\u003A\u003AgetLinkText\u0028\u0029",
+            "name": "getLinkText",
+            "summary": "Returns\u0020the\u0020plain\u0020text\u0020of\u0020a\u0020link\u0020element\u0020\u0028\u0060null\u0060\u0020if\u0020empty\u0029.",
+            "url": "classes/Cecil-Converter-Parsedown.html#method_getLinkText"
+        },                {
             "fqsen": "\\Cecil\\Converter\\Parsedown\u003A\u003AcreateScriptFromLink\u0028\u0029",
             "name": "createScriptFromLink",
             "summary": "Create\u0020a\u0020script\u0020element\u0020from\u0020a\u0020link\u0020element\u0020and\u0020an\u0020URL.",

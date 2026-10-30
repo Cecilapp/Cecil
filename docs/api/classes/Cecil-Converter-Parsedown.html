@@ -636,6 +636,13 @@ and code highlighting.</p>
 given by the `asset_url` option for a local file, as is otherwise.</dd>
 
             <dt class="phpdocumentor-table-of-contents__entry -method -private">
+    <a class="" href="classes/Cecil-Converter-Parsedown.html#method_getLinkText">getLinkText()</a>
+    <span>
+                                &nbsp;: string|null    </span>
+</dt>
+<dd>Returns the plain text of a link element (`null` if empty).</dd>
+
+            <dt class="phpdocumentor-table-of-contents__entry -method -private">
     <a class="" href="classes/Cecil-Converter-Parsedown.html#method_getMediaLinkUrl">getMediaLinkUrl()</a>
     <span>
                                 &nbsp;: <a href="classes/Cecil-Url.html"><abbr title="\Cecil\Url">Url</abbr></a>|string    </span>
@@ -2778,7 +2785,7 @@ while &quot;größe&quot; becomes &quot;grosse&quot;.</p>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Converter/Parsedown.php"><a href="files/src-converter-parsedown.html"><abbr title="src/Converter/Parsedown.php">Parsedown.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">1515</span>
+    <span class="phpdocumentor-element-found-in__line">1517</span>
 
     </aside>
 
@@ -2834,7 +2841,7 @@ while &quot;größe&quot; becomes &quot;grosse&quot;.</p>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Converter/Parsedown.php"><a href="files/src-converter-parsedown.html"><abbr title="src/Converter/Parsedown.php">Parsedown.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">1581</span>
+    <span class="phpdocumentor-element-found-in__line">1597</span>
 
     </aside>
 
@@ -2939,7 +2946,7 @@ while &quot;größe&quot; becomes &quot;grosse&quot;.</p>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Converter/Parsedown.php"><a href="files/src-converter-parsedown.html"><abbr title="src/Converter/Parsedown.php">Parsedown.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">1559</span>
+    <span class="phpdocumentor-element-found-in__line">1575</span>
 
     </aside>
 
@@ -3552,7 +3559,7 @@ while &quot;größe&quot; becomes &quot;grosse&quot;.</p>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Converter/Parsedown.php"><a href="files/src-converter-parsedown.html"><abbr title="src/Converter/Parsedown.php">Parsedown.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">1499</span>
+    <span class="phpdocumentor-element-found-in__line">1501</span>
 
     </aside>
 
@@ -3594,6 +3601,57 @@ given by the `asset_url` option for a local file, as is otherwise.</p>
             -private
                                                         "
 >
+    <h4 class="phpdocumentor-element__name" id="method_getLinkText">
+        getLinkText()
+        <a href="classes/Cecil-Converter-Parsedown.html#method_getLinkText" class="headerlink"><i class="fas fa-link"></i></a>
+
+    </h4>
+    <aside class="phpdocumentor-element-found-in">
+    <abbr class="phpdocumentor-element-found-in__file" title="src/Converter/Parsedown.php"><a href="files/src-converter-parsedown.html"><abbr title="src/Converter/Parsedown.php">Parsedown.php</abbr></a></abbr>
+    :
+    <span class="phpdocumentor-element-found-in__line">1561</span>
+
+    </aside>
+
+        <p class="phpdocumentor-summary">Returns the plain text of a link element (`null` if empty).</p>
+
+    <code class="phpdocumentor-code phpdocumentor-signature ">
+    <span class="phpdocumentor-signature__visibility">private</span>
+                    <span class="phpdocumentor-signature__name">getLinkText</span><span>(</span><span class="phpdocumentor-signature__argument"><span class="phpdocumentor-signature__argument__type">array&lt;string, mixed&gt;&nbsp;</span><span class="phpdocumentor-signature__argument__name">$link</span></span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">string|null</span></code>
+
+    <div class="phpdocumentor-label-line">
+        </div>
+    
+        <section class="phpdocumentor-description"><p>Parsedown 1.8 keeps the text of a link in its handler argument, not in a <code class="prettyprint">text</code> key.</p>
+</section>
+
+        <h5 class="phpdocumentor-argument-list__heading">Parameters</h5>
+    <dl class="phpdocumentor-argument-list">
+                    <dt class="phpdocumentor-argument-list__entry">
+                <span class="phpdocumentor-argument-list__argument__name">$link</span>
+                : <span class="phpdocumentor-argument-list__argument__type">array&lt;string, mixed&gt;</span>
+                            </dt>
+            <dd class="phpdocumentor-argument-list__definition">
+                
+            </dd>
+            </dl>
+
+    
+
+        
+    
+            <section>
+        <h5 class="phpdocumentor-return-value__heading">Return values</h5>
+        <span class="phpdocumentor-signature__response_type">string|null</span>
+            </section>
+
+</article>
+                    <article
+        class="phpdocumentor-element
+            -method
+            -private
+                                                        "
+>
     <h4 class="phpdocumentor-element__name" id="method_getMediaLinkUrl">
         getMediaLinkUrl()
         <a href="classes/Cecil-Converter-Parsedown.html#method_getMediaLinkUrl" class="headerlink"><i class="fas fa-link"></i></a>
@@ -3602,7 +3660,7 @@ given by the `asset_url` option for a local file, as is otherwise.</p>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Converter/Parsedown.php"><a href="files/src-converter-parsedown.html"><abbr title="src/Converter/Parsedown.php">Parsedown.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">1468</span>
+    <span class="phpdocumentor-element-found-in__line">1470</span>
 
     </aside>
 
@@ -3654,7 +3712,7 @@ Remote and missing files are linked as is.</p>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Converter/Parsedown.php"><a href="files/src-converter-parsedown.html"><abbr title="src/Converter/Parsedown.php">Parsedown.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">1486</span>
+    <span class="phpdocumentor-element-found-in__line">1488</span>
 
     </aside>
 
@@ -3742,7 +3800,7 @@ Remote and missing files are linked as is.</p>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Converter/Parsedown.php"><a href="files/src-converter-parsedown.html"><abbr title="src/Converter/Parsedown.php">Parsedown.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">1623</span>
+    <span class="phpdocumentor-element-found-in__line">1639</span>
 
     </aside>
 
@@ -4081,6 +4139,7 @@ Remote and missing files are linked as is.</p>
                                             <li class=""><a href="classes/Cecil-Converter-Parsedown.html#method_getCachedSrcsetW">getCachedSrcsetW()</a></li>
                                             <li class=""><a href="classes/Cecil-Converter-Parsedown.html#method_getCacheKey">getCacheKey()</a></li>
                                             <li class=""><a href="classes/Cecil-Converter-Parsedown.html#method_getFileUrl">getFileUrl()</a></li>
+                                            <li class=""><a href="classes/Cecil-Converter-Parsedown.html#method_getLinkText">getLinkText()</a></li>
                                             <li class=""><a href="classes/Cecil-Converter-Parsedown.html#method_getMediaLinkUrl">getMediaLinkUrl()</a></li>
                                             <li class=""><a href="classes/Cecil-Converter-Parsedown.html#method_getMediaUrl">getMediaUrl()</a></li>
                                             <li class=""><a href="classes/Cecil-Converter-Parsedown.html#method_getUrlBuilder">getUrlBuilder()</a></li>
