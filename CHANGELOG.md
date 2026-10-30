@@ -2,6 +2,14 @@
 
 All notable changes to this project will be documented in this file. Dates are displayed in UTC.
 
+#### [9.25.2](https://github.com/Cecilapp/Cecil/compare/9.25.1...9.25.2)
+
+> 29 October 2026
+
+- fix(deps): require tempest/highlight ^2.12.1 for PHP 8.3 [`#2571`](https://github.com/Cecilapp/Cecil/pull/2571)
+- chore(deps): bump vlucas/phpdotenv from 5.7.0 to 5.8.0 [`#2569`](https://github.com/Cecilapp/Cecil/pull/2569)
+- chore(deps-dev): bump phpstan/phpstan from 2.3.1 to 2.3.2 [`#2567`](https://github.com/Cecilapp/Cecil/pull/2567)
+
 #### [9.25.1](https://github.com/Cecilapp/Cecil/compare/9.25.0...9.25.1)
 
 > 28 October 2026
