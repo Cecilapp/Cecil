@@ -238,9 +238,11 @@ class Builder implements BuildContextInterface, LoggerAwareInterface
     /**
      * Current build ID.
      * This is a unique identifier for the current build process.
-     * It is generated based on the current date and time when the build starts.
+     * It is generated when a Builder is created, then when each build starts, so that
+     * caches scoped to the build ID (e.g. the Markdown parser ones) are not shared between
+     * Builders or builds (e.g. a page converted outside of a build).
      * It can be used to track builds, especially in environments where multiple builds may occur.
-     * @var string
+     * @var string|null
      * @see \Cecil\Builder::build()
      */
     protected static $buildId;
@@ -277,6 +279,8 @@ class Builder implements BuildContextInterface, LoggerAwareInterface
      */
     public function __construct($config = null, ?LoggerInterface $logger = null)
     {
+        // set build ID
+        self::$buildId = self::generateBuildId();
         // init and set config
         $this->config = new Config();
         if ($config !== null) {
@@ -330,8 +334,8 @@ class Builder implements BuildContextInterface, LoggerAwareInterface
         $this->layoutCacheHits = 0;
         $this->layoutCacheMisses = 0;
 
-        // set build ID (unique, even for builds started within the same second)
-        self::$buildId = hash('xxh32', uniqid('', true) . self::$version);
+        // set build ID
+        self::$buildId = self::generateBuildId();
 
         // loads extensions dependencies, plugins and event subscribers
         $this->getAutoloader()->requireVendors();
@@ -833,7 +837,15 @@ class Builder implements BuildContextInterface, LoggerAwareInterface
      */
     public static function getBuildId(): string
     {
-        return self::$buildId;
+        return self::$buildId ??= self::generateBuildId();
+    }
+
+    /**
+     * Generates a build ID (unique, even for builds started within the same second).
+     */
+    private static function generateBuildId(): string
+    {
+        return hash('xxh32', uniqid('', true) . self::$version);
     }
 
     /**

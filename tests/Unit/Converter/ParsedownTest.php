@@ -266,6 +266,39 @@ class ParsedownTest extends TestCase
         self::assertSame('<aside class="note note-tip"><p>advice</p></aside>', $html);
     }
 
+    public function testImagesAreNotProcessedAsAssetsOutsideOfABuild(): void
+    {
+        $this->builder->getConfig()->import(['pages' => ['body' => ['images' => ['caption' => true]]]]);
+        $parsedown = new Parsedown($this->builder, [
+            'assets'    => false,
+            'asset_url' => fn (string $path): string => 'app://file' . $path,
+        ]);
+
+        $html = $parsedown->text(implode("\n\n", [
+            '![Missing](/images/missing.jpg "A *caption*")',
+            '![Relative](../../assets/images/photo.jpg)',
+            '![Remote](https://example.com/photo.jpg)',
+        ]));
+
+        // a missing image does not throw
+        self::assertStringContainsString('<figure>' . "\n" . '<img src="app://file/images/missing.jpg" alt="Missing" title="A caption" loading="lazy" decoding="async">' . "\n" . '<figcaption>A <em>caption</em></figcaption>', $html);
+        // the path is normalized like an asset one
+        self::assertStringContainsString('<img src="app://file/images/photo.jpg" alt="Relative"', $html);
+        self::assertStringContainsString('<img src="https://example.com/photo.jpg" alt="Remote"', $html);
+        self::assertStringNotContainsString('width=', $html);
+    }
+
+    public function testMediaAreNotProcessedAsAssetsOutsideOfABuild(): void
+    {
+        $parsedown = new Parsedown($this->builder, ['assets' => false]);
+
+        $html = $parsedown->text("[Video](/videos/test.mp4){embed=false}\n\n[Audio](/audio/test.mp3){embed=false}");
+
+        // not fingerprinted
+        self::assertStringContainsString('<a href="/videos/test.mp4">Video</a>', $html);
+        self::assertStringContainsString('<a href="/audio/test.mp3">Audio</a>', $html);
+    }
+
     public function testHeadingsHaveAnAnchorLinkByDefault(): void
     {
         $html = $this->parsedown->text("## Heading\n\n### Sub heading {#custom}\n\n#### Not anchored");

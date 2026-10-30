@@ -2,7 +2,7 @@
 title: "Extend Cecil"
 description: "Create custom page generators, add Twig extensions, post-process output files and listen to build events."
 date: 2023-04-17
-updated: 2026-10-26
+updated: 2026-10-30
 alias: documentation/extend
 -->
 # Extend Cecil
@@ -267,6 +267,8 @@ Create a PHP class extending `Cecil\Converter\Parsedown`, based on [Parsedown](h
 :::warning
 A custom parser relies on Parsedown internals: it may need to be updated when Cecil upgrades Parsedown.
 :::
+
+The parser can also be created outside of a build (see [Library](2-library.md#markdown)): pass the options to the parent constructor, and do not rely on the state of a build (e.g. the pages collection).
 
 **Example:**
 
