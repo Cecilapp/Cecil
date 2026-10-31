@@ -176,6 +176,41 @@ class CacheTest extends TestCase
         self::assertSame('second', $cache->get($second));
     }
 
+    public function testPruneKeepsContentFileNotWrittenByPrunedEntry(): void
+    {
+        $cache = $this->createCache();
+        $contentPath = 'data/latest.yml';
+
+        // entry without content (e.g.: asset "locate" entry) and entry with content, sharing the same path
+        self::assertTrue($cache->set('latest.yml_locate__build-1__v1', ['path' => $contentPath]));
+        self::assertTrue($cache->set('latest.yml_yml__hash__v1', ['path' => $contentPath, 'content' => 'version: 1.0.0']));
+
+        // a new entry without content replaces (prunes) the first one
+        self::assertTrue($cache->set('latest.yml_locate__build-2__v1', ['path' => $contentPath]));
+
+        self::assertFalse($cache->has('latest.yml_locate__build-1__v1'));
+        self::assertFileExists($cache->getContentFile($contentPath));
+        self::assertSame('version: 1.0.0', $cache->get('latest.yml_yml__hash__v1')['content']);
+    }
+
+    public function testPruneRemovesContentFileOfLegacyEntry(): void
+    {
+        $cache = $this->createCache();
+        $contentPath = 'data/legacy.yml';
+        $legacyKey = 'legacy.yml_yml__hash1__v1';
+
+        self::assertTrue($cache->set($legacyKey, ['path' => $contentPath, 'content' => 'legacy']));
+        // simulates an entry stored before the `content_file` flag
+        $file = \dirname($cache->getContentFile('dummy'), 2) . DIRECTORY_SEPARATOR . $legacyKey . '.ser';
+        self::assertFileExists($file);
+        $this->filesystem->dumpFile($file, serialize(['value' => ['path' => $contentPath], 'expiration' => null]));
+
+        self::assertTrue($cache->set('legacy.yml_yml__hash2__v1', ['path' => 'data/other.yml']));
+
+        self::assertFalse($cache->has($legacyKey));
+        self::assertFileDoesNotExist($cache->getContentFile($contentPath));
+    }
+
     public function testCreateKeyCreatesShardedCacheFilePath(): void
     {
         $cache = $this->createCache();

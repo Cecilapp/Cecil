@@ -51,14 +51,17 @@ class Cache implements CacheInterface
             $key = self::sanitizeKey($key);
             $this->prune($key);
             // put file content in a dedicated file
+            $hasContentFile = false;
             if (\is_array($value) && !empty($value['content']) && !empty($value['path'])) {
                 Util\File::getFS()->dumpFile($this->getContentFile($value['path']), $value['content']);
                 unset($value['content']);
+                $hasContentFile = true;
             }
             // serialize data
             $data = serialize([
-                'value'      => $value,
-                'expiration' => $ttl === null ? null : time() + $this->duration($ttl),
+                'value'        => $value,
+                'expiration'   => $ttl === null ? null : time() + $this->duration($ttl),
+                'content_file' => $hasContentFile, // entry owns the content file (and can remove it)
             ]);
             Util\File::getFS()->dumpFile($this->getFile($key), $data);
         } catch (\Exception $e) {
@@ -427,20 +430,28 @@ class Cache implements CacheInterface
 
     /**
      * Removes a cache metadata file and its dedicated content file if any.
+     * The content file is kept if the entry did not write it, as it may be shared with another entry with the same path
+     * (e.g.: an asset "locate" entry and its processed entry, when the path is not fingerprinted).
      */
     private function removeCacheEntry(string $path): void
     {
-        $value = $this->getStoredCacheValue($path);
+        $data = $this->getStoredCacheData($path);
         Util\File::getFS()->remove($path);
-        if (\is_array($value) && !empty($value['path'])) {
-            $this->deleteContentFile((string) $value['path']);
+        if ($data === null || !\is_array($data['value'] ?? null) || empty($data['value']['path'])) {
+            return;
+        }
+        // entries stored before the `content_file` flag was introduced are considered as owning their content file
+        if ($data['content_file'] ?? true) {
+            $this->deleteContentFile((string) $data['value']['path']);
         }
     }
 
     /**
-     * Extracts the stored cache value from a metadata file.
+     * Extracts the stored cache data (value, expiration, etc.) from a metadata file.
+     *
+     * @return array<string, mixed>|null
      */
-    private function getStoredCacheValue(string $path): mixed
+    private function getStoredCacheData(string $path): ?array
     {
         if (pathinfo($path, \PATHINFO_EXTENSION) !== 'ser') {
             return null;
@@ -456,6 +467,6 @@ class Cache implements CacheInterface
             return null;
         }
 
-        return $data['value'] ?? null;
+        return $data;
     }
 }

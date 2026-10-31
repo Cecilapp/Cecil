@@ -678,6 +678,30 @@ class AssetTest extends TestCase
         }
     }
 
+    public function testContentIsAvailableOnSubsequentBuildsWhenNotFingerprinted(): void
+    {
+        $assetsDir = $this->sourceDir . DIRECTORY_SEPARATOR . 'assets';
+        $this->filesystem->dumpFile($assetsDir . DIRECTORY_SEPARATOR . 'latest.yml', 'version: 1.0.0');
+
+        $builder = new Builder([
+            'baseurl' => 'https://example.com/',
+        ], new PrintLogger(Builder::VERBOSITY_VERBOSE));
+        $builder->setSourceDir($this->sourceDir);
+        $builder->setDestinationDir($this->destinationDir);
+        $builder->setPages(new PagesCollection('pages'));
+
+        // each build has its own ID: the "locate" cache entry is recreated (and the previous one pruned) every time,
+        // while the processed entry, sharing the same (not fingerprinted) path, is reused from cache
+        foreach (['build-1', 'build-2', 'build-3'] as $buildId) {
+            self::setBuildId($buildId);
+            $asset = new Asset($builder, 'latest.yml', ['fingerprint' => false, 'minify' => false]);
+
+            self::assertSame('/latest.yml', $asset['path']);
+            self::assertTrue(isset($asset['content']), \sprintf('Content is not available during "%s".', $buildId));
+            self::assertSame('version: 1.0.0', $asset['content']);
+        }
+    }
+
     public function testStaticHelpersDelegateToLocator(): void
     {
         self::assertSame(
