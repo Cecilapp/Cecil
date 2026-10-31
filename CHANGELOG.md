@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. Dates are displayed in UTC.
 
+#### [9.26.0](https://github.com/Cecilapp/Cecil/compare/9.25.2...9.26.0)
+
+> 30 October 2026
+
+- fix(parsedown): close embedded video and audio, title embedded iframes [`#2573`](https://github.com/Cecilapp/Cecil/pull/2573)
+- feat(converter): convert Markdown outside of a build [`#2572`](https://github.com/Cecilapp/Cecil/pull/2572)
+
 #### [9.25.2](https://github.com/Cecilapp/Cecil/compare/9.25.1...9.25.2)
 
 > 29 October 2026
