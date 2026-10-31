@@ -42,7 +42,8 @@ cat <<EOT > "$OUTPUT_DIR/$SCOOP_FILE_JSON"
   "description": "A simple and powerful content-driven static site generator.",
   "homepage": "https://cecil.app",
   "license": "EUPL-1.2",
-  "bin": "cecil.phar",
+  "pre_install": "Set-Content -Path \"\$dir\\\\cecil.cmd\" -Value '@php \"%~dp0cecil.phar\" %*' -Encoding Ascii",
+  "bin": "cecil.cmd",
   "notes": [
     "Run 'cecil' to get started",
     "Run 'scoop update cecil' instead of 'cecil self-update' to update"
