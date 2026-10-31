@@ -299,6 +299,21 @@ class ParsedownTest extends TestCase
         self::assertStringContainsString('<a href="/audio/test.mp3">Audio</a>', $html);
     }
 
+    public function testEmbeddedMediaAreNotProcessedAsAssetsOutsideOfABuild(): void
+    {
+        $parsedown = new Parsedown($this->builder, [
+            'assets'    => false,
+            'asset_url' => fn (string $path): string => 'app://file' . $path,
+        ]);
+
+        $html = $parsedown->text("[Video](/videos/missing.mp4){embed=true controls poster=/images/poster.jpg}\n\n[Audio](/audio/test.mp3){embed=true controls}");
+
+        // a missing file does not throw
+        self::assertStringContainsString('<video controls="" poster="app://file/images/poster.jpg" src="app://file/videos/missing.mp4"', $html);
+        self::assertStringContainsString('>Video</video>', $html);
+        self::assertStringContainsString('<audio controls="" src="app://file/audio/test.mp3">Audio</audio>', $html);
+    }
+
     public function testHeadingsHaveAnAnchorLinkByDefault(): void
     {
         $html = $this->parsedown->text("## Heading\n\n### Sub heading {#custom}\n\n#### Not anchored");
