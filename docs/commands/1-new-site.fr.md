@@ -2,7 +2,7 @@
 title: "new:site"
 description: "Créer un nouveau site."
 date: 2026-03-27
-updated: 2026-10-24
+updated: 2026-11-01
 path: documentation/commandes/new-site
 -->
 # new:site
@@ -57,6 +57,6 @@ La commande crée les fichiers suivants :
 - `assets/favicon.png` et `assets/icon.png` : le favicon et l'image par défaut des cartes des réseaux sociaux
 - `static/favicon.ico` : le favicon historique
 - `README.md` et `.gitignore` (`_site/`, `.cache/` et `.cecil/`), s'ils n'existent pas déjà
-- `.github/workflows/build-and-deploy.yml` : un workflow GitHub Actions pour [déployer sur GitHub Pages](../deploy/2-continuous-deployment.fr.md#github-pages), si demandé
+- `.github/workflows/build-and-deploy.yml` : un workflow GitHub Actions pour [déployer sur GitHub Pages](https://cecil.app/fr/comment-faire/deploiement-github-pages/), si demandé
 
 Avec l'option `--demo`, elle ajoute aussi du contenu de démonstration : un blog (avec tags, pagination, un brouillon et une traduction en français), une section de documentation (triée par poids, avec une table des matières activée par `cascade`), des templates personnalisés, une feuille de style Sass, un fichier de données et des traductions.

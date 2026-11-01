@@ -49,9 +49,9 @@ fi
 # copy files to cloned repo
 cd $TARGET_CLONE_DIR
 # docs dir: mirrors the source, so that moved or deleted files are removed
-# (the documentation index pages are owned by the website and kept)
+# (the documentation index pages and the Deploy section are owned by the website and kept)
 mkdir -p $TARGET_DOCS_DIR
-find $TARGET_DOCS_DIR -mindepth 1 -maxdepth 1 ! -name 'index.md' ! -name 'index.fr.md' -exec rm -rf {} +
+find $TARGET_DOCS_DIR -mindepth 1 -maxdepth 1 ! -name 'index.md' ! -name 'index.fr.md' ! -name 'deploy' -exec rm -rf {} +
 cp -R $HOME/$SOURCE_DOCS_DIR/. $TARGET_DOCS_DIR
 rm -f $TARGET_DOCS_DIR/README.md # repository-only file, not a documentation page
 # api dir: mirrors the source

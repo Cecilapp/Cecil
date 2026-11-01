@@ -2,7 +2,7 @@
 title: "build"
 description: "Générer le site."
 date: 2026-03-27
-updated: 2026-10-16
+updated: 2026-11-01
 path: documentation/commandes/build
 -->
 # build
@@ -74,3 +74,23 @@ Help:
 
     cecil.phar build --notify
 ```
+
+## Mettre en ligne {#deploy}
+
+Par défaut, le site est généré dans le répertoire **`_site`** et **peut être déployé tel quel** sur n’importe quel serveur web ou service d’hébergement statique.
+
+Pour générer et déployer le site automatiquement à chaque push sur un dépôt Git, Cecil fournit :
+
+- un **script de build**, à utiliser comme commande de build sur une plateforme Jamstack ou un service d’intégration continue :
+
+  ```bash
+  curl -sSOL https://cecil.app/build.sh && bash ./build.sh
+  ```
+
+  Il télécharge Cecil (ou son [binaire autonome](../getting-started/2-installation.fr.md#standalone-binary) si PHP n’est pas disponible), installe les thèmes et génère le site, en déduisant le contexte de build (`production` ou `preview`) et l’URL de base à partir de la plateforme.  
+  Définissez la variable d’environnement `CECIL_ENV` pour forcer le contexte de build, `CECIL_VERSION` pour utiliser une version précise de Cecil et `CECIL_CMD_OPTIONS` pour ajouter des options à la commande `build` (ex. : `--optimize`) ; les autres variables préfixées par `CECIL_` surchargent la [configuration](../configuration/index.fr.md) (ex. : `CECIL_OUTPUT_DIR`).
+- une **GitHub Action**, [Cecil Action](https://github.com/Cecilapp/Cecil-Action), pour générer le site dans un workflow GitHub Actions : la commande [`new:site`](1-new-site.fr.md) peut créer un workflow qui déploie sur GitHub Pages.
+
+:::tip
+Voir [Mettre en ligne](https://cecil.app/fr/documentation/mettre-en-ligne/) pour des configurations prêtes à l’emploi (Netlify, Vercel, Cloudflare Pages, GitHub Pages, GitLab CI, etc.).
+:::

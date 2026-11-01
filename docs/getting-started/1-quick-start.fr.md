@@ -2,7 +2,7 @@
 title: "Démarrage rapide"
 description: "Installez Cecil, créez un site, ajoutez des pages, prévisualisez-le localement, puis générez-le et déployez-le."
 date: 2021-11-03
-updated: 2026-10-16
+updated: 2026-11-01
 alias: documentation/demarrage-rapide
 menu: home
 path: documentation/bien-demarrer/demarrage-rapide
@@ -108,7 +108,7 @@ Vous pouvez maintenant copier le contenu du répertoire `_site` sur un serveur w
 ::::
 
 :::tip
-Pour déployer automatiquement à chaque push sur votre dépôt Git, voir [Déployer](../deploy/index.fr.md).
+Pour déployer automatiquement à chaque push sur votre dépôt Git, voir [Mettre en ligne](../commands/4-build.fr.md#deploy).
 :::
 
 ----
