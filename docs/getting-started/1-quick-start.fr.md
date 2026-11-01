@@ -108,7 +108,7 @@ Vous pouvez maintenant copier le contenu du répertoire `_site` sur un serveur w
 ::::
 
 :::tip
-Pour déployer automatiquement à chaque push sur votre dépôt Git, voir [Déployer](../commands/4-build.fr.md#deploy).
+Pour déployer automatiquement à chaque push sur votre dépôt Git, voir [Mettre en ligne](../commands/4-build.fr.md#deploy).
 :::
 
 ----

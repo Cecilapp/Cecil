@@ -75,7 +75,7 @@ Help:
     cecil.phar build --notify
 ```
 
-## Déployer {#deploy}
+## Mettre en ligne {#deploy}
 
 Par défaut, le site est généré dans le répertoire **`_site`** et **peut être déployé tel quel** sur n’importe quel serveur web ou service d’hébergement statique.
 
@@ -92,5 +92,5 @@ Pour générer et déployer le site automatiquement à chaque push sur un dépô
 - une **GitHub Action**, [Cecil Action](https://github.com/Cecilapp/Cecil-Action), pour générer le site dans un workflow GitHub Actions : la commande [`new:site`](1-new-site.fr.md) peut créer un workflow qui déploie sur GitHub Pages.
 
 :::tip
-Voir [Déployer](https://cecil.app/fr/deployer/) pour des configurations prêtes à l’emploi (Netlify, Vercel, Cloudflare Pages, GitHub Pages, GitLab CI, etc.).
+Voir [Mettre en ligne](https://cecil.app/fr/mettre-en-ligne/) pour des configurations prêtes à l’emploi (Netlify, Vercel, Cloudflare Pages, GitHub Pages, GitLab CI, etc.).
 :::
