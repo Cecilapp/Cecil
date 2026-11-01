@@ -2,7 +2,7 @@
 title: "build"
 description: "Build the website."
 date: 2020-12-19
-updated: 2026-10-16
+updated: 2026-11-01
 -->
 # build
 
@@ -73,3 +73,23 @@ Help:
 
     cecil.phar build --notify
 ```
+
+## Deploy
+
+By default, the site is built in the **`_site`** directory, and **can be deployed as is** to any web server or static hosting service.
+
+To build and deploy the site automatically on each push to a Git repository, Cecil provides:
+
+- a **build script**, to use as build command on a Jamstack platform or a CI service:
+
+  ```bash
+  curl -sSOL https://cecil.app/build.sh && bash ./build.sh
+  ```
+
+  It downloads Cecil (or its [standalone binary](../getting-started/2-installation.md#standalone-binary) if PHP is not available), installs themes and builds the site, deducing the build context (`production` or `preview`) and the base URL from the platform.  
+  Set the `CECIL_ENV` environment variable to force the build context, `CECIL_VERSION` to use a specific Cecil release and `CECIL_CMD_OPTIONS` to add options to the `build` command (e.g.: `--optimize`); other variables prefixed with `CECIL_` override the [configuration](../configuration/index.md) (e.g.: `CECIL_OUTPUT_DIR`).
+- a **GitHub Action**, [Cecil Action](https://github.com/Cecilapp/Cecil-Action), to build the site in a GitHub Actions workflow: the [`new:site`](1-new-site.md) command can create a workflow that deploys to GitHub Pages.
+
+:::tip
+See [Deploy](https://cecil.app/deploy/) for ready-to-use configurations (Netlify, Vercel, Cloudflare Pages, GitHub Pages, GitLab CI, etc.).
+:::

@@ -29,7 +29,7 @@ Cecil is a command-line PHP application that merges [Markdown](docs/content/3-ma
 - **Multilingual**: [content localization](docs/content/4-multilingual.md) and [template translation](docs/templates/5-localization.md)
 - **SEO-friendly**: meta tags, Open Graph, X (Twitter) cards and structured data
 - **No installation**: download a single file and run it with PHP
-- **Easy to deploy**: in minutes on [Netlify, Vercel, statichost and others](docs/deploy/index.md)
+- **Easy to deploy**: in minutes on [Netlify, Vercel, statichost and others](https://cecil.app/deploy/)
 - **Open source**: licensed under EUPL-1.2 and developed on GitHub
 
 ## Quick Start

@@ -10,7 +10,6 @@ Source files of the Cecil documentation, published at <https://cecil.app/documen
 - [Assets](assets/index.md)
 - [Configuration](configuration/index.md)
 - [Commands](commands/index.md)
-- [Deploy](deploy/index.md)
 - [Developers](developers/index.md)
 - [AI](ai/index.md)
 

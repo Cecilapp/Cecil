@@ -2,7 +2,7 @@
 title: "Quick start"
 description: "Install Cecil, create a new website, add pages, preview it locally, then build and deploy it."
 date: 2020-12-19
-updated: 2026-10-16
+updated: 2026-11-01
 alias: documentation/quick-start
 menu: home
 -->
@@ -107,7 +107,7 @@ You can now copy the content of the `_site` directory to a Web server 🎉
 ::::
 
 :::tip
-To deploy automatically on each push to your Git repository, see [Deploy](../deploy/index.md).
+To deploy automatically on each push to your Git repository, see [Deploy](../commands/4-build.md#deploy).
 :::
 
 ----
