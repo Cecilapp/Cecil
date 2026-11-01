@@ -91,5 +91,5 @@ To build and deploy the site automatically on each push to a Git repository, Cec
 - a **GitHub Action**, [Cecil Action](https://github.com/Cecilapp/Cecil-Action), to build the site in a GitHub Actions workflow: the [`new:site`](1-new-site.md) command can create a workflow that deploys to GitHub Pages.
 
 :::tip
-See [Deploy](https://cecil.app/deploy/) for ready-to-use configurations (Netlify, Vercel, Cloudflare Pages, GitHub Pages, GitLab CI, etc.).
+See [Deploy](https://cecil.app/documentation/deploy/) for ready-to-use configurations (Netlify, Vercel, Cloudflare Pages, GitHub Pages, GitLab CI, etc.).
 :::

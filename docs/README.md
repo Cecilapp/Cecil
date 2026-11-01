@@ -27,3 +27,5 @@ The PHP API reference, generated with [phpDocumentor](https://phpdoc.org), lives
 ## Publishing
 
 On each push to `main`, the [Documentation workflow](../.github/workflows/documentation.yml) copies this directory to the [Cecilapp/website](https://github.com/Cecilapp/website) repository (see [`scripts/deploy-documentation.sh`](../scripts/deploy-documentation.sh)). This `README.md` is not published.
+
+The Deploy section (<https://cecil.app/documentation/deploy/>), about third-party hosting services, is maintained in the website repository (`pages/documentation/deploy/`) and kept by the copy: do not create a `deploy/` directory here.
