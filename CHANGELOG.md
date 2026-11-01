@@ -2,6 +2,14 @@
 
 All notable changes to this project will be documented in this file. Dates are displayed in UTC.
 
+#### [9.26.1](https://github.com/Cecilapp/Cecil/compare/9.26.0...9.26.1)
+
+> 31 October 2026
+
+- fix(cache): keep content file shared with another entry on prune [`#2575`](https://github.com/Cecilapp/Cecil/pull/2575)
+- test(parsedown): embedded media not processed as assets [`#2574`](https://github.com/Cecilapp/Cecil/pull/2574)
+- fix(scoop): use cmd wrapper to run cecil.phar via PHP [`5bad85a`](https://github.com/Cecilapp/Cecil/commit/5bad85a2005deddf89c24d26d58c97320f82758b)
+
 #### [9.26.0](https://github.com/Cecilapp/Cecil/compare/9.25.2...9.26.0)
 
 > 30 October 2026
