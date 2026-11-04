@@ -3541,6 +3541,16 @@ Search.appendIndex(
             "summary": "Returns\u0020a\u0020language\u0020code\u0020index.",
             "url": "classes/Cecil-Config.html#method_getLanguageIndex"
         },                {
+            "fqsen": "\\Cecil\\Config\u003A\u003AgetLanguageConfigIndex\u0028\u0029",
+            "name": "getLanguageConfigIndex",
+            "summary": "Returns\u0020the\u0020index\u0020of\u0020a\u0020language\u0020code\u0020in\u0020the\u0020\u0060languages\u0060\u0020configuration\u0020\u0028disabled\u0020languages\u0020included\u0029,\nused\u0020to\u0020read\u0020its\u0020localized\u0020configuration\u0020\u0028\u0060languages.\u003Cindex\u003E.config\u0060\u0029.",
+            "url": "classes/Cecil-Config.html#method_getLanguageConfigIndex"
+        },                {
+            "fqsen": "\\Cecil\\Config\u003A\u003AgetIgnoredLocalizedKeys\u0028\u0029",
+            "name": "getIgnoredLocalizedKeys",
+            "summary": "Returns\u0020the\u0020localized\u0020configuration\u0020keys\u0020that\u0020are\u0020ignored\u0020\u0028see\u0020\u0060NOT_LOCALIZABLE_KEYS\u0060\u0029,\u0020indexed\u0020by\u0020language\u0020code.",
+            "url": "classes/Cecil-Config.html#method_getIgnoredLocalizedKeys"
+        },                {
             "fqsen": "\\Cecil\\Config\u003A\u003AgetLanguageProperty\u0028\u0029",
             "name": "getLanguageProperty",
             "summary": "Returns\u0020the\u0020property\u0020value\u0020of\u0020a\u0020\u0028specified\u0020or\u0020the\u0020default\u0029\u0020language.",
@@ -3591,6 +3601,11 @@ Search.appendIndex(
             "summary": "Validates\u0020well\u002Ddefined\u0020configuration\u0020sections\u0020against\u0020a\u0020schema.",
             "url": "classes/Cecil-Config.html#method_validateSchema"
         },                {
+            "fqsen": "\\Cecil\\Config\u003A\u003AhasData\u0028\u0029",
+            "name": "hasData",
+            "summary": "Is\u0020the\u0020key\u0020exists\u0020in\u0020the\u0020effective\u0020configuration\u0020\u0028false\u0020if\u0020a\u0020parent\u0020key\u0020is\u0020not\u0020an\u0020array\u0029\u003F",
+            "url": "classes/Cecil-Config.html#method_hasData"
+        },                {
             "fqsen": "\\Cecil\\Config\u003A\u003AschemaErrorMessage\u0028\u0029",
             "name": "schemaErrorMessage",
             "summary": "Returns\u0020the\u0020message\u0020of\u0020a\u0020schema\u0020validation\u0020error,\u0020with\u0020the\u0020path\u0020of\u0020each\u0020item\u0020from\u0020the\u0020root\u0020of\u0020the\u0020configuration.",
@@ -3640,6 +3655,11 @@ Search.appendIndex(
             "name": "LANG_LOCALE_PATTERN",
             "summary": "",
             "url": "classes/Cecil-Config.html#constant_LANG_LOCALE_PATTERN"
+        },                {
+            "fqsen": "\\Cecil\\Config\u003A\u003ANOT_LOCALIZABLE_KEYS",
+            "name": "NOT_LOCALIZABLE_KEYS",
+            "summary": "Configuration\u0020keys\u0020that\u0020are\u0020read\u0020for\u0020the\u0020whole\u0020site\u0020only\u003A\u0020their\u0020localized\u0020value\u0020\u0028\u0060languages.\u003Cn\u003E.config\u0060\u0029\u0020is\u0020ignored.",
+            "url": "classes/Cecil-Config.html#constant_NOT_LOCALIZABLE_KEYS"
         },                {
             "fqsen": "\\Cecil\\Config\u003A\u003A\u0024data",
             "name": "data",
