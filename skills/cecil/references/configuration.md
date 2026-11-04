@@ -71,7 +71,7 @@ menus:
       enabled: false
 ```
 
-Localize menus under `languages[].config.menus` (see [multilingual.md](multilingual.md#languages)).
+Localize menus under `languages[].config.menus` (see [multilingual.md](multilingual.md#languages)). Localized options are validated like global ones; site-wide options (e.g. `theme`, `cache`, `output.dir`, `pages.generators`) can't be localized and are ignored with a warning.
 
 ## Taxonomies
 

@@ -42,6 +42,33 @@ class Config
     public const int IMPORT_MERGE = 2;
     public const string LANG_CODE_PATTERN = '([a-z]{2}(-[A-Z]{2})?)'; // "fr" or "fr-FR"
     public const string LANG_LOCALE_PATTERN = '[a-z]{2}(_[A-Z]{2})?(_[A-Z]{2})?'; // "fr" or "fr_FR" or "no_NO_NY"
+    /**
+     * Configuration keys that are read for the whole site only: their localized value (`languages.<n>.config`) is ignored.
+     */
+    public const array NOT_LOCALIZABLE_KEYS = [
+        'language',
+        'languages',
+        'theme',
+        'cache',
+        'extensions',
+        'optimize',
+        'server',
+        'data',
+        'static',
+        'pages.dir',
+        'pages.ext',
+        'pages.frontmatter',
+        'pages.converter',
+        'pages.generators',
+        'pages.default',
+        'output.dir',
+        'output.formats',
+        'output.postprocessors',
+        'layouts.dir',
+        'layouts.extensions',
+        'layouts.autoescape',
+        'assets.dir',
+    ];
 
     /**
      * Effective configuration: the default configuration, overridden by the themes configuration,
@@ -191,7 +218,7 @@ class Config
     public function has(string $key, ?string $language = null, bool $fallback = true): bool
     {
         if ($language !== null) {
-            $langIndex = $this->getLanguageIndex($language);
+            $langIndex = $this->getLanguageConfigIndex($language);
             if ($this->data->has("languages.$langIndex.config.$key")) {
                 return true;
             }
@@ -219,7 +246,7 @@ class Config
             if ($language !== $this->getLanguageDefault() && $fallback === false) {
                 $value = $this->getDefault($key);
             }
-            $langIndex = $this->getLanguageIndex($language);
+            $langIndex = $this->getLanguageConfigIndex($language);
             $keyLang = "languages.$langIndex.config.$key";
             if ($this->data->has($keyLang)) {
                 // localized value overrides the global (or default) value
@@ -658,6 +685,46 @@ class Config
     }
 
     /**
+     * Returns the index of a language code in the `languages` configuration (disabled languages included),
+     * used to read its localized configuration (`languages.<index>.config`).
+     *
+     * @throws ConfigException
+     */
+    private function getLanguageConfigIndex(string $code): int
+    {
+        // enabled languages, indexed by their position in the `languages` configuration
+        foreach ($this->getLanguages() as $index => $language) {
+            if (\is_array($language) && ($language['code'] ?? null) === $code) {
+                return (int) $index;
+            }
+        }
+
+        throw new ConfigException(\sprintf('The language code "%s" is not defined.', $code));
+    }
+
+    /**
+     * Returns the localized configuration keys that are ignored (see `NOT_LOCALIZABLE_KEYS`), indexed by language code.
+     *
+     * @return array<string, list<string>>
+     */
+    public function getIgnoredLocalizedKeys(): array
+    {
+        $ignored = [];
+        foreach ((array) $this->get('languages') as $index => $language) {
+            if (!\is_array($language) || !isset($language['code']) || !\is_array($language['config'] ?? null)) {
+                continue;
+            }
+            foreach (self::NOT_LOCALIZABLE_KEYS as $key) {
+                if ($this->hasData("languages.$index.config.$key")) {
+                    $ignored[(string) $language['code']][] = $key;
+                }
+            }
+        }
+
+        return $ignored;
+    }
+
+    /**
      * Returns the property value of a (specified or the default) language.
      *
      * @throws ConfigException
@@ -825,7 +892,8 @@ class Config
     private function validateSchema(): void
     {
         $processor = new Processor();
-        foreach ($this->getSchemas() as $key => $schema) {
+        $schemas = $this->getSchemas();
+        foreach ($schemas as $key => $schema) {
             if (!$this->has($key)) {
                 continue;
             }
@@ -834,6 +902,37 @@ class Config
             } catch (ValidationException $e) {
                 throw new ConfigException(self::schemaErrorMessage($key, $e), previous: $e);
             }
+        }
+        // localized configuration: the effective value of each language (global value overridden by the localized one) is validated
+        foreach ((array) $this->get('languages') as $index => $language) {
+            if (!\is_array($language) || !\is_array($language['config'] ?? null)) {
+                continue;
+            }
+            foreach ($schemas as $key => $schema) {
+                $keyLang = "languages.$index.config.$key";
+                if (!$this->hasData($keyLang)) {
+                    continue;
+                }
+                $value = $this->get($key);
+                $localized = $this->data->get($keyLang);
+                try {
+                    $processor->process($schema, $value === null ? $localized : Merger::mergeValues($value, $localized, self::IMPORT_REPLACE, $key));
+                } catch (ValidationException $e) {
+                    throw new ConfigException(self::schemaErrorMessage($keyLang, $e), previous: $e);
+                }
+            }
+        }
+    }
+
+    /**
+     * Is the key exists in the effective configuration (false if a parent key is not an array)?
+     */
+    private function hasData(string $key): bool
+    {
+        try {
+            return $this->data->has($key);
+        } catch (DataException) {
+            return false;
         }
     }
 

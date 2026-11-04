@@ -892,6 +892,70 @@ class ConfigTest extends TestCase
         self::assertSame('weight', $config->get('pages.sortby.variable'));
     }
 
+    public function testLocalizedConfigurationIsValidated(): void
+    {
+        $this->expectException(ConfigException::class);
+        $this->expectExceptionMessage("languages\u{a0}›\u{a0}1\u{a0}›\u{a0}config\u{a0}›\u{a0}pages\u{a0}›\u{a0}pagination\u{a0}›\u{a0}max");
+
+        new Config([
+            'languages' => [
+                ['code' => 'en', 'name' => 'English', 'locale' => 'en_US'],
+                ['code' => 'fr', 'name' => 'Français', 'locale' => 'fr_FR', 'config' => [
+                    'pages' => ['pagination' => ['max' => 0]],
+                ]],
+            ],
+        ]);
+    }
+
+    public function testValidLocalizedConfigurationIsMergedWithGlobalValue(): void
+    {
+        $config = new Config([
+            'pages' => ['pagination' => ['max' => 10]],
+            'languages' => [
+                ['code' => 'en', 'name' => 'English', 'locale' => 'en_US'],
+                ['code' => 'fr', 'name' => 'Français', 'locale' => 'fr_FR', 'config' => [
+                    'baseline' => 'Une baseline',
+                    'pages'    => ['pagination' => ['path' => 'page'], 'paths' => [['section' => 'news', 'path' => 'actualites/:slug']]],
+                ]],
+            ],
+        ]);
+
+        self::assertSame('Une baseline', $config->get('baseline', 'fr'));
+        self::assertSame(10, $config->get('pages.pagination.max', 'fr'));
+    }
+
+    public function testLocalizedConfigurationOfLanguageAfterDisabledLanguage(): void
+    {
+        $config = new Config([
+            'languages' => [
+                ['code' => 'en', 'name' => 'English', 'locale' => 'en_US'],
+                ['code' => 'de', 'name' => 'Deutsch', 'locale' => 'de_DE', 'enabled' => false, 'config' => ['title' => 'DE']],
+                ['code' => 'fr', 'name' => 'Français', 'locale' => 'fr_FR', 'config' => ['title' => 'FR']],
+            ],
+        ]);
+
+        self::assertSame('FR', $config->get('title', 'fr'));
+        self::assertTrue($config->has('title', 'fr'));
+        // the language index (weight) is the position among enabled languages
+        self::assertSame(1, $config->getLanguageIndex('fr'));
+    }
+
+    public function testNotLocalizableKeysAreReported(): void
+    {
+        $config = new Config([
+            'languages' => [
+                ['code' => 'en', 'name' => 'English', 'locale' => 'en_US'],
+                ['code' => 'fr', 'name' => 'Français', 'locale' => 'fr_FR', 'config' => [
+                    'title'  => 'Titre',
+                    'theme'  => 'hyde',
+                    'output' => ['dir' => '_site_fr'],
+                ]],
+            ],
+        ]);
+
+        self::assertSame(['fr' => ['theme', 'output.dir']], $config->getIgnoredLocalizedKeys());
+    }
+
     public function testNumericEnvironmentVariableIsCastToNumber(): void
     {
         putenv('CECIL_ASSETS_IMAGES_QUALITY=80');
