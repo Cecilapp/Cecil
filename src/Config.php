@@ -18,6 +18,8 @@ use Cecil\Config\Merger;
 use Cecil\Exception\ConfigException;
 use Dflydev\DotAccessData\Data;
 use Dflydev\DotAccessData\Exception\DataException;
+use Nette\Schema\Elements\AnyOf;
+use Nette\Schema\Elements\Structure;
 use Nette\Schema\Expect;
 use Nette\Schema\Message;
 use Nette\Schema\Processor;
@@ -40,6 +42,33 @@ class Config
     public const int IMPORT_MERGE = 2;
     public const string LANG_CODE_PATTERN = '([a-z]{2}(-[A-Z]{2})?)'; // "fr" or "fr-FR"
     public const string LANG_LOCALE_PATTERN = '[a-z]{2}(_[A-Z]{2})?(_[A-Z]{2})?'; // "fr" or "fr_FR" or "no_NO_NY"
+    /**
+     * Configuration keys that are read for the whole site only: their localized value (`languages.<n>.config`) is ignored.
+     */
+    public const array NOT_LOCALIZABLE_KEYS = [
+        'language',
+        'languages',
+        'theme',
+        'cache',
+        'extensions',
+        'optimize',
+        'server',
+        'data',
+        'static',
+        'pages.dir',
+        'pages.ext',
+        'pages.frontmatter',
+        'pages.converter',
+        'pages.generators',
+        'pages.default',
+        'output.dir',
+        'output.formats',
+        'output.postprocessors',
+        'layouts.dir',
+        'layouts.extensions',
+        'layouts.autoescape',
+        'assets.dir',
+    ];
 
     /**
      * Effective configuration: the default configuration, overridden by the themes configuration,
@@ -189,7 +218,7 @@ class Config
     public function has(string $key, ?string $language = null, bool $fallback = true): bool
     {
         if ($language !== null) {
-            $langIndex = $this->getLanguageIndex($language);
+            $langIndex = $this->getLanguageConfigIndex($language);
             if ($this->data->has("languages.$langIndex.config.$key")) {
                 return true;
             }
@@ -217,7 +246,7 @@ class Config
             if ($language !== $this->getLanguageDefault() && $fallback === false) {
                 $value = $this->getDefault($key);
             }
-            $langIndex = $this->getLanguageIndex($language);
+            $langIndex = $this->getLanguageConfigIndex($language);
             $keyLang = "languages.$langIndex.config.$key";
             if ($this->data->has($keyLang)) {
                 // localized value overrides the global (or default) value
@@ -656,6 +685,46 @@ class Config
     }
 
     /**
+     * Returns the index of a language code in the `languages` configuration (disabled languages included),
+     * used to read its localized configuration (`languages.<index>.config`).
+     *
+     * @throws ConfigException
+     */
+    private function getLanguageConfigIndex(string $code): int
+    {
+        // enabled languages, indexed by their position in the `languages` configuration
+        foreach ($this->getLanguages() as $index => $language) {
+            if (($language['code'] ?? null) === $code) {
+                return $index;
+            }
+        }
+
+        throw new ConfigException(\sprintf('The language code "%s" is not defined.', $code));
+    }
+
+    /**
+     * Returns the localized configuration keys that are ignored (see `NOT_LOCALIZABLE_KEYS`), indexed by language code.
+     *
+     * @return array<string, list<string>>
+     */
+    public function getIgnoredLocalizedKeys(): array
+    {
+        $ignored = [];
+        foreach ((array) $this->get('languages') as $index => $language) {
+            if (!\is_array($language) || !isset($language['code']) || !\is_array($language['config'] ?? null)) {
+                continue;
+            }
+            foreach (self::NOT_LOCALIZABLE_KEYS as $key) {
+                if ($this->hasData("languages.$index.config.$key")) {
+                    $ignored[(string) $language['code']][] = $key;
+                }
+            }
+        }
+
+        return $ignored;
+    }
+
+    /**
      * Returns the property value of a (specified or the default) language.
      *
      * @throws ConfigException
@@ -727,7 +796,8 @@ class Config
         $config = [];
         foreach (array_merge(getenv() ?: [], $_ENV) as $key => $value) {
             if (str_starts_with((string) $key, 'CECIL_')) {
-                $config[str_replace(['cecil_', '_'], ['', '.'], strtolower((string) $key))] = $this->castSetValue($value);
+                $configKey = str_replace(['cecil_', '_'], ['', '.'], strtolower((string) $key));
+                $config[$configKey] = $this->castSetValue($value, $configKey);
             }
         }
 
@@ -735,21 +805,65 @@ class Config
     }
 
     /**
-     * Casts boolean value given to set() as string.
+     * Casts a value given as string (ie: by an environment variable), according to the default value of the key:
+     * - to a number, if the default value is a number;
+     * - to a boolean, if possible;
+     * - to a number, if the default value is null (ie: `cache.assets.ttl`).
      *
      * @param mixed $value
      *
-     * @return bool|mixed
+     * @return bool|int|float|mixed
      */
-    private function castSetValue($value)
+    private function castSetValue($value, ?string $key = null)
     {
+        $defaultType = $key !== null ? $this->getDefaultType($key) : null;
+        $isNumeric = \is_string($value) && is_numeric($value);
+
+        if ($defaultType === 'number' && $isNumeric) {
+            return self::toNumber($value);
+        }
+
         $filteredValue = filter_var($value, FILTER_VALIDATE_BOOLEAN, FILTER_NULL_ON_FAILURE);
 
         if ($filteredValue !== null) {
             return $filteredValue;
         }
 
+        if ($defaultType === 'null' && $isNumeric) {
+            return self::toNumber($value);
+        }
+
         return $value;
+    }
+
+    /**
+     * Returns the type of the default value of a configuration key (`number`, `null` or `other`),
+     * or null if the key doesn't exist in the default configuration.
+     */
+    private function getDefaultType(string $key): ?string
+    {
+        try {
+            if (!$this->default->has($key)) {
+                return null;
+            }
+        } catch (DataException) {
+            return null;
+        }
+        $default = $this->default->get($key);
+
+        return match (true) {
+            $default === null                       => 'null',
+            \is_int($default) || \is_float($default) => 'number',
+            default                                 => 'other',
+        };
+    }
+
+    /**
+     * Converts a numeric string to an integer or a float.
+     */
+    private static function toNumber(string $value): int|float
+    {
+        return preg_match('/^-?\d+$/', $value) ? (int) $value : (float) $value;
     }
 
     /**
@@ -778,7 +892,8 @@ class Config
     private function validateSchema(): void
     {
         $processor = new Processor();
-        foreach ($this->getSchemas() as $key => $schema) {
+        $schemas = $this->getSchemas();
+        foreach ($schemas as $key => $schema) {
             if (!$this->has($key)) {
                 continue;
             }
@@ -787,6 +902,37 @@ class Config
             } catch (ValidationException $e) {
                 throw new ConfigException(self::schemaErrorMessage($key, $e), previous: $e);
             }
+        }
+        // localized configuration: the effective value of each language (global value overridden by the localized one) is validated
+        foreach ((array) $this->get('languages') as $index => $language) {
+            if (!\is_array($language) || !\is_array($language['config'] ?? null)) {
+                continue;
+            }
+            foreach ($schemas as $key => $schema) {
+                $keyLang = "languages.$index.config.$key";
+                if (!$this->hasData($keyLang)) {
+                    continue;
+                }
+                $value = $this->get($key);
+                $localized = $this->data->get($keyLang);
+                try {
+                    $processor->process($schema, $value === null ? $localized : Merger::mergeValues($value, $localized, self::IMPORT_REPLACE, $key));
+                } catch (ValidationException $e) {
+                    throw new ConfigException(self::schemaErrorMessage($keyLang, $e), previous: $e);
+                }
+            }
+        }
+    }
+
+    /**
+     * Is the key exists in the effective configuration (false if a parent key is not an array)?
+     */
+    private function hasData(string $key): bool
+    {
+        try {
+            return $this->data->has($key);
+        } catch (DataException) {
+            return false;
         }
     }
 
@@ -830,51 +976,143 @@ class Config
             // `cache: true|false` shorthand or a structure with a non-empty `dir` when enabled
             'cache' => Expect::anyOf(
                 Expect::bool(),
-                Expect::structure([
-                    'dir' => Expect::string(),
-                ])->otherItems(Expect::mixed())->assert(
-                    fn ($cache) => !$this->isEnabled('cache') || trim((string) ($cache->dir ?? '')) !== '',
+                self::open([
+                    'enabled' => Expect::bool(),
+                    'dir'     => Expect::string(),
+                    'assets'  => self::open([
+                        'ttl'    => Expect::int()->nullable(),
+                        'remote' => self::open([
+                            'ttl' => Expect::int()->nullable(),
+                        ]),
+                    ]),
+                    'templates'    => self::toggle(),
+                    'translations' => self::toggle(),
+                ])->assert(
+                    fn ($cache) => $cache->enabled === false || trim((string) ($cache->dir ?? '')) !== '',
                     'The cache directory (`cache.dir`) must not be empty when cache is enabled.'
                 )
             ),
-            // extensions loading options
-            'extensions' => Expect::structure([
-                'strict'   => Expect::bool()->nullable(),
-                'autoload' => Expect::arrayOf(Expect::string(), Expect::string()),
-            ])->otherItems(Expect::mixed()),
-            // each output format must define a `name` and a `mediatype`
+            // extensions loading options (entries of extensions maps are validated by the extensions loader, according to `extensions.strict`)
+            'extensions' => self::open([
+                'strict'      => Expect::bool()->nullable(),
+                'autoload'    => Expect::arrayOf(Expect::string(), Expect::string()),
+                'subscribers' => Expect::array(),
+                'plugins'     => Expect::array(),
+            ]),
+            // output directory and post processors
+            'output.dir'            => Expect::string(),
+            'output.postprocessors' => Expect::array(),
+            // each output format must define a unique `name` and a `mediatype`
             'output.formats' => Expect::arrayOf(
-                Expect::structure([
+                self::open([
                     'name'      => Expect::string()->required()->assert(fn ($value) => trim((string) $value) !== '', 'Output format "name" must not be empty.'),
                     'mediatype' => Expect::string()->required()->assert(fn ($value) => trim((string) $value) !== '', 'Output format "mediatype" must not be empty.'),
-                ])->otherItems(Expect::mixed())
+                    'rel'       => Expect::string(),
+                    'subpath'   => Expect::string(),
+                    'filename'  => Expect::string(),
+                    'extension' => Expect::string(),
+                    'exclude'   => Expect::listOf('string'),
+                ])
+            )->assert(
+                fn (array $formats) => self::hasUniqueValues($formats, 'name'),
+                'Output formats names must be unique.'
             ),
             // formats applied by page type (each type accepts a list of format names)
-            'output.pagetypeformats' => Expect::structure([
+            'output.pagetypeformats' => self::open([
                 'page'       => Expect::listOf('string'),
                 'homepage'   => Expect::listOf('string'),
                 'section'    => Expect::listOf('string'),
                 'vocabulary' => Expect::listOf('string'),
                 'term'       => Expect::listOf('string'),
-            ])->otherItems(Expect::mixed()),
-            // each language must define a `code` and a valid `locale`
+            ]),
+            // main language: `language: <code>` shorthand or a structure (a missing or invalid code is reported by `validate()`)
+            'language' => Expect::anyOf(
+                Expect::scalar(),
+                self::open([
+                    'code'   => Expect::string(),
+                    'prefix' => Expect::bool(),
+                ])
+            ),
+            // each language must define a valid `code` and a valid `locale` (duplicate codes are reported by the site doctor)
             'languages' => Expect::listOf(
-                Expect::structure([
-                    'code'   => Expect::string()->required(),
-                    'locale' => Expect::string()->required()->pattern(Config::LANG_LOCALE_PATTERN),
-                ])->otherItems(Expect::mixed())
+                self::open([
+                    'code'    => Expect::string()->required()->pattern(Config::LANG_CODE_PATTERN),
+                    'name'    => Expect::string(),
+                    'locale'  => Expect::string()->required()->pattern(Config::LANG_LOCALE_PATTERN),
+                    'enabled' => Expect::bool(),
+                ])
             ),
             // date formatting options
-            'date' => Expect::structure([
+            'date' => self::open([
                 'format'   => Expect::string(),
                 'timezone' => Expect::string(),
-            ])->otherItems(Expect::mixed()),
+            ]),
             // pages management options
-            'pages' => Expect::structure([
-                'dir'         => Expect::string(),
-                'ext'         => Expect::listOf('string'),
+            'pages' => self::open([
+                'dir'    => Expect::string(),
+                'ext'    => Expect::listOf('string'),
+                'prefix' => self::open([
+                    'separator' => Expect::listOf('string'),
+                ]),
+                'exclude' => Expect::listOf('string'),
+                // `sortby: <variable>` shorthand or a structure
+                'sortby' => Expect::anyOf(
+                    Expect::string(),
+                    self::open([
+                        'variable'   => Expect::string(),
+                        'desc_title' => Expect::bool(),
+                        'reverse'    => Expect::bool(),
+                    ])
+                ),
+                'pagination' => self::toggle([
+                    'max'  => Expect::int()->min(1),
+                    'path' => Expect::string(),
+                ]),
                 'frontmatter' => Expect::anyOf('yaml', 'ini', 'toml', 'json'),
-            ])->otherItems(Expect::mixed()),
+                'converter'   => Expect::string(),
+                'body'        => self::open([
+                    'parser'    => Expect::string(),
+                    'toc'       => Expect::listOf('string'),
+                    'anchors'   => Expect::anyOf(Expect::bool(), Expect::listOf('string')),
+                    'highlight' => self::toggle([
+                        'engine' => Expect::string(),
+                    ]),
+                    'images' => self::open([
+                        'formats'            => Expect::listOf('string'),
+                        // a width in pixels (`0` to disable), a boolean is still accepted (legacy usage, ignored)
+                        'resize'             => Expect::anyOf(Expect::int()->min(0), Expect::bool()),
+                        'responsive'         => Expect::anyOf(Expect::bool(), 'width', 'density'),
+                        'lazy'               => Expect::bool(),
+                        'decoding'           => Expect::bool(),
+                        'caption'            => Expect::bool(),
+                        'placeholder'        => Expect::string(),
+                        'class'              => Expect::string(),
+                        'dark_suffix'        => Expect::string()->nullable(),
+                        'mobile_suffix'      => Expect::string()->nullable(),
+                        'mobile_media_query' => Expect::string(),
+                        'remote'             => self::toggle([
+                            'fallback' => Expect::string(),
+                        ]),
+                    ]),
+                    'links' => self::open([
+                        'embed' => self::toggle([
+                            'video' => Expect::listOf('string'),
+                            'audio' => Expect::listOf('string'),
+                        ]),
+                        'external' => self::open([
+                            'blank'      => Expect::bool(),
+                            'noopener'   => Expect::bool(),
+                            'noreferrer' => Expect::bool(),
+                            'nofollow'   => Expect::bool(),
+                        ]),
+                    ]),
+                    'excerpt' => self::open([
+                        'separator' => Expect::string(),
+                        'capture'   => Expect::anyOf('before', 'after'),
+                    ]),
+                ]),
+                'generators' => Expect::array(),
+            ]),
             // default pages, indexed by ID: each published page must define a `path` (other keys are front matter variables)
             'pages.default' => Expect::arrayOf(
                 Expect::structure([
@@ -892,52 +1130,142 @@ class Config
                 Expect::anyOf(Expect::string(), Expect::int())
             ),
             // data files options
-            'data' => Expect::structure([
+            'data' => self::open([
                 'dir'  => Expect::string(),
                 'ext'  => Expect::listOf('string'),
                 'load' => Expect::bool(),
-            ])->otherItems(Expect::mixed()),
+            ]),
+            // assets options
+            'assets' => self::open([
+                'dir'         => Expect::string(),
+                'target'      => Expect::string(),
+                'fingerprint' => Expect::bool(),
+                'compile'     => self::open([
+                    'style' => Expect::string()->assert(
+                        fn ($value) => \in_array(strtolower((string) $value), ['expanded', 'compressed'], true),
+                        'The compilation style must be "expanded" or "compressed".'
+                    ),
+                    'import'    => Expect::listOf('string'),
+                    'sourcemap' => Expect::bool(),
+                    'variables' => Expect::array(),
+                ]),
+                'minify' => Expect::bool(),
+                'remote' => self::open([
+                    'useragent' => Expect::arrayOf(Expect::string(), Expect::string()),
+                    'timeout'   => Expect::int()->min(0),
+                ]),
+                'images' => self::open([
+                    'optimize'   => self::toggle(),
+                    'quality'    => Expect::int()->min(0)->max(100),
+                    'responsive' => self::open([
+                        'widths'    => Expect::listOf(Expect::int()->min(1)),
+                        'sizes'     => Expect::arrayOf(Expect::string(), Expect::string()),
+                        'densities' => Expect::listOf(Expect::type('int|float')->min(1)),
+                    ]),
+                    'cdn' => self::toggle([
+                        'url'       => Expect::string(),
+                        'svg'       => Expect::bool(),
+                        'remote'    => Expect::bool(),
+                        'account'   => Expect::string(),
+                        'canonical' => Expect::bool(),
+                    ]),
+                ]),
+            ]),
             // static files options
-            'static' => Expect::structure([
-                'dir'    => Expect::string(),
-                'target' => Expect::string(),
-                'load'   => Expect::bool(),
-            ])->otherItems(Expect::mixed()),
+            'static' => self::open([
+                'dir'     => Expect::string(),
+                'target'  => Expect::string(),
+                'exclude' => Expect::listOf('string'),
+                'load'    => Expect::bool(),
+            ]),
+            // layouts and templates options
+            'layouts' => self::open([
+                'dir' => Expect::string(),
+                // `null` to use the template extension based strategy
+                'autoescape' => Expect::anyOf(Expect::bool(), Expect::string())->nullable(),
+                'images'     => self::open([
+                    'formats'            => Expect::listOf('string'),
+                    'responsive'         => Expect::anyOf(Expect::bool(), 'width', 'density'),
+                    'placeholder'        => Expect::string(),
+                    'dark_suffix'        => Expect::string()->nullable(),
+                    'mobile_suffix'      => Expect::string()->nullable(),
+                    'mobile_media_query' => Expect::string(),
+                ]),
+                'highlight' => self::open([
+                    'engine' => Expect::string(),
+                ]),
+                'translations' => self::open([
+                    'dir'     => Expect::string(),
+                    'formats' => Expect::arrayOf(
+                        self::open([
+                            'loader' => Expect::string(),
+                            'ext'    => Expect::listOf('string'),
+                        ]),
+                        Expect::string()
+                    ),
+                ]),
+                'extensions' => Expect::array(),
+                'components' => self::open([
+                    'dir' => Expect::string(),
+                    'ext' => Expect::string(),
+                ]),
+                'sections' => Expect::arrayOf(Expect::string(), Expect::string()),
+            ]),
             // `optimize: true|false` shorthand or a structure enabling optimization by file type
-            'optimize' => Expect::anyOf(
-                Expect::bool(),
-                Expect::structure([
-                    'enabled' => Expect::bool(),
-                    'html'    => Expect::structure([
-                        'enabled' => Expect::bool(),
-                        'ext'     => Expect::listOf('string'),
-                    ])->otherItems(Expect::mixed()),
-                    'css' => Expect::structure([
-                        'enabled' => Expect::bool(),
-                        'ext'     => Expect::listOf('string'),
-                    ])->otherItems(Expect::mixed()),
-                    'js' => Expect::structure([
-                        'enabled' => Expect::bool(),
-                        'ext'     => Expect::listOf('string'),
-                    ])->otherItems(Expect::mixed()),
-                    'images' => Expect::structure([
-                        'enabled' => Expect::bool(),
-                        'ext'     => Expect::listOf('string'),
-                    ])->otherItems(Expect::mixed()),
-                ])->otherItems(Expect::mixed())
-            ),
+            'optimize' => self::toggle([
+                'html'   => self::toggle(['ext' => Expect::listOf('string')]),
+                'css'    => self::toggle(['ext' => Expect::listOf('string')]),
+                'js'     => self::toggle(['ext' => Expect::listOf('string')]),
+                'images' => self::toggle(['ext' => Expect::listOf('string')]),
+            ]),
             // local preview server custom HTTP headers
             'server.headers' => Expect::listOf(
-                Expect::structure([
+                self::open([
                     'path'    => Expect::string()->required(),
                     'headers' => Expect::listOf(
-                        Expect::structure([
+                        self::open([
                             'key'   => Expect::string()->required(),
                             'value' => Expect::scalar()->required(),
-                        ])->otherItems(Expect::mixed())
+                        ])
                     )->required(),
-                ])->otherItems(Expect::mixed())
+                ])
             ),
         ];
+    }
+
+    /**
+     * Returns an open structure schema: declared items are validated, other items are allowed.
+     *
+     * @param array<string, Schema> $items
+     */
+    private static function open(array $items): Structure
+    {
+        return Expect::structure($items)->otherItems(Expect::mixed());
+    }
+
+    /**
+     * Returns the schema of an option that can be enabled or disabled:
+     * `<option>: true|false` shorthand, or an open structure with an `enabled` key and the given items.
+     *
+     * @param array<string, Schema> $items
+     */
+    private static function toggle(array $items = []): AnyOf
+    {
+        return Expect::anyOf(
+            Expect::bool(),
+            self::open(['enabled' => Expect::bool()] + $items)
+        );
+    }
+
+    /**
+     * Checks that the items of a list (validated as structures) have unique values for the given key.
+     *
+     * @param array<int|string, object> $items
+     */
+    private static function hasUniqueValues(array $items, string $key): bool
+    {
+        $values = array_filter(array_column($items, $key), fn ($value) => $value !== null);
+
+        return \count($values) === \count(array_unique($values));
     }
 }

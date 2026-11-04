@@ -2,7 +2,7 @@
 title: "Languages"
 description: "Main language and additional languages of a multilingual website."
 date: 2021-05-07
-updated: 2026-10-16
+updated: 2026-11-04
 -->
 # Languages
 
@@ -81,5 +81,9 @@ languages:
 In [templates](../templates/index.md) you can access an option with `{{ site.<option> }}`, for example `{{ site.title }}`.  
 If an option is not available in the current language (e.g.: `fr`), it falls back to the global one (e.g.: `en`).
 :::
+
+The localized options are validated like the global ones: the effective value of the language (the global value overridden by the localized one) must be valid.
+
+Some options apply to the whole site and can't be localized: `language`, `languages`, `theme`, `cache`, `extensions`, `optimize`, `server`, `data`, `static`, `pages.dir`, `pages.ext`, `pages.frontmatter`, `pages.converter`, `pages.generators`, `pages.default`, `output.dir`, `output.formats`, `output.postprocessors`, `layouts.dir`, `layouts.extensions`, `layouts.autoescape` and `assets.dir`. They are ignored, with a warning, if they are set under the `config` key of a language.
 
 ---

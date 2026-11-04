@@ -770,6 +770,227 @@ class ConfigTest extends TestCase
         ]);
     }
 
+    public function testOutputFormatsNamesMustBeUnique(): void
+    {
+        $this->expectException(ConfigException::class);
+        $this->expectExceptionMessage('Output formats names must be unique.');
+
+        new Config([
+            'output' => [
+                'formats' => [
+                    ['name' => 'custom', 'mediatype' => 'text/plain'],
+                    ['name' => 'custom', 'mediatype' => 'text/html'],
+                ],
+            ],
+        ]);
+    }
+
+    public function testOutputFormatRejectsInvalidExcludeType(): void
+    {
+        $this->expectException(ConfigException::class);
+
+        new Config([
+            'output' => [
+                'formats' => [
+                    ['name' => 'custom', 'mediatype' => 'text/plain', 'exclude' => 'redirect'],
+                ],
+            ],
+        ]);
+    }
+
+    public function testCacheDirCanBeEmptyWhenCacheIsDisabled(): void
+    {
+        $config = new Config(['cache' => ['enabled' => false, 'dir' => '']]);
+
+        self::assertFalse($config->isEnabled('cache'));
+    }
+
+    public function testCacheDirMustNotBeEmptyWhenCacheIsEnabled(): void
+    {
+        $this->expectException(ConfigException::class);
+        $this->expectExceptionMessage('The cache directory (`cache.dir`) must not be empty when cache is enabled.');
+
+        new Config(['cache' => ['dir' => '']]);
+    }
+
+    public function testLanguagesRejectInvalidCode(): void
+    {
+        $this->expectException(ConfigException::class);
+        $this->expectExceptionMessage("languages\u{a0}›\u{a0}1\u{a0}›\u{a0}code");
+
+        new Config([
+            'languages' => [
+                ['code' => 'en', 'name' => 'English', 'locale' => 'en_US'],
+                ['code' => 'french', 'name' => 'Français', 'locale' => 'fr_FR'],
+            ],
+        ]);
+    }
+
+    public function testLanguageStructureRejectsInvalidPrefixType(): void
+    {
+        $this->expectException(ConfigException::class);
+
+        new Config(['language' => ['code' => 'en', 'prefix' => 'yes']]);
+    }
+
+    public function testAssetsRejectInvalidCompileStyle(): void
+    {
+        $this->expectException(ConfigException::class);
+        $this->expectExceptionMessage('The compilation style must be "expanded" or "compressed".');
+
+        new Config(['assets' => ['compile' => ['style' => 'nested']]]);
+    }
+
+    public function testAssetsRejectOutOfRangeImagesQuality(): void
+    {
+        $this->expectException(ConfigException::class);
+
+        new Config(['assets' => ['images' => ['quality' => 120]]]);
+    }
+
+    public function testAssetsImagesCdnAcceptsBooleanOrStructure(): void
+    {
+        $config = new Config(['assets' => ['images' => ['cdn' => ['url' => 'https://cdn.test/%image_url%', 'svg' => true]]]]);
+
+        self::assertTrue($config->isEnabled('assets.images.cdn'));
+    }
+
+    public function testLayoutsAutoescapeAcceptsNull(): void
+    {
+        $config = new Config(['layouts' => ['autoescape' => null]]);
+
+        self::assertNull($config->get('layouts.autoescape'));
+    }
+
+    public function testPagesPaginationRejectsInvalidMax(): void
+    {
+        $this->expectException(ConfigException::class);
+
+        new Config(['pages' => ['pagination' => ['max' => 0]]]);
+    }
+
+    public function testPagesBodyRejectsInvalidExcerptCapture(): void
+    {
+        $this->expectException(ConfigException::class);
+
+        new Config(['pages' => ['body' => ['excerpt' => ['capture' => 'middle']]]]);
+    }
+
+    public function testPagesBodyAnchorsCanBeDisabled(): void
+    {
+        $config = new Config(['pages' => ['body' => ['anchors' => false]]]);
+
+        self::assertFalse($config->get('pages.body.anchors'));
+    }
+
+    public function testPagesSortbyAcceptsStringOrStructure(): void
+    {
+        $config = new Config(['pages' => ['sortby' => 'title']]);
+        self::assertSame('title', $config->get('pages.sortby'));
+
+        $config = new Config(['pages' => ['sortby' => ['variable' => 'weight', 'reverse' => true]]]);
+        self::assertSame('weight', $config->get('pages.sortby.variable'));
+    }
+
+    public function testLocalizedConfigurationIsValidated(): void
+    {
+        $this->expectException(ConfigException::class);
+        $this->expectExceptionMessage("languages\u{a0}›\u{a0}1\u{a0}›\u{a0}config\u{a0}›\u{a0}pages\u{a0}›\u{a0}pagination\u{a0}›\u{a0}max");
+
+        new Config([
+            'languages' => [
+                ['code' => 'en', 'name' => 'English', 'locale' => 'en_US'],
+                ['code' => 'fr', 'name' => 'Français', 'locale' => 'fr_FR', 'config' => [
+                    'pages' => ['pagination' => ['max' => 0]],
+                ]],
+            ],
+        ]);
+    }
+
+    public function testValidLocalizedConfigurationIsMergedWithGlobalValue(): void
+    {
+        $config = new Config([
+            'pages' => ['pagination' => ['max' => 10]],
+            'languages' => [
+                ['code' => 'en', 'name' => 'English', 'locale' => 'en_US'],
+                ['code' => 'fr', 'name' => 'Français', 'locale' => 'fr_FR', 'config' => [
+                    'baseline' => 'Une baseline',
+                    'pages'    => ['pagination' => ['path' => 'page'], 'paths' => [['section' => 'news', 'path' => 'actualites/:slug']]],
+                ]],
+            ],
+        ]);
+
+        self::assertSame('Une baseline', $config->get('baseline', 'fr'));
+        self::assertSame(10, $config->get('pages.pagination.max', 'fr'));
+    }
+
+    public function testLocalizedConfigurationOfLanguageAfterDisabledLanguage(): void
+    {
+        $config = new Config([
+            'languages' => [
+                ['code' => 'en', 'name' => 'English', 'locale' => 'en_US'],
+                ['code' => 'de', 'name' => 'Deutsch', 'locale' => 'de_DE', 'enabled' => false, 'config' => ['title' => 'DE']],
+                ['code' => 'fr', 'name' => 'Français', 'locale' => 'fr_FR', 'config' => ['title' => 'FR']],
+            ],
+        ]);
+
+        self::assertSame('FR', $config->get('title', 'fr'));
+        self::assertTrue($config->has('title', 'fr'));
+        // the language index (weight) is the position among enabled languages
+        self::assertSame(1, $config->getLanguageIndex('fr'));
+    }
+
+    public function testNotLocalizableKeysAreReported(): void
+    {
+        $config = new Config([
+            'languages' => [
+                ['code' => 'en', 'name' => 'English', 'locale' => 'en_US'],
+                ['code' => 'fr', 'name' => 'Français', 'locale' => 'fr_FR', 'config' => [
+                    'title'  => 'Titre',
+                    'theme'  => 'hyde',
+                    'output' => ['dir' => '_site_fr'],
+                ]],
+            ],
+        ]);
+
+        self::assertSame(['fr' => ['theme', 'output.dir']], $config->getIgnoredLocalizedKeys());
+    }
+
+    public function testNumericEnvironmentVariableIsCastToNumber(): void
+    {
+        putenv('CECIL_ASSETS_IMAGES_QUALITY=80');
+        putenv('CECIL_CACHE_ASSETS_TTL=3600');
+        putenv('CECIL_TITLE=2024');
+
+        try {
+            $config = new Config();
+            $config->import([]);
+
+            self::assertSame(80, $config->get('assets.images.quality'));
+            self::assertSame(3600, $config->get('cache.assets.ttl'));
+            // the default value is a string: the value is kept as is
+            self::assertSame('2024', $config->get('title'));
+        } finally {
+            putenv('CECIL_ASSETS_IMAGES_QUALITY');
+            putenv('CECIL_CACHE_ASSETS_TTL');
+            putenv('CECIL_TITLE');
+        }
+    }
+
+    public function testBooleanEnvironmentVariableOfNullableOptionIsCastToBoolean(): void
+    {
+        putenv('CECIL_EXTENSIONS_STRICT=1');
+
+        try {
+            $config = new Config();
+            $config->import([]);
+
+            self::assertTrue($config->get('extensions.strict'));
+        } finally {
+            putenv('CECIL_EXTENSIONS_STRICT');
+        }
+    }
+
     public function testOutputPageTypeFormatsRejectsNonListValue(): void
     {
         $this->expectException(ConfigException::class);

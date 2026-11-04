@@ -857,5 +857,13 @@ class Builder implements BuildContextInterface, LoggerAwareInterface
         if (empty(trim((string) $this->getConfig()->get('baseurl'), '/'))) {
             $this->getLogger()->error('`baseurl` configuration key is required in production.');
         }
+        // localized options that can't be localized
+        foreach ($this->getConfig()->getIgnoredLocalizedKeys() as $language => $keys) {
+            $this->getLogger()->warning(\sprintf(
+                'Option(s) `%s` of language "%s" can\'t be localized and are ignored.',
+                implode('`, `', $keys),
+                $language
+            ));
+        }
     }
 }

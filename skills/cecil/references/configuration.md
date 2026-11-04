@@ -71,7 +71,7 @@ menus:
       enabled: false
 ```
 
-Localize menus under `languages[].config.menus` (see [multilingual.md](multilingual.md#languages)).
+Localize menus under `languages[].config.menus` (see [multilingual.md](multilingual.md#languages)). Localized options are validated like global ones; site-wide options (e.g. `theme`, `cache`, `output.dir`, `pages.generators`) can't be localized and are ignored with a warning.
 
 ## Taxonomies
 
@@ -88,7 +88,7 @@ There are no default vocabularies: declare them before using them in front matte
 Any option can be set with a `CECIL_` environment variable, typically in CI or for a deployment target:
 
 - Uppercase key, nested keys separated with `_`: `CECIL_BASEURL`, `CECIL_PAGES_DIR` (`pages.dir`), `CECIL_OPTIMIZE_ENABLED`. Keys containing an `_` can't be set this way.
-- Boolean-like values (`true`/`false`, `1`/`0`, `yes`/`no`, `on`/`off`) are converted to booleans.
+- Boolean-like values (`true`/`false`, `1`/`0`, `yes`/`no`, `on`/`off`) are converted to booleans; numeric values are converted to numbers when the option expects a number (e.g.: `CECIL_ASSETS_IMAGES_QUALITY=80`).
 - A `.env` file at the site root is loaded at startup; variables already defined by the shell are preserved.
 
 ```dotenv
