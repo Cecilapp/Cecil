@@ -1146,10 +1146,10 @@ Search.appendIndex(
             "summary": "Removes\u0020a\u0020cache\u0020metadata\u0020file\u0020and\u0020its\u0020dedicated\u0020content\u0020file\u0020if\u0020any.",
             "url": "classes/Cecil-Cache.html#method_removeCacheEntry"
         },                {
-            "fqsen": "\\Cecil\\Cache\u003A\u003AgetStoredCacheValue\u0028\u0029",
-            "name": "getStoredCacheValue",
-            "summary": "Extracts\u0020the\u0020stored\u0020cache\u0020value\u0020from\u0020a\u0020metadata\u0020file.",
-            "url": "classes/Cecil-Cache.html#method_getStoredCacheValue"
+            "fqsen": "\\Cecil\\Cache\u003A\u003AgetStoredCacheData\u0028\u0029",
+            "name": "getStoredCacheData",
+            "summary": "Extracts\u0020the\u0020stored\u0020cache\u0020data\u0020\u0028value,\u0020expiration,\u0020etc.\u0029\u0020from\u0020a\u0020metadata\u0020file.",
+            "url": "classes/Cecil-Cache.html#method_getStoredCacheData"
         },                {
             "fqsen": "\\Cecil\\Cache\u003A\u003ARESERVED_CHARACTERS",
             "name": "RESERVED_CHARACTERS",
@@ -3568,8 +3568,18 @@ Search.appendIndex(
         },                {
             "fqsen": "\\Cecil\\Config\u003A\u003AcastSetValue\u0028\u0029",
             "name": "castSetValue",
-            "summary": "Casts\u0020boolean\u0020value\u0020given\u0020to\u0020set\u0028\u0029\u0020as\u0020string.",
+            "summary": "Casts\u0020a\u0020value\u0020given\u0020as\u0020string\u0020\u0028ie\u003A\u0020by\u0020an\u0020environment\u0020variable\u0029,\u0020according\u0020to\u0020the\u0020default\u0020value\u0020of\u0020the\u0020key\u003A\n\u002D\u0020to\u0020a\u0020number,\u0020if\u0020the\u0020default\u0020value\u0020is\u0020a\u0020number\u003B\n\u002D\u0020to\u0020a\u0020boolean,\u0020if\u0020possible\u003B\n\u002D\u0020to\u0020a\u0020number,\u0020if\u0020the\u0020default\u0020value\u0020is\u0020null\u0020\u0028ie\u003A\u0020\u0060cache.assets.ttl\u0060\u0029.",
             "url": "classes/Cecil-Config.html#method_castSetValue"
+        },                {
+            "fqsen": "\\Cecil\\Config\u003A\u003AgetDefaultType\u0028\u0029",
+            "name": "getDefaultType",
+            "summary": "Returns\u0020the\u0020type\u0020of\u0020the\u0020default\u0020value\u0020of\u0020a\u0020configuration\u0020key\u0020\u0028\u0060number\u0060,\u0020\u0060null\u0060\u0020or\u0020\u0060other\u0060\u0029,\nor\u0020null\u0020if\u0020the\u0020key\u0020doesn\u0027t\u0020exist\u0020in\u0020the\u0020default\u0020configuration.",
+            "url": "classes/Cecil-Config.html#method_getDefaultType"
+        },                {
+            "fqsen": "\\Cecil\\Config\u003A\u003AtoNumber\u0028\u0029",
+            "name": "toNumber",
+            "summary": "Converts\u0020a\u0020numeric\u0020string\u0020to\u0020an\u0020integer\u0020or\u0020a\u0020float.",
+            "url": "classes/Cecil-Config.html#method_toNumber"
         },                {
             "fqsen": "\\Cecil\\Config\u003A\u003Avalidate\u0028\u0029",
             "name": "validate",
@@ -3590,6 +3600,21 @@ Search.appendIndex(
             "name": "getSchemas",
             "summary": "Returns\u0020the\u0020validation\u0020schemas\u0020indexed\u0020by\u0020configuration\u0020key.",
             "url": "classes/Cecil-Config.html#method_getSchemas"
+        },                {
+            "fqsen": "\\Cecil\\Config\u003A\u003Aopen\u0028\u0029",
+            "name": "open",
+            "summary": "Returns\u0020an\u0020open\u0020structure\u0020schema\u003A\u0020declared\u0020items\u0020are\u0020validated,\u0020other\u0020items\u0020are\u0020allowed.",
+            "url": "classes/Cecil-Config.html#method_open"
+        },                {
+            "fqsen": "\\Cecil\\Config\u003A\u003Atoggle\u0028\u0029",
+            "name": "toggle",
+            "summary": "Returns\u0020the\u0020schema\u0020of\u0020an\u0020option\u0020that\u0020can\u0020be\u0020enabled\u0020or\u0020disabled\u003A\n\u0060\u003Coption\u003E\u003A\u0020true\u007Cfalse\u0060\u0020shorthand,\u0020or\u0020an\u0020open\u0020structure\u0020with\u0020an\u0020\u0060enabled\u0060\u0020key\u0020and\u0020the\u0020given\u0020items.",
+            "url": "classes/Cecil-Config.html#method_toggle"
+        },                {
+            "fqsen": "\\Cecil\\Config\u003A\u003AhasUniqueValues\u0028\u0029",
+            "name": "hasUniqueValues",
+            "summary": "Checks\u0020that\u0020the\u0020items\u0020of\u0020a\u0020list\u0020\u0028validated\u0020as\u0020structures\u0029\u0020have\u0020unique\u0020values\u0020for\u0020the\u0020given\u0020key.",
+            "url": "classes/Cecil-Config.html#method_hasUniqueValues"
         },                {
             "fqsen": "\\Cecil\\Config\u003A\u003AIMPORT_PRESERVE",
             "name": "IMPORT_PRESERVE",
