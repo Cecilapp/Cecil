@@ -184,9 +184,9 @@ class Convert extends AbstractStep
             return $this->schema->validate($variables, $page->getSection());
         } catch (FrontmatterException $e) {
             $message = \sprintf(
-                'Invalid front matter of "%s":%s',
+                'Invalid front matter of "%s": %s',
                 Util::joinPath(Util\File::getFS()->makePathRelative((string) $page->getFilePath(), $builder->getConfig()->getPagesPath())),
-                "\n" . $e->getMessage()
+                $e->getMessage()
             );
             if ($mode === 'warning') {
                 $builder->getLogger()->warning($message);
