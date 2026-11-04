@@ -694,8 +694,8 @@ class Config
     {
         // enabled languages, indexed by their position in the `languages` configuration
         foreach ($this->getLanguages() as $index => $language) {
-            if (\is_array($language) && ($language['code'] ?? null) === $code) {
-                return (int) $index;
+            if (($language['code'] ?? null) === $code) {
+                return $index;
             }
         }
 
