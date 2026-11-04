@@ -54,7 +54,8 @@
                     "type": "open_collective"
                 }
             ],
-            "time": "2026-07-10T23:45:12+00:00"
+            "time": "2026-07-10T23:45:12+00:00",
+            "published-time": "2026-07-10T23:45:28+00:00"
         },
         {
             "name": "cecil/theme-installer",
@@ -124,7 +125,8 @@
                     "type": "open_collective"
                 }
             ],
-            "time": "2022-01-06T10:54:26+00:00"
+            "time": "2022-01-06T10:54:26+00:00",
+            "published-time": "2022-01-06T15:59:27+00:00"
         }
     ],
     "packages-dev": [],
@@ -135,5 +137,5 @@
     "prefer-lowest": false,
     "platform": {},
     "platform-dev": {},
-    "plugin-api-version": "2.9.0"
+    "plugin-api-version": "2.11.0"
 }

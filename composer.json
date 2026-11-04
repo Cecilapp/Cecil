@@ -63,13 +63,13 @@
     "twig/intl-extra": "^3.30",
     "twig/string-extra": "^3.24",
     "twig/twig": "^3.30",
-    "vlucas/phpdotenv": "^5.7",
+    "vlucas/phpdotenv": "^5.8",
     "voku/html-min": "^5.0",
     "wapmorgan/mp3info": "^0.1",
     "yosymfony/toml": "^1.0"
   },
   "require-dev": {
-    "ergebnis/composer-normalize": "^2.54",
+    "ergebnis/composer-normalize": "^2.56",
     "friendsofphp/php-cs-fixer": "^3.95",
     "intervention/image-driver-vips": "^4.2",
     "phpmd/phpmd": "^3.0",
