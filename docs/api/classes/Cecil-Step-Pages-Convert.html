@@ -189,7 +189,7 @@
         <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Step/Pages/Convert.php"><a href="files/src-step-pages-convert.html"><abbr title="src/Step/Pages/Convert.php">Convert.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">33</span>
+    <span class="phpdocumentor-element-found-in__line">35</span>
 
     </aside>
 
@@ -251,6 +251,12 @@ published and draft pages, depending on the build options.</p>
 </dt>
 <dd>Configuration options for the step (see \Cecil\Builder::OPTIONS).</dd>
 
+            <dt class="phpdocumentor-table-of-contents__entry -property -protected">
+    <a class="" href="classes/Cecil-Step-Pages-Convert.html#property_schema">$schema</a>
+    <span>
+                        &nbsp;: <a href="classes/Cecil-Collection-Page-Schema.html"><abbr title="\Cecil\Collection\Page\Schema">Schema</abbr></a>|null            </span>
+</dt>
+
     </dl>
 
 <h4 id="toc-methods">
@@ -310,6 +316,18 @@ the step with necessary options and to determine if it can be executed.</dd>
                                 &nbsp;: <a href="classes/Cecil-Builder.html"><abbr title="\Cecil\Builder">Builder</abbr></a>    </span>
 </dt>
 <dd>Returns the concrete Builder, required by components that depend on more than BuildContextInterface.</dd>
+
+            <dt class="phpdocumentor-table-of-contents__entry -method -protected">
+    <a class="" href="classes/Cecil-Step-Pages-Convert.html#method_validateFrontmatter">validateFrontmatter()</a>
+    <span>
+                                &nbsp;: array&lt;string, mixed&gt;    </span>
+</dt>
+<dd>Validates front matter variables against the built-in schema and the user schemas (`pages.schema`),
+according to the `pages.validation` option:
+ - `warning`: logs a warning and keeps the page;
+ - `error` (default): throws an exception (the page is not converted);
+ - `strict`: throws an exception (the build fails);
+ - `false`: disabled.</dd>
 
     </dl>
 
@@ -473,6 +491,45 @@ the step with necessary options and to determine if it can be executed.</dd>
         
 
 </article>
+                    <article
+        class="
+            phpdocumentor-element
+            -property
+            -protected
+                                                                    "
+>
+    <h4 class="phpdocumentor-element__name" id="property_schema">
+        $schema
+        <a href="classes/Cecil-Step-Pages-Convert.html#property_schema" class="headerlink"><i class="fas fa-link"></i></a>
+
+        <span class="phpdocumentor-element__modifiers">
+                                            </span>
+    </h4>
+    <aside class="phpdocumentor-element-found-in">
+    <abbr class="phpdocumentor-element-found-in__file" title="src/Step/Pages/Convert.php"><a href="files/src-step-pages-convert.html"><abbr title="src/Step/Pages/Convert.php">Convert.php</abbr></a></abbr>
+    :
+    <span class="phpdocumentor-element-found-in__line">38</span>
+
+    </aside>
+
+    
+    
+    <code class="phpdocumentor-code phpdocumentor-signature ">
+        <span class="phpdocumentor-signature__visibility">protected</span>
+            <span class="phpdocumentor-signature__type"><a href="classes/Cecil-Collection-Page-Schema.html"><abbr title="\Cecil\Collection\Page\Schema">Schema</abbr></a>|null</span>
+    <span class="phpdocumentor-signature__name">$schema</span>
+     = <span class="phpdocumentor-signature__default-value">null</span></code>
+
+    
+        <section class="phpdocumentor-description"><p>Front matter schema</p>
+</section>
+
+    
+
+        
+        
+
+</article>
             </section>
 
             <section class="phpdocumentor-methods">
@@ -581,7 +638,7 @@ the step with necessary options and to determine if it can be executed.</dd>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Step/Pages/Convert.php"><a href="files/src-step-pages-convert.html"><abbr title="src/Step/Pages/Convert.php">Convert.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">113</span>
+    <span class="phpdocumentor-element-found-in__line">126</span>
 
     </aside>
 
@@ -667,7 +724,7 @@ the step with necessary options and to determine if it can be executed.</dd>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Step/Pages/Convert.php"><a href="files/src-step-pages-convert.html"><abbr title="src/Step/Pages/Convert.php">Convert.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">38</span>
+    <span class="phpdocumentor-element-found-in__line">43</span>
 
     </aside>
 
@@ -706,7 +763,7 @@ the step with necessary options and to determine if it can be executed.</dd>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Step/Pages/Convert.php"><a href="files/src-step-pages-convert.html"><abbr title="src/Step/Pages/Convert.php">Convert.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">50</span>
+    <span class="phpdocumentor-element-found-in__line">55</span>
 
     </aside>
 
@@ -754,7 +811,7 @@ the step with necessary options and to determine if it can be executed.</p>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Step/Pages/Convert.php"><a href="files/src-step-pages-convert.html"><abbr title="src/Step/Pages/Convert.php">Convert.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">58</span>
+    <span class="phpdocumentor-element-found-in__line">63</span>
 
     </aside>
 
@@ -828,6 +885,90 @@ the step with necessary options and to determine if it can be executed.</p>
             </section>
 
 </article>
+                    <article
+        class="phpdocumentor-element
+            -method
+            -protected
+                                                        "
+>
+    <h4 class="phpdocumentor-element__name" id="method_validateFrontmatter">
+        validateFrontmatter()
+        <a href="classes/Cecil-Step-Pages-Convert.html#method_validateFrontmatter" class="headerlink"><i class="fas fa-link"></i></a>
+
+    </h4>
+    <aside class="phpdocumentor-element-found-in">
+    <abbr class="phpdocumentor-element-found-in__file" title="src/Step/Pages/Convert.php"><a href="files/src-step-pages-convert.html"><abbr title="src/Step/Pages/Convert.php">Convert.php</abbr></a></abbr>
+    :
+    <span class="phpdocumentor-element-found-in__line">175</span>
+
+    </aside>
+
+        <p class="phpdocumentor-summary">Validates front matter variables against the built-in schema and the user schemas (`pages.schema`),
+according to the `pages.validation` option:
+ - `warning`: logs a warning and keeps the page;
+ - `error` (default): throws an exception (the page is not converted);
+ - `strict`: throws an exception (the build fails);
+ - `false`: disabled.</p>
+
+    <code class="phpdocumentor-code phpdocumentor-signature ">
+    <span class="phpdocumentor-signature__visibility">protected</span>
+                    <span class="phpdocumentor-signature__name">validateFrontmatter</span><span>(</span><span class="phpdocumentor-signature__argument"><span class="phpdocumentor-signature__argument__type"><a href="classes/Cecil-Builder.html"><abbr title="\Cecil\Builder">Builder</abbr></a>&nbsp;</span><span class="phpdocumentor-signature__argument__name">$builder</span></span><span class="phpdocumentor-signature__argument"><span>, </span><span class="phpdocumentor-signature__argument__type"><a href="classes/Cecil-Collection-Page-Page.html"><abbr title="\Cecil\Collection\Page\Page">Page</abbr></a>&nbsp;</span><span class="phpdocumentor-signature__argument__name">$page</span></span><span class="phpdocumentor-signature__argument"><span>, </span><span class="phpdocumentor-signature__argument__type">array&lt;string, mixed&gt;&nbsp;</span><span class="phpdocumentor-signature__argument__name">$variables</span></span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">array&lt;string, mixed&gt;</span></code>
+
+    <div class="phpdocumentor-label-line">
+        </div>
+    
+        <section class="phpdocumentor-description"><p>Returns variables completed with the default values of the user schema.</p>
+</section>
+
+        <h5 class="phpdocumentor-argument-list__heading">Parameters</h5>
+    <dl class="phpdocumentor-argument-list">
+                    <dt class="phpdocumentor-argument-list__entry">
+                <span class="phpdocumentor-argument-list__argument__name">$builder</span>
+                : <span class="phpdocumentor-argument-list__argument__type"><a href="classes/Cecil-Builder.html"><abbr title="\Cecil\Builder">Builder</abbr></a></span>
+                            </dt>
+            <dd class="phpdocumentor-argument-list__definition">
+                
+            </dd>
+                    <dt class="phpdocumentor-argument-list__entry">
+                <span class="phpdocumentor-argument-list__argument__name">$page</span>
+                : <span class="phpdocumentor-argument-list__argument__type"><a href="classes/Cecil-Collection-Page-Page.html"><abbr title="\Cecil\Collection\Page\Page">Page</abbr></a></span>
+                            </dt>
+            <dd class="phpdocumentor-argument-list__definition">
+                
+            </dd>
+                    <dt class="phpdocumentor-argument-list__entry">
+                <span class="phpdocumentor-argument-list__argument__name">$variables</span>
+                : <span class="phpdocumentor-argument-list__argument__type">array&lt;string, mixed&gt;</span>
+                            </dt>
+            <dd class="phpdocumentor-argument-list__definition">
+                
+            </dd>
+            </dl>
+
+    
+    <h5 class="phpdocumentor-tag-list__heading" id="method_validateFrontmatter_tags">
+        Tags
+        <a href="classes/Cecil-Step-Pages-Convert.html#method_validateFrontmatter_tags" class="headerlink"><i class="fas fa-link"></i></a>
+
+    </h5>
+    <dl class="phpdocumentor-tag-list">
+                    <dt class="phpdocumentor-tag-list__entry">
+                <span class="phpdocumentor-tag__name">throws</span>
+            </dt>
+                            <dd class="phpdocumentor-tag-list__definition">
+                                                                <span class="phpdocumentor-tag-link"><a href="classes/Cecil-Exception-FrontmatterException.html"><abbr title="\Cecil\Exception\FrontmatterException">FrontmatterException</abbr></a></span>
+                                                                                    
+                                    </dd>
+                        </dl>
+
+        
+    
+            <section>
+        <h5 class="phpdocumentor-return-value__heading">Return values</h5>
+        <span class="phpdocumentor-signature__response_type">array&lt;string, mixed&gt;</span>
+            </section>
+
+</article>
             </section>
 
         
@@ -854,6 +995,7 @@ the step with necessary options and to determine if it can be executed.</p>
                                                     <li class=""><a href="classes/Cecil-Step-AbstractStep.html#property_canProcess">$canProcess</a></li>
                                                     <li class=""><a href="classes/Cecil-Step-AbstractStep.html#property_config">$config</a></li>
                                                     <li class=""><a href="classes/Cecil-Step-AbstractStep.html#property_options">$options</a></li>
+                                                    <li class=""><a href="classes/Cecil-Step-Pages-Convert.html#property_schema">$schema</a></li>
                                             </ul>
                 </li>
             
@@ -867,6 +1009,7 @@ the step with necessary options and to determine if it can be executed.</p>
                                             <li class=""><a href="classes/Cecil-Step-Pages-Convert.html#method_init">init()</a></li>
                                             <li class=""><a href="classes/Cecil-Step-Pages-Convert.html#method_process">process()</a></li>
                                             <li class=""><a href="classes/Cecil-Step-AbstractStep.html#method_getBuilder">getBuilder()</a></li>
+                                            <li class=""><a href="classes/Cecil-Step-Pages-Convert.html#method_validateFrontmatter">validateFrontmatter()</a></li>
                                     </ul>
             </li>
                     </ul>

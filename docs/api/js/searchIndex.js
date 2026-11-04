@@ -2121,6 +2121,101 @@ Search.appendIndex(
             "summary": "",
             "url": "classes/Cecil-Collection-Page-PrefixSuffix.html#constant_SUFFIX_PATTERN"
         },                {
+            "fqsen": "\\Cecil\\Collection\\Page\\Schema",
+            "name": "Schema",
+            "summary": "Front\u0020matter\u0020schema.",
+            "url": "classes/Cecil-Collection-Page-Schema.html"
+        },                {
+            "fqsen": "\\Cecil\\Collection\\Page\\Schema\u003A\u003A__construct\u0028\u0029",
+            "name": "__construct",
+            "summary": "",
+            "url": "classes/Cecil-Collection-Page-Schema.html#method___construct"
+        },                {
+            "fqsen": "\\Cecil\\Collection\\Page\\Schema\u003A\u003Avalidate\u0028\u0029",
+            "name": "validate",
+            "summary": "Validates\u0020front\u0020matter\u0020variables\u0020and\u0020returns\u0020them,\u0020completed\u0020with\u0020the\u0020default\u0020values\u0020of\u0020the\u0020user\u0020schema.",
+            "url": "classes/Cecil-Collection-Page-Schema.html#method_validate"
+        },                {
+            "fqsen": "\\Cecil\\Collection\\Page\\Schema\u003A\u003Abuiltin\u0028\u0029",
+            "name": "builtin",
+            "summary": "Returns\u0020the\u0020built\u002Din\u0020schema\u0020of\u0020predefined\u0020variables.",
+            "url": "classes/Cecil-Collection-Page-Schema.html#method_builtin"
+        },                {
+            "fqsen": "\\Cecil\\Collection\\Page\\Schema\u003A\u003AgetUserSchema\u0028\u0029",
+            "name": "getUserSchema",
+            "summary": "Returns\u0020the\u0020user\u0020schema\u0020of\u0020the\u0020given\u0020section\u0020\u0028merged\u0020with\u0020the\u0020schema\u0020of\u0020all\u0020pages\u0029,\u0020or\u0020null\u0020if\u0020there\u0020is\u0020none.",
+            "url": "classes/Cecil-Collection-Page-Schema.html#method_getUserSchema"
+        },                {
+            "fqsen": "\\Cecil\\Collection\\Page\\Schema\u003A\u003AgetUserFields\u0028\u0029",
+            "name": "getUserFields",
+            "summary": "Returns\u0020the\u0020user\u0020fields\u0020definitions\u0020of\u0020the\u0020given\u0020section\u003A\u0020fields\u0020of\u0020all\u0020pages\u0020\u0028\u0060\u002A\u0060\u0029,\u0020overridden\u0020by\u0020the\u0020fields\u0020of\u0020the\u0020section.",
+            "url": "classes/Cecil-Collection-Page-Schema.html#method_getUserFields"
+        },                {
+            "fqsen": "\\Cecil\\Collection\\Page\\Schema\u003A\u003Afield\u0028\u0029",
+            "name": "field",
+            "summary": "Builds\u0020the\u0020schema\u0020of\u0020a\u0020user\u0020field.",
+            "url": "classes/Cecil-Collection-Page-Schema.html#method_field"
+        },                {
+            "fqsen": "\\Cecil\\Collection\\Page\\Schema\u003A\u003Atype\u0028\u0029",
+            "name": "type",
+            "summary": "Builds\u0020the\u0020schema\u0020of\u0020a\u0020type,\u0020with\u0020the\u0020\u0060enum\u0060\u0020and\u0020\u0060pattern\u0060\u0020rules.",
+            "url": "classes/Cecil-Collection-Page-Schema.html#method_type"
+        },                {
+            "fqsen": "\\Cecil\\Collection\\Page\\Schema\u003A\u003Arange\u0028\u0029",
+            "name": "range",
+            "summary": "Applies\u0020\u0060min\u0060\u0020and\u0020\u0060max\u0060\u0020rules\u0020\u0028value\u0020of\u0020a\u0020number,\u0020length\u0020of\u0020a\u0020string,\u0020count\u0020of\u0020a\u0020list\u0029.",
+            "url": "classes/Cecil-Collection-Page-Schema.html#method_range"
+        },                {
+            "fqsen": "\\Cecil\\Collection\\Page\\Schema\u003A\u003Aopen\u0028\u0029",
+            "name": "open",
+            "summary": "Returns\u0020an\u0020open\u0020structure\u0020schema\u003A\u0020declared\u0020items\u0020are\u0020validated,\u0020other\u0020items\u0020are\u0020allowed.",
+            "url": "classes/Cecil-Collection-Page-Schema.html#method_open"
+        },                {
+            "fqsen": "\\Cecil\\Collection\\Page\\Schema\u003A\u003Adate\u0028\u0029",
+            "name": "date",
+            "summary": "Schema\u0020of\u0020a\u0020date\u003A\u0020a\u0020string,\u0020a\u0020timestamp\u0020or\u0020a\u0020date\u0020object\u0020that\u0020can\u0020be\u0020converted\u0020to\u0020a\u0020date.",
+            "url": "classes/Cecil-Collection-Page-Schema.html#method_date"
+        },                {
+            "fqsen": "\\Cecil\\Collection\\Page\\Schema\u003A\u003Abool\u0028\u0029",
+            "name": "bool",
+            "summary": "Schema\u0020of\u0020a\u0020boolean\u003A\u0020also\u0020accepts\u0020INI\u0020front\u0020matter\u0020values\u0020\u0028\u00221\u0022\u0020and\u0020\u0022\u0022\u0029.",
+            "url": "classes/Cecil-Collection-Page-Schema.html#method_bool"
+        },                {
+            "fqsen": "\\Cecil\\Collection\\Page\\Schema\u003A\u003Astrings\u0028\u0029",
+            "name": "strings",
+            "summary": "Schema\u0020of\u0020a\u0020string\u0020or\u0020a\u0020list\u0020of\u0020strings.",
+            "url": "classes/Cecil-Collection-Page-Schema.html#method_strings"
+        },                {
+            "fqsen": "\\Cecil\\Collection\\Page\\Schema\u003A\u003AformatMessages\u0028\u0029",
+            "name": "formatMessages",
+            "summary": "Returns\u0020readable\u0020validation\u0020messages,\u0020with\u0020the\u0020path\u0020of\u0020each\u0020invalid\u0020variable.",
+            "url": "classes/Cecil-Collection-Page-Schema.html#method_formatMessages"
+        },                {
+            "fqsen": "\\Cecil\\Collection\\Page\\Schema\u003A\u003ATYPES",
+            "name": "TYPES",
+            "summary": "Allowed\u0020types\u0020of\u0020a\u0020user\u0020schema\u0020field.",
+            "url": "classes/Cecil-Collection-Page-Schema.html#constant_TYPES"
+        },                {
+            "fqsen": "\\Cecil\\Collection\\Page\\Schema\u003A\u003AALL",
+            "name": "ALL",
+            "summary": "Key\u0020of\u0020the\u0020user\u0020schema\u0020applied\u0020to\u0020all\u0020pages.",
+            "url": "classes/Cecil-Collection-Page-Schema.html#constant_ALL"
+        },                {
+            "fqsen": "\\Cecil\\Collection\\Page\\Schema\u003A\u003A\u0024definitions",
+            "name": "definitions",
+            "summary": "",
+            "url": "classes/Cecil-Collection-Page-Schema.html#property_definitions"
+        },                {
+            "fqsen": "\\Cecil\\Collection\\Page\\Schema\u003A\u003A\u0024schemas",
+            "name": "schemas",
+            "summary": "",
+            "url": "classes/Cecil-Collection-Page-Schema.html#property_schemas"
+        },                {
+            "fqsen": "\\Cecil\\Collection\\Page\\Schema\u003A\u003A\u0024processor",
+            "name": "processor",
+            "summary": "",
+            "url": "classes/Cecil-Collection-Page-Schema.html#property_processor"
+        },                {
             "fqsen": "\\Cecil\\Collection\\Page\\Status",
             "name": "Status",
             "summary": "Enum\u0020Status.",
@@ -4826,6 +4921,11 @@ Search.appendIndex(
             "summary": "Exception\u0020interface.",
             "url": "classes/Cecil-Exception-ExceptionInterface.html"
         },                {
+            "fqsen": "\\Cecil\\Exception\\FrontmatterException",
+            "name": "FrontmatterException",
+            "summary": "FrontmatterException\u0020class.",
+            "url": "classes/Cecil-Exception-FrontmatterException.html"
+        },                {
             "fqsen": "\\Cecil\\Exception\\RuntimeException",
             "name": "RuntimeException",
             "summary": "RuntimeException\u0020class.",
@@ -6545,6 +6645,16 @@ Search.appendIndex(
             "name": "convertPage",
             "summary": "Converts\u0020page\u0020content\u003A\n\u0020\u002D\u0020front\u0020matter\u0020to\u0020PHP\u0020array\n\u0020\u002D\u0020body\u0020to\u0020HTML.",
             "url": "classes/Cecil-Step-Pages-Convert.html#method_convertPage"
+        },                {
+            "fqsen": "\\Cecil\\Step\\Pages\\Convert\u003A\u003AvalidateFrontmatter\u0028\u0029",
+            "name": "validateFrontmatter",
+            "summary": "Validates\u0020front\u0020matter\u0020variables\u0020against\u0020the\u0020built\u002Din\u0020schema\u0020and\u0020the\u0020user\u0020schemas\u0020\u0028\u0060pages.schema\u0060\u0029,\naccording\u0020to\u0020the\u0020\u0060pages.validation\u0060\u0020option\u003A\n\u0020\u002D\u0020\u0060warning\u0060\u003A\u0020logs\u0020a\u0020warning\u0020and\u0020keeps\u0020the\u0020page\u003B\n\u0020\u002D\u0020\u0060error\u0060\u0020\u0028default\u0029\u003A\u0020throws\u0020an\u0020exception\u0020\u0028the\u0020page\u0020is\u0020not\u0020converted\u0029\u003B\n\u0020\u002D\u0020\u0060strict\u0060\u003A\u0020throws\u0020an\u0020exception\u0020\u0028the\u0020build\u0020fails\u0029\u003B\n\u0020\u002D\u0020\u0060false\u0060\u003A\u0020disabled.",
+            "url": "classes/Cecil-Step-Pages-Convert.html#method_validateFrontmatter"
+        },                {
+            "fqsen": "\\Cecil\\Step\\Pages\\Convert\u003A\u003A\u0024schema",
+            "name": "schema",
+            "summary": "",
+            "url": "classes/Cecil-Step-Pages-Convert.html#property_schema"
         },                {
             "fqsen": "\\Cecil\\Step\\Pages\\Create",
             "name": "Create",

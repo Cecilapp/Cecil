@@ -13,6 +13,7 @@ declare(strict_types=1);
 
 namespace Cecil;
 
+use Cecil\Collection\Page\Schema as PageSchema;
 use Cecil\Config\Deprecations;
 use Cecil\Config\Merger;
 use Cecil\Exception\ConfigException;
@@ -61,6 +62,8 @@ class Config
         'pages.converter',
         'pages.generators',
         'pages.default',
+        'pages.validation',
+        'pages.schema',
         'output.dir',
         'output.formats',
         'output.postprocessors',
@@ -1112,6 +1115,28 @@ class Config
                     ]),
                 ]),
                 'generators' => Expect::array(),
+                // front matter validation mode
+                'validation' => Expect::anyOf(false, 'warning', 'error', 'strict'),
+                // front matter schemas, indexed by section (`*` for all pages): each field is defined by its type or by a map of rules
+                'schema' => Expect::arrayOf(
+                    Expect::arrayOf(
+                        Expect::anyOf(
+                            Expect::anyOf(...PageSchema::TYPES),
+                            Expect::structure([
+                                'type'     => Expect::anyOf(...PageSchema::TYPES),
+                                'required' => Expect::bool(),
+                                'enum'     => Expect::list(),
+                                'pattern'  => Expect::string(),
+                                'min'      => Expect::type('int|float'),
+                                'max'      => Expect::type('int|float'),
+                                'items'    => Expect::anyOf(...array_diff(PageSchema::TYPES, ['list'])),
+                                'default'  => Expect::mixed(),
+                            ])
+                        ),
+                        Expect::string()
+                    ),
+                    Expect::string()
+                )->nullable(),
             ]),
             // default pages, indexed by ID: each published page must define a `path` (other keys are front matter variables)
             'pages.default' => Expect::arrayOf(

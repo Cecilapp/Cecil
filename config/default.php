@@ -89,6 +89,16 @@ return [
         //    ]
         //],
         'frontmatter' => 'yaml', // front matter format: `yaml`, `ini`, `toml` or `json`
+        'validation' => 'error', // front matter validation: `warning` (page kept), `error` (page skipped), `strict` (build fails) or `false` (disabled)
+        //'schema' => [ // front matter schemas, by section (`*` for all pages)
+        //    '*' => [
+        //        'title' => ['type' => 'string', 'required' => true],
+        //    ],
+        //    '<section>' => [
+        //        '<variable>' => '<type>', // string|int|number|bool|date|list|map|scalar|mixed
+        //        '<variable>' => ['type' => '<type>', 'required' => true, 'enum' => [], 'pattern' => '<regex>', 'min' => 0, 'max' => 0, 'items' => '<type>', 'default' => null],
+        //    ],
+        //],
         'converter' => 'Cecil\Converter\Converter', // front matter and body converter class (must implement `Cecil\Converter\ConverterInterface`)
         'body' => [
             'parser' => 'Cecil\Converter\Parsedown', // Markdown parser class (must extend `Cecil\Converter\Parsedown`)

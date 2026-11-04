@@ -155,7 +155,7 @@ Front matter is YAML by default (`pages.frontmatter` also accepts `ini`, `toml` 
 | `excluded`                   | `true` to hide the page from lists, sitemap and feeds (formerly `exclude`)                                |
 | `language`, `langref`        | Language code (default: file suffix) and translations reference                                          |
 
-Every predefined variable can be overridden, except `section` (derived from the folder). Any other variable is a custom one, available in templates as `page.<variable>`.
+Every predefined variable can be overridden, except `section` (derived from the folder). Any other variable is a custom one, available in templates as `page.<variable>`. Front matter is validated (types of predefined variables, plus the rules declared by section in `pages.schema`, see [references/configuration.md](references/configuration.md#pages)): an invalid page is skipped by default (`pages.validation`).
 
 A file name prefix sets the `date` (`2019-04-23_My post.md`) or the `weight` (`1_First project.md`) of the page; separators are `-` and `_` by default (`pages.prefix.separator`).
 
