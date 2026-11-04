@@ -185,7 +185,8 @@ class Convert extends AbstractStep
         } catch (FrontmatterException $e) {
             $message = \sprintf(
                 'Invalid front matter of "%s": %s',
-                Util::joinPath(Util\File::getFS()->makePathRelative((string) $page->getFilePath(), $builder->getConfig()->getPagesPath())),
+                // relative path from the pages directory, as found by the loader (independent of symlinks and short paths of the temporary directory)
+                str_replace(DIRECTORY_SEPARATOR, '/', (string) $page->getVariable('filepath')),
                 $e->getMessage()
             );
             if ($mode === 'warning') {
