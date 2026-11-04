@@ -2,7 +2,7 @@
 title: "Override configuration"
 description: "Override the configuration with environment variables or a CLI option."
 date: 2021-05-07
-updated: 2026-10-17
+updated: 2026-11-04
 -->
 # Override configuration
 
@@ -17,7 +17,7 @@ At startup, Cecil also attempts to load a `.env` file from the current site path
 - If the `.env` file does not exist, Cecil continues normally.
 - Variables already defined by the shell/system are preserved.
 
-Each environment variable name must be prefixed with `CECIL_` and the configuration key must be set in uppercase. Nested keys are separated with `_` (e.g.: `CECIL_PAGES_DIR` sets `pages.dir`), so keys that contain an underscore can't be set this way. Boolean-like values (`true`/`false`, `1`/`0`, `yes`/`no`, `on`/`off`) are converted to booleans.
+Each environment variable name must be prefixed with `CECIL_` and the configuration key must be set in uppercase. Nested keys are separated with `_` (e.g.: `CECIL_PAGES_DIR` sets `pages.dir`), so keys that contain an underscore can't be set this way. Boolean-like values (`true`/`false`, `1`/`0`, `yes`/`no`, `on`/`off`) are converted to booleans, and numeric values are converted to numbers when the option expects a number (e.g.: `CECIL_ASSETS_IMAGES_QUALITY=80`).
 
 For example, the following command sets the website’s `baseurl`:
 

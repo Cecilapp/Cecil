@@ -2,7 +2,7 @@
 title: "Surcharge de configuration"
 description: "Surchargez la configuration avec des variables d’environnement ou une option CLI."
 date: 2026-03-27
-updated: 2026-10-17
+updated: 2026-11-04
 path: documentation/configuration/surcharge
 -->
 # Surcharge de configuration
@@ -18,7 +18,7 @@ Au démarrage, Cecil essaie également de charger un fichier `.env` depuis le ch
 - Si le fichier `.env` n’existe pas, Cecil continue normalement.
 - Les variables déjà définies par le shell/système sont conservées.
 
-Chaque nom de variable d’environnement doit être préfixé par `CECIL_` et la clé de configuration doit être en majuscules. Les clés imbriquées sont séparées par `_` (ex. : `CECIL_PAGES_DIR` définit `pages.dir`), les clés qui contiennent un tiret bas ne peuvent donc pas être définies ainsi. Les valeurs de type booléen (`true`/`false`, `1`/`0`, `yes`/`no`, `on`/`off`) sont converties en booléens.
+Chaque nom de variable d’environnement doit être préfixé par `CECIL_` et la clé de configuration doit être en majuscules. Les clés imbriquées sont séparées par `_` (ex. : `CECIL_PAGES_DIR` définit `pages.dir`), les clés qui contiennent un tiret bas ne peuvent donc pas être définies ainsi. Les valeurs de type booléen (`true`/`false`, `1`/`0`, `yes`/`no`, `on`/`off`) sont converties en booléens, et les valeurs numériques sont converties en nombres lorsque l’option attend un nombre (ex. : `CECIL_ASSETS_IMAGES_QUALITY=80`).
 
 Par exemple, la commande suivante définit le `baseurl` du site :
 
