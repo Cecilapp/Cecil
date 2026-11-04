@@ -1258,4 +1258,46 @@ class ConfigTest extends TestCase
         self::assertSame('_site', $export['output']['dir']);
         self::assertArrayHasKey('generators', $export['pages']);
     }
+
+    public function testPagesSchemaAcceptsValidDefinitions(): void
+    {
+        $config = new Config([
+            'pages' => [
+                'validation' => 'strict',
+                'schema'     => [
+                    '*'    => ['title' => ['type' => 'string', 'required' => true]],
+                    'blog' => [
+                        'author' => 'string',
+                        'tags'   => ['type' => 'list', 'items' => 'string', 'max' => 5],
+                        'rating' => ['type' => 'int', 'min' => 1, 'max' => 5, 'default' => 3],
+                        'status' => ['type' => 'string', 'enum' => ['draft', 'review']],
+                    ],
+                ],
+            ],
+        ]);
+
+        self::assertSame('strict', $config->get('pages.validation'));
+        self::assertSame('string', $config->get('pages.schema.blog.author'));
+    }
+
+    public function testPagesValidationRejectsUnknownMode(): void
+    {
+        $this->expectException(ConfigException::class);
+
+        new Config(['pages' => ['validation' => 'fatal']]);
+    }
+
+    public function testPagesSchemaRejectsUnknownType(): void
+    {
+        $this->expectException(ConfigException::class);
+
+        new Config(['pages' => ['schema' => ['blog' => ['author' => 'text']]]]);
+    }
+
+    public function testPagesSchemaRejectsUnknownRule(): void
+    {
+        $this->expectException(ConfigException::class);
+
+        new Config(['pages' => ['schema' => ['blog' => ['author' => ['type' => 'string', 'mandatory' => true]]]]]);
+    }
 }

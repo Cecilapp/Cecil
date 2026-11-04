@@ -2,7 +2,7 @@
 title: "Front matter"
 description: "Variables de page personnalisées et prédéfinies : menu, taxonomie, planification, redirection, alias, sortie, etc."
 date: 2026-03-27
-updated: 2026-10-16
+updated: 2026-11-04
 path: documentation/contenu/front-matter
 -->
 # Front matter
@@ -13,6 +13,10 @@ Il doit se trouver au tout début du fichier et être du [YAML](https://fr.wikip
 
 :::info
 YAML est le format par défaut : vous pouvez utiliser INI, TOML ou JSON à la place avec l’option [`pages.frontmatter`](../configuration/4-pages.fr.md#pages-frontmatter).
+:::
+
+:::tip
+Le front matter est validé : les types des variables prédéfinies sont contrôlés, et vous pouvez déclarer vos propres règles (variables obligatoires, types, valeurs autorisées, valeurs par défaut, etc.) par section avec l’option [`pages.schema`](../configuration/4-pages.fr.md#pages-schema).
 :::
 
 ## Variables prédéfinies

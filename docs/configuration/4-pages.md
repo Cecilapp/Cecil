@@ -2,7 +2,7 @@
 title: "Pages"
 description: "Pages directory, sorting, pagination, paths, body, default pages, generators, etc."
 date: 2021-05-07
-updated: 2026-10-26
+updated: 2026-11-04
 -->
 # Pages
 
@@ -137,6 +137,68 @@ Page front matter format (`yaml` by default, also accepts `ini`, `toml` and `jso
 pages:
   frontmatter: yaml
 ```
+
+## pages.validation
+
+Behavior when the front matter of a page does not match its [schema](#pages-schema):
+
+- `warning`: logs a warning and keeps the page;
+- `error` (default): logs an error and skips the page;
+- `strict`: the build fails;
+- `false`: disables the validation.
+
+```yaml
+pages:
+  validation: error
+```
+
+:::info
+The [predefined variables](../content/2-front-matter.md#predefined-variables) (`date`, `menu`, `schedule`, `output`, etc.) are always checked against a built-in schema, even without `pages.schema`.
+:::
+
+## pages.schema
+
+Schemas of the front matter, by _Section_ (`*` applies to all pages).
+
+Each variable is defined by its type, or by a map of rules:
+
+| Rule       | Description                                                                              |
+| ---------- | ---------------------------------------------------------------------------------------- |
+| `type`     | `string`, `int`, `number`, `bool`, `date`, `list`, `map`, `scalar` or `mixed` (default). |
+| `required` | The variable must be defined (`false` by default).                                       |
+| `enum`     | List of allowed values.                                                                  |
+| `pattern`  | Regular expression that the value must match (`string` and `scalar`).                    |
+| `min`      | Minimum value (`int`, `number`), length (`string`) or count of items (`list`).           |
+| `max`      | Maximum value (`int`, `number`), length (`string`) or count of items (`list`).           |
+| `items`    | Type of the items of a `list` (`enum` and `pattern` apply to the items).                 |
+| `default`  | Value applied when the variable is not defined.                                          |
+
+```yaml
+pages:
+  schema:
+    '*':
+      title:
+        type: string
+        required: true
+    blog:
+      author: string # type shorthand
+      rating:
+        type: int
+        min: 1
+        max: 5
+      category:
+        type: string
+        enum: [news, tutorial]
+        default: news
+      tags:
+        type: list
+        items: string
+        max: 5
+```
+
+:::info
+Schemas are open: variables that are not declared are allowed. Variables of a section override variables of `*`. An optional variable can be empty (`null`).
+:::
 
 ## pages.converter
 

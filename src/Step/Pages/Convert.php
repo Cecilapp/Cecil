@@ -15,9 +15,11 @@ namespace Cecil\Step\Pages;
 
 use Cecil\Builder;
 use Cecil\Collection\Page\Page;
+use Cecil\Collection\Page\Schema;
 use Cecil\Converter\ConverterInterface;
 use Cecil\Event\BuildEvents;
 use Cecil\Event\PageEvent;
+use Cecil\Exception\FrontmatterException;
 use Cecil\Exception\RuntimeException;
 use Cecil\Step\AbstractStep;
 use Cecil\Util;
@@ -32,6 +34,9 @@ use Cecil\Util;
  */
 class Convert extends AbstractStep
 {
+    /** @var Schema|null Front matter schema */
+    protected ?Schema $schema = null;
+
     /**
      * {@inheritdoc}
      */
@@ -75,6 +80,14 @@ class Convert extends AbstractStep
                     if ($convertedPage->getVariable('language') === null) {
                         $convertedPage->setVariable('language', $this->config->getLanguageDefault());
                     }
+                } catch (FrontmatterException $e) {
+                    // `strict` validation: the build fails
+                    if ($this->config->get('pages.validation') === 'strict') {
+                        throw $e;
+                    }
+                    $this->builder->getLogger()->error($e->getMessage());
+                    $this->builder->getPages()->remove($page->getId());
+                    continue;
                 } catch (RuntimeException $e) {
                     $this->builder->getLogger()->error(\sprintf('Unable to convert "%s:%s": %s', $e->getFile(), $e->getLine(), $e->getMessage()));
                     $this->builder->getPages()->remove($page->getId());
@@ -122,6 +135,7 @@ class Convert extends AbstractStep
             } catch (RuntimeException $e) {
                 throw new RuntimeException($e->getMessage(), file: (string) $page->getFilePath(), line: $e->getLine());
             }
+            $variables = $this->validateFrontmatter($builder, $page, $variables);
             $page->setFmVariables($variables);
             $page->setVariables($variables);
         }
@@ -140,5 +154,47 @@ class Convert extends AbstractStep
         }
 
         return $page;
+    }
+
+    /**
+     * Validates front matter variables against the built-in schema and the user schemas (`pages.schema`),
+     * according to the `pages.validation` option:
+     *  - `warning`: logs a warning and keeps the page;
+     *  - `error` (default): throws an exception (the page is not converted);
+     *  - `strict`: throws an exception (the build fails);
+     *  - `false`: disabled.
+     *
+     * Returns variables completed with the default values of the user schema.
+     *
+     * @param array<string, mixed> $variables
+     *
+     * @return array<string, mixed>
+     *
+     * @throws FrontmatterException
+     */
+    protected function validateFrontmatter(Builder $builder, Page $page, array $variables): array
+    {
+        $mode = $builder->getConfig()->get('pages.validation') ?? 'error';
+        if ($mode === false) {
+            return $variables;
+        }
+        $this->schema ??= new Schema((array) $builder->getConfig()->get('pages.schema'));
+
+        try {
+            return $this->schema->validate($variables, $page->getSection());
+        } catch (FrontmatterException $e) {
+            $message = \sprintf(
+                'Invalid front matter of "%s":%s',
+                Util::joinPath(Util\File::getFS()->makePathRelative((string) $page->getFilePath(), $builder->getConfig()->getPagesPath())),
+                "\n" . $e->getMessage()
+            );
+            if ($mode === 'warning') {
+                $builder->getLogger()->warning($message);
+
+                return $variables;
+            }
+
+            throw new FrontmatterException($message, file: (string) $page->getFilePath(), previous: $e);
+        }
     }
 }

@@ -2,7 +2,7 @@
 title: "Pages"
 description: "Dossier des pages, tri, pagination, chemins, corps, pages par défaut, générateurs, etc."
 date: 2026-03-27
-updated: 2026-10-26
+updated: 2026-11-04
 -->
 # Pages
 
@@ -137,6 +137,68 @@ Format du front matter des pages (`yaml` par défaut, accepte aussi `ini`, `toml
 pages:
   frontmatter: yaml
 ```
+
+## pages.validation
+
+Comportement lorsque le front matter d’une page ne respecte pas son [schéma](#pages-schema) :
+
+- `warning` : journalise un avertissement et conserve la page ;
+- `error` (par défaut) : journalise une erreur et ignore la page ;
+- `strict` : le build échoue ;
+- `false` : désactive la validation.
+
+```yaml
+pages:
+  validation: error
+```
+
+:::info
+Les [variables prédéfinies](../content/2-front-matter.fr.md#variables-predefinies) (`date`, `menu`, `schedule`, `output`, etc.) sont toujours contrôlées par un schéma interne, même sans `pages.schema`.
+:::
+
+## pages.schema
+
+Schémas du front matter, par _Section_ (`*` s’applique à toutes les pages).
+
+Chaque variable est définie par son type, ou par un ensemble de règles :
+
+| Règle      | Description                                                                                 |
+| ---------- | ------------------------------------------------------------------------------------------- |
+| `type`     | `string`, `int`, `number`, `bool`, `date`, `list`, `map`, `scalar` ou `mixed` (par défaut). |
+| `required` | La variable doit être définie (`false` par défaut).                                         |
+| `enum`     | Liste des valeurs autorisées.                                                               |
+| `pattern`  | Expression régulière que la valeur doit respecter (`string` et `scalar`).                   |
+| `min`      | Valeur (`int`, `number`), longueur (`string`) ou nombre d’éléments (`list`) minimum.        |
+| `max`      | Valeur (`int`, `number`), longueur (`string`) ou nombre d’éléments (`list`) maximum.        |
+| `items`    | Type des éléments d’une `list` (`enum` et `pattern` s’appliquent aux éléments).             |
+| `default`  | Valeur appliquée lorsque la variable n’est pas définie.                                     |
+
+```yaml
+pages:
+  schema:
+    '*':
+      title:
+        type: string
+        required: true
+    blog:
+      author: string # raccourci de type
+      rating:
+        type: int
+        min: 1
+        max: 5
+      category:
+        type: string
+        enum: [news, tutorial]
+        default: news
+      tags:
+        type: list
+        items: string
+        max: 5
+```
+
+:::info
+Les schémas sont ouverts : les variables non déclarées sont autorisées. Les variables d’une section surchargent celles de `*`. Une variable facultative peut être vide (`null`).
+:::
 
 ## pages.converter
 

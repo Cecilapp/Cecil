@@ -121,7 +121,17 @@ pages:
       path: blog                   # glob or path
       language: en
       output: html
+  validation: error                # front matter validation: `warning`, `error` (page skipped), `strict` (build fails) or `false`
+  schema:                          # front matter schemas, by section (`*` for all pages)
+    '*':
+      title: {type: string, required: true}
+    blog:
+      author: string               # type shorthand: string, int, number, bool, date, list, map, scalar or mixed
+      category: {type: string, enum: [news, tutorial], default: news}
+      tags: {type: list, items: string, max: 5}   # other rules: pattern, min
 ```
+
+- Predefined front matter variables (`date`, `menu`, `schedule`, `output`, etc.) are always checked by a built-in schema; user schemas are open (undeclared variables are allowed) and section fields override `*` fields.
 
 - Built-in default pages: `index` (homepage), `404`, `robots` (`robots.txt`), `sitemap` (`sitemap.xml`) and `xsl/*` (feeds and sitemap styles).
 - Customize `robots.txt` with a `pages/robots.md` page (`layout: robots`, `output: txt`): its body is appended to the default rules (see [ai.md](ai.md#block-ai-crawlers)). Don't add a `static/robots.txt`.
