@@ -1117,24 +1117,9 @@ class Config
                 'generators' => Expect::array(),
                 // front matter validation mode
                 'validation' => Expect::anyOf(false, 'warning', 'error', 'strict'),
-                // front matter schemas, indexed by section (`*` for all pages): each field is defined by its type or by a map of rules
+                // front matter schemas, indexed by section (`*` for all pages): each field is defined by its type or by a map of rules (recursive with `fields` and `items`)
                 'schema' => Expect::arrayOf(
-                    Expect::arrayOf(
-                        Expect::anyOf(
-                            Expect::anyOf(...PageSchema::TYPES),
-                            Expect::structure([
-                                'type'     => Expect::anyOf(...PageSchema::TYPES),
-                                'required' => Expect::bool(),
-                                'enum'     => Expect::list(),
-                                'pattern'  => Expect::string(),
-                                'min'      => Expect::type('int|float'),
-                                'max'      => Expect::type('int|float'),
-                                'items'    => Expect::anyOf(...array_diff(PageSchema::TYPES, ['list'])),
-                                'default'  => Expect::mixed(),
-                            ])
-                        ),
-                        Expect::string()
-                    ),
+                    Expect::arrayOf(PageSchema::definition(), Expect::string()),
                     Expect::string()
                 )->nullable(),
             ]),

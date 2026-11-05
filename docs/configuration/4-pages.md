@@ -2,7 +2,7 @@
 title: "Pages"
 description: "Pages directory, sorting, pagination, paths, body, default pages, generators, etc."
 date: 2021-05-07
-updated: 2026-11-04
+updated: 2026-11-05
 -->
 # Pages
 
@@ -168,9 +168,10 @@ Each variable is defined by its type, or by a map of rules:
 | `required` | The variable must be defined (`false` by default).                                       |
 | `enum`     | List of allowed values.                                                                  |
 | `pattern`  | Regular expression that the value must match (`string` and `scalar`).                    |
-| `min`      | Minimum value (`int`, `number`), length (`string`) or count of items (`list`).           |
-| `max`      | Maximum value (`int`, `number`), length (`string`) or count of items (`list`).           |
-| `items`    | Type of the items of a `list` (`enum` and `pattern` apply to the items).                 |
+| `min`      | Minimum value (`int`, `number`), length (`string`) or count of items (`list`, `map`).    |
+| `max`      | Maximum value (`int`, `number`), length (`string`) or count of items (`list`, `map`).    |
+| `items`    | Type or definition of the items of a `list` (see [lists and maps](#lists-and-maps)).     |
+| `fields`   | Definitions of the variables of a `map` (see [lists and maps](#lists-and-maps)).         |
 | `default`  | Value applied when the variable is not defined.                                          |
 
 ```yaml
@@ -199,6 +200,40 @@ pages:
 :::info
 Schemas are open: variables that are not declared are allowed. Variables of a section override variables of `*`. An optional variable can be empty (`null`).
 :::
+
+### Lists and maps
+
+The structure of a `map` and of the items of a `list` can be validated, at any depth:
+
+- `fields`: definitions of the variables of a `map`, with the same syntax as the variables of a page (type shorthand or map of rules, including `fields` and `items`). As a page, a map is open: undeclared variables are allowed.
+- `items`: the type of the items (`items: string`), or the definition of the items (`items: {type: map, fields: …}`).
+
+Scope of the rules:
+
+- With a type of items (`items: string`), the `enum` and `pattern` rules of the list apply to its items.
+- With a definition of items, only the rules of this definition apply to the items (`min` and `max` of the definition apply to each item: length of a string, value of a number, etc.). An item can't be empty (`null`), except with `items: mixed`, and the `required` and `default` rules don't apply to items.
+- The `min` and `max` rules of a list apply to its count of items.
+- A `map` with `fields` doesn't accept the `min`, `max`, `enum` and `pattern` rules (without `fields`, `min` and `max` apply to its count of variables).
+- A `default` value of a variable of a map is applied when the map is defined but the variable is not (a missing map is not created), including in each item of a list.
+
+Example: each image of an illustration must have a file name and an alternative text of 20 characters at least.
+
+```yaml
+pages:
+  schema:
+    illustrations:
+      description: {type: string, required: true}
+      images:
+        type: list
+        min: 1
+        items:
+          type: map
+          fields:
+            file: {type: string, required: true, pattern: '^[\w-]+\.(png|jpe?g|gif|webp)$'}
+            alt: {type: string, required: true, min: 20}
+```
+
+An error gives the path of the invalid variable, from `0` for the first item of a list: `The mandatory variable 'images › 1 › alt' is missing.` (alternative text of the second image).
 
 ## pages.converter
 

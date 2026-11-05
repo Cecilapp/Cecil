@@ -186,7 +186,7 @@
         <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Collection/Page/Schema.php"><a href="files/src-collection-page-schema.html"><abbr title="src/Collection/Page/Schema.php">Schema.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">36</span>
+    <span class="phpdocumentor-element-found-in__line">38</span>
 
     </aside>
 
@@ -198,7 +198,8 @@
 <li>the built-in schema of predefined variables (<code class="prettyprint">title</code>, <code class="prettyprint">date</code>, <code class="prettyprint">menu</code>, <code class="prettyprint">schedule</code>, etc.);</li>
 <li>the user schemas declared in the configuration (<code class="prettyprint">pages.schema</code>), by section (<code class="prettyprint">*</code> for all pages).</li>
 </ul>
-<p>Schemas are open: variables that are not declared are allowed.</p>
+<p>Schemas are open: variables that are not declared are allowed.
+The structure of maps (<code class="prettyprint">fields</code>) and of list items (<code class="prettyprint">items</code>) can be validated recursively.</p>
 </section>
 
 
@@ -247,6 +248,13 @@
 </h4>
 <dl class="phpdocumentor-table-of-contents">
             <dt class="phpdocumentor-table-of-contents__entry -property -protected">
+    <a class="" href="classes/Cecil-Collection-Page-Schema.html#property_definition">$definition</a>
+    <span>
+                        &nbsp;: <abbr title="\Nette\Schema\Schema">Schema</abbr>|null            </span>
+</dt>
+<dd>Schema of a user field definition, used to validate the configuration</dd>
+
+            <dt class="phpdocumentor-table-of-contents__entry -property -protected">
     <a class="" href="classes/Cecil-Collection-Page-Schema.html#property_definitions">$definitions</a>
     <span>
                         &nbsp;: array&lt;string, array&lt;string, mixed&gt;&gt;            </span>
@@ -286,6 +294,13 @@
 <dd>Returns the built-in schema of predefined variables.</dd>
 
             <dt class="phpdocumentor-table-of-contents__entry -method -public">
+    <a class="" href="classes/Cecil-Collection-Page-Schema.html#method_definition">definition()</a>
+    <span>
+                                &nbsp;: <abbr title="\Nette\Schema\Schema">Schema</abbr>    </span>
+</dt>
+<dd>Returns the schema of a user field definition (a type or a map of rules), used to validate the `pages.schema` configuration.</dd>
+
+            <dt class="phpdocumentor-table-of-contents__entry -method -public">
     <a class="" href="classes/Cecil-Collection-Page-Schema.html#method_getUserSchema">getUserSchema()</a>
     <span>
                                 &nbsp;: <abbr title="\Nette\Schema\Elements\Structure">Structure</abbr>|null    </span>
@@ -314,6 +329,13 @@
 <dd>Schema of a date: a string, a timestamp or a date object that can be converted to a date.</dd>
 
             <dt class="phpdocumentor-table-of-contents__entry -method -protected">
+    <a class="" href="classes/Cecil-Collection-Page-Schema.html#method_defaults">defaults()</a>
+    <span>
+                                &nbsp;: array&lt;int|string, mixed&gt;    </span>
+</dt>
+<dd>Applies the default values of the given fields definitions to the variables, recursively.</dd>
+
+            <dt class="phpdocumentor-table-of-contents__entry -method -protected">
     <a class="" href="classes/Cecil-Collection-Page-Schema.html#method_field">field()</a>
     <span>
                                 &nbsp;: <abbr title="\Nette\Schema\Schema">Schema</abbr>    </span>
@@ -335,6 +357,20 @@
 <dd>Returns the user fields definitions of the given section: fields of all pages (`*`), overridden by the fields of the section.</dd>
 
             <dt class="phpdocumentor-table-of-contents__entry -method -protected">
+    <a class="" href="classes/Cecil-Collection-Page-Schema.html#method_lazy">lazy()</a>
+    <span>
+                                &nbsp;: <abbr title="\Nette\Schema\Schema">Schema</abbr>    </span>
+</dt>
+<dd>Returns a schema that delegates to the schema returned by the resolver when it is processed (allows recursive schemas).</dd>
+
+            <dt class="phpdocumentor-table-of-contents__entry -method -protected">
+    <a class="" href="classes/Cecil-Collection-Page-Schema.html#method_nestedDefaults">nestedDefaults()</a>
+    <span>
+                                &nbsp;: mixed    </span>
+</dt>
+<dd>Applies the default values of the nested fields (`fields` of a map, `fields` of the items of a list) to a value.</dd>
+
+            <dt class="phpdocumentor-table-of-contents__entry -method -protected">
     <a class="" href="classes/Cecil-Collection-Page-Schema.html#method_open">open()</a>
     <span>
                                 &nbsp;: <abbr title="\Nette\Schema\Elements\Structure">Structure</abbr>    </span>
@@ -349,6 +385,14 @@
 <dd>Applies `min` and `max` rules (value of a number, length of a string, count of a list).</dd>
 
             <dt class="phpdocumentor-table-of-contents__entry -method -protected">
+    <a class="" href="classes/Cecil-Collection-Page-Schema.html#method_strict">strict()</a>
+    <span>
+                                &nbsp;: <abbr title="\Nette\Schema\Schema">Schema</abbr>    </span>
+</dt>
+<dd>Returns a structure schema that rejects `null` and, if required, a missing value
+(a structure validates `null` or a missing value as an empty array).</dd>
+
+            <dt class="phpdocumentor-table-of-contents__entry -method -protected">
     <a class="" href="classes/Cecil-Collection-Page-Schema.html#method_strings">strings()</a>
     <span>
                                 &nbsp;: <abbr title="\Nette\Schema\Schema">Schema</abbr>    </span>
@@ -361,6 +405,13 @@
                                 &nbsp;: <abbr title="\Nette\Schema\Elements\Type">Type</abbr>    </span>
 </dt>
 <dd>Builds the schema of a type, with the `enum` and `pattern` rules.</dd>
+
+            <dt class="phpdocumentor-table-of-contents__entry -method -private">
+    <a class="" href="classes/Cecil-Collection-Page-Schema.html#method_delegate">delegate()</a>
+    <span>
+                                &nbsp;: <abbr title="\Nette\Schema\Schema">Schema</abbr>    </span>
+</dt>
+<dd>Returns a schema that delegates to the schema returned by the resolver when it is processed.</dd>
 
     </dl>
 
@@ -383,7 +434,7 @@
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Collection/Page/Schema.php"><a href="files/src-collection-page-schema.html"><abbr title="src/Collection/Page/Schema.php">Schema.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">46</span>
+    <span class="phpdocumentor-element-found-in__line">48</span>
 
     </aside>
 
@@ -414,7 +465,7 @@
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Collection/Page/Schema.php"><a href="files/src-collection-page-schema.html"><abbr title="src/Collection/Page/Schema.php">Schema.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">41</span>
+    <span class="phpdocumentor-element-found-in__line">43</span>
 
     </aside>
 
@@ -449,6 +500,44 @@
             phpdocumentor-element
             -property
             -protected
+            -static                                                        "
+>
+    <h4 class="phpdocumentor-element__name" id="property_definition">
+        $definition
+        <a href="classes/Cecil-Collection-Page-Schema.html#property_definition" class="headerlink"><i class="fas fa-link"></i></a>
+
+        <span class="phpdocumentor-element__modifiers">
+                                            </span>
+    </h4>
+    <aside class="phpdocumentor-element-found-in">
+    <abbr class="phpdocumentor-element-found-in__file" title="src/Collection/Page/Schema.php"><a href="files/src-collection-page-schema.html"><abbr title="src/Collection/Page/Schema.php">Schema.php</abbr></a></abbr>
+    :
+    <span class="phpdocumentor-element-found-in__line">51</span>
+
+    </aside>
+
+        <p class="phpdocumentor-summary">Schema of a user field definition, used to validate the configuration</p>
+
+    
+    <code class="phpdocumentor-code phpdocumentor-signature ">
+        <span class="phpdocumentor-signature__visibility">protected</span>
+        <span class="phpdocumentor-signature__static">static</span>    <span class="phpdocumentor-signature__type"><abbr title="\Nette\Schema\Schema">Schema</abbr>|null</span>
+    <span class="phpdocumentor-signature__name">$definition</span>
+     = <span class="phpdocumentor-signature__default-value">null</span></code>
+
+    
+    
+    
+
+        
+        
+
+</article>
+                    <article
+        class="
+            phpdocumentor-element
+            -property
+            -protected
                                                                     "
 >
     <h4 class="phpdocumentor-element__name" id="property_definitions">
@@ -461,7 +550,7 @@
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Collection/Page/Schema.php"><a href="files/src-collection-page-schema.html"><abbr title="src/Collection/Page/Schema.php">Schema.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">49</span>
+    <span class="phpdocumentor-element-found-in__line">54</span>
 
     </aside>
 
@@ -500,7 +589,7 @@
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Collection/Page/Schema.php"><a href="files/src-collection-page-schema.html"><abbr title="src/Collection/Page/Schema.php">Schema.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">54</span>
+    <span class="phpdocumentor-element-found-in__line">59</span>
 
     </aside>
 
@@ -537,7 +626,7 @@
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Collection/Page/Schema.php"><a href="files/src-collection-page-schema.html"><abbr title="src/Collection/Page/Schema.php">Schema.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">52</span>
+    <span class="phpdocumentor-element-found-in__line">57</span>
 
     </aside>
 
@@ -581,7 +670,7 @@
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Collection/Page/Schema.php"><a href="files/src-collection-page-schema.html"><abbr title="src/Collection/Page/Schema.php">Schema.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">59</span>
+    <span class="phpdocumentor-element-found-in__line">64</span>
 
     </aside>
 
@@ -627,7 +716,7 @@
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Collection/Page/Schema.php"><a href="files/src-collection-page-schema.html"><abbr title="src/Collection/Page/Schema.php">Schema.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">110</span>
+    <span class="phpdocumentor-element-found-in__line">144</span>
 
     </aside>
 
@@ -656,6 +745,47 @@
         class="phpdocumentor-element
             -method
             -public
+                                    -static                    "
+>
+    <h4 class="phpdocumentor-element__name" id="method_definition">
+        definition()
+        <a href="classes/Cecil-Collection-Page-Schema.html#method_definition" class="headerlink"><i class="fas fa-link"></i></a>
+
+    </h4>
+    <aside class="phpdocumentor-element-found-in">
+    <abbr class="phpdocumentor-element-found-in__file" title="src/Collection/Page/Schema.php"><a href="files/src-collection-page-schema.html"><abbr title="src/Collection/Page/Schema.php">Schema.php</abbr></a></abbr>
+    :
+    <span class="phpdocumentor-element-found-in__line">111</span>
+
+    </aside>
+
+        <p class="phpdocumentor-summary">Returns the schema of a user field definition (a type or a map of rules), used to validate the `pages.schema` configuration.</p>
+
+    <code class="phpdocumentor-code phpdocumentor-signature ">
+    <span class="phpdocumentor-signature__visibility">public</span>
+            <span class="phpdocumentor-signature__static">static</span>        <span class="phpdocumentor-signature__name">definition</span><span>(</span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type"><abbr title="\Nette\Schema\Schema">Schema</abbr></span></code>
+
+    <div class="phpdocumentor-label-line">
+        </div>
+    
+        <section class="phpdocumentor-description"><p>The definition is recursive: <code class="prettyprint">fields</code> of a map and <code class="prettyprint">items</code> of a list are field definitions.</p>
+</section>
+
+    
+    
+
+        
+    
+            <section>
+        <h5 class="phpdocumentor-return-value__heading">Return values</h5>
+        <span class="phpdocumentor-signature__response_type"><abbr title="\Nette\Schema\Schema">Schema</abbr></span>
+            </section>
+
+</article>
+                    <article
+        class="phpdocumentor-element
+            -method
+            -public
                                                         "
 >
     <h4 class="phpdocumentor-element__name" id="method_getUserSchema">
@@ -666,7 +796,7 @@
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Collection/Page/Schema.php"><a href="files/src-collection-page-schema.html"><abbr title="src/Collection/Page/Schema.php">Schema.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">158</span>
+    <span class="phpdocumentor-element-found-in__line">192</span>
 
     </aside>
 
@@ -715,7 +845,7 @@
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Collection/Page/Schema.php"><a href="files/src-collection-page-schema.html"><abbr title="src/Collection/Page/Schema.php">Schema.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">74</span>
+    <span class="phpdocumentor-element-found-in__line">79</span>
 
     </aside>
 
@@ -785,7 +915,7 @@
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Collection/Page/Schema.php"><a href="files/src-collection-page-schema.html"><abbr title="src/Collection/Page/Schema.php">Schema.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">297</span>
+    <span class="phpdocumentor-element-found-in__line">482</span>
 
     </aside>
 
@@ -824,7 +954,7 @@
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Collection/Page/Schema.php"><a href="files/src-collection-page-schema.html"><abbr title="src/Collection/Page/Schema.php">Schema.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">281</span>
+    <span class="phpdocumentor-element-found-in__line">466</span>
 
     </aside>
 
@@ -855,6 +985,100 @@
             -protected
                                     -static                    "
 >
+    <h4 class="phpdocumentor-element__name" id="method_defaults">
+        defaults()
+        <a href="classes/Cecil-Collection-Page-Schema.html#method_defaults" class="headerlink"><i class="fas fa-link"></i></a>
+
+    </h4>
+    <aside class="phpdocumentor-element-found-in">
+    <abbr class="phpdocumentor-element-found-in__file" title="src/Collection/Page/Schema.php"><a href="files/src-collection-page-schema.html"><abbr title="src/Collection/Page/Schema.php">Schema.php</abbr></a></abbr>
+    :
+    <span class="phpdocumentor-element-found-in__line">235</span>
+
+    </aside>
+
+        <p class="phpdocumentor-summary">Applies the default values of the given fields definitions to the variables, recursively.</p>
+
+    <code class="phpdocumentor-code phpdocumentor-signature ">
+    <span class="phpdocumentor-signature__visibility">protected</span>
+            <span class="phpdocumentor-signature__static">static</span>        <span class="phpdocumentor-signature__name">defaults</span><span>(</span><span class="phpdocumentor-signature__argument"><span class="phpdocumentor-signature__argument__type">array&lt;int|string, mixed&gt;&nbsp;</span><span class="phpdocumentor-signature__argument__name">$fields</span></span><span class="phpdocumentor-signature__argument"><span>, </span><span class="phpdocumentor-signature__argument__type">array&lt;int|string, mixed&gt;&nbsp;</span><span class="phpdocumentor-signature__argument__name">$variables</span></span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">array&lt;int|string, mixed&gt;</span></code>
+
+    <div class="phpdocumentor-label-line">
+        </div>
+    
+        <section class="phpdocumentor-description"><p>A nested default value is applied only if its map is defined (a missing map is not created).</p>
+</section>
+
+        <h5 class="phpdocumentor-argument-list__heading">Parameters</h5>
+    <dl class="phpdocumentor-argument-list">
+                    <dt class="phpdocumentor-argument-list__entry">
+                <span class="phpdocumentor-argument-list__argument__name">$fields</span>
+                : <span class="phpdocumentor-argument-list__argument__type">array&lt;int|string, mixed&gt;</span>
+                            </dt>
+            <dd class="phpdocumentor-argument-list__definition">
+                
+            </dd>
+                    <dt class="phpdocumentor-argument-list__entry">
+                <span class="phpdocumentor-argument-list__argument__name">$variables</span>
+                : <span class="phpdocumentor-argument-list__argument__type">array&lt;int|string, mixed&gt;</span>
+                            </dt>
+            <dd class="phpdocumentor-argument-list__definition">
+                
+            </dd>
+            </dl>
+
+    
+    <h5 class="phpdocumentor-tag-list__heading" id="method_defaults_tags">
+        Tags
+        <a href="classes/Cecil-Collection-Page-Schema.html#method_defaults_tags" class="headerlink"><i class="fas fa-link"></i></a>
+
+    </h5>
+    <dl class="phpdocumentor-tag-list">
+                    <dt class="phpdocumentor-tag-list__entry">
+                <span class="phpdocumentor-tag__name">phpstan-template</span>
+            </dt>
+                            <dd class="phpdocumentor-tag-list__definition">
+                                                                                                            <section class="phpdocumentor-description"><p>TKey of array-key</p>
+</section>
+
+                                    </dd>
+                                <dt class="phpdocumentor-tag-list__entry">
+                <span class="phpdocumentor-tag__name">phpstan-param</span>
+            </dt>
+                            <dd class="phpdocumentor-tag-list__definition">
+                                                                                                            <section class="phpdocumentor-description"><p>array&lt;TKey, mixed&gt; $fields</p>
+</section>
+
+                                    </dd>
+                            <dd class="phpdocumentor-tag-list__definition">
+                                                                                                            <section class="phpdocumentor-description"><p>array&lt;TKey, mixed&gt; $variables</p>
+</section>
+
+                                    </dd>
+                                <dt class="phpdocumentor-tag-list__entry">
+                <span class="phpdocumentor-tag__name">phpstan-return</span>
+            </dt>
+                            <dd class="phpdocumentor-tag-list__definition">
+                                                                                                            <section class="phpdocumentor-description"><p>array&lt;TKey, mixed&gt;</p>
+</section>
+
+                                    </dd>
+                        </dl>
+
+        
+    
+            <section>
+        <h5 class="phpdocumentor-return-value__heading">Return values</h5>
+        <span class="phpdocumentor-signature__response_type">array&lt;int|string, mixed&gt;</span>
+            </section>
+
+</article>
+                    <article
+        class="phpdocumentor-element
+            -method
+            -protected
+                                    -static                    "
+>
     <h4 class="phpdocumentor-element__name" id="method_field">
         field()
         <a href="classes/Cecil-Collection-Page-Schema.html#method_field" class="headerlink"><i class="fas fa-link"></i></a>
@@ -863,7 +1087,7 @@
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Collection/Page/Schema.php"><a href="files/src-collection-page-schema.html"><abbr title="src/Collection/Page/Schema.php">Schema.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">192</span>
+    <span class="phpdocumentor-element-found-in__line">287</span>
 
     </aside>
 
@@ -871,13 +1095,15 @@
 
     <code class="phpdocumentor-code phpdocumentor-signature ">
     <span class="phpdocumentor-signature__visibility">protected</span>
-            <span class="phpdocumentor-signature__static">static</span>        <span class="phpdocumentor-signature__name">field</span><span>(</span><span class="phpdocumentor-signature__argument"><span class="phpdocumentor-signature__argument__type">string|array&lt;string, mixed&gt;|null&nbsp;</span><span class="phpdocumentor-signature__argument__name">$field</span></span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type"><abbr title="\Nette\Schema\Schema">Schema</abbr></span></code>
+            <span class="phpdocumentor-signature__static">static</span>        <span class="phpdocumentor-signature__name">field</span><span>(</span><span class="phpdocumentor-signature__argument"><span class="phpdocumentor-signature__argument__type">string|array&lt;string, mixed&gt;|null&nbsp;</span><span class="phpdocumentor-signature__argument__name">$field</span></span><span class="phpdocumentor-signature__argument"><span>[</span><span>, </span><span class="phpdocumentor-signature__argument__type">bool&nbsp;</span><span class="phpdocumentor-signature__argument__name">$item</span><span> = </span><span class="phpdocumentor-signature__argument__default-value">false</span><span> ]</span></span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type"><abbr title="\Nette\Schema\Schema">Schema</abbr></span></code>
 
     <div class="phpdocumentor-label-line">
         </div>
     
         <section class="phpdocumentor-description"><p>A field is defined by its type (<code class="prettyprint">author: string</code>), or by a map of rules:
-<code class="prettyprint">type</code>, <code class="prettyprint">required</code>, <code class="prettyprint">enum</code>, <code class="prettyprint">pattern</code>, <code class="prettyprint">min</code>, <code class="prettyprint">max</code>, <code class="prettyprint">items</code> (type of list items) and <code class="prettyprint">default</code>.</p>
+<code class="prettyprint">type</code>, <code class="prettyprint">required</code>, <code class="prettyprint">enum</code>, <code class="prettyprint">pattern</code>, <code class="prettyprint">min</code>, <code class="prettyprint">max</code>, <code class="prettyprint">fields</code> (fields of a map),
+<code class="prettyprint">items</code> (type or field definition of the items of a list) and <code class="prettyprint">default</code>.</p>
+<p>A list item (<code class="prettyprint">$item</code>) can't be empty (<code class="prettyprint">null</code>), and the <code class="prettyprint">required</code> rule doesn't apply to it.</p>
 </section>
 
         <h5 class="phpdocumentor-argument-list__heading">Parameters</h5>
@@ -886,6 +1112,13 @@
                 <span class="phpdocumentor-argument-list__argument__name">$field</span>
                 : <span class="phpdocumentor-argument-list__argument__type">string|array&lt;string, mixed&gt;|null</span>
                             </dt>
+            <dd class="phpdocumentor-argument-list__definition">
+                
+            </dd>
+                    <dt class="phpdocumentor-argument-list__entry">
+                <span class="phpdocumentor-argument-list__argument__name">$item</span>
+                : <span class="phpdocumentor-argument-list__argument__type">bool</span>
+                 = <span class="phpdocumentor-argument-list__argument__default-value">false</span>            </dt>
             <dd class="phpdocumentor-argument-list__definition">
                 
             </dd>
@@ -915,7 +1148,7 @@
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Collection/Page/Schema.php"><a href="files/src-collection-page-schema.html"><abbr title="src/Collection/Page/Schema.php">Schema.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">318</span>
+    <span class="phpdocumentor-element-found-in__line">503</span>
 
     </aside>
 
@@ -964,7 +1197,7 @@
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Collection/Page/Schema.php"><a href="files/src-collection-page-schema.html"><abbr title="src/Collection/Page/Schema.php">Schema.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">174</span>
+    <span class="phpdocumentor-element-found-in__line">208</span>
 
     </aside>
 
@@ -1005,6 +1238,107 @@
             -protected
                                     -static                    "
 >
+    <h4 class="phpdocumentor-element__name" id="method_lazy">
+        lazy()
+        <a href="classes/Cecil-Collection-Page-Schema.html#method_lazy" class="headerlink"><i class="fas fa-link"></i></a>
+
+    </h4>
+    <aside class="phpdocumentor-element-found-in">
+    <abbr class="phpdocumentor-element-found-in__file" title="src/Collection/Page/Schema.php"><a href="files/src-collection-page-schema.html"><abbr title="src/Collection/Page/Schema.php">Schema.php</abbr></a></abbr>
+    :
+    <span class="phpdocumentor-element-found-in__line">396</span>
+
+    </aside>
+
+        <p class="phpdocumentor-summary">Returns a schema that delegates to the schema returned by the resolver when it is processed (allows recursive schemas).</p>
+
+    <code class="phpdocumentor-code phpdocumentor-signature ">
+    <span class="phpdocumentor-signature__visibility">protected</span>
+            <span class="phpdocumentor-signature__static">static</span>        <span class="phpdocumentor-signature__name">lazy</span><span>(</span><span class="phpdocumentor-signature__argument"><span class="phpdocumentor-signature__argument__type">callable(): <abbr title="\Nette\Schema\Schema">Schema</abbr>&nbsp;</span><span class="phpdocumentor-signature__argument__name">$resolver</span></span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type"><abbr title="\Nette\Schema\Schema">Schema</abbr></span></code>
+
+    <div class="phpdocumentor-label-line">
+        </div>
+    
+    
+        <h5 class="phpdocumentor-argument-list__heading">Parameters</h5>
+    <dl class="phpdocumentor-argument-list">
+                    <dt class="phpdocumentor-argument-list__entry">
+                <span class="phpdocumentor-argument-list__argument__name">$resolver</span>
+                : <span class="phpdocumentor-argument-list__argument__type">callable(): <abbr title="\Nette\Schema\Schema">Schema</abbr></span>
+                            </dt>
+            <dd class="phpdocumentor-argument-list__definition">
+                
+            </dd>
+            </dl>
+
+    
+
+        
+    
+            <section>
+        <h5 class="phpdocumentor-return-value__heading">Return values</h5>
+        <span class="phpdocumentor-signature__response_type"><abbr title="\Nette\Schema\Schema">Schema</abbr></span>
+            </section>
+
+</article>
+                    <article
+        class="phpdocumentor-element
+            -method
+            -protected
+                                    -static                    "
+>
+    <h4 class="phpdocumentor-element__name" id="method_nestedDefaults">
+        nestedDefaults()
+        <a href="classes/Cecil-Collection-Page-Schema.html#method_nestedDefaults" class="headerlink"><i class="fas fa-link"></i></a>
+
+    </h4>
+    <aside class="phpdocumentor-element-found-in">
+    <abbr class="phpdocumentor-element-found-in__file" title="src/Collection/Page/Schema.php"><a href="files/src-collection-page-schema.html"><abbr title="src/Collection/Page/Schema.php">Schema.php</abbr></a></abbr>
+    :
+    <span class="phpdocumentor-element-found-in__line">258</span>
+
+    </aside>
+
+        <p class="phpdocumentor-summary">Applies the default values of the nested fields (`fields` of a map, `fields` of the items of a list) to a value.</p>
+
+    <code class="phpdocumentor-code phpdocumentor-signature ">
+    <span class="phpdocumentor-signature__visibility">protected</span>
+            <span class="phpdocumentor-signature__static">static</span>        <span class="phpdocumentor-signature__name">nestedDefaults</span><span>(</span><span class="phpdocumentor-signature__argument"><span class="phpdocumentor-signature__argument__type">array&lt;string, mixed&gt;&nbsp;</span><span class="phpdocumentor-signature__argument__name">$field</span></span><span class="phpdocumentor-signature__argument"><span>, </span><span class="phpdocumentor-signature__argument__type">mixed&nbsp;</span><span class="phpdocumentor-signature__argument__name">$value</span></span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">mixed</span></code>
+
+    <div class="phpdocumentor-label-line">
+        </div>
+    
+    
+        <h5 class="phpdocumentor-argument-list__heading">Parameters</h5>
+    <dl class="phpdocumentor-argument-list">
+                    <dt class="phpdocumentor-argument-list__entry">
+                <span class="phpdocumentor-argument-list__argument__name">$field</span>
+                : <span class="phpdocumentor-argument-list__argument__type">array&lt;string, mixed&gt;</span>
+                            </dt>
+            <dd class="phpdocumentor-argument-list__definition">
+                
+            </dd>
+                    <dt class="phpdocumentor-argument-list__entry">
+                <span class="phpdocumentor-argument-list__argument__name">$value</span>
+                : <span class="phpdocumentor-argument-list__argument__type">mixed</span>
+                            </dt>
+            <dd class="phpdocumentor-argument-list__definition">
+                
+            </dd>
+            </dl>
+
+    
+
+        
+    
+    
+</article>
+                    <article
+        class="phpdocumentor-element
+            -method
+            -protected
+                                    -static                    "
+>
     <h4 class="phpdocumentor-element__name" id="method_open">
         open()
         <a href="classes/Cecil-Collection-Page-Schema.html#method_open" class="headerlink"><i class="fas fa-link"></i></a>
@@ -1013,7 +1347,7 @@
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Collection/Page/Schema.php"><a href="files/src-collection-page-schema.html"><abbr title="src/Collection/Page/Schema.php">Schema.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">273</span>
+    <span class="phpdocumentor-element-found-in__line">386</span>
 
     </aside>
 
@@ -1062,7 +1396,7 @@
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Collection/Page/Schema.php"><a href="files/src-collection-page-schema.html"><abbr title="src/Collection/Page/Schema.php">Schema.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">258</span>
+    <span class="phpdocumentor-element-found-in__line">371</span>
 
     </aside>
 
@@ -1106,6 +1440,63 @@
             -protected
                                     -static                    "
 >
+    <h4 class="phpdocumentor-element__name" id="method_strict">
+        strict()
+        <a href="classes/Cecil-Collection-Page-Schema.html#method_strict" class="headerlink"><i class="fas fa-link"></i></a>
+
+    </h4>
+    <aside class="phpdocumentor-element-found-in">
+    <abbr class="phpdocumentor-element-found-in__file" title="src/Collection/Page/Schema.php"><a href="files/src-collection-page-schema.html"><abbr title="src/Collection/Page/Schema.php">Schema.php</abbr></a></abbr>
+    :
+    <span class="phpdocumentor-element-found-in__line">405</span>
+
+    </aside>
+
+        <p class="phpdocumentor-summary">Returns a structure schema that rejects `null` and, if required, a missing value
+(a structure validates `null` or a missing value as an empty array).</p>
+
+    <code class="phpdocumentor-code phpdocumentor-signature ">
+    <span class="phpdocumentor-signature__visibility">protected</span>
+            <span class="phpdocumentor-signature__static">static</span>        <span class="phpdocumentor-signature__name">strict</span><span>(</span><span class="phpdocumentor-signature__argument"><span class="phpdocumentor-signature__argument__type"><abbr title="\Nette\Schema\Elements\Structure">Structure</abbr>&nbsp;</span><span class="phpdocumentor-signature__argument__name">$schema</span></span><span class="phpdocumentor-signature__argument"><span>[</span><span>, </span><span class="phpdocumentor-signature__argument__type">bool&nbsp;</span><span class="phpdocumentor-signature__argument__name">$required</span><span> = </span><span class="phpdocumentor-signature__argument__default-value">false</span><span> ]</span></span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type"><abbr title="\Nette\Schema\Schema">Schema</abbr></span></code>
+
+    <div class="phpdocumentor-label-line">
+        </div>
+    
+    
+        <h5 class="phpdocumentor-argument-list__heading">Parameters</h5>
+    <dl class="phpdocumentor-argument-list">
+                    <dt class="phpdocumentor-argument-list__entry">
+                <span class="phpdocumentor-argument-list__argument__name">$schema</span>
+                : <span class="phpdocumentor-argument-list__argument__type"><abbr title="\Nette\Schema\Elements\Structure">Structure</abbr></span>
+                            </dt>
+            <dd class="phpdocumentor-argument-list__definition">
+                
+            </dd>
+                    <dt class="phpdocumentor-argument-list__entry">
+                <span class="phpdocumentor-argument-list__argument__name">$required</span>
+                : <span class="phpdocumentor-argument-list__argument__type">bool</span>
+                 = <span class="phpdocumentor-argument-list__argument__default-value">false</span>            </dt>
+            <dd class="phpdocumentor-argument-list__definition">
+                
+            </dd>
+            </dl>
+
+    
+
+        
+    
+            <section>
+        <h5 class="phpdocumentor-return-value__heading">Return values</h5>
+        <span class="phpdocumentor-signature__response_type"><abbr title="\Nette\Schema\Schema">Schema</abbr></span>
+            </section>
+
+</article>
+                    <article
+        class="phpdocumentor-element
+            -method
+            -protected
+                                    -static                    "
+>
     <h4 class="phpdocumentor-element__name" id="method_strings">
         strings()
         <a href="classes/Cecil-Collection-Page-Schema.html#method_strings" class="headerlink"><i class="fas fa-link"></i></a>
@@ -1114,7 +1505,7 @@
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Collection/Page/Schema.php"><a href="files/src-collection-page-schema.html"><abbr title="src/Collection/Page/Schema.php">Schema.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">308</span>
+    <span class="phpdocumentor-element-found-in__line">493</span>
 
     </aside>
 
@@ -1153,7 +1544,7 @@
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Collection/Page/Schema.php"><a href="files/src-collection-page-schema.html"><abbr title="src/Collection/Page/Schema.php">Schema.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">226</span>
+    <span class="phpdocumentor-element-found-in__line">339</span>
 
     </aside>
 
@@ -1195,6 +1586,69 @@
             </section>
 
 </article>
+                    <article
+        class="phpdocumentor-element
+            -method
+            -private
+                                    -static                    "
+>
+    <h4 class="phpdocumentor-element__name" id="method_delegate">
+        delegate()
+        <a href="classes/Cecil-Collection-Page-Schema.html#method_delegate" class="headerlink"><i class="fas fa-link"></i></a>
+
+    </h4>
+    <aside class="phpdocumentor-element-found-in">
+    <abbr class="phpdocumentor-element-found-in__file" title="src/Collection/Page/Schema.php"><a href="files/src-collection-page-schema.html"><abbr title="src/Collection/Page/Schema.php">Schema.php</abbr></a></abbr>
+    :
+    <span class="phpdocumentor-element-found-in__line">415</span>
+
+    </aside>
+
+        <p class="phpdocumentor-summary">Returns a schema that delegates to the schema returned by the resolver when it is processed.</p>
+
+    <code class="phpdocumentor-code phpdocumentor-signature ">
+    <span class="phpdocumentor-signature__visibility">private</span>
+            <span class="phpdocumentor-signature__static">static</span>        <span class="phpdocumentor-signature__name">delegate</span><span>(</span><span class="phpdocumentor-signature__argument"><span class="phpdocumentor-signature__argument__type">callable(): <abbr title="\Nette\Schema\Schema">Schema</abbr>&nbsp;</span><span class="phpdocumentor-signature__argument__name">$resolver</span></span><span class="phpdocumentor-signature__argument"><span>, </span><span class="phpdocumentor-signature__argument__type">bool&nbsp;</span><span class="phpdocumentor-signature__argument__name">$nullable</span></span><span class="phpdocumentor-signature__argument"><span>, </span><span class="phpdocumentor-signature__argument__type">bool&nbsp;</span><span class="phpdocumentor-signature__argument__name">$required</span></span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type"><abbr title="\Nette\Schema\Schema">Schema</abbr></span></code>
+
+    <div class="phpdocumentor-label-line">
+        </div>
+    
+    
+        <h5 class="phpdocumentor-argument-list__heading">Parameters</h5>
+    <dl class="phpdocumentor-argument-list">
+                    <dt class="phpdocumentor-argument-list__entry">
+                <span class="phpdocumentor-argument-list__argument__name">$resolver</span>
+                : <span class="phpdocumentor-argument-list__argument__type">callable(): <abbr title="\Nette\Schema\Schema">Schema</abbr></span>
+                            </dt>
+            <dd class="phpdocumentor-argument-list__definition">
+                
+            </dd>
+                    <dt class="phpdocumentor-argument-list__entry">
+                <span class="phpdocumentor-argument-list__argument__name">$nullable</span>
+                : <span class="phpdocumentor-argument-list__argument__type">bool</span>
+                            </dt>
+            <dd class="phpdocumentor-argument-list__definition">
+                
+            </dd>
+                    <dt class="phpdocumentor-argument-list__entry">
+                <span class="phpdocumentor-argument-list__argument__name">$required</span>
+                : <span class="phpdocumentor-argument-list__argument__type">bool</span>
+                            </dt>
+            <dd class="phpdocumentor-argument-list__definition">
+                
+            </dd>
+            </dl>
+
+    
+
+        
+    
+            <section>
+        <h5 class="phpdocumentor-return-value__heading">Return values</h5>
+        <span class="phpdocumentor-signature__response_type"><abbr title="\Nette\Schema\Schema">Schema</abbr></span>
+            </section>
+
+</article>
             </section>
 
         
@@ -1225,6 +1679,7 @@
                             <li class="phpdocumentor-on-this-page-section__title">Properties</li>
                 <li>
                     <ul class="phpdocumentor-list -clean">
+                                                    <li class=""><a href="classes/Cecil-Collection-Page-Schema.html#property_definition">$definition</a></li>
                                                     <li class=""><a href="classes/Cecil-Collection-Page-Schema.html#property_definitions">$definitions</a></li>
                                                     <li class=""><a href="classes/Cecil-Collection-Page-Schema.html#property_processor">$processor</a></li>
                                                     <li class=""><a href="classes/Cecil-Collection-Page-Schema.html#property_schemas">$schemas</a></li>
@@ -1236,17 +1691,23 @@
                 <ul class="phpdocumentor-list -clean">
                                             <li class=""><a href="classes/Cecil-Collection-Page-Schema.html#method___construct">__construct()</a></li>
                                             <li class=""><a href="classes/Cecil-Collection-Page-Schema.html#method_builtin">builtin()</a></li>
+                                            <li class=""><a href="classes/Cecil-Collection-Page-Schema.html#method_definition">definition()</a></li>
                                             <li class=""><a href="classes/Cecil-Collection-Page-Schema.html#method_getUserSchema">getUserSchema()</a></li>
                                             <li class=""><a href="classes/Cecil-Collection-Page-Schema.html#method_validate">validate()</a></li>
                                             <li class=""><a href="classes/Cecil-Collection-Page-Schema.html#method_bool">bool()</a></li>
                                             <li class=""><a href="classes/Cecil-Collection-Page-Schema.html#method_date">date()</a></li>
+                                            <li class=""><a href="classes/Cecil-Collection-Page-Schema.html#method_defaults">defaults()</a></li>
                                             <li class=""><a href="classes/Cecil-Collection-Page-Schema.html#method_field">field()</a></li>
                                             <li class=""><a href="classes/Cecil-Collection-Page-Schema.html#method_formatMessages">formatMessages()</a></li>
                                             <li class=""><a href="classes/Cecil-Collection-Page-Schema.html#method_getUserFields">getUserFields()</a></li>
+                                            <li class=""><a href="classes/Cecil-Collection-Page-Schema.html#method_lazy">lazy()</a></li>
+                                            <li class=""><a href="classes/Cecil-Collection-Page-Schema.html#method_nestedDefaults">nestedDefaults()</a></li>
                                             <li class=""><a href="classes/Cecil-Collection-Page-Schema.html#method_open">open()</a></li>
                                             <li class=""><a href="classes/Cecil-Collection-Page-Schema.html#method_range">range()</a></li>
+                                            <li class=""><a href="classes/Cecil-Collection-Page-Schema.html#method_strict">strict()</a></li>
                                             <li class=""><a href="classes/Cecil-Collection-Page-Schema.html#method_strings">strings()</a></li>
                                             <li class=""><a href="classes/Cecil-Collection-Page-Schema.html#method_type">type()</a></li>
+                                            <li class=""><a href="classes/Cecil-Collection-Page-Schema.html#method_delegate">delegate()</a></li>
                                     </ul>
             </li>
                     </ul>

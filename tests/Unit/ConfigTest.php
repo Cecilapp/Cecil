@@ -1300,4 +1300,50 @@ class ConfigTest extends TestCase
 
         new Config(['pages' => ['schema' => ['blog' => ['author' => ['type' => 'string', 'mandatory' => true]]]]]);
     }
+
+    public function testPagesSchemaAcceptsNestedDefinitions(): void
+    {
+        $images = [
+            'type'  => 'list',
+            'min'   => 1,
+            'items' => [
+                'type'   => 'map',
+                'fields' => [
+                    'file' => ['type' => 'string', 'required' => true, 'pattern' => '^[\w-]+\.(png|jpe?g|gif|webp)$'],
+                    'alt'  => ['type' => 'string', 'required' => true, 'min' => 20],
+                    'meta' => ['type' => 'map', 'fields' => ['tags' => ['type' => 'list', 'items' => 'string'], 'credit' => 'string']],
+                ],
+            ],
+        ];
+        $config = new Config(['pages' => ['schema' => ['illustrations' => ['images' => $images]]]]);
+
+        self::assertSame($images, $config->get('pages.schema.illustrations.images'));
+    }
+
+    public function testPagesSchemaRejectsInvalidNestedDefinition(): void
+    {
+        $this->expectException(ConfigException::class);
+        $this->expectExceptionMessage("'pages\u{a0}›\u{a0}schema\u{a0}›\u{a0}blog\u{a0}›\u{a0}author\u{a0}›\u{a0}fields\u{a0}›\u{a0}links\u{a0}›\u{a0}items\u{a0}›\u{a0}type'");
+
+        new Config(['pages' => ['schema' => ['blog' => ['author' => [
+            'type'   => 'map',
+            'fields' => ['links' => ['type' => 'list', 'items' => ['type' => 'url']]],
+        ]]]]]);
+    }
+
+    public function testPagesSchemaRejectsFieldsOnNonMap(): void
+    {
+        $this->expectException(ConfigException::class);
+        $this->expectExceptionMessage('the `fields` rule expects the `map` type');
+
+        new Config(['pages' => ['schema' => ['blog' => ['tags' => ['type' => 'list', 'fields' => ['name' => 'string']]]]]]);
+    }
+
+    public function testPagesSchemaRejectsRulesOnMapWithFields(): void
+    {
+        $this->expectException(ConfigException::class);
+        $this->expectExceptionMessage('rules are not allowed on a map with `fields`');
+
+        new Config(['pages' => ['schema' => ['blog' => ['author' => ['type' => 'map', 'max' => 2, 'fields' => ['name' => 'string']]]]]]);
+    }
 }
