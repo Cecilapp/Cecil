@@ -197,6 +197,8 @@ pages:
         max: 5
 ```
 
+La longueur d’une chaîne (règles `min` et `max`) est comptée en caractères, et non en octets.
+
 :::info
 Les schémas sont ouverts : les variables non déclarées sont autorisées. Les variables d’une section surchargent celles de `*`. Une variable facultative peut être vide (`null`).
 :::

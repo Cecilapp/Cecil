@@ -322,6 +322,13 @@ The structure of maps (<code class="prettyprint">fields</code>) and of list item
 <dd>Schema of a boolean: also accepts INI front matter values (&quot;1&quot; and &quot;&quot;).</dd>
 
             <dt class="phpdocumentor-table-of-contents__entry -method -protected">
+    <a class="" href="classes/Cecil-Collection-Page-Schema.html#method_checkRange">checkRange()</a>
+    <span>
+                                &nbsp;: mixed    </span>
+</dt>
+<dd>Checks that a number is in range, or that the length of a string (in characters) is in range.</dd>
+
+            <dt class="phpdocumentor-table-of-contents__entry -method -protected">
     <a class="" href="classes/Cecil-Collection-Page-Schema.html#method_date">date()</a>
     <span>
                                 &nbsp;: <abbr title="\Nette\Schema\Elements\Type">Type</abbr>    </span>
@@ -403,7 +410,7 @@ The structure of maps (<code class="prettyprint">fields</code>) and of list item
     <span>
                                 &nbsp;: void    </span>
 </dt>
-<dd>Applies `min` and `max` rules (value of a number, length of a string, count of a list).</dd>
+<dd>Applies `min` and `max` rules (value of a number, length of a string in characters, count of a list).</dd>
 
             <dt class="phpdocumentor-table-of-contents__entry -method -protected">
     <a class="" href="classes/Cecil-Collection-Page-Schema.html#method_strict">strict()</a>
@@ -936,7 +943,7 @@ The structure of maps (<code class="prettyprint">fields</code>) and of list item
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Collection/Page/Schema.php"><a href="files/src-collection-page-schema.html"><abbr title="src/Collection/Page/Schema.php">Schema.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">511</span>
+    <span class="phpdocumentor-element-found-in__line">543</span>
 
     </aside>
 
@@ -967,6 +974,72 @@ The structure of maps (<code class="prettyprint">fields</code>) and of list item
             -protected
                                     -static                    "
 >
+    <h4 class="phpdocumentor-element__name" id="method_checkRange">
+        checkRange()
+        <a href="classes/Cecil-Collection-Page-Schema.html#method_checkRange" class="headerlink"><i class="fas fa-link"></i></a>
+
+    </h4>
+    <aside class="phpdocumentor-element-found-in">
+    <abbr class="phpdocumentor-element-found-in__file" title="src/Collection/Page/Schema.php"><a href="files/src-collection-page-schema.html"><abbr title="src/Collection/Page/Schema.php">Schema.php</abbr></a></abbr>
+    :
+    <span class="phpdocumentor-element-found-in__line">420</span>
+
+    </aside>
+
+        <p class="phpdocumentor-summary">Checks that a number is in range, or that the length of a string (in characters) is in range.</p>
+
+    <code class="phpdocumentor-code phpdocumentor-signature ">
+    <span class="phpdocumentor-signature__visibility">protected</span>
+            <span class="phpdocumentor-signature__static">static</span>        <span class="phpdocumentor-signature__name">checkRange</span><span>(</span><span class="phpdocumentor-signature__argument"><span class="phpdocumentor-signature__argument__type">mixed&nbsp;</span><span class="phpdocumentor-signature__argument__name">$value</span></span><span class="phpdocumentor-signature__argument"><span>, </span><span class="phpdocumentor-signature__argument__type">float|null&nbsp;</span><span class="phpdocumentor-signature__argument__name">$min</span></span><span class="phpdocumentor-signature__argument"><span>, </span><span class="phpdocumentor-signature__argument__type">float|null&nbsp;</span><span class="phpdocumentor-signature__argument__name">$max</span></span><span class="phpdocumentor-signature__argument"><span>, </span><span class="phpdocumentor-signature__argument__type"><abbr title="\Nette\Schema\Context">Context</abbr>&nbsp;</span><span class="phpdocumentor-signature__argument__name">$context</span></span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">mixed</span></code>
+
+    <div class="phpdocumentor-label-line">
+        </div>
+    
+    
+        <h5 class="phpdocumentor-argument-list__heading">Parameters</h5>
+    <dl class="phpdocumentor-argument-list">
+                    <dt class="phpdocumentor-argument-list__entry">
+                <span class="phpdocumentor-argument-list__argument__name">$value</span>
+                : <span class="phpdocumentor-argument-list__argument__type">mixed</span>
+                            </dt>
+            <dd class="phpdocumentor-argument-list__definition">
+                
+            </dd>
+                    <dt class="phpdocumentor-argument-list__entry">
+                <span class="phpdocumentor-argument-list__argument__name">$min</span>
+                : <span class="phpdocumentor-argument-list__argument__type">float|null</span>
+                            </dt>
+            <dd class="phpdocumentor-argument-list__definition">
+                
+            </dd>
+                    <dt class="phpdocumentor-argument-list__entry">
+                <span class="phpdocumentor-argument-list__argument__name">$max</span>
+                : <span class="phpdocumentor-argument-list__argument__type">float|null</span>
+                            </dt>
+            <dd class="phpdocumentor-argument-list__definition">
+                
+            </dd>
+                    <dt class="phpdocumentor-argument-list__entry">
+                <span class="phpdocumentor-argument-list__argument__name">$context</span>
+                : <span class="phpdocumentor-argument-list__argument__type"><abbr title="\Nette\Schema\Context">Context</abbr></span>
+                            </dt>
+            <dd class="phpdocumentor-argument-list__definition">
+                
+            </dd>
+            </dl>
+
+    
+
+        
+    
+    
+</article>
+                    <article
+        class="phpdocumentor-element
+            -method
+            -protected
+                                    -static                    "
+>
     <h4 class="phpdocumentor-element__name" id="method_date">
         date()
         <a href="classes/Cecil-Collection-Page-Schema.html#method_date" class="headerlink"><i class="fas fa-link"></i></a>
@@ -975,7 +1048,7 @@ The structure of maps (<code class="prettyprint">fields</code>) and of list item
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Collection/Page/Schema.php"><a href="files/src-collection-page-schema.html"><abbr title="src/Collection/Page/Schema.php">Schema.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">495</span>
+    <span class="phpdocumentor-element-found-in__line">527</span>
 
     </aside>
 
@@ -1218,7 +1291,7 @@ The structure of maps (<code class="prettyprint">fields</code>) and of list item
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Collection/Page/Schema.php"><a href="files/src-collection-page-schema.html"><abbr title="src/Collection/Page/Schema.php">Schema.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">532</span>
+    <span class="phpdocumentor-element-found-in__line">564</span>
 
     </aside>
 
@@ -1316,7 +1389,7 @@ The structure of maps (<code class="prettyprint">fields</code>) and of list item
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Collection/Page/Schema.php"><a href="files/src-collection-page-schema.html"><abbr title="src/Collection/Page/Schema.php">Schema.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">425</span>
+    <span class="phpdocumentor-element-found-in__line">457</span>
 
     </aside>
 
@@ -1531,7 +1604,7 @@ The structure of maps (<code class="prettyprint">fields</code>) and of list item
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Collection/Page/Schema.php"><a href="files/src-collection-page-schema.html"><abbr title="src/Collection/Page/Schema.php">Schema.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">415</span>
+    <span class="phpdocumentor-element-found-in__line">447</span>
 
     </aside>
 
@@ -1584,7 +1657,7 @@ The structure of maps (<code class="prettyprint">fields</code>) and of list item
 
     </aside>
 
-        <p class="phpdocumentor-summary">Applies `min` and `max` rules (value of a number, length of a string, count of a list).</p>
+        <p class="phpdocumentor-summary">Applies `min` and `max` rules (value of a number, length of a string in characters, count of a list).</p>
 
     <code class="phpdocumentor-code phpdocumentor-signature ">
     <span class="phpdocumentor-signature__visibility">protected</span>
@@ -1632,7 +1705,7 @@ The structure of maps (<code class="prettyprint">fields</code>) and of list item
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Collection/Page/Schema.php"><a href="files/src-collection-page-schema.html"><abbr title="src/Collection/Page/Schema.php">Schema.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">434</span>
+    <span class="phpdocumentor-element-found-in__line">466</span>
 
     </aside>
 
@@ -1689,7 +1762,7 @@ The structure of maps (<code class="prettyprint">fields</code>) and of list item
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Collection/Page/Schema.php"><a href="files/src-collection-page-schema.html"><abbr title="src/Collection/Page/Schema.php">Schema.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">522</span>
+    <span class="phpdocumentor-element-found-in__line">554</span>
 
     </aside>
 
@@ -1784,7 +1857,7 @@ The structure of maps (<code class="prettyprint">fields</code>) and of list item
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Collection/Page/Schema.php"><a href="files/src-collection-page-schema.html"><abbr title="src/Collection/Page/Schema.php">Schema.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">444</span>
+    <span class="phpdocumentor-element-found-in__line">476</span>
 
     </aside>
 
@@ -1879,6 +1952,7 @@ The structure of maps (<code class="prettyprint">fields</code>) and of list item
                                             <li class=""><a href="classes/Cecil-Collection-Page-Schema.html#method_getUserSchema">getUserSchema()</a></li>
                                             <li class=""><a href="classes/Cecil-Collection-Page-Schema.html#method_validate">validate()</a></li>
                                             <li class=""><a href="classes/Cecil-Collection-Page-Schema.html#method_bool">bool()</a></li>
+                                            <li class=""><a href="classes/Cecil-Collection-Page-Schema.html#method_checkRange">checkRange()</a></li>
                                             <li class=""><a href="classes/Cecil-Collection-Page-Schema.html#method_date">date()</a></li>
                                             <li class=""><a href="classes/Cecil-Collection-Page-Schema.html#method_defaults">defaults()</a></li>
                                             <li class=""><a href="classes/Cecil-Collection-Page-Schema.html#method_field">field()</a></li>

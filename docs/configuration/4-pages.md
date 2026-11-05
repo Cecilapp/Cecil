@@ -197,6 +197,8 @@ pages:
         max: 5
 ```
 
+The length of a string (`min` and `max` rules) is counted in characters, not in bytes.
+
 :::info
 Schemas are open: variables that are not declared are allowed. Variables of a section override variables of `*`. An optional variable can be empty (`null`).
 :::

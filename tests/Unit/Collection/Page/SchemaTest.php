@@ -319,4 +319,27 @@ class SchemaTest extends TestCase
         $this->assertInvalid($schema, ['codes' => ['fr']], null, "'codes\u{a0}›\u{a0}0'");
         $this->assertInvalid($schema, ['codes' => []], null, "'codes'");
     }
+
+    public function testStringLengthIsCountedInCharacters(): void
+    {
+        $schema = new Schema(['*' => [
+            'alt'   => ['type' => 'string', 'min' => 5, 'max' => 10],
+            'code'  => ['type' => 'scalar', 'min' => 2, 'max' => 4],
+            'names' => ['type' => 'list', 'items' => 'string', 'min' => 1, 'max' => 2],
+        ]]);
+
+        // 5 characters, 15 bytes
+        self::assertSame(['alt' => '油すまし油'], $schema->validate(['alt' => '油すまし油']));
+        // 10 characters, 13 bytes
+        self::assertSame(['alt' => 'Éléphantée'], $schema->validate(['alt' => 'Éléphantée']));
+        $this->assertInvalid($schema, ['alt' => '油すまし'], null, "The length of variable 'alt' expects to be in range 5..10, 4 characters given.");
+        $this->assertInvalid($schema, ['alt' => 'Éléphantées'], null, "The length of variable 'alt' expects to be in range 5..10, 11 characters given.");
+        // a scalar: length of a string, value of a number
+        self::assertSame(['code' => 'été', 'names' => ['a', 'b']], $schema->validate(['code' => 'été', 'names' => ['a', 'b']]));
+        self::assertSame(['code' => 3], $schema->validate(['code' => 3]));
+        $this->assertInvalid($schema, ['code' => 'étés!'], null, "The length of variable 'code' expects to be in range 2..4, 5 characters given.");
+        $this->assertInvalid($schema, ['code' => 9], null, "The variable 'code' expects to be in range 2..4, 9 given.");
+        // a list: count of items
+        $this->assertInvalid($schema, ['names' => ['a', 'b', 'c']], null, "The length of variable 'names' expects to be in range 1..2, 3 items given.");
+    }
 }

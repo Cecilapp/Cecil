@@ -2193,8 +2193,13 @@ Search.appendIndex(
         },                {
             "fqsen": "\\Cecil\\Collection\\Page\\Schema\u003A\u003Arange\u0028\u0029",
             "name": "range",
-            "summary": "Applies\u0020\u0060min\u0060\u0020and\u0020\u0060max\u0060\u0020rules\u0020\u0028value\u0020of\u0020a\u0020number,\u0020length\u0020of\u0020a\u0020string,\u0020count\u0020of\u0020a\u0020list\u0029.",
+            "summary": "Applies\u0020\u0060min\u0060\u0020and\u0020\u0060max\u0060\u0020rules\u0020\u0028value\u0020of\u0020a\u0020number,\u0020length\u0020of\u0020a\u0020string\u0020in\u0020characters,\u0020count\u0020of\u0020a\u0020list\u0029.",
             "url": "classes/Cecil-Collection-Page-Schema.html#method_range"
+        },                {
+            "fqsen": "\\Cecil\\Collection\\Page\\Schema\u003A\u003AcheckRange\u0028\u0029",
+            "name": "checkRange",
+            "summary": "Checks\u0020that\u0020a\u0020number\u0020is\u0020in\u0020range,\u0020or\u0020that\u0020the\u0020length\u0020of\u0020a\u0020string\u0020\u0028in\u0020characters\u0029\u0020is\u0020in\u0020range.",
+            "url": "classes/Cecil-Collection-Page-Schema.html#method_checkRange"
         },                {
             "fqsen": "\\Cecil\\Collection\\Page\\Schema\u003A\u003Aopen\u0028\u0029",
             "name": "open",
