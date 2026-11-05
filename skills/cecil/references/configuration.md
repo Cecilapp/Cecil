@@ -129,7 +129,18 @@ pages:
       author: string               # type shorthand: string, int, number, bool, date, list, map, scalar or mixed
       category: {type: string, enum: [news, tutorial], default: news}
       tags: {type: list, items: string, max: 5}   # other rules: pattern, min
+    illustrations:
+      images:                      # list of maps: `items` is a type or a field definition, `fields` defines the variables of a map (recursive)
+        type: list
+        min: 1                     # count of items
+        items:
+          type: map
+          fields:
+            file: {type: string, required: true, pattern: '^[\w-]+\.(png|jpe?g|webp)$'}
+            alt: {type: string, required: true, min: 20}
 ```
+
+- With `items: <type>`, `enum`/`pattern` of the list apply to items; with `items: {…}`, only the rules of the definition apply to each item (never `null`). A `map` with `fields` is open and refuses `min`, `max`, `enum` and `pattern`. Nested `default` values are applied in defined maps only. Errors give the path from `0`: `images › 1 › alt`.
 
 - Predefined front matter variables (`date`, `menu`, `schedule`, `output`, etc.) are always checked by a built-in schema; user schemas are open (undeclared variables are allowed) and section fields override `*` fields.
 

@@ -33,6 +33,7 @@ use Nette\Schema\ValidationException;
  *  - the user schemas declared in the configuration (`pages.schema`), by section (`*` for all pages).
  *
  * Schemas are open: variables that are not declared are allowed.
+ * The structure of maps (`fields`) and of list items (`items`) can be validated recursively.
  */
 class Schema
 {
@@ -45,6 +46,9 @@ class Schema
      * Key of the user schema applied to all pages.
      */
     public const string ALL = '*';
+
+    /** Schema of a user field definition, used to validate the configuration */
+    protected static ?NetteSchema $definition = null;
 
     /** @var array<string, array<string, mixed>> User schemas definitions, indexed by section */
     protected array $definitions;
@@ -96,13 +100,42 @@ class Schema
         }
 
         // default values of the user schema
-        foreach ($this->getUserFields($section) as $name => $field) {
-            if (\is_array($field) && \array_key_exists('default', $field) && !\array_key_exists($name, $variables)) {
-                $variables[$name] = $field['default'];
-            }
-        }
+        return self::defaults($this->getUserFields($section), $variables);
+    }
 
-        return $variables;
+    /**
+     * Returns the schema of a user field definition (a type or a map of rules), used to validate the `pages.schema` configuration.
+     *
+     * The definition is recursive: `fields` of a map and `items` of a list are field definitions.
+     */
+    public static function definition(): NetteSchema
+    {
+        if (self::$definition !== null) {
+            return self::$definition;
+        }
+        // nested definitions are resolved when they are processed, as a schema can't contain itself
+        $nested = self::lazy(fn (): NetteSchema => self::definition());
+
+        return self::$definition = Expect::anyOf(
+            Expect::anyOf(...self::TYPES),
+            Expect::structure([
+                'type'     => Expect::anyOf(...self::TYPES),
+                'required' => Expect::bool(),
+                'enum'     => Expect::list(),
+                'pattern'  => Expect::string(),
+                'min'      => Expect::type('int|float'),
+                'max'      => Expect::type('int|float'),
+                'items'    => $nested,
+                'fields'   => Expect::arrayOf($nested, Expect::string()),
+                'default'  => Expect::mixed(),
+            ])->assert(
+                fn (object $rules): bool => empty($rules->fields) || ($rules->type ?? null) === 'map',
+                'the `fields` rule expects the `map` type'
+            )->assert(
+                fn (object $rules): bool => empty($rules->fields) || (!isset($rules->min) && !isset($rules->max) && empty($rules->enum) && !isset($rules->pattern)),
+                'the `min`, `max`, `enum` and `pattern` rules are not allowed on a map with `fields`'
+            )
+        );
     }
 
     /**
@@ -183,40 +216,148 @@ class Schema
     }
 
     /**
+     * Applies the default values of the given fields definitions to the variables, recursively.
+     *
+     * A nested default value is applied only if its map is defined (a missing map is not created).
+     *
+     * @param array<int|string, mixed> $fields
+     * @param array<int|string, mixed> $variables
+     *
+     * @return array<int|string, mixed>
+     *
+     * @phpstan-template TKey of array-key
+     *
+     * @phpstan-param array<TKey, mixed> $fields
+     * @phpstan-param array<TKey, mixed> $variables
+     *
+     * @phpstan-return array<TKey, mixed>
+     */
+    protected static function defaults(array $fields, array $variables): array
+    {
+        foreach ($fields as $name => $field) {
+            if (!\is_array($field)) {
+                continue;
+            }
+            if (!\array_key_exists($name, $variables)) {
+                if (\array_key_exists('default', $field)) {
+                    $variables[$name] = $field['default'];
+                }
+                continue;
+            }
+            $variables[$name] = self::nestedDefaults($field, $variables[$name]);
+        }
+
+        return $variables;
+    }
+
+    /**
+     * Applies the default values of the nested fields (`fields` of a map, `fields` of the items of a list) to a value.
+     *
+     * @param array<string, mixed> $field
+     */
+    protected static function nestedDefaults(array $field, mixed $value): mixed
+    {
+        if (!\is_array($value)) {
+            return $value;
+        }
+        if (!empty($fields = self::fields($field))) {
+            return self::defaults($fields, $value);
+        }
+        if (($field['type'] ?? 'mixed') === 'list' && isset($field['items']) && \is_array($field['items'])) {
+            foreach ($value as $key => $item) {
+                $value[$key] = self::nestedDefaults($field['items'], $item);
+            }
+        }
+
+        return $value;
+    }
+
+    /**
      * Builds the schema of a user field.
      *
      * A field is defined by its type (`author: string`), or by a map of rules:
-     * `type`, `required`, `enum`, `pattern`, `min`, `max`, `items` (type of list items) and `default`.
+     * `type`, `required`, `enum`, `pattern`, `min`, `max`, `fields` (fields of a map),
+     * `items` (type or field definition of the items of a list) and `default`.
+     *
+     * A list item (`$item`) can't be empty (`null`), and the `required` rule doesn't apply to it.
      *
      * @param string|array<string, mixed>|null $field
      */
-    protected static function field(string|array|null $field): NetteSchema
+    protected static function field(string|array|null $field, bool $item = false): NetteSchema
     {
         if (!\is_array($field)) {
             $field = ['type' => $field];
         }
         $type = (string) ($field['type'] ?? 'mixed');
-        $required = (bool) ($field['required'] ?? false);
+        $required = !$item && (bool) ($field['required'] ?? false);
 
-        if ($type === 'list') {
-            // `enum` and `pattern` rules apply to items, `min` and `max` rules apply to the count of items
-            $schema = isset($field['items'])
-                ? Expect::listOf(self::type((string) $field['items'], array_diff_key($field, ['min' => 0, 'max' => 0])))
-                : Expect::list();
-            self::range($schema, $field);
-        } else {
-            $schema = self::type($type, $field);
-            self::range($schema, $field);
+        // map with fields: an open structure (`min`, `max`, `enum` and `pattern` rules don't apply)
+        if (!empty($fields = self::fields($field))) {
+            return self::map($fields, $item, $required);
+        }
+
+        // `min` and `max` rules apply to the count of items of a list
+        $schema = $type === 'list' ? self::list($field) : self::type($type, $field);
+        self::range($schema, $field);
+        if ($item) {
+            return $schema;
         }
         if ($required) {
-            $schema->required();
-        }
-        // optional fields can be empty
-        if (!$required && $type !== 'mixed') {
-            $schema->nullable();
+            return $schema->required();
         }
 
-        return $schema;
+        // optional fields can be empty
+        return $type === 'mixed' ? $schema : $schema->nullable();
+    }
+
+    /**
+     * Returns the fields definitions of a map field (`fields` rule), or an empty array.
+     *
+     * @param array<string, mixed> $field
+     *
+     * @return array<string, mixed>
+     */
+    protected static function fields(array $field): array
+    {
+        $fields = $field['fields'] ?? null;
+
+        return ($field['type'] ?? null) === 'map' && \is_array($fields) ? $fields : [];
+    }
+
+    /**
+     * Builds the schema of a map with fields: an open structure.
+     *
+     * An optional map can be empty (`null`), a required map or a list item can't.
+     *
+     * @param array<string, mixed> $fields
+     */
+    protected static function map(array $fields, bool $item, bool $required): NetteSchema
+    {
+        $schema = self::open(array_map(fn ($nested) => self::field($nested), $fields));
+        if ($item || $required) {
+            return self::strict($schema, $required);
+        }
+
+        return Expect::anyOf($schema, null);
+    }
+
+    /**
+     * Builds the schema of a list, with the type or the field definition of its items.
+     *
+     * @param array<string, mixed> $field
+     */
+    protected static function list(array $field): SchemaType
+    {
+        // field definition of items: only its own rules apply to items
+        if (\is_array($field['items'] ?? null)) {
+            return Expect::listOf(self::field($field['items'], true));
+        }
+        // type of items: `enum` and `pattern` rules apply to items
+        if (isset($field['items'])) {
+            return Expect::listOf(self::type((string) $field['items'], array_diff_key($field, ['min' => 0, 'max' => 0])));
+        }
+
+        return Expect::list();
     }
 
     /**
@@ -306,6 +447,78 @@ class Schema
     protected static function open(array $items): Structure
     {
         return Expect::structure($items)->otherItems(Expect::mixed());
+    }
+
+    /**
+     * Returns a schema that delegates to the schema returned by the resolver when it is processed (allows recursive schemas).
+     *
+     * @param \Closure(): NetteSchema $resolver
+     */
+    protected static function lazy(\Closure $resolver): NetteSchema
+    {
+        return self::delegate($resolver, nullable: true, required: false);
+    }
+
+    /**
+     * Returns a structure schema that rejects `null` and, if required, a missing value
+     * (a structure validates `null` or a missing value as an empty array).
+     */
+    protected static function strict(Structure $schema, bool $required = false): NetteSchema
+    {
+        return self::delegate(fn (): NetteSchema => $schema, nullable: false, required: $required);
+    }
+
+    /**
+     * Returns a schema that delegates to the schema returned by the resolver when it is processed.
+     *
+     * @param \Closure(): NetteSchema $resolver
+     */
+    private static function delegate(\Closure $resolver, bool $nullable, bool $required): NetteSchema
+    {
+        return new class ($resolver, $nullable, $required) implements NetteSchema {
+            /**
+             * @param \Closure(): NetteSchema $resolver
+             */
+            public function __construct(private \Closure $resolver, private bool $nullable, private bool $required)
+            {
+            }
+
+            public function normalize(mixed $value, Context $context): mixed
+            {
+                return ($this->resolver)()->normalize($value, $context);
+            }
+
+            public function merge(mixed $value, mixed $base): mixed
+            {
+                return ($this->resolver)()->merge($value, $base);
+            }
+
+            public function complete(mixed $value, Context $context): mixed
+            {
+                if ($value === null && !$this->nullable) {
+                    $context->addError(
+                        'The %label% %path% expects to be %expected%, %value% given.',
+                        Message::TypeMismatch,
+                        ['value' => $value, 'expected' => 'array']
+                    );
+
+                    return null;
+                }
+
+                return ($this->resolver)()->complete($value, $context);
+            }
+
+            public function completeDefault(Context $context): mixed
+            {
+                if ($this->required) {
+                    $context->addError('The mandatory item %path% is missing.', Message::MissingItem);
+
+                    return null;
+                }
+
+                return ($this->resolver)()->completeDefault($context);
+            }
+        };
     }
 
     /**

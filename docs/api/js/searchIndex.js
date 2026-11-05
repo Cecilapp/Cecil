@@ -2136,6 +2136,11 @@ Search.appendIndex(
             "summary": "Validates\u0020front\u0020matter\u0020variables\u0020and\u0020returns\u0020them,\u0020completed\u0020with\u0020the\u0020default\u0020values\u0020of\u0020the\u0020user\u0020schema.",
             "url": "classes/Cecil-Collection-Page-Schema.html#method_validate"
         },                {
+            "fqsen": "\\Cecil\\Collection\\Page\\Schema\u003A\u003A\u0024definition",
+            "name": "definition",
+            "summary": "Schema\u0020of\u0020a\u0020user\u0020field\u0020definition,\u0020used\u0020to\u0020validate\u0020the\u0020configuration",
+            "url": "classes/Cecil-Collection-Page-Schema.html#property_definition"
+        },                {
             "fqsen": "\\Cecil\\Collection\\Page\\Schema\u003A\u003Abuiltin\u0028\u0029",
             "name": "builtin",
             "summary": "Returns\u0020the\u0020built\u002Din\u0020schema\u0020of\u0020predefined\u0020variables.",
@@ -2151,10 +2156,35 @@ Search.appendIndex(
             "summary": "Returns\u0020the\u0020user\u0020fields\u0020definitions\u0020of\u0020the\u0020given\u0020section\u003A\u0020fields\u0020of\u0020all\u0020pages\u0020\u0028\u0060\u002A\u0060\u0029,\u0020overridden\u0020by\u0020the\u0020fields\u0020of\u0020the\u0020section.",
             "url": "classes/Cecil-Collection-Page-Schema.html#method_getUserFields"
         },                {
+            "fqsen": "\\Cecil\\Collection\\Page\\Schema\u003A\u003Adefaults\u0028\u0029",
+            "name": "defaults",
+            "summary": "Applies\u0020the\u0020default\u0020values\u0020of\u0020the\u0020given\u0020fields\u0020definitions\u0020to\u0020the\u0020variables,\u0020recursively.",
+            "url": "classes/Cecil-Collection-Page-Schema.html#method_defaults"
+        },                {
+            "fqsen": "\\Cecil\\Collection\\Page\\Schema\u003A\u003AnestedDefaults\u0028\u0029",
+            "name": "nestedDefaults",
+            "summary": "Applies\u0020the\u0020default\u0020values\u0020of\u0020the\u0020nested\u0020fields\u0020\u0028\u0060fields\u0060\u0020of\u0020a\u0020map,\u0020\u0060fields\u0060\u0020of\u0020the\u0020items\u0020of\u0020a\u0020list\u0029\u0020to\u0020a\u0020value.",
+            "url": "classes/Cecil-Collection-Page-Schema.html#method_nestedDefaults"
+        },                {
             "fqsen": "\\Cecil\\Collection\\Page\\Schema\u003A\u003Afield\u0028\u0029",
             "name": "field",
             "summary": "Builds\u0020the\u0020schema\u0020of\u0020a\u0020user\u0020field.",
             "url": "classes/Cecil-Collection-Page-Schema.html#method_field"
+        },                {
+            "fqsen": "\\Cecil\\Collection\\Page\\Schema\u003A\u003Afields\u0028\u0029",
+            "name": "fields",
+            "summary": "Returns\u0020the\u0020fields\u0020definitions\u0020of\u0020a\u0020map\u0020field\u0020\u0028\u0060fields\u0060\u0020rule\u0029,\u0020or\u0020an\u0020empty\u0020array.",
+            "url": "classes/Cecil-Collection-Page-Schema.html#method_fields"
+        },                {
+            "fqsen": "\\Cecil\\Collection\\Page\\Schema\u003A\u003Amap\u0028\u0029",
+            "name": "map",
+            "summary": "Builds\u0020the\u0020schema\u0020of\u0020a\u0020map\u0020with\u0020fields\u003A\u0020an\u0020open\u0020structure.",
+            "url": "classes/Cecil-Collection-Page-Schema.html#method_map"
+        },                {
+            "fqsen": "\\Cecil\\Collection\\Page\\Schema\u003A\u003Alist\u0028\u0029",
+            "name": "list",
+            "summary": "Builds\u0020the\u0020schema\u0020of\u0020a\u0020list,\u0020with\u0020the\u0020type\u0020or\u0020the\u0020field\u0020definition\u0020of\u0020its\u0020items.",
+            "url": "classes/Cecil-Collection-Page-Schema.html#method_list"
         },                {
             "fqsen": "\\Cecil\\Collection\\Page\\Schema\u003A\u003Atype\u0028\u0029",
             "name": "type",
@@ -2175,6 +2205,21 @@ Search.appendIndex(
             "name": "open",
             "summary": "Returns\u0020an\u0020open\u0020structure\u0020schema\u003A\u0020declared\u0020items\u0020are\u0020validated,\u0020other\u0020items\u0020are\u0020allowed.",
             "url": "classes/Cecil-Collection-Page-Schema.html#method_open"
+        },                {
+            "fqsen": "\\Cecil\\Collection\\Page\\Schema\u003A\u003Alazy\u0028\u0029",
+            "name": "lazy",
+            "summary": "Returns\u0020a\u0020schema\u0020that\u0020delegates\u0020to\u0020the\u0020schema\u0020returned\u0020by\u0020the\u0020resolver\u0020when\u0020it\u0020is\u0020processed\u0020\u0028allows\u0020recursive\u0020schemas\u0029.",
+            "url": "classes/Cecil-Collection-Page-Schema.html#method_lazy"
+        },                {
+            "fqsen": "\\Cecil\\Collection\\Page\\Schema\u003A\u003Astrict\u0028\u0029",
+            "name": "strict",
+            "summary": "Returns\u0020a\u0020structure\u0020schema\u0020that\u0020rejects\u0020\u0060null\u0060\u0020and,\u0020if\u0020required,\u0020a\u0020missing\u0020value\n\u0028a\u0020structure\u0020validates\u0020\u0060null\u0060\u0020or\u0020a\u0020missing\u0020value\u0020as\u0020an\u0020empty\u0020array\u0029.",
+            "url": "classes/Cecil-Collection-Page-Schema.html#method_strict"
+        },                {
+            "fqsen": "\\Cecil\\Collection\\Page\\Schema\u003A\u003Adelegate\u0028\u0029",
+            "name": "delegate",
+            "summary": "Returns\u0020a\u0020schema\u0020that\u0020delegates\u0020to\u0020the\u0020schema\u0020returned\u0020by\u0020the\u0020resolver\u0020when\u0020it\u0020is\u0020processed.",
+            "url": "classes/Cecil-Collection-Page-Schema.html#method_delegate"
         },                {
             "fqsen": "\\Cecil\\Collection\\Page\\Schema\u003A\u003Adate\u0028\u0029",
             "name": "date",

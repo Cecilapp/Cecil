@@ -2,6 +2,21 @@
 
 All notable changes to this project will be documented in this file. Dates are displayed in UTC.
 
+#### [9.27.0](https://github.com/Cecilapp/Cecil/compare/9.26.1...9.27.0)
+
+> 5 November 2026
+
+- feat(pages): validate front matter against a schema [`#2583`](https://github.com/Cecilapp/Cecil/pull/2583)
+- chore(deps): bump DavidAnson/markdownlint-cli2-action from 24 to 25 [`#2568`](https://github.com/Cecilapp/Cecil/pull/2568)
+- feat(config): extend schema validation of configuration [`#2582`](https://github.com/Cecilapp/Cecil/pull/2582)
+- chore(deps): bump intervention/image from 4.4.0 to 4.4.1 [`#2581`](https://github.com/Cecilapp/Cecil/pull/2581)
+- chore(deps): bump james-heinrich/getid3 from 1.9.27 to 1.9.28 [`#2580`](https://github.com/Cecilapp/Cecil/pull/2580)
+- chore(deps-dev): bump ergebnis/composer-normalize from 2.54.0 to 2.56.0 [`#2579`](https://github.com/Cecilapp/Cecil/pull/2579)
+- chore(deps): bump symfony/polyfill-intl-icu from 1.43.0 to 1.43.3 [`#2578`](https://github.com/Cecilapp/Cecil/pull/2578)
+- chore(deps-dev): bump phpstan/phpstan from 2.3.2 to 2.3.4 [`#2577`](https://github.com/Cecilapp/Cecil/pull/2577)
+- docs: move the Deploy section to the website [`#2576`](https://github.com/Cecilapp/Cecil/pull/2576)
+- chore(deps): update composer dependencies [`110dc06`](https://github.com/Cecilapp/Cecil/commit/110dc06bf7e19b94f32ce4ba3fc7d5aa8ede1831)
+
 #### [9.26.1](https://github.com/Cecilapp/Cecil/compare/9.26.0...9.26.1)
 
 > 31 October 2026
