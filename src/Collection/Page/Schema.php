@@ -16,6 +16,7 @@ namespace Cecil\Collection\Page;
 use Cecil\Config;
 use Cecil\Exception\FrontmatterException;
 use Cecil\Util;
+use Nette\Schema\Context;
 use Nette\Schema\Elements\Structure;
 use Nette\Schema\Elements\Type as SchemaType;
 use Nette\Schema\Expect;
@@ -251,18 +252,50 @@ class Schema
     }
 
     /**
-     * Applies `min` and `max` rules (value of a number, length of a string, count of a list).
+     * Applies `min` and `max` rules (value of a number, length of a string in characters, count of a list).
      *
      * @param array<string, mixed> $rules
      */
     protected static function range(SchemaType $schema, array $rules): void
     {
-        if (isset($rules['min'])) {
-            $schema->min((float) $rules['min']);
+        $min = isset($rules['min']) ? (float) $rules['min'] : null;
+        $max = isset($rules['max']) ? (float) $rules['max'] : null;
+        if ($min === null && $max === null) {
+            return;
         }
-        if (isset($rules['max'])) {
-            $schema->max((float) $rules['max']);
+        // the length of a string is checked in characters (Nette checks it in bytes)
+        if (\in_array($rules['type'] ?? null, ['string', 'scalar'], true)) {
+            $schema->transform(fn (mixed $value, Context $context): mixed => self::checkRange($value, $min, $max, $context));
+
+            return;
         }
+        $schema->min($min);
+        $schema->max($max);
+    }
+
+    /**
+     * Checks that a number is in range, or that the length of a string (in characters) is in range.
+     */
+    protected static function checkRange(mixed $value, ?float $min, ?float $max, Context $context): mixed
+    {
+        $inRange = fn (int|float $number): bool => ($min === null || $number >= $min) && ($max === null || $number <= $max);
+        $expected = implode('..', [$min, $max]);
+        if (\is_string($value) && !$inRange($length = mb_strlen($value))) {
+            $context->addError(
+                'The length of %label% %path% expects to be in range %expected%, %length% characters given.',
+                Message::LengthOutOfRange,
+                ['value' => $value, 'length' => $length, 'expected' => $expected]
+            );
+        }
+        if ((\is_int($value) || \is_float($value)) && !$inRange($value)) {
+            $context->addError(
+                'The %label% %path% expects to be in range %expected%, %value% given.',
+                Message::ValueOutOfRange,
+                ['value' => $value, 'expected' => $expected]
+            );
+        }
+
+        return $value;
     }
 
     /**

@@ -2,7 +2,7 @@
 title: "Pages"
 description: "Dossier des pages, tri, pagination, chemins, corps, pages par défaut, générateurs, etc."
 date: 2026-03-27
-updated: 2026-11-04
+updated: 2026-11-05
 -->
 # Pages
 
@@ -195,6 +195,8 @@ pages:
         items: string
         max: 5
 ```
+
+La longueur d’une chaîne (règles `min` et `max`) est comptée en caractères, et non en octets.
 
 :::info
 Les schémas sont ouverts : les variables non déclarées sont autorisées. Les variables d’une section surchargent celles de `*`. Une variable facultative peut être vide (`null`).

@@ -2,7 +2,7 @@
 title: "Pages"
 description: "Pages directory, sorting, pagination, paths, body, default pages, generators, etc."
 date: 2021-05-07
-updated: 2026-11-04
+updated: 2026-11-05
 -->
 # Pages
 
@@ -195,6 +195,8 @@ pages:
         items: string
         max: 5
 ```
+
+The length of a string (`min` and `max` rules) is counted in characters, not in bytes.
 
 :::info
 Schemas are open: variables that are not declared are allowed. Variables of a section override variables of `*`. An optional variable can be empty (`null`).
