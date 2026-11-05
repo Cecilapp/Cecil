@@ -315,7 +315,7 @@ class Schema
      *
      * @param array<string, mixed> $field
      *
-     * @return array<int|string, mixed>
+     * @return array<string, mixed>
      */
     protected static function fields(array $field): array
     {
@@ -329,7 +329,7 @@ class Schema
      *
      * An optional map can be empty (`null`), a required map or a list item can't.
      *
-     * @param array<int|string, mixed> $fields
+     * @param array<string, mixed> $fields
      */
     protected static function map(array $fields, bool $item, bool $required): NetteSchema
     {
