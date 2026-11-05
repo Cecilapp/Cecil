@@ -2171,6 +2171,21 @@ Search.appendIndex(
             "summary": "Builds\u0020the\u0020schema\u0020of\u0020a\u0020user\u0020field.",
             "url": "classes/Cecil-Collection-Page-Schema.html#method_field"
         },                {
+            "fqsen": "\\Cecil\\Collection\\Page\\Schema\u003A\u003Afields\u0028\u0029",
+            "name": "fields",
+            "summary": "Returns\u0020the\u0020fields\u0020definitions\u0020of\u0020a\u0020map\u0020field\u0020\u0028\u0060fields\u0060\u0020rule\u0029,\u0020or\u0020an\u0020empty\u0020array.",
+            "url": "classes/Cecil-Collection-Page-Schema.html#method_fields"
+        },                {
+            "fqsen": "\\Cecil\\Collection\\Page\\Schema\u003A\u003Amap\u0028\u0029",
+            "name": "map",
+            "summary": "Builds\u0020the\u0020schema\u0020of\u0020a\u0020map\u0020with\u0020fields\u003A\u0020an\u0020open\u0020structure.",
+            "url": "classes/Cecil-Collection-Page-Schema.html#method_map"
+        },                {
+            "fqsen": "\\Cecil\\Collection\\Page\\Schema\u003A\u003Alist\u0028\u0029",
+            "name": "list",
+            "summary": "Builds\u0020the\u0020schema\u0020of\u0020a\u0020list,\u0020with\u0020the\u0020type\u0020or\u0020the\u0020field\u0020definition\u0020of\u0020its\u0020items.",
+            "url": "classes/Cecil-Collection-Page-Schema.html#method_list"
+        },                {
             "fqsen": "\\Cecil\\Collection\\Page\\Schema\u003A\u003Atype\u0028\u0029",
             "name": "type",
             "summary": "Builds\u0020the\u0020schema\u0020of\u0020a\u0020type,\u0020with\u0020the\u0020\u0060enum\u0060\u0020and\u0020\u0060pattern\u0060\u0020rules.",

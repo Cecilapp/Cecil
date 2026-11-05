@@ -260,11 +260,10 @@ class Schema
         if (!\is_array($value)) {
             return $value;
         }
-        $type = $field['type'] ?? 'mixed';
-        if ($type === 'map' && !empty($field['fields']) && \is_array($field['fields'])) {
-            return self::defaults($field['fields'], $value);
+        if (!empty($fields = self::fields($field))) {
+            return self::defaults($fields, $value);
         }
-        if ($type === 'list' && isset($field['items']) && \is_array($field['items'])) {
+        if (($field['type'] ?? 'mixed') === 'list' && isset($field['items']) && \is_array($field['items'])) {
             foreach ($value as $key => $item) {
                 $value[$key] = self::nestedDefaults($field['items'], $item);
             }
@@ -293,42 +292,72 @@ class Schema
         $required = !$item && (bool) ($field['required'] ?? false);
 
         // map with fields: an open structure (`min`, `max`, `enum` and `pattern` rules don't apply)
-        if ($type === 'map' && !empty($field['fields']) && \is_array($field['fields'])) {
-            $schema = self::open(array_map(fn ($nested) => self::field($nested), $field['fields']));
-            if ($required) {
-                return self::strict($schema, required: true);
-            }
-
-            // optional fields can be empty, list items can't
-            return $item ? self::strict($schema) : Expect::anyOf($schema, null);
+        if (!empty($fields = self::fields($field))) {
+            return self::map($fields, $item, $required);
         }
 
-        if ($type === 'list') {
-            // `min` and `max` rules apply to the count of items
-            $schema = match (true) {
-                // field definition of items: only its own rules apply to items
-                \is_array($field['items'] ?? null) => Expect::listOf(self::field($field['items'], true)),
-                // type of items: `enum` and `pattern` rules apply to items
-                isset($field['items']) => Expect::listOf(self::type((string) $field['items'], array_diff_key($field, ['min' => 0, 'max' => 0]))),
-                default => Expect::list(),
-            };
-            self::range($schema, $field);
-        } else {
-            $schema = self::type($type, $field);
-            self::range($schema, $field);
-        }
+        // `min` and `max` rules apply to the count of items of a list
+        $schema = $type === 'list' ? self::list($field) : self::type($type, $field);
+        self::range($schema, $field);
         if ($item) {
             return $schema;
         }
         if ($required) {
-            $schema->required();
-        }
-        // optional fields can be empty
-        if (!$required && $type !== 'mixed') {
-            $schema->nullable();
+            return $schema->required();
         }
 
-        return $schema;
+        // optional fields can be empty
+        return $type === 'mixed' ? $schema : $schema->nullable();
+    }
+
+    /**
+     * Returns the fields definitions of a map field (`fields` rule), or an empty array.
+     *
+     * @param array<string, mixed> $field
+     *
+     * @return array<int|string, mixed>
+     */
+    protected static function fields(array $field): array
+    {
+        $fields = $field['fields'] ?? null;
+
+        return ($field['type'] ?? null) === 'map' && \is_array($fields) ? $fields : [];
+    }
+
+    /**
+     * Builds the schema of a map with fields: an open structure.
+     *
+     * An optional map can be empty (`null`), a required map or a list item can't.
+     *
+     * @param array<int|string, mixed> $fields
+     */
+    protected static function map(array $fields, bool $item, bool $required): NetteSchema
+    {
+        $schema = self::open(array_map(fn ($nested) => self::field($nested), $fields));
+        if ($item || $required) {
+            return self::strict($schema, $required);
+        }
+
+        return Expect::anyOf($schema, null);
+    }
+
+    /**
+     * Builds the schema of a list, with the type or the field definition of its items.
+     *
+     * @param array<string, mixed> $field
+     */
+    protected static function list(array $field): SchemaType
+    {
+        // field definition of items: only its own rules apply to items
+        if (\is_array($field['items'] ?? null)) {
+            return Expect::listOf(self::field($field['items'], true));
+        }
+        // type of items: `enum` and `pattern` rules apply to items
+        if (isset($field['items'])) {
+            return Expect::listOf(self::type((string) $field['items'], array_diff_key($field, ['min' => 0, 'max' => 0])));
+        }
+
+        return Expect::list();
     }
 
     /**
