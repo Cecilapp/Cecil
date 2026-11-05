@@ -2,7 +2,7 @@
 title: "Pages"
 description: "Dossier des pages, tri, pagination, chemins, corps, pages par défaut, générateurs, etc."
 date: 2026-03-27
-updated: 2026-11-04
+updated: 2026-11-05
 -->
 # Pages
 
@@ -168,9 +168,10 @@ Chaque variable est définie par son type, ou par un ensemble de règles :
 | `required` | La variable doit être définie (`false` par défaut).                                         |
 | `enum`     | Liste des valeurs autorisées.                                                               |
 | `pattern`  | Expression régulière que la valeur doit respecter (`string` et `scalar`).                   |
-| `min`      | Valeur (`int`, `number`), longueur (`string`) ou nombre d’éléments (`list`) minimum.        |
-| `max`      | Valeur (`int`, `number`), longueur (`string`) ou nombre d’éléments (`list`) maximum.        |
-| `items`    | Type des éléments d’une `list` (`enum` et `pattern` s’appliquent aux éléments).             |
+| `min`      | Valeur (`int`, `number`), longueur (`string`) ou nombre d’éléments (`list`, `map`) minimum. |
+| `max`      | Valeur (`int`, `number`), longueur (`string`) ou nombre d’éléments (`list`, `map`) maximum. |
+| `items`    | Type ou définition des éléments d’une `list` (voir [listes et maps](#listes-et-maps)).      |
+| `fields`   | Définitions des variables d’une `map` (voir [listes et maps](#listes-et-maps)).             |
 | `default`  | Valeur appliquée lorsque la variable n’est pas définie.                                     |
 
 ```yaml
@@ -199,6 +200,40 @@ pages:
 :::info
 Les schémas sont ouverts : les variables non déclarées sont autorisées. Les variables d’une section surchargent celles de `*`. Une variable facultative peut être vide (`null`).
 :::
+
+### Listes et maps
+
+La structure d’une `map` et des éléments d’une `list` peut être validée, à toute profondeur :
+
+- `fields` : définitions des variables d’une `map`, avec la même syntaxe que les variables d’une page (raccourci de type ou ensemble de règles, `fields` et `items` compris). Comme une page, une map est ouverte : les variables non déclarées sont autorisées.
+- `items` : le type des éléments (`items: string`), ou la définition des éléments (`items: {type: map, fields: …}`).
+
+Portée des règles :
+
+- Avec un type d’éléments (`items: string`), les règles `enum` et `pattern` de la liste s’appliquent à ses éléments.
+- Avec une définition d’éléments, seules les règles de cette définition s’appliquent aux éléments (`min` et `max` de la définition s’appliquent à chaque élément : longueur d’une chaîne, valeur d’un nombre, etc.). Un élément ne peut pas être vide (`null`), sauf avec `items: mixed`, et les règles `required` et `default` ne s’appliquent pas aux éléments.
+- Les règles `min` et `max` d’une liste s’appliquent à son nombre d’éléments.
+- Une `map` avec `fields` n’accepte pas les règles `min`, `max`, `enum` et `pattern` (sans `fields`, `min` et `max` s’appliquent à son nombre de variables).
+- La valeur `default` d’une variable d’une map est appliquée lorsque la map est définie mais pas la variable (une map absente n’est pas créée), y compris dans chaque élément d’une liste.
+
+Exemple : chaque image d’une illustration doit avoir un nom de fichier et un texte alternatif d’au moins 20 caractères.
+
+```yaml
+pages:
+  schema:
+    illustrations:
+      description: {type: string, required: true}
+      images:
+        type: list
+        min: 1
+        items:
+          type: map
+          fields:
+            file: {type: string, required: true, pattern: '^[\w-]+\.(png|jpe?g|gif|webp)$'}
+            alt: {type: string, required: true, min: 20}
+```
+
+Une erreur donne le chemin de la variable invalide, à partir de `0` pour le premier élément d’une liste : `The mandatory variable 'images › 1 › alt' is missing.` (texte alternatif de la deuxième image).
 
 ## pages.converter
 
