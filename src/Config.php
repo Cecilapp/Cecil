@@ -163,6 +163,10 @@ class Config
         // deprecated options are checked before merging, to report their actual source
         Deprecations::check($config, $source);
         Deprecations::check($this->getEnvConfig(), 'environment variables', true);
+        // `theme: <name>` shorthand: imported as a list, so the themes required by a theme can be added to it
+        if (\is_string($config['theme'] ?? null) && $config['theme'] !== '') {
+            $config['theme'] = [$config['theme']];
+        }
         if ($mode === self::IMPORT_PRESERVE) {
             $this->themes = Merger::merge($config, $this->themes, self::IMPORT_PRESERVE);
         } else {
@@ -605,7 +609,9 @@ class Config
         if ($themes = $this->getTheme()) {
             foreach ($themes as $theme) {
                 if (!Util\File::getFS()->exists($this->getThemeDirPath($theme, 'layouts')) && !Util\File::getFS()->exists(Util::joinFile($this->getThemesPath(), $theme, 'config.yml'))) {
-                    throw new ConfigException(\sprintf('Theme "%s" not found. Did you forgot to install it?', $theme));
+                    $requirer = $this->getThemeRequirer($theme);
+
+                    throw new ConfigException(\sprintf('Theme "%s"%s not found. Did you forgot to install it?', $theme, $requirer !== null ? \sprintf(' (required by theme "%s")', $requirer) : ''));
                 }
             }
 
@@ -613,6 +619,29 @@ class Config
         }
 
         return false;
+    }
+
+    /**
+     * Returns the name of the theme requiring a theme (in the `theme` option of its configuration),
+     * or null if the theme is set by the site configuration.
+     */
+    private function getThemeRequirer(string $theme): ?string
+    {
+        if (\in_array($theme, (array) ($this->site['theme'] ?? []), true)) {
+            return null;
+        }
+        foreach ($this->getTheme() ?? [] as $name) {
+            try {
+                $config = self::loadFile(Util::joinFile($this->getThemesPath(), $name, 'config.yml'), true);
+            } catch (ConfigException) {
+                continue;
+            }
+            if ($name !== $theme && \in_array($theme, (array) ($config['theme'] ?? []), true)) {
+                return $name;
+            }
+        }
+
+        return null;
     }
 
     /**

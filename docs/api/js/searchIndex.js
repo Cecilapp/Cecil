@@ -693,7 +693,7 @@ Search.appendIndex(
         },                {
             "fqsen": "\\Cecil\\Builder\u003A\u003AimportThemesConfig\u0028\u0029",
             "name": "importThemesConfig",
-            "summary": "Import\u0020themes\u0020configuration.",
+            "summary": "Import\u0020themes\u0020configuration,\u0020including\u0020the\u0020themes\u0020required\u0020by\u0020a\u0020theme\u0020\u0028\u0060theme\u0060\u0020option\u0020of\u0020its\u0020configuration\u0029\u003A\nthey\u0020are\u0020added\u0020after\u0020the\u0020themes\u0020of\u0020the\u0020site,\u0020so\u0020a\u0020theme\u0020overrides\u0020the\u0020themes\u0020it\u0020requires.",
             "url": "classes/Cecil-Builder.html#method_importThemesConfig"
         },                {
             "fqsen": "\\Cecil\\Builder\u003A\u003AsetLogger\u0028\u0029",
@@ -3665,6 +3665,11 @@ Search.appendIndex(
             "name": "hasTheme",
             "summary": "Has\u0020a\u0020\u0028valid\u0029\u0020theme\u0028s\u0029\u003F",
             "url": "classes/Cecil-Config.html#method_hasTheme"
+        },                {
+            "fqsen": "\\Cecil\\Config\u003A\u003AgetThemeRequirer\u0028\u0029",
+            "name": "getThemeRequirer",
+            "summary": "Returns\u0020the\u0020name\u0020of\u0020the\u0020theme\u0020requiring\u0020a\u0020theme\u0020\u0028in\u0020the\u0020\u0060theme\u0060\u0020option\u0020of\u0020its\u0020configuration\u0029,\nor\u0020null\u0020if\u0020the\u0020theme\u0020is\u0020set\u0020by\u0020the\u0020site\u0020configuration.",
+            "url": "classes/Cecil-Config.html#method_getThemeRequirer"
         },                {
             "fqsen": "\\Cecil\\Config\u003A\u003AgetThemeDirPath\u0028\u0029",
             "name": "getThemeDirPath",
