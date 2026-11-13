@@ -19,6 +19,7 @@ use Cecil\Collection\Menu\Collection as MenuCollection;
 use Cecil\Collection\Page\Collection as PagesCollection;
 use Cecil\Collection\Taxonomy\Collection as TaxonomyCollection;
 use Cecil\Collection\Taxonomy\Vocabulary;
+use Cecil\Exception\ConfigException;
 use Cecil\Exception\RuntimeException;
 use Cecil\Logger\PrintLogger;
 use Cecil\Util;
@@ -175,5 +176,113 @@ class BuilderTest extends TestCase
         } finally {
             (new Filesystem())->remove($sourceDir);
         }
+    }
+
+    public function testConfigOfThemesRequiredByAThemeIsImported(): void
+    {
+        $sourceDir = $this->createThemes([
+            'visual'    => "theme: [component]\ntitle: Visual\ncomponent:\n  color: red\n",
+            'component' => "theme: nested\ntitle: Component\ncomponent:\n  color: blue\n  size: 10\n",
+            'nested'    => "nested:\n  enabled: true\n",
+        ]);
+
+        try {
+            $config = (new Builder(['theme' => ['visual']], new NullLogger()))->setSourceDir($sourceDir)->getConfig();
+
+            // required themes are added after the themes of the site
+            self::assertSame(['visual', 'component', 'nested'], $config->getTheme());
+            // their configuration is imported...
+            self::assertSame(10, $config->get('component.size'));
+            self::assertTrue($config->get('nested.enabled'));
+            // ...and overridden by the theme requiring them
+            self::assertSame('red', $config->get('component.color'));
+            self::assertSame('Visual', $config->get('title'));
+            self::assertTrue($config->hasTheme());
+        } finally {
+            (new Filesystem())->remove($sourceDir);
+        }
+    }
+
+    public function testThemesRequiredByAThemeAreAddedToAThemeSetAsString(): void
+    {
+        $sourceDir = $this->createThemes([
+            'visual'    => "theme: [component]\n",
+            'component' => "component:\n  size: 10\n",
+        ]);
+
+        try {
+            $config = (new Builder(['theme' => 'visual'], new NullLogger()))->setSourceDir($sourceDir)->getConfig();
+
+            self::assertSame(['visual', 'component'], $config->getTheme());
+            self::assertSame(10, $config->get('component.size'));
+        } finally {
+            (new Filesystem())->remove($sourceDir);
+        }
+    }
+
+    public function testThemesOfTheSiteKeepTheirPriorityOverRequiredThemes(): void
+    {
+        $sourceDir = $this->createThemes([
+            'first'    => "theme: [required]\n",
+            'second'   => "title: Second\n",
+            'required' => "title: Required\n",
+        ]);
+
+        try {
+            $config = (new Builder(['theme' => ['first', 'second']], new NullLogger()))->setSourceDir($sourceDir)->getConfig();
+
+            self::assertSame(['first', 'second', 'required'], $config->getTheme());
+            self::assertSame('Second', $config->get('title'));
+        } finally {
+            (new Filesystem())->remove($sourceDir);
+        }
+    }
+
+    public function testThemesRequiringEachOtherAreImportedOnce(): void
+    {
+        $sourceDir = $this->createThemes([
+            'a' => "theme: [b]\n",
+            'b' => "theme: [a]\n",
+        ]);
+
+        try {
+            $config = (new Builder(['theme' => ['a']], new NullLogger()))->setSourceDir($sourceDir)->getConfig();
+
+            self::assertSame(['a', 'b'], $config->getTheme());
+        } finally {
+            (new Filesystem())->remove($sourceDir);
+        }
+    }
+
+    public function testMissingThemeRequiredByAThemeIsReportedWithItsRequirer(): void
+    {
+        $sourceDir = $this->createThemes([
+            'visual' => "theme: [component]\n",
+        ]);
+
+        try {
+            $config = (new Builder(['theme' => 'visual'], new NullLogger()))->setSourceDir($sourceDir)->getConfig();
+
+            $this->expectException(ConfigException::class);
+            $this->expectExceptionMessage('Theme "component" (required by theme "visual") not found');
+            $config->hasTheme();
+        } finally {
+            (new Filesystem())->remove($sourceDir);
+        }
+    }
+
+    /**
+     * Creates a site with themes, and returns its directory.
+     *
+     * @param array<string, string> $themes Content of the `config.yml` file of each theme, indexed by theme name
+     */
+    private function createThemes(array $themes): string
+    {
+        $sourceDir = Util::joinFile(sys_get_temp_dir(), 'cecil-themes-' . uniqid());
+        foreach ($themes as $name => $config) {
+            (new Filesystem())->dumpFile(Util::joinFile($sourceDir, 'themes', $name, 'config.yml'), $config);
+        }
+
+        return $sourceDir;
     }
 }

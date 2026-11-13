@@ -2,7 +2,7 @@
 title: "Options du site"
 description: "title, baseurl, menus, taxonomies, theme, date, metatags, debug, etc."
 date: 2026-03-27
-updated: 2026-10-21
+updated: 2026-11-13
 -->
 # Options du site
 
@@ -167,6 +167,10 @@ theme:
 
 :::info
 Le premier thème surcharge les suivants, et ainsi de suite.
+:::
+
+:::info
+Un thème peut [requérir d’autres thèmes](../templates/7-extend.fr.md#themes-requis) : ils sont activés avec lui, après les thèmes de la liste.
 :::
 
 _Exemples :_

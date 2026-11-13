@@ -452,11 +452,16 @@ class Builder implements BuildContextInterface, LoggerAwareInterface
     }
 
     /**
-     * Import themes configuration.
+     * Import themes configuration, including the themes required by a theme (`theme` option of its configuration):
+     * they are added after the themes of the site, so a theme overrides the themes it requires.
      */
     public function importThemesConfig(): void
     {
-        foreach ((array) $this->getConfig()->get('theme') as $theme) {
+        $imported = [];
+        // the list of themes is read again after each import, as a theme can require other themes
+        while ($themes = array_diff($this->getConfig()->getTheme() ?? [], $imported)) {
+            $theme = reset($themes);
+            $imported[] = $theme;
             $this->getConfig()->import(
                 Config::loadFile(Util::joinFile($this->getConfig()->getThemesPath(), $theme, 'config.yml'), true),
                 Config::IMPORT_PRESERVE,
