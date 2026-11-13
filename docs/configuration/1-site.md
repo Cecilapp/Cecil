@@ -2,7 +2,7 @@
 title: "Site options"
 description: "title, baseurl, menus, taxonomies, theme, date, metatags, debug, etc."
 date: 2021-05-07
-updated: 2026-10-21
+updated: 2026-11-13
 -->
 # Site options
 
@@ -167,6 +167,10 @@ theme:
 
 :::info
 The first theme overrides the others, and so on.
+:::
+
+:::info
+A theme can [require other themes](../templates/7-extend.md#required-themes): they are enabled with it, after the themes of the list.
 :::
 
 _Examples:_
