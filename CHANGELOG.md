@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. Dates are displayed in UTC.
 
+#### [9.28.0](https://github.com/Cecilapp/Cecil/compare/9.27.0...9.28.0)
+
+> 5 November 2026
+
+- fix(pages): count string length in characters in front matter schema [`#2585`](https://github.com/Cecilapp/Cecil/pull/2585)
+- feat(pages): validate nested maps and list items in front matter schema [`#2584`](https://github.com/Cecilapp/Cecil/pull/2584)
+
 #### [9.27.0](https://github.com/Cecilapp/Cecil/compare/9.26.1...9.27.0)
 
 > 5 November 2026
