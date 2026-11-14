@@ -1346,4 +1346,32 @@ class ConfigTest extends TestCase
 
         new Config(['pages' => ['schema' => ['blog' => ['author' => ['type' => 'map', 'max' => 2, 'fields' => ['name' => 'string']]]]]]);
     }
+
+    public function testPagesSchemaAcceptsPageKeysAndFieldDescriptions(): void
+    {
+        $text = ['type' => 'string', 'format' => 'markdown', 'label' => 'Description', 'description' => 'Rendered as Markdown.'];
+        $config = new Config(['pages' => ['schema' => [
+            'cv'         => ['sections' => ['type' => 'list', 'label' => 'Sections', 'items' => ['type' => 'map', 'fields' => ['text' => $text]]]],
+            'blog/index' => ['intro' => ['type' => 'string', 'format' => 'text']],
+        ]]]);
+
+        self::assertSame($text, $config->get('pages.schema.cv.sections.items.fields.text'));
+        self::assertSame('text', $config->get('pages.schema')['blog/index']['intro']['format']);
+    }
+
+    public function testPagesSchemaRejectsUnknownFormat(): void
+    {
+        $this->expectException(ConfigException::class);
+        $this->expectExceptionMessage("'pages\u{a0}›\u{a0}schema\u{a0}›\u{a0}blog\u{a0}›\u{a0}cover\u{a0}›\u{a0}format'");
+
+        new Config(['pages' => ['schema' => ['blog' => ['cover' => ['type' => 'string', 'format' => 'image']]]]]);
+    }
+
+    public function testPagesSchemaRejectsFormatOnNonString(): void
+    {
+        $this->expectException(ConfigException::class);
+        $this->expectExceptionMessage('the `format` rule expects the `string` type');
+
+        new Config(['pages' => ['schema' => ['blog' => ['links' => ['type' => 'list', 'format' => 'url']]]]]);
+    }
 }

@@ -186,7 +186,7 @@
         <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Collection/Page/Schema.php"><a href="files/src-collection-page-schema.html"><abbr title="src/Collection/Page/Schema.php">Schema.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">38</span>
+    <span class="phpdocumentor-element-found-in__line">40</span>
 
     </aside>
 
@@ -196,10 +196,12 @@
     <section class="phpdocumentor-description"><p>Validates the front matter variables of a page against:</p>
 <ul>
 <li>the built-in schema of predefined variables (<code class="prettyprint">title</code>, <code class="prettyprint">date</code>, <code class="prettyprint">menu</code>, <code class="prettyprint">schedule</code>, etc.);</li>
-<li>the user schemas declared in the configuration (<code class="prettyprint">pages.schema</code>), by section (<code class="prettyprint">*</code> for all pages).</li>
+<li>the user schemas declared in the configuration (<code class="prettyprint">pages.schema</code>), by section or by page (<code class="prettyprint">*</code> for all pages).</li>
 </ul>
 <p>Schemas are open: variables that are not declared are allowed.
-The structure of maps (<code class="prettyprint">fields</code>) and of list items (<code class="prettyprint">items</code>) can be validated recursively.</p>
+The structure of maps (<code class="prettyprint">fields</code>) and of list items (<code class="prettyprint">items</code>) can be validated recursively.
+The <code class="prettyprint">label</code>, <code class="prettyprint">description</code> and <code class="prettyprint">format</code> rules describe a field to the tools that edit the front matter:
+only the <code class="prettyprint">url</code> and <code class="prettyprint">email</code> formats are validated.</p>
 </section>
 
 
@@ -230,6 +232,13 @@ The structure of maps (<code class="prettyprint">fields</code>) and of list item
         &nbsp;: string&nbsp;= &#039;*&#039;                            </span>
 </dt>
 <dd>Key of the user schema applied to all pages.</dd>
+
+            <dt class="phpdocumentor-table-of-contents__entry -constant -public">
+    <a class="" href="classes/Cecil-Collection-Page-Schema.html#constant_FORMATS">FORMATS</a>
+    <span>
+        &nbsp;: array&lt;string|int, mixed&gt;&nbsp;= [&#039;text&#039;, &#039;markdown&#039;, &#039;url&#039;, &#039;email&#039;, &#039;path&#039;]                            </span>
+</dt>
+<dd>Allowed formats of a `string` field: what the string holds (only `url` and `email` are validated).</dd>
 
             <dt class="phpdocumentor-table-of-contents__entry -constant -public">
     <a class="" href="classes/Cecil-Collection-Page-Schema.html#constant_TYPES">TYPES</a>
@@ -305,7 +314,16 @@ The structure of maps (<code class="prettyprint">fields</code>) and of list item
     <span>
                                 &nbsp;: <abbr title="\Nette\Schema\Elements\Structure">Structure</abbr>|null    </span>
 </dt>
-<dd>Returns the user schema of the given section (merged with the schema of all pages), or null if there is none.</dd>
+<dd>Returns the user schema of the given section and page (merged with the schema of all pages), or null if there is none.</dd>
+
+            <dt class="phpdocumentor-table-of-contents__entry -method -public">
+    <a class="" href="classes/Cecil-Collection-Page-Schema.html#method_pageKey">pageKey()</a>
+    <span>
+                                &nbsp;: string    </span>
+</dt>
+<dd>Returns the key of a page in the user schemas: its ID without language (`cv` for `cv.md` and `cv.en.md`,
+`index` for the home page), followed by `/index` for the index of a section (`blog/index` for `blog/index.md`),
+as its ID (`blog`) is the key of the section.</dd>
 
             <dt class="phpdocumentor-table-of-contents__entry -method -public">
     <a class="" href="classes/Cecil-Collection-Page-Schema.html#method_validate">validate()</a>
@@ -368,7 +386,8 @@ The structure of maps (<code class="prettyprint">fields</code>) and of list item
     <span>
                                 &nbsp;: array&lt;string, mixed&gt;    </span>
 </dt>
-<dd>Returns the user fields definitions of the given section: fields of all pages (`*`), overridden by the fields of the section.</dd>
+<dd>Returns the user fields definitions of the given section and page:
+fields of all pages (`*`), overridden by the fields of the section, then by the fields of the page.</dd>
 
             <dt class="phpdocumentor-table-of-contents__entry -method -protected">
     <a class="" href="classes/Cecil-Collection-Page-Schema.html#method_lazy">lazy()</a>
@@ -432,7 +451,7 @@ The structure of maps (<code class="prettyprint">fields</code>) and of list item
     <span>
                                 &nbsp;: <abbr title="\Nette\Schema\Elements\Type">Type</abbr>    </span>
 </dt>
-<dd>Builds the schema of a type, with the `enum` and `pattern` rules.</dd>
+<dd>Builds the schema of a type, with the `enum`, `pattern` and `format` rules.</dd>
 
             <dt class="phpdocumentor-table-of-contents__entry -method -private">
     <a class="" href="classes/Cecil-Collection-Page-Schema.html#method_delegate">delegate()</a>
@@ -462,7 +481,7 @@ The structure of maps (<code class="prettyprint">fields</code>) and of list item
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Collection/Page/Schema.php"><a href="files/src-collection-page-schema.html"><abbr title="src/Collection/Page/Schema.php">Schema.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">48</span>
+    <span class="phpdocumentor-element-found-in__line">55</span>
 
     </aside>
 
@@ -484,6 +503,37 @@ The structure of maps (<code class="prettyprint">fields</code>) and of list item
         
     </article>
                     <article class="phpdocumentor-element -constant -public ">
+    <h4 class="phpdocumentor-element__name" id="constant_FORMATS">
+        FORMATS
+        <a href="classes/Cecil-Collection-Page-Schema.html#constant_FORMATS" class="headerlink"><i class="fas fa-link"></i></a>
+
+    </h4>
+
+    <aside class="phpdocumentor-element-found-in">
+    <abbr class="phpdocumentor-element-found-in__file" title="src/Collection/Page/Schema.php"><a href="files/src-collection-page-schema.html"><abbr title="src/Collection/Page/Schema.php">Schema.php</abbr></a></abbr>
+    :
+    <span class="phpdocumentor-element-found-in__line">50</span>
+
+    </aside>
+
+        <p class="phpdocumentor-summary">Allowed formats of a `string` field: what the string holds (only `url` and `email` are validated).</p>
+
+    
+    <code class="phpdocumentor-signature phpdocumentor-code ">
+    <span class="phpdocumentor-signature__visibility">public</span>
+        <span class="phpdocumentor-signature__type">array&lt;string|int, mixed&gt;</span>
+    <span class="phpdocumentor-signature__name">FORMATS</span>
+    = <span class="phpdocumentor-signature__default-value">[&#039;text&#039;, &#039;markdown&#039;, &#039;url&#039;, &#039;email&#039;, &#039;path&#039;]</span>
+</code>
+
+
+    
+    
+    
+
+        
+    </article>
+                    <article class="phpdocumentor-element -constant -public ">
     <h4 class="phpdocumentor-element__name" id="constant_TYPES">
         TYPES
         <a href="classes/Cecil-Collection-Page-Schema.html#constant_TYPES" class="headerlink"><i class="fas fa-link"></i></a>
@@ -493,7 +543,7 @@ The structure of maps (<code class="prettyprint">fields</code>) and of list item
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Collection/Page/Schema.php"><a href="files/src-collection-page-schema.html"><abbr title="src/Collection/Page/Schema.php">Schema.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">43</span>
+    <span class="phpdocumentor-element-found-in__line">45</span>
 
     </aside>
 
@@ -540,7 +590,7 @@ The structure of maps (<code class="prettyprint">fields</code>) and of list item
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Collection/Page/Schema.php"><a href="files/src-collection-page-schema.html"><abbr title="src/Collection/Page/Schema.php">Schema.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">51</span>
+    <span class="phpdocumentor-element-found-in__line">58</span>
 
     </aside>
 
@@ -578,7 +628,7 @@ The structure of maps (<code class="prettyprint">fields</code>) and of list item
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Collection/Page/Schema.php"><a href="files/src-collection-page-schema.html"><abbr title="src/Collection/Page/Schema.php">Schema.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">54</span>
+    <span class="phpdocumentor-element-found-in__line">61</span>
 
     </aside>
 
@@ -591,7 +641,7 @@ The structure of maps (<code class="prettyprint">fields</code>) and of list item
     </code>
 
     
-        <section class="phpdocumentor-description"><p>User schemas definitions, indexed by section</p>
+        <section class="phpdocumentor-description"><p>User schemas definitions, indexed by section or by page</p>
 </section>
 
     
@@ -617,7 +667,7 @@ The structure of maps (<code class="prettyprint">fields</code>) and of list item
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Collection/Page/Schema.php"><a href="files/src-collection-page-schema.html"><abbr title="src/Collection/Page/Schema.php">Schema.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">59</span>
+    <span class="phpdocumentor-element-found-in__line">66</span>
 
     </aside>
 
@@ -654,7 +704,7 @@ The structure of maps (<code class="prettyprint">fields</code>) and of list item
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Collection/Page/Schema.php"><a href="files/src-collection-page-schema.html"><abbr title="src/Collection/Page/Schema.php">Schema.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">57</span>
+    <span class="phpdocumentor-element-found-in__line">64</span>
 
     </aside>
 
@@ -667,7 +717,7 @@ The structure of maps (<code class="prettyprint">fields</code>) and of list item
      = <span class="phpdocumentor-signature__default-value">[]</span></code>
 
     
-        <section class="phpdocumentor-description"><p>User schemas cache, indexed by section</p>
+        <section class="phpdocumentor-description"><p>User schemas cache, indexed by section (and page, if it has a schema)</p>
 </section>
 
     
@@ -698,7 +748,7 @@ The structure of maps (<code class="prettyprint">fields</code>) and of list item
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Collection/Page/Schema.php"><a href="files/src-collection-page-schema.html"><abbr title="src/Collection/Page/Schema.php">Schema.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">64</span>
+    <span class="phpdocumentor-element-found-in__line">71</span>
 
     </aside>
 
@@ -718,7 +768,7 @@ The structure of maps (<code class="prettyprint">fields</code>) and of list item
                 : <span class="phpdocumentor-argument-list__argument__type">array&lt;string, array&lt;string, mixed&gt;&gt;</span>
                  = <span class="phpdocumentor-argument-list__argument__default-value">[]</span>            </dt>
             <dd class="phpdocumentor-argument-list__definition">
-                    <section class="phpdocumentor-description"><p>User schemas definitions, indexed by section (<code class="prettyprint">*</code> for all pages)</p>
+                    <section class="phpdocumentor-description"><p>User schemas definitions, indexed by section or by page (<code class="prettyprint">*</code> for all pages)</p>
 </section>
 
             </dd>
@@ -744,7 +794,7 @@ The structure of maps (<code class="prettyprint">fields</code>) and of list item
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Collection/Page/Schema.php"><a href="files/src-collection-page-schema.html"><abbr title="src/Collection/Page/Schema.php">Schema.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">144</span>
+    <span class="phpdocumentor-element-found-in__line">171</span>
 
     </aside>
 
@@ -783,7 +833,7 @@ The structure of maps (<code class="prettyprint">fields</code>) and of list item
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Collection/Page/Schema.php"><a href="files/src-collection-page-schema.html"><abbr title="src/Collection/Page/Schema.php">Schema.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">111</span>
+    <span class="phpdocumentor-element-found-in__line">131</span>
 
     </aside>
 
@@ -824,15 +874,15 @@ The structure of maps (<code class="prettyprint">fields</code>) and of list item
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Collection/Page/Schema.php"><a href="files/src-collection-page-schema.html"><abbr title="src/Collection/Page/Schema.php">Schema.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">192</span>
+    <span class="phpdocumentor-element-found-in__line">219</span>
 
     </aside>
 
-        <p class="phpdocumentor-summary">Returns the user schema of the given section (merged with the schema of all pages), or null if there is none.</p>
+        <p class="phpdocumentor-summary">Returns the user schema of the given section and page (merged with the schema of all pages), or null if there is none.</p>
 
     <code class="phpdocumentor-code phpdocumentor-signature ">
     <span class="phpdocumentor-signature__visibility">public</span>
-                    <span class="phpdocumentor-signature__name">getUserSchema</span><span>(</span><span class="phpdocumentor-signature__argument"><span class="phpdocumentor-signature__argument__type">string|null&nbsp;</span><span class="phpdocumentor-signature__argument__name">$section</span></span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type"><abbr title="\Nette\Schema\Elements\Structure">Structure</abbr>|null</span></code>
+                    <span class="phpdocumentor-signature__name">getUserSchema</span><span>(</span><span class="phpdocumentor-signature__argument"><span class="phpdocumentor-signature__argument__type">string|null&nbsp;</span><span class="phpdocumentor-signature__argument__name">$section</span></span><span class="phpdocumentor-signature__argument"><span>[</span><span>, </span><span class="phpdocumentor-signature__argument__type">string|null&nbsp;</span><span class="phpdocumentor-signature__argument__name">$page</span><span> = </span><span class="phpdocumentor-signature__argument__default-value">null</span><span> ]</span></span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type"><abbr title="\Nette\Schema\Elements\Structure">Structure</abbr>|null</span></code>
 
     <div class="phpdocumentor-label-line">
         </div>
@@ -844,6 +894,13 @@ The structure of maps (<code class="prettyprint">fields</code>) and of list item
                 <span class="phpdocumentor-argument-list__argument__name">$section</span>
                 : <span class="phpdocumentor-argument-list__argument__type">string|null</span>
                             </dt>
+            <dd class="phpdocumentor-argument-list__definition">
+                
+            </dd>
+                    <dt class="phpdocumentor-argument-list__entry">
+                <span class="phpdocumentor-argument-list__argument__name">$page</span>
+                : <span class="phpdocumentor-argument-list__argument__type">string|null</span>
+                 = <span class="phpdocumentor-argument-list__argument__default-value">null</span>            </dt>
             <dd class="phpdocumentor-argument-list__definition">
                 
             </dd>
@@ -863,6 +920,57 @@ The structure of maps (<code class="prettyprint">fields</code>) and of list item
         class="phpdocumentor-element
             -method
             -public
+                                    -static                    "
+>
+    <h4 class="phpdocumentor-element__name" id="method_pageKey">
+        pageKey()
+        <a href="classes/Cecil-Collection-Page-Schema.html#method_pageKey" class="headerlink"><i class="fas fa-link"></i></a>
+
+    </h4>
+    <aside class="phpdocumentor-element-found-in">
+    <abbr class="phpdocumentor-element-found-in__file" title="src/Collection/Page/Schema.php"><a href="files/src-collection-page-schema.html"><abbr title="src/Collection/Page/Schema.php">Schema.php</abbr></a></abbr>
+    :
+    <span class="phpdocumentor-element-found-in__line">119</span>
+
+    </aside>
+
+        <p class="phpdocumentor-summary">Returns the key of a page in the user schemas: its ID without language (`cv` for `cv.md` and `cv.en.md`,
+`index` for the home page), followed by `/index` for the index of a section (`blog/index` for `blog/index.md`),
+as its ID (`blog`) is the key of the section.</p>
+
+    <code class="phpdocumentor-code phpdocumentor-signature ">
+    <span class="phpdocumentor-signature__visibility">public</span>
+            <span class="phpdocumentor-signature__static">static</span>        <span class="phpdocumentor-signature__name">pageKey</span><span>(</span><span class="phpdocumentor-signature__argument"><span class="phpdocumentor-signature__argument__type"><a href="classes/Cecil-Collection-Page-Page.html"><abbr title="\Cecil\Collection\Page\Page">Page</abbr></a>&nbsp;</span><span class="phpdocumentor-signature__argument__name">$page</span></span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">string</span></code>
+
+    <div class="phpdocumentor-label-line">
+        </div>
+    
+    
+        <h5 class="phpdocumentor-argument-list__heading">Parameters</h5>
+    <dl class="phpdocumentor-argument-list">
+                    <dt class="phpdocumentor-argument-list__entry">
+                <span class="phpdocumentor-argument-list__argument__name">$page</span>
+                : <span class="phpdocumentor-argument-list__argument__type"><a href="classes/Cecil-Collection-Page-Page.html"><abbr title="\Cecil\Collection\Page\Page">Page</abbr></a></span>
+                            </dt>
+            <dd class="phpdocumentor-argument-list__definition">
+                
+            </dd>
+            </dl>
+
+    
+
+        
+    
+            <section>
+        <h5 class="phpdocumentor-return-value__heading">Return values</h5>
+        <span class="phpdocumentor-signature__response_type">string</span>
+            </section>
+
+</article>
+                    <article
+        class="phpdocumentor-element
+            -method
+            -public
                                                         "
 >
     <h4 class="phpdocumentor-element__name" id="method_validate">
@@ -873,7 +981,7 @@ The structure of maps (<code class="prettyprint">fields</code>) and of list item
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Collection/Page/Schema.php"><a href="files/src-collection-page-schema.html"><abbr title="src/Collection/Page/Schema.php">Schema.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">79</span>
+    <span class="phpdocumentor-element-found-in__line">87</span>
 
     </aside>
 
@@ -881,7 +989,7 @@ The structure of maps (<code class="prettyprint">fields</code>) and of list item
 
     <code class="phpdocumentor-code phpdocumentor-signature ">
     <span class="phpdocumentor-signature__visibility">public</span>
-                    <span class="phpdocumentor-signature__name">validate</span><span>(</span><span class="phpdocumentor-signature__argument"><span class="phpdocumentor-signature__argument__type">array&lt;string, mixed&gt;&nbsp;</span><span class="phpdocumentor-signature__argument__name">$variables</span></span><span class="phpdocumentor-signature__argument"><span>[</span><span>, </span><span class="phpdocumentor-signature__argument__type">string|null&nbsp;</span><span class="phpdocumentor-signature__argument__name">$section</span><span> = </span><span class="phpdocumentor-signature__argument__default-value">null</span><span> ]</span></span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">array&lt;string, mixed&gt;</span></code>
+                    <span class="phpdocumentor-signature__name">validate</span><span>(</span><span class="phpdocumentor-signature__argument"><span class="phpdocumentor-signature__argument__type">array&lt;string, mixed&gt;&nbsp;</span><span class="phpdocumentor-signature__argument__name">$variables</span></span><span class="phpdocumentor-signature__argument"><span>[</span><span>, </span><span class="phpdocumentor-signature__argument__type">string|null&nbsp;</span><span class="phpdocumentor-signature__argument__name">$section</span><span> = </span><span class="phpdocumentor-signature__argument__default-value">null</span><span> ]</span></span><span class="phpdocumentor-signature__argument"><span>[</span><span>, </span><span class="phpdocumentor-signature__argument__type">string|null&nbsp;</span><span class="phpdocumentor-signature__argument__name">$page</span><span> = </span><span class="phpdocumentor-signature__argument__default-value">null</span><span> ]</span></span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">array&lt;string, mixed&gt;</span></code>
 
     <div class="phpdocumentor-label-line">
         </div>
@@ -902,6 +1010,15 @@ The structure of maps (<code class="prettyprint">fields</code>) and of list item
                  = <span class="phpdocumentor-argument-list__argument__default-value">null</span>            </dt>
             <dd class="phpdocumentor-argument-list__definition">
                 
+            </dd>
+                    <dt class="phpdocumentor-argument-list__entry">
+                <span class="phpdocumentor-argument-list__argument__name">$page</span>
+                : <span class="phpdocumentor-argument-list__argument__type">string|null</span>
+                 = <span class="phpdocumentor-argument-list__argument__default-value">null</span>            </dt>
+            <dd class="phpdocumentor-argument-list__definition">
+                    <section class="phpdocumentor-description"><p>Key of the page in the user schemas (see <code class="prettyprint">pageKey()</code>)</p>
+</section>
+
             </dd>
             </dl>
 
@@ -943,7 +1060,7 @@ The structure of maps (<code class="prettyprint">fields</code>) and of list item
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Collection/Page/Schema.php"><a href="files/src-collection-page-schema.html"><abbr title="src/Collection/Page/Schema.php">Schema.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">543</span>
+    <span class="phpdocumentor-element-found-in__line">583</span>
 
     </aside>
 
@@ -982,7 +1099,7 @@ The structure of maps (<code class="prettyprint">fields</code>) and of list item
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Collection/Page/Schema.php"><a href="files/src-collection-page-schema.html"><abbr title="src/Collection/Page/Schema.php">Schema.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">420</span>
+    <span class="phpdocumentor-element-found-in__line">460</span>
 
     </aside>
 
@@ -1048,7 +1165,7 @@ The structure of maps (<code class="prettyprint">fields</code>) and of list item
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Collection/Page/Schema.php"><a href="files/src-collection-page-schema.html"><abbr title="src/Collection/Page/Schema.php">Schema.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">527</span>
+    <span class="phpdocumentor-element-found-in__line">567</span>
 
     </aside>
 
@@ -1087,7 +1204,7 @@ The structure of maps (<code class="prettyprint">fields</code>) and of list item
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Collection/Page/Schema.php"><a href="files/src-collection-page-schema.html"><abbr title="src/Collection/Page/Schema.php">Schema.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">235</span>
+    <span class="phpdocumentor-element-found-in__line">266</span>
 
     </aside>
 
@@ -1181,7 +1298,7 @@ The structure of maps (<code class="prettyprint">fields</code>) and of list item
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Collection/Page/Schema.php"><a href="files/src-collection-page-schema.html"><abbr title="src/Collection/Page/Schema.php">Schema.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">286</span>
+    <span class="phpdocumentor-element-found-in__line">318</span>
 
     </aside>
 
@@ -1196,7 +1313,8 @@ The structure of maps (<code class="prettyprint">fields</code>) and of list item
     
         <section class="phpdocumentor-description"><p>A field is defined by its type (<code class="prettyprint">author: string</code>), or by a map of rules:
 <code class="prettyprint">type</code>, <code class="prettyprint">required</code>, <code class="prettyprint">enum</code>, <code class="prettyprint">pattern</code>, <code class="prettyprint">min</code>, <code class="prettyprint">max</code>, <code class="prettyprint">fields</code> (fields of a map),
-<code class="prettyprint">items</code> (type or field definition of the items of a list) and <code class="prettyprint">default</code>.</p>
+<code class="prettyprint">items</code> (type or field definition of the items of a list), <code class="prettyprint">default</code>, and <code class="prettyprint">format</code> (of a string).
+The <code class="prettyprint">label</code> and <code class="prettyprint">description</code> rules are not validated.</p>
 <p>A list item (<code class="prettyprint">$item</code>) can't be empty (<code class="prettyprint">null</code>), and the <code class="prettyprint">required</code> rule doesn't apply to it.</p>
 </section>
 
@@ -1242,7 +1360,7 @@ The structure of maps (<code class="prettyprint">fields</code>) and of list item
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Collection/Page/Schema.php"><a href="files/src-collection-page-schema.html"><abbr title="src/Collection/Page/Schema.php">Schema.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">320</span>
+    <span class="phpdocumentor-element-found-in__line">352</span>
 
     </aside>
 
@@ -1291,7 +1409,7 @@ The structure of maps (<code class="prettyprint">fields</code>) and of list item
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Collection/Page/Schema.php"><a href="files/src-collection-page-schema.html"><abbr title="src/Collection/Page/Schema.php">Schema.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">564</span>
+    <span class="phpdocumentor-element-found-in__line">604</span>
 
     </aside>
 
@@ -1340,15 +1458,16 @@ The structure of maps (<code class="prettyprint">fields</code>) and of list item
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Collection/Page/Schema.php"><a href="files/src-collection-page-schema.html"><abbr title="src/Collection/Page/Schema.php">Schema.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">208</span>
+    <span class="phpdocumentor-element-found-in__line">237</span>
 
     </aside>
 
-        <p class="phpdocumentor-summary">Returns the user fields definitions of the given section: fields of all pages (`*`), overridden by the fields of the section.</p>
+        <p class="phpdocumentor-summary">Returns the user fields definitions of the given section and page:
+fields of all pages (`*`), overridden by the fields of the section, then by the fields of the page.</p>
 
     <code class="phpdocumentor-code phpdocumentor-signature ">
     <span class="phpdocumentor-signature__visibility">protected</span>
-                    <span class="phpdocumentor-signature__name">getUserFields</span><span>(</span><span class="phpdocumentor-signature__argument"><span class="phpdocumentor-signature__argument__type">string|null&nbsp;</span><span class="phpdocumentor-signature__argument__name">$section</span></span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">array&lt;string, mixed&gt;</span></code>
+                    <span class="phpdocumentor-signature__name">getUserFields</span><span>(</span><span class="phpdocumentor-signature__argument"><span class="phpdocumentor-signature__argument__type">string|null&nbsp;</span><span class="phpdocumentor-signature__argument__name">$section</span></span><span class="phpdocumentor-signature__argument"><span>[</span><span>, </span><span class="phpdocumentor-signature__argument__type">string|null&nbsp;</span><span class="phpdocumentor-signature__argument__name">$page</span><span> = </span><span class="phpdocumentor-signature__argument__default-value">null</span><span> ]</span></span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">array&lt;string, mixed&gt;</span></code>
 
     <div class="phpdocumentor-label-line">
         </div>
@@ -1360,6 +1479,13 @@ The structure of maps (<code class="prettyprint">fields</code>) and of list item
                 <span class="phpdocumentor-argument-list__argument__name">$section</span>
                 : <span class="phpdocumentor-argument-list__argument__type">string|null</span>
                             </dt>
+            <dd class="phpdocumentor-argument-list__definition">
+                
+            </dd>
+                    <dt class="phpdocumentor-argument-list__entry">
+                <span class="phpdocumentor-argument-list__argument__name">$page</span>
+                : <span class="phpdocumentor-argument-list__argument__type">string|null</span>
+                 = <span class="phpdocumentor-argument-list__argument__default-value">null</span>            </dt>
             <dd class="phpdocumentor-argument-list__definition">
                 
             </dd>
@@ -1389,7 +1515,7 @@ The structure of maps (<code class="prettyprint">fields</code>) and of list item
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Collection/Page/Schema.php"><a href="files/src-collection-page-schema.html"><abbr title="src/Collection/Page/Schema.php">Schema.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">457</span>
+    <span class="phpdocumentor-element-found-in__line">497</span>
 
     </aside>
 
@@ -1438,7 +1564,7 @@ The structure of maps (<code class="prettyprint">fields</code>) and of list item
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Collection/Page/Schema.php"><a href="files/src-collection-page-schema.html"><abbr title="src/Collection/Page/Schema.php">Schema.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">349</span>
+    <span class="phpdocumentor-element-found-in__line">381</span>
 
     </aside>
 
@@ -1487,7 +1613,7 @@ The structure of maps (<code class="prettyprint">fields</code>) and of list item
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Collection/Page/Schema.php"><a href="files/src-collection-page-schema.html"><abbr title="src/Collection/Page/Schema.php">Schema.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">334</span>
+    <span class="phpdocumentor-element-found-in__line">366</span>
 
     </aside>
 
@@ -1552,7 +1678,7 @@ The structure of maps (<code class="prettyprint">fields</code>) and of list item
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Collection/Page/Schema.php"><a href="files/src-collection-page-schema.html"><abbr title="src/Collection/Page/Schema.php">Schema.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">258</span>
+    <span class="phpdocumentor-element-found-in__line">289</span>
 
     </aside>
 
@@ -1604,7 +1730,7 @@ The structure of maps (<code class="prettyprint">fields</code>) and of list item
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Collection/Page/Schema.php"><a href="files/src-collection-page-schema.html"><abbr title="src/Collection/Page/Schema.php">Schema.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">447</span>
+    <span class="phpdocumentor-element-found-in__line">487</span>
 
     </aside>
 
@@ -1653,7 +1779,7 @@ The structure of maps (<code class="prettyprint">fields</code>) and of list item
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Collection/Page/Schema.php"><a href="files/src-collection-page-schema.html"><abbr title="src/Collection/Page/Schema.php">Schema.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">400</span>
+    <span class="phpdocumentor-element-found-in__line">440</span>
 
     </aside>
 
@@ -1705,7 +1831,7 @@ The structure of maps (<code class="prettyprint">fields</code>) and of list item
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Collection/Page/Schema.php"><a href="files/src-collection-page-schema.html"><abbr title="src/Collection/Page/Schema.php">Schema.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">466</span>
+    <span class="phpdocumentor-element-found-in__line">506</span>
 
     </aside>
 
@@ -1762,7 +1888,7 @@ The structure of maps (<code class="prettyprint">fields</code>) and of list item
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Collection/Page/Schema.php"><a href="files/src-collection-page-schema.html"><abbr title="src/Collection/Page/Schema.php">Schema.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">554</span>
+    <span class="phpdocumentor-element-found-in__line">594</span>
 
     </aside>
 
@@ -1801,11 +1927,11 @@ The structure of maps (<code class="prettyprint">fields</code>) and of list item
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Collection/Page/Schema.php"><a href="files/src-collection-page-schema.html"><abbr title="src/Collection/Page/Schema.php">Schema.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">368</span>
+    <span class="phpdocumentor-element-found-in__line">400</span>
 
     </aside>
 
-        <p class="phpdocumentor-summary">Builds the schema of a type, with the `enum` and `pattern` rules.</p>
+        <p class="phpdocumentor-summary">Builds the schema of a type, with the `enum`, `pattern` and `format` rules.</p>
 
     <code class="phpdocumentor-code phpdocumentor-signature ">
     <span class="phpdocumentor-signature__visibility">protected</span>
@@ -1857,7 +1983,7 @@ The structure of maps (<code class="prettyprint">fields</code>) and of list item
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Collection/Page/Schema.php"><a href="files/src-collection-page-schema.html"><abbr title="src/Collection/Page/Schema.php">Schema.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">476</span>
+    <span class="phpdocumentor-element-found-in__line">516</span>
 
     </aside>
 
@@ -1929,6 +2055,7 @@ The structure of maps (<code class="prettyprint">fields</code>) and of list item
                 <li>
                     <ul class="phpdocumentor-list -clean">
                                                     <li class=""><a href="classes/Cecil-Collection-Page-Schema.html#constant_ALL">ALL</a></li>
+                                                    <li class=""><a href="classes/Cecil-Collection-Page-Schema.html#constant_FORMATS">FORMATS</a></li>
                                                     <li class=""><a href="classes/Cecil-Collection-Page-Schema.html#constant_TYPES">TYPES</a></li>
                                             </ul>
                 </li>
@@ -1950,6 +2077,7 @@ The structure of maps (<code class="prettyprint">fields</code>) and of list item
                                             <li class=""><a href="classes/Cecil-Collection-Page-Schema.html#method_builtin">builtin()</a></li>
                                             <li class=""><a href="classes/Cecil-Collection-Page-Schema.html#method_definition">definition()</a></li>
                                             <li class=""><a href="classes/Cecil-Collection-Page-Schema.html#method_getUserSchema">getUserSchema()</a></li>
+                                            <li class=""><a href="classes/Cecil-Collection-Page-Schema.html#method_pageKey">pageKey()</a></li>
                                             <li class=""><a href="classes/Cecil-Collection-Page-Schema.html#method_validate">validate()</a></li>
                                             <li class=""><a href="classes/Cecil-Collection-Page-Schema.html#method_bool">bool()</a></li>
                                             <li class=""><a href="classes/Cecil-Collection-Page-Schema.html#method_checkRange">checkRange()</a></li>

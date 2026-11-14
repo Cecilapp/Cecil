@@ -13,16 +13,19 @@ declare(strict_types=1);
 
 namespace Cecil\Test\Unit\Collection\Page;
 
+use Cecil\Collection\Page\Page;
 use Cecil\Collection\Page\Schema;
 use Cecil\Exception\FrontmatterException;
+use Cecil\Util;
 use PHPUnit\Framework\TestCase;
+use Symfony\Component\Finder\SplFileInfo;
 
 class SchemaTest extends TestCase
 {
-    private function assertInvalid(Schema $schema, array $variables, ?string $section, string $expected): void
+    private function assertInvalid(Schema $schema, array $variables, ?string $section, string $expected, ?string $page = null): void
     {
         try {
-            $schema->validate($variables, $section);
+            $schema->validate($variables, $section, $page);
             self::fail('Expected front matter exception.');
         } catch (FrontmatterException $e) {
             self::assertStringContainsString($expected, $e->getMessage());
@@ -105,6 +108,91 @@ class SchemaTest extends TestCase
 
         self::assertSame([], $schema->validate([], 'blog'));
         $this->assertInvalid($schema, [], 'docs', "'subtitle' is missing");
+    }
+
+    public function testUserSchemaIsAppliedByPage(): void
+    {
+        $schema = new Schema([
+            '*'    => ['title' => ['type' => 'string', 'required' => true]],
+            'blog' => ['author' => ['type' => 'string', 'required' => true]],
+            'cv'   => ['skills' => ['type' => 'list', 'required' => true, 'items' => 'string']],
+        ]);
+
+        $this->assertInvalid($schema, ['title' => 'CV'], null, "'skills' is missing", 'cv');
+        // fields of all pages still apply to the page
+        $this->assertInvalid($schema, ['skills' => ['PHP']], null, "'title' is missing", 'cv');
+        self::assertSame(['title' => 'CV', 'skills' => ['PHP']], $schema->validate(['title' => 'CV', 'skills' => ['PHP']], null, 'cv'));
+        // other pages are not concerned, a page without schema shares the schema of its section
+        self::assertSame(['title' => 'About'], $schema->validate(['title' => 'About'], null, 'about'));
+        $this->assertInvalid($schema, ['title' => 'Post'], 'blog', "'author' is missing", 'blog/post');
+    }
+
+    public function testPageFieldsOverrideFieldsOfSection(): void
+    {
+        $schema = new Schema([
+            '*'           => ['subtitle' => ['type' => 'string', 'default' => 'all']],
+            'blog'        => ['subtitle' => ['type' => 'string', 'default' => 'section'], 'author' => ['type' => 'string', 'required' => true]],
+            'blog/pinned' => ['subtitle' => ['type' => 'string', 'default' => 'page'], 'author' => 'string'],
+        ]);
+
+        self::assertSame(['subtitle' => 'page'], $schema->validate([], 'blog', 'blog/pinned'));
+        self::assertSame(['author' => 'Cécile', 'subtitle' => 'section'], $schema->validate(['author' => 'Cécile'], 'blog', 'blog/post'));
+        self::assertSame(['subtitle' => 'all'], $schema->validate([], null, 'about'));
+    }
+
+    public function testPageKey(): void
+    {
+        $directory = sys_get_temp_dir() . '/cecil-schema-' . bin2hex(random_bytes(4));
+        $keys = [];
+        foreach (['cv.md', 'cv.en.md', 'index.md', 'index.fr.md', 'blog/index.md', 'blog/index.fr.md', 'blog/post.md', 'blog/2024/post.fr.md', '1-Mon CV.md'] as $path) {
+            $file = "$directory/$path";
+            Util\File::getFS()->dumpFile($file, '');
+            $folder = \dirname($path);
+            $keys[$path] = Schema::pageKey(new Page(new SplFileInfo($file, $folder === '.' ? '' : $folder, $path)));
+        }
+        Util\File::getFS()->remove($directory);
+
+        self::assertSame([
+            'cv.md'                => 'cv',
+            'cv.en.md'             => 'cv',
+            'index.md'             => 'index',
+            'index.fr.md'          => 'index',
+            // the ID of the index of a section (`blog`) is the key of the section
+            'blog/index.md'        => 'blog/index',
+            'blog/index.fr.md'     => 'blog/index',
+            'blog/post.md'         => 'blog/post',
+            'blog/2024/post.fr.md' => 'blog/2024/post',
+            '1-Mon CV.md'          => 'mon-cv',
+        ], $keys);
+    }
+
+    public function testFormats(): void
+    {
+        $schema = new Schema(['*' => [
+            'website' => ['type' => 'string', 'format' => 'url'],
+            'contact' => ['type' => 'string', 'format' => 'email'],
+            'links'   => ['type' => 'list', 'items' => ['type' => 'string', 'format' => 'url']],
+            // not validated: what the string holds, for the tools that edit the front matter
+            'intro'   => ['type' => 'string', 'format' => 'markdown', 'label' => 'Introduction', 'description' => 'Shown above the list.'],
+            'summary' => ['type' => 'string', 'format' => 'text'],
+            'cover'   => ['type' => 'string', 'format' => 'path'],
+        ]]);
+
+        $valid = [
+            'website' => 'https://fr.wikipedia.org/wiki/Été',
+            'contact' => 'cecile@example.com',
+            'links'   => ['https://cecil.app', 'ftp://example.com/file.zip'],
+            'intro'   => "## Title\n\nA *text*.",
+            'summary' => "Two\nlines.",
+            'cover'   => 'images/cover.png',
+        ];
+        self::assertSame($valid, $schema->validate($valid));
+        self::assertSame(['website' => null, 'contact' => null], $schema->validate(['website' => null, 'contact' => null]));
+        $this->assertInvalid($schema, ['website' => 'cecil.app'], null, "The variable 'website' expects to be an absolute URL.");
+        $this->assertInvalid($schema, ['website' => '/documentation/'], null, "The variable 'website' expects to be an absolute URL.");
+        $this->assertInvalid($schema, ['website' => 'https://cecil.app and more'], null, "'website'");
+        $this->assertInvalid($schema, ['contact' => 'cecile@'], null, "The variable 'contact' expects to be an email address.");
+        $this->assertInvalid($schema, ['links' => ['https://cecil.app', 'cecil.app']], null, "The variable 'links\u{a0}›\u{a0}1' expects to be an absolute URL.");
     }
 
     public function testUserSchemaTypeShorthand(): void

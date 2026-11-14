@@ -2,7 +2,7 @@
 title: "Front matter"
 description: "Variables de page personnalisées et prédéfinies : menu, taxonomie, planification, redirection, alias, sortie, etc."
 date: 2026-03-27
-updated: 2026-11-04
+updated: 2026-11-14
 path: documentation/contenu/front-matter
 -->
 # Front matter
@@ -16,7 +16,7 @@ YAML est le format par défaut : vous pouvez utiliser INI, TOML ou JSON à la pl
 :::
 
 :::tip
-Le front matter est validé : les types des variables prédéfinies sont contrôlés, et vous pouvez déclarer vos propres règles (variables obligatoires, types, valeurs autorisées, valeurs par défaut, etc.) par section avec l’option [`pages.schema`](../configuration/4-pages.fr.md#pages-schema).
+Le front matter est validé : les types des variables prédéfinies sont contrôlés, et vous pouvez déclarer vos propres règles (variables obligatoires, types, valeurs autorisées, valeurs par défaut, etc.) par section ou par page avec l’option [`pages.schema`](../configuration/4-pages.fr.md#pages-schema).
 :::
 
 ## Variables prédéfinies

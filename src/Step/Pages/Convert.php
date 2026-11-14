@@ -181,7 +181,7 @@ class Convert extends AbstractStep
         $this->schema ??= new Schema((array) $builder->getConfig()->get('pages.schema'));
 
         try {
-            return $this->schema->validate($variables, $page->getSection());
+            return $this->schema->validate($variables, $page->getSection(), Schema::pageKey($page));
         } catch (FrontmatterException $e) {
             $message = \sprintf(
                 'Invalid front matter of "%s": %s',

@@ -122,7 +122,7 @@ pages:
       language: en
       output: html
   validation: error                # front matter validation: `warning`, `error` (page skipped), `strict` (build fails) or `false`
-  schema:                          # front matter schemas, by section (`*` for all pages)
+  schema:                          # front matter schemas, by section or by page (`*` for all pages)
     '*':
       title: {type: string, required: true}
     blog:
@@ -138,11 +138,15 @@ pages:
           fields:
             file: {type: string, required: true, pattern: '^[\w-]+\.(png|jpe?g|webp)$'}
             alt: {type: string, required: true, min: 20}
+    cv:                            # a page: its ID without language (`cv.md`, `cv.en.md`), `index` for the home page, `blog/index` for the index of a section
+      intro: {type: string, format: markdown, label: Introduction}   # format of a string: text, markdown, url, email or path
 ```
 
 - With `items: <type>`, `enum`/`pattern` of the list apply to items; with `items: {…}`, only the rules of the definition apply to each item (never `null`). A `map` with `fields` is open and refuses `min`, `max`, `enum` and `pattern`. Nested `default` values are applied in defined maps only. Errors give the path from `0`: `images › 1 › alt`.
 
-- Predefined front matter variables (`date`, `menu`, `schedule`, `output`, etc.) are always checked by a built-in schema; user schemas are open (undeclared variables are allowed) and section fields override `*` fields.
+- Predefined front matter variables (`date`, `menu`, `schedule`, `output`, etc.) are always checked by a built-in schema; user schemas are open (undeclared variables are allowed) section fields override `*` fields, and page fields override both. The schema of a section applies to its pages, not to its index (`<section>/index`).
+
+- `format`, `label` and `description` describe a field to the tools that edit the front matter (e.g. the form of Cecil Desktop): only the `url` (absolute URL) and `email` formats are validated, and `format` expects the `string` type.
 
 - Built-in default pages: `index` (homepage), `404`, `robots` (`robots.txt`), `sitemap` (`sitemap.xml`) and `xsl/*` (feeds and sitemap styles).
 - Customize `robots.txt` with a `pages/robots.md` page (`layout: robots`, `output: txt`): its body is appended to the default rules (see [ai.md](ai.md#block-ai-crawlers)). Don't add a `static/robots.txt`.

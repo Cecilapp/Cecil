@@ -2,7 +2,7 @@
 title: "Front matter"
 description: "Custom and predefined page variables: menu, taxonomy, schedule, redirect, alias, output, etc."
 date: 2021-05-07
-updated: 2026-11-04
+updated: 2026-11-14
 -->
 # Front matter
 
@@ -15,7 +15,7 @@ YAML is the default format: you can use INI, TOML or JSON instead with the [`pag
 :::
 
 :::tip
-The front matter is validated: the types of predefined variables are checked, and you can declare your own rules (required variables, types, allowed values, default values, etc.) by section with the [`pages.schema`](../configuration/4-pages.md#pages-schema) option.
+The front matter is validated: the types of predefined variables are checked, and you can declare your own rules (required variables, types, allowed values, default values, etc.) by section or by page with the [`pages.schema`](../configuration/4-pages.md#pages-schema) option.
 :::
 
 ## Predefined variables

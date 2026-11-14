@@ -30,10 +30,12 @@ use Nette\Schema\ValidationException;
  *
  * Validates the front matter variables of a page against:
  *  - the built-in schema of predefined variables (`title`, `date`, `menu`, `schedule`, etc.);
- *  - the user schemas declared in the configuration (`pages.schema`), by section (`*` for all pages).
+ *  - the user schemas declared in the configuration (`pages.schema`), by section or by page (`*` for all pages).
  *
  * Schemas are open: variables that are not declared are allowed.
  * The structure of maps (`fields`) and of list items (`items`) can be validated recursively.
+ * The `label`, `description` and `format` rules describe a field to the tools that edit the front matter:
+ * only the `url` and `email` formats are validated.
  */
 class Schema
 {
@@ -43,6 +45,11 @@ class Schema
     public const array TYPES = ['string', 'int', 'number', 'bool', 'date', 'list', 'map', 'scalar', 'mixed'];
 
     /**
+     * Allowed formats of a `string` field: what the string holds (only `url` and `email` are validated).
+     */
+    public const array FORMATS = ['text', 'markdown', 'url', 'email', 'path'];
+
+    /**
      * Key of the user schema applied to all pages.
      */
     public const string ALL = '*';
@@ -50,16 +57,16 @@ class Schema
     /** Schema of a user field definition, used to validate the configuration */
     protected static ?NetteSchema $definition = null;
 
-    /** @var array<string, array<string, mixed>> User schemas definitions, indexed by section */
+    /** @var array<string, array<string, mixed>> User schemas definitions, indexed by section or by page */
     protected array $definitions;
 
-    /** @var array<string, Structure|null> User schemas cache, indexed by section */
+    /** @var array<string, Structure|null> User schemas cache, indexed by section (and page, if it has a schema) */
     protected array $schemas = [];
 
     protected Processor $processor;
 
     /**
-     * @param array<string, array<string, mixed>> $definitions User schemas definitions, indexed by section (`*` for all pages)
+     * @param array<string, array<string, mixed>> $definitions User schemas definitions, indexed by section or by page (`*` for all pages)
      */
     public function __construct(array $definitions = [])
     {
@@ -71,12 +78,13 @@ class Schema
      * Validates front matter variables and returns them, completed with the default values of the user schema.
      *
      * @param array<string, mixed> $variables
+     * @param string|null          $page      Key of the page in the user schemas (see `pageKey()`)
      *
      * @return array<string, mixed>
      *
      * @throws FrontmatterException
      */
-    public function validate(array $variables, ?string $section = null): array
+    public function validate(array $variables, ?string $section = null, ?string $page = null): array
     {
         // booleans strings ("true", "yes", etc.) are casted, as when variables are set
         $normalized = $variables;
@@ -85,7 +93,7 @@ class Schema
         });
 
         $messages = [];
-        foreach ([self::builtin(), $this->getUserSchema($section)] as $schema) {
+        foreach ([self::builtin(), $this->getUserSchema($section, $page)] as $schema) {
             if ($schema === null) {
                 continue;
             }
@@ -100,7 +108,19 @@ class Schema
         }
 
         // default values of the user schema
-        return self::defaults($this->getUserFields($section), $variables);
+        return self::defaults($this->getUserFields($section, $page), $variables);
+    }
+
+    /**
+     * Returns the key of a page in the user schemas: its ID without language (`cv` for `cv.md` and `cv.en.md`,
+     * `index` for the home page), followed by `/index` for the index of a section (`blog/index` for `blog/index.md`),
+     * as its ID (`blog`) is the key of the section.
+     */
+    public static function pageKey(Page $page): string
+    {
+        $id = $page->getIdWithoutLang();
+
+        return $page->isSectionIndex() ? "$id/index" : $id;
     }
 
     /**
@@ -128,7 +148,14 @@ class Schema
                 'items'    => $nested,
                 'fields'   => Expect::arrayOf($nested, Expect::string()),
                 'default'  => Expect::mixed(),
+                // description of the field, for the tools that edit the front matter
+                'label'       => Expect::string(),
+                'description' => Expect::string(),
+                'format'      => Expect::anyOf(...self::FORMATS),
             ])->assert(
+                fn (object $rules): bool => !isset($rules->format) || ($rules->type ?? null) === 'string',
+                'the `format` rule expects the `string` type'
+            )->assert(
                 fn (object $rules): bool => empty($rules->fields) || ($rules->type ?? null) === 'map',
                 'the `fields` rule expects the `map` type'
             )->assert(
@@ -187,13 +214,14 @@ class Schema
     }
 
     /**
-     * Returns the user schema of the given section (merged with the schema of all pages), or null if there is none.
+     * Returns the user schema of the given section and page (merged with the schema of all pages), or null if there is none.
      */
-    public function getUserSchema(?string $section): ?Structure
+    public function getUserSchema(?string $section, ?string $page = null): ?Structure
     {
-        $key = $section ?? self::ALL;
+        // a page without its own schema shares the schema of its section
+        $key = ($section ?? self::ALL) . ($page !== null && isset($this->definitions[$page]) ? "\n$page" : '');
         if (!\array_key_exists($key, $this->schemas)) {
-            $fields = $this->getUserFields($section);
+            $fields = $this->getUserFields($section, $page);
             $this->schemas[$key] = empty($fields) ? null : self::open(array_map([self::class, 'field'], $fields));
         }
 
@@ -201,15 +229,18 @@ class Schema
     }
 
     /**
-     * Returns the user fields definitions of the given section: fields of all pages (`*`), overridden by the fields of the section.
+     * Returns the user fields definitions of the given section and page:
+     * fields of all pages (`*`), overridden by the fields of the section, then by the fields of the page.
      *
      * @return array<string, mixed>
      */
-    protected function getUserFields(?string $section): array
+    protected function getUserFields(?string $section, ?string $page = null): array
     {
         $fields = (array) ($this->definitions[self::ALL] ?? []);
-        if ($section !== null && $section !== self::ALL) {
-            $fields = array_replace($fields, (array) ($this->definitions[$section] ?? []));
+        foreach ([$section, $page] as $key) {
+            if ($key !== null && $key !== self::ALL) {
+                $fields = array_replace($fields, (array) ($this->definitions[$key] ?? []));
+            }
         }
 
         return $fields;
@@ -277,7 +308,8 @@ class Schema
      *
      * A field is defined by its type (`author: string`), or by a map of rules:
      * `type`, `required`, `enum`, `pattern`, `min`, `max`, `fields` (fields of a map),
-     * `items` (type or field definition of the items of a list) and `default`.
+     * `items` (type or field definition of the items of a list), `default`, and `format` (of a string).
+     * The `label` and `description` rules are not validated.
      *
      * A list item (`$item`) can't be empty (`null`), and the `required` rule doesn't apply to it.
      *
@@ -361,7 +393,7 @@ class Schema
     }
 
     /**
-     * Builds the schema of a type, with the `enum` and `pattern` rules.
+     * Builds the schema of a type, with the `enum`, `pattern` and `format` rules.
      *
      * @param array<string, mixed> $rules
      */
@@ -387,6 +419,14 @@ class Schema
         }
         if (isset($rules['pattern']) && \in_array($type, ['string', 'scalar'], true)) {
             $schema->pattern((string) $rules['pattern']);
+        }
+        // the other formats (`text`, `markdown`, `path`) only tell what the string holds; an optional field can be empty
+        if ($type === 'string' && ($rules['format'] ?? null) === 'url') {
+            // an absolute URL: not `FILTER_VALIDATE_URL`, which rejects non-ASCII characters
+            $schema->assert(fn ($value) => $value === null || preg_match('#^[a-z][a-z0-9+.-]*://\S+$#i', (string) $value) === 1, 'expects to be an absolute URL');
+        }
+        if ($type === 'string' && ($rules['format'] ?? null) === 'email') {
+            $schema->assert(fn ($value) => $value === null || filter_var($value, FILTER_VALIDATE_EMAIL, FILTER_FLAG_EMAIL_UNICODE) !== false, 'expects to be an email address');
         }
 
         return $schema;

@@ -2,7 +2,7 @@
 title: "Pages"
 description: "Dossier des pages, tri, pagination, chemins, corps, pages par défaut, générateurs, etc."
 date: 2026-03-27
-updated: 2026-11-05
+updated: 2026-11-14
 -->
 # Pages
 
@@ -158,21 +158,24 @@ Les [variables prédéfinies](../content/2-front-matter.fr.md#variables-predefin
 
 ## pages.schema
 
-Schémas du front matter, par _Section_ (`*` s’applique à toutes les pages).
+Schémas du front matter, par _Section_ ou par [page](#schema-dune-page) (`*` s’applique à toutes les pages).
 
 Chaque variable est définie par son type, ou par un ensemble de règles :
 
-| Règle      | Description                                                                                 |
-| ---------- | ------------------------------------------------------------------------------------------- |
-| `type`     | `string`, `int`, `number`, `bool`, `date`, `list`, `map`, `scalar` ou `mixed` (par défaut). |
-| `required` | La variable doit être définie (`false` par défaut).                                         |
-| `enum`     | Liste des valeurs autorisées.                                                               |
-| `pattern`  | Expression régulière que la valeur doit respecter (`string` et `scalar`).                   |
-| `min`      | Valeur (`int`, `number`), longueur (`string`) ou nombre d’éléments (`list`, `map`) minimum. |
-| `max`      | Valeur (`int`, `number`), longueur (`string`) ou nombre d’éléments (`list`, `map`) maximum. |
-| `items`    | Type ou définition des éléments d’une `list` (voir [listes et maps](#listes-et-maps)).      |
-| `fields`   | Définitions des variables d’une `map` (voir [listes et maps](#listes-et-maps)).             |
-| `default`  | Valeur appliquée lorsque la variable n’est pas définie.                                     |
+| Règle         | Description                                                                                                                                 |
+| ------------- | ------------------------------------------------------------------------------------------------------------------------------------------- |
+| `type`        | `string`, `int`, `number`, `bool`, `date`, `list`, `map`, `scalar` ou `mixed` (par défaut).                                                 |
+| `required`    | La variable doit être définie (`false` par défaut).                                                                                         |
+| `enum`        | Liste des valeurs autorisées.                                                                                                               |
+| `pattern`     | Expression régulière que la valeur doit respecter (`string` et `scalar`).                                                                   |
+| `min`         | Valeur (`int`, `number`), longueur (`string`) ou nombre d’éléments (`list`, `map`) minimum.                                                 |
+| `max`         | Valeur (`int`, `number`), longueur (`string`) ou nombre d’éléments (`list`, `map`) maximum.                                                 |
+| `items`       | Type ou définition des éléments d’une `list` (voir [listes et maps](#listes-et-maps)).                                                      |
+| `fields`      | Définitions des variables d’une `map` (voir [listes et maps](#listes-et-maps)).                                                             |
+| `default`     | Valeur appliquée lorsque la variable n’est pas définie.                                                                                     |
+| `format`      | Ce que contient une `string` : `text`, `markdown`, `url`, `email` ou `path` (voir [description des variables](#description-des-variables)). |
+| `label`       | Nom de la variable, pour les outils qui éditent le front matter.                                                                            |
+| `description` | Texte d’aide de la variable, pour les outils qui éditent le front matter.                                                                   |
 
 ```yaml
 pages:
@@ -200,7 +203,7 @@ pages:
 La longueur d’une chaîne (règles `min` et `max`) est comptée en caractères, et non en octets.
 
 :::info
-Les schémas sont ouverts : les variables non déclarées sont autorisées. Les variables d’une section surchargent celles de `*`. Une variable facultative peut être vide (`null`).
+Les schémas sont ouverts : les variables non déclarées sont autorisées. Les variables d’une section surchargent celles de `*`, et celles d’une page surchargent les deux. Une variable facultative peut être vide (`null`).
 :::
 
 ### Listes et maps
@@ -236,6 +239,70 @@ pages:
 ```
 
 Une erreur donne le chemin de la variable invalide, à partir de `0` pour le premier élément d’une liste : `The mandatory variable 'images › 1 › alt' is missing.` (texte alternatif de la deuxième image).
+
+### Schéma d’une page
+
+Une clé de `pages.schema` peut aussi être une page, pour les pages qui ont leurs propres variables (une page d’accueil, un CV, etc.). La clé est l’identifiant de la page, sans sa langue : le chemin de son fichier dans le dossier des pages, sans préfixe, langue ni extension.
+
+| Fichier                   | Clé          |
+| ------------------------- | ------------ |
+| `index.md`                | `index`      |
+| `cv.md`, `cv.en.md`       | `cv`         |
+| `1-Mon projet.md`         | `mon-projet` |
+| `blog/2024-05-01_post.md` | `blog/post`  |
+| `blog/index.md`           | `blog/index` |
+
+Les variables sont celles de `*`, puis de la section de la page, puis de la page : les dernières surchargent les autres.
+
+```yaml
+pages:
+  schema:
+    blog:        # pages de la section « blog »
+      author: {type: string, required: true}
+    blog/index:  # index de la section « blog »
+      intro: string
+    cv:          # page « cv.md », et ses traductions
+      skills:
+        type: list
+        items:
+          type: map
+          fields:
+            name: {type: string, required: true}
+            level: {type: int, min: 0, max: 100}
+```
+
+:::info
+Le schéma d’une section s’applique à ses pages, pas à son index (`blog/index.md`), qui a sa propre clé (`blog/index`).
+:::
+
+### Description des variables
+
+Les règles `format`, `label` et `description` décrivent une variable aux outils qui éditent le front matter (par exemple, [Cecil Desktop](https://desktop.cecil.app) construit son formulaire à partir du schéma). Elles sont acceptées sur toute variable, y compris dans `fields` et `items`.
+
+`format` indique ce que contient une `string` :
+
+| Format     | Description                                                             |
+| ---------- | ----------------------------------------------------------------------- |
+| `text`     | Texte de plusieurs lignes.                                              |
+| `markdown` | Texte de plusieurs lignes, rendu en Markdown par le template.           |
+| `url`      | URL absolue (`https://cecil.app`) : validée.                            |
+| `email`    | Adresse e-mail : validée.                                               |
+| `path`     | Chemin d’un fichier du site (asset ou fichier statique) : non contrôlé. |
+
+```yaml
+pages:
+  schema:
+    cv:
+      intro:
+        type: string
+        format: markdown
+        label: Introduction
+        description: Affichée sous le titre de la page.
+      website: {type: string, format: url}
+      photo: {type: string, format: path, label: Photo}
+```
+
+`label` et `description` n’ont aucun effet sur la validation, pas plus que les formats `text`, `markdown` et `path`.
 
 ## pages.converter
 
