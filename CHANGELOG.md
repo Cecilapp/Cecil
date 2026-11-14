@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. Dates are displayed in UTC.
 
+#### [9.29.0](https://github.com/Cecilapp/Cecil/compare/9.28.0...9.29.0)
+
+> 13 November 2026
+
+- feat(config): load the configuration of themes required by a theme [`#2587`](https://github.com/Cecilapp/Cecil/pull/2587)
+- chore(deps-dev): bump friendsofphp/php-cs-fixer from 3.95.28 to 3.95.29 [`#2586`](https://github.com/Cecilapp/Cecil/pull/2586)
+
 #### [9.28.0](https://github.com/Cecilapp/Cecil/compare/9.27.0...9.28.0)
 
 > 5 November 2026
