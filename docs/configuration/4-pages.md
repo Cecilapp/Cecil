@@ -2,7 +2,7 @@
 title: "Pages"
 description: "Pages directory, sorting, pagination, paths, body, default pages, generators, etc."
 date: 2021-05-07
-updated: 2026-11-05
+updated: 2026-11-14
 -->
 # Pages
 
@@ -158,21 +158,24 @@ The [predefined variables](../content/2-front-matter.md#predefined-variables) (`
 
 ## pages.schema
 
-Schemas of the front matter, by _Section_ (`*` applies to all pages).
+Schemas of the front matter, by _Section_ or by [page](#schema-of-a-page) (`*` applies to all pages).
 
 Each variable is defined by its type, or by a map of rules:
 
-| Rule       | Description                                                                              |
-| ---------- | ---------------------------------------------------------------------------------------- |
-| `type`     | `string`, `int`, `number`, `bool`, `date`, `list`, `map`, `scalar` or `mixed` (default). |
-| `required` | The variable must be defined (`false` by default).                                       |
-| `enum`     | List of allowed values.                                                                  |
-| `pattern`  | Regular expression that the value must match (`string` and `scalar`).                    |
-| `min`      | Minimum value (`int`, `number`), length (`string`) or count of items (`list`, `map`).    |
-| `max`      | Maximum value (`int`, `number`), length (`string`) or count of items (`list`, `map`).    |
-| `items`    | Type or definition of the items of a `list` (see [lists and maps](#lists-and-maps)).     |
-| `fields`   | Definitions of the variables of a `map` (see [lists and maps](#lists-and-maps)).         |
-| `default`  | Value applied when the variable is not defined.                                          |
+| Rule          | Description                                                                                                                              |
+| ------------- | ---------------------------------------------------------------------------------------------------------------------------------------- |
+| `type`        | `string`, `int`, `number`, `bool`, `date`, `list`, `map`, `scalar` or `mixed` (default).                                                 |
+| `required`    | The variable must be defined (`false` by default).                                                                                       |
+| `enum`        | List of allowed values.                                                                                                                  |
+| `pattern`     | Regular expression that the value must match (`string` and `scalar`).                                                                    |
+| `min`         | Minimum value (`int`, `number`), length (`string`) or count of items (`list`, `map`).                                                    |
+| `max`         | Maximum value (`int`, `number`), length (`string`) or count of items (`list`, `map`).                                                    |
+| `items`       | Type or definition of the items of a `list` (see [lists and maps](#lists-and-maps)).                                                     |
+| `fields`      | Definitions of the variables of a `map` (see [lists and maps](#lists-and-maps)).                                                         |
+| `default`     | Value applied when the variable is not defined.                                                                                          |
+| `format`      | What a `string` holds: `text`, `markdown`, `url`, `email` or `path` (see [description of the variables](#description-of-the-variables)). |
+| `label`       | Name of the variable, for the tools that edit the front matter.                                                                          |
+| `description` | Help text of the variable, for the tools that edit the front matter.                                                                     |
 
 ```yaml
 pages:
@@ -200,7 +203,7 @@ pages:
 The length of a string (`min` and `max` rules) is counted in characters, not in bytes.
 
 :::info
-Schemas are open: variables that are not declared are allowed. Variables of a section override variables of `*`. An optional variable can be empty (`null`).
+Schemas are open: variables that are not declared are allowed. Variables of a section override variables of `*`, and variables of a page override both. An optional variable can be empty (`null`).
 :::
 
 ### Lists and maps
@@ -236,6 +239,70 @@ pages:
 ```
 
 An error gives the path of the invalid variable, from `0` for the first item of a list: `The mandatory variable 'images › 1 › alt' is missing.` (alternative text of the second image).
+
+### Schema of a page
+
+A key of `pages.schema` can also be a page, for the pages that have their own variables (a home page, a résumé, etc.). The key is the ID of the page, without its language: the path of its file in the pages directory, without prefix, language and extension.
+
+| File                      | Key          |
+| ------------------------- | ------------ |
+| `index.md`                | `index`      |
+| `cv.md`, `cv.en.md`       | `cv`         |
+| `1-My project.md`         | `my-project` |
+| `blog/2024-05-01_post.md` | `blog/post`  |
+| `blog/index.md`           | `blog/index` |
+
+The variables are those of `*`, then of the section of the page, then of the page: the last ones override the others.
+
+```yaml
+pages:
+  schema:
+    blog:        # pages of the "blog" section
+      author: {type: string, required: true}
+    blog/index:  # index of the "blog" section
+      intro: string
+    cv:          # "cv.md" page, and its translations
+      skills:
+        type: list
+        items:
+          type: map
+          fields:
+            name: {type: string, required: true}
+            level: {type: int, min: 0, max: 100}
+```
+
+:::info
+The schema of a section applies to its pages, not to its index (`blog/index.md`), which has its own key (`blog/index`).
+:::
+
+### Description of the variables
+
+The `format`, `label` and `description` rules describe a variable to the tools that edit the front matter (e.g. [Cecil Desktop](https://desktop.cecil.app) builds its form from the schema). They are accepted on any variable, also in `fields` and `items`.
+
+`format` tells what a `string` holds:
+
+| Format     | Description                                                     |
+| ---------- | --------------------------------------------------------------- |
+| `text`     | Text of several lines.                                          |
+| `markdown` | Text of several lines, rendered as Markdown by the template.    |
+| `url`      | Absolute URL (`https://cecil.app`): validated.                  |
+| `email`    | Email address: validated.                                       |
+| `path`     | Path of a file of the site (asset or static file): not checked. |
+
+```yaml
+pages:
+  schema:
+    cv:
+      intro:
+        type: string
+        format: markdown
+        label: Introduction
+        description: Shown under the title of the page.
+      website: {type: string, format: url}
+      photo: {type: string, format: path, label: Photo}
+```
+
+`label` and `description` have no effect on the validation, and neither have the `text`, `markdown` and `path` formats.
 
 ## pages.converter
 

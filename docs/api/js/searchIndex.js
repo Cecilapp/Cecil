@@ -2136,6 +2136,11 @@ Search.appendIndex(
             "summary": "Validates\u0020front\u0020matter\u0020variables\u0020and\u0020returns\u0020them,\u0020completed\u0020with\u0020the\u0020default\u0020values\u0020of\u0020the\u0020user\u0020schema.",
             "url": "classes/Cecil-Collection-Page-Schema.html#method_validate"
         },                {
+            "fqsen": "\\Cecil\\Collection\\Page\\Schema\u003A\u003ApageKey\u0028\u0029",
+            "name": "pageKey",
+            "summary": "Returns\u0020the\u0020key\u0020of\u0020a\u0020page\u0020in\u0020the\u0020user\u0020schemas\u003A\u0020its\u0020ID\u0020without\u0020language\u0020\u0028\u0060cv\u0060\u0020for\u0020\u0060cv.md\u0060\u0020and\u0020\u0060cv.en.md\u0060,\n\u0060index\u0060\u0020for\u0020the\u0020home\u0020page\u0029,\u0020followed\u0020by\u0020\u0060\/index\u0060\u0020for\u0020the\u0020index\u0020of\u0020a\u0020section\u0020\u0028\u0060blog\/index\u0060\u0020for\u0020\u0060blog\/index.md\u0060\u0029,\nas\u0020its\u0020ID\u0020\u0028\u0060blog\u0060\u0029\u0020is\u0020the\u0020key\u0020of\u0020the\u0020section.",
+            "url": "classes/Cecil-Collection-Page-Schema.html#method_pageKey"
+        },                {
             "fqsen": "\\Cecil\\Collection\\Page\\Schema\u003A\u003A\u0024definition",
             "name": "definition",
             "summary": "Schema\u0020of\u0020a\u0020user\u0020field\u0020definition,\u0020used\u0020to\u0020validate\u0020the\u0020configuration",
@@ -2148,12 +2153,12 @@ Search.appendIndex(
         },                {
             "fqsen": "\\Cecil\\Collection\\Page\\Schema\u003A\u003AgetUserSchema\u0028\u0029",
             "name": "getUserSchema",
-            "summary": "Returns\u0020the\u0020user\u0020schema\u0020of\u0020the\u0020given\u0020section\u0020\u0028merged\u0020with\u0020the\u0020schema\u0020of\u0020all\u0020pages\u0029,\u0020or\u0020null\u0020if\u0020there\u0020is\u0020none.",
+            "summary": "Returns\u0020the\u0020user\u0020schema\u0020of\u0020the\u0020given\u0020section\u0020and\u0020page\u0020\u0028merged\u0020with\u0020the\u0020schema\u0020of\u0020all\u0020pages\u0029,\u0020or\u0020null\u0020if\u0020there\u0020is\u0020none.",
             "url": "classes/Cecil-Collection-Page-Schema.html#method_getUserSchema"
         },                {
             "fqsen": "\\Cecil\\Collection\\Page\\Schema\u003A\u003AgetUserFields\u0028\u0029",
             "name": "getUserFields",
-            "summary": "Returns\u0020the\u0020user\u0020fields\u0020definitions\u0020of\u0020the\u0020given\u0020section\u003A\u0020fields\u0020of\u0020all\u0020pages\u0020\u0028\u0060\u002A\u0060\u0029,\u0020overridden\u0020by\u0020the\u0020fields\u0020of\u0020the\u0020section.",
+            "summary": "Returns\u0020the\u0020user\u0020fields\u0020definitions\u0020of\u0020the\u0020given\u0020section\u0020and\u0020page\u003A\nfields\u0020of\u0020all\u0020pages\u0020\u0028\u0060\u002A\u0060\u0029,\u0020overridden\u0020by\u0020the\u0020fields\u0020of\u0020the\u0020section,\u0020then\u0020by\u0020the\u0020fields\u0020of\u0020the\u0020page.",
             "url": "classes/Cecil-Collection-Page-Schema.html#method_getUserFields"
         },                {
             "fqsen": "\\Cecil\\Collection\\Page\\Schema\u003A\u003Adefaults\u0028\u0029",
@@ -2188,7 +2193,7 @@ Search.appendIndex(
         },                {
             "fqsen": "\\Cecil\\Collection\\Page\\Schema\u003A\u003Atype\u0028\u0029",
             "name": "type",
-            "summary": "Builds\u0020the\u0020schema\u0020of\u0020a\u0020type,\u0020with\u0020the\u0020\u0060enum\u0060\u0020and\u0020\u0060pattern\u0060\u0020rules.",
+            "summary": "Builds\u0020the\u0020schema\u0020of\u0020a\u0020type,\u0020with\u0020the\u0020\u0060enum\u0060,\u0020\u0060pattern\u0060\u0020and\u0020\u0060format\u0060\u0020rules.",
             "url": "classes/Cecil-Collection-Page-Schema.html#method_type"
         },                {
             "fqsen": "\\Cecil\\Collection\\Page\\Schema\u003A\u003Arange\u0028\u0029",
@@ -2245,6 +2250,11 @@ Search.appendIndex(
             "name": "TYPES",
             "summary": "Allowed\u0020types\u0020of\u0020a\u0020user\u0020schema\u0020field.",
             "url": "classes/Cecil-Collection-Page-Schema.html#constant_TYPES"
+        },                {
+            "fqsen": "\\Cecil\\Collection\\Page\\Schema\u003A\u003AFORMATS",
+            "name": "FORMATS",
+            "summary": "Allowed\u0020formats\u0020of\u0020a\u0020\u0060string\u0060\u0020field\u003A\u0020what\u0020the\u0020string\u0020holds\u0020\u0028only\u0020\u0060url\u0060\u0020and\u0020\u0060email\u0060\u0020are\u0020validated\u0029.",
+            "url": "classes/Cecil-Collection-Page-Schema.html#constant_FORMATS"
         },                {
             "fqsen": "\\Cecil\\Collection\\Page\\Schema\u003A\u003AALL",
             "name": "ALL",

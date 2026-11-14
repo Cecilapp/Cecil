@@ -92,6 +92,36 @@ class ConvertTest extends TestCase
         self::assertNull($builder->getPages()->get('about')->getVariable('stage'));
     }
 
+    public function testSchemaIsAppliedByPage(): void
+    {
+        $builder = $this->convert(['schema' => [
+            'blog'  => ['author' => 'string'],
+            'about' => ['team' => ['type' => 'list', 'required' => true]],
+        ]]);
+
+        self::assertTrue($builder->getPages()->has('blog/post'));
+        self::assertFalse($builder->getPages()->has('about'));
+        self::assertNotEmpty($this->logsOf('error', "Invalid front matter of \"about.md\": The mandatory variable 'team' is missing."));
+    }
+
+    public function testIndexOfSectionHasItsOwnSchema(): void
+    {
+        $this->filesystem->dumpFile(implode(DIRECTORY_SEPARATOR, [$this->sourceDir, 'pages', 'blog', 'index.md']), "---\ntitle: Blog\n---\nBody");
+
+        // the schema of a section is the schema of its pages, not of its index
+        $builder = $this->convert([]);
+        self::assertTrue($builder->getPages()->has('blog'));
+        self::assertFalse($builder->getPages()->has('blog/post'));
+
+        $builder = $this->convert(['schema' => [
+            'blog'       => ['author' => 'string'],
+            'blog/index' => ['intro' => ['type' => 'string', 'required' => true]],
+        ]]);
+        self::assertFalse($builder->getPages()->has('blog'));
+        self::assertTrue($builder->getPages()->has('blog/post'));
+        self::assertNotEmpty($this->logsOf('error', "Invalid front matter of \"blog/index.md\": The mandatory variable 'intro' is missing."));
+    }
+
     /**
      * Runs pages Load, Create and Convert steps with the given `pages` options.
      *

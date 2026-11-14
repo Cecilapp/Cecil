@@ -1146,7 +1146,7 @@ class Config
                 'generators' => Expect::array(),
                 // front matter validation mode
                 'validation' => Expect::anyOf(false, 'warning', 'error', 'strict'),
-                // front matter schemas, indexed by section (`*` for all pages): each field is defined by its type or by a map of rules (recursive with `fields` and `items`)
+                // front matter schemas, indexed by section or by page (`*` for all pages): each field is defined by its type or by a map of rules (recursive with `fields` and `items`)
                 'schema' => Expect::arrayOf(
                     Expect::arrayOf(PageSchema::definition(), Expect::string()),
                     Expect::string()
