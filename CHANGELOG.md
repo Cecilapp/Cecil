@@ -2,6 +2,14 @@
 
 All notable changes to this project will be documented in this file. Dates are displayed in UTC.
 
+#### [9.30.0](https://github.com/Cecilapp/Cecil/compare/9.29.0...9.30.0)
+
+> 14 November 2026
+
+- feat(pages): front matter schema by page, and field descriptions [`#2590`](https://github.com/Cecilapp/Cecil/pull/2590)
+- chore(deps-dev): bump friendsofphp/php-cs-fixer from 3.95.29 to 3.95.30 [`#2588`](https://github.com/Cecilapp/Cecil/pull/2588)
+- feat(pages): front matter schema by page, and field descriptions (#2590) [`#2589`](https://github.com/Cecilapp/Cecil/issues/2589)
+
 #### [9.29.0](https://github.com/Cecilapp/Cecil/compare/9.28.0...9.29.0)
 
 > 13 November 2026
