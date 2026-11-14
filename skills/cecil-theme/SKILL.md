@@ -16,7 +16,7 @@ Use this skill when:
 
 - Creating a new Cecil theme from scratch, or turning a site's `layouts/` into a reusable theme
 - Creating a component theme (search, PWA, dark mode toggle, icons, redirects, headers, analytics, etc.)
-- Installing or integrating an official component theme (e.g. `flexsearch`, `pwa`, `darkmodetoggle`) into a site or a visual theme; ask the user first (see "Ask the user before installing")
+- Installing or integrating an official component theme (e.g. `flexsearch`, `pwa`, `darkmodetoggle`, `ogimage`) into a site or a visual theme; ask the user first (see "Ask the user before installing")
 - Adding theme options, translations or assets to a theme
 - Packaging and publishing a theme with Composer (`cecil/theme-<name>`)
 - Debugging theme resolution (layouts, assets, config or translations not picked up)
@@ -27,7 +27,7 @@ Read the matching reference **before** working on a topic it covers:
 
 | Read                                                           | Before                                                                                                   |
 |----------------------------------------------------------------|----------------------------------------------------------------------------------------------------------|
-| [references/component-themes.md](references/component-themes.md) | Creating a component theme, or installing, combining or pre-wiring official component themes (FlexSearch, PWA, dark mode toggle, etc.) |
+| [references/component-themes.md](references/component-themes.md) | Creating a component theme, or installing, combining or pre-wiring official component themes (FlexSearch, PWA, dark mode toggle, Open Graph image, etc.) |
 | [references/packaging.md](references/packaging.md)             | Packaging a theme for Composer: `composer.json`, `.editorconfig`, README, `.gitattributes`, demo site   |
 
 ## How Cecil Loads Themes
@@ -367,7 +367,7 @@ Provide at least one translation file, keyed by the source string:
 
 ## Component Themes
 
-No automatic injection mechanism exists: a component theme plugs into a site through generated pages and output formats, partials to include, macros, section-specific layouts, front matter blocks or Twig components. Official component themes exist (FlexSearch, PWA, dark mode toggle, etc.): **ask the user before installing one**. Read [references/component-themes.md](references/component-themes.md) for the patterns and the official component themes.
+No automatic injection mechanism exists: a component theme plugs into a site through generated pages and output formats, partials to include, macros, section-specific layouts, front matter blocks or Twig components. Official component themes exist (FlexSearch, PWA, dark mode toggle, Open Graph image, etc.): **ask the user before installing one**. Read [references/component-themes.md](references/component-themes.md) for the patterns and the official component themes.
 
 ## Packaging
 
@@ -412,5 +412,5 @@ A theme is published as a Composer package (`composer.json` with type `cecil-the
 - Themes showcase: https://cecil.app/themes/
 - Templates documentation: https://cecil.app/documentation/templates/
 - Configuration (`theme`): https://cecil.app/documentation/configuration/site/#theme
-- Component themes: https://github.com/Cecilapp/theme-flexsearch, https://github.com/Cecilapp/theme-pwa, https://github.com/Cecilapp/theme-darkmodetoggle
+- Component themes: https://github.com/Cecilapp/theme-flexsearch, https://github.com/Cecilapp/theme-pwa, https://github.com/Cecilapp/theme-darkmodetoggle, https://github.com/Cecilapp/theme-ogimage
 - Minimal skeleton: https://github.com/Cecilapp/theme-example

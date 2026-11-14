@@ -11,6 +11,7 @@ How a component theme plugs into a site, and how to work with the official compo
   - [FlexSearch (`flexsearch`)](#flexsearch-flexsearch)
   - [PWA (`pwa`)](#pwa-pwa)
   - [Dark mode toggle (`darkmodetoggle`)](#dark-mode-toggle-darkmodetoggle)
+  - [Open Graph image (`ogimage`)](#open-graph-image-ogimage)
   - [Pre-wiring component themes in a visual theme](#pre-wiring-component-themes-in-a-visual-theme)
 
 ## Component Themes Patterns
@@ -107,6 +108,7 @@ Before writing a feature, check whether an official component theme already prov
 | `flexsearch`     | Client-side full-text search: index generated at build time, DocSearch-like modal |
 | `pwa`            | Web manifest, service worker, offline page (Progressive Web App)                  |
 | `darkmodetoggle` | Icon button to switch between light and dark color schemes                        |
+| `ogimage`        | Open Graph image generated for each page (title, author and site title)           |
 | `docsearch`      | Algolia DocSearch                                                                 |
 | `fontawesome`    | Font Awesome icons helpers                                                        |
 | `octicons`       | Twig macro for Primer Octicons icons                                              |
@@ -120,7 +122,7 @@ Before writing a feature, check whether an official component theme already prov
 
 Installing a component theme adds a Composer dependency, entries in `theme` and includes in layouts, so **ask the user** instead of deciding alone. Ask when:
 
-- creating a visual theme or a site, and a feature could come from a component theme (search, dark mode, PWA, icons…): offer to install it, to pre-wire it with `ignore_missing = true` (optional for the theme's users), or to skip it
+- creating a visual theme or a site, and a feature could come from a component theme (search, dark mode, PWA, Open Graph images, icons…): offer to install it, to pre-wire it with `ignore_missing = true` (optional for the theme's users), or to skip it
 - the user requests a feature already covered by a component theme: offer to install it rather than re-implement it
 - a feature has several options (e.g. `flexsearch` vs `docsearch`, `darkmodetoggle` vs the built-in `theme-selector`): present the choice with the trade-offs
 
@@ -130,6 +132,7 @@ Suggested questions:
 - "Do you want a search box? FlexSearch (client-side, no service) or Algolia DocSearch?"
 - "Do you want a light/dark mode toggle (`darkmodetoggle`)?"
 - "Should the site work offline and be installable as an app (`pwa`)?"
+- "Should pages without an image get a generated Open Graph image for social sharing (`ogimage`)?"
 - "Should these components be required by the theme, or only optional (included if installed)?"
 
 Group the questions in a single message, recommend a default for each, and don't ask again for components already declared in `theme` or explicitly declined. Once answered, install (`composer require cecil/theme-<name>`), add the theme to `theme`, and include its partials and assets as documented below.
@@ -143,6 +146,7 @@ theme:
   - flexsearch
   - darkmodetoggle
   - pwa
+  - ogimage
   - hyde
 ```
 
@@ -236,6 +240,42 @@ darkmodetoggle:
 JavaScript API: `window.colorScheme.current()`, `.set('dark')`, `.toggle()`, and the `colorschemechange` event. Any element with `data-darkmodetoggle` toggles the scheme.
 
 > Cecil's built-in `partials/theme-selector.html.twig` is a basic toggle that only sets `data-theme` (inline styles, no options, single instance per page). Prefer `darkmodetoggle` for a configurable, accessible button that also sets the `dark` class and `color-scheme`, and exposes a JavaScript API.
+
+### Open Graph image (`ogimage`)
+
+Generates the image displayed when a page is shared (social networks, messaging apps): an `og.png` (1200 × 628) published next to each page, with the page title, its author and the site title drawn on a background image, plus an image for the site (title and description). Requires Cecil 9.25+ (the `og_image()` function is registered by a plugin shipped in the theme) and the PHP GD extension with FreeType support (otherwise a warning is logged and no image is generated).
+
+Give the generated image to the built-in metatags partial, in `<head>`:
+
+```twig
+{{ include('partials/metatags.html.twig', {page, site, image: og_image(page)}, with_context = false) }}
+```
+
+`og_image(page)` returns an asset, or `null` when there is nothing to generate (the metatags partial then uses the `image` of the page or of the site, as usual):
+
+- page with an `image` or `ogimage: false` in its front matter: `null`
+- homepage and pages out of the configured `sections`: image of the site, or `null` if the site has an `image`
+- other pages: image of the page
+
+Without argument, `og_image()` returns the image of the site. Main options:
+
+```yaml
+ogimage:
+  enabled: true
+  sections: [blog]                     # pages with their own image (all pages if empty)
+  background: ogimage/background.png   # asset path, resized to 1200 × 628
+  color: '#111111'                     # text color
+  fonts:                               # TrueType fonts (asset paths)
+    regular: ogimage/fonts/GoogleSansCode-Regular.ttf
+    bold: ogimage/fonts/GoogleSansCode-Bold.ttf
+  padding: {top: 105, right: 110, bottom: 100, left: 110}
+  by: by                               # text before the author name (translate it in `languages.<n>.config.ogimage.by`)
+  site_title: true                     # false to hide the site title from the images of the pages
+```
+
+- The background and the fonts are assets: set another path, or override the default files with a file at the same path (e.g. `assets/ogimage/background.png`).
+- Images are multilingual (published in the language directory, with the texts and options of the language) and cached (generated again only when a text or an option changes).
+- `og_image()` only exists when the theme is enabled, so it can't be pre-wired with `ignore_missing`. A visual theme that wants it should require it instead (Cecil 9.29+): add `"cecil/theme-ogimage": "^1.0"` to the `require` section of its `composer.json`, and `theme: [ogimage]` with its own options (e.g. `ogimage: {background: <theme>/og-background.png}`) to its `config.yml`.
 
 ### Pre-wiring component themes in a visual theme
 
