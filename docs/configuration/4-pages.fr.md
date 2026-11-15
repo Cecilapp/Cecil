@@ -2,7 +2,7 @@
 title: "Pages"
 description: "Dossier des pages, tri, pagination, chemins, corps, pages par défaut, générateurs, etc."
 date: 2026-03-27
-updated: 2026-11-14
+updated: 2026-11-15
 -->
 # Pages
 
@@ -160,6 +160,8 @@ Les [variables prédéfinies](../content/2-front-matter.fr.md#variables-predefin
 
 Schémas du front matter, par _Section_ ou par [page](#schema-dune-page) (`*` s’applique à toutes les pages).
 
+Les schémas peuvent aussi être écrits dans le [dossier `schemas`](#repertoire-des-schemas), un fichier par _Section_ ou par page.
+
 Chaque variable est définie par son type, ou par un ensemble de règles :
 
 | Règle         | Description                                                                                                                                 |
@@ -303,6 +305,78 @@ pages:
 ```
 
 `label` et `description` n’ont aucun effet sur la validation, pas plus que les formats `text`, `markdown` et `path`.
+
+### Répertoire des schémas
+
+Plutôt que dans la configuration, les schémas peuvent être écrits dans le dossier `schemas`, à la racine du site : un fichier YAML (`.yml` ou `.yaml`) par clé de `pages.schema`, chargé automatiquement.
+
+```plaintext
+<monsiteweb>
+├─ pages
+└─ schemas
+   ├─ _all.yml        <- '*' : toutes les pages
+   ├─ blog.yml        <- section « blog »
+   ├─ cv.yml          <- page « cv.md »
+   ├─ index.yml       <- page d’accueil
+   └─ blog
+      └─ index.yml    <- page « blog/index.md » (clé « blog/index »)
+```
+
+- Le chemin d’un fichier dans le dossier, sans son extension, est la clé du schéma : une _Section_, ou une [page](#schema-dune-page) (`schemas/blog/billet-1.yml` est le schéma de la page `blog/billet-1`).
+- Le schéma de toutes les pages (`*`) est le fichier `_all.yml`.
+- Une clé ne peut pas avoir deux fichiers (`blog.yml` et `blog.yaml`) : c’est une erreur.
+- Un fichier contient directement les variables, comme sous `pages.schema.<clé>`, et un fichier vide est un schéma vide.
+
+```yaml
+# schemas/cv.yml
+sections:
+  label: Sections
+  type: list
+  items:
+    type: map
+    fields:
+      title: {type: string, required: true}
+      text: {type: string, format: markdown}
+```
+
+équivaut à :
+
+```yaml
+pages:
+  schema:
+    cv:
+      sections:
+        # …
+```
+
+Chaque fichier est validé au chargement de la configuration : une erreur donne le nom du fichier et le chemin de la variable invalide dans ce fichier (ex. `Invalid schema file "schemas/cv.yml"`). Comme dans `pages.schema`, un fichier dont la clé ne correspond à aucune _Section_ ni à aucune page est ignoré.
+
+Un [thème](../templates/7-extend.fr.md#theme) peut aussi avoir un dossier `schemas`, pour les variables attendues par ses templates. Les schémas sont fusionnés de la plus faible à la plus forte priorité :
+
+1. dossiers `schemas` des thèmes (un thème surcharge les thèmes qui le suivent dans la liste) ;
+2. `pages.schema` du `config.yml` des thèmes (un thème surcharge les thèmes qui le suivent dans la liste) ;
+3. dossier `schemas` du site ;
+4. `pages.schema` de la configuration du site.
+
+Pour une même clé, les variables sont fusionnées une à une, à chaque niveau et entre thèmes : la définition d’une variable remplace entièrement sa définition précédente (ses règles ne sont pas fusionnées et les listes `enum` ne sont pas cumulées), les autres variables sont conservées.
+
+```yaml
+# schemas/blog.yml
+author: {type: string, required: true}
+tags: {type: list, items: string}
+```
+
+```yaml
+# cecil.yml
+pages:
+  schema:
+    blog:
+      author: string # « author » devient facultatif, « tags » est conservé
+```
+
+:::info
+Avec `cecil serve`, une modification dans un dossier `schemas` reconstruit tout le site, avec les schémas rechargés.
+:::
 
 ## pages.converter
 

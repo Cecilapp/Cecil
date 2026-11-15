@@ -2,7 +2,7 @@
 title: "Pages"
 description: "Pages directory, sorting, pagination, paths, body, default pages, generators, etc."
 date: 2021-05-07
-updated: 2026-11-14
+updated: 2026-11-15
 -->
 # Pages
 
@@ -160,6 +160,8 @@ The [predefined variables](../content/2-front-matter.md#predefined-variables) (`
 
 Schemas of the front matter, by _Section_ or by [page](#schema-of-a-page) (`*` applies to all pages).
 
+Schemas can also be written in the [`schemas` directory](#schemas-directory), one file by _Section_ or by page.
+
 Each variable is defined by its type, or by a map of rules:
 
 | Rule          | Description                                                                                                                              |
@@ -303,6 +305,78 @@ pages:
 ```
 
 `label` and `description` have no effect on the validation, and neither have the `text`, `markdown` and `path` formats.
+
+### Schemas directory
+
+Instead of writing them in the configuration, schemas can be written in the `schemas` directory, at the root of the site: one YAML file (`.yml` or `.yaml`) by key of `pages.schema`, loaded automatically.
+
+```plaintext
+<mywebsite>
+├─ pages
+└─ schemas
+   ├─ _all.yml        <- '*': all pages
+   ├─ blog.yml        <- "blog" section
+   ├─ cv.yml          <- "cv.md" page
+   ├─ index.yml       <- home page
+   └─ blog
+      └─ index.yml    <- "blog/index.md" page (key "blog/index")
+```
+
+- The path of a file in the directory, without its extension, is the key of the schema: a _Section_, or a [page](#schema-of-a-page) (`schemas/blog/post-1.yml` is the schema of the `blog/post-1` page).
+- The schema of all pages (`*`) is the `_all.yml` file.
+- A key can't have two files (`blog.yml` and `blog.yaml`): this is an error.
+- A file holds the variables directly, as under `pages.schema.<key>`, and an empty file is an empty schema.
+
+```yaml
+# schemas/cv.yml
+sections:
+  label: Sections
+  type: list
+  items:
+    type: map
+    fields:
+      title: {type: string, required: true}
+      text: {type: string, format: markdown}
+```
+
+is the same as:
+
+```yaml
+pages:
+  schema:
+    cv:
+      sections:
+        # …
+```
+
+Each file is validated when the configuration is loaded: an error gives the name of the file and the path of the invalid variable in it (e.g. `Invalid schema file "schemas/cv.yml"`). As in `pages.schema`, a file whose key matches no _Section_ and no page is ignored.
+
+A [theme](../templates/7-extend.md#theme) can also have a `schemas` directory, for the variables its templates expect. Schemas are merged from the lowest to the highest priority:
+
+1. `schemas` directories of the themes (a theme overrides the themes after it in the list);
+2. `pages.schema` of the `config.yml` of the themes (a theme overrides the themes after it in the list);
+3. `schemas` directory of the site;
+4. `pages.schema` of the configuration of the site.
+
+For a same key, variables are merged one by one, at each level and between themes: the definition of a variable replaces its previous definition as a whole (its rules are not merged, and `enum` lists are not combined), the other variables are kept.
+
+```yaml
+# schemas/blog.yml
+author: {type: string, required: true}
+tags: {type: list, items: string}
+```
+
+```yaml
+# cecil.yml
+pages:
+  schema:
+    blog:
+      author: string # "author" is now optional, "tags" is kept
+```
+
+:::info
+With `cecil serve`, a change in a `schemas` directory rebuilds the whole site with the schemas loaded again.
+:::
 
 ## pages.converter
 

@@ -49,6 +49,7 @@ my-site/
 ├── assets/    # Processed files (CSS, JS, images)
 ├── static/    # Static files copied as-is
 ├── data/      # Data collections (YAML/JSON/...)
+├── schemas/   # Front matter schemas, one YAML file by section or by page (`pages.schema`)
 ├── translations/ # UI strings translations (messages.<locale>.yaml)
 ├── extensions/ # Custom PHP classes (generators, Twig extensions, post-processors, event subscribers)
 ├── .cache/    # Build cache (generated, `cache.dir`)
@@ -64,6 +65,7 @@ Add `.cache/` and `_site/` to the site `.gitignore`.
 - **assets/** - Files handled by Cecil (Sass compilation, minification, image handling), published **only when used** with `asset()` in a template (or as an image in Markdown): a file linked directly (`url()` or a raw path) must be in `static/`
 - **static/** - Files copied to output without transformation (`static.mounts` copies specific files or directories of `static/` to a chosen output path)
 - **data/** - Data files (YAML, JSON, XML, CSV) exposed in templates via `site.data` (`data/authors.yml` → `site.data.authors`)
+- **schemas/** - Front matter schemas, one YAML file per key of `pages.schema` (`blog.yml` → section `blog`, `blog/index.yml` → page `blog/index`, `_all.yml` → `*`), holding the fields directly; merged field by field with `pages.schema`, see [references/configuration.md](references/configuration.md#pages)
 - **translations/** - Translation files of the templates UI strings (`messages.<locale>.<ext>`, used by the `trans` tag/filter)
 - **extensions/** - Custom PHP classes autoloaded by Cecil (file path must match the class namespace, e.g. `extensions/MyProject/Generator/CustomGenerator.php`)
 

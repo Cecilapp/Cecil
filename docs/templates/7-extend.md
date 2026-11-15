@@ -2,7 +2,7 @@
 title: "Extend templates"
 description: "Add custom functions and filters, or use a theme."
 date: 2021-05-07
-updated: 2026-11-13
+updated: 2026-11-15
 -->
 # Extend templates
 
@@ -23,6 +23,7 @@ It’s easy to build a theme: create a folder `<theme>` with the following struc
       ├─ config.yml
       ├─ assets
       ├─ layouts
+      ├─ schemas
       ├─ static
       └─ translations
 ```
@@ -30,6 +31,8 @@ It’s easy to build a theme: create a folder `<theme>` with the following struc
 Then enable it with the [`theme`](../configuration/1-site.md#theme) configuration option.
 
 The theme `config.yml` overrides the [default configuration](../configuration/index.md#priority) and is merged with the site configuration, which takes precedence, except for [lists of values](../configuration/index.md#lists): the site values are added to the theme ones, and a theme value can only be removed with `false` (e.g. `homepage: {atom: false}`).
+
+The `schemas` directory of the theme holds the [front matter schemas](../configuration/4-pages.md#schemas-directory) of the variables its templates expect: the schemas of the site override them variable by variable.
 
 ### Required themes
 

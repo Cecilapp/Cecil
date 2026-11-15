@@ -122,6 +122,25 @@ class ConvertTest extends TestCase
         self::assertNotEmpty($this->logsOf('error', "Invalid front matter of \"blog/index.md\": The mandatory variable 'intro' is missing."));
     }
 
+    public function testSchemasDirectoryIsApplied(): void
+    {
+        $schemas = $this->sourceDir . DIRECTORY_SEPARATOR . 'schemas' . DIRECTORY_SEPARATOR;
+        $this->filesystem->dumpFile($schemas . '_all.yml', "lang: {type: string, default: en}\n");
+        $this->filesystem->dumpFile($schemas . 'about.yml', "team: {type: list, required: true}\n");
+        // matches no section and no page: ignored
+        $this->filesystem->dumpFile($schemas . 'unknown.yml', "foo: {type: string, required: true}\n");
+        // overridden field by field by `pages.schema` of the configuration
+        $this->filesystem->dumpFile($schemas . 'blog.yml', "author: {type: string, required: true}\nstage: {type: string, default: draft}\n");
+
+        $builder = $this->convert(['schema' => ['blog' => ['author' => 'string']]]);
+
+        self::assertTrue($builder->getPages()->has('blog/post'));
+        self::assertSame('draft', $builder->getPages()->get('blog/post')->getVariable('stage'));
+        self::assertSame('en', $builder->getPages()->get('blog/post')->getVariable('lang'));
+        self::assertFalse($builder->getPages()->has('about'));
+        self::assertNotEmpty($this->logsOf('error', "Invalid front matter of \"about.md\": The mandatory variable 'team' is missing."));
+    }
+
     /**
      * Runs pages Load, Create and Convert steps with the given `pages` options.
      *

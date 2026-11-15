@@ -2,7 +2,7 @@
 title: "Directory structure"
 description: "How source files are organized, what the built website looks like and how files are routed to URLs."
 date: 2021-05-07
-updated: 2026-10-16
+updated: 2026-11-15
 -->
 # Directory structure
 
@@ -26,8 +26,10 @@ Project files organization.
 |  └─ logo.png
 ├─ static
 |  └─ file.pdf        <- Static file
-└─ data
-   └─ authors.yml     <- Data collection
+├─ data
+|  └─ authors.yml     <- Data collection
+└─ schemas
+   └─ blog.yml        <- Front matter schema of a Section
 ```
 
 ## Built website tree
@@ -57,6 +59,8 @@ By default, each page is generated as `slugified-filename/index.html` to get a �
 To get an “ugly” URL (like `404.html` instead of `404/`), set `uglyurl: true` in the page’s [front matter](../content/1-pages.md#front-matter).
 
 Files of the `assets` directory are published only when they are used in templates (with the `asset()` function), whereas files of the `static` directory are copied as is.
+
+Files of the `schemas` directory are the [front matter schemas](../configuration/4-pages.md#schemas-directory), one file by _Section_ or by page.
 :::
 
 ## File-based routing

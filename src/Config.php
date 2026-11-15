@@ -16,6 +16,7 @@ namespace Cecil;
 use Cecil\Collection\Page\Schema as PageSchema;
 use Cecil\Config\Deprecations;
 use Cecil\Config\Merger;
+use Cecil\Config\SchemaLoader;
 use Cecil\Exception\ConfigException;
 use Dflydev\DotAccessData\Data;
 use Dflydev\DotAccessData\Exception\DataException;
@@ -90,6 +91,12 @@ class Config
      * @var array<string, mixed>
      */
     protected array $themes = [];
+    /**
+     * Front matter schemas (`pages.schema`) of the themes configuration, by import order (the first one takes precedence):
+     * kept out of the themes configuration layer, as they are merged field by field.
+     * @var array<int|string, array<mixed>>
+     */
+    protected array $themesSchemas = [];
     /**
      * Site configuration layer.
      * @var array<string, mixed>
@@ -168,18 +175,68 @@ class Config
             $config['theme'] = [$config['theme']];
         }
         if ($mode === self::IMPORT_PRESERVE) {
+            // front matter schemas are merged field by field (see `setPagesSchema()`), not by the merger
+            if (\is_array($config['pages'] ?? null) && \array_key_exists('schema', $config['pages'])) {
+                // indexed by source, so a theme imported again keeps its rank
+                $this->themesSchemas[$source ?? \count($this->themesSchemas)] = (array) $config['pages']['schema'];
+                unset($config['pages']['schema']);
+            }
             $this->themes = Merger::merge($config, $this->themes, self::IMPORT_PRESERVE);
         } else {
             $this->site = Merger::merge($this->site, $config, $mode);
         }
+        $this->load();
+    }
+
+    /**
+     * Loads the effective configuration from its layers (default, themes and site), then validates it.
+     *
+     * @throws ConfigException
+     */
+    private function load(): void
+    {
         $this->data = new Data(Merger::merge(
             $this->default->export(),
             Merger::merge($this->themes, $this->site, self::IMPORT_PRESERVE),
             self::IMPORT_REPLACE
         ));
         $this->languages = null;
-        $this->setFromEnv(); // override configuration with environment variables
-        $this->validate();   // validate configuration
+        $this->setFromEnv();     // override configuration with environment variables
+        $this->setPagesSchema(); // front matter schemas, including the schemas directories
+        $this->validate();       // validate configuration
+    }
+
+    /**
+     * Sets the effective front matter schemas (`pages.schema`), merged field by field, from the lowest to the highest priority:
+     * `schemas/` directories of the themes (a theme overrides the themes after it in the list), `pages.schema` of the themes configuration
+     * (a theme overrides the themes imported after it), `schemas/` directory of the site, `pages.schema` of the site configuration,
+     * then the environment variables (ie: `CECIL_PAGES_SCHEMA_BLOG_AUTHOR`).
+     * The `schemas/` directories are loaded once the source directory is set.
+     *
+     * @see SchemaLoader
+     *
+     * @throws ConfigException
+     */
+    private function setPagesSchema(): void
+    {
+        $layers = [];
+        if ($this->sourceDir !== null) {
+            foreach (array_reverse($this->getTheme() ?? []) as $theme) {
+                $layers[] = SchemaLoader::load($this->getThemeDirPath($theme, SchemaLoader::DIR), "themes/$theme/" . SchemaLoader::DIR);
+            }
+        }
+        foreach (array_reverse($this->themesSchemas) as $schemas) {
+            $layers[] = $schemas;
+        }
+        if ($this->sourceDir !== null) {
+            $layers[] = SchemaLoader::load(Util::joinFile($this->sourceDir, SchemaLoader::DIR));
+        }
+        $layers[] = (array) ($this->site['pages']['schema'] ?? []);
+        if (!empty($schemas = SchemaLoader::merge(...$layers))) {
+            $this->data->set('pages.schema', $schemas);
+            // environment variables override the front matter schemas too
+            $this->setFromEnv('pages.schema');
+        }
     }
 
     /**
@@ -291,7 +348,10 @@ class Config
     /**
      * Set the source directory.
      *
+     * The front matter schemas of the `schemas/` directories are loaded from the source directory.
+     *
      * @throws \InvalidArgumentException
+     * @throws ConfigException
      */
     public function setSourceDir(string $sourceDir): self
     {
@@ -299,6 +359,8 @@ class Config
             throw new \InvalidArgumentException(\sprintf('The directory "%s" is not a valid source.', $sourceDir));
         }
         $this->sourceDir = $sourceDir;
+        // each schema file is validated when loaded
+        $this->setPagesSchema();
 
         return $this;
     }
@@ -807,11 +869,14 @@ class Config
     }
 
     /**
-     * Set configuration from environment variables starting with "CECIL_".
+     * Set configuration from environment variables starting with "CECIL_" (only the given key and its sub-keys, if set).
      */
-    private function setFromEnv(): void
+    private function setFromEnv(?string $only = null): void
     {
         foreach ($this->getEnvConfig() as $key => $value) {
+            if ($only !== null && $key !== $only && !str_starts_with($key, "$only.")) {
+                continue;
+            }
             $current = $this->data->has($key) ? $this->data->get($key) : null;
             $this->data->set($key, Merger::mergeValues($current, $value, self::IMPORT_REPLACE, $key));
         }

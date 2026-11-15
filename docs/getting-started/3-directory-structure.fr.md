@@ -2,7 +2,7 @@
 title: "Structure des dossiers"
 description: "Organisation des fichiers sources, arborescence du site généré et routage des fichiers vers les URL."
 date: 2026-03-27
-updated: 2026-10-16
+updated: 2026-11-15
 path: documentation/bien-demarrer/structure-des-dossiers
 -->
 # Structure des dossiers
@@ -27,8 +27,10 @@ Organisation des fichiers du projet.
 |  └─ logo.png
 ├─ static
 |  └─ fichier.pdf     <- Fichier statique
-└─ data
-   └─ auteurs.yml     <- Collection de données
+├─ data
+|  └─ auteurs.yml     <- Collection de données
+└─ schemas
+   └─ blog.yml        <- Schéma du front matter d’une Section
 ```
 
 ## Arborescence du site généré
@@ -58,6 +60,8 @@ Par défaut, chaque page est générée sous la forme `nom-du-fichier-slugifié/
 Pour obtenir une URL « brute » (comme `404.html` au lieu de `404/`), définissez `uglyurl: true` dans le [front matter](../content/1-pages.fr.md#front-matter) de la page.
 
 Les fichiers du répertoire `assets` ne sont publiés que s’ils sont utilisés dans les templates (avec la fonction `asset()`), alors que les fichiers du répertoire `static` sont copiés tels quels.
+
+Les fichiers du répertoire `schemas` sont les [schémas du front matter](../configuration/4-pages.fr.md#repertoire-des-schemas), un fichier par _Section_ ou par page.
 :::
 
 ## Routage basé sur les fichiers
