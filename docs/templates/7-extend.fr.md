@@ -2,7 +2,7 @@
 title: "Étendre les templates"
 description: "Ajoutez des fonctions et filtres personnalisés, ou utilisez un thème."
 date: 2026-05-26
-updated: 2026-11-13
+updated: 2026-11-15
 path: documentation/templates/etendre
 -->
 # Étendre les templates
@@ -24,6 +24,7 @@ Il est simple de créer un thème : il suffit de créer un dossier `<theme>` ave
       ├─ config.yml
       ├─ assets
       ├─ layouts
+      ├─ schemas
       ├─ static
       └─ translations
 ```
@@ -31,6 +32,8 @@ Il est simple de créer un thème : il suffit de créer un dossier `<theme>` ave
 Activez-le ensuite avec l’option de configuration [`theme`](../configuration/1-site.fr.md#theme).
 
 Le fichier `config.yml` du thème surcharge la [configuration par défaut](../configuration/index.fr.md#priorite) et est fusionné avec la configuration du site, qui est prioritaire, sauf pour les [listes de valeurs](../configuration/index.fr.md#listes) : les valeurs du site s’ajoutent à celles du thème, et une valeur du thème ne peut être retirée qu’avec `false` (ex. `homepage: {atom: false}`).
+
+Le dossier `schemas` du thème contient les [schémas du front matter](../configuration/4-pages.fr.md#repertoire-des-schemas) des variables attendues par ses templates : les schémas du site les surchargent variable par variable.
 
 ### Thèmes requis
 
