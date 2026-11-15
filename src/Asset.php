@@ -158,16 +158,7 @@ class Asset implements \ArrayAccess
                     $path = $locate['path'];
                     $type = Util\File::getMediaType($file)[0];
                     if ($i > 0) { // bundle
-                        // stylesheets and scripts are checked by extension: their media type guessed from content is unreliable
-                        $family = self::getBundleFamily(Util\File::getExtension($file));
-                        $previousFamily = self::getBundleFamily($this->data['ext']);
-                        if ($family !== null && $previousFamily !== null) {
-                            if ($family !== $previousFamily) {
-                                throw new RuntimeException(\sprintf('Asset bundle type error (%s != %s).', $family, $previousFamily));
-                            }
-                        } elseif ($type != $this->data['type']) {
-                            throw new RuntimeException(\sprintf('Asset bundle type error (%s != %s).', $type, $this->data['type']));
-                        }
+                        self::checkBundleType($file, $type, (string) $this->data['ext'], (string) $this->data['type']);
                     }
                     $this->data['file'] = $file;
                     $this->data['files'][] = $file;
@@ -827,6 +818,28 @@ class Asset implements \ArrayAccess
         $this->data = (new AssetOptimizer($this->builder))->minify($this->data);
 
         return $this;
+    }
+
+    /**
+     * Checks that a file can be added to a bundle of the given extension and media type.
+     * Stylesheets and scripts are checked by extension: their media type guessed from content is unreliable.
+     *
+     * @throws RuntimeException
+     */
+    private static function checkBundleType(string $file, string $type, string $bundleExt, string $bundleType): void
+    {
+        $family = self::getBundleFamily(Util\File::getExtension($file));
+        $bundleFamily = self::getBundleFamily($bundleExt);
+        if ($family !== null && $bundleFamily !== null) {
+            if ($family !== $bundleFamily) {
+                throw new RuntimeException(\sprintf('Asset bundle type error (%s != %s).', $family, $bundleFamily));
+            }
+
+            return;
+        }
+        if ($type != $bundleType) {
+            throw new RuntimeException(\sprintf('Asset bundle type error (%s != %s).', $type, $bundleType));
+        }
     }
 
     /**
