@@ -87,3 +87,12 @@ Short, actionable instructions for coding agents working in this repository.
 - When editing a `.md` documentation file, apply equivalent changes to its `.fr.md` counterpart. If the `.fr.md` counterpart does not exist, notify the user before proceeding.
 - When editing a documentation file with frontmatter, always update the `updated` date to reflect the change.
 - When updating code in `src/`, update API documentation with `php phpdoc` command (download `phpdoc` binary with `curl -Lo phpdoc https://phpdoc.org/phpDocumentor.phar` if necessary).
+
+## Parallel Work (Worktrees)
+
+- Worktrees live outside the repository, in a sibling directory: `../Cecil.worktrees/<id>-<slug>`, on branch `<type>/<id>-<slug>` (e.g. `fix/2595-feed-absolute-urls`; `<id>` is the issue number, omitted for tasks without an issue), created from `origin/main`.
+- Run `composer install` in each new worktree (`vendor/` is not shared).
+- `main` is deployed live: never commit or push to it from any worktree; check the current branch before each commit and push.
+- Areas prone to conflicts between parallel branches: URL/language handling and default layouts in `resources/layouts/` (feeds, hreflang, paginator). Do not run two branches touching the same area at the same time.
+- Do not edit `CHANGELOG.md` in task branches: it is updated separately on `main`.
+- Each branch opens its own PR, with `Fixes #<id>` in the body when it addresses an issue.
