@@ -170,7 +170,7 @@ class Asset implements \ArrayAccess
                     $this->data['type'] = $type;
                     $this->data['subtype'] = Util\File::getMediaType($file)[1];
                     $this->data['size'] += filesize($file) ?: 0;
-                    $this->data['content'] .= Util\File::fileGetContents($file);
+                    $this->data['content'] = self::appendFileContent($this->data['content'], $file, $pathsCount > 1);
                     $this->data['hash'] = hash('xxh128', $this->data['content']);
                     // bundle default filename
                     $filename = $options['filename'];
@@ -233,7 +233,7 @@ class Asset implements \ArrayAccess
             // loads content from source file(s) before processing (path may change)
             $this->data['content'] = '';
             foreach ($this->data['files'] as $file) {
-                $this->data['content'] .= Util\File::fileGetContents($file);
+                $this->data['content'] = self::appendFileContent($this->data['content'], $file, \count($this->data['files']) > 1);
             }
             // fingerprinting
             if ($options['fingerprint']) {
@@ -820,6 +820,31 @@ class Asset implements \ArrayAccess
         $this->data = (new AssetOptimizer($this->builder))->minify($this->data);
 
         return $this;
+    }
+
+    /**
+     * Appends the content of a file to the given content.
+     * In a bundle, files are separated by a line break (a file ending with a line comment
+     * must not swallow the beginning of the next one) and their source map comments are dropped
+     * (the source map of a file does not describe the bundle).
+     */
+    private static function appendFileContent(string $content, string $file, bool $bundle): string
+    {
+        $fileContent = (string) Util\File::fileGetContents($file);
+        if (!$bundle) {
+            return $content . $fileContent;
+        }
+        // removes "//# sourceMappingURL=…" (JavaScript) and "/*# sourceMappingURL=… */" (CSS) comments
+        $fileContent = preg_replace(
+            ['/^[ \t]*\/\/[#@][ \t]*sourceMappingURL=[^\r\n]*(\r?\n)?/m', '/\/\*[#@][ \t]*sourceMappingURL=[^*]*\*\/(\r?\n)?/'],
+            '',
+            $fileContent
+        ) ?? $fileContent;
+        if ($content !== '' && !str_ends_with($content, "\n")) {
+            $content .= "\n";
+        }
+
+        return $content . $fileContent;
     }
 
     /**

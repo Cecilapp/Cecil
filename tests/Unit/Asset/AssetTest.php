@@ -663,7 +663,7 @@ class AssetTest extends TestCase
             $asset->save();
             $paths[implode(',', $files)] = $asset['path'];
             self::assertSame(
-                implode('', array_map(fn ($file) => file_get_contents($assetsDir . DIRECTORY_SEPARATOR . $file), $files)),
+                implode("\n", array_map(fn ($file) => file_get_contents($assetsDir . DIRECTORY_SEPARATOR . $file), $files)),
                 $asset['content']
             );
         }
@@ -676,6 +676,43 @@ class AssetTest extends TestCase
         foreach ($builder->getAssetsList() as $path) {
             self::assertFileExists($cache->getContentFile($path));
         }
+    }
+
+    public function testBundleSeparatesFilesWithLineBreakAndDropsSourceMappingUrl(): void
+    {
+        $assetsDir = $this->sourceDir . DIRECTORY_SEPARATOR . 'assets';
+        // files ending with a line comment, without final newline
+        $this->filesystem->dumpFile($assetsDir . '/js/a.js', "var a = 1;\n//# sourceMappingURL=a.js.map");
+        $this->filesystem->dumpFile($assetsDir . '/js/b.js', "/*\n * License of b\n */\nvar b = 2;\n");
+        $this->filesystem->dumpFile($assetsDir . '/css/a.css', ".a{color:red}\n/*# sourceMappingURL=a.css.map */");
+        $this->filesystem->dumpFile($assetsDir . '/css/b.css', '.b{color:blue}');
+        $this->filesystem->dumpFile($assetsDir . '/css/c.css', '.c{color:green}');
+
+        $builder = new Builder([
+            'baseurl' => 'https://example.com/',
+        ], new PrintLogger(Builder::VERBOSITY_VERBOSE));
+        $builder->setSourceDir($this->sourceDir);
+        $builder->setDestinationDir($this->destinationDir);
+        $builder->setPages(new PagesCollection('pages'));
+        self::setBuildId('test');
+
+        // JavaScript bundle, not minified
+        $js = new Asset($builder, ['js/a.js', 'js/b.js'], ['filename' => 'js/bundle.js', 'minify' => false, 'fingerprint' => false]);
+        self::assertSame("var a = 1;\n/*\n * License of b\n */\nvar b = 2;\n", $js['content']);
+
+        // JavaScript bundle, minified
+        $jsMin = new Asset($builder, ['js/a.js', 'js/b.js'], ['filename' => 'js/bundle-min.js', 'minify' => true, 'fingerprint' => false]);
+        self::assertStringNotContainsString('sourceMappingURL', (string) $jsMin['content']);
+        self::assertStringNotContainsString('License of b', (string) $jsMin['content']);
+        self::assertStringContainsString('var b=2', (string) $jsMin['content']);
+
+        // CSS bundles
+        $css = new Asset($builder, ['css/a.css', 'css/b.css', 'css/c.css'], ['filename' => 'css/bundle.css', 'minify' => false, 'fingerprint' => false]);
+        self::assertSame(".a{color:red}\n.b{color:blue}\n.c{color:green}", $css['content']);
+
+        // a single file is left unchanged
+        $single = new Asset($builder, 'js/a.js', ['minify' => false, 'fingerprint' => false]);
+        self::assertSame("var a = 1;\n//# sourceMappingURL=a.js.map", $single['content']);
     }
 
     public function testContentIsAvailableOnSubsequentBuildsWhenNotFingerprinted(): void
