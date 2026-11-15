@@ -7211,10 +7211,45 @@ Search.appendIndex(
             "summary": "Makes\u0020root\u002Drelative\u0020URLs\u0020\u0028e.g.\u0020\u0060\/about\/\u0060\u0029\u0020of\u0020\u0060href\u0060,\u0020\u0060src\u0060\u0020and\u0020\u0060srcset\u0060\u0020attributes\u0020absolute.",
             "url": "classes/Cecil-Util-Html.html#method_absoluteUrls"
         },                {
+            "fqsen": "\\Cecil\\Util\\Html\u003A\u003AabsoluteUrlsInTag\u0028\u0029",
+            "name": "absoluteUrlsInTag",
+            "summary": "Makes\u0020root\u002Drelative\u0020URLs\u0020of\u0020the\u0020\u0060href\u0060,\u0020\u0060src\u0060\u0020and\u0020\u0060srcset\u0060\u0020attributes\u0020of\u0020an\u0020HTML\u0020tag\u0020absolute.",
+            "url": "classes/Cecil-Util-Html.html#method_absoluteUrlsInTag"
+        },                {
+            "fqsen": "\\Cecil\\Util\\Html\u003A\u003AabsoluteUrlsInAttribute\u0028\u0029",
+            "name": "absoluteUrlsInAttribute",
+            "summary": "Makes\u0020the\u0020root\u002Drelative\u0020URL\u0028s\u0029\u0020of\u0020an\u0020attribute\u0020absolute,\u0020if\u0020it\u0020is\u0020a\u0020\u0060href\u0060,\u0020\u0060src\u0060\u0020or\u0020\u0060srcset\u0060\u0020attribute.",
+            "url": "classes/Cecil-Util-Html.html#method_absoluteUrlsInAttribute"
+        },                {
+            "fqsen": "\\Cecil\\Util\\Html\u003A\u003AabsoluteUrlsInSrcset\u0028\u0029",
+            "name": "absoluteUrlsInSrcset",
+            "summary": "Makes\u0020the\u0020root\u002Drelative\u0020URLs\u0020of\u0020the\u0020image\u0020candidates\u0020of\u0020a\u0020\u0060srcset\u0060\u0020absolute.",
+            "url": "classes/Cecil-Util-Html.html#method_absoluteUrlsInSrcset"
+        },                {
+            "fqsen": "\\Cecil\\Util\\Html\u003A\u003AabsoluteUrl\u0028\u0029",
+            "name": "absoluteUrl",
+            "summary": "Prefixes\u0020a\u0020root\u002Drelative\u0020URL\u0020\u0028starting\u0020with\u0020a\u0020single\u0020\u0060\/\u0060\u0029\u0020with\u0020the\u0020origin,\u0020other\u0020URLs\u0020are\u0020kept\u0020as\u0020is.",
+            "url": "classes/Cecil-Util-Html.html#method_absoluteUrl"
+        },                {
             "fqsen": "\\Cecil\\Util\\Html\u003A\u003AgetImagesFromJsonLd\u0028\u0029",
             "name": "getImagesFromJsonLd",
             "summary": "Extracts\u0020image\u0020URLs\u0020from\u0020JSON\u002DLD\u0020data.",
             "url": "classes/Cecil-Util-Html.html#method_getImagesFromJsonLd"
+        },                {
+            "fqsen": "\\Cecil\\Util\\Html\u003A\u003AREGEX_TAG",
+            "name": "REGEX_TAG",
+            "summary": "HTML\u0020tag\u0020\u0028escaped\u0020HTML,\u0020like\u0020in\u0020code\u0020blocks,\u0020is\u0020ignored\u0029",
+            "url": "classes/Cecil-Util-Html.html#constant_REGEX_TAG"
+        },                {
+            "fqsen": "\\Cecil\\Util\\Html\u003A\u003AREGEX_ATTRIBUTE",
+            "name": "REGEX_ATTRIBUTE",
+            "summary": "Attribute\u0020of\u0020an\u0020HTML\u0020tag,\u0020with\u0020or\u0020without\u0020value\u003A\u0020spaces,\u0020name,\u0020\u0060\u003D\u0060\u0020and\u0020value\u0020\u0028quoted\u0020or\u0020not\u0029",
+            "url": "classes/Cecil-Util-Html.html#constant_REGEX_ATTRIBUTE"
+        },                {
+            "fqsen": "\\Cecil\\Util\\Html\u003A\u003AREGEX_SRCSET_CANDIDATE",
+            "name": "REGEX_SRCSET_CANDIDATE",
+            "summary": "Image\u0020candidate\u0020of\u0020a\u0020\u0060srcset\u0060\u003A\u0020a\u0020URL\u0020followed\u0020by\u0020an\u0020optional\u0020descriptor,\u0020separated\u0020by\u0020commas",
+            "url": "classes/Cecil-Util-Html.html#constant_REGEX_SRCSET_CANDIDATE"
         },                {
             "fqsen": "\\Cecil\\Util\\ImageOptimizer",
             "name": "ImageOptimizer",
