@@ -698,13 +698,21 @@ class AssetTest extends TestCase
 
         // JavaScript bundle, not minified
         $js = new Asset($builder, ['js/a.js', 'js/b.js'], ['filename' => 'js/bundle.js', 'minify' => false, 'fingerprint' => false]);
-        self::assertSame("var a = 1;\n/*\n * License of b\n */\nvar b = 2;\n", $js['content']);
+        self::assertSame("var a = 1;\n;\n/*\n * License of b\n */\nvar b = 2;\n", $js['content']);
 
         // JavaScript bundle, minified
         $jsMin = new Asset($builder, ['js/a.js', 'js/b.js'], ['filename' => 'js/bundle-min.js', 'minify' => true, 'fingerprint' => false]);
         self::assertStringNotContainsString('sourceMappingURL', (string) $jsMin['content']);
         self::assertStringNotContainsString('License of b', (string) $jsMin['content']);
         self::assertStringContainsString('var b=2', (string) $jsMin['content']);
+
+        // JavaScript bundle: a file without final semicolon followed by a file starting with "("
+        $this->filesystem->dumpFile($assetsDir . '/js/c.js', 'var c = 3');
+        $this->filesystem->dumpFile($assetsDir . '/js/d.js', "(function () { c = 4; })();\n");
+        $jsAsi = new Asset($builder, ['js/c.js', 'js/d.js'], ['filename' => 'js/bundle-asi.js', 'minify' => false, 'fingerprint' => false]);
+        self::assertSame("var c = 3\n;\n(function () { c = 4; })();\n", $jsAsi['content']);
+        $jsAsiMin = new Asset($builder, ['js/c.js', 'js/d.js'], ['filename' => 'js/bundle-asi-min.js', 'minify' => true, 'fingerprint' => false]);
+        self::assertSame('var c=3;(function(){c=4})()', trim((string) $jsAsiMin['content']));
 
         // CSS bundles
         $css = new Asset($builder, ['css/a.css', 'css/b.css', 'css/c.css'], ['filename' => 'css/bundle.css', 'minify' => false, 'fingerprint' => false]);

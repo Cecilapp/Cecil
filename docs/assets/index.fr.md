@@ -18,7 +18,7 @@ La fonction `asset()` crée un objet _asset_ à partir d’un chemin de fichier,
 
 Les fichiers sont recherchés dans le répertoire des assets (`assets/` par défaut), puis dans le répertoire des fichiers statiques (`static/` par défaut) et dans les thèmes.
 
-Les fichiers d’un bundle (CSS ou JavaScript) sont joints par un saut de ligne, et leurs commentaires de source map (`sourceMappingURL`) sont supprimés, la source map d’un fichier ne décrivant pas le bundle.
+Les fichiers d’un bundle (CSS ou JavaScript) sont joints par un saut de ligne (suivi d’une ligne `;` pour le JavaScript), et leurs commentaires de source map (`sourceMappingURL`) sont supprimés, la source map d’un fichier ne décrivant pas le bundle.
 
 ```twig
 {{ asset(path, {options}) }}

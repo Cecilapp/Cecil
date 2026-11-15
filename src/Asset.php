@@ -825,8 +825,9 @@ class Asset implements \ArrayAccess
     /**
      * Appends the content of a file to the given content.
      * In a bundle, files are separated by a line break (a file ending with a line comment
-     * must not swallow the beginning of the next one) and their source map comments are dropped
-     * (the source map of a file does not describe the bundle).
+     * must not swallow the beginning of the next one), followed by a semicolon for JavaScript
+     * (a file without final semicolon must not be continued by the next one),
+     * and their source map comments are dropped (the source map of a file does not describe the bundle).
      */
     private static function appendFileContent(string $content, string $file, bool $bundle): string
     {
@@ -840,8 +841,13 @@ class Asset implements \ArrayAccess
             '',
             $fileContent
         ) ?? $fileContent;
-        if ($content !== '' && !str_ends_with($content, "\n")) {
-            $content .= "\n";
+        if ($content !== '') {
+            if (!str_ends_with($content, "\n")) {
+                $content .= "\n";
+            }
+            if (Util\File::getExtension($file) === 'js') {
+                $content .= ";\n";
+            }
         }
 
         return $content . $fileContent;
