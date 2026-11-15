@@ -486,6 +486,11 @@ Search.appendIndex(
             "summary": "Minifies\u0020a\u0020CSS\u0020or\u0020JS\u0020asset.",
             "url": "classes/Cecil-Asset.html#method_doMinify"
         },                {
+            "fqsen": "\\Cecil\\Asset\u003A\u003AcheckBundleType\u0028\u0029",
+            "name": "checkBundleType",
+            "summary": "Checks\u0020that\u0020a\u0020file\u0020can\u0020be\u0020added\u0020to\u0020a\u0020bundle\u0020of\u0020the\u0020given\u0020extension\u0020and\u0020media\u0020type.",
+            "url": "classes/Cecil-Asset.html#method_checkBundleType"
+        },                {
             "fqsen": "\\Cecil\\Asset\u003A\u003AgetBundleFamily\u0028\u0029",
             "name": "getBundleFamily",
             "summary": "Returns\u0020the\u0020bundle\u0020family\u0020of\u0020a\u0020file\u0020extension\u0020\u0028\u0022css\u0022\u0020for\u0020stylesheets,\u0020\u0022js\u0022\u0020for\u0020scripts\u0029,\u0020or\u0020null.",
