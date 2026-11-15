@@ -2,7 +2,7 @@
 title: "Filters"
 description: "filter_by, markdown_to_html, toc, slugify, excerpt, highlight, preg_*, etc."
 date: 2021-05-07
-updated: 2026-10-19
+updated: 2026-11-15
 -->
 # Filters
 
@@ -229,6 +229,28 @@ _Examples:_
 {{ variable|excerpt_html({separator: 'excerpt|break', capture: 'before'}) }}
 {{ variable|excerpt_html({capture: 'after'}) }}
 ```
+
+## absolute_urls
+
+Makes the root-relative URLs (e.g. `/about/`, `/images/photo.png`) of the `href`, `src` and `srcset` attributes of an HTML content absolute, with the scheme and the host of the `baseurl`, to use the content outside of the site (feeds, e-mails, etc.).
+
+Other URLs (absolute or protocol-relative URLs, relative paths, anchors, `mailto:`, `data:`, etc.) are kept as is, and the content is unchanged if the `baseurl` is not absolute.
+
+```twig
+{{ string|absolute_urls }}
+```
+
+_Example:_
+
+```twig
+{# with `baseurl: https://example.com/` #}
+{{ '<a href="/about/">About</a> <img src="/images/photo.png" srcset="/images/photo-320.png 320w">'|absolute_urls }}
+{# <a href="https://example.com/about/">About</a> <img src="https://example.com/images/photo.png" srcset="https://example.com/images/photo-320.png 320w"> #}
+```
+
+:::info
+The built-in feeds (Atom, RSS and JSON Feed) apply this filter to the content of their items.
+:::
 
 ## highlight
 

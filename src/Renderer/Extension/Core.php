@@ -104,6 +104,8 @@ class Core extends AbstractExtension
     {
         return [
             new \Twig\TwigFilter('url', [$this, 'url'], ['needs_context' => true]),
+            // HTML content: not escaped in HTML
+            new \Twig\TwigFilter('absolute_urls', [$this, 'absoluteUrls'], ['is_safe' => ['html']]),
             // assets
             // raw asset content (CSS, JS, SVG, etc.): not escaped in HTML, JS or CSS contexts
             new \Twig\TwigFilter('inline', [$this, 'inline'], ['is_safe' => ['html', 'js', 'css']]),
@@ -1060,6 +1062,15 @@ class Core extends AbstractExtension
         }
 
         return $value !== false && $value !== null;
+    }
+
+    /**
+     * Makes root-relative URLs (`href`, `src` and `srcset`) of an HTML content absolute, with the `baseurl`
+     * (e.g. to use the content of a page outside of the site: feeds, e-mails, etc.).
+     */
+    public function absoluteUrls(?string $html): string
+    {
+        return Util\Html::absoluteUrls((string) $html, (string) $this->config->get('baseurl'));
     }
 
     /**

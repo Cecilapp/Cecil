@@ -23,6 +23,15 @@ use Symfony\Component\DomCrawler\UriResolver;
  */
 class Html
 {
+    /** HTML tag (escaped HTML, like in code blocks, is ignored) */
+    private const REGEX_TAG = '/<[a-z][^\s\/>]*(?:"[^"]*"|\'[^\']*\'|[^\'">])*>/i';
+
+    /** Attribute of an HTML tag, with or without value: spaces, name, `=` and value (quoted or not) */
+    private const REGEX_ATTRIBUTE = '/(\s+)([^\s"\'>\/=]+)(?:(\s*=\s*)("[^"]*"|\'[^\']*\'|[^\s"\'=<>`]+))?/';
+
+    /** Image candidate of a `srcset`: a URL followed by an optional descriptor, separated by commas */
+    private const REGEX_SRCSET_CANDIDATE = '/(^|,)(\s*)([^\s,](?:\S*[^\s,])?)/';
+
     /**
      * Extract Open Graph meta tags from HTML content.
      *
@@ -172,6 +181,71 @@ class Html
         }
 
         return array_values(array_unique($urls));
+    }
+
+    /**
+     * Makes root-relative URLs (e.g. `/about/`) of `href`, `src` and `srcset` attributes absolute.
+     *
+     * URLs are prefixed with the origin (scheme, host and port) of $baseUrl:
+     * a root-relative URL already contains the path of the base URL, if any.
+     * Absolute and protocol-relative URLs, relative paths, anchors, `mailto:`, `data:`, etc. are kept as is.
+     *
+     * @param string $html    The HTML content
+     * @param string $baseUrl An absolute URL (e.g. `https://example.com/`)
+     *
+     * @return string The HTML content, unchanged if $baseUrl is not absolute
+     */
+    public static function absoluteUrls(string $html, string $baseUrl): string
+    {
+        $url = parse_url($baseUrl);
+        if (empty($url['scheme']) || empty($url['host'])) {
+            return $html;
+        }
+        $origin = $url['scheme'] . '://' . $url['host'] . (isset($url['port']) ? ':' . $url['port'] : '');
+
+        return (string) preg_replace_callback(self::REGEX_TAG, fn (array $tag): string => self::absoluteUrlsInTag($tag[0], $origin), $html);
+    }
+
+    /**
+     * Makes root-relative URLs of the `href`, `src` and `srcset` attributes of an HTML tag absolute.
+     */
+    private static function absoluteUrlsInTag(string $tag, string $origin): string
+    {
+        return (string) preg_replace_callback(self::REGEX_ATTRIBUTE, fn (array $attribute): string => self::absoluteUrlsInAttribute($attribute, $origin), $tag);
+    }
+
+    /**
+     * Makes the root-relative URL(s) of an attribute absolute, if it is a `href`, `src` or `srcset` attribute.
+     *
+     * @param array<int, string> $attribute Matches of REGEX_ATTRIBUTE: spaces, name, `=` and value
+     */
+    private static function absoluteUrlsInAttribute(array $attribute, string $origin): string
+    {
+        $name = strtolower($attribute[2]);
+        if (!isset($attribute[4]) || !\in_array($name, ['href', 'src', 'srcset'])) {
+            return $attribute[0];
+        }
+        $quote = \in_array($attribute[4][0], ['"', "'"]) ? $attribute[4][0] : '';
+        $value = $quote ? substr($attribute[4], 1, -1) : $attribute[4];
+        $value = $name == 'srcset' ? self::absoluteUrlsInSrcset($value, $origin) : self::absoluteUrl($value, $origin);
+
+        return $attribute[1] . $attribute[2] . $attribute[3] . $quote . $value . $quote;
+    }
+
+    /**
+     * Makes the root-relative URLs of the image candidates of a `srcset` absolute.
+     */
+    private static function absoluteUrlsInSrcset(string $srcset, string $origin): string
+    {
+        return (string) preg_replace_callback(self::REGEX_SRCSET_CANDIDATE, fn (array $candidate): string => $candidate[1] . $candidate[2] . self::absoluteUrl($candidate[3], $origin), $srcset);
+    }
+
+    /**
+     * Prefixes a root-relative URL (starting with a single `/`) with the origin, other URLs are kept as is.
+     */
+    private static function absoluteUrl(string $url, string $origin): string
+    {
+        return str_starts_with($url, '/') && !str_starts_with($url, '//') ? $origin . $url : $url;
     }
 
     /**

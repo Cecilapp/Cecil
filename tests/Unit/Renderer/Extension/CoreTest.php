@@ -89,4 +89,19 @@ class CoreTest extends TestCase
             'optimize' => $builder->getConfig()->get('optimize'),
         ]));
     }
+
+    public function testAbsoluteUrlsFilter(): void
+    {
+        $twig = new Environment(new ArrayLoader([
+            'test' => '{{ content|absolute_urls }}',
+        ]), ['autoescape' => 'html']);
+        $twig->addExtension(new Core(new Builder(['baseurl' => 'https://example.com/'])));
+
+        self::assertSame(
+            '<p><a href="https://example.com/about/">About</a> <img src="https://example.com/a.png" srcset="https://example.com/a-320.png 320w, https://example.com/a-640.png 640w"> <a href="https://example.org/">Ext</a></p>',
+            $twig->render('test', [
+                'content' => '<p><a href="/about/">About</a> <img src="/a.png" srcset="/a-320.png 320w, /a-640.png 640w"> <a href="https://example.org/">Ext</a></p>',
+            ])
+        );
+    }
 }

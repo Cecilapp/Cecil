@@ -2,7 +2,7 @@
 title: "Filtres"
 description: "filter_by, markdown_to_html, toc, slugify, excerpt, highlight, preg_*, etc."
 date: 2026-05-26
-updated: 2026-10-19
+updated: 2026-11-15
 path: documentation/templates/reference/filtres
 -->
 # Filtres
@@ -230,6 +230,28 @@ _Exemples :_
 {{ variable|excerpt_html({separator: 'excerpt|break', capture: 'before'}) }}
 {{ variable|excerpt_html({capture: 'after'}) }}
 ```
+
+## absolute_urls
+
+Rend absolues les URL relatives à la racine (ex. : `/about/`, `/images/photo.png`) des attributs `href`, `src` et `srcset` d'un contenu HTML, avec le schéma et l'hôte de la `baseurl`, pour utiliser le contenu en dehors du site (flux, e-mails, etc.).
+
+Les autres URL (URL absolues ou relatives au protocole, chemins relatifs, ancres, `mailto:`, `data:`, etc.) sont conservées telles quelles, et le contenu n'est pas modifié si la `baseurl` n'est pas absolue.
+
+```twig
+{{ string|absolute_urls }}
+```
+
+_Exemple :_
+
+```twig
+{# avec `baseurl: https://example.com/` #}
+{{ '<a href="/about/">À propos</a> <img src="/images/photo.png" srcset="/images/photo-320.png 320w">'|absolute_urls }}
+{# <a href="https://example.com/about/">À propos</a> <img src="https://example.com/images/photo.png" srcset="https://example.com/images/photo-320.png 320w"> #}
+```
+
+:::info
+Les flux intégrés (Atom, RSS et JSON Feed) appliquent ce filtre au contenu de leurs éléments.
+:::
 
 ## highlight
 
