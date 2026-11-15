@@ -221,6 +221,13 @@
 </h4>
 <dl class="phpdocumentor-table-of-contents">
             <dt class="phpdocumentor-table-of-contents__entry -method -public">
+    <a class="" href="classes/Cecil-Util-Html.html#method_absoluteUrls">absoluteUrls()</a>
+    <span>
+                                &nbsp;: string    </span>
+</dt>
+<dd>Makes root-relative URLs (e.g. `/about/`) of `href`, `src` and `srcset` attributes absolute.</dd>
+
+            <dt class="phpdocumentor-table-of-contents__entry -method -public">
     <a class="" href="classes/Cecil-Util-Html.html#method_getImageCandidates">getImageCandidates()</a>
     <span>
                                 &nbsp;: array&lt;string|int, string&gt;    </span>
@@ -269,6 +276,74 @@
             <a href="classes/Cecil-Util-Html.html#methods" class="headerlink"><i class="fas fa-link"></i></a>
 
         </h3>
+                    <article
+        class="phpdocumentor-element
+            -method
+            -public
+                                    -static                    "
+>
+    <h4 class="phpdocumentor-element__name" id="method_absoluteUrls">
+        absoluteUrls()
+        <a href="classes/Cecil-Util-Html.html#method_absoluteUrls" class="headerlink"><i class="fas fa-link"></i></a>
+
+    </h4>
+    <aside class="phpdocumentor-element-found-in">
+    <abbr class="phpdocumentor-element-found-in__file" title="src/Util/Html.php"><a href="files/src-util-html.html"><abbr title="src/Util/Html.php">Html.php</abbr></a></abbr>
+    :
+    <span class="phpdocumentor-element-found-in__line">189</span>
+
+    </aside>
+
+        <p class="phpdocumentor-summary">Makes root-relative URLs (e.g. `/about/`) of `href`, `src` and `srcset` attributes absolute.</p>
+
+    <code class="phpdocumentor-code phpdocumentor-signature ">
+    <span class="phpdocumentor-signature__visibility">public</span>
+            <span class="phpdocumentor-signature__static">static</span>        <span class="phpdocumentor-signature__name">absoluteUrls</span><span>(</span><span class="phpdocumentor-signature__argument"><span class="phpdocumentor-signature__argument__type">string&nbsp;</span><span class="phpdocumentor-signature__argument__name">$html</span></span><span class="phpdocumentor-signature__argument"><span>, </span><span class="phpdocumentor-signature__argument__type">string&nbsp;</span><span class="phpdocumentor-signature__argument__name">$baseUrl</span></span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">string</span></code>
+
+    <div class="phpdocumentor-label-line">
+        </div>
+    
+        <section class="phpdocumentor-description"><p>URLs are prefixed with the origin (scheme, host and port) of $baseUrl:
+a root-relative URL already contains the path of the base URL, if any.
+Absolute and protocol-relative URLs, relative paths, anchors, <code class="prettyprint">mailto:</code>, <code class="prettyprint">data:</code>, etc. are kept as is.</p>
+</section>
+
+        <h5 class="phpdocumentor-argument-list__heading">Parameters</h5>
+    <dl class="phpdocumentor-argument-list">
+                    <dt class="phpdocumentor-argument-list__entry">
+                <span class="phpdocumentor-argument-list__argument__name">$html</span>
+                : <span class="phpdocumentor-argument-list__argument__type">string</span>
+                            </dt>
+            <dd class="phpdocumentor-argument-list__definition">
+                    <section class="phpdocumentor-description"><p>The HTML content</p>
+</section>
+
+            </dd>
+                    <dt class="phpdocumentor-argument-list__entry">
+                <span class="phpdocumentor-argument-list__argument__name">$baseUrl</span>
+                : <span class="phpdocumentor-argument-list__argument__type">string</span>
+                            </dt>
+            <dd class="phpdocumentor-argument-list__definition">
+                    <section class="phpdocumentor-description"><p>An absolute URL (e.g. <code class="prettyprint">https://example.com/</code>)</p>
+</section>
+
+            </dd>
+            </dl>
+
+    
+
+        
+    
+            <section>
+        <h5 class="phpdocumentor-return-value__heading">Return values</h5>
+        <span class="phpdocumentor-signature__response_type">string</span>
+                    &mdash;
+                <section class="phpdocumentor-description"><p>The HTML content, unchanged if $baseUrl is not absolute</p>
+</section>
+
+            </section>
+
+</article>
                     <article
         class="phpdocumentor-element
             -method
@@ -525,7 +600,7 @@
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Util/Html.php"><a href="files/src-util-html.html"><abbr title="src/Util/Html.php">Html.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">184</span>
+    <span class="phpdocumentor-element-found-in__line">227</span>
 
     </aside>
 
@@ -584,6 +659,7 @@
                         <li class="phpdocumentor-on-this-page-section__title">Methods</li>
             <li>
                 <ul class="phpdocumentor-list -clean">
+                                            <li class=""><a href="classes/Cecil-Util-Html.html#method_absoluteUrls">absoluteUrls()</a></li>
                                             <li class=""><a href="classes/Cecil-Util-Html.html#method_getImageCandidates">getImageCandidates()</a></li>
                                             <li class=""><a href="classes/Cecil-Util-Html.html#method_getImageFromMetaTags">getImageFromMetaTags()</a></li>
                                             <li class=""><a href="classes/Cecil-Util-Html.html#method_getOpenGraphMetaTags">getOpenGraphMetaTags()</a></li>

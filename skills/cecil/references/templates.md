@@ -325,7 +325,7 @@ Cecil Twig helpers commonly used in templates (full list in the [templates refer
 
 - Functions: `url()`, `asset()`, `html()` (HTML element of an asset: `<img>`, `<picture>`, `<link>`, `<script>`, `<audio>`, `<video>`), `image()`, `css()`, `js()`, `audio()`, `video()`, `integrity()`, `image_srcset()`, `image_sizes()`, `image_from_website()`, `readtime()`, `hash(value, algo)` (`xxh128` by default), `cache_key()`, `getenv('VAR')`, `dump()` and `d(var, {theme: 'dark'})` (debug mode only)
 - Asset filters: `resize`, `webp`, `avif`, `lqip`, `dominant_color`, `maskable`, `dataurl`, `inline`, `minify`, `fingerprint`, `to_css`; string filters: `minify_css`, `minify_js`, `scss_to_css` (see [assets.md](assets.md))
-- Content filters: `markdown_to_html` (also `{% apply markdown_to_html %}`), `toc`, `excerpt`, `excerpt_html`, `slugify`, `highlight`, `trans`
+- Content filters: `markdown_to_html` (also `{% apply markdown_to_html %}`), `toc`, `excerpt`, `excerpt_html`, `slugify`, `highlight`, `trans`, `absolute_urls` (root-relative `href`, `src` and `srcset` URLs → absolute with `baseurl`, applied by the built-in feeds to the content of their items)
 - Collection filters: `filter_by`, `sort_by_date`, `sort_by_title`, `sort_by_weight`
 - Utility filters: `json_decode`, `yaml_parse`, `iterable` (scalar or list front matter value → list: `page.authors|iterable`), `unique` (case-insensitive), `singular`, `plural`, `u` (Symfony UnicodeString), `preg_split`, `preg_match_all`, `hex_to_rgb` (`.red`, `.green`, `.blue`), `splitline`, `duration_to_iso8601`
 - Tests: `enabled` (config options; checks only the given value, not its parents), `external` (URL or menu entry outside the site), `asset`, `image_large` (landscape, at least 600 × 315), `image_square`

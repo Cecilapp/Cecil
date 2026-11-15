@@ -175,6 +175,49 @@ class Html
     }
 
     /**
+     * Makes root-relative URLs (e.g. `/about/`) of `href`, `src` and `srcset` attributes absolute.
+     *
+     * URLs are prefixed with the origin (scheme, host and port) of $baseUrl:
+     * a root-relative URL already contains the path of the base URL, if any.
+     * Absolute and protocol-relative URLs, relative paths, anchors, `mailto:`, `data:`, etc. are kept as is.
+     *
+     * @param string $html    The HTML content
+     * @param string $baseUrl An absolute URL (e.g. `https://example.com/`)
+     *
+     * @return string The HTML content, unchanged if $baseUrl is not absolute
+     */
+    public static function absoluteUrls(string $html, string $baseUrl): string
+    {
+        $url = parse_url($baseUrl);
+        if (empty($url['scheme']) || empty($url['host'])) {
+            return $html;
+        }
+        $origin = $url['scheme'] . '://' . $url['host'] . (isset($url['port']) ? ':' . $url['port'] : '');
+        $absolute = fn (string $value): string => str_starts_with($value, '/') && !str_starts_with($value, '//') ? $origin . $value : $value;
+
+        // HTML tags (escaped HTML, like in code blocks, is ignored)
+        return (string) preg_replace_callback('/<[a-z][^\s\/>]*(?:"[^"]*"|\'[^\']*\'|[^\'">])*>/i', function (array $tag) use ($absolute): string {
+            // attributes, with or without value
+            return (string) preg_replace_callback('/(\s+)([^\s"\'>\/=]+)(?:(\s*=\s*)("[^"]*"|\'[^\']*\'|[^\s"\'=<>`]+))?/', function (array $attribute) use ($absolute): string {
+                $name = strtolower($attribute[2]);
+                if (!isset($attribute[4]) || !\in_array($name, ['href', 'src', 'srcset'])) {
+                    return $attribute[0];
+                }
+                $quote = \in_array($attribute[4][0], ['"', "'"]) ? $attribute[4][0] : '';
+                $value = $quote ? substr($attribute[4], 1, -1) : $attribute[4];
+                if ($name == 'srcset') {
+                    // image candidates: a URL followed by an optional descriptor, separated by commas
+                    $value = (string) preg_replace_callback('/(^|,)(\s*)([^\s,](?:\S*[^\s,])?)/', fn (array $candidate): string => $candidate[1] . $candidate[2] . $absolute($candidate[3]), $value);
+                } else {
+                    $value = $absolute($value);
+                }
+
+                return $attribute[1] . $attribute[2] . $attribute[3] . $quote . $value . $quote;
+            }, $tag[0]);
+        }, $html);
+    }
+
+    /**
      * Extracts image URLs from JSON-LD data.
      *
      * @param array<mixed> $data Decoded JSON-LD data (object or list of objects)
