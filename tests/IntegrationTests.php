@@ -16,6 +16,8 @@ use Cecil\Collection\Page\PrefixSuffix;
 use Cecil\Config;
 use Cecil\Logger\PrintLogger;
 use Cecil\Util;
+use PHPUnit\Framework\Attributes\DataProvider;
+use Psr\Log\NullLogger;
 use Symfony\Component\Filesystem\Filesystem;
 
 class IntegrationTests extends \PHPUnit\Framework\TestCase
@@ -172,6 +174,59 @@ class IntegrationTests extends \PHPUnit\Framework\TestCase
         $icoSize = getimagesize(Util::joinFile($this->destination, '_site', $icoMatches[1]));
         self::assertNotFalse($icoSize);
         self::assertSame([32, 32, IMAGETYPE_ICO], [$icoSize[0], $icoSize[1], $icoSize[2]]);
+    }
+
+    /**
+     * The `x-default` alternate link is output whatever the form of the main language: a code, or a map with a prefix.
+     *
+     * @param string|array<string, mixed> $language Main language configuration
+     * @param string                      $homepage Path of the main language homepage
+     */
+    #[DataProvider('mainLanguageProvider')]
+    public function testHreflangXDefault(string|array $language, string $homepage): void
+    {
+        $source = Util::joinFile(sys_get_temp_dir(), 'cecil-hreflang-' . uniqid());
+        $fs = new Filesystem();
+        $fs->dumpFile(Util::joinFile($source, 'pages', 'index.md'), "---\ntitle: Home\n---\n");
+        $fs->dumpFile(Util::joinFile($source, 'pages', 'index.fr.md'), "---\ntitle: Accueil\n---\n");
+        $fs->dumpFile(Util::joinFile($source, 'layouts', 'index.html.twig'), "<html><head>{{ include('partials/alternates-languages.html.twig') }}</head><body></body></html>");
+
+        try {
+            Builder::create([
+                'title'     => 'Hreflang',
+                'baseurl'   => 'https://example.com/',
+                'language'  => $language,
+                'languages' => [
+                    ['code' => 'en', 'name' => 'English', 'locale' => 'en_US'],
+                    ['code' => 'fr', 'name' => 'Français', 'locale' => 'fr_FR'],
+                ],
+            ], new NullLogger())
+                ->setSourceDir($source)
+                ->setDestinationDir($source)
+                ->build([]);
+
+            $xDefault = \sprintf('hreflang="x-default" href="https://example.com/%s"', $homepage);
+            foreach ([$homepage . 'index.html', 'fr/index.html', 'sitemap.xml'] as $file) {
+                $content = Util\File::fileGetContents(Util::joinFile($source, '_site', $file));
+                self::assertNotFalse($content, \sprintf('"%s" not found', $file));
+                // quotes may be removed by HTML minification
+                $content = preg_replace('/(hreflang|href)=([^"\s>]+)/', '$1="$2"', $content);
+                self::assertStringContainsString($xDefault, $content, \sprintf('No "x-default" alternate link in "%s"', $file));
+            }
+        } finally {
+            $fs->remove($source);
+        }
+    }
+
+    /**
+     * @return array<string, array{0: string|array<string, mixed>, 1: string}>
+     */
+    public static function mainLanguageProvider(): array
+    {
+        return [
+            'code'            => ['en', ''],
+            'map with prefix' => [['code' => 'en', 'prefix' => true], 'en/'],
+        ];
     }
 
     /**
