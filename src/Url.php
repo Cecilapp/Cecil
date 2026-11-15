@@ -115,7 +115,7 @@ class Url
             default: // others cases (string)
                 /** @var non-falsy-string $value */
                 // $value is a potential Page ID
-                $pageId = Util\Slugifier::slugify($value);
+                $pageId = $valueId = Util\Slugifier::slugify($value);
                 // should force language?
                 $lang = '';
                 if ($language !== null && $language != $this->config->getLanguageDefault()) {
@@ -128,6 +128,9 @@ class Url
                         break;
                     case $this->builder->getPages()->has($pageId): // $pageId exists in pages collection
                         $this->url = (string) new self($this->builder, $this->builder->getPages()->get($pageId), $options);
+                        break;
+                    case $lang && Util\Str::startsWith($valueId, $lang) && $this->builder->getPages()->has($valueId): // $value is a Page ID already prefixed with the language (e.g.: "fr/blog")
+                        $this->url = (string) new self($this->builder, $this->builder->getPages()->get($valueId), $options);
                         break;
                     default:
                         // remove base path prefix of an absolute path (e.g.: "/test/fr/docs/")

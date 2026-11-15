@@ -67,6 +67,31 @@ class UrlTest extends TestCase
         self::assertSame('/fr/', (string) new Url($builder, '/fr', ['language' => 'fr']));
     }
 
+    public function testPageIdPrefixedWithLanguageIsResolved(): void
+    {
+        $builder = new Builder([
+            'baseurl'   => 'https://example.com/',
+            'language'  => 'en',
+            'languages' => [
+                ['code' => 'en', 'name' => 'English', 'locale' => 'en_US'],
+                ['code' => 'fr', 'name' => 'Français', 'locale' => 'fr_FR'],
+            ],
+        ]);
+        $builder->setPages(new PagesCollection('all-pages', [
+            (new Page('blog'))->setPath('blog')->setVariable('language', 'en'),
+            (new Page('fr/blog'))->setPath('billets')->setVariable('language', 'fr'),
+            (new Page('fr/index'))->setPath('')->setVariable('language', 'fr'),
+        ]));
+
+        // ID without the language prefix
+        self::assertSame('/fr/billets/', (string) new Url($builder, 'blog', ['language' => 'fr']));
+        // ID already prefixed with the language (e.g.: paginator links)
+        self::assertSame('/fr/billets/', (string) new Url($builder, 'fr/blog', ['language' => 'fr']));
+        self::assertSame('/fr/', (string) new Url($builder, 'fr/index', ['language' => 'fr']));
+        // default language is unchanged
+        self::assertSame('/blog/', (string) new Url($builder, 'blog', ['language' => 'en']));
+    }
+
     public function testLanguagePrefixIsNotDoubledWithBasepath(): void
     {
         $builder = new Builder([
