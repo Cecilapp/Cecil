@@ -2,6 +2,27 @@
 
 All notable changes to this project will be documented in this file. Dates are displayed in UTC.
 
+#### [9.31.0](https://github.com/Cecilapp/Cecil/compare/9.30.1...9.31.0)
+
+> 15 November 2026
+
+- feat(config): load front matter schemas from a schemas/ directory [`#2600`](https://github.com/Cecilapp/Cecil/pull/2600)
+- refactor(assets): extract bundle type check from the constructor [`#2601`](https://github.com/Cecilapp/Cecil/pull/2601)
+- docs(agents): add parallel work with worktrees section [`8ee6837`](https://github.com/Cecilapp/Cecil/commit/8ee6837ec2f017c63991c0071f48bf1137d98a98)
+- chore(vscode): set window title [`12c7129`](https://github.com/Cecilapp/Cecil/commit/12c7129243fa61dde332d5d7180f189fb9de64d8)
+
+#### [9.30.1](https://github.com/Cecilapp/Cecil/compare/9.30.0...9.30.1)
+
+> 15 November 2026
+
+- fix(feeds): make item content URLs absolute [`#2599`](https://github.com/Cecilapp/Cecil/pull/2599)
+- fix(url): resolve page IDs already prefixed with the current language [`#2598`](https://github.com/Cecilapp/Cecil/pull/2598)
+- fix(assets): add a line break between bundled files [`#2597`](https://github.com/Cecilapp/Cecil/pull/2597)
+- fix(layouts): output hreflang x-default with a prefixed main language [`#2596`](https://github.com/Cecilapp/Cecil/pull/2596)
+- fix(url): resolve page IDs already prefixed with the current language (#2598) [`#2592`](https://github.com/Cecilapp/Cecil/issues/2592)
+- fix(layouts): output hreflang x-default with a prefixed main language (#2596) [`#2593`](https://github.com/Cecilapp/Cecil/issues/2593)
+- docs(skills): add ogimage to official component themes [`1c4c2a5`](https://github.com/Cecilapp/Cecil/commit/1c4c2a509158aac5f78f9199be6ddd624f5157d4)
+
 #### [9.30.0](https://github.com/Cecilapp/Cecil/compare/9.29.0...9.30.0)
 
 > 14 November 2026
