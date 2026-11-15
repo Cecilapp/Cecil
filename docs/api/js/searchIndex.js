@@ -486,6 +486,11 @@ Search.appendIndex(
             "summary": "Minifies\u0020a\u0020CSS\u0020or\u0020JS\u0020asset.",
             "url": "classes/Cecil-Asset.html#method_doMinify"
         },                {
+            "fqsen": "\\Cecil\\Asset\u003A\u003AappendFileContent\u0028\u0029",
+            "name": "appendFileContent",
+            "summary": "Appends\u0020the\u0020content\u0020of\u0020a\u0020file\u0020to\u0020the\u0020given\u0020content.",
+            "url": "classes/Cecil-Asset.html#method_appendFileContent"
+        },                {
             "fqsen": "\\Cecil\\Asset\u003A\u003AoptimizeImage\u0028\u0029",
             "name": "optimizeImage",
             "summary": "Optimizes\u0020an\u0020image\u0020file\u0020in\u002Dplace.",
