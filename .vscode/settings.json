@@ -3,5 +3,6 @@
     {
       "file": ".github/copilot-commit-message-instructions.md"
     }
-  ]
+  ],
+  "window.title": "${dirty}${activeEditorShort}${separator}Cecil${separator}${profileName}${separator}${appName}"
 }
