@@ -13,6 +13,7 @@ declare(strict_types=1);
 
 namespace Cecil\Test\Unit\Config;
 
+use Cecil\Builder;
 use Cecil\Config;
 use Cecil\Config\SchemaLoader;
 use Cecil\Exception\ConfigException;
@@ -160,6 +161,34 @@ class SchemaLoaderTest extends TestCase
         self::assertSame(['type' => 'list', 'enum' => ['c']], $schema['tags']);       // themes configuration overrides themes schemas
         self::assertSame(['type' => 'int', 'min' => 0], $schema['rating']);           // site schemas override themes configuration
         self::assertSame('string', $schema['stage']);                                 // site configuration overrides site schemas
+    }
+
+    public function testThemesConfigurationSchemasAreMergedFieldByField(): void
+    {
+        $this->dump('themes/child/config.yml', "pages:\n  schema:\n    blog:\n      tags: {type: list, enum: [c], label: Tags}\n      author: string\n");
+        $this->dump('themes/base/config.yml', "pages:\n  schema:\n    blog:\n      tags: {type: list, enum: [a, b], max: 3}\n      rating: int\n");
+
+        // the themes configuration is imported again when the source directory is set
+        $builder = new Builder(['theme' => ['child', 'base']]);
+        $builder->setSourceDir($this->sourceDir);
+        $schema = $builder->getConfig()->get('pages.schema.blog');
+
+        // the definition of the field of the first theme replaces the one of the next theme: `enum` lists are not combined
+        self::assertSame(['type' => 'list', 'enum' => ['c'], 'label' => 'Tags'], $schema['tags']);
+        self::assertSame('string', $schema['author']);
+        self::assertSame('int', $schema['rating']);
+    }
+
+    public function testEnvironmentVariablesOverrideSchemas(): void
+    {
+        $this->dump('schemas/blog.yml', "author: {type: string, required: true}\n");
+        putenv('CECIL_PAGES_SCHEMA_BLOG_AUTHOR=int');
+
+        try {
+            self::assertSame('int', $this->config()->get('pages.schema.blog.author'));
+        } finally {
+            putenv('CECIL_PAGES_SCHEMA_BLOG_AUTHOR');
+        }
     }
 
     public function testThemeSchemaErrorNamesTheThemeFile(): void

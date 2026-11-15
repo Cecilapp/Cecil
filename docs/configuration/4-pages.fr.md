@@ -354,11 +354,11 @@ Chaque fichier est validé au chargement de la configuration : une erreur donne 
 Un [thème](../templates/7-extend.fr.md#theme) peut aussi avoir un dossier `schemas`, pour les variables attendues par ses templates. Les schémas sont fusionnés de la plus faible à la plus forte priorité :
 
 1. dossiers `schemas` des thèmes (un thème surcharge les thèmes qui le suivent dans la liste) ;
-2. `pages.schema` de la configuration des thèmes ;
+2. `pages.schema` du `config.yml` des thèmes (un thème surcharge les thèmes qui le suivent dans la liste) ;
 3. dossier `schemas` du site ;
 4. `pages.schema` de la configuration du site.
 
-Pour une même clé, les variables sont fusionnées une à une : la définition d’une variable remplace entièrement sa définition précédente, les autres variables sont conservées.
+Pour une même clé, les variables sont fusionnées une à une, à chaque niveau et entre thèmes : la définition d’une variable remplace entièrement sa définition précédente (ses règles ne sont pas fusionnées et les listes `enum` ne sont pas cumulées), les autres variables sont conservées.
 
 ```yaml
 # schemas/blog.yml

@@ -354,11 +354,11 @@ Each file is validated when the configuration is loaded: an error gives the name
 A [theme](../templates/7-extend.md#theme) can also have a `schemas` directory, for the variables its templates expect. Schemas are merged from the lowest to the highest priority:
 
 1. `schemas` directories of the themes (a theme overrides the themes after it in the list);
-2. `pages.schema` of the configuration of the themes;
+2. `pages.schema` of the `config.yml` of the themes (a theme overrides the themes after it in the list);
 3. `schemas` directory of the site;
 4. `pages.schema` of the configuration of the site.
 
-For a same key, variables are merged one by one: the definition of a variable replaces its previous definition as a whole, the other variables are kept.
+For a same key, variables are merged one by one, at each level and between themes: the definition of a variable replaces its previous definition as a whole (its rules are not merged, and `enum` lists are not combined), the other variables are kept.
 
 ```yaml
 # schemas/blog.yml

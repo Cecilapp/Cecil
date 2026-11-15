@@ -92,6 +92,12 @@ class Config
      */
     protected array $themes = [];
     /**
+     * Front matter schemas (`pages.schema`) of the themes configuration, by import order (the first one takes precedence):
+     * kept out of the themes configuration layer, as they are merged field by field.
+     * @var array<int|string, array<mixed>>
+     */
+    protected array $themesSchemas = [];
+    /**
      * Site configuration layer.
      * @var array<string, mixed>
      */
@@ -169,6 +175,12 @@ class Config
             $config['theme'] = [$config['theme']];
         }
         if ($mode === self::IMPORT_PRESERVE) {
+            // front matter schemas are merged field by field (see `setPagesSchema()`), not by the merger
+            if (\is_array($config['pages'] ?? null) && \array_key_exists('schema', $config['pages'])) {
+                // indexed by source, so a theme imported again keeps its rank
+                $this->themesSchemas[$source ?? \count($this->themesSchemas)] = (array) $config['pages']['schema'];
+                unset($config['pages']['schema']);
+            }
             $this->themes = Merger::merge($config, $this->themes, self::IMPORT_PRESERVE);
         } else {
             $this->site = Merger::merge($this->site, $config, $mode);
@@ -196,8 +208,9 @@ class Config
 
     /**
      * Sets the effective front matter schemas (`pages.schema`), merged field by field, from the lowest to the highest priority:
-     * `schemas/` directories of the themes (a theme overrides the themes after it in the list), `pages.schema` of the themes configuration,
-     * `schemas/` directory of the site, then `pages.schema` of the site configuration.
+     * `schemas/` directories of the themes (a theme overrides the themes after it in the list), `pages.schema` of the themes configuration
+     * (a theme overrides the themes imported after it), `schemas/` directory of the site, `pages.schema` of the site configuration,
+     * then the environment variables (ie: `CECIL_PAGES_SCHEMA_BLOG_AUTHOR`).
      * The `schemas/` directories are loaded once the source directory is set.
      *
      * @see SchemaLoader
@@ -212,13 +225,17 @@ class Config
                 $layers[] = SchemaLoader::load($this->getThemeDirPath($theme, SchemaLoader::DIR), "themes/$theme/" . SchemaLoader::DIR);
             }
         }
-        $layers[] = (array) ($this->themes['pages']['schema'] ?? []);
+        foreach (array_reverse($this->themesSchemas) as $schemas) {
+            $layers[] = $schemas;
+        }
         if ($this->sourceDir !== null) {
             $layers[] = SchemaLoader::load(Util::joinFile($this->sourceDir, SchemaLoader::DIR));
         }
         $layers[] = (array) ($this->site['pages']['schema'] ?? []);
         if (!empty($schemas = SchemaLoader::merge(...$layers))) {
             $this->data->set('pages.schema', $schemas);
+            // environment variables override the front matter schemas too
+            $this->setFromEnv('pages.schema');
         }
     }
 
@@ -852,11 +869,14 @@ class Config
     }
 
     /**
-     * Set configuration from environment variables starting with "CECIL_".
+     * Set configuration from environment variables starting with "CECIL_" (only the given key and its sub-keys, if set).
      */
-    private function setFromEnv(): void
+    private function setFromEnv(?string $only = null): void
     {
         foreach ($this->getEnvConfig() as $key => $value) {
+            if ($only !== null && $key !== $only && !str_starts_with($key, "$only.")) {
+                continue;
+            }
             $current = $this->data->has($key) ? $this->data->get($key) : null;
             $this->data->set($key, Merger::mergeValues($current, $value, self::IMPORT_REPLACE, $key));
         }
