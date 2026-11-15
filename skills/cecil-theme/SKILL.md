@@ -291,7 +291,7 @@ To map a whole section to another section's layouts, the site (or the theme conf
 
 Remember the lookup rules when naming layouts (see the `cecil` skill, "Lookup Rules"): `<section>/index`, `<section>/page`, `<section>/list`, `section/<section>`, parent sections, `_default/section`, `index`/`home`, `taxonomy/<plural>` (vocabulary), `taxonomy/<plural>/<term>` and `taxonomy/<singular>` (terms), `term`, `vocabulary`, `_default/*`, with optional language variants (`page.html.fr.twig`). For non-HTML outputs, the file name is `<layout>.<format>.twig` (e.g. `list.rss.twig`, `page.webmanifest.twig`).
 
-Non-HTML built-ins a theme may override: feeds (`_default/list.atom.twig`, `list.rss.twig`, `list.jsonfeed.twig`, all extending `extended/feed.twig`), their XSL stylesheets (`_default/feed.xsl.twig`, `_default/sitemap.xsl.twig`), `_default/sitemap.xml.twig`, `_default/robots.txt.twig`, `_default/home.llms.twig`, the `*.markdown.twig` and `*.json.twig` outputs, `_default/404.html.twig` and `_default/redirect.html.twig`. Override them only when needed: they receive Cecil fixes and features.
+Non-HTML built-ins a theme may override: feeds (`_default/list.atom.twig`, `list.rss.twig`, `list.jsonfeed.twig`, all extending `extended/feed.twig`), their XSL stylesheets (`_default/feed.xsl.twig`, `_default/sitemap.xsl.twig`), `_default/sitemap.xml.twig`, `_default/robots.txt.twig`, `_default/home.llms.twig`, the `*.markdown.twig` and `*.json.twig` outputs, `_default/404.html.twig` and `_default/redirect.html.twig`. Override them only when needed: they receive Cecil fixes and features (in an overridden feed, output the content of an item with `item.content|absolute_urls`, so that its links and images keep working outside of the site).
 
 ### Step 6: Assets
 

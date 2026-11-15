@@ -35,7 +35,7 @@
     </content>
     {%- else ~%}
     <content type="html">
-      <![CDATA[{{ item.content }}]]>
+      <![CDATA[{{ item.content|absolute_urls }}]]>
     </content>
     {%- endif ~%}
     {%- endblock ~%}

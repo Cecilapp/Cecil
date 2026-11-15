@@ -144,6 +144,27 @@ class IntegrationTests extends \PHPUnit\Framework\TestCase
         self::assertNotFalse($htmlBlog);
         self::assertStringContainsString('"@type":"CollectionPage"', $htmlBlog);
 
+        // feeds: URLs of the content of the items are absolute (built with `baseurl`)
+        $feeds = [];
+        foreach (['atom.xml', 'rss.xml', 'feed.json'] as $feed) {
+            $feeds[$feed] = Util\File::fileGetContents(Util::joinFile($this->destination, '_site/blog', $feed));
+            self::assertNotFalse($feeds[$feed]);
+        }
+        $jsonFeed = json_decode($feeds['feed.json'], true);
+        self::assertIsArray($jsonFeed, 'JSON Feed is not valid JSON');
+        $jsonFeedItems = array_column($jsonFeed['items'], 'content_html', 'url');
+        self::assertArrayHasKey('https://cecil.app/blog/post-with-links/', $jsonFeedItems);
+        $feeds['feed.json'] = $jsonFeedItems['https://cecil.app/blog/post-with-links/'];
+        foreach ($feeds as $feed => $content) {
+            self::assertStringContainsString('href="https://cecil.app/about/"', $content, \sprintf('Link to a page is not absolute in "%s"', $feed));
+            self::assertStringNotContainsString('href="/about/"', $content, \sprintf('Root-relative link found in "%s"', $feed));
+            self::assertStringContainsString('href="https://example.org/"', $content, \sprintf('External link is altered in "%s"', $feed));
+            self::assertStringContainsString('href="#notes"', $content, \sprintf('Anchor is altered in "%s"', $feed));
+            self::assertMatchesRegularExpression('~ src="https://cecil\.app/[^"]*cecil-logo[^"]*\.png"~', $content, \sprintf('Image source is not absolute in "%s"', $feed));
+            self::assertMatchesRegularExpression('~ srcset="https://cecil\.app/[^"]*cecil-logo[^"]* \d+w, https://cecil\.app/~', $content, \sprintf('Image srcset is not absolute in "%s"', $feed));
+            self::assertDoesNotMatchRegularExpression('~ (src|srcset)="/[^/]|, /[^/]~', $content, \sprintf('Root-relative image URL found in "%s"', $feed));
+        }
+
         // a sub-section (nested or not) falls back to the layouts of its ancestor sections (here: `sub-sections/list.html.twig`)
         foreach (['sub-sections', 'sub-sections/child', 'sub-sections/child/grandchild'] as $section) {
             $htmlSection = Util\File::fileGetContents(Util::joinFile($this->destination, '_site', $section, 'index.html'));

@@ -50,7 +50,7 @@
       "date_modified": "{{ item.updated|date('c') }}",
       {%- endif -%}
       "content_text": {{ item.content|striptags|json_encode(constant('JSON_UNESCAPED_UNICODE')) }},
-      "content_html": {{ item.content|json_encode(constant('JSON_UNESCAPED_UNICODE') b-or constant('JSON_UNESCAPED_SLASHES')) }},
+      "content_html": {{ item.content|absolute_urls|json_encode(constant('JSON_UNESCAPED_UNICODE') b-or constant('JSON_UNESCAPED_SLASHES')) }},
       {%- set author = item.author|default -%}
       {%- if author is not iterable -%}
         {%- set author = {name: item.author|default} -%}

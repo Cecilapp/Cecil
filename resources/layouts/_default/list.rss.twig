@@ -19,7 +19,7 @@
       <title>{{ item.title|e }}</title>
       <pubDate>{{ item.date|date('r') }}</pubDate>
       <link>{{ url(item, {canonical: true}) }}</link>
-      <description><![CDATA[{{ item.content }}]]></description>
+      <description><![CDATA[{{ item.content|absolute_urls }}]]></description>
       {%- endblock ~%}
     </item>
     {%- endfor ~%}
