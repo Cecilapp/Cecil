@@ -158,7 +158,14 @@ class Asset implements \ArrayAccess
                     $path = $locate['path'];
                     $type = Util\File::getMediaType($file)[0];
                     if ($i > 0) { // bundle
-                        if ($type != $this->data['type']) {
+                        // stylesheets and scripts are checked by extension: their media type guessed from content is unreliable
+                        $family = self::getBundleFamily(Util\File::getExtension($file));
+                        $previousFamily = self::getBundleFamily($this->data['ext']);
+                        if ($family !== null && $previousFamily !== null) {
+                            if ($family !== $previousFamily) {
+                                throw new RuntimeException(\sprintf('Asset bundle type error (%s != %s).', $family, $previousFamily));
+                            }
+                        } elseif ($type != $this->data['type']) {
                             throw new RuntimeException(\sprintf('Asset bundle type error (%s != %s).', $type, $this->data['type']));
                         }
                     }
@@ -820,6 +827,18 @@ class Asset implements \ArrayAccess
         $this->data = (new AssetOptimizer($this->builder))->minify($this->data);
 
         return $this;
+    }
+
+    /**
+     * Returns the bundle family of a file extension ("css" for stylesheets, "js" for scripts), or null.
+     */
+    private static function getBundleFamily(string $ext): ?string
+    {
+        return match ($ext) {
+            'css', 'scss' => 'css',
+            'js' => 'js',
+            default => null,
+        };
     }
 
     /**

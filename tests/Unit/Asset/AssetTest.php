@@ -723,6 +723,30 @@ class AssetTest extends TestCase
         self::assertSame("var a = 1;\n//# sourceMappingURL=a.js.map", $single['content']);
     }
 
+    public function testBundleOfJavaScriptAndCssFilesIsRejected(): void
+    {
+        $assetsDir = $this->sourceDir . DIRECTORY_SEPARATOR . 'assets';
+        $this->filesystem->dumpFile($assetsDir . '/mixed/a.js', 'var a = 1;');
+        $this->filesystem->dumpFile($assetsDir . '/mixed/b.css', '.b{color:blue}');
+
+        $builder = new Builder([
+            'baseurl' => 'https://example.com/',
+        ], new PrintLogger(Builder::VERBOSITY_VERBOSE));
+        $builder->setSourceDir($this->sourceDir);
+        $builder->setDestinationDir($this->destinationDir);
+        $builder->setPages(new PagesCollection('pages'));
+        self::setBuildId('test');
+
+        try {
+            new Asset($builder, ['mixed/a.js', 'mixed/b.css'], ['filename' => 'mixed.js', 'minify' => false, 'fingerprint' => false]);
+            self::fail('A bundle of JavaScript and CSS files must be rejected.');
+        } catch (RuntimeException $e) {
+            self::assertSame('Unable to handle asset "mixed/b.css".', $e->getMessage());
+            self::assertInstanceOf(RuntimeException::class, $e->getPrevious());
+            self::assertSame('Asset bundle type error (css != js).', $e->getPrevious()->getMessage());
+        }
+    }
+
     public function testContentIsAvailableOnSubsequentBuildsWhenNotFingerprinted(): void
     {
         $assetsDir = $this->sourceDir . DIRECTORY_SEPARATOR . 'assets';
