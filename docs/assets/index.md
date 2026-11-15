@@ -2,7 +2,7 @@
 title: "Assets"
 description: "Handle assets (images, stylesheets, scripts, etc.) with the asset() function: process, optimize and fingerprint them."
 date: 2021-05-07
-updated: 2026-10-16
+updated: 2026-11-15
 weight: 4
 sortby: weight
 -->
@@ -17,6 +17,8 @@ An asset is a resource usable in templates, like CSS, JavaScript, image, audio, 
 The `asset()` function creates an _asset_ object from a file path, an array of file paths (bundle) or a URL (remote file). The asset is then processed (compiled, minified, fingerprinted, etc.) according to the [configuration](../configuration/6-assets.md).
 
 Files are looked up in the assets directory (`assets/` by default), then in the static directory (`static/` by default) and in the themes.
+
+The files of a bundle (CSS or JavaScript) are joined with a line break (followed by a `;` line for JavaScript), and their source map comments (`sourceMappingURL`) are removed, as the source map of a file does not describe the bundle.
 
 ```twig
 {{ asset(path, {options}) }}

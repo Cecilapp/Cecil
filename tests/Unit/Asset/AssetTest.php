@@ -663,7 +663,7 @@ class AssetTest extends TestCase
             $asset->save();
             $paths[implode(',', $files)] = $asset['path'];
             self::assertSame(
-                implode('', array_map(fn ($file) => file_get_contents($assetsDir . DIRECTORY_SEPARATOR . $file), $files)),
+                implode("\n", array_map(fn ($file) => file_get_contents($assetsDir . DIRECTORY_SEPARATOR . $file), $files)),
                 $asset['content']
             );
         }
@@ -675,6 +675,75 @@ class AssetTest extends TestCase
         self::assertSame(array_values($paths), $builder->getAssetsList());
         foreach ($builder->getAssetsList() as $path) {
             self::assertFileExists($cache->getContentFile($path));
+        }
+    }
+
+    public function testBundleSeparatesFilesWithLineBreakAndDropsSourceMappingUrl(): void
+    {
+        $assetsDir = $this->sourceDir . DIRECTORY_SEPARATOR . 'assets';
+        // files ending with a line comment, without final newline
+        $this->filesystem->dumpFile($assetsDir . '/js/a.js', "var a = 1;\n//# sourceMappingURL=a.js.map");
+        $this->filesystem->dumpFile($assetsDir . '/js/b.js', "/*\n * License of b\n */\nvar b = 2;\n");
+        $this->filesystem->dumpFile($assetsDir . '/css/a.css', ".a{color:red}\n/*# sourceMappingURL=a.css.map */");
+        $this->filesystem->dumpFile($assetsDir . '/css/b.css', '.b{color:blue}');
+        $this->filesystem->dumpFile($assetsDir . '/css/c.css', '.c{color:green}');
+
+        $builder = new Builder([
+            'baseurl' => 'https://example.com/',
+        ], new PrintLogger(Builder::VERBOSITY_VERBOSE));
+        $builder->setSourceDir($this->sourceDir);
+        $builder->setDestinationDir($this->destinationDir);
+        $builder->setPages(new PagesCollection('pages'));
+        self::setBuildId('test');
+
+        // JavaScript bundle, not minified
+        $js = new Asset($builder, ['js/a.js', 'js/b.js'], ['filename' => 'js/bundle.js', 'minify' => false, 'fingerprint' => false]);
+        self::assertSame("var a = 1;\n;\n/*\n * License of b\n */\nvar b = 2;\n", $js['content']);
+
+        // JavaScript bundle, minified
+        $jsMin = new Asset($builder, ['js/a.js', 'js/b.js'], ['filename' => 'js/bundle-min.js', 'minify' => true, 'fingerprint' => false]);
+        self::assertStringNotContainsString('sourceMappingURL', (string) $jsMin['content']);
+        self::assertStringNotContainsString('License of b', (string) $jsMin['content']);
+        self::assertStringContainsString('var b=2', (string) $jsMin['content']);
+
+        // JavaScript bundle: a file without final semicolon followed by a file starting with "("
+        $this->filesystem->dumpFile($assetsDir . '/js/c.js', 'var c = 3');
+        $this->filesystem->dumpFile($assetsDir . '/js/d.js', "(function () { c = 4; })();\n");
+        $jsAsi = new Asset($builder, ['js/c.js', 'js/d.js'], ['filename' => 'js/bundle-asi.js', 'minify' => false, 'fingerprint' => false]);
+        self::assertSame("var c = 3\n;\n(function () { c = 4; })();\n", $jsAsi['content']);
+        $jsAsiMin = new Asset($builder, ['js/c.js', 'js/d.js'], ['filename' => 'js/bundle-asi-min.js', 'minify' => true, 'fingerprint' => false]);
+        self::assertSame('var c=3;(function(){c=4})()', trim((string) $jsAsiMin['content']));
+
+        // CSS bundles
+        $css = new Asset($builder, ['css/a.css', 'css/b.css', 'css/c.css'], ['filename' => 'css/bundle.css', 'minify' => false, 'fingerprint' => false]);
+        self::assertSame(".a{color:red}\n.b{color:blue}\n.c{color:green}", $css['content']);
+
+        // a single file is left unchanged
+        $single = new Asset($builder, 'js/a.js', ['minify' => false, 'fingerprint' => false]);
+        self::assertSame("var a = 1;\n//# sourceMappingURL=a.js.map", $single['content']);
+    }
+
+    public function testBundleOfJavaScriptAndCssFilesIsRejected(): void
+    {
+        $assetsDir = $this->sourceDir . DIRECTORY_SEPARATOR . 'assets';
+        $this->filesystem->dumpFile($assetsDir . '/mixed/a.js', 'var a = 1;');
+        $this->filesystem->dumpFile($assetsDir . '/mixed/b.css', '.b{color:blue}');
+
+        $builder = new Builder([
+            'baseurl' => 'https://example.com/',
+        ], new PrintLogger(Builder::VERBOSITY_VERBOSE));
+        $builder->setSourceDir($this->sourceDir);
+        $builder->setDestinationDir($this->destinationDir);
+        $builder->setPages(new PagesCollection('pages'));
+        self::setBuildId('test');
+
+        try {
+            new Asset($builder, ['mixed/a.js', 'mixed/b.css'], ['filename' => 'mixed.js', 'minify' => false, 'fingerprint' => false]);
+            self::fail('A bundle of JavaScript and CSS files must be rejected.');
+        } catch (RuntimeException $e) {
+            self::assertSame('Unable to handle asset "mixed/b.css".', $e->getMessage());
+            self::assertInstanceOf(RuntimeException::class, $e->getPrevious());
+            self::assertSame('Asset bundle type error (css != js).', $e->getPrevious()->getMessage());
         }
     }
 
