@@ -165,6 +165,27 @@ class IntegrationCliTests extends IntegrationTests
         self::assertStringContainsString('Configuration key "unknown.key" not found', implode("\n", $output));
     }
 
+    public function testSchemasDirectory(): void
+    {
+        exec('php ./bin/cecil new:site tests/demo --demo -n -f', $output, $retval);
+        self::assertTrue($retval < 1);
+        $fs = new Filesystem();
+        $fs->dumpFile(Util::joinFile(__DIR__, 'demo', 'schemas', 'blog.yml'), "author: {type: string, label: Author}\n");
+        $output = [];
+        exec('php ./bin/cecil show:config tests/demo --key=pages.schema.blog.author.label', $output, $retval);
+        self::assertTrue($retval < 1);
+        self::assertSame('Author', trim(implode("\n", $output)));
+        $output = [];
+        exec('php ./bin/cecil build tests/demo 2>&1', $output, $retval);
+        self::assertTrue($retval < 1);
+        // an invalid schema file stops the build, with the name of the file
+        $fs->dumpFile(Util::joinFile(__DIR__, 'demo', 'schemas', 'blog.yml'), "author: text\n");
+        $output = [];
+        exec('php ./bin/cecil build tests/demo 2>&1', $output, $retval);
+        self::assertTrue($retval > 0);
+        self::assertStringContainsString('schemas/blog.yml', implode("\n", $output));
+    }
+
     public function testDoctorSeo(): void
     {
         exec('php ./bin/cecil new:site tests/demo --demo -n -f 2>&1', $output, $retval);

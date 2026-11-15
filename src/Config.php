@@ -16,6 +16,7 @@ namespace Cecil;
 use Cecil\Collection\Page\Schema as PageSchema;
 use Cecil\Config\Deprecations;
 use Cecil\Config\Merger;
+use Cecil\Config\SchemaLoader;
 use Cecil\Exception\ConfigException;
 use Dflydev\DotAccessData\Data;
 use Dflydev\DotAccessData\Exception\DataException;
@@ -172,14 +173,53 @@ class Config
         } else {
             $this->site = Merger::merge($this->site, $config, $mode);
         }
+        $this->load();
+    }
+
+    /**
+     * Loads the effective configuration from its layers (default, themes and site), then validates it.
+     *
+     * @throws ConfigException
+     */
+    private function load(): void
+    {
         $this->data = new Data(Merger::merge(
             $this->default->export(),
             Merger::merge($this->themes, $this->site, self::IMPORT_PRESERVE),
             self::IMPORT_REPLACE
         ));
         $this->languages = null;
-        $this->setFromEnv(); // override configuration with environment variables
-        $this->validate();   // validate configuration
+        $this->setFromEnv();     // override configuration with environment variables
+        $this->setPagesSchema(); // front matter schemas, including the schemas directories
+        $this->validate();       // validate configuration
+    }
+
+    /**
+     * Sets the effective front matter schemas (`pages.schema`), merged field by field, from the lowest to the highest priority:
+     * `schemas/` directories of the themes (a theme overrides the themes after it in the list), `pages.schema` of the themes configuration,
+     * `schemas/` directory of the site, then `pages.schema` of the site configuration.
+     * The `schemas/` directories are loaded once the source directory is set.
+     *
+     * @see SchemaLoader
+     *
+     * @throws ConfigException
+     */
+    private function setPagesSchema(): void
+    {
+        $layers = [];
+        if ($this->sourceDir !== null) {
+            foreach (array_reverse($this->getTheme() ?? []) as $theme) {
+                $layers[] = SchemaLoader::load($this->getThemeDirPath($theme, SchemaLoader::DIR), "themes/$theme/" . SchemaLoader::DIR);
+            }
+        }
+        $layers[] = (array) ($this->themes['pages']['schema'] ?? []);
+        if ($this->sourceDir !== null) {
+            $layers[] = SchemaLoader::load(Util::joinFile($this->sourceDir, SchemaLoader::DIR));
+        }
+        $layers[] = (array) ($this->site['pages']['schema'] ?? []);
+        if (!empty($schemas = SchemaLoader::merge(...$layers))) {
+            $this->data->set('pages.schema', $schemas);
+        }
     }
 
     /**
@@ -291,7 +331,10 @@ class Config
     /**
      * Set the source directory.
      *
+     * The front matter schemas of the `schemas/` directories are loaded from the source directory.
+     *
      * @throws \InvalidArgumentException
+     * @throws ConfigException
      */
     public function setSourceDir(string $sourceDir): self
     {
@@ -299,6 +342,8 @@ class Config
             throw new \InvalidArgumentException(\sprintf('The directory "%s" is not a valid source.', $sourceDir));
         }
         $this->sourceDir = $sourceDir;
+        // each schema file is validated when loaded
+        $this->setPagesSchema();
 
         return $this;
     }
