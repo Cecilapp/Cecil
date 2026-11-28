@@ -2,7 +2,7 @@
 title: "Front matter"
 description: "Variables de page personnalisées et prédéfinies : menu, taxonomie, planification, redirection, alias, sortie, etc."
 date: 2026-03-27
-updated: 2026-11-14
+updated: 2026-11-28
 path: documentation/contenu/front-matter
 -->
 # Front matter
@@ -40,7 +40,7 @@ Toutes les variables prédéfinies peuvent être surchargées, sauf `section`.
 :::
 
 :::important
-Les valeurs de `path` et `slug` doivent déjà être « slugifiées » (ex. : `my-post`, et non `My Post`), sinon la génération échoue.
+Les valeurs de `path` et `slug` doivent déjà être « slugifiées » (ex. : `my-post`, et non `My Post`), sinon la génération échoue. Elles ne peuvent pas contenir de segment `.` ou `..`.
 :::
 
 :::tip
@@ -241,6 +241,11 @@ _Exemple :_
 external: "https://raw.githubusercontent.com/Cecilapp/Cecil/main/README.md"
 ---
 ```
+
+La ressource peut être :
+
+- un fichier distant, avec une URL `http://` ou `https://` (les autres schémas, comme `file://` ou `php://`, ne sont pas autorisés) ;
+- un fichier local, avec un chemin relatif au répertoire du site (ex. : `../README.md`), qui doit se trouver dans le répertoire parent du site.
 
 ## excluded
 

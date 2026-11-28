@@ -20,6 +20,7 @@ use Cecil\Exception\RuntimeException;
 use Cecil\Renderer\Page as PageRenderer;
 use Cecil\Step\AbstractStep;
 use Cecil\Util;
+use Symfony\Component\Filesystem\Path;
 
 /**
  * Save step.
@@ -75,6 +76,10 @@ class Save extends AbstractStep
             foreach ($page->getRendered() as $format => $rendered) {
                 $pathname = (new PageRenderer($this->builder, $page))->getOutputFilePath($format);
                 $pathname = $this->cleanPath(Util::joinFile($this->config->getOutputPath(), $pathname));
+                // prevents writing outside the output directory (ie: path traversal)
+                if (!Path::isBasePath($this->config->getOutputPath(), $pathname)) {
+                    throw new RuntimeException(\sprintf('Unable to save "%s": the file is outside the output directory.', $page->getId()));
+                }
 
                 try {
                     Util\File::getFS()->dumpFile($pathname, $rendered['output']);

@@ -202,6 +202,37 @@ class PageTest extends TestCase
         $page->setVariable('path', 'Bad Path');
     }
 
+    /**
+     * @return array<string, array{string, string}>
+     */
+    public static function traversalPathProvider(): array
+    {
+        return [
+            'path with parent segments' => ['path', '../../escaped'],
+            'path with inner parent segment' => ['path', 'blog/../../escaped'],
+            'path with current segment' => ['path', 'blog/./post'],
+            'slug with parent segment' => ['slug', '..'],
+        ];
+    }
+
+    #[\PHPUnit\Framework\Attributes\DataProvider('traversalPathProvider')]
+    public function testSetVariablePathRejectsTraversalSegments(string $name, string $value): void
+    {
+        $page = new Page('traversal');
+
+        $this->expectException(RuntimeException::class);
+        $this->expectExceptionMessage('can\'t contain "." or ".." segments');
+
+        $page->setVariable($name, $value);
+    }
+
+    public function testSetVariablePathAcceptsDotsInsideSegments(): void
+    {
+        $page = (new Page('dots'))->setVariable('path', '.well-known/file.v1');
+
+        self::assertSame('.well-known/file.v1', $page->getPath());
+    }
+
     public function testRenderedAndPaginatorHelpers(): void
     {
         $page = new Page('helpers');

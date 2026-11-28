@@ -696,6 +696,10 @@ class Page extends Item
                 if ($value != $slugify) {
                     throw new RuntimeException(\sprintf('"%s" variable should be "%s" (not "%s") in "%s".', $name, $slugify, (string) $value, $this->getId()));
                 }
+                // prevents path traversal (ie: "../../index")
+                if (array_intersect(explode('/', $slugify), ['.', '..'])) {
+                    throw new RuntimeException(\sprintf('"%s" variable can\'t contain "." or ".." segments (in "%s").', $name, $this->getId()));
+                }
                 $method = 'set' . ucfirst($name);
                 $this->$method($value);
                 break;

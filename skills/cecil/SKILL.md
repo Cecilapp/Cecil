@@ -144,14 +144,14 @@ Front matter is YAML by default (`pages.frontmatter` also accepts `ini`, `toml` 
 | `title`, `description`       | Title (default: file name without prefix and language suffix) and description                            |
 | `date`, `updated`            | Creation date (default: file modification date) and update date (no default; `lastmod` is an alias)       |
 | `layout`                     | Template to use (see [Lookup Rules](references/templates.md#lookup-rules-how-cecil-chooses-a-template))                         |
-| `slug`, `path`               | Override the URL (values must already be slugified)                                                       |
+| `slug`, `path`               | Override the URL (values must already be slugified, without `.` or `..` segments)                         |
 | `weight`                     | Sort order                                                                                                |
 | `published` / `draft`        | `draft: true` is the same as `published: false` (preview with `build --drafts` / `serve --drafts`)        |
 | `schedule`                   | `{publish: <date>, expiry: <date>}`: published if `publish` is reached **and** `expiry` is not passed     |
 | `menu`                       | Add the page to a menu (e.g. `menu: main`, `menu: [main, footer]` or `menu: {main: {weight: 10}, footer: {name: "Short"}}`; entry name defaults to `title`) |
 | `<vocabulary>`               | Taxonomy terms, with the plural key declared in `taxonomies` (e.g. `tags: [PHP, Twig]` → `/tags/` and `/tags/php/` pages) |
 | `redirect`, `alias`          | Redirect the page to a URL; generate redirections from old paths to the page (e.g. `alias: [contact]`)    |
-| `external`                   | URL of a remote file used as the page body (e.g. a GitHub `README.md`)                                    |
+| `external`                   | `http(s)` URL, or local path relative to the site (confined to its parent dir), of a file used as the page body |
 | `output`                     | Output format(s) of the page (e.g. `[html, json]`)                                                        |
 | `uglyurl`                    | `true` to output `page.html` instead of `page/index.html`                                                 |
 | `excluded`                   | `true` to hide the page from lists, sitemap and feeds (formerly `exclude`)                                |

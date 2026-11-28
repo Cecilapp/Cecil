@@ -2,7 +2,7 @@
 title: "Front matter"
 description: "Custom and predefined page variables: menu, taxonomy, schedule, redirect, alias, output, etc."
 date: 2021-05-07
-updated: 2026-11-14
+updated: 2026-11-28
 -->
 # Front matter
 
@@ -39,7 +39,7 @@ All the predefined variables can be overridden except `section`.
 :::
 
 :::important
-The values of `path` and `slug` must already be slugified (e.g.: `my-post`, not `My Post`), otherwise the build fails.
+The values of `path` and `slug` must already be slugified (e.g.: `my-post`, not `My Post`), otherwise the build fails. They can't contain `.` or `..` segments.
 :::
 
 :::tip
@@ -240,6 +240,11 @@ _Example:_
 external: "https://raw.githubusercontent.com/Cecilapp/Cecil/main/README.md"
 ---
 ```
+
+The resource can be:
+
+- a remote file, with an `http://` or `https://` URL (other schemes, like `file://` or `php://`, are not allowed);
+- a local file, with a path relative to the site directory (e.g.: `../README.md`), that must be inside the parent directory of the site.
 
 ## excluded
 
